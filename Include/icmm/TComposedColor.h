@@ -35,7 +35,7 @@ public:
 
 	/**
 		Get color after components value rounding with specified precision.
-		\param	manipulator	manipulator object used to round single components.
+ 		\param	manipulator	manipulator object used to round single components.
 		\param	result		result object.
 	*/
 	void GetRounded(const imath::IDoubleManip& manipulator, TComposedColor<Size>& result);

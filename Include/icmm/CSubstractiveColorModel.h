@@ -5,6 +5,9 @@
 #include <iser/ISerializable.h>
 #include <iser/CArchiveTag.h>
 #include <icmm/CSubstractiveColorModelBase.h>
+#include <ibase/TContainer.h>
+#include <imod/TModelWrap.h>
+#include <imod/CModelUpdateBridge.h>
 
 
 namespace icmm
@@ -17,6 +20,7 @@ namespace icmm
 */
 class CSubstractiveColorModel:
 			public CSubstractiveColorModelBase,
+			public ibase::CObservableListBase,
 			virtual public iser::ISerializable
 {
 public:
@@ -24,6 +28,8 @@ public:
 	CSubstractiveColorModel(const ColorantIds& colorantIds);
 	CSubstractiveColorModel(const CSubstractiveColorModel& other);
 	CSubstractiveColorModel(const ISubstractiveColorModel& other);
+
+	CSubstractiveColorModel& operator=(const CSubstractiveColorModel& other);
 
 	bool operator==(const CSubstractiveColorModel& ref) const;
 	bool operator!=(const CSubstractiveColorModel& ref) const;
@@ -117,7 +123,7 @@ protected:
 		}
 	};
 
-	typedef QVector<ColorantInfo> ColorantInfoList;
+	typedef ibase::TContainer<ColorantInfo> ColorantInfoList;
 
 protected:
 	static icmm::ColorantUsage GetDefaultUsageFromColorantName(const ColorantId& colorantId);
@@ -134,7 +140,8 @@ protected:
 				const iser::CArchiveTag* parentTagPtr) const;
 
 private:
-	ColorantInfoList m_colorants;
+	imod::TModelWrap<ColorantInfoList> m_colorants;
+	imod::CModelUpdateBridge m_bridge;
 };
 
 

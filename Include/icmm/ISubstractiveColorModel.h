@@ -19,7 +19,7 @@ public:
 	/**
 		Get visual information/preview for the given colorant.
 	*/
-	virtual bool GetColorantVisualInfo(const QByteArray& colorantId, icmm::ICieLabColor& preview) const = 0;
+	virtual bool GetColorantVisualInfo(const ColorantId& colorantId, icmm::ICieLabColor& preview) const = 0;
 };
 
 

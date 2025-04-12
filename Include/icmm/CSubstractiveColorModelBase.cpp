@@ -20,7 +20,7 @@ void CSubstractiveColorModelBase::SetPreviewSpec(const ITristimulusSpecification
 }
 
 
-void CSubstractiveColorModelBase::SetColorantPreview(const QByteArray& colorantId, const icmm::CLab& preview)
+void CSubstractiveColorModelBase::SetColorantPreview(const ColorantId& colorantId, const icmm::CLab& preview)
 {
 	istd::CChangeNotifier changeNotifier(this);
 
@@ -79,7 +79,7 @@ const icmm::IColorTransformation* CSubstractiveColorModelBase::CreateColorTranfo
 }
 
 
-bool CSubstractiveColorModelBase::GetColorantVisualInfo(const QByteArray& colorantId, icmm::ICieLabColor& preview) const
+bool CSubstractiveColorModelBase::GetColorantVisualInfo(const ColorantId& colorantId, icmm::ICieLabColor& preview) const
 {
 	if (m_colorantPreviewMap.contains(colorantId)){
 		return preview.Initialize(m_colorantPreviewMap[colorantId], m_previewSpec);

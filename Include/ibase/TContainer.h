@@ -1,5 +1,4 @@
-#ifndef ibase_TContainer_included
-#define ibase_TContainer_included
+#pragma once
 
 
 // Qt includes
@@ -8,40 +7,104 @@
 // ACF includes
 #include <istd/IContainerInfo.h>
 #include <istd/CChangeNotifier.h>
-
+#include <ibase/CObservableListBase.h>
 
 namespace ibase
 {
 
 
 /**
-	Common implementation of an abstract container. 
+	Common implementation of an abstract container.
+	
+	\note	CF_ELEMENT_UPDATED notification is not implemented, 
+			because this container provides direct mutable access to its members.
+			Inherit with protected visibility or aggregate this class and emit it there.
 */
 template <typename ItemClass, class ContainerType = QList<ItemClass> >
-class TContainer: virtual public istd::IContainerInfo
+class TContainer: virtual public istd::IContainerInfo, public CObservableListBase
 {
 public:
 	typedef ContainerType Container;
-
-	enum ChangeFlags
-	{
-		CF_ELEMENT_ADDED = 0x382b230,
-		CF_ELEMENT_REMOVED,
-		CF_RESET
-	};
 
 	virtual void Reserve(int count);
 	virtual void Resize(int count);
 	virtual void RemoveAt(int index);
 	virtual void Reset();
 
-	const ItemClass& GetAt(int index) const;
+	const ItemClass& GetAt(int index) const;	
 	ItemClass& GetAt(int index);
 	ItemClass& PushBack(const ItemClass& item);
 	ItemClass& PushFront(const ItemClass& item);
 	ItemClass& InsertAt(const ItemClass& item, int index);
 	void PopBack();
 	void PopFront();
+
+	// methods with names compatible to standard containers
+
+	inline void push_back(const ItemClass& item)
+	{
+		PushBack(item);
+	}
+
+
+	inline void push_front(const ItemClass& item)
+	{
+		PushFront(item);
+	}
+
+
+	inline ItemClass& operator[](qsizetype index)
+	{
+		return m_items[index];
+	}
+
+
+	inline const ItemClass& operator[](qsizetype index) const
+	{
+		return m_items[index];
+	}
+
+
+	typename Container::iterator insert(qsizetype index, const ItemClass& item)
+	{
+		auto changes = ElementAddChanges(index);
+		istd::CChangeNotifier notifier(this, &changes);
+
+		return m_items.insert(index, item);
+	}
+
+
+	typename Container::iterator insert(qsizetype index, ItemClass&& item)
+	{
+		auto changes = ElementAddChanges(index);
+		istd::CChangeNotifier notifier(this, &changes);
+
+		return m_items.insert(index, std::move(item));
+	}
+
+	// remove of multiple elements is not implemented yet
+	void remove(qsizetype i)
+	{
+		auto changes = ElementRemoveChanges(i);
+		istd::CChangeNotifier notifier(this, &changes);
+
+		m_items.remove(i);
+	}
+
+
+	void resize(qsizetype size)
+	{
+		istd::CChangeNotifier notifier(this, &s_resetChange);
+
+		m_items.resize(size);
+	}
+
+
+	inline qsizetype size() const
+	{
+		return m_items.size();
+	}
+
 
 	TContainer& operator=(const TContainer& container);
 
@@ -53,9 +116,55 @@ public:
 	// reimplemented (istd::IChangeable)
 	virtual bool CopyFrom(const IChangeable& object, CompatibilityMode mode = CM_WITHOUT_REFS) override;
 
+	// Iterators
+	typename Container::iterator begin()
+	{
+		return m_items.begin();
+	}
+
+
+	typename Container::iterator end()
+	{
+		return m_items.end();
+	}
+
+
+	typename Container::const_iterator begin() const
+	{
+		return m_items.begin();
+	}
+
+
+	typename Container::const_iterator end() const
+	{
+		return m_items.end();
+	}
+
+
+	typename Container::const_iterator cbegin() const
+	{
+		return m_items.begin();
+	}
+
+
+	typename Container::const_iterator cend() const
+	{
+		return m_items.end();
+	}
+
+
+	// Equality
+	bool operator==(const TContainer& other) const
+	{
+		return m_items == other.m_items;
+	}
+
+	bool operator!=(const TContainer& other) const
+	{
+		return !operator==(other);
+	}
+
 protected:
-	static const ChangeSet s_elementAddChange;
-	static const ChangeSet s_elementRemoveChange;
 	static const ChangeSet s_resetChange;
 
 	typedef ContainerType Items;
@@ -99,7 +208,8 @@ const ItemClass& TContainer<ItemClass, ContainerType>::GetAt(int index) const
 template <typename ItemClass, typename ContainerType>
 ItemClass& TContainer<ItemClass, ContainerType>::PushBack(const ItemClass& item)
 {
-	istd::CChangeNotifier notifier(this, &s_elementAddChange);
+	auto changes = ElementAddChanges(m_items.size());
+	istd::CChangeNotifier notifier(this, &changes);
 	Q_UNUSED(notifier);
 
 	m_items.push_back(item);
@@ -111,7 +221,8 @@ ItemClass& TContainer<ItemClass, ContainerType>::PushBack(const ItemClass& item)
 template <typename ItemClass, typename ContainerType>
 ItemClass& TContainer<ItemClass, ContainerType>::PushFront(const ItemClass& item)
 {
-	istd::CChangeNotifier notifier(this, &s_elementAddChange);
+	auto changes = ElementAddChanges(0);
+	istd::CChangeNotifier notifier(this, &changes);
 	Q_UNUSED(notifier);
 
 	m_items.push_front(item);
@@ -123,15 +234,12 @@ ItemClass& TContainer<ItemClass, ContainerType>::PushFront(const ItemClass& item
 template <typename ItemClass, typename ContainerType>
 ItemClass& TContainer<ItemClass, ContainerType>::InsertAt(const ItemClass& item, int index)
 {
-	istd::CChangeNotifier notifier(this, &s_elementAddChange);
-	Q_UNUSED(notifier);
-
 	if ((index < 0) || (index >= m_items.size())){
-		m_items.push_back(item);
-
-		return m_items.back();
+		return PushBack(item);
 	}
 	else{
+		auto changes = ElementAddChanges(index);
+		istd::CChangeNotifier notifier(this, &changes);
 		m_items.insert(index, item);
 
 		return m_items[index];
@@ -142,7 +250,8 @@ ItemClass& TContainer<ItemClass, ContainerType>::InsertAt(const ItemClass& item,
 template <typename ItemClass, typename ContainerType>
 void TContainer<ItemClass, ContainerType>::PopBack()
 {
-	istd::CChangeNotifier notifier(this, &s_elementRemoveChange);
+	auto changes = ElementRemoveChanges(m_items.size() - 1);
+	istd::CChangeNotifier notifier(this, &changes);
 	Q_UNUSED(notifier);
 
 	m_items.pop_back();
@@ -152,7 +261,8 @@ void TContainer<ItemClass, ContainerType>::PopBack()
 template <typename ItemClass, typename ContainerType>
 void TContainer<ItemClass, ContainerType>::PopFront()
 {
-	istd::CChangeNotifier notifier(this, &s_elementRemoveChange);
+	auto changes = ElementRemoveChanges(0);
+	istd::CChangeNotifier notifier(this, &changes);
 	Q_UNUSED(notifier);
 
 	m_items.pop_front();
@@ -166,7 +276,8 @@ void TContainer<ItemClass, ContainerType>::RemoveAt(int index)
 	Q_ASSERT(index < int(m_items.size()));
 
 	if (index < int(m_items.size())){
-		istd::CChangeNotifier notifier(this, &s_elementRemoveChange);
+		auto changes = ElementRemoveChanges(index);
+		istd::CChangeNotifier notifier(this, &changes);
 		Q_UNUSED(notifier);
 	
 		m_items.erase(m_items.begin()  + index);
@@ -187,6 +298,7 @@ void TContainer<ItemClass, ContainerType>::Reset()
 template <typename ItemClass, typename ContainerType>
 TContainer<ItemClass, ContainerType>& TContainer<ItemClass, ContainerType>::operator=(const TContainer& container)
 {
+	istd::CChangeNotifier notifier(this, &s_resetChange);
 	m_items = container.m_items;
 
 	return *this;
@@ -235,18 +347,9 @@ bool TContainer<ItemClass, ContainerType>::CopyFrom(const IChangeable& object, C
 // protected static members
 
 template <typename ItemClass, typename ContainerType>
-const istd::IChangeable::ChangeSet TContainer<ItemClass, ContainerType>::s_elementAddChange(CF_ELEMENT_ADDED);
-
-template <typename ItemClass, typename ContainerType>
-const istd::IChangeable::ChangeSet TContainer<ItemClass, ContainerType>::s_elementRemoveChange(CF_ELEMENT_REMOVED);
-
-template <typename ItemClass, typename ContainerType>
 const istd::IChangeable::ChangeSet TContainer<ItemClass, ContainerType>::s_resetChange(CF_RESET);
 
 
 } // namespace ibase
-
-
-#endif // !ibase_TContainer_included
 
 

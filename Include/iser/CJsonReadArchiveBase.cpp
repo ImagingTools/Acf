@@ -101,14 +101,16 @@ bool CJsonReadArchiveBase::BeginMultiTag(const iser::CArchiveTag& tag, const ise
 		jsonObject = jsonValue.toObject();
 
 		if (jsonObject.contains(tagId)){
-			QJsonValue jsonValue = jsonObject.value(tagId);
-			if (jsonValue.isArray()){
+			QJsonValue value = jsonObject.value(tagId);
+			if (value.isArray()){
 				HelperIterator newHelperIterator;
-				newHelperIterator.SetValue(jsonValue);
+				newHelperIterator.SetValue(value);
 				newHelperIterator.SetKey(tagId);
+
 				m_iterators.push_back(newHelperIterator);
 				m_tags.push_back(&tag);
-				count = jsonValue.toArray().count();
+
+				count = value.toArray().count();
 			}
 		}
 		else{

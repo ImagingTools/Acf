@@ -20,7 +20,7 @@ public:
 	CSubstractiveColorModelBase();
 
 	void SetPreviewSpec(const ITristimulusSpecification& previewSpec);
-	void SetColorantPreview(const QByteArray& colorantId, const icmm::CLab& preview);
+	void SetColorantPreview(const ColorantId& colorantId, const icmm::CLab& preview);
 
 	// reimplemented (icmm::IColorModel)
 	virtual ModelType GetModelType() const override;
@@ -34,7 +34,7 @@ public:
 				const QByteArray& transformationId = QByteArray()) const override;
 
 	// reimplemented (icmm::ISubstractiveColorModel)
-	virtual bool GetColorantVisualInfo(const QByteArray& colorantId, icmm::ICieLabColor& preview) const override;
+	virtual bool GetColorantVisualInfo(const ColorantId& colorantId, icmm::ICieLabColor& preview) const override;
 
 private:
 	/**
@@ -45,7 +45,7 @@ private:
 	/**
 		Mapping between a colorant and corresponding Lab value for its solid value.
 	*/
-	typedef QMap<QByteArray, icmm::CLab> ColorantPreviewMap;
+	typedef QMap<ColorantId, icmm::CLab> ColorantPreviewMap;
 	ColorantPreviewMap m_colorantPreviewMap;
 };
 

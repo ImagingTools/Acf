@@ -15,11 +15,14 @@ namespace icmm
 // public methods
 
 CSubstractiveColorModel::CSubstractiveColorModel()
+	: m_bridge(this, imod::CModelUpdateBridge::UF_SOURCE)
 {
+	m_colorants.AttachObserver(&m_bridge);
 }
 
 
 CSubstractiveColorModel::CSubstractiveColorModel(const ColorantIds& colorantIds)
+	: CSubstractiveColorModel()
 {
 	for (const ColorantId& colorantId : colorantIds){
 		ColorantUsage usage = GetDefaultUsageFromColorantName(colorantId);
@@ -30,18 +33,27 @@ CSubstractiveColorModel::CSubstractiveColorModel(const ColorantIds& colorantIds)
 
 
 CSubstractiveColorModel::CSubstractiveColorModel(const CSubstractiveColorModel& other)
+	: CSubstractiveColorModel()
 {
-	m_colorants = other.m_colorants;
+	m_colorants.SetBaseObject(other.m_colorants);
 }
 
 
 CSubstractiveColorModel::CSubstractiveColorModel(const ISubstractiveColorModel& other)
+	: CSubstractiveColorModel()
 {
 	for (const ColorantId& colorantId : other.GetColorantIds()){
 		ColorantUsage usage = other.GetColorantUsage(colorantId);
 
 		m_colorants.push_back({ colorantId, usage });
 	}
+}
+
+
+CSubstractiveColorModel& CSubstractiveColorModel::operator=(const CSubstractiveColorModel& other)
+{
+	m_colorants.SetBaseObject(other.m_colorants);
+	return *this;
 }
 
 
@@ -70,9 +82,7 @@ bool CSubstractiveColorModel::InsertColorant(const ColorantId & colorantId, Colo
 		return false;
 	}
 
-	istd::CChangeNotifier changeNotifier(this);
-
-	int insertPosition = index >= 0 ? index : m_colorants.count();
+	int insertPosition = index >= 0 ? index : m_colorants.size();
 
 	m_colorants.insert(insertPosition, { colorantId, usage });
 
@@ -82,14 +92,9 @@ bool CSubstractiveColorModel::InsertColorant(const ColorantId & colorantId, Colo
 
 bool CSubstractiveColorModel::RemoveColorant(const ColorantId & colorantId)
 {
-	QMutableVectorIterator<ColorantInfo> colorantIterator(m_colorants);
-	while (colorantIterator.hasNext()){
-		ColorantInfo& colorantInfo = colorantIterator.next();
-		if (colorantInfo.id == colorantId){
-			istd::CChangeNotifier changeNotifier(this);
-
-			colorantIterator.remove();
-
+	for (qsizetype i = 0; i < m_colorants.size(); ++i) {
+		if (m_colorants[i].id == colorantId) {
+			m_colorants.remove(i);
 			return true;
 		}
 	}
@@ -103,7 +108,8 @@ bool CSubstractiveColorModel::SetColorantUsage(const ColorantId& colorantId, Col
 	int colorantIndex = FindColorantIndex(colorantId);
 	if (colorantIndex >= 0) {
 		if (m_colorants[colorantIndex].usage != usage){
-			istd::CChangeNotifier changeNotifier(this);
+			auto changes = ElementUpdatedChanges(colorantIndex);
+			istd::CChangeNotifier changeNotifier(this, &changes);
 
 			m_colorants[colorantIndex].usage = usage;
 		}
@@ -125,7 +131,8 @@ bool CSubstractiveColorModel::SetColorantId(const ColorantId& colorantId, const 
 
 	int colorantIndex = FindColorantIndex(colorantId);
 	if (colorantIndex >= 0){
-		istd::CChangeNotifier changeNotifier(this);
+		auto changes = ElementUpdatedChanges(colorantIndex);
+		istd::CChangeNotifier changeNotifier(this, &changes);
 		
 		m_colorants[colorantIndex].id = newColorantId;
 
@@ -165,9 +172,7 @@ bool CSubstractiveColorModel::AppendColorModel(const ISubstractiveColorModel& ot
 	}
 
 	if (m_colorants != temp.m_colorants){
-		istd::CChangeNotifier changeNotifier(this);
-
-		m_colorants = temp.m_colorants;
+		m_colorants.SetBaseObject(temp.m_colorants);
 	}
 
 	return true;
@@ -284,7 +289,7 @@ bool CSubstractiveColorModel::Serialize(iser::IArchive& archive)
 {
 	bool retVal = true;
 
-	int colorantCount = m_colorants.count();
+	int colorantCount = m_colorants.size();
 
 	const iser::CArchiveTag colorantListTag("Colorants", "List of colorants", iser::CArchiveTag::TT_MULTIPLE);
 	const iser::CArchiveTag colorantInfoTag("ColorantInfo", "Single colorant description", iser::CArchiveTag::TT_GROUP, &colorantListTag);
@@ -294,7 +299,7 @@ bool CSubstractiveColorModel::Serialize(iser::IArchive& archive)
 		return false;
 	}
 
-	istd::CChangeNotifier changeNotifier(archive.IsStoring() ? nullptr : this);
+	istd::CChangeNotifier changeNotifier(archive.IsStoring() ? nullptr : this, &istd::IChangeable::GetAllChanges());
 
 	if (!archive.IsStoring()){
 		m_colorants.resize(colorantCount);
@@ -380,7 +385,7 @@ icmm::IColorantList::ColorantId CSubstractiveColorModel::GetEcgBlue()
 
 int CSubstractiveColorModel::FindColorantIndex(const ColorantId& colorantId) const
 {
-	for (int index = 0; index < m_colorants.count(); ++index){
+	for (int index = 0; index < m_colorants.size(); ++index){
 		if (m_colorants[index].id == colorantId){
 			return index;
 		}
@@ -404,7 +409,7 @@ bool CSubstractiveColorModel::SerializeColorantInfo(
 
 	const iser::CArchiveTag usageTag("Usage", "Usage of the colorant", iser::CArchiveTag::TT_LEAF, parentTagPtr);
 	retVal = retVal && archive.BeginTag(usageTag);
-	retVal = retVal && I_SERIALIZE_ENUM(ColorantUsage, archive,colorantInfo.usage);
+	retVal = retVal && I_SERIALIZE_ENUM(ColorantUsage, archive, colorantInfo.usage);
 	retVal = retVal && archive.EndTag(usageTag);
 
 	return retVal;

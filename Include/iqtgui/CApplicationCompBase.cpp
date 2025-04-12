@@ -56,6 +56,10 @@ bool CApplicationCompBase::InitializeApplication(int argc, char** argv)
 			}
 		}
 
+		if (arg.startsWith("-qmljsdebugger")) {
+			continue;
+		}
+
 		m_applicationArguments << QString::fromLocal8Bit(argv[argIndex]);
 
 		qDebug() << QString::fromLocal8Bit(argv[argIndex]);
