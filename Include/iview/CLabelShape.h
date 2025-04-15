@@ -29,23 +29,23 @@ public:
 	virtual void SetEditableOffset(bool editable = true);
 
 	// reimplemented (ITextLabelParams)
-	virtual TextAlign GetTextAlign() const;
-	virtual void SetTextAlign(TextAlign align);
-	virtual const istd::CIndex2d& GetDrawOffset() const;
-	virtual void SetDrawOffset(const istd::CIndex2d& offset);
+	virtual TextAlign GetTextAlign() const override;
+	virtual void SetTextAlign(TextAlign align) override;
+	virtual const istd::CIndex2d& GetDrawOffset() const override;
+	virtual void SetDrawOffset(const istd::CIndex2d& offset) override;
 
 	// reimplemented (iview::IMouseActionObserver)
-	virtual bool OnMouseButton(istd::CIndex2d position, Qt::MouseButton buttonType, bool downFlag);
-	virtual bool OnMouseMove(istd::CIndex2d position);
+	virtual bool OnMouseButton(istd::CIndex2d position, Qt::MouseButton buttonType, bool downFlag) override;
+	virtual bool OnMouseMove(istd::CIndex2d position) override;
 
 	// reimplemented (iview::IVisualizable)
-	virtual void Draw(QPainter& drawContext) const;
+	virtual void Draw(QPainter& drawContext) const override;
 
 	// reimplemented (imod::IObserver)
-	virtual bool OnModelAttached(imod::IModel* modelPtr, istd::IChangeable::ChangeSet& changeMask);
+	virtual bool OnModelAttached(imod::IModel* modelPtr, istd::IChangeable::ChangeSet& changeMask) override;
 
 	// reimplemented (iview::ITouchable)
-	virtual TouchState IsTouched(istd::CIndex2d position) const;
+	virtual TouchState IsTouched(istd::CIndex2d position) const override;
 
 protected:
 	enum EditMode
@@ -58,7 +58,7 @@ protected:
 	void CalculateTextOriginSize(i2d::CRect& textBox) const;
 
 	// reimplemented (iview::CInteractiveShapeBase)
-	virtual i2d::CRect CalcBoundingBox() const;
+	virtual i2d::CRect CalcBoundingBox() const override;
 
 private:
 	istd::CIndex2d m_referenceOffset;

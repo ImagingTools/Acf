@@ -88,7 +88,7 @@ protected:
 
 	protected:
 		// reimplemented (QWidget)
-		void resizeEvent(QResizeEvent* eventPtr) override;
+		virtual void resizeEvent(QResizeEvent* eventPtr) override;
 	};
 
 protected:

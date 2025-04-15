@@ -33,15 +33,15 @@ public:
 	CHierarchicalHeaderView(Qt::Orientation orientation, QWidget* parent = 0);
 
 	// reimplemented (QHeaderView)
-	virtual void setModel(QAbstractItemModel* model);
+	virtual void setModel(QAbstractItemModel* model) override;
 
 protected:
 	// reimplemented (QHeaderView)
 	virtual void paintSection(
 				QPainter* painter,
 				const QRect& rect,
-				int logicalIndex) const;
-	virtual QSize sectionSizeFromContents(int logicalIndex) const;
+				int logicalIndex) const override;
+	virtual QSize sectionSizeFromContents(int logicalIndex) const override;
 
 private Q_SLOTS:
 	void on_sectionResized(int logicalIndex);

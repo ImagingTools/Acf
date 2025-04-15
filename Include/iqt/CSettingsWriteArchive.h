@@ -40,14 +40,14 @@ public:
 
 	// reimplemented (iser::IArchive)
 	using BaseClass::Process;
-	virtual bool BeginTag(const iser::CArchiveTag& tag);
-	virtual bool BeginMultiTag(const iser::CArchiveTag& tag, const iser::CArchiveTag& subTag, int& count);
-	virtual bool EndTag(const iser::CArchiveTag& tag);
-	virtual bool Process(QString& value);
+	virtual bool BeginTag(const iser::CArchiveTag& tag) override;
+	virtual bool BeginMultiTag(const iser::CArchiveTag& tag, const iser::CArchiveTag& subTag, int& count) override;
+	virtual bool EndTag(const iser::CArchiveTag& tag) override;
+	virtual bool Process(QString& value) override;
 
 protected:
 	// reimplemented (iser::CTextWriteArchiveBase)
-	bool WriteTextNode(const QByteArray& text);
+	virtual bool WriteTextNode(const QByteArray& text) override;
 };
 
 

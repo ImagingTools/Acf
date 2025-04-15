@@ -39,7 +39,7 @@ private:
 
 	protected:
 		// reimplemented (QObject)
-		bool eventFilter(QObject* sourcePtr, QEvent* eventPtr);
+		virtual bool eventFilter(QObject* sourcePtr, QEvent* eventPtr) override;
 
 	private:
 		TDesignSchemaHandlerWrap& m_parent;

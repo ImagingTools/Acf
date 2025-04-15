@@ -45,7 +45,7 @@ public:
 
 	void UpdateFitTransform();
 
-	virtual void SetEditMode(int mode);
+	virtual void SetEditMode(int mode) override;
 
 	// reimplemented (iview::IShapeView)
 	virtual void SetFitArea(const i2d::CRectangle& area) override;
@@ -56,7 +56,7 @@ public:
 				const iview::IShapeView& view,
 				const istd::CIndex2d& position,
 				const iview::IInteractiveShape& shape,
-				bool state);
+				bool state) override;
 	virtual bool OnViewMouseButton(
 				const iview::IShapeView& view,
 				const istd::CIndex2d& position,
@@ -80,9 +80,9 @@ Q_SIGNALS:
 	void ShapesChanged();
 
 protected:
-	virtual void SetBackgroundBufferValid(bool state = true);
-	virtual void OnResize();
-	virtual bool CanBeMoved() const;
+	virtual void SetBackgroundBufferValid(bool state = true) override;
+	virtual void OnResize() override;
+	virtual bool CanBeMoved() const override;
 
 	// reimplemented (QWidget)
 	virtual void paintEvent(QPaintEvent* event) override;
@@ -93,7 +93,7 @@ protected:
 
 	// reimplemented (iview::CViewBase)
 	virtual void SetMousePointer(MousePointerMode mode) override;
-	void UpdateRectArea(const i2d::CRect& rect) override;
+	virtual void UpdateRectArea(const i2d::CRect& rect) override;
 	virtual void OnBoundingBoxChanged() override;
 
 	// reimplemented (iview::IDisplay)

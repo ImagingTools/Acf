@@ -20,14 +20,14 @@ public:
 	void SetSmallTickersMode(bool state = true);
 
 	// reimplemented (iview::IShape)
-	virtual void Draw(QPainter& drawContext) const;
+	virtual void Draw(QPainter& drawContext) const override;
 
 	// reimplemented (imod::IObserver)
-	virtual bool OnModelAttached(imod::IModel* modelPtr, istd::IChangeable::ChangeSet& changeMask);
+	virtual bool OnModelAttached(imod::IModel* modelPtr, istd::IChangeable::ChangeSet& changeMask) override;
 
 protected:
 	// reimplemented (iview::CShapeBase)
-	virtual i2d::CRect CalcBoundingBox() const;
+	virtual i2d::CRect CalcBoundingBox() const override;
 
 	bool m_isSmallTickersMode;
 };

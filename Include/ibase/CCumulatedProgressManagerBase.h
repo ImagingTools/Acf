@@ -80,12 +80,12 @@ public:
 	void SetCanceled(bool state = true);
 
 	// reimplemented (ibase::IProgressManager)
-	void ResetProgressManager() override;
+	virtual void ResetProgressManager() override;
 	std::unique_ptr<IProgressManager> CreateSubtaskManager(
 				const QByteArray& taskId,
 				const QString& taskDescription,
 				double weight = 1.0) override;
-	std::unique_ptr<IProgressLogger> StartProgressLogger(bool isCancelable = false, const QString& description = {}) override;
+	virtual std::unique_ptr<IProgressLogger> StartProgressLogger(bool isCancelable = false, const QString& description = {}) override;
 
 protected:
 	// Methods designed to be overriden
@@ -128,8 +128,8 @@ private:
 		Logger(CCumulatedProgressManagerBase* parentPtr, const TaskInfo& taskInfo, bool isCancelable);
 
 		// reimplemented (ibase::IProgressLogger)
-		void OnProgress(double currentProgress) override;
-		bool IsCanceled() const override;
+		virtual void OnProgress(double currentProgress) override;
+		virtual bool IsCanceled() const override;
 	};
 
 	TaskInfo m_defaultTaskInfo;

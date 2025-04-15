@@ -176,24 +176,24 @@ private:
 		void UpdatePageState();
 
 		// reimplemented (iprm::ISelectionParam)
-		virtual bool SetSelectedOptionIndex(int index);
-		virtual ISelectionParam* GetSubselection(int index) const;
+		virtual bool SetSelectedOptionIndex(int index) override;
+		virtual ISelectionParam* GetSubselection(int index) const override;
 
 		// reimplemented (iprm::IOptionsList)
-		virtual int GetOptionsFlags() const;
-		virtual int GetOptionsCount() const;
-		virtual QString GetOptionName(int index) const;
-		virtual QString GetOptionDescription(int index) const;
-		virtual QByteArray GetOptionId(int index) const;
-		virtual bool IsOptionEnabled(int index) const;
+		virtual int GetOptionsFlags() const override;
+		virtual int GetOptionsCount() const override;
+		virtual QString GetOptionName(int index) const override;
+		virtual QString GetOptionDescription(int index) const override;
+		virtual QByteArray GetOptionId(int index) const override;
+		virtual bool IsOptionEnabled(int index) const override;
 
 		// reimplemented (iqtgui::IMultiVisualStatusProvider)
-		virtual int GetStatusesCount() const;
-		virtual const IVisualStatus* GetVisualStatus(int statusIndex) const;
+		virtual int GetStatusesCount() const override;
+		virtual const IVisualStatus* GetVisualStatus(int statusIndex) const override;
 
 	protected:
 		// reimplemented (istd::IChangeable)
-		virtual void OnEndChanges(const ChangeSet& changeSet);
+		virtual void OnEndChanges(const ChangeSet& changeSet) override;
 
 	private:
 		CMultiPageGuiCompBase* m_parentPtr;

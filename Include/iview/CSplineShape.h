@@ -16,20 +16,20 @@ public:
 	typedef CPolylineShape BaseClass;
 
 	// reimplemented (imod::IObserver)
-	virtual bool OnModelAttached(imod::IModel* modelPtr, istd::IChangeable::ChangeSet& changeMask);
+	virtual bool OnModelAttached(imod::IModel* modelPtr, istd::IChangeable::ChangeSet& changeMask) override;
 
 protected:
 	virtual void DrawPolyBezier(QPainter& drawContext, const i2d::CVector2d* pointsPtr, int pointsCount) const;
 
 	// reimplemented (iview::CPolygonShape)
-	virtual i2d::CVector2d GetSegmentMiddle(int index) const;
-	virtual void DrawCurve(QPainter& drawContext) const;
+	virtual i2d::CVector2d GetSegmentMiddle(int index) const override;
+	virtual void DrawCurve(QPainter& drawContext) const override;
 
 	// reimplemented (iview::CRectControlledShapeBase)
-	virtual bool IsCurveTouched(istd::CIndex2d position) const;
+	virtual bool IsCurveTouched(istd::CIndex2d position) const override;
 
 	// reimplemented (iview::CShapeBase)
-	virtual i2d::CRect CalcBoundingBox() const;
+	virtual i2d::CRect CalcBoundingBox() const override;
 };
 
 

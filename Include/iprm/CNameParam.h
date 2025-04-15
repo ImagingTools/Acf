@@ -17,9 +17,9 @@ class CNameParam: virtual public INameParam
 {
 public:
 	// reimplemented (iprm::INameParam)
-	virtual const QString& GetName() const;
-	virtual void SetName(const QString& name);
-	virtual bool IsNameFixed() const;
+	virtual const QString& GetName() const override;
+	virtual void SetName(const QString& name) override;
+	virtual bool IsNameFixed() const override;
 
 	// reimplemented (iser::ISerializable)
 	virtual bool Serialize(iser::IArchive& archive) override;

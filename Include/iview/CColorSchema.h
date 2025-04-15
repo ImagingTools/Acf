@@ -33,12 +33,12 @@ public:
 	CColorSchema();
 
 	// reimplemented IColorSchema
-	virtual const QFont& GetFont(IColorSchema::StandardFont fontType) const;
-	virtual void SetFont(iview::IColorSchema::StandardFont fontType, const QFont& font);
-	virtual const QPen& GetPen(IColorSchema::StandardPen penType) const;
-	virtual void SetPen(iview::IColorSchema::StandardPen penType, const QPen& pen);
-	virtual const QBrush& GetBrush(IColorSchema::StandardBrush brushType) const;
-	virtual void SetBrush(iview::IColorSchema::StandardBrush brushType, const QBrush& brush);
+	virtual const QFont& GetFont(IColorSchema::StandardFont fontType) const override;
+	virtual void SetFont(iview::IColorSchema::StandardFont fontType, const QFont& font) override;
+	virtual const QPen& GetPen(IColorSchema::StandardPen penType) const override;
+	virtual void SetPen(iview::IColorSchema::StandardPen penType, const QPen& pen) override;
+	virtual const QBrush& GetBrush(IColorSchema::StandardBrush brushType) const override;
+	virtual void SetBrush(iview::IColorSchema::StandardBrush brushType, const QBrush& brush) override;
 
 protected:
 	QPen m_pens[int(IColorSchema::SP_LAST) + 1];

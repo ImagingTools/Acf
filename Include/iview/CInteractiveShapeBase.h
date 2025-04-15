@@ -36,22 +36,22 @@ public:
 	virtual void SetEditablePosition(bool state = true);
 
 	// reimplemented (iview::IInteractiveShape)
-	virtual bool IsSelected() const;
-	virtual void SetSelected(bool selectFlag = true);
+	virtual bool IsSelected() const override;
+	virtual void SetSelected(bool selectFlag = true) override;
 
 	// reimplemented (iview::IMouseActionObserver)
-	virtual bool OnMouseButton(istd::CIndex2d position, Qt::MouseButton buttonType, bool downFlag);
-	virtual bool OnMouseMove(istd::CIndex2d position);
+	virtual bool OnMouseButton(istd::CIndex2d position, Qt::MouseButton buttonType, bool downFlag) override;
+	virtual bool OnMouseMove(istd::CIndex2d position) override;
 
 	// reimplemented (iview::IDraggable)
-	virtual bool IsDraggable() const;
-	virtual void BeginDrag(const istd::CIndex2d& position);
-	virtual void SetDragPosition(const istd::CIndex2d& position);
-	virtual void EndDrag();
+	virtual bool IsDraggable() const override;
+	virtual void BeginDrag(const istd::CIndex2d& position) override;
+	virtual void SetDragPosition(const istd::CIndex2d& position) override;
+	virtual void EndDrag() override;
 
 	// reimplemented (imod::IObserver)
-	virtual bool OnModelAttached(imod::IModel* modelPtr, istd::IChangeable::ChangeSet& changeMask);
-	virtual bool OnModelDetached(imod::IModel* modelPtr);
+	virtual bool OnModelAttached(imod::IModel* modelPtr, istd::IChangeable::ChangeSet& changeMask) override;
+	virtual bool OnModelDetached(imod::IModel* modelPtr) override;
 
 protected:
 	void BeginTickerDrag();
@@ -76,7 +76,7 @@ protected:
 	void DrawText(QPainter& drawContext, istd::CIndex2d point, const QString& text) const;
 
 	// reimplemented (iview::CShapeBase)
-	virtual bool IsDisplayChangeImportant(const istd::IChangeable::ChangeSet& changeSet);
+	virtual bool IsDisplayChangeImportant(const istd::IChangeable::ChangeSet& changeSet) override;
 
 	// abstract methods
 	virtual void BeginLogDrag(const i2d::CVector2d& reference) = 0;

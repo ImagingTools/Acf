@@ -17,8 +17,8 @@ class CIdParam: virtual public IIdParam
 {
 public:
 	// reimplemented (iprm::INameParam)
-	virtual QByteArray GetId() const;
-	virtual void SetId(const QByteArray& id);
+	virtual QByteArray GetId() const override;
+	virtual void SetId(const QByteArray& id) override;
 
 	// reimplemented (iser::ISerializable)
 	virtual bool Serialize(iser::IArchive& archive) override;

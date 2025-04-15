@@ -63,25 +63,25 @@ public:
 	void SetSelectionSerialized(bool  state);
 
 	// reimplemented (iprm::IOptionsList)
-	virtual int GetOptionsFlags() const;
-	virtual int GetOptionsCount() const;
-	virtual QString GetOptionName(int index) const;
-	virtual QString GetOptionDescription(int index) const;
-	virtual QByteArray GetOptionId(int index) const;
-	virtual bool IsOptionEnabled(int index) const;
+	virtual int GetOptionsFlags() const override;
+	virtual int GetOptionsCount() const override;
+	virtual QString GetOptionName(int index) const override;
+	virtual QString GetOptionDescription(int index) const override;
+	virtual QByteArray GetOptionId(int index) const override;
+	virtual bool IsOptionEnabled(int index) const override;
 
 	// reimplemented (iprm::IOptionsManager)
-	virtual int GetOptionOperationFlags(int index = -1) const;
-	virtual bool SetOptionEnabled(int index, bool isEnabled = true);
-	virtual bool RemoveOption(int index);
+	virtual int GetOptionOperationFlags(int index = -1) const override;
+	virtual bool SetOptionEnabled(int index, bool isEnabled = true) override;
+	virtual bool RemoveOption(int index) override;
 	virtual bool InsertOption(
 					const QString& optionName,
 					const QByteArray& optionId,
 					const QString& optionDescription = QString(),
-					int index = -1);
-	virtual bool SwapOptions(int index1, int index2);
-	virtual bool SetOptionName(int index, const QString& optionName);
-	virtual bool SetOptionDescription(int index, const QString& optionDescription);
+					int index = -1) override;
+	virtual bool SwapOptions(int index1, int index2) override;
+	virtual bool SetOptionName(int index, const QString& optionName) override;
+	virtual bool SetOptionDescription(int index, const QString& optionDescription) override;
 
 	// reimplemented (iser::ISerializable)
 	virtual bool Serialize(iser::IArchive& archive) override;

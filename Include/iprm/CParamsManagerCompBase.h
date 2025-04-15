@@ -155,12 +155,12 @@ protected:
 		UuidParam(const ParamSet& parent);
 
 		// reimplemented (iprm::INameParam)
-		virtual const QString& GetName() const;
-		virtual void SetName(const QString& name);
-		virtual bool IsNameFixed() const;
+		virtual const QString& GetName() const override;
+		virtual void SetName(const QString& name) override;
+		virtual bool IsNameFixed() const override;
 
 		// reimplemented (iser::ISerializable)
-		virtual bool Serialize(iser::IArchive& archive);
+		virtual bool Serialize(iser::IArchive& archive) override;
 
 	private:
 		mutable QString m_uuid;
@@ -176,29 +176,29 @@ protected:
 		ParamSet();
 
 		// reimplemented (iprm::IParamsSet)
-		virtual Ids GetParamIds(bool editableOnly = false) const;
-		virtual const iser::ISerializable* GetParameter(const QByteArray& id) const;
-		virtual iser::ISerializable* GetEditableParameter(const QByteArray& id);
+		virtual Ids GetParamIds(bool editableOnly = false) const override;
+		virtual const iser::ISerializable* GetParameter(const QByteArray& id) const override;
+		virtual iser::ISerializable* GetEditableParameter(const QByteArray& id) override;
 
 		// reimplemented (iprm::ISelectionParam)
-		virtual const IOptionsList* GetSelectionConstraints() const;
-		virtual int GetSelectedOptionIndex() const;
-		virtual bool SetSelectedOptionIndex(int index);
-		virtual ISelectionParam* GetSubselection(int index) const;
+		virtual const IOptionsList* GetSelectionConstraints() const override;
+		virtual int GetSelectedOptionIndex() const override;
+		virtual bool SetSelectedOptionIndex(int index) override;
+		virtual ISelectionParam* GetSubselection(int index) const override;
 
 		// reimplemented (iprm::INameParam)
-		virtual const QString& GetName() const;
-		virtual void SetName(const QString& name);
-		virtual bool IsNameFixed() const;
+		virtual const QString& GetName() const override;
+		virtual void SetName(const QString& name) override;
+		virtual bool IsNameFixed() const override;
 
 		// reimplemented (iser::IObject)
-		virtual QByteArray GetFactoryId() const;
+		virtual QByteArray GetFactoryId() const override;
 
 		// reimplemented (iser::ISerializable)
-		virtual bool Serialize(iser::IArchive& archive);
+		virtual bool Serialize(iser::IArchive& archive) override;
 
 		// reimplemented (istd::IChangeable)
-		virtual bool CopyFrom(const istd::IChangeable& object, istd::IChangeable::CompatibilityMode mode = CM_WITHOUT_REFS);
+		virtual bool CopyFrom(const istd::IChangeable& object, istd::IChangeable::CompatibilityMode mode = CM_WITHOUT_REFS) override;
 
 		istd::TDelPtr<IParamsSet> paramSetPtr;
 		QByteArray uuid;
@@ -217,15 +217,15 @@ protected:
 		SelectedParams();
 
 		// reimplemented (iprm::IParamsSet)
-		virtual Ids GetParamIds(bool editableOnly = false) const;
-		virtual const iser::ISerializable* GetParameter(const QByteArray& id) const;
-		virtual iser::ISerializable* GetEditableParameter(const QByteArray& id);
+		virtual Ids GetParamIds(bool editableOnly = false) const override;
+		virtual const iser::ISerializable* GetParameter(const QByteArray& id) const override;
+		virtual iser::ISerializable* GetEditableParameter(const QByteArray& id) override;
 
 		// reimplemented (iser::IObject)
-		virtual QByteArray GetFactoryId() const;
+		virtual QByteArray GetFactoryId() const override;
 
 		// reimplemented (iser::ISerializable)
-		virtual bool Serialize(iser::IArchive& archive);
+		virtual bool Serialize(iser::IArchive& archive) override;
 
 		CParamsManagerCompBase* parentPtr;
 	};

@@ -76,12 +76,12 @@ public:
 	void UpdateDesign();
 
 	// reimplemented (iview::CConsoleBase)
-	virtual const CViewport& GetView() const;
-	virtual CViewport& GetViewRef();
-	virtual void UpdateCursorInfo(const QString& infoText);
+	virtual const CViewport& GetView() const override;
+	virtual CViewport& GetViewRef() override;
+	virtual void UpdateCursorInfo(const QString& infoText) override;
 
 	// reimplemented (ibase::ICommandsProvider)
-	virtual const ibase::IHierarchicalCommand* GetCommands() const;
+	virtual const ibase::IHierarchicalCommand* GetCommands() const override;
 
 public Q_SLOTS:
 	void OnZoomIn();
@@ -118,16 +118,16 @@ protected:
 	virtual bool OnKeyPressEvent(QKeyEvent* eventPtr);
 
 	// reimplemented (iview::CConsoleBase)
-	virtual void UpdateEditModeButtons();
-	virtual void UpdateButtonsState();
-	virtual void UpdateComponentsPosition();
-	virtual void UpdateCommands();
-	virtual bool OnSelectChange(const iview::IShapeView& view, const istd::CIndex2d& position, const iview::IInteractiveShape& shape, bool state);
-	virtual bool OnViewMouseButton(const iview::IShapeView& view, const istd::CIndex2d& position, Qt::MouseButton buttonType, bool state, const iview::IInteractiveShape* shapePtr);
-	virtual void OnBoundingBoxChanged();
+	virtual void UpdateEditModeButtons() override;
+	virtual void UpdateButtonsState() override;
+	virtual void UpdateComponentsPosition() override;
+	virtual void UpdateCommands() override;
+	virtual bool OnSelectChange(const iview::IShapeView& view, const istd::CIndex2d& position, const iview::IInteractiveShape& shape, bool state) override;
+	virtual bool OnViewMouseButton(const iview::IShapeView& view, const istd::CIndex2d& position, Qt::MouseButton buttonType, bool state, const iview::IInteractiveShape* shapePtr) override;
+	virtual void OnBoundingBoxChanged() override;
 	
 	// reimplemented (QObject)
-	virtual bool eventFilter(QObject* sourcePtr, QEvent* eventPtr);
+	virtual bool eventFilter(QObject* sourcePtr, QEvent* eventPtr) override;
 
 	iview::CViewport* m_viewPtr;
 

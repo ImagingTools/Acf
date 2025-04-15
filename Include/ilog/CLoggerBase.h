@@ -164,18 +164,18 @@ protected:
 				int id,
 				int flags,
 				QString& message,
-				QString& messageSource) const;
+				QString& messageSource) const override;
 
 	// reimplemented (istd::ILogger)
 	virtual bool IsLogConsumed(
 				const istd::IInformationProvider::InformationCategory* categoryPtr = NULL,
-				const int* flagsPtr = NULL) const;
+				const int* flagsPtr = NULL) const override;
 	virtual bool SendLogMessage(
 				istd::IInformationProvider::InformationCategory category,
 				int id,
 				const QString& message,
 				const QString& messageSource,
-				int flags = 0) const;
+				int flags = 0) const override;
 
 protected:
 	mutable QSet<int> m_onceMessageIds;

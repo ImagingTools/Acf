@@ -68,9 +68,9 @@ public:
 
 protected:
 	// reimplemented (QWidget)
-	virtual void closeEvent(QCloseEvent* eventPtr);
-	virtual void keyPressEvent(QKeyEvent* eventPtr);
-	virtual void showEvent(QShowEvent* eventPtr);
+	virtual void closeEvent(QCloseEvent* eventPtr) override;
+	virtual void keyPressEvent(QKeyEvent* eventPtr) override;
+	virtual void showEvent(QShowEvent* eventPtr) override;
 
 private:
 	QDialogButtonBox* m_buttonsBox;

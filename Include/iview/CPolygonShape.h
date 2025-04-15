@@ -45,21 +45,21 @@ public:
 	virtual void SetAlwaysMovable(bool state = true);
 
 	// reimplemented (iview::ITouchable)
-	virtual TouchState IsTouched(istd::CIndex2d position) const;
-	virtual QString GetShapeDescriptionAt(istd::CIndex2d position) const;
+	virtual TouchState IsTouched(istd::CIndex2d position) const override;
+	virtual QString GetShapeDescriptionAt(istd::CIndex2d position) const override;
 
 	// reimplemented (iview::IVisualizable)
-	virtual void Draw(QPainter& drawContext) const;
+	virtual void Draw(QPainter& drawContext) const override;
 
 	// reimplemented (imod::IObserver)
-	virtual bool OnModelAttached(imod::IModel* modelPtr, istd::IChangeable::ChangeSet& changeMask);
+	virtual bool OnModelAttached(imod::IModel* modelPtr, istd::IChangeable::ChangeSet& changeMask) override;
 
 	// reimplemented (iview::IMouseActionObserver)
-	virtual bool OnMouseButton(istd::CIndex2d position, Qt::MouseButton buttonType, bool downFlag);
-	virtual bool OnMouseMove(istd::CIndex2d position);
+	virtual bool OnMouseButton(istd::CIndex2d position, Qt::MouseButton buttonType, bool downFlag) override;
+	virtual bool OnMouseMove(istd::CIndex2d position) override;
 
 	// reimplemented (iview::IDraggable)
-	virtual bool IsDraggable() const;
+	virtual bool IsDraggable() const override;
 
 protected:
 	static const istd::IChangeable::ChangeSet& GetMoveChangeSet();
@@ -71,15 +71,15 @@ protected:
 	virtual void DrawSelectionElements(QPainter& drawContext) const;
 
 	// reimplemented (iview::CRectControlledShapeBase)
-	virtual void EnsureValidNodes() const;
-	virtual bool IsCurveTouched(istd::CIndex2d position) const;
+	virtual void EnsureValidNodes() const override;
+	virtual bool IsCurveTouched(istd::CIndex2d position) const override;
 
 	// reimplemented (iview::CInteractiveShapeBase)
-	virtual void BeginLogDrag(const i2d::CVector2d& reference);
-	virtual void SetLogDragPosition(const i2d::CVector2d& position);
+	virtual void BeginLogDrag(const i2d::CVector2d& reference) override;
+	virtual void SetLogDragPosition(const i2d::CVector2d& position) override;
 
 	// reimplemented (iview::CShapeBase)
-	virtual i2d::CRect CalcBoundingBox() const;
+	virtual i2d::CRect CalcBoundingBox() const override;
 
 protected:
 	int m_referenceIndex;

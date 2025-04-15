@@ -186,7 +186,7 @@ private:
 		NewDocumentCommand(CMainWindowGuiComp* parentPtr, const QByteArray& documentTypeId): m_parent(*parentPtr), m_documentTypeId(documentTypeId){}
 
 		// reimplemented (ibase::ICommand)
-		virtual bool Execute(istd::IPolymorphic* /*contextPtr*/)
+		virtual bool Execute(istd::IPolymorphic* /*contextPtr*/) override
 		{
 			m_parent.OnNewDocument(m_documentTypeId);
 
@@ -213,7 +213,7 @@ private:
 		bool IsOpenCommand() const;
 
 		// reimplemented (ibase::ICommand)
-		virtual bool Execute(istd::IPolymorphic* /*contextPtr*/);
+		virtual bool Execute(istd::IPolymorphic* /*contextPtr*/) override;
 
 	private:
 		CMainWindowGuiComp& m_parent;
@@ -249,8 +249,8 @@ private:
 
 	protected:
 		// reimplemented (ibase::CCumulatedProgressManagerBase)
-		virtual void OnProgressChanged(double cumulatedValue);
-		virtual void OnTasksChanged();
+		virtual void OnProgressChanged(double cumulatedValue) override;
+		virtual void OnTasksChanged() override;
 
 	private:
 		CMainWindowGuiComp& m_parent;

@@ -36,7 +36,7 @@ public:
 
 protected:
 	// reimplemented (QObject)
-	virtual bool eventFilter(QObject* sourcePtr, QEvent* eventPtr);
+	virtual bool eventFilter(QObject* sourcePtr, QEvent* eventPtr) override;
 
 private:
 	QTreeWidget& m_slave;

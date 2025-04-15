@@ -37,7 +37,7 @@ public:
 	double GetB() const;
 	void SetB(double value);
 
-	bool Serialize(iser::IArchive& archive);
+	virtual bool Serialize(iser::IArchive& archive) override;
 
 	double GetDeltaE(const CLab& lab) const;
 

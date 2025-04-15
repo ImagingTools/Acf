@@ -136,23 +136,23 @@ protected:
 	virtual bool IsMainWindowActive(int index) const;
 
 	// reimplemented (TRestorableGuiWrap)
-	virtual void OnRestoreSettings(const QSettings& settings);
-	virtual void OnSaveSettings(QSettings& settings) const;
+	virtual void OnRestoreSettings(const QSettings& settings) override;
+	virtual void OnSaveSettings(QSettings& settings) const override;
 
 	// reimplemented (iqtgui::CGuiComponentBase)
-	virtual void OnGuiCreated();
-	virtual void OnGuiDestroyed();
-	virtual void OnRetranslate();
-	virtual void OnGuiShown();
+	virtual void OnGuiCreated() override;
+	virtual void OnGuiDestroyed() override;
+	virtual void OnRetranslate() override;
+	virtual void OnGuiShown() override;
 
 	// reimplemented (QObject)
-	virtual bool eventFilter(QObject* sourcePtr, QEvent* eventPtr);
+	virtual bool eventFilter(QObject* sourcePtr, QEvent* eventPtr) override;
 
 protected Q_SLOTS:
 	void OnShowToolbars();
 	void OnFullScreen();
 	void OnAbout();
-    void OnHelpManual();
+	void OnHelpManual();
 	void OnSettings();
 	void OnShowOtherCommandTriggered(bool enabled);
 
@@ -165,7 +165,7 @@ protected:
 		explicit CommandsObserver(CSimpleMainWindowGuiComp& parent);
 
 		// reimplemented (imod::CMultiModelDispatcherBase)
-		void OnModelChanged(int modelId, const istd::IChangeable::ChangeSet& changeSet);
+		void OnModelChanged(int modelId, const istd::IChangeable::ChangeSet& changeSet) override;
 
 	private:
 		CSimpleMainWindowGuiComp& m_parent;
@@ -182,34 +182,34 @@ private:
 		void SetParent(CSimpleMainWindowGuiComp* parentPtr);
 
 		// reimplemented (iprm::IOptionsManager)
-		virtual int GetOptionOperationFlags(int index = -1) const;
-		virtual bool SetOptionEnabled(int index, bool isEnabled = true);
-		virtual bool RemoveOption(int index);
+		virtual int GetOptionOperationFlags(int index = -1) const override;
+		virtual bool SetOptionEnabled(int index, bool isEnabled = true) override;
+		virtual bool RemoveOption(int index) override;
 		virtual bool InsertOption(
 					const QString& optionName,
 					const QByteArray& optionId,
 					const QString& optionDescription = QString(),
-					int index = -1);
-		virtual bool SwapOptions(int index1, int index2);
-		virtual bool SetOptionName(int optionIndex, const QString& optionName);
-		virtual bool SetOptionDescription(int optionIndex, const QString& optionDescription);
+					int index = -1) override;
+		virtual bool SwapOptions(int index1, int index2) override;
+		virtual bool SetOptionName(int optionIndex, const QString& optionName) override;
+		virtual bool SetOptionDescription(int optionIndex, const QString& optionDescription) override;
 
 		// reimplemented (iprm::IOptionsList)
-		virtual int GetOptionsFlags() const;
-		virtual int GetOptionsCount() const;
-		virtual QString GetOptionName(int index) const;
-		virtual QString GetOptionDescription(int index) const;
-		virtual QByteArray GetOptionId(int index) const;
-		virtual bool IsOptionEnabled(int index) const;
+		virtual int GetOptionsFlags() const override;
+		virtual int GetOptionsCount() const override;
+		virtual QString GetOptionName(int index) const override;
+		virtual QString GetOptionDescription(int index) const override;
+		virtual QByteArray GetOptionId(int index) const override;
+		virtual bool IsOptionEnabled(int index) const override;
 
 		// reimplemented (iprm::ISelectionParam)
-		virtual const iprm::IOptionsList* GetSelectionConstraints() const;
-		virtual int GetSelectedOptionIndex() const;
-		virtual bool SetSelectedOptionIndex(int index);
-		virtual iprm::ISelectionParam* GetSubselection(int index) const;
+		virtual const iprm::IOptionsList* GetSelectionConstraints() const override;
+		virtual int GetSelectedOptionIndex() const override;
+		virtual bool SetSelectedOptionIndex(int index) override;
+		virtual iprm::ISelectionParam* GetSubselection(int index) const override;
 
 		// reimplemented (iser::ISerializable)
-		virtual bool Serialize(iser::IArchive& archive);
+		virtual bool Serialize(iser::IArchive& archive) override;
 
 	private:
 		CSimpleMainWindowGuiComp* m_parentPtr;

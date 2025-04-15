@@ -52,7 +52,7 @@ public:
 	/**	
 		Set edit mode.
 	*/
-	virtual void SetEditMode(int mode);
+	virtual void SetEditMode(int mode) override;
 	
 	/**
 		Inform all shapes about changes.
@@ -74,7 +74,7 @@ public:
 		Set area will be used to fit in some zoom modes.
 		\sa	SetZoom(ZoomMode)
 	*/
-	virtual void SetFitArea(const i2d::CRectangle& area);
+	virtual void SetFitArea(const i2d::CRectangle& area) override;
 	
 	/**
 		Turn on/off possibility to move whole view transform.
@@ -130,59 +130,59 @@ public:
 	IInteractiveShape* GetFirstActiveShape() const;
 
 	// reimplemented (iview::IShapeView)
-	virtual void Update();
-	virtual bool IsViewDraggable() const;
-	virtual bool IsMultiselectable() const;
-	virtual int InsertLayer(IViewLayer* layerPtr, int index = -1, int layerType = IViewLayer::LT_NONE);
-	virtual int GetLayerIndex(const IViewLayer& layer) const;
-	virtual int GetLayerIndex(int layerType) const;
-	virtual void RemoveLayer(int index);
-	virtual int GetLayersCount() const;
-	virtual IViewLayer& GetLayer(int index) const;
-	virtual bool ConnectShape(IShape* shapePtr);
-	virtual ISelectableLayer* GetFocusedLayerPtr() const;
-	virtual void OnLayerShapeFocused(IInteractiveShape* shapePtr, ISelectableLayer* layerPtr);
-	virtual void OnLayerShapeDefocused(IInteractiveShape* shapePtr, ISelectableLayer* layerPtr);
-	virtual void OnLayerInvalidated(const IViewLayer& layer, const i2d::CRect& prevArea, const i2d::CRect& newArea);
+	virtual void Update() override;
+	virtual bool IsViewDraggable() const override;
+	virtual bool IsMultiselectable() const override;
+	virtual int InsertLayer(IViewLayer* layerPtr, int index = -1, int layerType = IViewLayer::LT_NONE) override;
+	virtual int GetLayerIndex(const IViewLayer& layer) const override;
+	virtual int GetLayerIndex(int layerType) const override;
+	virtual void RemoveLayer(int index) override;
+	virtual int GetLayersCount() const override;
+	virtual IViewLayer& GetLayer(int index) const override;
+	virtual bool ConnectShape(IShape* shapePtr) override;
+	virtual ISelectableLayer* GetFocusedLayerPtr() const override;
+	virtual void OnLayerShapeFocused(IInteractiveShape* shapePtr, ISelectableLayer* layerPtr) override;
+	virtual void OnLayerShapeDefocused(IInteractiveShape* shapePtr, ISelectableLayer* layerPtr) override;
+	virtual void OnLayerInvalidated(const IViewLayer& layer, const i2d::CRect& prevArea, const i2d::CRect& newArea) override;
 
 	// reimplemented (iview::ISelectable)
-	virtual int GetSelectedShapesCount() const;
-	virtual void InsertSelectedShapes(SelectedShapes& result) const;
-	virtual void DeselectAllShapes();
-	virtual int GetKeysState() const;
-	virtual int GetEditMode() const;
-	virtual void OnShapeFocused(IInteractiveShape* /*shapePtr*/)	{}
-	virtual void OnShapeDefocused(IInteractiveShape* /*shapePtr*/)	{}
+	virtual int GetSelectedShapesCount() const override;
+	virtual void InsertSelectedShapes(SelectedShapes& result) const override;
+	virtual void DeselectAllShapes() override;
+	virtual int GetKeysState() const override;
+	virtual int GetEditMode() const override;
+	void OnShapeFocused(IInteractiveShape* /*shapePtr*/) override	{}
+	void OnShapeDefocused(IInteractiveShape* /*shapePtr*/) override	{}
 
 	// reimplemented (iview::ITouchable)
-	virtual TouchState IsTouched(istd::CIndex2d position) const;
-	virtual QString GetShapeDescriptionAt(istd::CIndex2d position) const;
+	virtual TouchState IsTouched(istd::CIndex2d position) const override;
+	virtual QString GetShapeDescriptionAt(istd::CIndex2d position) const override;
 
 	// reimplemented (iview::IShapeView)
-	virtual void SetTransform(const i2d::CAffine2d& transform);
-	virtual void UpdateMousePointer();
+	virtual void SetTransform(const i2d::CAffine2d& transform) override;
+	virtual void UpdateMousePointer() override;
 
 	// reimplemented (iview::IMouseActionObserver)
-	virtual bool OnMouseButton(istd::CIndex2d position, Qt::MouseButton buttonType, bool downFlag);
-	virtual bool OnMouseMove(istd::CIndex2d position);
+	virtual bool OnMouseButton(istd::CIndex2d position, Qt::MouseButton buttonType, bool downFlag) override;
+	virtual bool OnMouseMove(istd::CIndex2d position) override;
 
 	// reimplemented (iview::IDisplay)
-	virtual IDisplay* GetParentDisplayPtr() const;
-	virtual const iview::CScreenTransform& GetTransform() const;
-	virtual i2d::CRect GetBoundingBox() const;
-	virtual const IColorSchema& GetColorSchema() const;
-	virtual void OnAreaInvalidated(const i2d::CRect& prevArea, const i2d::CRect& newArea);
+	virtual IDisplay* GetParentDisplayPtr() const override;
+	virtual const iview::CScreenTransform& GetTransform() const override;
+	virtual i2d::CRect GetBoundingBox() const override;
+	virtual const IColorSchema& GetColorSchema() const override;
+	virtual void OnAreaInvalidated(const i2d::CRect& prevArea, const i2d::CRect& newArea) override;
 
 	// reimplemented (iview::IShapeObserver)
-	virtual void OnChangeShape(IShape* shapePtr);
-	virtual bool DisconnectShape(IShape* shapePtr);
-	virtual void OnShapeSelected(IInteractiveShape& shape, bool state = true);
+	virtual void OnChangeShape(IShape* shapePtr) override;
+	virtual bool DisconnectShape(IShape* shapePtr) override;
+	virtual void OnShapeSelected(IInteractiveShape& shape, bool state = true) override;
 
 	// reimplemented (iview::IDraggable)
-	virtual bool IsDraggable() const;
-	virtual void BeginDrag(const istd::CIndex2d& reference);
-	virtual void SetDragPosition(const istd::CIndex2d& position);
-	virtual void EndDrag();
+	virtual bool IsDraggable() const override;
+	virtual void BeginDrag(const istd::CIndex2d& reference) override;
+	virtual void SetDragPosition(const istd::CIndex2d& position) override;
+	virtual void EndDrag() override;
 
 	// abstract methods
 	virtual const IColorSchema& GetDefaultColorSchema() const = 0;

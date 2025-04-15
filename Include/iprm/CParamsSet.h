@@ -71,7 +71,7 @@ public:
 	void SetParametersTypeId(const QByteArray& id);
 
 	// reimplemented (iser::IObject)
-	virtual QByteArray GetFactoryId() const;
+	virtual QByteArray GetFactoryId() const override;
 
 	// reimplemented (iprm::IParamsSet)
 	virtual Ids GetParamIds(bool editableOnly = false) const override;

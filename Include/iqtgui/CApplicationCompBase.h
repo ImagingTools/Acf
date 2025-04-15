@@ -80,7 +80,7 @@ private:
 		void SetRuntimeStatus(IRuntimeStatusProvider::RuntimeStatus runtimeStatus);
 
 		// reimplemented (ibase::IRuntimeStatusProvider)
-		virtual IRuntimeStatusProvider::RuntimeStatus GetRuntimeStatus() const;
+		virtual IRuntimeStatusProvider::RuntimeStatus GetRuntimeStatus() const override;
 
 	private:
 		IRuntimeStatusProvider::RuntimeStatus m_status;

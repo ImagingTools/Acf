@@ -36,7 +36,7 @@ public:
 	virtual bool InsertAttribute(
 				const QByteArray& attributeId,
 				iser::IObject* attributePtr,
-				bool releaseFlag);
+				bool releaseFlag) override;
 	virtual bool RemoveAttribute(const QByteArray& attributeId) override;
 
 	// reimplemented (iattr::IAttributesProvider)

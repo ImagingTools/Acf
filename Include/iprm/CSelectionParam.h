@@ -50,10 +50,10 @@ public:
 	ISelectionParam* GetActiveSubselection() const;
 
 	// reimplemented (iprm::ISelectionParam)
-	virtual const IOptionsList* GetSelectionConstraints() const;
-	virtual int GetSelectedOptionIndex() const;
-	virtual bool SetSelectedOptionIndex(int index);
-	virtual ISelectionParam* GetSubselection(int index) const;
+	virtual const IOptionsList* GetSelectionConstraints() const override;
+	virtual int GetSelectedOptionIndex() const override;
+	virtual bool SetSelectedOptionIndex(int index) override;
+	virtual ISelectionParam* GetSubselection(int index) const override;
 
 	// reimplemented (iser::ISerializable)
 	virtual bool Serialize(iser::IArchive& archive) override;

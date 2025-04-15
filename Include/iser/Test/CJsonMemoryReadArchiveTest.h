@@ -47,7 +47,7 @@ private:
 		{
 		}
 
-		bool Serialize(iser::IArchive& archive)
+		virtual bool Serialize(iser::IArchive& archive) override
 		{
 			static iser::CArchiveTag outerListTag("Data", "DataDesc", iser::CArchiveTag::TT_MULTIPLE);
 			static iser::CArchiveTag innerListTag("Element", "ElementDesc1", iser::CArchiveTag::TT_MULTIPLE, &outerListTag);

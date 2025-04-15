@@ -23,8 +23,8 @@ public:
 
 protected:
 	// reimplemented (ibase::CCumulatedProgressManagerBase)
-	void OnProgressChanged(double cumulatedValue) override;
-	void OnTasksChanged() override;
+	virtual void OnProgressChanged(double cumulatedValue) override;
+	virtual void OnTasksChanged() override;
 
 Q_SIGNALS:
 	void TaskTextChanged(const QString& text);

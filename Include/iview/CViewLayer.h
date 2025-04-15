@@ -25,34 +25,34 @@ public:
 	virtual ~CViewLayer();
 
 	// reimplemented (iview::IViewLayer)
-	virtual void OnConnectView(IShapeView* viewPtr);
-	virtual void OnDisconnectView(IShapeView* viewPtr);
-	virtual IShapeView* GetViewPtr() const;
-	virtual bool IsShapeConnected(IShape* shapePtr);
-	virtual bool ConnectShape(IShape* shapePtr);
-	virtual int GetShapesCount() const;
-	virtual Shapes GetShapes() const;
-	virtual void UpdateAllShapes(const istd::IChangeable::ChangeSet& changeSet);
-	virtual void DisconnectAllShapes();
-	virtual void DrawShapes(QPainter& drawContext);
-	virtual bool IsVisible() const;
-	virtual void SetVisible(bool state = true);
+	virtual void OnConnectView(IShapeView* viewPtr) override;
+	virtual void OnDisconnectView(IShapeView* viewPtr) override;
+	virtual IShapeView* GetViewPtr() const override;
+	virtual bool IsShapeConnected(IShape* shapePtr) override;
+	virtual bool ConnectShape(IShape* shapePtr) override;
+	virtual int GetShapesCount() const override;
+	virtual Shapes GetShapes() const override;
+	virtual void UpdateAllShapes(const istd::IChangeable::ChangeSet& changeSet) override;
+	virtual void DisconnectAllShapes() override;
+	virtual void DrawShapes(QPainter& drawContext) override;
+	virtual bool IsVisible() const override;
+	virtual void SetVisible(bool state = true) override;
 	
 	// reimplemented (iview::IDisplay)
-	virtual IDisplay* GetParentDisplayPtr() const;
-	virtual const CScreenTransform& GetTransform() const;
-	virtual i2d::CRect GetBoundingBox() const;
-	virtual i2d::CRect GetClientRect() const;
-	virtual const IColorSchema& GetColorSchema() const;
-	virtual void OnAreaInvalidated(const i2d::CRect& prevArea, const i2d::CRect& newArea);
+	virtual IDisplay* GetParentDisplayPtr() const override;
+	virtual const CScreenTransform& GetTransform() const override;
+	virtual i2d::CRect GetBoundingBox() const override;
+	virtual i2d::CRect GetClientRect() const override;
+	virtual const IColorSchema& GetColorSchema() const override;
+	virtual void OnAreaInvalidated(const i2d::CRect& prevArea, const i2d::CRect& newArea) override;
 
 	// reimplemented (iview::IShapeObserver)
-	virtual void OnChangeShape(IShape* shapePtr);
-	virtual bool DisconnectShape(IShape* shapePtr);
+	virtual void OnChangeShape(IShape* shapePtr) override;
+	virtual bool DisconnectShape(IShape* shapePtr) override;
 
 	// reimplemented (iview::ITouchable)
-	virtual TouchState IsTouched(istd::CIndex2d position) const;
-	virtual QString GetShapeDescriptionAt(istd::CIndex2d position) const;
+	virtual TouchState IsTouched(istd::CIndex2d position) const override;
+	virtual QString GetShapeDescriptionAt(istd::CIndex2d position) const override;
 
 protected:
 	struct ShapeWithBoundingBox

@@ -17,9 +17,9 @@ class CTextParam: virtual public ITextParam
 {
 public:
 	// reimplemented (iprm::ITextParam)
-	virtual QString GetText() const;
-	virtual void SetText(const QString& text);
-	virtual bool IsReadOnly() const;
+	virtual QString GetText() const override;
+	virtual void SetText(const QString& text) override;
+	virtual bool IsReadOnly() const override;
 
 	// reimplemented (iser::ISerializable)
 	virtual bool Serialize(iser::IArchive& archive) override;

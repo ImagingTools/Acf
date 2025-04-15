@@ -20,30 +20,30 @@ public:
 	CRectangleShape();
 
 	// reimplemented (iview::CInteractiveShapeBase)
-	virtual void InvalidateBoundingBox();
+	virtual void InvalidateBoundingBox() override;
 
 	// reimplemented (iview::ITouchable)
-	virtual TouchState IsTouched(istd::CIndex2d position) const;
+	virtual TouchState IsTouched(istd::CIndex2d position) const override;
 
 	// reimplemented (iview::IVisualizable)
-	virtual void Draw(QPainter& drawContext) const;
+	virtual void Draw(QPainter& drawContext) const override;
 
 	// reimplemented (imod::IObserver)
-	virtual bool OnModelAttached(imod::IModel* modelPtr, istd::IChangeable::ChangeSet& changeMask);
+	virtual bool OnModelAttached(imod::IModel* modelPtr, istd::IChangeable::ChangeSet& changeMask) override;
 
 	// reimplemented (iview::IMouseActionObserver)
-	virtual bool OnMouseButton(istd::CIndex2d position, Qt::MouseButton buttonType, bool downFlag);
-	virtual bool OnMouseMove(istd::CIndex2d position);
+	virtual bool OnMouseButton(istd::CIndex2d position, Qt::MouseButton buttonType, bool downFlag) override;
+	virtual bool OnMouseMove(istd::CIndex2d position) override;
 
 protected:
 	void CalcPoints(const i2d::CRectangle& rectangle) const;
 
 	// reimplemented (iview::CInteractiveShapeBase)
-	virtual void BeginLogDrag(const i2d::CVector2d& reference);
-	virtual void SetLogDragPosition(const i2d::CVector2d& position);
+	virtual void BeginLogDrag(const i2d::CVector2d& reference) override;
+	virtual void SetLogDragPosition(const i2d::CVector2d& position) override;
 
 	// reimplemented (iview::CInteractiveShapeBase)
-	virtual i2d::CRect CalcBoundingBox() const;
+	virtual i2d::CRect CalcBoundingBox() const override;
 
 	enum EditNode
 	{

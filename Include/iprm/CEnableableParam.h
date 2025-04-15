@@ -19,9 +19,9 @@ public:
 	CEnableableParam(bool isEnabled = true);
 
 	// reimplemented (iprm::IEnableableParam)
-	virtual bool IsEnabled() const;
-	virtual bool IsEnablingAllowed() const;
-	virtual bool SetEnabled(bool isEnabled = true);
+	virtual bool IsEnabled() const override;
+	virtual bool IsEnablingAllowed() const override;
+	virtual bool SetEnabled(bool isEnabled = true) override;
 
 	// reimplemented (iser::ISerializable)
 	virtual bool Serialize(iser::IArchive& archive) override;

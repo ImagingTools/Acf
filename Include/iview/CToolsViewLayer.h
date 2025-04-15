@@ -19,32 +19,32 @@ public:
 	typedef CViewLayer BaseClass;
 
 	// reimplemented (iview::ISelectableLayer)
-	virtual bool ConnectInteractiveShape(IInteractiveShape* shapePtr);
-	virtual int GetUnselectedShapesCount() const;
-	virtual void DrawFocusedShape(QPainter& drawContext);
-	virtual bool OnMouseButton(istd::CIndex2d position, Qt::MouseButton buttonType, bool downFlag);
-	virtual bool OnFocusedMouseButton(istd::CIndex2d position, Qt::MouseButton buttonType, bool downFlag);
-	virtual bool OnFocusedMouseMove(istd::CIndex2d position);
-	virtual TouchState IsTouched(istd::CIndex2d position, IInteractiveShape** shapePtrPtr = NULL) const;
+	virtual bool ConnectInteractiveShape(IInteractiveShape* shapePtr) override;
+	virtual int GetUnselectedShapesCount() const override;
+	virtual void DrawFocusedShape(QPainter& drawContext) override;
+	virtual bool OnMouseButton(istd::CIndex2d position, Qt::MouseButton buttonType, bool downFlag) override;
+	virtual bool OnFocusedMouseButton(istd::CIndex2d position, Qt::MouseButton buttonType, bool downFlag) override;
+	virtual bool OnFocusedMouseMove(istd::CIndex2d position) override;
+	virtual TouchState IsTouched(istd::CIndex2d position, IInteractiveShape** shapePtrPtr = NULL) const override;
 
 	// reimplemented (iview::ISelectable)
-	virtual int GetSelectedShapesCount() const;
-	virtual void InsertSelectedShapes(SelectedShapes& result) const;
-	virtual void DeselectAllShapes();
-	virtual int GetKeysState() const;
-	virtual int GetEditMode() const;
-	virtual void OnShapeFocused(IInteractiveShape* shapePtr);
-	virtual void OnShapeDefocused(IInteractiveShape* shapePtr);
-	virtual void OnShapeSelected(IInteractiveShape& shape, bool state = true);
+	virtual int GetSelectedShapesCount() const override;
+	virtual void InsertSelectedShapes(SelectedShapes& result) const override;
+	virtual void DeselectAllShapes() override;
+	virtual int GetKeysState() const override;
+	virtual int GetEditMode() const override;
+	virtual void OnShapeFocused(IInteractiveShape* shapePtr) override;
+	virtual void OnShapeDefocused(IInteractiveShape* shapePtr) override;
+	virtual void OnShapeSelected(IInteractiveShape& shape, bool state = true) override;
 
 	// reimplemented (iview::ITouchable)
-	virtual TouchState IsTouched(istd::CIndex2d position) const;
+	virtual TouchState IsTouched(istd::CIndex2d position) const override;
 
 	// reimplemented (iview::IDraggable)
-	virtual void BeginDrag(const istd::CIndex2d& reference);
-	virtual void SetDragPosition(const istd::CIndex2d& position);
-	virtual void EndDrag();
-	virtual bool IsDraggable() const;
+	virtual void BeginDrag(const istd::CIndex2d& reference) override;
+	virtual void SetDragPosition(const istd::CIndex2d& position) override;
+	virtual void EndDrag() override;
+	virtual bool IsDraggable() const override;
 };
 
 

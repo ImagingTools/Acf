@@ -37,7 +37,7 @@ public:
 	// reimplemented (i2d::IObject2d)
 	virtual CVector2d GetCenter() const override;
 	virtual void MoveCenterTo(const CVector2d& position) override;
-	CRectangle GetBoundingBox() const override;
+	virtual CRectangle GetBoundingBox() const override;
 	virtual bool Transform(
 				const ITransformation2d& transformation,
 				ITransformation2d::ExactnessMode mode = ITransformation2d::EM_NONE,

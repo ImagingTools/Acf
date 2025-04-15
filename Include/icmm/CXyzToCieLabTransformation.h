@@ -11,7 +11,7 @@ namespace icmm
 
 /**
 	Implementation of XYZ-to-CIE-Lab color transformation.
-	2° Observer and D65-illumination are used.
+	2D Observer and D65-illumination are used.
 */
 class CXyzToCieLabTransformation: public icmm::IColorTransformation
 {

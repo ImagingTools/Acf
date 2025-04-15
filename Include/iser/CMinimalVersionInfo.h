@@ -43,10 +43,10 @@ public:
 	bool AddId(int versionId, const QString& description = "");
 
 	// reimplemented (iser::IVersionInfo)
-	virtual bool GetVersionNumber(int versionId, quint32& result) const;
-	virtual QString GetVersionIdDescription(int versionId) const;
-	virtual VersionIds GetVersionIds() const;
-	virtual QString GetEncodedVersionName(int versionId, quint32 versionNumber) const;
+	virtual bool GetVersionNumber(int versionId, quint32& result) const override;
+	virtual QString GetVersionIdDescription(int versionId) const override;
+	virtual VersionIds GetVersionIds() const override;
+	virtual QString GetEncodedVersionName(int versionId, quint32 versionNumber) const override;
 
 private:
 	struct Info

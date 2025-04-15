@@ -80,8 +80,8 @@ protected:
 		virtual void SetInspectionResult(int result);
 
 		// reimplemented (iqt2d::IViewProvider)
-		virtual int GetViewId() const;
-		virtual iview::IShapeView* GetView() const;
+		virtual int GetViewId() const override;
+		virtual iview::IShapeView* GetView() const override;
 
 	protected:
 		// called from Init() to add status labels etc. to the main widget layout (layoutPtr).

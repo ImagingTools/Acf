@@ -48,7 +48,7 @@ public:
 				const QByteArray& documentTypeId,
 				istd::IChangeable* documentPtr,
 				const QByteArray& viewTypeId = QByteArray()) const override;
-	idoc::IUndoManager* CreateUndoManager(const QByteArray& documentTypeId, istd::IChangeable* documentPtr) const override;
+	virtual idoc::IUndoManager* CreateUndoManager(const QByteArray& documentTypeId, istd::IChangeable* documentPtr) const override;
 
 protected:
 	/**

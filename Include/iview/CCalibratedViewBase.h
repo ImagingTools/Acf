@@ -117,25 +117,25 @@ public:
 	void CheckResize();
 
 	// reimplemented (iview::CViewBase)
-	virtual const iview::IColorSchema& GetDefaultColorSchema() const;
-	virtual void UpdateAllShapes(const istd::IChangeable::ChangeSet& changeSet);
-	virtual void InsertDefaultLayers();
+	virtual const iview::IColorSchema& GetDefaultColorSchema() const override;
+	virtual void UpdateAllShapes(const istd::IChangeable::ChangeSet& changeSet) override;
+	virtual void InsertDefaultLayers() override;
 
 	// reimplemented (iview::IShapeView)
-	virtual int InsertLayer(iview::IViewLayer* layerPtr, int index = -1, int layerType = IViewLayer::LT_NONE);
-	virtual void RemoveLayer(int index);
+	virtual int InsertLayer(iview::IViewLayer* layerPtr, int index = -1, int layerType = IViewLayer::LT_NONE) override;
+	virtual void RemoveLayer(int index) override;
 
 	// reimplemented (iview::IVisualCalibrationInfo)
-	virtual bool IsGridVisible() const;
-	virtual double GetMinGridDistance() const;
-	virtual bool IsGridInMm() const;
+	virtual bool IsGridVisible() const override;
+	virtual double GetMinGridDistance() const override;
+	virtual bool IsGridInMm() const override;
 
 	// reimplemented (iview::IToolsLayerInfo)
-	virtual bool IsDistanceMeasureToolActive() const;
-	virtual bool IsPointMeasureToolActive() const;
+	virtual bool IsDistanceMeasureToolActive() const override;
+	virtual bool IsPointMeasureToolActive() const override;
 
 	// reimplemented (i2d::ICalibrationProvider)
-	virtual const i2d::ICalibration2d* GetCalibration() const;
+	virtual const i2d::ICalibration2d* GetCalibration() const override;
 
 	using BaseClass::InvalidateBackground;
 

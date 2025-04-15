@@ -252,7 +252,7 @@ public:
 	}
 
 	// reimplemented (iser::IObject)
-	virtual QByteArray GetFactoryId() const
+	virtual QByteArray GetFactoryId() const override
 	{
 		return GetTypeName();
 	}

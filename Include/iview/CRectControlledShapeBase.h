@@ -43,16 +43,16 @@ public:
 	virtual void SetProportionalScaled(bool state = true);
 
 	// reimplemented (iview::CInteractiveShapeBase)
-	virtual void InvalidateBoundingBox();
+	virtual void InvalidateBoundingBox() override;
 
 	// reimplemented (iview::IInteractiveShape)
-	virtual TouchState IsTouched(istd::CIndex2d position) const;
+	virtual TouchState IsTouched(istd::CIndex2d position) const override;
 
 	// reimplemented (iview::IShape)
-	virtual void Draw(QPainter& drawContext) const;
+	virtual void Draw(QPainter& drawContext) const override;
 
 	// reimplemented (iview::IMouseActionObserver)
-	virtual bool OnMouseButton(istd::CIndex2d position, Qt::MouseButton buttonType, bool downFlag);
+	virtual bool OnMouseButton(istd::CIndex2d position, Qt::MouseButton buttonType, bool downFlag) override;
 
 protected:
 	enum EditNode
@@ -113,11 +113,11 @@ protected:
 					const i2d::CVector2d& shouldPos);
 
 	// reimplemented (iview::CInteractiveShapeBase)
-	virtual void BeginLogDrag(const i2d::CVector2d& reference);
-	virtual void SetLogDragPosition(const i2d::CVector2d& position);
+	virtual void BeginLogDrag(const i2d::CVector2d& reference) override;
+	virtual void SetLogDragPosition(const i2d::CVector2d& position) override;
 
 	// reimplemented (iview::CShapeBase)
-	virtual i2d::CRect CalcBoundingBox() const;
+	virtual i2d::CRect CalcBoundingBox() const override;
 
 	// abstract methods
 	virtual void EnsureValidNodes() const = 0;

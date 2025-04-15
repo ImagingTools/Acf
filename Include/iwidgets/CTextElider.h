@@ -37,7 +37,7 @@ public:
 
 protected:
 	// reimplemented (QObject)
-	virtual bool eventFilter(QObject* objectPtr, QEvent* eventPtr);
+	virtual bool eventFilter(QObject* objectPtr, QEvent* eventPtr) override;
 
 private:
 	void UpdateElidedText(QObject& elideObject);

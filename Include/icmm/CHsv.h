@@ -39,7 +39,7 @@ public:
 	double GetValue() const;
 	void SetValue(double value);
 
-	bool Serialize(iser::IArchive& archive);
+	virtual bool Serialize(iser::IArchive& archive) override;
 
 	// operators
 	CHsv operator+(const CHsv& color) const;

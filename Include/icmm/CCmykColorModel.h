@@ -18,7 +18,7 @@ public:
 
 	// reimplemented (icmm::IColorantList)
 	virtual ColorantIds GetColorantIds() const override;
-	icmm::ColorantUsage GetColorantUsage(const ColorantId& colorantId) const override;
+	virtual icmm::ColorantUsage GetColorantUsage(const ColorantId& colorantId) const override;
 };
 
 

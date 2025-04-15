@@ -36,13 +36,13 @@ public:
 	void SetActiveControlPoints(ControlPoint points = ALL_POINTS);
 
 	// reimplemented (iview::IVisualizable)
-	virtual void Draw(QPainter& drawContext) const;
+	virtual void Draw(QPainter& drawContext) const override;
 
 	// reimplemented (imod::IObserver)
-	virtual bool OnModelAttached(imod::IModel* modelPtr, istd::IChangeable::ChangeSet& changeMask);
+	virtual bool OnModelAttached(imod::IModel* modelPtr, istd::IChangeable::ChangeSet& changeMask) override;
 
 	// reimplemented (iview::ITouchable)
-	virtual TouchState IsTouched(istd::CIndex2d position) const;
+	virtual TouchState IsTouched(istd::CIndex2d position) const override;
 
 protected:
 	enum{
@@ -67,11 +67,11 @@ protected:
 	static void GetTransformedPoints(const ControlPoints& points, ControlPoints& result, const i2d::CAffineTransformation2d& transformation);
 
 	// reimplemented (iview::CShapeBase)
-	virtual i2d::CRect CalcBoundingBox() const;
+	virtual i2d::CRect CalcBoundingBox() const override;
 
 	// reimplemented (iview::CInteractiveShapeBase)
-	virtual void BeginLogDrag(const i2d::CVector2d& reference);
-	virtual void SetLogDragPosition(const i2d::CVector2d& position);
+	virtual void BeginLogDrag(const i2d::CVector2d& reference) override;
+	virtual void SetLogDragPosition(const i2d::CVector2d& position) override;
 
 private:
 	i2d::CVector2d m_referencePosition;

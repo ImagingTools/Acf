@@ -38,7 +38,7 @@ public:
 	double GetY() const;
 	void SetY(double value);
 
-	bool Serialize(iser::IArchive& archive);
+	virtual bool Serialize(iser::IArchive& archive) override;
 
 	// operators
 	CCmy operator+(const CCmy& color) const;

@@ -23,20 +23,20 @@ public:
 	typedef CWriteArchiveBase BaseClass;
 
 	// reimplemented (iser::IArchive)
-	virtual bool Process(bool& value);
-	virtual bool Process(char& value);
-	virtual bool Process(quint8& value);
-	virtual bool Process(qint8& value);
-	virtual bool Process(quint16& value);
-	virtual bool Process(qint16& value);
-	virtual bool Process(quint32& value);
-	virtual bool Process(qint32& value);
-	virtual bool Process(quint64& value);
-	virtual bool Process(qint64& value);
-	virtual bool Process(float& value);
-	virtual bool Process(double& value);
-	virtual bool Process(QByteArray& value);
-	virtual bool ProcessData(void* dataPtr, int size);
+	virtual bool Process(bool& value) override;
+	virtual bool Process(char& value) override;
+	virtual bool Process(quint8& value) override;
+	virtual bool Process(qint8& value) override;
+	virtual bool Process(quint16& value) override;
+	virtual bool Process(qint16& value) override;
+	virtual bool Process(quint32& value) override;
+	virtual bool Process(qint32& value) override;
+	virtual bool Process(quint64& value) override;
+	virtual bool Process(qint64& value) override;
+	virtual bool Process(float& value) override;
+	virtual bool Process(double& value) override;
+	virtual bool Process(QByteArray& value) override;
+	virtual bool ProcessData(void* dataPtr, int size) override;
 
 protected:
 	explicit CTextWriteArchiveBase(const IVersionInfo* versionInfoPtr);

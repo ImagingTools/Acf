@@ -37,10 +37,10 @@ protected:
 	virtual void UpdateDisplayText();
 
 	// reimplemented (QWidget)
-	virtual void paintEvent(QPaintEvent* eventPtr);
+	virtual void paintEvent(QPaintEvent* eventPtr) override;
 
 	// reimplemented (QObject)
-	virtual bool eventFilter(QObject* object, QEvent* eventPtr);
+	virtual bool eventFilter(QObject* object, QEvent* eventPtr) override;
 
 Q_SIGNALS:
 	/**
@@ -58,10 +58,10 @@ private:
 
 	protected:
 		// reimplemented (QItemDelegate)
-		virtual void paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const;
-		virtual QWidget *createEditor(QWidget* parent, const QStyleOptionViewItem& option, const QModelIndex& index) const;
-		virtual void setEditorData(QWidget* editor, const QModelIndex &index) const;
-		virtual void setModelData(QWidget* editor, QAbstractItemModel* model, const QModelIndex& index) const;
+		virtual void paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const override;
+		virtual QWidget *createEditor(QWidget* parent, const QStyleOptionViewItem& option, const QModelIndex& index) const override;
+		virtual void setEditorData(QWidget* editor, const QModelIndex &index) const override;
+		virtual void setModelData(QWidget* editor, QAbstractItemModel* model, const QModelIndex& index) const override;
 
 	private:
 		CCheckableComboBox& m_parent;

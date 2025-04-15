@@ -40,7 +40,7 @@ protected:
 				int id,
 				int flags,
 				QString& message,
-				QString& messageSource) const;
+				QString& messageSource) const override;
 
 private:
 	QBuffer m_buffer;

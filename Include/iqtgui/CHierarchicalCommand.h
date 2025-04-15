@@ -89,30 +89,30 @@ public:
 	void SetVisuals(const QString& name, const QString& shortName, const QString& description, const QIcon& icon = QIcon());
 
 	// reimplemented (ibase::ICommand)
-	virtual int GetPriority() const;
-	virtual QByteArray GetCommandId() const;
-	virtual int GetGroupId() const;
-	virtual int GetStaticFlags() const;
-	virtual bool Execute(istd::IPolymorphic* contextPtr);
+	virtual int GetPriority() const override;
+	virtual QByteArray GetCommandId() const override;
+	virtual int GetGroupId() const override;
+	virtual int GetStaticFlags() const override;
+	virtual bool Execute(istd::IPolymorphic* contextPtr) override;
 
 	// reimplemented (istd::TIHierarchical<ibase::ICommand>)
-	virtual int GetChildsCount() const;
-	virtual ibase::ICommand* GetChild(int index) const;
+	virtual int GetChildsCount() const override;
+	virtual ibase::ICommand* GetChild(int index) const override;
 
 	// reimplemented (iprm::INameParam)
-	virtual void SetName(const QString& name);
+	virtual void SetName(const QString& name) override;
 
 	// reimplemented (iprm::IEnableableParam)
-	virtual bool SetEnabled(bool isEnabled = true);
+	virtual bool SetEnabled(bool isEnabled = true) override;
 
 	// reimplemented (iser::ISerializable)
-	virtual bool Serialize(iser::IArchive& archive);
+	virtual bool Serialize(iser::IArchive& archive) override;
 
 	// reimplemented (istd::IChangeable)
-	virtual int GetSupportedOperations() const;
-	virtual bool CopyFrom(const istd::IChangeable& object, CompatibilityMode mode = CM_WITHOUT_REFS);
-	virtual istd::IChangeable* CloneMe(istd::IChangeable::CompatibilityMode mode = istd::IChangeable::CM_WITHOUT_REFS) const;
-	virtual bool IsEqual(const istd::IChangeable& object) const;
+	virtual int GetSupportedOperations() const override;
+	virtual bool CopyFrom(const istd::IChangeable& object, CompatibilityMode mode = CM_WITHOUT_REFS) override;
+	virtual istd::IChangeable* CloneMe(istd::IChangeable::CompatibilityMode mode = istd::IChangeable::CM_WITHOUT_REFS) const override;
+	virtual bool IsEqual(const istd::IChangeable& object) const override;
 
 	// operators
 	bool operator==(const CHierarchicalCommand& command) const;

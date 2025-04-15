@@ -61,12 +61,12 @@ protected:
 	struct TypeInfoList: public IOptionsList
 	{
 		// reimplemented (iprm::IOptionsList)
-		virtual int GetOptionsFlags() const;
-		virtual int GetOptionsCount() const;
-		virtual QString GetOptionName(int index) const;
-		virtual QString GetOptionDescription(int index) const;
-		virtual QByteArray GetOptionId(int index) const;
-		virtual bool IsOptionEnabled(int index) const;
+		virtual int GetOptionsFlags() const override;
+		virtual int GetOptionsCount() const override;
+		virtual QString GetOptionName(int index) const override;
+		virtual QString GetOptionDescription(int index) const override;
+		virtual QByteArray GetOptionId(int index) const override;
+		virtual bool IsOptionEnabled(int index) const override;
 
 		QVector<TypeInfo> typeInfos;
 
@@ -85,14 +85,14 @@ protected:
 	bool EnsureParamExist(int index, const QByteArray& typeId, const QString& name, const QByteArray& uuid, bool isEnabled);
 
 	// reimplemented (CParamsManagerCompBase)
-	virtual bool IsParameterCreationSupported() const;
-	virtual int GetCreatedParamsSetsCount() const;
-	virtual iprm::IParamsSet* CreateParamsSetInstance(int typeIndex = -1) const;
+	virtual bool IsParameterCreationSupported() const override;
+	virtual int GetCreatedParamsSetsCount() const override;
+	virtual iprm::IParamsSet* CreateParamsSetInstance(int typeIndex = -1) const override;
 	virtual QString CalculateNewDefaultName(int typeIndex) const override;
 
 	// reimplemented (icomp::CComponentBase)
-	virtual void OnComponentCreated();
-	virtual void OnComponentDestroyed();
+	virtual void OnComponentCreated() override;
+	virtual void OnComponentDestroyed() override;
 
 private:
 	TypeInfoList m_typeInfoList;

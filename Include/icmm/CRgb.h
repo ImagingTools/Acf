@@ -38,7 +38,7 @@ public:
 	double GetBlue() const;
 	void SetBlue(double value);
 
-	bool Serialize(iser::IArchive& archive);
+	virtual bool Serialize(iser::IArchive& archive) override;
 
 	// operators
 	CRgb operator+(const CRgb& color) const;

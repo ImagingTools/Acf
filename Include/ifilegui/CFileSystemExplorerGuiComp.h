@@ -104,7 +104,7 @@ private:
 		typedef QFileIconProvider BaseClass;
 
 		// reimplemented (QFileIconProvider)
-		virtual QIcon icon(const QFileInfo& fileInfo) const;
+		virtual QIcon icon(const QFileInfo& fileInfo) const override;
 	};
 
 	iwidgets::CExtLineEdit* m_filterEditPtr;

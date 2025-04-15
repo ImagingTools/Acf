@@ -21,7 +21,7 @@ public:
 	CRgbColor(const icmm::CRgb& rgb, ColorModelPtr modelPtr);
 
 	/**
-		Just pass RGB-values; defaults the ColorModel to D50/2°
+		Just pass RGB-values; defaults the ColorModel to D50/2D
 	*/
 	CRgbColor(const icmm::CRgb& rgb);
 

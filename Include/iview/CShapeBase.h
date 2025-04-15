@@ -74,28 +74,28 @@ public:
 	void SetTransformMode(ShapeTransformMode mode);
 
 	// reimplemented (iview::IShape)
-	virtual int GetLayerType() const;
-	virtual i2d::CRect GetBoundingBox() const;
-	virtual void SetVisible(bool state = true);
-	virtual const IColorSchema* GetUserColorSchema() const;
-	virtual void SetUserColorSchema(const IColorSchema* schemaPtr);
-	virtual void SetDefaultDescription(const QString& description);
+	virtual int GetLayerType() const override;
+	virtual i2d::CRect GetBoundingBox() const override;
+	virtual void SetVisible(bool state = true) override;
+	virtual const IColorSchema* GetUserColorSchema() const override;
+	virtual void SetUserColorSchema(const IColorSchema* schemaPtr) override;
+	virtual void SetDefaultDescription(const QString& description) override;
 
 	// reimplemented (iview::IVisualizable)
-	virtual bool IsVisible() const;
-	virtual bool IsDisplayAccepted(const IDisplay& display) const;
-	virtual void OnConnectDisplay(IDisplay* displayPtr);
-	virtual void OnDisconnectDisplay(IDisplay* displayPtr);
-	virtual bool OnDisplayChange(const istd::IChangeable::ChangeSet& changeSet);
+	virtual bool IsVisible() const override;
+	virtual bool IsDisplayAccepted(const IDisplay& display) const override;
+	virtual void OnConnectDisplay(IDisplay* displayPtr) override;
+	virtual void OnDisconnectDisplay(IDisplay* displayPtr) override;
+	virtual bool OnDisplayChange(const istd::IChangeable::ChangeSet& changeSet) override;
 
 	// reimplemented (iview::ITouchable)
-	virtual ITouchable::TouchState IsTouched(istd::CIndex2d position) const;
-	virtual QString GetShapeDescriptionAt(istd::CIndex2d position) const;
+	virtual ITouchable::TouchState IsTouched(istd::CIndex2d position) const override;
+	virtual QString GetShapeDescriptionAt(istd::CIndex2d position) const override;
 
 	// reimplemented (imod::IObserver)
-	virtual bool OnModelAttached(imod::IModel* modelPtr, istd::IChangeable::ChangeSet& changeMask);
-	virtual bool OnModelDetached(imod::IModel* modelPtr);
-	virtual void OnUpdate(const istd::IChangeable::ChangeSet& changeSet);
+	virtual bool OnModelAttached(imod::IModel* modelPtr, istd::IChangeable::ChangeSet& changeMask) override;
+	virtual bool OnModelDetached(imod::IModel* modelPtr) override;
+	virtual void OnUpdate(const istd::IChangeable::ChangeSet& changeSet) override;
 
 protected:
 	/**
@@ -166,7 +166,7 @@ private:
 		explicit CalibrationObserver(CShapeBase* parentPtr);
 
 		// reimplemented (imod::CSingleModelObserverBase)
-		virtual void OnUpdate(const istd::IChangeable::ChangeSet& changeSet);
+		virtual void OnUpdate(const istd::IChangeable::ChangeSet& changeSet) override;
 
 	private:
 		CShapeBase* m_parentPtr;

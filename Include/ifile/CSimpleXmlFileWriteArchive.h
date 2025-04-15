@@ -38,7 +38,7 @@ public:
 
 protected:
 	// reimplemented (iser::CXmlWriteArchiveBase)
-	virtual bool WriteString(const QByteArray& value);
+	virtual bool WriteString(const QByteArray& value) override;
 
 private:
 	QTextStream m_stream;

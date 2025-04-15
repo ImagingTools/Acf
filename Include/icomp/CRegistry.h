@@ -46,7 +46,7 @@ public:
 				bool state = true) override;
 	virtual void SetElementExported(
 				const QByteArray& exportId,
-				const QByteArray& elementId);
+				const QByteArray& elementId) override;
 	virtual const QString& GetDescription() const override;
 	virtual void SetDescription(const QString& description) override;
 	virtual const QString& GetKeywords() const override;

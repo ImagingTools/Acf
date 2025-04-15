@@ -25,10 +25,10 @@ public:
 	};
 
 	// reimplemented (iview::IColorSchema)
-	virtual void Assign(const IColorSchema& colorSchema);
-	virtual void DrawTicker(QPainter& drawContext, istd::CIndex2d point, IColorSchema::TickerType tickerType) const;
-	virtual const i2d::CRect& GetTickerBox(IColorSchema::TickerType tickerType) const;
-	virtual int GetLogicalLineWidth() const;
+	virtual void Assign(const IColorSchema& colorSchema) override;
+	virtual void DrawTicker(QPainter& drawContext, istd::CIndex2d point, IColorSchema::TickerType tickerType) const override;
+	virtual const i2d::CRect& GetTickerBox(IColorSchema::TickerType tickerType) const override;
+	virtual int GetLogicalLineWidth() const override;
 
 protected:
 	// static attributes

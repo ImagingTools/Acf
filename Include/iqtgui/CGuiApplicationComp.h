@@ -103,8 +103,8 @@ protected:
 		virtual bool IsMessageSupported(
 					int messageCategory = -1,
 					int messageId = -1,
-					const istd::IInformationProvider* messagePtr = NULL) const;
-		virtual void AddMessage(const MessagePtr& messagePtr);
+					const istd::IInformationProvider* messagePtr = NULL) const override;
+		virtual void AddMessage(const MessagePtr& messagePtr) override;
 
 	private:
 		CGuiApplicationComp& m_parent;

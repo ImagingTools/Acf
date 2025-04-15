@@ -28,8 +28,8 @@ public:
 	void WriteValue(quint32 inputValue, int bits);
 
 	// reimplemented (iser::IArchive)
-	virtual bool ProcessData(void* data, int size);
-	virtual bool ProcessBits(void* data, int bitsCount, int bytesCount);
+	virtual bool ProcessData(void* data, int size) override;
+	virtual bool ProcessBits(void* data, int bitsCount, int bytesCount) override;
 
 protected:
 	int m_bitPosition;

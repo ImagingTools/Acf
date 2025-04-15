@@ -41,7 +41,7 @@ public:
 	double GetK() const;
 	void SetK(double value);
 
-	bool Serialize(iser::IArchive& archive);
+	virtual bool Serialize(iser::IArchive& archive) override;
 
 	// operators
 	CCmyk operator+(const CCmyk& color) const;

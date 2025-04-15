@@ -22,7 +22,7 @@ class CStandardTestExecutor: virtual public ITestExecutor
 {
 public:
 	// reimplemented (ITestExecutor)
-	virtual int RunTests(int argc, char *argv[]);
+	virtual int RunTests(int argc, char *argv[]) override;
 
 public:
 	template <class TestObject>
