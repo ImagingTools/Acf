@@ -3,9 +3,6 @@
 
 // ACF includes
 #include <i2d/TObject2dCompWrap.h>
-
-
-// RTVision includes
 #include <i2d/CParallelogram.h>
 
 

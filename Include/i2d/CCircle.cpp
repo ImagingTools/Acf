@@ -349,7 +349,6 @@ bool CCircle::GetInvTransformed(
 
 QByteArray CCircle::GetFactoryId() const
 {
-
 	return GetTypeName();
 }
 

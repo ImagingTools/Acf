@@ -22,6 +22,9 @@ public:
 	CObject2dBase(const CObject2dBase& object2d);
 	CObject2dBase& operator=(const CObject2dBase& object2d) = default;
 
+    CObject2dBase& operator=(const CObject2dBase& object2d);
+	CObject2dBase& operator=(CObject2dBase&& object2d);
+
 	// reimplemented (i2d::ICalibrationProvider)
 	virtual const ICalibration2d* GetCalibration() const override;
 
