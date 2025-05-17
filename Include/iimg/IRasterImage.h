@@ -64,7 +64,7 @@ public:
 	virtual bool SetColorAt(const istd::CIndex2d& position, const icmm::CVarColor& color) = 0;
 
 	/**
-		Get theb color model related to the image.
+		Get the color model related to the image.
 	*/
 	virtual const icmm::IColorModel* GetColorModel() const = 0;
 };
