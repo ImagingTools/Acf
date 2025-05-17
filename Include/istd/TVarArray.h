@@ -54,7 +54,7 @@ public:
 		Iterator(TVarArray* arrayPtr);
 
 	private:
-		TVarArray* m_arrayPtr;
+		TVarArray* m_arrayPtr = nullptr;
 	};
 
 	TVarArray();

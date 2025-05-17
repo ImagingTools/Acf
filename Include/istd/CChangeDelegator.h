@@ -32,7 +32,7 @@ public:
 	virtual void OnEndChanges(const ChangeSet& changeSet) override;
 	
 private:
-	istd::IChangeable* m_slavePtr;
+	istd::IChangeable* m_slavePtr = nullptr;
 };
 
 

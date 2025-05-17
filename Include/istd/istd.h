@@ -43,6 +43,16 @@ static const double I_BIG_EPSILON = 1.0e-8;
 #define I_INFINITY std::numeric_limits<double>::infinity()
 
 
+/**
+	Commonly used symbols.
+*/
+static const QChar QCHAR_POW2 = QChar(0x00B2);
+static const QChar QCHAR_POW3 = QChar(0x00B3);
+static const QChar QCHAR_DEGREE = QChar(0x00B0);
+static const QChar QCHAR_PERMILLE = QChar(0x2030);
+
+
+
 #ifndef QT_NO_DEBUG
 
 

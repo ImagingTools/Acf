@@ -31,7 +31,7 @@ public:
 private:
 	CEventBasedNotifier(const CEventBasedNotifier&){}
 
-	CAsyncNotifier* m_asyncNotifierPtr = NULL;
+	CAsyncNotifier* m_asyncNotifierPtr = nullptr;
 };
 
 
@@ -62,7 +62,7 @@ private:
 	/**
 		Target object should be updated. Cannot be \c NULL.
 	*/
-	istd::IChangeable* m_slavePtr;
+	istd::IChangeable* m_slavePtr = nullptr;
 
 	/**
 		Set of changes.
@@ -72,7 +72,7 @@ private:
 	/**
 		Inidicates that \c BeginChange was called on slave object.
 	*/
-	bool m_isBeginCalled;
+	bool m_isBeginCalled = false;
 };
 
 

@@ -19,8 +19,8 @@ class TOptDeleteAdapter
 public:
 	struct ElementType
 	{
-		Pointer* pointer;
-		bool releaseFlag;
+		Pointer* pointer = nullptr;
+		bool releaseFlag = false;
 	};
 
 	static Pointer* GetPtr(const ElementType& element)
@@ -35,7 +35,7 @@ public:
 
 	static void Delete(const ElementType& element)
 	{
-		if (element.releaseFlag){
+		if (element.releaseFlag && (element.pointer != nullptr)){
 			delete element.pointer;
 		}
 	}

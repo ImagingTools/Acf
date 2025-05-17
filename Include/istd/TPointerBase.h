@@ -112,7 +112,7 @@ protected:
 	Type*& GetPtrRef();
 
 private:
-	Type* m_ptr;
+	Type* m_ptr = nullptr;
 };
 
 

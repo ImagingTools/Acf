@@ -57,7 +57,7 @@ public:
 		Iterator(TArray* arrayPtr);
 
 	private:
-		TArray* m_arrayPtr;
+		TArray* m_arrayPtr = nullptr;
 	};
 
 	TArray();

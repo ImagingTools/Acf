@@ -99,7 +99,7 @@ public:
 		if (castedPtr != NULL){
 			return true;
 		}
-		else if (releaseFlag){
+		else if (releaseFlag && (ptr != nullptr)){
 			delete ptr;
 		}
 
@@ -114,7 +114,7 @@ protected:
 	void Detach();
 
 private:
-	bool m_releaseFlag;
+	bool m_releaseFlag = false;
 };
 
 

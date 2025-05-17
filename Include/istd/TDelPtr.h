@@ -101,7 +101,9 @@ public:
 			return true;
 		}
 		else{
-			delete ptr;
+			if (ptr != nullptr){
+				delete ptr;
+			}
 
 			return false;
 		}

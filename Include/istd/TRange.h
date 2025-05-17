@@ -1,6 +1,8 @@
-#ifndef istd_TRange_included
-#define istd_TRange_included
+#pragma once
 
+
+// STL includes
+#include <cmath>
 
 // Qt includes
 #include <QtCore/QtGlobal>
@@ -47,7 +49,7 @@ public:
 	bool IsValidNonEmpty() const;
 
 	/**
-		Get the bottom value.	
+		Get the bottom value.
 	*/
 	ValueType GetMinValue() const;
 
@@ -57,22 +59,32 @@ public:
 	ValueType& GetMinValueRef();
 
 	/**
-		Set the bottom value.	
+		Set the bottom value.
 	*/
 	void SetMinValue(ValueType minValue);
 
 	/**
-		Get the top value.	
+		Get the minimum by the absolute value
+	*/
+	ValueType GetAbsMinValue() const;
+
+	/**
+		Get the maximum by the absolute value
+	*/
+	ValueType GetAbsMaxValue() const;
+
+	/**
+		Get the top value.
 	*/
 	ValueType GetMaxValue() const;
 
 	/**
-		Get reference to the top value.	
+		Get reference to the top value.
 	*/
 	ValueType& GetMaxValueRef();
 
 	/**
-		Set the top value.	
+		Set the top value.
 	*/
 	void SetMaxValue(ValueType maxValue);
 
@@ -345,6 +357,26 @@ inline void TRange<ValueType>::SetMinValue(ValueType minValue)
 
 
 template <typename ValueType>
+ValueType TRange<ValueType>::GetAbsMinValue() const
+{
+	ValueType absMin = std::abs(m_minValue);
+	ValueType absMax = std::abs(m_maxValue);
+
+	return std::min<ValueType>(absMin , absMax);
+}
+
+
+template <typename ValueType>
+ValueType TRange<ValueType>::GetAbsMaxValue() const
+{
+	ValueType absMin = std::abs(m_minValue);
+	ValueType absMax = std::abs(m_maxValue);
+
+	return std::max<ValueType>(absMin, absMax);
+}
+
+
+template <typename ValueType>
 inline ValueType TRange<ValueType>::GetMaxValue() const
 {
 	return m_maxValue;
@@ -384,23 +416,23 @@ template <typename ValueType>
 inline TRange<ValueType> TRange<ValueType>::GetValidated() const
 {
 	return TRange(
-				qMin(m_minValue, m_maxValue),
-				qMax(m_minValue, m_maxValue));
+				std::min<ValueType>(m_minValue, m_maxValue),
+				std::max<ValueType>(m_minValue, m_maxValue));
 }
 
 
 template <typename ValueType>
 inline void TRange<ValueType>::GetValidated(TRange& result) const
 {
-	result.SetMinValue(qMin(m_minValue, m_maxValue));
-	result.SetMaxValue(qMax(m_minValue, m_maxValue));
+	result.SetMinValue(std::min<ValueType>(m_minValue, m_maxValue));
+	result.SetMaxValue(std::max<ValueType>(m_minValue, m_maxValue));
 }
 
 
 template <typename ValueType>
 inline void TRange<ValueType>::Validate()
 {
-	*this = TRange(qMin(m_minValue, m_maxValue), qMax(m_minValue, m_maxValue));
+	*this = TRange(std::min<ValueType>(m_minValue, m_maxValue), std::max<ValueType>(m_minValue, m_maxValue));
 }
 
 
@@ -459,7 +491,7 @@ inline TRange<ValueType> TRange<ValueType>::GetIntersection(const TRange& range)
 		return *this;
 	}
 	else{
-		return TRange(qMax(m_minValue, range.m_minValue), qMin(m_maxValue, range.m_maxValue));
+		return TRange(std::max<ValueType>(m_minValue, range.m_minValue), std::min<ValueType>(m_maxValue, range.m_maxValue));
 	}
 }
 
@@ -484,7 +516,7 @@ TRange<ValueType> TRange<ValueType>::GetUnion(const TRange& range) const
 {
 	if (range.IsValid()){
 		if (IsValid()){
-			return TRange(qMin(m_minValue, range.m_minValue), qMax(m_maxValue, range.m_maxValue));
+			return TRange(std::min<ValueType>(m_minValue, range.m_minValue), std::max<ValueType>(m_maxValue, range.m_maxValue));
 		}
 		else{
 			return range;
@@ -500,7 +532,7 @@ template <typename ValueType>
 TRange<ValueType> TRange<ValueType>::GetUnion(double value) const
 {
 	if (IsValid()){
-		return TRange(qMin(m_minValue, value), qMax(m_maxValue, value));
+		return TRange(std::min<ValueType>(m_minValue, value), std::max<ValueType>(m_maxValue, value));
 	}
 	else{
 		return TRange(value, value);
@@ -801,7 +833,7 @@ inline TRange<ValueType>& TRange<ValueType>::operator/=(double value)
 template <typename ValueType>
 inline TRange<ValueType> TRange<ValueType>::GetValid(ValueType value1, ValueType value2)
 {
-	return TRange(qMin(value1, value2), qMax(value1, value2));
+	return TRange(std::min<ValueType>(value1, value2), std::max<ValueType>(value1, value2));
 }
 
 
@@ -830,8 +862,5 @@ typedef istd::TRange<int> CIntRange;
 
 
 } // namespace istd
-
-
-#endif // !istd_TRange_included
 
 
