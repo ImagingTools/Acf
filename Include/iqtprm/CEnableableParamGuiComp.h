@@ -26,6 +26,7 @@ public:
 
 	I_BEGIN_COMPONENT(CEnableableParamGuiComp);
 		I_ASSIGN(m_enableableLabelAttrPtr, "Label", "Label for the enable/disable control", false, "");
+		I_ASSIGN(m_enableableToolTipAttrPtr, "ToolTip", "Tooltip to show", false, "");
 	I_END_COMPONENT;
 
 	// reimplemented (iqtgui::CGuiComponentBase)
@@ -42,6 +43,7 @@ protected Q_SLOTS:
 
 private:
 	I_TEXTATTR(m_enableableLabelAttrPtr);
+	I_TEXTATTR(m_enableableToolTipAttrPtr);
 };
 
 

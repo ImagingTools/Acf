@@ -17,6 +17,8 @@ void CEnableableParamGuiComp::OnGuiModelAttached()
 		
 		EnableableCheck->setChecked(objectPtr->IsEnabled());	
 		EnableableCheck->setEnabled(objectPtr->IsEnablingAllowed());
+		if (m_enableableToolTipAttrPtr.IsValid())
+			EnableableCheck->setToolTip(*m_enableableToolTipAttrPtr);
 	}
 }
 
@@ -65,6 +67,8 @@ void CEnableableParamGuiComp::OnGuiRetranslate()
 	if (m_enableableLabelAttrPtr.IsValid()){
 		EnableableCheck->setText(*m_enableableLabelAttrPtr);
 	}
+	if (m_enableableToolTipAttrPtr.IsValid())
+		EnableableCheck->setToolTip(*m_enableableToolTipAttrPtr);
 }
 
 // protected slots

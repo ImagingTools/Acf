@@ -603,6 +603,7 @@ void CComposedParamsSetGuiComp::UpdateModel() const
 	}
 }
 
+
 QList<imod::IModelEditor*> CComposedParamsSetGuiComp::GetModelEditors() const
 {
 	QList<imod::IModelEditor*> result;
@@ -616,6 +617,7 @@ QList<imod::IModelEditor*> CComposedParamsSetGuiComp::GetModelEditors() const
 
 	return result;
 }
+
 
 QList<QByteArray> CComposedParamsSetGuiComp::GetIds() const
 {
@@ -631,10 +633,17 @@ QList<QByteArray> CComposedParamsSetGuiComp::GetIds() const
 	return result;
 }
 
+
 // protected slots
 
 void CComposedParamsSetGuiComp::OnEditorChanged(int index)
 {
+	// #10480 - do not reattach shapes if all are visible
+	if (*m_showAllShapesAttrPtr) {
+		m_currentGuiIndex = index;
+		return;
+	}
+
 	if (index != m_currentGuiIndex){
 		for (ConnectedSceneFlags::const_iterator iter = m_connectedSceneFlags.begin();
 				iter != m_connectedSceneFlags.end();
