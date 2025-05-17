@@ -58,11 +58,13 @@ public:
 	typedef CColorSchemaPenAttr BaseClass;	
 
 	I_BEGIN_COMPONENT(CColorSchemaBrushAttr);
-		I_ASSIGN(m_normalBrushColorAttrPtr, "NormalBrushColor", "Normal brush color", false, "rosybrown");
-		I_ASSIGN(m_selectedBrushColorAttrPtr, "SelectedBrushColor", "Selected brush color", false, "lightpink");
+		I_ASSIGN(m_normalBrushColorAttrPtr, "NormalBrushColor", "Normal brush color", false, "");
+		I_ASSIGN(m_selectedBrushColorAttrPtr, "SelectedBrushColor", "Selected brush color", false, "");
 		I_ASSIGN(m_selectedTickerBrushColorAttrPtr, "SelectedTickerBrushColor", "Selected ticker brush color", false, "lightcoral");
 		I_ASSIGN(m_tickerBrushColorAttrPtr, "TickerBrushColor", "Ticker brush color", false, "mediumslateblue");
 		I_ASSIGN(m_importantBrushColorAttrPtr, "ImportantBrushColor", "Important brush color", false, "blue");
+		I_ASSIGN(m_backgroundBrushColorAttrPtr, "BackgroundBrushColor", "Background brush color", false, "AppColor");
+		I_ASSIGN(m_opacityAttrPtr, "Opacity", "Opacity level for NormalBrush and SelectedBrush (0.0 - fully transparent 1.0 - fully opaque", true, 0.2);
 	I_END_COMPONENT;
 
 protected:
@@ -70,7 +72,9 @@ protected:
 	I_ATTR(QByteArray, m_selectedBrushColorAttrPtr);
 	I_ATTR(QByteArray, m_selectedTickerBrushColorAttrPtr);
 	I_ATTR(QByteArray, m_tickerBrushColorAttrPtr);
-	I_ATTR(QByteArray, m_importantBrushColorAttrPtr);	
+	I_ATTR(QByteArray, m_importantBrushColorAttrPtr);
+	I_ATTR(QByteArray, m_backgroundBrushColorAttrPtr);
+	I_ATTR(double, m_opacityAttrPtr);
 };
 
 
@@ -83,13 +87,9 @@ public:
 	typedef CColorSchemaBrushAttr BaseClass;
 
 	I_BEGIN_COMPONENT(CColorSchemaComp);	
-		I_ASSIGN(m_halfTransparentBrushColorAttrPtr, "HalfTransparentBrushColor", "Half-Transparent brush color", false, "mediumslateblue");
-		I_ASSIGN(m_halfTransparent2BrushColorAttrPtr, "HalfTransparent2BrushColor", "Half-Transparent2 brush color", false, "mediumslateblue");
-		I_ASSIGN(m_backgroundBrushColorAttrPtr, "BackgroundBrushColor", "Background brush color", false, "AppColor");
 		I_ASSIGN(m_normalFontFamilyAttrPtr, "NormalFontFamily", "Name of family of normal font", false, "Helvetica");
 		I_ASSIGN(m_normalFontSizeAttrPtr, "NormalFontSize", "Size of normal font", false, 10);
 		I_ASSIGN(m_normalFontWeightAttrPtr, "NormalFontWeight", "Size of normal font", false, 50);
-		I_ASSIGN(m_opacityAttrPtr, "Opacity", "Level opacity (0.0 - fully transparent 1.0 - fully opaque", true, 0.2);
 	I_END_COMPONENT;
 
 protected:
@@ -97,13 +97,9 @@ protected:
 	virtual void OnComponentCreated();
 
 private:
-	I_ATTR(QByteArray, m_halfTransparentBrushColorAttrPtr);
-	I_ATTR(QByteArray, m_halfTransparent2BrushColorAttrPtr);
-	I_ATTR(QByteArray, m_backgroundBrushColorAttrPtr);
 	I_ATTR(QString, m_normalFontFamilyAttrPtr);
 	I_ATTR(int, m_normalFontSizeAttrPtr);
 	I_ATTR(int, m_normalFontWeightAttrPtr);
-	I_ATTR(double, m_opacityAttrPtr);
 };
 
 

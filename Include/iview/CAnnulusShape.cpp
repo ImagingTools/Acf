@@ -241,11 +241,11 @@ void CAnnulusShape::Draw(QPainter& drawContext) const
 
 		if (IsSelected()){
 			drawContext.setPen(colorSchema.GetPen(IColorSchema::SP_SELECTED));
-			drawContext.setBrush(colorSchema.GetBrush(IColorSchema::SB_HALF_TRANSPARENT));
+			drawContext.setBrush(colorSchema.GetBrush(IColorSchema::SB_SELECTED));
 		}
 		else{
 			drawContext.setPen(colorSchema.GetPen(IColorSchema::SP_NORMAL));
-			drawContext.setBrush(colorSchema.GetBrush(IColorSchema::SB_HALF_TRANSPARENT2));
+			drawContext.setBrush(colorSchema.GetBrush(IColorSchema::SB_NORMAL));
 		}
 
 		QPainterPath painterPatch;

@@ -173,7 +173,7 @@ private:
 	iqtgui::CHierarchicalCommand m_pointsAddCommand;
 	iqtgui::CHierarchicalCommand m_pointsSubCommand;
 
-	IShapeStatusInfo* m_shapeStatusInfoPtr;
+	IShapeStatusInfo* m_shapeStatusInfoPtr = nullptr;
 
 	bool m_isFullScreenMode;
 	bool m_isViewMaximized;

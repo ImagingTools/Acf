@@ -154,7 +154,7 @@ private:
 
 	i2d::CRect m_lastClientArea;
 
-	const i2d::ICalibration2d* m_calibrationPtr;
+	const i2d::ICalibration2d* m_calibrationPtr = nullptr;
 	bool m_isGridVisible;
 	bool m_isGridInMm;
 	double m_minGridDistance;

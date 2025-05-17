@@ -77,12 +77,26 @@ void CColorSchemaComp::OnComponentCreated()
 	}
 
 	// brushes set
+	double alpha = *m_opacityAttrPtr * 255;
+
 	if (m_normalBrushColorAttrPtr.IsValid()){
-		SetBrush(SB_NORMAL, QBrush(QColor(QString(*m_normalBrushColorAttrPtr))));
+		QColor c;
+		c.setNamedColor(*m_normalBrushColorAttrPtr);
+		c.setAlpha(alpha);
+		SetBrush(SB_NORMAL, alpha ? QBrush(c) : Qt::NoBrush);
+	}
+	else {
+		SetBrush(SB_NORMAL, Qt::NoBrush);
 	}
 
 	if (m_selectedBrushColorAttrPtr.IsValid()){
-		SetBrush(SB_SELECTED, QBrush(QColor(QString(*m_selectedBrushColorAttrPtr))));
+		QColor c;
+		c.setNamedColor(*m_selectedBrushColorAttrPtr);
+		c.setAlpha(alpha);
+		SetBrush(SB_SELECTED, alpha ? QBrush(c) : Qt::NoBrush);
+	}
+	else {
+		SetBrush(SB_SELECTED, Qt::NoBrush);
 	}
 
 	if (m_selectedTickerBrushColorAttrPtr.IsValid()){
@@ -99,24 +113,6 @@ void CColorSchemaComp::OnComponentCreated()
 
 	if (m_backgroundBrushColorAttrPtr.IsValid()){
 		SetBrush(SB_BACKGROUND, QBrush(QColor(QString(*m_backgroundBrushColorAttrPtr))));
-	}
-
-	if (m_halfTransparentBrushColorAttrPtr.IsValid()){
-		QColor c;
-		c.setNamedColor(QString(*m_halfTransparentBrushColorAttrPtr));
-
-		c.setAlpha(*m_opacityAttrPtr * 255);
-
-		SetBrush(SB_HALF_TRANSPARENT, QBrush(c));
-	}
-
-	if (m_halfTransparent2BrushColorAttrPtr.IsValid()){
-		QColor c;
-		c.setNamedColor(QString(*m_halfTransparent2BrushColorAttrPtr));
-
-		c.setAlpha(*m_opacityAttrPtr * 255);
-
-		SetBrush(SB_HALF_TRANSPARENT2, QBrush(c));
 	}
 
 	if (m_normalFontFamilyAttrPtr.IsValid()){

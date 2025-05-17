@@ -92,41 +92,43 @@ void CColorSchemaBase::DrawTicker(QPainter& drawContext, istd::CIndex2d point, T
 		drawContext.restore();
 		break;
 	}
-	case TT_ROTATE:
-		drawContext.save();
-		drawContext.setPen(GetPen(SP_SELECTED_TICKER));
-		drawContext.setBrush(GetBrush(SB_SELECTED_TICKER));
-		drawContext.drawEllipse(tickerRect);
-		drawContext.restore();
-		break;
-
-	case TT_SKEW:
-		drawContext.save();
-		drawContext.setPen(GetPen(SP_SELECTED_TICKER));
-		drawContext.drawEllipse(tickerRect);
-		drawContext.restore();
-		break;
 
 	case TT_CHECKBOX_ON:
 		drawContext.save();
 		drawContext.setPen(GetPen(SP_IMPORTANT));
 		drawContext.setBrush(GetBrush(SB_IMPORTANT));
-		drawContext.drawEllipse(tickerRect);
+		drawContext.drawRect(tickerRect);
 		drawContext.restore();
 		break;
 
 	case TT_CHECKBOX_OFF:
 		drawContext.save();
 		drawContext.setPen(GetPen(SP_IMPORTANT));
-		drawContext.setBrush(GetBrush(SB_SELECTED_TICKER));
+		drawContext.setBrush(GetBrush(SB_BACKGROUND));
+		drawContext.drawRect(tickerRect);
+		drawContext.restore();
+		break;
+
+	case TT_ROTATE:
+		drawContext.save();
+		drawContext.setPen(GetPen(SP_TICKER));
+		drawContext.setBrush(GetBrush(SB_TICKER));
+		drawContext.drawRect(tickerRect);
+		drawContext.restore();
+		break;
+
+	case TT_SKEW:
+		drawContext.save();
+		drawContext.setPen(GetPen(SP_SELECTED_TICKER));
+		drawContext.setBrush(GetBrush(SB_TICKER));
 		drawContext.drawEllipse(tickerRect);
 		drawContext.restore();
 		break;
 
 	default:
 		drawContext.save();
-		drawContext.setPen(GetPen(SP_SELECTED_TICKER));
-		drawContext.setBrush(GetBrush(SB_SELECTED_TICKER));
+		drawContext.setPen(GetPen(SP_TICKER));
+		drawContext.setBrush(GetBrush(SB_TICKER));
 		drawContext.drawEllipse(tickerRect);
 		drawContext.restore();
 		break;
