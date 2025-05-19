@@ -22,7 +22,7 @@ public:
 	virtual bool ConnectInteractiveShape(IInteractiveShape* shapePtr) override;
 	virtual int GetUnselectedShapesCount() const override;
 	virtual void DrawFocusedShape(QPainter& drawContext) override;
-	virtual bool OnKeyPress(int key, Qt::KeyboardModifiers modifiers) override { return false; }
+	virtual bool OnKeyPress(int key, Qt::KeyboardModifiers modifiers) override;
 	virtual bool OnMouseButton(istd::CIndex2d position, Qt::MouseButton buttonType, bool downFlag) override;
 	virtual bool OnFocusedMouseButton(istd::CIndex2d position, Qt::MouseButton buttonType, bool downFlag) override;
 	virtual bool OnFocusedMouseMove(istd::CIndex2d position) override;

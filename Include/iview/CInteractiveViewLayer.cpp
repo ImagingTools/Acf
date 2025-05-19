@@ -119,7 +119,7 @@ void CInteractiveViewLayer::DrawFocusedShape(QPainter& drawContext)
 }
 
 
-bool CInteractiveViewLayer::OnKeyPress(int key, Qt::KeyboardModifiers modifiers)
+bool CInteractiveViewLayer::OnKeyPress(int key, Qt::KeyboardModifiers /*modifiers*/)
 {
 	int xdiff = 0, ydiff = 0;
 

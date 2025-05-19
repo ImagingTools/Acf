@@ -6,7 +6,7 @@
 #include <imod/TModelWrap.h>
 #include <iser/CMemoryReadArchive.h>
 #include <iser/CMemoryWriteArchive.h>
-#include <iprm/CParamsSet.h>1
+#include <iprm/CParamsSet.h>
 #include <iprm/CTextParam.h>
 #include <iprm/CIdParam.h>
 #include <iprm/CNameParam.h>

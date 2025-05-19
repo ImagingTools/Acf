@@ -2,10 +2,6 @@
 #define iview_ISelectableLayer_included
 
 
-// Qt includes
-#include <qnamespace.h>
-
-
 // ACF includes
 #include <i2d/CVector2d.h>
 

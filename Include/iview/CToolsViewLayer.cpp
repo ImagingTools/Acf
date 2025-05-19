@@ -40,6 +40,12 @@ void CToolsViewLayer::DrawFocusedShape(QPainter& drawContext)
 }
 
 
+bool CToolsViewLayer::OnKeyPress(int /*key*/, Qt::KeyboardModifiers /*modifiers*/)
+{
+	return false;
+}
+
+
 bool CToolsViewLayer::OnMouseButton(istd::CIndex2d position, Qt::MouseButton buttonType, bool downFlag)
 {
 	QVectorIterator<ShapeWithBoundingBox> shapeIterator(m_shapes);

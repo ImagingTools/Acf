@@ -27,28 +27,29 @@ CObject2dBase::CObject2dBase(const CObject2dBase& object2d)
 {
 }
 
+
 CObject2dBase::CObject2dBase(CObject2dBase&& object2d)
 {
-    m_calibrationPtr.TakeOver(object2d.m_calibrationPtr);
+	m_calibrationPtr.TakeOver(object2d.m_calibrationPtr);
 }
 
 
 CObject2dBase& CObject2dBase::operator=(const CObject2dBase& object2d)
 {
-    m_calibrationPtr.Reset();
+	m_calibrationPtr.Reset();
 
 	m_calibrationPtr.SetPtr(object2d.m_calibrationPtr.GetPtr());
 
-    return *this;
+	return *this;
 }
 
 
 CObject2dBase& CObject2dBase::operator=(CObject2dBase&& object2d)
 {
-    m_calibrationPtr.Reset();
-    m_calibrationPtr.TakeOver(object2d.m_calibrationPtr);
+	m_calibrationPtr.Reset();
+	m_calibrationPtr.TakeOver(object2d.m_calibrationPtr);
 
-    return *this;
+	return *this;
 }
 
 

@@ -122,7 +122,7 @@ bool CPolygonShape::OnMouseButton(istd::CIndex2d position, Qt::MouseButton butto
 					break;
 
 				case ISelectable::EM_REMOVE:
-					if (IsEditableNodes() && (nodesCount > polygonPtr->GetMinimumPointsAllowed())){
+					if (IsEditableNodes()){
 						const i2d::CRect& tickerBox = colorSchema.GetTickerBox(IColorSchema::TT_DELETE);
 
 						for (int i = nodesCount - 1; i >= 0; --i){
