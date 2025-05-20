@@ -558,7 +558,7 @@ bool CParamsManagerCompBase::IsOptionEnabled(int index) const
 		if (ids.count() > 0){
 			oneId = ids.values()[0];
 		}
-		return m_fixedParamSetsCompPtr[index]->IsParameterEnable(oneId);
+		return true;
 	}
 
 	return m_paramSets[index - fixedSetsCount]->isEnabled;

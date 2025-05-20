@@ -47,7 +47,7 @@ bool CRegistryCodeSaverComp::IsOperationSupported(
 }
 
 
-int CRegistryCodeSaverComp::LoadFromFile(
+ifile::IFilePersistence::OperationState CRegistryCodeSaverComp::LoadFromFile(
 			istd::IChangeable& /*data*/,
 			const QString& /*filePath*/,
 			ibase::IProgressManager* /*progressManagerPtr*/) const
@@ -56,7 +56,7 @@ int CRegistryCodeSaverComp::LoadFromFile(
 }
 
 
-int CRegistryCodeSaverComp::SaveToFile(
+ifile::IFilePersistence::OperationState CRegistryCodeSaverComp::SaveToFile(
 			const istd::IChangeable& data,
 			const QString& filePath,
 			ibase::IProgressManager* /*progressManagerPtr*/) const

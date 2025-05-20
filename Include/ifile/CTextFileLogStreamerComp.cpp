@@ -106,7 +106,7 @@ ifile::IFilePersistence::OperationState CTextFileLogStreamerComp::LoadFromFile(
 						}
 
 						containerPtr->AddMessage(
-							ilog::IMessageConsumer::MessagePtr(new ilog::CMessage(severtity, id, text, severityText, "ifile::CTextFileLogStreamerComp", 0, &timeStamp)));
+							ilog::IMessageConsumer::MessagePtr(new ilog::CMessage(severtity, id, text, severityText, 0, &timeStamp)));
 					}
 				}
 			}

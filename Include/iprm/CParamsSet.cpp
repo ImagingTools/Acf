@@ -246,7 +246,7 @@ bool CParamsSet::Serialize(iser::IArchive& archive)
 			}
 
 			retVal = retVal && archive.BeginTag(parameterValueTag);
-			const ParameterInfo* parameterInfoPtr = FindParameterInfo(id);
+			ParameterInfo* parameterInfoPtr = FindParameterInfo(id);
 			if (parameterInfoPtr != NULL){
 				retVal = retVal && parameterInfoPtr->parameterPtr->Serialize(archive);
 			}

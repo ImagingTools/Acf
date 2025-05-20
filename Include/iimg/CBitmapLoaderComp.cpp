@@ -97,7 +97,7 @@ ifile::IFilePersistence::OperationState CBitmapLoaderComp::LoadFromFile(
 	bool isOk = false;
 
 	if (CBitmap* qtBitmapPtr = dynamic_cast<CBitmap*>(&data)){
-		isOk = qtBitmapPtr->TakeImage(std::move(image));
+		isOk = qtBitmapPtr->CopyImageFrom(image);
 	}
 	else{
 		CBitmap tempQtBitmap(image);
