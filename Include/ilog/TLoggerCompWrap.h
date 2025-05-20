@@ -21,7 +21,7 @@ namespace ilog
 template <class Base>
 class TLoggerCompWrap:
 			public Base,
-			public ilog::CLoggerBase
+			virtual public ilog::CLoggerBase
 {
 public:
 	typedef Base BaseClass;

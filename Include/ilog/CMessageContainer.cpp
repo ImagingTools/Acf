@@ -29,17 +29,36 @@ CMessageContainer::CMessageContainer()
 
 
 CMessageContainer::CMessageContainer(const CMessageContainer& container)
-:	m_messages(container.m_messages),
-	m_slaveConsumerPtr(NULL),
+:	m_slaveConsumerPtr(NULL),
 	m_maxMessagesCount(container.m_maxMessagesCount),
 	m_worstCategory(container.m_worstCategory)
 {
+	for (const auto& message : container.m_messages){
+		ilog::IMessageConsumer::MessagePtr newMessagePtr;
+		newMessagePtr.SetCastedOrRemove(message->CloneMe());
+		m_messages.push_back(newMessagePtr);
+	}
+}
+
+
+CMessageContainer& CMessageContainer::operator=(const CMessageContainer& container)
+{
+	m_maxMessagesCount = container.m_maxMessagesCount;
+	m_worstCategory = container.m_worstCategory;
+
+	for (const auto& message : container.m_messages){
+		ilog::IMessageConsumer::MessagePtr newMessagePtr;
+		newMessagePtr.SetCastedOrRemove(message->CloneMe());
+		m_messages.push_back(newMessagePtr);
+	}
+
+	return *this;
 }
 
 
 int CMessageContainer::GetMessagesCount() const
 {
-	return m_messages.count();
+	return (int)m_messages.size();
 }
 
 
@@ -81,8 +100,8 @@ bool CMessageContainer::Serialize(iser::IArchive& archive)
 
 	if (archive.IsStoring()){
 		int serializableMessageCount = 0;
-		for (		Messages::ConstIterator iter = m_messages.constBegin();
-					iter != m_messages.constEnd();
+		for (		Messages::const_iterator iter = m_messages.cbegin();
+					iter != m_messages.cend();
 					++iter){
 			const IMessageConsumer::MessagePtr& messagePtr = *iter;
 
@@ -106,8 +125,8 @@ bool CMessageContainer::Serialize(iser::IArchive& archive)
 	Q_UNUSED(notifier);
 
 	if (archive.IsStoring()){
-		for (		Messages::ConstIterator iter = m_messages.constBegin();
-					iter != m_messages.constEnd();
+		for (		Messages::const_iterator iter = m_messages.cbegin();
+					iter != m_messages.cend();
 					++iter){
 			const IMessageConsumer::MessagePtr& messagePtr = *iter;
 
@@ -174,30 +193,30 @@ bool CMessageContainer::Serialize(iser::IArchive& archive)
 
 // reimplemented (ilog::IMessageContainer)
 
-int CMessageContainer::GetWorstCategory() const
+istd::IInformationProvider::InformationCategory CMessageContainer::GetWorstCategory() const
 {
 	int childCount = GetChildsCount();
 
 	if (m_worstCategory < 0){
-		m_worstCategory = 0;
+		m_worstCategory = istd::IInformationProvider::InformationCategory::IC_NONE;
 
-		for (		Messages::ConstIterator iter = m_messages.constBegin();
-					iter != m_messages.constEnd();
+		for (		Messages::const_iterator iter = m_messages.cbegin();
+					iter != m_messages.cend();
 					++iter){
 			const IMessageConsumer::MessagePtr& messagePtr = *iter;
 
-			int category = messagePtr->GetInformationCategory();
+			istd::IInformationProvider::InformationCategory category = messagePtr->GetInformationCategory();
 			if (category > m_worstCategory){
 				m_worstCategory = category;
 			}
 		}
 	}
 
-	int worstCategory = m_worstCategory;
+	istd::IInformationProvider::InformationCategory worstCategory = (istd::IInformationProvider::InformationCategory)m_worstCategory;
 	for (int childIndex = 0; childIndex < childCount; childIndex++){
 		IMessageContainer* childPtr = dynamic_cast<IMessageContainer*>(GetChild(childIndex));
 		if (childPtr != NULL){
-			int category = childPtr->GetWorstCategory();
+			istd::IInformationProvider::InformationCategory category = childPtr->GetWorstCategory();
 			if (category > worstCategory){
 				worstCategory = category;
 			}
@@ -212,8 +231,8 @@ IMessageContainer::Messages CMessageContainer::GetMessages() const
 {
 	IMessageContainer::Messages messages;
 
-	for (		Messages::ConstIterator iter = m_messages.constBegin();
-				iter != m_messages.constEnd();
+	for (		Messages::const_iterator iter = m_messages.cbegin();
+				iter != m_messages.cend();
 				++iter){	
 		messages.push_back(*iter);
 	}
@@ -225,7 +244,7 @@ IMessageContainer::Messages CMessageContainer::GetMessages() const
 
 		IMessageContainer::Messages childMessages = childPtr->GetMessages();
 
-		messages += childMessages;
+		messages.insert(messages.end(), childMessages.begin(), childMessages.end());
 	}
 
 	return messages;
@@ -252,8 +271,8 @@ void CMessageContainer::AddMessage(const IMessageConsumer::MessagePtr& messagePt
 	istd::CChangeNotifier changeNotifier(this);
 
 	m_messages.push_front(messagePtr);
-	if (m_worstCategory >= 0){
-		int messageCategory = messagePtr->GetInformationCategory();
+	if (m_worstCategory >= 0) {
+		istd::IInformationProvider::InformationCategory messageCategory = messagePtr->GetInformationCategory();
 		if (messageCategory > m_worstCategory){
 			m_worstCategory = messageCategory;
 		}
@@ -261,7 +280,7 @@ void CMessageContainer::AddMessage(const IMessageConsumer::MessagePtr& messagePt
 
 	if (m_maxMessagesCount >= 0){
 		while (int(m_messages.size()) > m_maxMessagesCount){
-			Q_ASSERT(!m_messages.isEmpty());
+			Q_ASSERT(!m_messages.empty());
 			const IMessageConsumer::MessagePtr& messageToRemovePtr = m_messages.back();
 			
 			int removeCategory = messageToRemovePtr->GetInformationCategory();
@@ -282,13 +301,13 @@ void CMessageContainer::AddMessage(const IMessageConsumer::MessagePtr& messagePt
 
 void CMessageContainer::ClearMessages()
 {
-	if (!m_messages.isEmpty()){
+	if (!m_messages.empty()){
 		istd::CChangeNotifier notifier(this, &s_resetChange);
 		Q_UNUSED(notifier);
 	
 		m_messages.clear();
 
-		m_worstCategory = 0;
+		m_worstCategory = istd::IInformationProvider::InformationCategory::IC_NONE;
 	}
 
 	for (		Childs::ConstIterator childIter = m_childContainers.constBegin();
@@ -337,9 +356,10 @@ bool CMessageContainer::CopyFrom(const istd::IChangeable& object, CompatibilityM
 		{
 			const CMessageContainer* sourcePtr = dynamic_cast<const CMessageContainer*>(&object);
 			if (sourcePtr != NULL){
-				int sourceMessageCount = sourcePtr->m_messages.count();
-				for (int messageIndex = 0; messageIndex < sourceMessageCount; messageIndex++){
-					const MessagePtr& sourceMessage = sourcePtr->m_messages[messageIndex];
+				for (Messages::const_iterator iter = sourcePtr->m_messages.cbegin();
+					iter != sourcePtr->m_messages.cend();
+					++iter) {
+					const MessagePtr sourceMessage = *iter;
 					Q_ASSERT(sourceMessage.IsValid());
 
 					istd::TDelPtr<istd::IInformationProvider> newMessagePtr;
@@ -362,9 +382,10 @@ bool CMessageContainer::CopyFrom(const istd::IChangeable& object, CompatibilityM
 			const IMessageContainer* sourcePtr = dynamic_cast<const IMessageContainer*>(&object);
 			if (sourcePtr != NULL){
 				Messages messages = sourcePtr->GetMessages();
-				int sourceMessageCount = messages.count();
-				for (int messageIndex = 0; messageIndex < sourceMessageCount; messageIndex++){
-					const MessagePtr& sourceMessage = messages[messageIndex];
+				for (Messages::const_iterator iter = messages.cbegin();
+					iter != messages.cend();
+					++iter) {
+					const MessagePtr sourceMessage = *iter;
 					Q_ASSERT(sourceMessage.IsValid());
 
 					istd::TDelPtr<istd::IInformationProvider> newMessagePtr;
@@ -391,13 +412,16 @@ bool CMessageContainer::IsEqual(const istd::IChangeable& object) const
 	const CMessageContainer* otherObjectPtr = dynamic_cast<const CMessageContainer*>(&object);
 	if (otherObjectPtr != NULL){
 		Messages otherMessages = otherObjectPtr->GetMessages();
-		if (m_messages.count() != otherMessages.count()){
+		if (m_messages.size() != otherMessages.size()){
 			return false;
 		}
 
-		for (int i = 0; i < m_messages.count(); ++i){
-			IMessageConsumer::MessagePtr messagePtr = m_messages.at(i);
-			IMessageConsumer::MessagePtr otherMessagePtr = otherMessages.at(i);
+		Messages::const_iterator it = m_messages.begin();
+		Messages::const_iterator other_it = otherMessages.begin();
+
+		for (size_t i = 0; i < m_messages.size(); ++i){
+			IMessageConsumer::MessagePtr messagePtr = *it;
+			IMessageConsumer::MessagePtr otherMessagePtr = *other_it;
 
 			if (messagePtr->GetSupportedOperations() & SO_COMPARE){
 				if (messagePtr->IsEqual(*otherMessagePtr)){
@@ -441,6 +465,9 @@ bool CMessageContainer::IsEqual(const istd::IChangeable& object) const
 					return false;
 				}
 			}
+		
+			it++;
+			other_it++;
 		}
 
 		return true;

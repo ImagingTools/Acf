@@ -85,9 +85,8 @@ void CTextLogGuiComp::UpdateFilters()
 	if (objectPtr != NULL){
 		QSet<QString> sources;
 		const ilog::IMessageContainer::Messages messages = objectPtr->GetMessages();
-		int messagesCount = messages.count();
-		for (int i = 0; i < messagesCount; i++){
-			const ilog::IMessageConsumer::MessagePtr messagePtr = messages.at(i);
+		for (ilog::IMessageContainer::Messages::const_iterator it = messages.begin(); it != messages.end(); it++) {
+			const ilog::IMessageConsumer::MessagePtr messagePtr = *it;
 			sources.insert(messagePtr->GetInformationSource());
 		}
 
@@ -120,15 +119,14 @@ void CTextLogGuiComp::GenerateDocument(
 	}
 
 	const ilog::IMessageContainer::Messages messages = objectPtr->GetMessages();
-	int messagesCount = messages.count();
 
 	QTextDocument* documentPtr = LogEditor->document();
 
 	QTextCursor textCursor(documentPtr);
 	textCursor.beginEditBlock();
 
-	for (int i = 0; i < messagesCount; i++){
-		const ilog::IMessageConsumer::MessagePtr& messagePtr = messages.at(i);
+	for (ilog::IMessageContainer::Messages::const_iterator it = messages.begin(); it != messages.end(); it++) {
+		const ilog::IMessageConsumer::MessagePtr messagePtr = *it;
 
 		// filter the message
 		int category = messagePtr->GetInformationCategory();

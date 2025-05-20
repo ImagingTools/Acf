@@ -2,8 +2,8 @@
 #define ilog_IMessageContainer_included
 
 
-// Qt includes
-#include <QtCore/QVector>
+// STL includes
+#include <list>
 
 // ACF includes
 #include <istd/IInformationProvider.h>
@@ -24,7 +24,7 @@ namespace ilog
 class IMessageContainer: virtual public iser::ISerializable
 {
 public:
-	typedef QList<IMessageConsumer::MessagePtr> Messages;
+	typedef std::list<IMessageConsumer::MessagePtr> Messages;
 
 	/**
 		Data model change notification flags.
@@ -40,7 +40,7 @@ public:
 		Get worst message category.
 		\sa IInformationProvider::InformationCategory
 	*/
-	virtual int GetWorstCategory() const = 0;
+	virtual istd::IInformationProvider::InformationCategory GetWorstCategory() const = 0;
 
 	/**
 		This function returns messages in the container. 
