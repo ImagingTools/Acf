@@ -16,7 +16,7 @@ namespace icmm
 
 CRgbColorModel::CRgbColorModel()
 	:m_unitInfo(0, "", 1.0, istd::CRange(0, 1.0)),
-	m_spec(ObserverType::TwoDegree, AstmTableType::E308Table5, std::make_shared<CIlluminant>(StandardIlluminant::D50, "D50"))
+	m_spec(ObserverType::TwoDegree, AstmTableType::E308Table5, std::make_shared<CIlluminant>(StandardIlluminant::D50))
 {
 }
 

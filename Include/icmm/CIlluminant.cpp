@@ -9,11 +9,17 @@ namespace icmm
 {
 
 
-CIlluminant::CIlluminant(
-			StandardIlluminant illuminantType,
-			const QString& illuminantName,
-			const icmm::CVarColor& whitePoint)
-	:m_illuminantType(illuminantType),
+// public methods
+
+CIlluminant::CIlluminant(StandardIlluminant illuminantType)
+	:m_illuminantType(illuminantType)
+{
+	InitFromStandardIlluminant(illuminantType);
+}
+
+
+CIlluminant::CIlluminant(const QString& illuminantName, const icmm::CVarColor& whitePoint)
+	:m_illuminantType(icmm::StandardIlluminant::Custom),
 	m_illuminantName(illuminantName),
 	m_whitePoint(whitePoint)
 {
@@ -87,10 +93,53 @@ bool CIlluminant::IsEqual(const IChangeable& other) const
 		return false;
 	}
 
-	return m_illuminantType == objectPtr->GetIllumninantType() &&
-		   m_illuminantName == objectPtr->GetIllumninantName() &&
-		   m_whitePoint == objectPtr->GetWhitePoint();
+	return
+				m_illuminantType == objectPtr->GetIllumninantType() &&
+				m_illuminantName == objectPtr->GetIllumninantName() &&
+				m_whitePoint == objectPtr->GetWhitePoint();
 }
+
+
+// protected methods
+
+void CIlluminant::InitFromStandardIlluminant(StandardIlluminant illuminantType)
+{
+	/// \todo Implement white point for each standard illuminant types.
+
+	switch (illuminantType){
+	case icmm::StandardIlluminant::A:
+		m_illuminantName = "A";
+		break;
+	case icmm::StandardIlluminant::B:
+		m_illuminantName = "B";
+		break;
+	case icmm::StandardIlluminant::C:
+		m_illuminantName = "C";
+		break;
+	case icmm::StandardIlluminant::D50:
+		m_illuminantName = "D50";
+		break;
+	case icmm::StandardIlluminant::D55:
+		m_illuminantName = "D55";
+		break;
+	case icmm::StandardIlluminant::D60:
+		m_illuminantName = "D60";
+		break;
+	case icmm::StandardIlluminant::D65:
+		m_illuminantName = "D65";
+		break;
+	case icmm::StandardIlluminant::D75:
+		m_illuminantName = "D75";
+		break;
+	case icmm::StandardIlluminant::E:
+		m_illuminantName = "E";
+		break;
+	default:
+		Q_ASSERT(false);
+		break;
+	}
+}
+
 
 } // namespace icmm
 

@@ -12,12 +12,12 @@
 namespace icmm
 {
 
-CSRgbColor::CSRgbColor(const icmm::CRgb& Rgb)
-	:CRgbColor(Rgb)
+CSRgbColor::CSRgbColor(const icmm::CRgb& rgb)
+	:BaseClass(rgb)
 {
-    CTristimulusSpecification spec(ObserverType::TwoDegree, AstmTableType::E308Table5, std::make_shared<CIlluminant>(StandardIlluminant::D65, "D65"));
- 
-    SetSpecification(spec);
+	CTristimulusSpecification spec(ObserverType::TwoDegree, AstmTableType::E308Table5, std::make_shared<CIlluminant>(StandardIlluminant::D65));
+
+	SetSpecification(spec);
 }
 
 

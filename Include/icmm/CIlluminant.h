@@ -12,10 +12,21 @@ namespace icmm
 class CIlluminant: virtual public IIlluminant
 {
 public:
+	/**
+		Construct an illuminant based on a standard type.
+	*/
+	CIlluminant(StandardIlluminant illuminantType = StandardIlluminant::D50);
+
+	/**
+		Construct a custom illumninant.
+	*/
 	CIlluminant(
-				StandardIlluminant illuminantType = StandardIlluminant::D65,
-				const QString& illuminantName = "D65",
-				const icmm::CVarColor& whitePoint = icmm::CVarColor());
+		const QString& illuminantName,
+		const icmm::CVarColor& whitePoint);
+
+	/**
+		Copy constructor
+	*/
 	CIlluminant(const CIlluminant& other);
 
 	// reimplemented (IWhitePointProvider)
@@ -31,9 +42,12 @@ public:
 	// reimplemented (istd::IChangeable)
 	virtual bool IsEqual(const istd::IChangeable& other) const override;
 
+protected:
+	void InitFromStandardIlluminant(StandardIlluminant illuminantType);
+
 private:
-	StandardIlluminant m_illuminantType = StandardIlluminant::D65;
-	QString m_illuminantName = "D65";
+	StandardIlluminant m_illuminantType = StandardIlluminant::D50;
+	QString m_illuminantName = "D50";
 	icmm::CVarColor m_whitePoint;
 };
 
