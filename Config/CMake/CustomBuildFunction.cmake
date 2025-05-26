@@ -21,91 +21,48 @@ function (acf_custom_build_ext PROJECT_BINARY_DIR ARXC_FILES ARXC_CONFIG ACF_CON
 		set(ARX_COMPILER "Arxc.exe")
 		set(ACF_TOOL "Acf.exe")
 		set(QMAKE_RCC "rcc.exe")
-		set(COPY_FILE "copy")
 		set(QMAKE_LRELEASE "lrelease.exe")
+	elseif(APPLE)
+		set(ARX_COMPILER "Arxc.app/Contents/MacOS/Arxc")
+		set(ACF_TOOL "Acf.app/Contents/MacOS/Acf")
+		set(QMAKE_RCC "rcc")
+		set(QMAKE_LRELEASE "lrelease")
 	else()
 		set(ARX_COMPILER "Arxc")
 		set(ACF_TOOL "Acf")
 		set(QMAKE_RCC "rcc")
-		set(COPY_FILE "cp")
 		set(QMAKE_LRELEASE "lrelease")
-	endif()
-
-	if (APPLE)
-		set(ARX_COMPILER "Arxc.app/Contents/MacOS/Arxc")
-		set(ACF_TOOL "Acf.app/Contents/MacOS/Acf")
 	endif()
 
 	get_target_name(TARGETNAME)
 
-	set(ACFTOOLS "${CMAKE_CURRENT_FUNCTION_LIST_DIR}/../../../AcfTools")
+	set(ARXCBIN "${ACFDIR_BUILD}/Bin/${CMAKE_BUILD_TYPE}_${TARGETNAME}/${ARX_COMPILER}")
+	set(ACFBIN "${ACFDIR_BUILD}/Bin/${CMAKE_BUILD_TYPE}_${TARGETNAME}/${ACF_TOOL}")
 
-	set(ARXCBIN "${CMAKE_CURRENT_FUNCTION_LIST_DIR}/../../Bin/${CMAKE_BUILD_TYPE}_${TARGETNAME}/${ARX_COMPILER}")
-	set(ACFBIN "${CMAKE_CURRENT_FUNCTION_LIST_DIR}/../../Bin/${CMAKE_BUILD_TYPE}_${TARGETNAME}/${ACF_TOOL}")
-
-	set(ARXC_OUTFILE_NAME C${A_PROJECT_NAME})
-	set(ARXC_OUTFILE "${PROJECT_BINARY_DIR}/Generated/${A_PROJECT_NAME}/${ARXC_OUTFILE_NAME}")
+	set(ARXC_OUTFILE "${PROJECT_BINARY_DIR}/Generated/${A_PROJECT_NAME}/C${A_PROJECT_NAME}")
 	file(MAKE_DIRECTORY "${PROJECT_BINARY_DIR}/Generated/${A_PROJECT_NAME}")
 
 	set(HEADER_FILE_AUX "${ARXC_OUTFILE}.h")
 	set(SOURCES_FILE_AUX "${ARXC_OUTFILE}.cpp")
 	set(ARXC_OUTFILE "${ARXC_OUTFILE}.cpp")
 
-	# collecting additional deps for ARX
-	set(ARX_DEPS_LIST)
-	if(ARXC_CONFIG)
-		set(ARX_DEPS_FILE_PATH "${PROJECT_BINARY_DIR}/Generated/${A_PROJECT_NAME}/ArxDependsList.txt")
-		set(ARX_ERRORS_FILE_PATH "${PROJECT_BINARY_DIR}/Generated/${A_PROJECT_NAME}/ArxDependsList_errors.txt")
-
-		message("Collecting ARX dependences for ${A_PROJECT_NAME}")
-
-		execute_process(
-			COMMAND
-				${ARXCBIN} ${ARXC_FILES} -mode depends -config ${ARXC_CONFIG} -conf_name ${CMAKE_BUILD_TYPE}_${TARGETNAME} -env_vars ${ACF_ENV_VARS_SINGLE_STRING}
-			OUTPUT_FILE
-				${ARX_DEPS_FILE_PATH}
-			ERROR_FILE
-				${ARX_ERRORS_FILE_PATH}
-			RESULT_VARIABLE
-				ARX_DEPS_GENERATION_RESULT_CODE
-		)
-
-		if(NOT ARX_DEPS_GENERATION_RESULT_CODE EQUAL 0)
-			message("!!! ARX Cannot to create dependens")
-				message("TARGETNAME ${TARGETNAME}")
-
-			file(STRINGS ${ARX_DEPS_FILE_PATH} ERRORS1_ARX_DEPS_LIST)
-			message("${ERRORS1_ARX_DEPS_LIST}")
-
-			file(STRINGS ${ARX_ERRORS_FILE_PATH} ERRORS2_ARX_DEPS_LIST)
-			message("${ERRORS2_ARX_DEPS_LIST}")
-
-			message("COMMAND!!! ${ARXCBIN} ${ARXC_FILES} -mode depends -config ${ARXC_CONFIG} -conf_name ${CMAKE_BUILD_TYPE}_${TARGETNAME} -env_vars ${ACF_ENV_VARS_SINGLE_STRING}")		
-			execute_process(
-			COMMAND
-				${ARXCBIN} ${ARXC_FILES} -mode depends -config ${ARXC_CONFIG} -conf_name ${CMAKE_BUILD_TYPE}_${TARGETNAME} -v -env_vars ${ENV_VARS}
-			)	
-			message(FATAL_ERROR "!!! ARX finished unexpected [${ARX_DEPS_GENERATION_RESULT_CODE}]")	
-		endif()
-
-		file(STRINGS ${ARX_DEPS_FILE_PATH} ARX_DEPS_LIST)
-	endif()
-
+	# NOTE: OUTPUT order must be same as in the DEPFILE
 	add_custom_command(
-		OUTPUT ${ARXC_OUTFILE} ${HEADER_FILE_AUX}
+		OUTPUT ${HEADER_FILE_AUX} ${SOURCES_FILE_AUX}
 		COMMAND ${ARXCBIN}
-		ARGS ${ARXC_FILES} -o ${ARXC_OUTFILE} -config ${ARXC_CONFIG} -conf_name ${CMAKE_BUILD_TYPE}_${TARGETNAME} -env_vars ${ACF_ENV_VARS_SINGLE_STRING} -v
-		DEPENDS ${ARXCBIN} ${ARXC_FILES} ${ARX_DEPS_LIST} VERBATIM
-		COMMENT "ArxcBinStarts: ${ARXCBIN} ${ARXC_FILES} -o ${ARXC_OUTFILE} -config ${ARXC_CONFIG} -conf_name ${TARGETNAME} -env_vars ${ACF_ENV_VARS_SINGLE_STRING} -v"
-		)
+		ARGS ${ARXC_FILES} -o ${ARXC_OUTFILE} -d ${ARXC_OUTFILE}.d -config ${ARXC_CONFIG} -conf_name ${CMAKE_BUILD_TYPE}_${TARGETNAME} -env_vars ${ACF_ENV_VARS_SINGLE_STRING}
+		DEPENDS ${ARXCBIN} ${ARXC_FILES}
+		DEPFILE ${ARXC_OUTFILE}.d
+		VERBATIM
+		COMMENT "ArxcBinStarts: ${ARXCBIN} ${ARXC_FILES} -o ${ARXC_OUTFILE} -d ${ARXC_OUTFILE}.d -config ${ARXC_CONFIG} -conf_name ${TARGETNAME} -env_vars ${ACF_ENV_VARS_SINGLE_STRING} -v"
+	)
 
-	target_sources(${A_PROJECT_NAME} PRIVATE ${SOURCES_FILE_AUX})
-	target_sources(${A_PROJECT_NAME} PRIVATE ${HEADER_FILE_AUX})
+	target_sources(${A_PROJECT_NAME} PRIVATE ${HEADER_FILE_AUX} ${SOURCES_FILE_AUX})
+	set_property(SOURCE ${SOURCES_FILE_AUX} ${HEADER_FILE_AUX} PROPERTY SKIP_AUTOGEN ON)
 
 	if(WIN32)
 		if(ACF_CONVERT_FILES)
 			set(RC_FILE "${PROJECT_BINARY_DIR}/${A_PROJECT_NAME}.rc")
-			set(RC_COMPILE_FILE "${PROJECT_BINARY_DIR}/${A_PROJECT_NAME}.res")
 
 			set(ALL_ACF_ARX_DEPS ${ACF_CONVERT_FILES})
 			if(ACF_ARX_DEPS)
@@ -118,7 +75,7 @@ function (acf_custom_build_ext PROJECT_BINARY_DIR ARXC_FILES ARXC_CONFIG ACF_CON
 				ARGS ${ACF_CONVERT_REGISTRY} -console -config ${ACF_CONVERT_CONFIG} -input ${ACF_CONVERT_FILES} -o ${RC_FILE} -env_vars ${ACF_ENV_VARS_SINGLE_STRING}
 				COMMENT "Start convert ${A_PROJECT_NAME}.rc"
 				DEPENDS ${ALL_ACF_ARX_DEPS} ${ARX_DEPS_LIST} VERBATIM)
-			add_custom_target(CONVERT_FILES${A_PROJECT_NAME} ALL DEPENDS ${RC_FILE})
+			#add_custom_target(CONVERT_FILES${A_PROJECT_NAME} ALL DEPENDS ${RC_FILE})
 		endif()
 	endif()
 
@@ -131,8 +88,6 @@ function (acf_custom_build_ext PROJECT_BINARY_DIR ARXC_FILES ARXC_CONFIG ACF_CON
 		add_custom_target(LRELEASE${A_PROJECT_NAME} ALL DEPENDS ${TRANSLATION_OUTPUT_FILE})
 	endif()
 
-	set_property(SOURCE ${SOURCES_FILE_AUX} PROPERTY SKIP_AUTOMOC ON)
-	set_property(SOURCE ${HEADER_FILE_AUX} PROPERTY SKIP_AUTOMOC ON)
-
 endfunction()
+
 
