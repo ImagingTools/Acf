@@ -25,9 +25,15 @@ public:
 		return m_interfacePtr != nullptr;
 	}
 
-	InterfaceType* GetPtr() const
+	template<typename Interface = InterfaceType>
+	Interface* GetPtr() const
 	{
-		return m_interfacePtr;
+		if constexpr (std::is_same_v<Interface, InterfaceType>){
+			return static_cast<Interface*>(m_interfacePtr);
+		}
+		else{
+			return dynamic_cast<Interface*>(m_interfacePtr);
+		}
 	}
 
 	const InterfaceType* operator->() const

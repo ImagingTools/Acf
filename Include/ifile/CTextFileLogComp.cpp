@@ -79,7 +79,7 @@ void CTextFileLogComp::OnComponentCreated()
 		m_fileNameModelCompPtr->AttachObserver(&m_filePathObserver);
 	}
 
-	connect(&m_tryTimer, SIGNAL(timeout()), this, SLOT(OnTryTimer()));
+	connect(&m_tryTimer, &QTimer::timeout, this, &CTextFileLogComp::OnTryTimer);
 
 	OpenFileStream();
 }
