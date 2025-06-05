@@ -15,9 +15,9 @@ class CTristimulusSpecification: virtual public ITristimulusSpecification
 {
 public:
 	CTristimulusSpecification(
-				ObserverType observerType,
-				AstmTableType method,
-				std::shared_ptr<IIlluminant> illuminantPtr,
+				ObserverType observerType = ObserverType::TwoDegree,
+				AstmTableType method = AstmTableType::Unknown,
+				std::shared_ptr<IIlluminant> illuminantPtr = nullptr,
 				std::shared_ptr<ISpectralColorSpecification> baseSpec = nullptr);
 
 	CTristimulusSpecification(const ITristimulusSpecification& other);
