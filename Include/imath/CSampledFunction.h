@@ -100,7 +100,7 @@ inline double CSampledFunction::GetSampleCoordinate(int index) const
 	Q_ASSERT(0 <= index);
 	Q_ASSERT(index < m_samplesContainer.size());
 
-	return m_logicalRange.GetValueFromAlpha(double(index) / double(m_samplesContainer.size()));
+	return m_logicalRange.GetValueFromAlpha(double(index) / double(m_samplesContainer.size() - 1));
 }
 
 
