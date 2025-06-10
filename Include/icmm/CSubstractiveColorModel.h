@@ -99,12 +99,17 @@ public:
 	*/
 	ColorantIds GetSpotColorants() const;
 
+	// reimplemented ISubstractiveColorModel
+	virtual std::unique_ptr<ISubstractiveColorModel> CreateSubspaceModel(const QStringList& colorantIds) const override;
+
 	// reimplemented (icmm::IColorantList)
 	virtual ColorantIds GetColorantIds() const override;
 	virtual ColorantUsage GetColorantUsage(const ColorantId& colorantId) const override;
 
 	// reimplemented (iser::ISerializable)
 	virtual bool Serialize(iser::IArchive& archive) override;
+
+	static std::unique_ptr<ISubstractiveColorModel> CreateSubspaceModelFrom(const CSubstractiveColorModelBase& model, const QStringList& colorantIds);
 
 protected:
 	struct ColorantInfo

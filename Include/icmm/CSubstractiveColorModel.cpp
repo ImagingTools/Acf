@@ -257,6 +257,14 @@ IColorantList::ColorantIds CSubstractiveColorModel::GetSpotColorants() const
 }
 
 
+// reimplemented ISubstractiveColorModel
+
+std::unique_ptr<ISubstractiveColorModel> CSubstractiveColorModel::CreateSubspaceModel(const QStringList& colorantIds) const
+{
+	return CreateSubspaceModelFrom(*this, colorantIds);
+}
+
+
 // reimplemented (icmm::IColorantList)
 
 IColorantList::ColorantIds CSubstractiveColorModel::GetColorantIds() const
@@ -413,6 +421,31 @@ bool CSubstractiveColorModel::SerializeColorantInfo(
 	retVal = retVal && archive.EndTag(usageTag);
 
 	return retVal;
+}
+
+// static methods
+
+std::unique_ptr<ISubstractiveColorModel> CSubstractiveColorModel::CreateSubspaceModelFrom(const CSubstractiveColorModelBase& model, const QStringList& colorantIds) 
+{
+	auto subModel = std::make_unique<imod::TModelWrap<CSubstractiveColorModel>>();
+	subModel->SetPreviewSpec(model.GetPreviewSpec());
+
+	auto modelIds = model.GetColorantIds();
+
+	for (const auto& id : colorantIds) {
+		if (!modelIds.contains(id)) {
+			return nullptr;
+		}
+		if (!subModel->InsertColorant(id, model.GetColorantUsage(id))) {
+			return nullptr;
+		}
+		icmm::CCieLabColor cieLab(nullptr);
+		if (model.GetColorantVisualInfo(id, cieLab)) {
+			subModel->SetColorantPreview(id, cieLab.GetLab());
+		}
+	}
+
+	return subModel;
 }
 
 

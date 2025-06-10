@@ -97,7 +97,8 @@ inline int TISampledFunction<ArgumentDimensions, ResultDimensions>::GetResultDim
 class ISampledFunction : public TISampledFunction<1, 1>
 {
 public:
-	double operator[](int index) const{
+	double operator[](int index) const
+	{
 		return GetSampleAt(istd::TIndex<1>(index));
 	}
 };
