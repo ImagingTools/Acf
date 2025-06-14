@@ -121,6 +121,7 @@ public:
 		Get read-only access to internal element container.
 	*/
 	const Elements& GetElements() const;
+
 	/**
 		Get access to internal element container.
 	*/
@@ -195,6 +196,7 @@ public:
 		\return	true, if normalization successed.
 	*/
 	bool Normalize(double length = 1.0);
+
 	/**
 		Return normalized vector with the same direction and specified length.
 		\param	length	new vector length.
@@ -206,6 +208,7 @@ public:
 		Get vector with minimal elements values.
 	*/
 	void GetMinimal(const CVarVector& vector, CVarVector& result) const;
+
 	/**
 		Get vector with maximal elements values.
 	*/
@@ -413,7 +416,7 @@ inline double CVarVector::GetDotProduct(const CVarVector& vector) const
 
 	int elementsCount = GetElementsCount();
 	for (int i = 0; i < elementsCount; ++i){
-		retVal +=  m_elements[i] * vector.m_elements[i];
+		retVal += m_elements[i] * vector.m_elements[i];
 	}
 
 	return retVal;
@@ -475,10 +478,10 @@ inline bool CVarVector::operator<(const CVarVector& vector) const
 	int vectorCount = int(vector.m_elements.size());
 	int commonSize = qMin(count, vectorCount);
 	for (int i = 0; i < commonSize; ++i){
-		int element = m_elements[i];
-		int vectorElement = vector.m_elements[i];
-		if (element != vectorElement){
-			return element < vectorElement;
+		double element = m_elements[i];
+		double vectorElement = vector.m_elements[i];
+		if (!qFuzzyCompare(element, vectorElement)){
+			return m_elements[i] < vectorElement;
 		}
 	}
 
@@ -492,9 +495,9 @@ inline bool CVarVector::operator>(const CVarVector& vector) const
 	int vectorCount = int(vector.m_elements.size());
 	int commonSize = qMin(count, vectorCount);
 	for (int i = 0; i < commonSize; ++i){
-		int element = m_elements[i];
-		int vectorElement = vector.m_elements[i];
-		if (element != vectorElement){
+		double element = m_elements[i];
+		double vectorElement = vector.m_elements[i];
+		if (!qFuzzyCompare(element, vectorElement)){
 			return element > vectorElement;
 		}
 	}
@@ -509,9 +512,9 @@ inline bool CVarVector::operator<=(const CVarVector& vector) const
 	int vectorCount = int(vector.m_elements.size());
 	int commonSize = qMin(count, vectorCount);
 	for (int i = 0; i < commonSize; ++i){
-		int element = m_elements[i];
-		int vectorElement = vector.m_elements[i];
-		if (element != vectorElement){
+		double element = m_elements[i];
+		double vectorElement = vector.m_elements[i];
+		if (!qFuzzyCompare(element, vectorElement)){
 			return element < vectorElement;
 		}
 	}
@@ -526,9 +529,9 @@ inline bool CVarVector::operator>=(const CVarVector& vector) const
 	int vectorCount = int(vector.m_elements.size());
 	int commonSize = qMin(count, vectorCount);
 	for (int i = 0; i < commonSize; ++i){
-		int element = m_elements[i];
-		int vectorElement = vector.m_elements[i];
-		if (element != vectorElement){
+		double element = m_elements[i];
+		double vectorElement = vector.m_elements[i];
+		if (!qFuzzyCompare(element, vectorElement)){
 			return element > vectorElement;
 		}
 	}
