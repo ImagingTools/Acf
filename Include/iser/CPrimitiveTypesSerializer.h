@@ -3,6 +3,7 @@
 
 // STL includes
 #include <typeinfo>
+#include <memory>
 
 // Qt includes
 #include <QtCore/QDateTime>
@@ -446,7 +447,7 @@ bool CPrimitiveTypesSerializer::SerializeAssociativeContainer(
 		for (int i = 0; i < paramsCount; ++i){
 			retVal = retVal && archive.BeginTag(parameterTag);
 
-			typename ContainerType::key_type key;
+			typename ContainerType::key_type key = ContainerType::key_type();
 			retVal = retVal && archive.BeginTag(parameterKeyTag);
 			retVal = retVal && SerializeKeyFunction(archive, key);
 			retVal = retVal && archive.EndTag(parameterKeyTag);
@@ -525,7 +526,7 @@ bool CPrimitiveTypesSerializer::SerializeAssociativeObjectContainer(
 		for (int i = 0; i < paramsCount; ++i){
 			retVal = retVal && archive.BeginTag(parameterTag);
 
-			typename ContainerType::key_type key;
+			typename ContainerType::key_type key = ContainerType::key_type();
 			retVal = retVal && archive.BeginTag(parameterKeyTag);
 			retVal = retVal && SerializeKeyFunction(archive, key);
 			retVal = retVal && archive.EndTag(parameterKeyTag);
