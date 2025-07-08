@@ -31,6 +31,11 @@ public:
 	// reimplemented (istd::IChangeable)
 	virtual bool IsEqual(const istd::IChangeable& other) const override;
 
+	bool operator==(const CTristimulusSpecification& other) const;
+
+	// Return instance of commonly used specification
+	static const icmm::CTristimulusSpecification& GetD50TwoDegree();
+
 private:
 	ObserverType m_observerType;
 	AstmTableType m_method;

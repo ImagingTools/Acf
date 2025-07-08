@@ -17,6 +17,7 @@ class CSpectrumInfo: virtual public ISpectrumInfo, virtual public iser::ISeriali
 {
 public:
 	CSpectrumInfo();
+	CSpectrumInfo(const istd::CIntRange& range, int step);
 
 	bool SetRange(const istd::CIntRange& range);
 	bool SetStep(int step);
@@ -40,7 +41,7 @@ public:
 
 private:
 	istd::CIntRange m_range;
-	int m_step;
+	int m_step = 0;
 };
 
 

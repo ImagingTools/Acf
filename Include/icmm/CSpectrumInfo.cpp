@@ -14,8 +14,14 @@ namespace icmm
 
 
 CSpectrumInfo::CSpectrumInfo()
-	: m_step(0)
 {
+}
+
+CSpectrumInfo::CSpectrumInfo(const istd::CIntRange& range, int step)
+{
+	Q_ASSERT(range.GetLength() % step == 0);
+	SetRange(range);
+	SetStep(step);
 }
 
 

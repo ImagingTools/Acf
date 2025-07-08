@@ -277,6 +277,17 @@ const IChangeable::ChangeSet IChangeable::s_allChanges(CF_ALL_DATA);
 const IChangeable::ChangeSet IChangeable::s_delegatedChanges(CF_DELEGATED);
 
 
+bool AreObjectsEqual(const IChangeable* a, const IChangeable* b)
+{
+	if (a && b){
+		return a->IsEqual(*b);
+	}
+	else{
+		return !a && !b;
+	}
+}
+
+
 } // namespace istd
 
 

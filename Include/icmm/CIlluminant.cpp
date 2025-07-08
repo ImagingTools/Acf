@@ -54,13 +54,13 @@ void CIlluminant::SetWhitePoint(const icmm::CVarColor& whitePoint)
 }
 
 
-QString CIlluminant::GetIllumninantName() const
+QString CIlluminant::GetIlluminantName() const
 {
 	return m_illuminantName;
 }
 
 
-void CIlluminant::SetIllumninantName(const QString& illuminantName)
+void CIlluminant::SetIlluminantName(const QString& illuminantName)
 {
 	if (m_illuminantName != illuminantName){
 		istd::CChangeNotifier changeNotifier(this);
@@ -70,13 +70,13 @@ void CIlluminant::SetIllumninantName(const QString& illuminantName)
 }
 
 
-StandardIlluminant CIlluminant::GetIllumninantType() const
+StandardIlluminant CIlluminant::GetIlluminantType() const
 {
 	return m_illuminantType;
 }
 
 
-void CIlluminant::SetIllumninantType(const StandardIlluminant& illuminantType)
+void CIlluminant::SetIlluminantType(const StandardIlluminant& illuminantType)
 {
 	if (m_illuminantType != illuminantType){
 		istd::CChangeNotifier changeNotifier(this);
@@ -94,8 +94,8 @@ bool CIlluminant::IsEqual(const IChangeable& other) const
 	}
 
 	return
-				m_illuminantType == objectPtr->GetIllumninantType() &&
-				m_illuminantName == objectPtr->GetIllumninantName() &&
+				m_illuminantType == objectPtr->GetIlluminantType() &&
+				m_illuminantName == objectPtr->GetIlluminantName() &&
 				m_whitePoint == objectPtr->GetWhitePoint();
 }
 

@@ -18,7 +18,7 @@ public:
 	CIlluminant(StandardIlluminant illuminantType = StandardIlluminant::D50);
 
 	/**
-		Construct a custom illumninant.
+		Construct a custom Illuminant.
 	*/
 	CIlluminant(
 		const QString& illuminantName,
@@ -34,10 +34,10 @@ public:
 
 	// reimplemented (IIluminant)
 	virtual void SetWhitePoint(const icmm::CVarColor& whitePoint) override;
-	virtual QString GetIllumninantName() const override;
-	virtual void SetIllumninantName(const QString& illuminantName) override;
-	virtual StandardIlluminant GetIllumninantType() const override;
-	virtual void SetIllumninantType(const StandardIlluminant& illuminantType) override;
+	virtual QString GetIlluminantName() const override;
+	virtual void SetIlluminantName(const QString& illuminantName) override;
+	virtual StandardIlluminant GetIlluminantType() const override;
+	virtual void SetIlluminantType(const StandardIlluminant& illuminantType) override;
 
 	// reimplemented (istd::IChangeable)
 	virtual bool IsEqual(const istd::IChangeable& other) const override;

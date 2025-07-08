@@ -61,17 +61,26 @@ bool CTristimulusSpecification::IsEqual(const IChangeable& other) const
 		return false;
 	}
 
-	auto otherBaseSpec = objectPtr->GetBaseSpecification();
-	bool isBaseSpecSame = this->m_baseSpec == nullptr && otherBaseSpec == nullptr;
-	if (!isBaseSpecSame && this->m_baseSpec && otherBaseSpec) {
-		isBaseSpecSame = this->m_baseSpec->IsEqual(*otherBaseSpec);
-	}
+	return *this == *objectPtr;
+}
 
-	return
-				m_observerType == objectPtr->GetObserverType() &&
-				m_method == objectPtr->GetMethod() &&
-				m_illuminant->IsEqual(*objectPtr->GetIlluminant()) &&
-				isBaseSpecSame;
+
+bool CTristimulusSpecification::operator==(const CTristimulusSpecification& other) const
+{
+	return m_observerType == other.m_observerType
+		&& m_method == other.m_method
+		&& istd::AreObjectsEqual(m_illuminant.get(), other.m_illuminant.get())
+		&& istd::AreObjectsEqual(m_baseSpec.get(), other.m_baseSpec.get());
+}
+
+
+const icmm::CTristimulusSpecification& CTristimulusSpecification::GetD50TwoDegree()
+{
+	static const icmm::CTristimulusSpecification spec(
+		icmm::ObserverType::TwoDegree,
+		icmm::AstmTableType::Unknown,
+		std::make_shared<icmm::CIlluminant>(icmm::StandardIlluminant::D50));
+	return spec;
 }
 
 } // namespace icmm
