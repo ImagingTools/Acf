@@ -3,6 +3,7 @@
 
 // ACF includes
 #include <istd/CChangeNotifier.h>
+#include <imath/CGeneralUnitInfo.h>
 
 
 namespace icmm
@@ -57,9 +58,15 @@ int CCieLabColorModel::GetColorSpaceDimensionality() const
 }
 
 
-const imath::IUnitInfo* CCieLabColorModel::GetColorSpaceComponentInfo(int /*componentIndex*/) const
+const imath::IUnitInfo* CCieLabColorModel::GetColorSpaceComponentInfo(int componentIndex) const
 {
-	return nullptr;
+	static const std::array<imath::CGeneralUnitInfo, 3> cieLabUnitInfo = {
+	imath::CGeneralUnitInfo(imath::IUnitInfo::UnitType::UT_TECHNICAL, "", 1.0, istd::CRange(0.0, 100.0)),
+	imath::CGeneralUnitInfo(imath::IUnitInfo::UnitType::UT_TECHNICAL, "", 1.0, istd::CRange(-128.0, 127.0)),
+	imath::CGeneralUnitInfo(imath::IUnitInfo::UnitType::UT_TECHNICAL, "", 1.0, istd::CRange(-128.0, 127.0))
+	};
+
+	return &cieLabUnitInfo.at(componentIndex);
 }
 
 

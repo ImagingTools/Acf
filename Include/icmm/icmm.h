@@ -222,6 +222,8 @@ I_DECLARE_ENUM(
 			CU_ECG,
 			CU_SPOT);
 
+bool IsCmyk(ColorantUsage usage);
+
 
 } // namespace icmm
 

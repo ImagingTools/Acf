@@ -1,4 +1,4 @@
-#include <icmm/Test/CSubstraactiveColorModelTest.h>
+#include <icmm/Test/CSubstractiveColorModelTest.h>
 
 
 // ACF includes
@@ -9,7 +9,7 @@
 #include <icmm/CSubstractiveColorModel.h>
 
 
-void CSubstraactiveColorModelTest::DoSerializeTest()
+void CSubstractiveColorModelTest::DoSerializeTest()
 {
 	icmm::CSubstractiveColorModel model;
 	model.InsertColorant("Cyan", icmm::CU_CYAN);
@@ -29,7 +29,7 @@ void CSubstraactiveColorModelTest::DoSerializeTest()
 }
 
 
-void CSubstraactiveColorModelTest::DoAppendColorantTest()
+void CSubstractiveColorModelTest::DoAppendColorantTest()
 {
 	icmm::CSubstractiveColorModel model;
 	model.InsertColorant("Cyan", icmm::CU_CYAN);
@@ -49,7 +49,7 @@ void CSubstraactiveColorModelTest::DoAppendColorantTest()
 }
 
 
-void CSubstraactiveColorModelTest::DoCreateModelFromNamesTest()
+void CSubstractiveColorModelTest::DoCreateModelFromNamesTest()
 {
 	QStringList colorants = {"Cyan", "Magenta", "Violet", "Red", "Blue", "Green", "Orange"};
 
@@ -67,7 +67,7 @@ void CSubstraactiveColorModelTest::DoCreateModelFromNamesTest()
 }
 
 
-void CSubstraactiveColorModelTest::DoAppendModelTest()
+void CSubstractiveColorModelTest::DoAppendModelTest()
 {
 	icmm::CSubstractiveColorModel model;
 	model.InsertColorant("Cyan", icmm::CU_CYAN);
@@ -106,7 +106,7 @@ void CSubstraactiveColorModelTest::DoAppendModelTest()
 }
 
 
-void CSubstraactiveColorModelTest::CheckColorantsTest()
+void CSubstractiveColorModelTest::CheckColorantsTest()
 {
 	icmm::CSubstractiveColorModel model;
 	QVERIFY(!model.HasProcessColorants());
@@ -141,7 +141,7 @@ void CSubstraactiveColorModelTest::CheckColorantsTest()
 }
 
 
-void CSubstraactiveColorModelTest::RemoveColorantTest()
+void CSubstractiveColorModelTest::RemoveColorantTest()
 {
 	icmm::CSubstractiveColorModel model;
 	model.InsertColorant("Cyan", icmm::CU_CYAN);
@@ -154,7 +154,7 @@ void CSubstraactiveColorModelTest::RemoveColorantTest()
 }
 
 
-void CSubstraactiveColorModelTest::EqualTest()
+void CSubstractiveColorModelTest::EqualTest()
 {
 	icmm::CSubstractiveColorModel model;
 	model.InsertColorant("Cyan", icmm::CU_CYAN);
@@ -178,6 +178,6 @@ void CSubstraactiveColorModelTest::EqualTest()
 }
 
 
-I_ADD_TEST(CSubstraactiveColorModelTest);
+I_ADD_TEST(CSubstractiveColorModelTest);
 
 

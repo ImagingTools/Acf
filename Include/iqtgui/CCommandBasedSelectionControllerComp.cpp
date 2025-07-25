@@ -46,12 +46,8 @@ void CCommandBasedSelectionControllerComp::OnLanguageChanged()
 
 // reimpemented (imod::CSingleModelObserverBase)
 
-void CCommandBasedSelectionControllerComp::OnUpdate(const istd::IChangeable::ChangeSet& changeSet)
+void CCommandBasedSelectionControllerComp::OnUpdate(const istd::IChangeable::ChangeSet& /*changeSet*/)
 {
-	if (!changeSet.Contains(iprm::IOptionsList::CF_OPTIONS_CHANGED) && !changeSet.Contains(iprm::IOptionsList::CF_OPTION_RENAMED)){
-		return;
-	}
-
 	BuildCommands();
 }
 

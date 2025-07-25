@@ -1,6 +1,10 @@
 #include <icmm/CSubstractiveColorModelBase.h>
 
 
+// ACF includes
+#include <imath/CGeneralUnitInfo.h>
+
+
 namespace icmm
 {
 
@@ -56,7 +60,9 @@ int CSubstractiveColorModelBase::GetColorSpaceDimensionality() const
 
 const imath::IUnitInfo* CSubstractiveColorModelBase::GetColorSpaceComponentInfo(int /*componentIndex*/) const
 {
-	return nullptr;
+	static const imath::CGeneralUnitInfo unitInfoBase(imath::IUnitInfo::UnitType::UT_RELATIVE, "", 100.0, istd::CRange(0, 1.0));
+
+	return &unitInfoBase;
 }
 
 

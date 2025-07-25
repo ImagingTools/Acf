@@ -12,7 +12,7 @@
 #include <iser/CArchiveTag.h>
 
 
-class CSubstraactiveColorModelTest: public QObject
+class CSubstractiveColorModelTest: public QObject
 {
 	Q_OBJECT
 
