@@ -4,6 +4,7 @@
 
 // STL includes
 #include <set>
+#include <vector>
 
 // Qt includes
 #include <QtCore/QList>
@@ -26,6 +27,7 @@ class TRanges
 {
 public:
 	typedef QList< TRange<ValueType> > RangeList;
+	typedef std::vector< TRange<ValueType> > RangeVector;
 	typedef std::set<ValueType> SwitchPoints;
 
 	/**
