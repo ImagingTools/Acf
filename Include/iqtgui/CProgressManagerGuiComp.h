@@ -36,7 +36,7 @@ protected:
 	virtual void OnTasksChanged() override;
 
 	// reimplemented (iqtgui::CGuiComponentBase)
-	virtual void OnGuiCreated();
+	virtual void OnGuiCreated() override;
 
 protected Q_SLOTS:
 	void on_CancelButton_clicked();

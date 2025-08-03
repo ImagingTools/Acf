@@ -1,5 +1,4 @@
-#ifndef iqt2d_CSceneConnectorGuiComp_included
-#define iqt2d_CSceneConnectorGuiComp_included
+#pragma once
 
 
 // ACF includes
@@ -10,7 +9,6 @@
 #include <iqt2d/IViewProvider.h>
 #include <iqt2d/IViewExtender.h>
 #include <iqtgui/TRestorableGuiWrap.h>
-
 #include <GeneratedFiles/iqt2d/ui_CSceneConnectorGuiComp.h>
 
 
@@ -19,11 +17,11 @@ namespace iqt2d
 
 
 class CSceneConnectorGuiComp:
-			public iqtgui::TRestorableGuiWrap<iqtgui::TDesignerGuiCompBase<Ui::CSceneConnectorGuiComp, QWidget> >,
+			public iqtgui::TRestorableGuiWrap<iqtgui::TDesignerGuiCompBase<Ui::CSceneConnectorGuiComp, QWidget>>,
 			virtual public ibase::ICommandsProvider
 {
 public:
-	typedef iqtgui::TRestorableGuiWrap<iqtgui::TDesignerGuiCompBase<Ui::CSceneConnectorGuiComp, QWidget> > BaseClass;
+	typedef iqtgui::TRestorableGuiWrap<iqtgui::TDesignerGuiCompBase<Ui::CSceneConnectorGuiComp, QWidget>> BaseClass;
 
 	I_BEGIN_COMPONENT(CSceneConnectorGuiComp);
 		I_REGISTER_INTERFACE(ibase::ICommandsProvider);
@@ -37,20 +35,20 @@ public:
 	I_END_COMPONENT;
 
 	// reimplemented (ibase::ICommandsProvider)
-	virtual const ibase::IHierarchicalCommand* GetCommands() const;
+	virtual const ibase::IHierarchicalCommand* GetCommands() const override;
 
 protected:
 	// reimplemented (iqtgui::CGuiComponentBase)
-	virtual void OnGuiCreated();
-	virtual void OnGuiDestroyed();
+	virtual void OnGuiCreated() override;
+	virtual void OnGuiDestroyed() override;
 
 	// reimplemented (icomp::CComponentBase)
-	virtual void OnComponentCreated();
-	virtual void OnComponentDestroyed();
+	virtual void OnComponentCreated() override;
+	virtual void OnComponentDestroyed() override;
 
 	// reimplemented (TRestorableGuiWrap)
-	virtual void OnRestoreSettings(const QSettings& settings);
-	virtual void OnSaveSettings(QSettings& settings) const;
+	virtual void OnRestoreSettings(const QSettings& settings) override;
+	virtual void OnSaveSettings(QSettings& settings) const override;
 
 private:
 	QString GetSettingsKey() const;
@@ -68,8 +66,5 @@ private:
 
 
 } // namespace iqt2d
-
-
-#endif // !iqt2d_CSceneConnectorGuiComp_included
 
 

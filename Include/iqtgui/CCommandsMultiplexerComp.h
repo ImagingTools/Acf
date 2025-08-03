@@ -37,7 +37,7 @@ public:
 	CCommandsMultiplexerComp();
 
 	// reimpemented (ibase::ICommandsProvider)
-	virtual const ibase::IHierarchicalCommand* GetCommands() const;
+	virtual const ibase::IHierarchicalCommand* GetCommands() const override;
 
 protected:
 	// reimplemented (imod::IObserver)
@@ -45,8 +45,8 @@ protected:
 	virtual void AfterUpdate(imod::IModel* modelPtr, const istd::IChangeable::ChangeSet& changeSet);
 
 	// reimpemented (icomp::CComponentBase)
-	virtual void OnComponentCreated();
-	virtual void OnComponentDestroyed();
+	virtual void OnComponentCreated() override;
+	virtual void OnComponentDestroyed() override;
 
 private:
 	I_REF(iprm::ISelectionParam, m_commandSelectionCompPtr);

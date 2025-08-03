@@ -66,16 +66,16 @@ public:
 	virtual bool IsMessageSupported(
 		int messageCategory = -1,
 		int messageId = -1,
-		const istd::IInformationProvider* messagePtr = NULL) const;
-	virtual void AddMessage(const MessagePtr& messagePtr);
+		const istd::IInformationProvider* messagePtr = NULL) const override;
+	virtual void AddMessage(const MessagePtr& messagePtr) override;
 
 Q_SIGNALS:
 	void EmitAddMessage(const MessagePtr& messagePtr);
 
 protected:
 	// reimplemented (iqtgui::CGuiComponentBase)
-	virtual void OnGuiCreated();
-	virtual void OnGuiRetranslate();
+	virtual void OnGuiCreated() override;
+	virtual void OnGuiRetranslate() override;
 
 protected Q_SLOTS:
 	void OnAddMessage(const MessagePtr& messagePtr);

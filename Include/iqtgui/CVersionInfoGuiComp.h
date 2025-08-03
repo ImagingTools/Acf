@@ -27,7 +27,7 @@ public:
 
 protected:
 	// reimplemented (iqtgui::CGuiComponentBase)
-	virtual void OnGuiCreated();
+	virtual void OnGuiCreated() override;
 
 private:
 	I_MULTIREF(iser::IVersionInfo, m_versionInfosCompPtr);

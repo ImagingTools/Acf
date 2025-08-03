@@ -50,21 +50,21 @@ public:
 	I_END_COMPONENT;
 
 	// reimplemented (iqtgui::CMultiPageGuiCompBase)
-	virtual int GetPagesCount() const;
-	virtual iqtgui::IGuiObject* GetPageGuiComponent(int pageIndex) const;
+	virtual int GetPagesCount() const override;
+	virtual iqtgui::IGuiObject* GetPageGuiComponent(int pageIndex) const override;
 
 protected:
 	QWidget* GetPageContainerWidget() const;
 
 	// reimplemented (TRestorableGuiWrap)
-	virtual void OnRestoreSettings(const QSettings& settings);
-	virtual void OnSaveSettings(QSettings& settings) const;
+	virtual void OnRestoreSettings(const QSettings& settings) override;
+	virtual void OnSaveSettings(QSettings& settings) const override;
 
 	// reimplemented (iqtgui::CMultiPageGuiCompBase)
-	virtual int GetDesignType() const;
+	virtual int GetDesignType() const override;
 
 	// reimplemented (iqtgui::CGuiComponentBase)
-	virtual void OnGuiCreated();
+	virtual void OnGuiCreated() override;
 
 private:
 	/**

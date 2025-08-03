@@ -1,5 +1,4 @@
-#ifndef iqt2d_CSelectableSceneExtenderComp_included
-#define iqt2d_CSelectableSceneExtenderComp_included
+#pragma once
 
 
 // ACF includes
@@ -31,19 +30,19 @@ public:
 	I_END_COMPONENT;
 
 	// reimplemented (imod::IObserver)
-	virtual bool OnModelAttached(imod::IModel* modelPtr, istd::IChangeable::ChangeSet& changeMask);
-	virtual bool OnModelDetached(imod::IModel* modelPtr);
+	virtual bool OnModelAttached(imod::IModel* modelPtr, istd::IChangeable::ChangeSet& changeMask) override;
+	virtual bool OnModelDetached(imod::IModel* modelPtr) override;
 
 	// reimplemented (iqt2d::IViewExtender)
-	virtual void AddItemsToScene(iqt2d::IViewProvider* providerPtr, int flags);
-	virtual void RemoveItemsFromScene(iqt2d::IViewProvider* providerPtr);
+	virtual void AddItemsToScene(iqt2d::IViewProvider* providerPtr, int flags) override;
+	virtual void RemoveItemsFromScene(iqt2d::IViewProvider* providerPtr) override;
 
 protected:
 	void AttachCurrent();
 	void DetachCurrent();
 
 	// reimplemented (imod::CSingleModelObserverBase)
-	virtual void AfterUpdate(imod::IModel* modelPtr, const istd::IChangeable::ChangeSet& changeSet);
+	virtual void AfterUpdate(imod::IModel* modelPtr, const istd::IChangeable::ChangeSet& changeSet) override;
 
 private:
 	I_MULTIREF(iqt2d::IViewExtender, m_extendersCompPtr);
@@ -56,8 +55,5 @@ private:
 
 
 } // namespace iqt2d
-
-
-#endif // !iqt2d_CSelectableSceneExtenderComp_included
 
 

@@ -1,5 +1,4 @@
-#ifndef iqt2d_COrientedCircleEditorComp_included
-#define iqt2d_COrientedCircleEditorComp_included
+#pragma once
 
 
 // ACF includes
@@ -34,7 +33,7 @@ protected:
 	virtual bool PopulateActions(QWidget& host, imod::IModel* modelPtr);
 
 	// reimplemented (iqtgui::CGuiComponentBase)
-	virtual void OnGuiRetranslate();
+	virtual void OnGuiRetranslate() override;
 
 protected Q_SLOTS:
 	void OnParamsChanged(double value);
@@ -46,8 +45,5 @@ protected:
 
 
 } // namespace iqt2d
-
-
-#endif // !iqt2d_COrientedCircleEditorComp_included
 
 

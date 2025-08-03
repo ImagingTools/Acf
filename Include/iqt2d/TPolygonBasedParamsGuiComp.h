@@ -1,5 +1,4 @@
-﻿#ifndef iqt2d_TPolygonBasedParamsGuiComp_included
-#define iqt2d_TPolygonBasedParamsGuiComp_included
+﻿#pragma once
 
 
 // Qt includes
@@ -80,12 +79,12 @@ protected:
 		explicit TableModel(TPolygonBasedParamsGuiComp<PolygonBasedShape, PolygonBasedModel>* parentPtr);
 
 		// reimplemented (QAbstractTableModel)
-		virtual int rowCount(const QModelIndex& parent = QModelIndex()) const;
-		virtual int columnCount(const QModelIndex& parent = QModelIndex()) const;
-		virtual QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;
-		virtual bool setData(const QModelIndex& index, const QVariant& value, int role = Qt::EditRole);
-		virtual QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
-		virtual Qt::ItemFlags flags(const QModelIndex &index) const;
+		virtual int rowCount(const QModelIndex& parent = QModelIndex()) const override;
+		virtual int columnCount(const QModelIndex& parent = QModelIndex()) const override;
+		virtual QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
+		virtual bool setData(const QModelIndex& index, const QVariant& value, int role = Qt::EditRole) override;
+		virtual QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
+		virtual Qt::ItemFlags flags(const QModelIndex &index) const override;
 		virtual bool removeRows(int row, int count, const QModelIndex &parent = QModelIndex()) override;
 
 		using QAbstractTableModel::dataChanged;
@@ -106,11 +105,11 @@ protected:
 	virtual void OnPasteData();
 
 	// delegated from QAbstractTableModel
-	virtual int rowCount(const QModelIndex& parent = QModelIndex()) const;
-	virtual int columnCount(const QModelIndex& parent = QModelIndex()) const;
-	virtual QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;
-	virtual bool setData(const QModelIndex& index, const QVariant& value, int role = Qt::EditRole);
-	virtual QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
+	virtual int rowCount(const QModelIndex& parent = QModelIndex()) const override;
+	virtual int columnCount(const QModelIndex& parent = QModelIndex()) const override;
+	virtual QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
+	virtual bool setData(const QModelIndex& index, const QVariant& value, int role = Qt::EditRole) override;
+	virtual QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
 	virtual Qt::ItemFlags flags(const QModelIndex &index) const;
 
 	// reimplemented (iqtgui::CGuiComponentBase)
@@ -602,8 +601,5 @@ bool TPolygonBasedParamsGuiComp<PolygonBasedShape, PolygonBasedModel>::TableMode
 
 
 } // namespace iqt2d
-
-
-#endif // !iqt2d_TPolygonBasedParamsGuiComp_included
 
 

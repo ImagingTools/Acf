@@ -1,5 +1,4 @@
-#ifndef iqt2d_TMultiViewExtenderDelegatorCompWrap_included
-#define iqt2d_TMultiViewExtenderDelegatorCompWrap_included
+#pragma once
 
 
 // ACF includes
@@ -28,8 +27,8 @@ public:
 	I_END_COMPONENT;
 
 	// reimplemented (iqt2d::IViewExtender)
-	virtual void AddItemsToScene(iqt2d::IViewProvider* providerPtr, int flags);
-	virtual void RemoveItemsFromScene(iqt2d::IViewProvider* providerPtr);
+	virtual void AddItemsToScene(iqt2d::IViewProvider* providerPtr, int flags) override;
+	virtual void RemoveItemsFromScene(iqt2d::IViewProvider* providerPtr) override;
 
 private:
 	I_MULTIREF(iqt2d::IViewExtender, m_slaveExtendersCompPtr);
@@ -70,7 +69,4 @@ typedef TMultiViewExtenderDelegatorCompWrap<icomp::CComponentBase> CMultiViewExt
 
 
 } // namespace iqt2d
-
-
-#endif // !iqt2d_TMultiViewExtenderDelegatorCompWrap_included
 

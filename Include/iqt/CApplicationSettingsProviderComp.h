@@ -1,5 +1,4 @@
-#ifndef iqt_CApplicationSettingsProviderComp_included
-#define iqt_CApplicationSettingsProviderComp_included
+#pragma once
 
 
 // ACF includes
@@ -34,7 +33,7 @@ public:
 
 protected:
 	// reimplemented (icomp::CComponentBase)
-	virtual void OnComponentCreated();
+	virtual void OnComponentCreated() override;
 	
 private:
 	I_REF(ibase::IApplicationInfo, m_applicationInfoCompPtr);
@@ -44,8 +43,4 @@ private:
 
 
 } // namespace iqt
-
-
-#endif // !iqt_CApplicationSettingsProviderComp_included
-
 

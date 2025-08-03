@@ -1,12 +1,9 @@
-#ifndef iqt2d_CExtendedConsoleGuiComp_included
-#define iqt2d_CExtendedConsoleGuiComp_included
+#pragma once
 
 
 // ACF includes
 #include <ibase/ICommandsProvider.h>
-
 #include <iqtgui/TDesignerGuiCompBase.h>
-
 #include <GeneratedFiles/iqt2d/ui_CExtendedConsoleGuiComp.h>
 
 
@@ -43,8 +40,5 @@ private:
 
 
 } // namespace iqt2d
-
-
-#endif // !iqt2d_CExtendedConsoleGuiComp_included
 
 

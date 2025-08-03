@@ -1,5 +1,4 @@
-#ifndef iqt2d_TShapeParamsGuiCompBase_included
-#define iqt2d_TShapeParamsGuiCompBase_included
+#pragma once
 
 
 // Qt includes
@@ -83,16 +82,16 @@ protected:
 	virtual iview::CInteractiveShapeBase* CreateShapeInstance() const;
 
 	// reimplemented (iqt2d::TViewExtenderCompBase)
-	virtual void CreateShapes(int sceneId, Shapes& result);
+	virtual void CreateShapes(int sceneId, Shapes& result) override;
 
 	// reimplemented (iqtgui::CGuiComponentBase)
-	virtual void OnGuiDestroyed();
-	virtual void OnGuiShown();
-	virtual void OnGuiHidden();
+	virtual void OnGuiDestroyed() override;
+	virtual void OnGuiShown() override;
+	virtual void OnGuiHidden() override;
 
 	// reimplemented (iqtgui::TGuiObserverWrap)
-	virtual void OnGuiModelAttached();
-	virtual void OnGuiModelDetached();
+	virtual void OnGuiModelAttached() override;
+	virtual void OnGuiModelDetached() override;
 
 private:
 	QMenu* m_menuPtr;
@@ -469,8 +468,4 @@ void TShapeParamsGuiCompBase<Ui, Shape, ShapeModel>::OnGuiModelDetached()
 
 
 } // namespace iview
-
-
-#endif // !iview_TShapeParamsGuiCompBase_included
-
 

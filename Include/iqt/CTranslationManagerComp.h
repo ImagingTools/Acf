@@ -57,8 +57,8 @@ public:
 	CTranslationManagerComp();
 
 	// reimplemented (icomp:CComponentBase)
-	virtual void OnComponentCreated();
-	virtual void OnComponentDestroyed();
+	virtual void OnComponentCreated() override;
+	virtual void OnComponentDestroyed() override;
 
 	// reimplemented (iqt::ITranslationManager)
 	virtual const iprm::IOptionsList& GetLanguagesInfo() const;

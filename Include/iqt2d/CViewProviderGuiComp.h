@@ -1,5 +1,4 @@
-#ifndef iqt2d_CViewProviderGuiComp_included
-#define iqt2d_CViewProviderGuiComp_included
+#pragma once
 
 
 // ACF includes
@@ -133,7 +132,7 @@ protected:
 	virtual void OnGuiRetranslate() override;
 	virtual void OnGuiShown() override;
 	virtual void OnGuiHidden() override;
-	virtual void OnGuiDesignChanged();
+	virtual void OnGuiDesignChanged() override;
 
 	// reimplemented (imod::CMultiModelDispatcherBase)
 	void OnModelChanged(int modelId, const istd::IChangeable::ChangeSet& changeSet) override;
@@ -156,8 +155,5 @@ private:
 
 
 } // namespace iqt2d
-
-
-#endif // !iqt2d_CViewProviderGuiComp_included
 
 

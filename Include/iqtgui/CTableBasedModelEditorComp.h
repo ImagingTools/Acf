@@ -34,7 +34,7 @@ public:
 
 protected:
 	// reimplemented (iqtgui::CGuiComponentBase)
-	virtual void OnGuiCreated();
+	virtual void OnGuiCreated() override;
 
 private:
 	I_ATTR(bool, m_showHorizontalHeaderAttrPtr);

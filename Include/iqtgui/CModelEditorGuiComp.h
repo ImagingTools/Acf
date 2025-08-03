@@ -40,22 +40,22 @@ public:
 	CModelEditorGuiComp();
 
 	// reimplemented (iqtgui::IGuiObject)
-	virtual bool IsGuiCreated() const;
-	virtual bool CreateGui(QWidget* parentPtr);
-	virtual bool DestroyGui();
-	virtual QWidget* GetWidget() const;
-	virtual void OnTryClose(bool* ignoredPtr = NULL);
+	virtual bool IsGuiCreated() const override;
+	virtual bool CreateGui(QWidget* parentPtr) override;
+	virtual bool DestroyGui() override;
+	virtual QWidget* GetWidget() const override;
+	virtual void OnTryClose(bool* ignoredPtr = NULL) override;
 
 	// reimplemented (imod::IModelEditor)
-	virtual void UpdateEditor(const istd::IChangeable::ChangeSet& changeSet);
-	virtual void UpdateModelFromEditor() const;
-	virtual bool IsReadOnly() const;
-	virtual void SetReadOnly(bool state);
+	virtual void UpdateEditor(const istd::IChangeable::ChangeSet& changeSet) override;
+	virtual void UpdateModelFromEditor() const override;
+	virtual bool IsReadOnly() const override;
+	virtual void SetReadOnly(bool state) override;
 
 protected:
 	// reimplemented (icomp::CComponentBase)
-	virtual void OnComponentCreated();
-	virtual void OnComponentDestroyed();
+	virtual void OnComponentCreated() override;
+	virtual void OnComponentDestroyed() override;
 
 private:
 	I_REF(iqtgui::IGuiObject, m_slaveGuiCompPtr);

@@ -1,5 +1,4 @@
-#ifndef iqt2d_CSceneBinderComp_included
-#define iqt2d_CSceneBinderComp_included
+#pragma once
 
 
 // ACF includes
@@ -28,8 +27,8 @@ public:
 
 protected:
 	// reimplemented (icomp::CComponentBase)
-	virtual void OnComponentCreated();
-	virtual void OnComponentDestroyed();
+	virtual void OnComponentCreated() override;
+	virtual void OnComponentDestroyed() override;
 
 private:
 	I_REF(IViewProvider, m_sceneProviderCompPtr);
@@ -38,8 +37,4 @@ private:
 
 
 } // namespace iqt2d
-
-
-#endif // !iqt2d_CSceneBinderComp_included
-
 

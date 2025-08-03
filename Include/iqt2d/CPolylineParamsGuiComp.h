@@ -1,5 +1,4 @@
-#ifndef iqt2d_CPolylineParamsGuiComp_included
-#define iqt2d_CPolylineParamsGuiComp_included
+#pragma once
 
 
 // ACF includes
@@ -31,7 +30,7 @@ protected:
 	virtual iview::CInteractiveShapeBase* CreateShapeInstance() const;
 
 	// reimplemented (iqtgui::CGuiComponentBase)
-	virtual void OnGuiRetranslate();
+	virtual void OnGuiRetranslate() override;
 
 protected Q_SLOTS:
 	void OnParamsChanged();
@@ -53,5 +52,3 @@ private:
 
 } // namespace iqt2d
 
-
-#endif // !iqt2d_CPolylineParamsGuiComp_included

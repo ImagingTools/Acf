@@ -38,7 +38,7 @@ public:
 	CProcessStartCommandComp();
 
 	// reimplemented (ibase::ICommandsProvider)
-	virtual const ibase::IHierarchicalCommand* GetCommands() const;
+	virtual const ibase::IHierarchicalCommand* GetCommands() const override;
 
 protected:
 	virtual void CreateMenu();
@@ -46,7 +46,7 @@ protected:
 	virtual bool StartProcess(const QStringList& arguments);
 
 	// reimplemented (icomp::CComponentBase)
-	virtual void OnComponentCreated();
+	virtual void OnComponentCreated() override;
 
 private Q_SLOTS:
 	void OnStartProcessCommand();

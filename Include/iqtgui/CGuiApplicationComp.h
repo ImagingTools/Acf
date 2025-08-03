@@ -73,19 +73,19 @@ public:
 	CGuiApplicationComp();
 
 	// reimplemented (ibase::IGuiApplication)
-	virtual const iqtgui::IGuiObject* GetApplicationGui() const;
+	virtual const iqtgui::IGuiObject* GetApplicationGui() const override;
 
 	// reimplemented (ibase::IApplication)
-	virtual bool InitializeApplication(int argc, char** argv);
-	virtual int Execute(int argc, char** argv);
-	virtual QString GetHelpText() const;
+	virtual bool InitializeApplication(int argc, char** argv) override;
+	virtual int Execute(int argc, char** argv) override;
+	virtual QString GetHelpText() const override;
 
 protected:
 	// reimplemented (imod::TSingleModelObserverBase)
-	virtual void OnUpdate(const istd::IChangeable::ChangeSet& changeSet);
+	virtual void OnUpdate(const istd::IChangeable::ChangeSet& changeSet) override;
 
 	// reimplemented (icomp::CComponentBase)
-	virtual void OnComponentDestroyed();
+	virtual void OnComponentDestroyed() override;
 
 protected:
 	template <class InterfaceType>

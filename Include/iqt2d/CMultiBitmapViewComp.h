@@ -1,5 +1,4 @@
-#ifndef iqt2d_CMultiBitmapViewComp_included
-#define iqt2d_CMultiBitmapViewComp_included
+#pragma once
 
 
 // Qt includes
@@ -113,14 +112,14 @@ protected:
 	virtual void OnModelChanged(int modelId, const istd::IChangeable::ChangeSet& changeSet);
 
 	// reimplemented (iqtgui::TGuiObserverWrap)
-	virtual void UpdateGui(const istd::IChangeable::ChangeSet& changeSet);
-	virtual void OnGuiModelAttached();
+	virtual void UpdateGui(const istd::IChangeable::ChangeSet& changeSet) override;
+	virtual void OnGuiModelAttached() override;
 
 	// reimplemented (iqtgui::CGuiComponentBase)
-	virtual void OnGuiCreated();
+	virtual void OnGuiCreated() override;
 
 	// reimplemented (icomp::CComponentBase)
-	virtual void OnComponentDestroyed();
+	virtual void OnComponentDestroyed() override;
 
 private:
 	// static template methods for subelement access
@@ -148,6 +147,3 @@ protected:
 
 
 } // namespace iqt2d
-
-
-#endif // !iqt2d_CMultiBitmapViewComp_included

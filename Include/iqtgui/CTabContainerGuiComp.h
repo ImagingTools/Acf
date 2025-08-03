@@ -30,13 +30,13 @@ public:
 
 protected:
 	// reimplemented (iqtgui::CMultiPageGuiCompBase)
-	virtual int GetPagesCount() const;
-	virtual iqtgui::IGuiObject* GetPageGuiComponent(int pageIndex) const;
-	virtual int GetDesignType() const;
+	virtual int GetPagesCount() const override;
+	virtual iqtgui::IGuiObject* GetPageGuiComponent(int pageIndex) const override;
+	virtual int GetDesignType() const override;
 
 	// reimplemented (iqtgui::CGuiComponentBase)
-	virtual void OnGuiCreated();
-	virtual void OnGuiDestroyed();
+	virtual void OnGuiCreated() override;
+	virtual void OnGuiDestroyed() override;
 
 private:
 	I_MULTIREF(IGuiObject, m_slaveWidgetsCompPtr);

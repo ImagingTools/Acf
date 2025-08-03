@@ -1,5 +1,4 @@
-#ifndef iqt2d_CTubePolylineParamsGuiComp_included
-#define iqt2d_CTubePolylineParamsGuiComp_included
+#pragma once
 
 
 // ACF includes
@@ -35,15 +34,14 @@ protected Q_SLOTS:
 
 protected:
 
-	// reimplemented (iqt2d::TPolygonBasedParamsGuiComp<iview::CTubePolylineShape, i2d::CTubePolyline>)
-	virtual int columnCount(const QModelIndex& parent = QModelIndex()) const;
-	virtual QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;
-	virtual bool setData(const QModelIndex& index, const QVariant& value, int role = Qt::EditRole);
-	virtual QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
+	// reimplemented (QAbstractItemModel)
+	virtual int columnCount(const QModelIndex& parent = QModelIndex()) const override;
+	virtual QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
+	virtual bool setData(const QModelIndex& index, const QVariant& value, int role = Qt::EditRole) override;
+	virtual QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
 };
 
 
 } // namespace iqt2d
 
 
-#endif // !iqt2d_CTubePolylineParamsGuiComp_included

@@ -1,12 +1,10 @@
-#ifndef iqt2d_CRectangleParamsGuiComp_included
-#define iqt2d_CRectangleParamsGuiComp_included
+#pragma once
 
 
+// ACF includes
 #include <i2d/CRectangle.h>
 #include <i2d/IObject2dProvider.h>
-
 #include <iview/CRectangleShape.h>
-
 #include <iqt2d/TShapeParamsGuiCompBase.h>
 #include <GeneratedFiles/iqt2d/ui_CRectangleParamsGuiComp.h>
 
@@ -56,8 +54,5 @@ private:
 
 
 } // namespace iqt2d
-
-
-#endif // !iqt2d_CRectangleParamsGuiComp_included
 
 

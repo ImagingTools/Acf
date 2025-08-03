@@ -66,8 +66,8 @@ protected:
 	virtual IParamsSetUniquePtr CreateParamsSetInstance(int typeIndex = -1) const;
 
 	// reimplemented (icomp::CComponentBase)
-	virtual void OnComponentCreated();
-	virtual void OnComponentDestroyed();
+	virtual void OnComponentCreated() override;
+	virtual void OnComponentDestroyed() override;
 
 private:
 	I_FACT(IParamsSet, m_paramSetsFactPtr);

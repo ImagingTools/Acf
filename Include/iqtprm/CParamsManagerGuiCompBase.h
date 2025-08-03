@@ -53,8 +53,8 @@ public:
 	CParamsManagerGuiCompBase();
 
 	// reimplemented (iqt2d::IViewExtender)
-	virtual void AddItemsToScene(iqt2d::IViewProvider* providerPtr, int flags);
-	virtual void RemoveItemsFromScene(iqt2d::IViewProvider* providerPtr);
+	virtual void AddItemsToScene(iqt2d::IViewProvider* providerPtr, int flags) override;
+	virtual void RemoveItemsFromScene(iqt2d::IViewProvider* providerPtr) override;
 
 protected Q_SLOTS:
 	void on_AddButton_clicked();
@@ -136,15 +136,15 @@ protected:
 	bool PasteParamsSetFromClipboard(iser::ISerializable* objectPtr, const char* type);
 
 	// reimplemented (iqtgui::TGuiObserverWrap)
-	virtual void OnGuiModelAttached();
-	virtual void OnGuiModelDetached();
-	virtual void UpdateGui(const istd::IChangeable::ChangeSet& changeSet);
+	virtual void OnGuiModelAttached() override;
+	virtual void OnGuiModelDetached() override;
+	virtual void UpdateGui(const istd::IChangeable::ChangeSet& changeSet) override;
 
 	// reimplemented (ibase::TDesignSchemaHandlerWrap)
 	virtual void OnDesignSchemaChanged(const QByteArray& themeId) override;
 
 	// reimplemented (iqtgui::CComponentBase)
-	virtual void OnGuiCreated();
+	virtual void OnGuiCreated() override;
 
 	// reimplemented (imod::CSingleModelObserverBase)
 	virtual void AfterUpdate(imod::IModel* modelPtr, const istd::IChangeable::ChangeSet& changeSet);

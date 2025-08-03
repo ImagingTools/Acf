@@ -1,5 +1,4 @@
-#ifndef iqt2d_CCircleParamsGuiComp_included
-#define iqt2d_CCircleParamsGuiComp_included
+#pragma once
 
 
 // ACF includes
@@ -7,7 +6,6 @@
 #include <iview/CCircleShape.h>
 #include <iqt2d/TCircleBasedParamsGuiComp.h>
 #include <i2d/IObject2dProvider.h>
-
 #include <GeneratedFiles/iqt2d/ui_CCircleParamsGuiComp.h>
 
 
@@ -46,8 +44,5 @@ private:
 
 
 } // namespace iqt2d
-
-
-#endif // !iqt2d_CCircleParamsGuiComp_included
 
 

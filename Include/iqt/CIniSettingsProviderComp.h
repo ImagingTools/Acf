@@ -1,5 +1,4 @@
-#ifndef iqt_CIniSettingsProviderComp_included
-#define iqt_CIniSettingsProviderComp_included
+#pragma once
 
 
 // Qt includes
@@ -34,7 +33,7 @@ public:
 
 protected:
 	// reimplemented (icomp::CComponentBase)
-	virtual void OnComponentCreated();
+	virtual void OnComponentCreated() override;
 	
 private:
 	I_ATTR(QByteArray, m_iniFilePathAttrPtr);
@@ -44,8 +43,4 @@ private:
 
 
 } // namespace iqt
-
-
-#endif // !iqt_CIniSettingsProviderComp_included
-
 

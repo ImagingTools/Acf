@@ -33,8 +33,8 @@ public:
 
 protected:
 	// reimplemented (icomp::CComponentBase)
-	virtual void OnComponentCreated();
-	virtual void OnComponentDestroyed();
+	virtual void OnComponentCreated() override;
+	virtual void OnComponentDestroyed() override;
 
 	I_REF(iqtgui::IGuiObject, m_slaveGuiCompPtr);
 	I_TEXTATTR(m_titleAttrPtr);

@@ -143,20 +143,20 @@ protected:
 	virtual void ResetPages();
 
 	// reimplemented (iqtgui::CGuiComponentBase)
-	virtual QWidget* CreateQtWidget(QWidget* parentPtr);
+	virtual QWidget* CreateQtWidget(QWidget* parentPtr) override;
 
 	// reimplemented (iqtgui::CGuiComponentBase)
-	virtual void OnGuiCreated();
-	virtual void OnGuiDestroyed();
-	virtual void OnGuiRetranslate();
+	virtual void OnGuiCreated() override;
+	virtual void OnGuiDestroyed() override;
+	virtual void OnGuiRetranslate() override;
 	virtual void OnTryClose(bool* ignoredPtr = NULL);
 
 	// reimplemented (icomp::CComponentBase)
-	virtual void OnComponentCreated();
-	virtual void OnComponentDestroyed();
+	virtual void OnComponentCreated() override;
+	virtual void OnComponentDestroyed() override;
 
 	// reimplemented (imod::CMultiModelDispatcherBase)
-	virtual void OnModelChanged(int modelId, const istd::IChangeable::ChangeSet& changeSet);
+	virtual void OnModelChanged(int modelId, const istd::IChangeable::ChangeSet& changeSet) override;
 
 protected Q_SLOTS:
 	virtual void OnPageChanged(int widgetIndex);

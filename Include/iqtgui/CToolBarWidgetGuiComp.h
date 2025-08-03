@@ -26,8 +26,8 @@ public:
 
 protected:
 	// reimplemented (CGuiComponentBase)
-	virtual void OnGuiCreated();
-	virtual void OnGuiDestroyed();
+	virtual void OnGuiCreated() override;
+	virtual void OnGuiDestroyed() override;
 
 private:
 	I_REF(iqtgui::IGuiObject, m_toolbarWidgetCompPtr);
