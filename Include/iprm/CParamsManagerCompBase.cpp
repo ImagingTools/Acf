@@ -197,7 +197,12 @@ IParamsSet* CParamsManagerCompBase::GetParamsSet(int index) const
 		return m_paramSets[index - fixedSetsCount].GetPtr();
 	}
 	else{
-		return m_paramSets[index - fixedSetsCount]->paramSetPtr.GetPtr();
+		if (m_paramSets[index - fixedSetsCount].GetPtr()){
+			return m_paramSets[index - fixedSetsCount]->paramSetPtr.GetPtr();
+		}
+		else{
+			return nullptr;
+		}
 	}
 }
 

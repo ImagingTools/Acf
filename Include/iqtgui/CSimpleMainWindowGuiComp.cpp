@@ -490,7 +490,7 @@ void CSimpleMainWindowGuiComp::OnGuiCreated()
 	mainWindowPtr->setDockOptions(QMainWindow::DockOption(dockOptions));
 
 	if (m_workspaceCompPtr.IsValid()){
-		m_workspaceCompPtr->CreateGui(NULL);
+		m_workspaceCompPtr->CreateGui(mainWindowPtr);
 		QWidget* workspacePtr = m_workspaceCompPtr->GetWidget();
 		if (workspacePtr != NULL){
 			mainWindowPtr->setCentralWidget(workspacePtr);
