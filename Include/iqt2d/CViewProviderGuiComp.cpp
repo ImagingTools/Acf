@@ -135,6 +135,7 @@ void CViewProviderGuiComp::OnGuiCreated()
 	iview::CViewport& view = consolePtr->GetViewRef();
 
 	view.SetShowInfoText(*m_infoTextEnabledAttrPtr);
+	view.SetDrawBorder(*m_drawBorderAttrPtr);
 
 	if (m_screenTransformationProvider.IsValid()) {
 		view.SetExternalScreenTransform(m_screenTransformationProvider->GetTransformation());

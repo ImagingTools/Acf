@@ -54,6 +54,7 @@ public:
 		I_ASSIGN(m_viewIdAttrPtr, "ViewId", "ID allowing identifying this view", true, 0);
 		I_ASSIGN(m_useAntialiasingAttrPtr, "UseAntialiasing", "Enables using of antialiasing", false, false);
 		I_ASSIGN(m_infoTextEnabledAttrPtr, "InfoTextEnabled", "Draws InfoText as overlay", true, false);
+		I_ASSIGN(m_drawBorderAttrPtr, "DrawBorder", "Draws border", true, true);
 		I_ASSIGN(m_zoomToFitEnabledAttrPtr, "ZoomToFitEnabled", "If true, the shapes will be fit to the view according to the defined fitting mode", false, false);
 		I_ASSIGN(m_useShapeEditCommandsAttrPtr, "UseShapeEditCommands", "If true, the commands for shape editing are available", false, false);
 		I_ASSIGN(m_useGridCommandsAttrPtr, "UseGridCommands", "If true, the commands for grid management are available", false, false);
@@ -75,6 +76,8 @@ protected:
 	I_ATTR(int, m_fitModeAttrPtr);
 	I_ATTR(int, m_backgroundModeAttrPtr);
 	I_ATTR(bool, m_fullScreenModeSupportedAttrPtr);
+	I_ATTR(bool, m_drawBorderAttrPtr);
+
 };
 
 
