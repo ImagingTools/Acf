@@ -14,6 +14,8 @@ function(windeploy target listOptions listFiles)
 		COMMAND "${windeployqt_executable}"
 		${listOptions}
 		${listFiles}
+		> NUL # Redirect stdout to NUL (skip spam output - dll up to date etc.)
+		# > NUL 2>&1 ## skip all output (stderr included)
 		DEPENDS ${listFiles}
 		COMMENT "Deploying Qt libraries using windeployqt for compilation target '${target}' ..."
 		)
