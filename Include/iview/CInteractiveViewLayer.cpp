@@ -340,8 +340,7 @@ void CInteractiveViewLayer::InsertSelectedShapes(SelectedShapes& result) const
 
 void CInteractiveViewLayer::DeselectAllShapes()
 {
-	while (!m_activeShapes.isEmpty()){
-		ShapeList::iterator iter = m_activeShapes.begin();
+	for (ShapeList::ConstIterator iter = m_activeShapes.begin(); iter != m_activeShapes.end(); ++iter) {
 		Q_ASSERT(dynamic_cast<iview::IInteractiveShape*>(iter->shapePtr) != NULL);
 
 		iview::IInteractiveShape* shapePtr = dynamic_cast<iview::IInteractiveShape*>(iter->shapePtr);

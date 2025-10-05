@@ -911,6 +911,13 @@ bool CViewBase::OnMouseMove(istd::CIndex2d position)
 
 	UpdateMousePointer();
 
+	for (iview::IViewEventObserver* listenerPtr : m_viewListeners) {
+		bool accepted = listenerPtr->OnViewMouseMove(*this, position);
+		if (accepted) {
+			break;
+		}
+	}
+
 	return result;
 }
 

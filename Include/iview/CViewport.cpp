@@ -20,7 +20,7 @@ CViewport::CViewport(CConsoleBase* framePtr, QWidget* parent)
 {
 	m_mousePointerModes[MPM_NONE] = QCursor(Qt::ArrowCursor);
 	m_mousePointerModes[MPM_DEFAULT] = QCursor(Qt::ArrowCursor);
-	m_mousePointerModes[MPM_DESELECT] = QCursor(Qt::UpArrowCursor);
+	m_mousePointerModes[MPM_DESELECT] = QCursor(Qt::ArrowCursor);
 	m_mousePointerModes[MPM_POINTER] = QCursor(Qt::ArrowCursor);
 	m_mousePointerModes[MPM_WAIT] = QCursor(Qt::WaitCursor);
 	m_mousePointerModes[MPM_CROSS] = QCursor(Qt::CrossCursor);
@@ -118,6 +118,12 @@ void CViewport::SetEditMode(int mode)
 void CViewport::SetShowInfoText(bool on)
 {
 	m_showInfoText = on;
+}
+
+
+void CViewport::SetDrawBorder(bool on)
+{
+	m_drawBorder = on;
 }
 
 
@@ -308,12 +314,15 @@ void CViewport::paintEvent(QPaintEvent* eventPtr)
 
 	DrawBuffers(*this, iqt::GetCRect(eventPtr->rect()));
 
-	// draw borders
 	QPainter p(this);
 	p.setOpacity(0.85);
 	p.setPen(Qt::gray);
 	auto portRct = rect();
-	p.drawRect(portRct.adjusted(0,0,-1,-1));
+
+	// draw borders
+	if (m_drawBorder){
+		p.drawRect(portRct.adjusted(0, 0, -1, -1));
+	}
 
 	// draw info text
 	if (m_showInfoText && m_infoText.size()) 
@@ -399,6 +408,19 @@ void CViewport::mouseMoveEvent(QMouseEvent* eventPtr)
 
 	BaseClass2::mouseMoveEvent(eventPtr);
 }
+
+
+void CViewport::leaveEvent(QEvent* eventPtr)
+{
+	SetKeysState(0);
+
+	istd::CIndex2d pos(-1, -1);
+
+	OnMouseMove(pos);
+
+	BaseClass2::leaveEvent(eventPtr);
+}
+
 
 
 // reimplemented (iview::CViewBase)
