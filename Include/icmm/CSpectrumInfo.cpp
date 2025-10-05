@@ -24,6 +24,11 @@ CSpectrumInfo::CSpectrumInfo(const istd::CIntRange& range, int step)
 	SetStep(step);
 }
 
+CSpectrumInfo::CSpectrumInfo(const ISpectrumInfo& other)
+	: CSpectrumInfo(other.GetSpectralRange(), other.GetStep())
+{
+}
+
 
 bool CSpectrumInfo::SetRange(const istd::CIntRange& range)
 {

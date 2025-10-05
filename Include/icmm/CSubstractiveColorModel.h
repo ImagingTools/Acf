@@ -109,6 +109,9 @@ public:
 	// reimplemented (iser::ISerializable)
 	virtual bool Serialize(iser::IArchive& archive) override;
 
+	// reimplemented (istd::IChangeable)
+	virtual istd::IChangeable* CloneMe(CompatibilityMode mode = CM_WITHOUT_REFS) const override;
+
 	static std::unique_ptr<ISubstractiveColorModel> CreateSubspaceModelFrom(const CSubstractiveColorModelBase& model, const QStringList& colorantIds);
 
 protected:

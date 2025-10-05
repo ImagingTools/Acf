@@ -13,7 +13,7 @@ namespace icmm
 class CSpectralColorModel: virtual public icmm::IColorModel
 {
 public:
-	CSpectralColorModel(ISpectralColorSpecification::ConstSpectralColorSpecPtr spec);
+	CSpectralColorModel(ISpectralColorSpecification::ConstSpectralColorSpecPtr spec = nullptr);
 
 	// reimplemented (icmm::IColorModel)
 	virtual ModelType GetModelType() const override;
