@@ -18,8 +18,8 @@ namespace icomp
 
 
 CCompositeComponent::CCompositeComponent(bool manualAutoInit)
-	:m_contextPtr(NULL),
-	m_parentPtr(NULL),
+	:m_contextPtr(nullptr),
+	m_parentPtr(nullptr),
 	m_isParentOwner(false),
 	m_manualAutoInit(manualAutoInit),
 	m_autoInitialized(false),
@@ -32,22 +32,24 @@ CCompositeComponent::~CCompositeComponent()
 {
 	QWriteLocker lock(&m_mutex);
 
-	if (m_isParentOwner && (m_parentPtr != NULL)){
+	if (m_isParentOwner && (m_parentPtr != nullptr)){
 		const_cast<ICompositeComponent*>(m_parentPtr)->OnSubcomponentDeleted(this);
 	}
 
-	SetComponentContext(NULL, NULL, false);
+	SetComponentContext(IComponentContextSharedPtr(), nullptr, false);
+
+	m_componentMap.clear();
 }
 
 
 bool CCompositeComponent::EnsureAutoInitComponentsCreated() const
 {
+	QWriteLocker writeLock(&m_mutex);
+
 	bool retVal = false;
 
-	if ((m_contextPtr != NULL) && !m_autoInitialized){
+	if ((m_contextPtr != nullptr) && !m_autoInitialized){
 		m_autoInitialized = true;
-
-		QWriteLocker writeLock(&m_mutex);
 
 		while (!m_autoInitComponentIds.isEmpty()){
 			QByteArray autoInitId = *m_autoInitComponentIds.begin();
@@ -55,21 +57,15 @@ bool CCompositeComponent::EnsureAutoInitComponentsCreated() const
 			m_autoInitComponentIds.erase(m_autoInitComponentIds.begin());
 
 			ComponentInfo& autoInitInfo = m_componentMap[autoInitId];
-			if (!autoInitInfo.isComponentInitialized){
-				autoInitInfo.isComponentInitialized = true;
+			if (autoInitInfo.componentState == CS_NONE){
+				autoInitInfo.componentState = CS_INIT;
 				autoInitInfo.isContextInitialized = true;
 
-				writeLock.unlock();
-
-				CreateSubcomponentInfo(autoInitId, autoInitInfo.contextPtr, &autoInitInfo.componentPtr, true);
+				InitializeSubcomponentInfo(autoInitId, autoInitInfo, true);
 
 				retVal = true;
 			}
 		}
-
-		writeLock.unlock();
-
-		QReadLocker lock(&m_mutex);
 		
 		QList<icomp::CCompositeComponent*> subComponentsList;
 
@@ -77,13 +73,11 @@ bool CCompositeComponent::EnsureAutoInitComponentsCreated() const
 					iter != m_componentMap.end();
 					++iter){
 			ComponentInfo& info = iter.value();
-			icomp::CCompositeComponent* compositeComponentPtr = dynamic_cast<icomp::CCompositeComponent*>(info.componentPtr.GetPtr());
+			icomp::CCompositeComponent* compositeComponentPtr = dynamic_cast<icomp::CCompositeComponent*>(info.componentPtr.get());
 			if (compositeComponentPtr != NULL){
 				subComponentsList.push_back(compositeComponentPtr);
 			}
 		}
-
-		lock.unlock();
 
 		for (		QList<icomp::CCompositeComponent*>::const_iterator iter = subComponentsList.cbegin();
 					iter != subComponentsList.cend();
@@ -98,58 +92,54 @@ bool CCompositeComponent::EnsureAutoInitComponentsCreated() const
 
 // reimplemented (icomp::ICompositeComponent)
 
-IComponent* CCompositeComponent::GetSubcomponent(const QByteArray& componentId) const
+IComponentSharedPtr CCompositeComponent::GetSubcomponent(const QByteArray& componentId) const
 {
-	if (m_contextPtr != NULL){
-		QReadLocker readLock(&m_mutex);
+	if (m_contextPtr != nullptr){
+		QWriteLocker lock(&m_mutex);
 
 		ComponentMap::ConstIterator iter = m_componentMap.constFind(componentId);
 		if (iter == m_componentMap.constEnd()){
-			readLock.unlock();
-
-			QWriteLocker lock(&m_mutex);
-
 			ComponentInfo& componentInfo = m_componentMap[componentId];
-			if (!componentInfo.isComponentInitialized){
-				componentInfo.isComponentInitialized = true;
+			componentInfo.componentState = CS_INIT;
+
+			componentInfo.isContextInitialized = true;
+ 
+			InitializeSubcomponentInfo(componentId, componentInfo, true);
+
+			return componentInfo.componentPtr;
+		}
+		else {
+			ComponentInfo& componentInfo = m_componentMap[componentId];
+			if (componentInfo.componentState < CS_READY){
+				componentInfo.componentState = CS_INIT;
+
 				componentInfo.isContextInitialized = true;
 
-				lock.unlock();
-
-				CreateSubcomponentInfo(componentId, componentInfo.contextPtr, &componentInfo.componentPtr, true);
+				InitializeSubcomponentInfo(componentId, componentInfo, true);
 			}
 
-			return componentInfo.componentPtr.GetPtr();
+			return componentInfo.componentPtr;
 		}
-
-		ComponentInfo& componentInfo = m_componentMap[componentId];
-		if (!componentInfo.isComponentInitialized){
-			componentInfo.isComponentInitialized = true;
-			componentInfo.isContextInitialized = true;
-
-			CreateSubcomponentInfo(componentId, componentInfo.contextPtr, &componentInfo.componentPtr, true);
-		}
-
-		return componentInfo.componentPtr.GetPtr();
-
 	}
 	else{
 		QReadLocker lock(&m_mutex);
 
 		ComponentMap::ConstIterator iter = m_componentMap.constFind(componentId);
 		if (iter != m_componentMap.constEnd()){
-			return iter.value().componentPtr.GetPtr();
+			return iter.value().componentPtr;
 		}
 		else{
-			return NULL;
+			return IComponentSharedPtr();
 		}
 	}
+
+	return IComponentSharedPtr();
 }
 
 
-const IComponentContext* CCompositeComponent::GetSubcomponentContext(const QByteArray& componentId) const
+IComponentContextSharedPtr CCompositeComponent::GetSubcomponentContext(const QByteArray& componentId) const
 {
-	if (m_contextPtr != NULL){
+	if (m_contextPtr != nullptr){
 		QWriteLocker lock(&m_mutex);
 
 		ComponentInfo& componentInfo = m_componentMap[componentId];
@@ -159,66 +149,61 @@ const IComponentContext* CCompositeComponent::GetSubcomponentContext(const QByte
 			CreateSubcomponentInfo(componentId, componentInfo.contextPtr, NULL, true);
 		}
 
-		return componentInfo.contextPtr.GetPtr();
+		return componentInfo.contextPtr;
 	}
 	else{
 		QReadLocker lock(&m_mutex);
 
 		ComponentMap::ConstIterator iter = m_componentMap.constFind(componentId);
 		if (iter != m_componentMap.constEnd()){
-			return iter.value().contextPtr.GetPtr();
+			return iter.value().contextPtr;
 		}
 		else{
-			return NULL;
+			return IComponentContextSharedPtr();
 		}
 	}
 }
 
 
-IComponent* CCompositeComponent::CreateSubcomponent(const QByteArray& componentId) const
+IComponentUniquePtr CCompositeComponent::CreateSubcomponent(const QByteArray& componentId) const
 {
 	QWriteLocker lock(&m_mutex);
 
-	if (m_contextPtr != NULL){
-		ComponentPtr retVal;
-
+	if (m_contextPtr != nullptr){
 		ComponentInfo& componentInfo = m_componentMap[componentId];
 
 		componentInfo.isContextInitialized = true;
 
 		lock.unlock();
 
+		IComponentUniquePtr retVal;
 		CreateSubcomponentInfo(componentId, componentInfo.contextPtr, &retVal, false);
 
-		return retVal.PopPtr();
+		return retVal;
 	}
 
-	return NULL;
+	return IComponentUniquePtr();
 }
 
 
 void CCompositeComponent::OnSubcomponentDeleted(const IComponent* subcomponentPtr)
 {
-	QWriteLocker lock(&m_mutex);
-
 	Q_ASSERT(subcomponentPtr != NULL);
+
+	QWriteLocker lock(&m_mutex);
 
 	for (		ComponentMap::iterator iter = m_componentMap.begin();
 				iter != m_componentMap.end();
 				++iter){
 		ComponentInfo& info = iter.value();
-		if (info.componentPtr == subcomponentPtr){
-			Q_ASSERT(info.isComponentInitialized);
+		if (info.componentPtr.get() == subcomponentPtr){
+			Q_ASSERT(info.componentState == CS_READY);
 
-			info.componentPtr->SetComponentContext(NULL, NULL, false);
+			info.componentPtr->SetComponentContext(IComponentContextSharedPtr(), nullptr, false);
 
-			info.componentPtr.PopPtr();
+			info.componentPtr.reset();
 
-			info.isComponentInitialized = false;
-
-			lock.unlock();
-
-			delete this;
+			info.componentState = CS_DESTROYED;
 
 			return;
 		}
@@ -230,19 +215,19 @@ void CCompositeComponent::OnSubcomponentDeleted(const IComponent* subcomponentPt
 
 // reimplemented (icomp::IComponent)
 
-const ICompositeComponent* CCompositeComponent::GetParentComponent(bool ownerOnly) const
+const icomp::IComponent* CCompositeComponent::GetParentComponent(bool ownerOnly) const
 {
 	if (!ownerOnly || m_isParentOwner){
 		return m_parentPtr;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
 void* CCompositeComponent::GetInterface(const istd::CClassInfo& interfaceType, const QByteArray& subId)
 {
-	const CCompositeComponentContext* contextPtr = dynamic_cast<const CCompositeComponentContext*>(GetComponentContext());
+	const CCompositeComponentContext* contextPtr = dynamic_cast<const CCompositeComponentContext*>(GetComponentContext().get());
 	if (contextPtr == NULL){
 		qCritical("Composite component doesn't use corresponding context");
 
@@ -272,8 +257,8 @@ void* CCompositeComponent::GetInterface(const istd::CClassInfo& interfaceType, c
 			QByteArray restId;
 			SplitId(iter.value(), componentId, restId);
 
-			IComponent* subComponentPtr = GetSubcomponent(componentId);
-			if (subComponentPtr != NULL){
+			IComponentSharedPtr subComponentPtr = GetSubcomponent(componentId);
+			if (subComponentPtr != nullptr){
 				return subComponentPtr->GetInterface(interfaceType, restId);
 			}
 			else{
@@ -298,8 +283,8 @@ void* CCompositeComponent::GetInterface(const istd::CClassInfo& interfaceType, c
 			QByteArray subRestId;
 			SplitId(realComponentId, subComponentId, subRestId);
 
-			IComponent* subComponentPtr = GetSubcomponent(subComponentId);
-			if (subComponentPtr != NULL){
+			IComponentSharedPtr subComponentPtr = GetSubcomponent(subComponentId);
+			if (subComponentPtr != nullptr){
 				return subComponentPtr->GetInterface(interfaceType, JoinId(subRestId, restId));
 			}
 			else{
@@ -321,27 +306,29 @@ void* CCompositeComponent::GetInterface(const istd::CClassInfo& interfaceType, c
 }
 
 
-const IComponentContext* CCompositeComponent::GetComponentContext() const
+IComponentContextSharedPtr CCompositeComponent::GetComponentContext() const
 {
 	return m_contextPtr;
 }
 
 
 void CCompositeComponent::SetComponentContext(
-			const icomp::IComponentContext* contextPtr,
-			const ICompositeComponent* parentPtr,
+			const IComponentContextSharedPtr& contextPtr,
+			const icomp::IComponent* parentPtr,
 			bool isParentOwner)
 {
 	QWriteLocker lock(&m_mutex);
 
-	m_parentPtr = parentPtr;
+	const icomp::ICompositeComponent* compositeParentPtr = dynamic_cast<const icomp::ICompositeComponent*>(parentPtr);
+
+	m_parentPtr = compositeParentPtr;
 	m_isParentOwner = isParentOwner;
 
 	m_autoInitComponentIds.clear();
 
-	const CCompositeComponentContext* compositeContextPtr = dynamic_cast<const CCompositeComponentContext*>(contextPtr);
+	const CCompositeComponentContext* compositeContextPtr = dynamic_cast<const CCompositeComponentContext*>(contextPtr.get());
 	if (compositeContextPtr != NULL){
-		m_contextPtr = compositeContextPtr;
+		m_contextPtr = contextPtr;
 
 		const IRegistry& registry = compositeContextPtr->GetRegistry();
 
@@ -360,19 +347,19 @@ void CCompositeComponent::SetComponentContext(
 		}
 	}
 	else{
-		m_contextPtr = NULL;
+		m_contextPtr.reset();
 
 		for (		ComponentMap::iterator iter = m_componentMap.begin();
 					iter != m_componentMap.end();
 					++iter){
 			ComponentInfo& info = iter.value();
 
-			if (info.isComponentInitialized){
-				if (info.componentPtr.IsValid()){
-					info.componentPtr->SetComponentContext(NULL, NULL, false);
+			if (info.componentState == CS_READY){
+				if (info.componentPtr != nullptr){
+					info.componentPtr->SetComponentContext(IComponentContextSharedPtr(), nullptr, false);
 				}
 
-				info.isComponentInitialized = false;
+				info.componentState = CS_DESTROYED;
 			}
 		}
 	}
@@ -383,11 +370,11 @@ void CCompositeComponent::SetComponentContext(
 
 bool CCompositeComponent::CreateSubcomponentInfo(
 			const QByteArray& componentId,
-			ContextPtr& subContextPtr,
-			ComponentPtr* subComponentPtr,
+			IComponentContextSharedPtr& subContextPtr,
+			IComponentUniquePtr* subComponentPtr,
 			bool isOwned) const
 {
-	const CCompositeComponentContext* contextPtr = dynamic_cast<const CCompositeComponentContext*>(GetComponentContext());
+	const CCompositeComponentContext* contextPtr = dynamic_cast<const CCompositeComponentContext*>(GetComponentContext().get());
 	if (contextPtr == NULL){
 		return false;
 	}
@@ -414,13 +401,13 @@ bool CCompositeComponent::CreateSubcomponentInfo(
 			return false;
 		}
 
-		if (!subContextPtr.IsValid()){
+		if (subContextPtr == nullptr){
 			int componentType = subComponentInfoPtr->GetComponentType();
 			if (componentType == IComponentStaticInfo::CT_COMPOSITE){
 				// create composed component
 				const icomp::IRegistry* subRegistryPtr = envManager.GetRegistry(elementAddress, &registry);
 				if (subRegistryPtr != NULL){
-					subContextPtr.SetPtr(new CCompositeComponentContext(
+					subContextPtr.reset(new CCompositeComponentContext(
 								&registryElement,
 								subComponentInfoPtr,
 								subRegistryPtr,
@@ -434,7 +421,7 @@ bool CCompositeComponent::CreateSubcomponentInfo(
 			}
 			else if (componentType == IComponentStaticInfo::CT_REAL){
 				// create real component
-				subContextPtr.SetPtr(new CComponentContext(
+				subContextPtr.reset(new CComponentContext(
 							&registryElement,
 							subComponentInfoPtr,
 							contextPtr,
@@ -445,11 +432,11 @@ bool CCompositeComponent::CreateSubcomponentInfo(
 			}
 		}
 
-		if (!subContextPtr.IsValid()){
+		if (subContextPtr == nullptr){
 			return false;
 		}
 
-		if (subComponentPtr != NULL){
+		if (subComponentPtr != nullptr){
 			const IRealComponentStaticInfo* realComponentInfoPtr = dynamic_cast<const IRealComponentStaticInfo*>(subComponentInfoPtr);
 			if (realComponentInfoPtr == NULL){
 				qCritical("Component %s is not real component, it cannot be created", elementAddress.ToString().toLocal8Bit().constData());
@@ -457,20 +444,132 @@ bool CCompositeComponent::CreateSubcomponentInfo(
 				return false;
 			}
 
-			subComponentPtr->SetPtr(realComponentInfoPtr->CreateComponent());
-			if (!subComponentPtr->IsValid()){
+			*subComponentPtr = std::move(realComponentInfoPtr->CreateComponent());
+			if (*subComponentPtr == nullptr){
 				qCritical("Instance of component %s couldn't be created", elementAddress.ToString().toLocal8Bit().constData());
 
 				return false;
 			}
 
-			(*subComponentPtr)->SetComponentContext(subContextPtr.GetPtr(), this, isOwned);
+			(*subComponentPtr)->SetComponentContext(subContextPtr, this, isOwned);
 
 			if (!m_manualAutoInit || m_autoInitialized){
-				icomp::CCompositeComponent* compositeComponentPtr = dynamic_cast<icomp::CCompositeComponent*>((*subComponentPtr).GetPtr());
+				icomp::CCompositeComponent* compositeComponentPtr = dynamic_cast<icomp::CCompositeComponent*>((*subComponentPtr).get());
 				if (compositeComponentPtr != NULL){
 					compositeComponentPtr->EnsureAutoInitComponentsCreated();
 				}
+			}
+		}
+	}
+
+	return true;
+}
+
+
+bool CCompositeComponent::InitializeSubcomponentInfo(
+			const QByteArray& componentId,
+			ComponentInfo& componentInfo,
+			bool isOwned) const
+{
+	IComponentContextSharedPtr myContextPtr = GetComponentContext();
+	if (myContextPtr == nullptr) {
+		qCritical("No context defined");
+
+		return false;
+	}
+
+	const CCompositeComponentContext* contextImplPtr = dynamic_cast<const CCompositeComponentContext*>(myContextPtr.get());
+	if (contextImplPtr == nullptr){
+		qCritical("Wrong context type");
+
+		return false;
+	}
+
+	const IRegistry& registry = contextImplPtr->GetRegistry();
+
+	const IRegistry::ElementInfo* elementInfoPtr = registry.GetElementInfo(componentId);
+	if ((elementInfoPtr != NULL) && elementInfoPtr->elementPtr.IsValid()){
+		const CComponentAddress& elementAddress = elementInfoPtr->address;
+		const IRegistryElement& registryElement = *elementInfoPtr->elementPtr;
+
+		const IComponentEnvironmentManager& envManager = contextImplPtr->GetEnvironmentManager();
+
+		const IComponentStaticInfo* subComponentInfoPtr = nullptr;
+		if (!elementAddress.GetPackageId().isEmpty()){
+			subComponentInfoPtr = envManager.GetComponentMetaInfo(elementAddress);
+		}
+		else {
+			const IComponentStaticInfo& info = contextImplPtr->GetStaticInfo();
+			subComponentInfoPtr = info.GetEmbeddedComponentInfo(elementAddress.GetComponentId());
+		}
+
+		if (subComponentInfoPtr == nullptr){
+			qCritical("Sub-component information was not found in the registry");
+
+			return false;
+		}
+
+		if (componentInfo.contextPtr == nullptr){
+			int componentType = subComponentInfoPtr->GetComponentType();
+			if (componentType == IComponentStaticInfo::CT_COMPOSITE){
+				// create composed component
+				const icomp::IRegistry* subRegistryPtr = envManager.GetRegistry(elementAddress, &registry);
+				if (subRegistryPtr != NULL){
+					componentInfo.contextPtr.reset(new CCompositeComponentContext(
+						&registryElement,
+						subComponentInfoPtr,
+						subRegistryPtr,
+						&envManager,
+						contextImplPtr,
+						componentId));
+				}
+				else {
+					qCritical("Registry %s could not be found", elementAddress.ToString().toLocal8Bit().constData());
+				}
+			}
+			else if (componentType == IComponentStaticInfo::CT_REAL){
+				// create real component
+				componentInfo.contextPtr.reset(new CComponentContext(
+					&registryElement,
+					subComponentInfoPtr,
+					contextImplPtr,
+					componentId));
+			}
+			else {
+				qCritical("Unknown component type, instance of %s could not be created. Possible I_BEGIN_COMPONENT macro missing in the component implementation", elementAddress.ToString().toLocal8Bit().constData());
+			}
+		}
+
+		if (componentInfo.contextPtr == nullptr){
+			qCritical("Context could not be set for the target component");
+
+			return false;
+		}
+
+		const IRealComponentStaticInfo* realComponentInfoPtr = dynamic_cast<const IRealComponentStaticInfo*>(subComponentInfoPtr);
+		if (realComponentInfoPtr == NULL){
+			qCritical("Component %s is not real component, it cannot be created", elementAddress.ToString().toLocal8Bit().constData());
+
+			return false;
+		}
+
+		IComponentUniquePtr realComponentPtr = realComponentInfoPtr->CreateComponent();
+
+		componentInfo.componentPtr = std::move(realComponentPtr);
+		if (componentInfo.componentPtr == nullptr){
+			qCritical("Instance of component %s couldn't be created", elementAddress.ToString().toLocal8Bit().constData());
+
+			return false;
+		}
+
+		componentInfo.componentState = CS_READY;
+
+		componentInfo.componentPtr->SetComponentContext(componentInfo.contextPtr, this, isOwned);
+
+		if (!m_manualAutoInit || m_autoInitialized){
+			icomp::CCompositeComponent* compositeComponentPtr = dynamic_cast<icomp::CCompositeComponent*>(componentInfo.componentPtr.get());
+			if (compositeComponentPtr != NULL){
+				compositeComponentPtr->EnsureAutoInitComponentsCreated();
 			}
 		}
 	}

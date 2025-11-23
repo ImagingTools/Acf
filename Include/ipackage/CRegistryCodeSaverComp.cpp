@@ -653,7 +653,7 @@ bool CRegistryCodeSaverComp::WriteHeader(
 	ChangeIndent(1);
 
 	NextLine(stream);
-	stream << "istd::TDelPtr<icomp::CCompositeComponentContext> m_mainContextPtr;";
+	stream << "icomp::IComponentContextSharedPtr m_mainContextPtr;";
 
 	ChangeIndent(-1);
 	NextLine(stream);
@@ -741,10 +741,10 @@ bool CRegistryCodeSaverComp::WriteClassDefinitions(
 	stream << "static icomp::CCompositeComponentStaticInfo mainComponentStaticInfo(mainRegistry, localEnvironmentManager, NULL);";
 	stream << "\n";
 	NextLine(stream);
-	stream << "m_mainContextPtr.SetPtr(new icomp::CCompositeComponentContext((userMainElementPtr != NULL)? userMainElementPtr: &mainElement, &mainComponentStaticInfo, &mainRegistry, &localEnvironmentManager, NULL, \"\"));";
+	stream << "m_mainContextPtr.reset(new icomp::CCompositeComponentContext((userMainElementPtr != NULL)? userMainElementPtr: &mainElement, &mainComponentStaticInfo, &mainRegistry, &localEnvironmentManager, NULL, \"\"));";
 	stream << "\n";
 	NextLine(stream);
-	stream << "SetComponentContext(m_mainContextPtr.GetPtr(), NULL, false);";
+	stream << "SetComponentContext(m_mainContextPtr, NULL, false);";
 
 	ChangeIndent(-1);
 	NextLine(stream);

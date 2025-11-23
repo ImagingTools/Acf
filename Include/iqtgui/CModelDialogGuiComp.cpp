@@ -34,14 +34,14 @@ int CModelDialogGuiComp::ExecuteDialog(IGuiObject* parentPtr)
 		return QDialog::Rejected;
 	}
 
-	m_workingObjectPtr.SetPtr(m_workingDataFactoryCompPtr.CreateComponent());
+	m_workingObjectPtr = m_workingDataFactoryCompPtr.CreateComponent();
 
 	int retVal = QDialog::Rejected;
 
-	istd::IChangeable* workingDataPtr = m_workingDataFactoryCompPtr.ExtractInterface(m_workingObjectPtr.GetPtr());
+	istd::IChangeable* workingDataPtr = m_workingDataFactoryCompPtr.ExtractInterface(m_workingObjectPtr.get());
 	if (workingDataPtr != NULL){
 		if (workingDataPtr->CopyFrom(*sourceDataPtr)){
-			imod::IModel* workingModelPtr = m_workingModelFactoryCompPtr.ExtractInterface(m_workingObjectPtr.GetPtr());
+			imod::IModel* workingModelPtr = m_workingModelFactoryCompPtr.ExtractInterface(m_workingObjectPtr.get());
 			Q_ASSERT(workingModelPtr != NULL);
 			if (workingModelPtr != NULL){
 				bool isAttached = workingModelPtr->AttachObserver(m_editorCompPtr.GetPtr());
@@ -59,7 +59,7 @@ int CModelDialogGuiComp::ExecuteDialog(IGuiObject* parentPtr)
 		}
 	}
 
-	m_workingObjectPtr.Reset();
+	m_workingObjectPtr.reset();
 
 	return retVal;
 }

@@ -1,5 +1,4 @@
-#ifndef itest_CStandardTestExecutor_included
-#define itest_CStandardTestExecutor_included
+#pragma once
 
 
 // Qt includes
@@ -52,8 +51,5 @@ private:
 } // namespace itest
 
 #define I_ADD_TEST(className) const itest::CStandardTestExecutor::TestRegistrator<className> className##_AddTest(#className);
-
-
-#endif // !itest_CStandardTestExecutor_included
 
 

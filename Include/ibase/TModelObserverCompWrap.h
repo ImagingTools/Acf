@@ -1,5 +1,4 @@
-#ifndef ibase_TModelObserverCompWrap_included
-#define ibase_TModelObserverCompWrap_included
+#pragma once
 
 
 // Qt includes
@@ -56,11 +55,11 @@ void TModelObserverCompBaseWrap<ObserverComponent>::OnComponentCreated()
 
 	I_IF_DEBUG(
 		if (m_defaultModelCompPtr.IsValid() && !m_defaultObjectCompPtr.IsValid()){
-			const icomp::IComponentContext* contextPtr = BaseClass::GetComponentContext();
+			const icomp::IComponentContextSharedPtr contextPtr = BaseClass::GetComponentContext();
 			QByteArray observerComponentId = "(unidentified)";
-			if (contextPtr != NULL){
-				const icomp::CComponentContext* extContextPtr = dynamic_cast<const icomp::CComponentContext*>(contextPtr);
-				if (extContextPtr != NULL){
+			if (contextPtr != nullptr){
+				const icomp::CComponentContext* extContextPtr = dynamic_cast<const icomp::CComponentContext*>(contextPtr.get());
+				if (extContextPtr != nullptr){
 					observerComponentId = extContextPtr->GetCompleteContextId();
 				}
 				else{
@@ -71,11 +70,11 @@ void TModelObserverCompBaseWrap<ObserverComponent>::OnComponentCreated()
 			QByteArray modelComponentId = "(unidentified)";
 
 			icomp::IComponent* modelComponentPtr = dynamic_cast<icomp::IComponent*>(m_defaultModelCompPtr.GetPtr());
-			if (modelComponentPtr != NULL){
-				const icomp::IComponentContext* modelContextPtr = modelComponentPtr->GetComponentContext();
-				if (modelContextPtr != NULL){
-					const icomp::CComponentContext* extModelContextPtr = dynamic_cast<const icomp::CComponentContext*>(modelContextPtr);
-					if (extModelContextPtr != NULL){
+			if (modelComponentPtr != nullptr){
+				const icomp::IComponentContextSharedPtr modelContextPtr = modelComponentPtr->GetComponentContext();
+				if (modelContextPtr != nullptr){
+					const icomp::CComponentContext* extModelContextPtr = dynamic_cast<const icomp::CComponentContext*>(modelContextPtr.get());
+					if (extModelContextPtr != nullptr){
 						modelComponentId = extModelContextPtr->GetCompleteContextId();
 					}
 					else{
@@ -123,8 +122,4 @@ public:
 
 
 } // namespace ibase
-
-
-#endif // !ibase_TModelObserverCompWrap_included
-
 

@@ -169,9 +169,9 @@ const IRegistry& CCompositeComponentStaticInfo::GetRegistry() const
 
 // reimplemented (icomp::IRealComponentStaticInfo)
 
-IComponent* CCompositeComponentStaticInfo::CreateComponent() const
+IComponentUniquePtr CCompositeComponentStaticInfo::CreateComponent() const
 {
-	return new CCompositeComponent(true);
+	return IComponentUniquePtr(new CCompositeComponent(true));
 }
 
 

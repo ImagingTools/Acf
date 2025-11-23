@@ -1,12 +1,10 @@
-#ifndef iqtgui_CModelDialogGuiComp_included
-#define iqtgui_CModelDialogGuiComp_included
+#pragma once
 
 
 // ACF includes
 #include <imod/IObserver.h>
 #include <imod/IModel.h>
 #include <imod/TSingleModelObserverBase.h>
-
 #include <iqtgui/CDialogGuiComp.h>
 
 
@@ -44,12 +42,10 @@ private:
 	I_FACT(imod::IModel, m_workingModelFactoryCompPtr);
 	I_FACT(istd::IChangeable, m_workingDataFactoryCompPtr);
 
-	istd::TDelPtr<icomp::IComponent> m_workingObjectPtr;
+	icomp::IComponentUniquePtr m_workingObjectPtr;
 };
 
 
 } // namespace iqtgui
 
-
-#endif // !iqtgui_CModelDialogGuiComp_included
 

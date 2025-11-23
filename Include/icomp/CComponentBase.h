@@ -1,5 +1,4 @@
-#ifndef icomp_CComponentBase_included
-#define icomp_CComponentBase_included
+#pragma once
 
 
 // ACF includes
@@ -43,12 +42,12 @@ public:
 	CComponentBase();
 
 	// reimplemented (icomp::IComponent)
-	virtual const ICompositeComponent* GetParentComponent(bool ownerOnly = false) const override;
+	virtual const icomp::IComponent* GetParentComponent(bool ownerOnly = false) const override;
 	virtual void* GetInterface(const istd::CClassInfo& interfaceType, const QByteArray& subId = "") override;
-	virtual const IComponentContext* GetComponentContext() const override;
+	virtual IComponentContextSharedPtr GetComponentContext() const override;
 	virtual void SetComponentContext(
-				const icomp::IComponentContext* contextPtr,
-				const ICompositeComponent* parentPtr,
+				const IComponentContextSharedPtr& contextPtr,
+				const icomp::IComponent* parentPtr,
 				bool isParentOwner) override;
 
 protected:
@@ -74,8 +73,9 @@ protected:
 private:
 	Q_DISABLE_COPY(CComponentBase)
 
-	const IComponentContext* m_contextPtr;
-	const ICompositeComponent* m_parentPtr;
+	IComponentContextSharedPtr m_contextPtr;
+	const icomp::IComponent* m_parentPtr;
+
 	bool m_isParentOwner;
 };
 
@@ -84,7 +84,7 @@ private:
 
 inline bool CComponentBase::IsComponentActive() const
 {
-	return (m_contextPtr != NULL);
+	return (m_contextPtr != nullptr);
 }
 
 
@@ -103,9 +103,9 @@ inline bool CComponentBase::IsComponentActive() const
 	typedef ComponentType CurrentComponentType;\
 	static const icomp::IRealComponentStaticInfo& InitStaticInfo(ComponentType* componentPtr)\
 	{\
-		static icomp::TComponentStaticInfo<ComponentType> staticInfo(&BaseClass::InitStaticInfo(NULL));\
+		static icomp::TComponentStaticInfo<ComponentType> staticInfo(&BaseClass::InitStaticInfo(nullptr));\
 		static bool isStaticInitialized = false;\
-		if (isStaticInitialized && (componentPtr == NULL)){\
+		if (isStaticInitialized && (componentPtr == nullptr)){\
 			return staticInfo;\
 		}\
 		isStaticInitialized = true;\
@@ -121,9 +121,9 @@ inline bool CComponentBase::IsComponentActive() const
 	typedef ComponentType CurrentComponentType;\
 	static const icomp::IRealComponentStaticInfo& InitStaticInfo(ComponentType* componentPtr)\
 	{\
-		static icomp::CBaseComponentStaticInfo staticInfo(&BaseClass::InitStaticInfo(NULL));\
+		static icomp::CBaseComponentStaticInfo staticInfo(&BaseClass::InitStaticInfo(nullptr));\
 		static bool isStaticInitialized = false;\
-		if (isStaticInitialized && (componentPtr == NULL)){\
+		if (isStaticInitialized && (componentPtr == nullptr)){\
 			return staticInfo;\
 		}\
 		isStaticInitialized = true;\
@@ -139,9 +139,9 @@ inline bool CComponentBase::IsComponentActive() const
 #define I_END_COMPONENT\
 		return staticInfo;\
 	}\
-    virtual const icomp::IRealComponentStaticInfo& GetComponentStaticInfo() const override\
+	virtual const icomp::IRealComponentStaticInfo& GetComponentStaticInfo() const override\
 	{\
-		return InitStaticInfo(NULL);\
+		return InitStaticInfo(nullptr);\
 	}
 
 /**
@@ -335,7 +335,7 @@ inline bool CComponentBase::IsComponentActive() const
 */
 #define I_ASSIGN_BASE(member, id, description, isObligatory)\
 	static icomp::TAttributeStaticInfo<member##_AttrType> member##_Info(staticInfo, id, description, &member##_Default, isObligatory? member##_AttrType::DAF_OBLIGATORY: member##_AttrType::DAF_OPTIONAL, istd::CClassInfo::GetInfo<typename member##_Type::InterfaceType>());\
-	if (componentPtr != NULL){\
+	if (componentPtr != nullptr){\
 		componentPtr->member.Init(componentPtr, member##_Info);\
 	}
 
@@ -362,7 +362,7 @@ inline bool CComponentBase::IsComponentActive() const
 	\ingroup ComponentConcept
 */
 #define I_ASSIGN_MULTI_0(member, id, description, isObligatory)\
-	static member##_AttrType member##_Default(0, NULL);\
+	static member##_AttrType member##_Default(0, nullptr);\
 	I_ASSIGN_BASE(member, id, description, isObligatory)
 
 /**
@@ -417,7 +417,7 @@ inline bool CComponentBase::IsComponentActive() const
 */
 #define I_TASSIGN_BASE(member, id, description, isObligatory)\
 	static icomp::TAttributeStaticInfo<member##_AttrType> member##_Info(staticInfo, id, description, &member##_Default, isObligatory? member##_AttrType::DAF_OBLIGATORY: member##_AttrType::DAF_OPTIONAL, istd::CClassInfo::GetInfo<typename member##_Type::InterfaceType>());\
-	if (componentPtr != NULL){\
+	if (componentPtr != nullptr){\
 		componentPtr->member.Init(componentPtr, member##_Info);\
 	}
 
@@ -445,7 +445,7 @@ inline bool CComponentBase::IsComponentActive() const
 	\ingroup ComponentConcept
 */
 #define I_TASSIGN_MULTI_0(member, id, description, isObligatory)\
-	static member##_AttrType member##_Default(0, NULL);\
+	static member##_AttrType member##_Default(0, nullptr);\
 	I_TASSIGN_BASE(member, id, description, isObligatory)
 
 /**
@@ -484,7 +484,7 @@ inline bool CComponentBase::IsComponentActive() const
 #define I_ASSIGN_TO(member, baseAttribute, isObligatory)\
 	static icomp::CRelatedInfoRegistrator member##_Info(baseAttribute##_Info, icomp::IComponentStaticInfo::MGI_INTERFACES, istd::CClassInfo::GetInfo<member##_Type::InterfaceType>().GetName(), isObligatory? member##_AttrType::DAF_OBLIGATORY: member##_AttrType::DAF_OPTIONAL);\
 	Q_UNUSED(member##_Info);\
-	if (componentPtr != NULL){\
+	if (componentPtr != nullptr){\
 		componentPtr->member.Init(componentPtr, baseAttribute##_Info);\
 	}
 
@@ -496,7 +496,7 @@ inline bool CComponentBase::IsComponentActive() const
 #define I_TASSIGN_TO(member, baseAttribute, isObligatory)\
 	static icomp::CRelatedInfoRegistrator member##_Info(baseAttribute##_Info, icomp::IComponentStaticInfo::MGI_INTERFACES, istd::CClassInfo::GetInfo<typename member##_Type::InterfaceType>().GetName(), isObligatory? member##_AttrType::DAF_OBLIGATORY: member##_AttrType::DAF_OPTIONAL);\
 	Q_UNUSED(member##_Info);\
-	if (componentPtr != NULL){\
+	if (componentPtr != nullptr){\
 		componentPtr->member.Init(componentPtr, baseAttribute##_Info);\
 	}
 
@@ -510,13 +510,13 @@ template <class Dest>
 Dest* CompCastPtr(istd::IPolymorphic* objectPtr)
 {
 	const icomp::IComponent* componentPtr = dynamic_cast<const icomp::IComponent*>(objectPtr);
-	if (componentPtr != NULL){
-		icomp::ICompositeComponent* parentComponentPtr = const_cast<icomp::ICompositeComponent*>(componentPtr->GetParentComponent(true));
+	if (componentPtr != nullptr){
+		icomp::ICompositeComponent* parentComponentPtr = const_cast<icomp::ICompositeComponent*>(dynamic_cast<const icomp::ICompositeComponent*>(componentPtr->GetParentComponent(true)));
 
-		if (parentComponentPtr != NULL){
+		if (parentComponentPtr != nullptr){
 			Dest* retVal = (Dest*)parentComponentPtr->GetInterface(istd::CClassInfo(typeid(Dest)));
 
-			if (retVal != NULL){
+			if (retVal != nullptr){
 				return retVal;
 			}
 		}
@@ -527,48 +527,21 @@ Dest* CompCastPtr(istd::IPolymorphic* objectPtr)
 
 
 /**
-	Query for a given interface.
-
-	\ingroup ComponentConcept
-*/
-template <class Dest>
-Dest* QueryInterface(istd::IPolymorphic* objectPtr, const QByteArray& componentId = QByteArray())
-{
-	const icomp::IComponent* componentPtr = dynamic_cast<const icomp::IComponent*>(objectPtr);
-	if (componentPtr != NULL){
-		icomp::ICompositeComponent* parentComponentPtr = const_cast<icomp::ICompositeComponent*>(componentPtr->GetParentComponent(true));
-
-		if (parentComponentPtr != NULL){
-			Dest* retVal = (Dest*)parentComponentPtr->GetInterface(istd::CClassInfo(typeid(Dest)), componentId);
-			if (retVal != NULL){
-				return retVal;
-			}
-
-			return QueryInterface<Dest>(parentComponentPtr, componentId);
-		}
-	}
-	return NULL;
-}
-
-
-/**
 	Cast to specified interface trying to use component interface query.
 	It extends standard dynamic_cast functinality when you use composed components.
 	\overload
-
 	\ingroup ComponentConcept
 */
 template <class Dest>
 const Dest* CompCastPtr(const istd::IPolymorphic* objectPtr)
 {
 	const icomp::IComponent* componentPtr = dynamic_cast<const icomp::IComponent*>(objectPtr);
-	if (componentPtr != NULL){
-		icomp::ICompositeComponent* parentComponentPtr = const_cast<icomp::ICompositeComponent*>(componentPtr->GetParentComponent(true));
-
-		if (parentComponentPtr != NULL){
+	if (componentPtr != nullptr){
+		icomp::ICompositeComponent* parentComponentPtr = const_cast<icomp::ICompositeComponent*>(dynamic_cast<const icomp::ICompositeComponent*>(componentPtr->GetParentComponent(true)));
+		if (parentComponentPtr != nullptr){
 			const Dest* retVal = (const Dest*)parentComponentPtr->GetInterface(istd::CClassInfo(typeid(Dest)));
 
-			if (retVal != NULL){
+			if (retVal != nullptr){
 				return retVal;
 			}
 		}
@@ -578,5 +551,28 @@ const Dest* CompCastPtr(const istd::IPolymorphic* objectPtr)
 }
 
 
-#endif // !icomp_CComponentBase_included
+/**
+	Queries an object for a specified interface. The method first attempts to extract the requested interface from \c objectPtr.
+	If that fails, it traverses the component tree upwards until the requested interface is found.
+	\ingroup ComponentConcept
+*/
+template <class Dest>
+Dest* QueryInterface(istd::IPolymorphic* objectPtr, const QByteArray& componentId = QByteArray())
+{
+	const icomp::IComponent* componentPtr = dynamic_cast<const icomp::IComponent*>(objectPtr);
+	if (componentPtr != nullptr) {
+		icomp::ICompositeComponent* parentComponentPtr = const_cast<icomp::ICompositeComponent*>(dynamic_cast<const icomp::ICompositeComponent*>(componentPtr->GetParentComponent(true)));
+		if (parentComponentPtr != nullptr) {
+			Dest* retVal = (Dest*)parentComponentPtr->GetInterface(istd::CClassInfo(typeid(Dest)), componentId);
+			if (retVal != nullptr) {
+				return retVal;
+			}
+
+			return QueryInterface<Dest>(parentComponentPtr, componentId);
+		}
+	}
+
+	return nullptr;
+}
+
 

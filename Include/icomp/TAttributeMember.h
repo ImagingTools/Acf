@@ -1,5 +1,4 @@
-#ifndef icomp_TAttributeMember_included
-#define icomp_TAttributeMember_included
+#pragma once
 
 
 // Qt includes
@@ -89,7 +88,7 @@ private:
 
 template <typename Attribute>
 TAttributeMember<Attribute>::TAttributeMember()
-:	m_attributePtr(NULL),
+:	m_attributePtr(nullptr),
 	m_isAssigned(false)
 {
 }
@@ -100,7 +99,7 @@ void TAttributeMember<Attribute>::Init(
 			const IComponent* ownerPtr,
 			const IRealAttributeStaticInfo& staticInfo)
 {
-	InitInternal(ownerPtr, staticInfo, NULL);
+	InitInternal(ownerPtr, staticInfo, nullptr);
 }
 
 template <typename Attribute>
@@ -108,7 +107,7 @@ bool TAttributeMember<Attribute>::IsValid() const
 {
 	Q_ASSERT_X(m_isAssigned, "Component initialization", "No I_ASSIGN used or attribute is used out of component context");
 
-	return (m_attributePtr != NULL);
+	return (m_attributePtr != nullptr);
 }
 
 
@@ -124,7 +123,7 @@ const Attribute* TAttributeMember<Attribute>::GetAttributePtr() const
 template <typename Attribute>
 const typename TAttributeMember<Attribute>::AttributeValueType& TAttributeMember<Attribute>::GetOriginalValue() const
 {
-	Q_ASSERT(m_attributePtr != NULL);	// GetOriginalValue() was called for invalid object, or no IsValid() check was called.
+	Q_ASSERT(m_attributePtr != nullptr);	// GetOriginalValue() was called for invalid object, or no IsValid() check was called.
 
 	return m_attributePtr->GetValue();
 }
@@ -142,7 +141,7 @@ const Attribute* TAttributeMember<Attribute>::operator->() const
 template <typename Attribute>
 const typename TAttributeMember<Attribute>::AttributeValueType& TAttributeMember<Attribute>::operator*() const
 {
-	Q_ASSERT(m_attributePtr != NULL);	// operator* was called for invalid object, or no IsValid() check was called.
+	Q_ASSERT(m_attributePtr != nullptr);	// operator* was called for invalid object, or no IsValid() check was called.
 
 	return m_attributePtr->GetValue();
 }
@@ -163,25 +162,25 @@ bool TAttributeMember<Attribute>::InitInternal(
 			const IRealAttributeStaticInfo& staticInfo,
 			const IComponent** definitionComponentPtr)
 {
-	Q_ASSERT(ownerPtr != NULL);
+	Q_ASSERT(ownerPtr != nullptr);
 
 	m_isAssigned = true;
 
 	const QByteArray& attributeId = staticInfo.GetAttributeId();
-	const IComponentContext* componentContextPtr = ownerPtr->GetComponentContext();
-	if (componentContextPtr != NULL){
-		if (definitionComponentPtr != NULL){
+	IComponentContextSharedPtr componentContextPtr = ownerPtr->GetComponentContext();
+	if (componentContextPtr != nullptr){
+		if (definitionComponentPtr != nullptr){
 			int definitionLevel = -1;
 			const iser::IObject* attributePtr = componentContextPtr->GetAttribute(attributeId, &definitionLevel);
-			if (attributePtr != NULL){
+			if (attributePtr != nullptr){
 				m_attributePtr = dynamic_cast<const Attribute*>(attributePtr);
 
-				if (m_attributePtr != NULL){
+				if (m_attributePtr != nullptr){
 					Q_ASSERT(definitionLevel >= 0);
 
-					while (definitionLevel > 0){
+					while (definitionLevel > 0 && (ownerPtr != nullptr)){
 						ownerPtr = ownerPtr->GetParentComponent();
-						Q_ASSERT(ownerPtr != NULL);
+						// Q_ASSERT(ownerPtr != nullptr);
 
 						--definitionLevel;
 					}
@@ -192,32 +191,32 @@ bool TAttributeMember<Attribute>::InitInternal(
 				}
 				else{
 					qCritical(	"Component '%s': Attribute '%s' type inconsistence!",
-								CComponentContext::GetHierarchyAddress(componentContextPtr).constData(),
+								CComponentContext::GetHierarchyAddress(componentContextPtr.get()).constData(),
 								attributeId.constData());
 				}
 			}
 		}
 		else{
-			const iser::IObject* attributePtr = componentContextPtr->GetAttribute(attributeId, NULL);
+			const iser::IObject* attributePtr = componentContextPtr->GetAttribute(attributeId, nullptr);
 			m_attributePtr = dynamic_cast<const Attribute*>(attributePtr);
 
-			if (m_attributePtr == NULL){
-				if (attributePtr != NULL){
+			if (m_attributePtr == nullptr){
+				if (attributePtr != nullptr){
 					qCritical(	"Component %s: Attribute %s exists in the component context but has a wrong type",
-								CComponentContext::GetHierarchyAddress(componentContextPtr).constData(),
+								CComponentContext::GetHierarchyAddress(componentContextPtr.get()).constData(),
 								attributeId.constData());
 				}
 			}
 
-			return (m_attributePtr != NULL);
+			return (m_attributePtr != nullptr);
 		}
 	}
 	else{
 		qCritical(	"Error during resolving of attribute: %s in component %s: Component context not set",
-					CComponentContext::GetHierarchyAddress(componentContextPtr).constData(),
+					CComponentContext::GetHierarchyAddress(componentContextPtr.get()).constData(),
 					attributeId.constData());
 
-		m_attributePtr = NULL;
+		m_attributePtr = nullptr;
 	}
 
 	return false;
@@ -252,7 +251,7 @@ public:
 	}
 
 	// reimplemented (iser::IObject)
-	virtual QByteArray GetFactoryId() const override
+	virtual QByteArray GetFactoryId() const
 	{
 		return GetTypeName();
 	}
@@ -272,8 +271,5 @@ public:
 
 
 } // namespace icomp
-
-
-#endif // !icomp_TAttributeMember_included
 
 

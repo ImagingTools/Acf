@@ -49,7 +49,7 @@ idoc::IDocumentTemplate::Ids CExtendedDocumentTemplateComp::GetDocumentTypeIdsFo
 
 // reimplemented (idoc::CSingleDocumentTemplateComp)
 
-idoc::IDocumentTemplate::ViewUniquePtr CExtendedDocumentTemplateComp::ExtractViewInterface(std::unique_ptr<icomp::IComponent>& componentPtr) const
+idoc::IDocumentTemplate::ViewUniquePtr CExtendedDocumentTemplateComp::ExtractViewInterface(icomp::IComponentUniquePtr& componentPtr) const
 {
 	ViewUniquePtr viewPtr(componentPtr.get(), [&componentPtr, this]()
 	{

@@ -1,5 +1,4 @@
-#ifndef icomp_TComponentWrap_included
-#define icomp_TComponentWrap_included
+#pragma once
 
 
 // ACF includes
@@ -26,8 +25,8 @@ public:
 
 	// pseudo-reimplemented (icomp::IComponent)
 	virtual void SetComponentContext(
-				const IComponentContext* contextPtr,
-				const ICompositeComponent* parentPtr,
+				const IComponentContextSharedPtr& contextPtr,
+				const IComponent* parentPtr,
 				bool isParentOwner) override;
 };
 
@@ -43,12 +42,13 @@ TComponentWrap<Component>::TComponentWrap()
 template <class Component>
 TComponentWrap<Component>::~TComponentWrap()
 {
-	ICompositeComponent* parentPtr = const_cast<ICompositeComponent*>(BaseClass::GetParentComponent(true));
+	ICompositeComponent* parentPtr = const_cast<ICompositeComponent*>(dynamic_cast<const ICompositeComponent*>(BaseClass::GetParentComponent(true)));
 	if (parentPtr != NULL){
 		parentPtr->OnSubcomponentDeleted(this);
 	}
-
-	this->SetComponentContext(NULL, NULL, false);
+	else {
+		this->SetComponentContext(IComponentContextSharedPtr(), nullptr, false);
+	}
 }
 
 
@@ -56,17 +56,19 @@ TComponentWrap<Component>::~TComponentWrap()
 
 template <class Component>
 void TComponentWrap<Component>::SetComponentContext(
-			const IComponentContext* contextPtr,
-			const ICompositeComponent* parentPtr,
+			const IComponentContextSharedPtr& contextPtr,
+			const IComponent* parentPtr,
 			bool isParentOwner)
 {
-	if (BaseClass::GetComponentContext() != NULL){
+	if (BaseClass::GetComponentContext() != nullptr){
 		BaseClass::OnComponentDestroyed();
+
+		BaseClass::InitStaticInfo(this);
 	}
 
-	BaseClass::SetComponentContext(contextPtr, parentPtr, isParentOwner);
+ 	BaseClass::SetComponentContext(contextPtr, parentPtr, isParentOwner);
 
-	if (contextPtr != NULL){
+	if (contextPtr != nullptr){
 		BaseClass::InitStaticInfo(this);
 
 		BaseClass::OnComponentCreated();
@@ -75,8 +77,5 @@ void TComponentWrap<Component>::SetComponentContext(
 
 
 } // namespace icomp
-
-
-#endif // !icomp_TComponentWrap_included
 
 

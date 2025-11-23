@@ -61,7 +61,8 @@ protected:
 private:
 	const IComponent* m_definitionComponentPtr;
 
-	mutable std::atomic<Interface*> m_componentPtr;
+	mutable IComponentSharedPtr m_componentPtr;
+	mutable std::atomic<Interface*> m_interfacePtr;
 	mutable std::atomic<bool> m_isInitialized;
 
 	mutable QRecursiveMutex m_mutex;
@@ -73,8 +74,8 @@ private:
 template <class Interface>
 TReferenceMember<Interface>::TReferenceMember()
 	:m_definitionComponentPtr(NULL),
-	m_componentPtr(NULL),
-	m_isInitialized(false)
+	m_isInitialized(false),
+	m_interfacePtr(nullptr)
 {
 }
 
@@ -86,7 +87,9 @@ void TReferenceMember<Interface>::Init(const IComponent* ownerPtr, const IRealAt
 
 	BaseClass::InitInternal(ownerPtr, staticInfo, &m_definitionComponentPtr);
 
-	m_componentPtr = NULL;
+	m_interfacePtr = nullptr;
+
+	m_componentPtr.reset();
 }
 
 
@@ -103,29 +106,29 @@ bool TReferenceMember<Interface>::EnsureInitialized() const
 	if (!m_isInitialized){
 		QMutexLocker lock(&m_mutex);
 
-		if (!m_isInitialized && (m_definitionComponentPtr != NULL) && BaseClass::IsValid()){
-			const ICompositeComponent* parentPtr = m_definitionComponentPtr->GetParentComponent();
-			if (parentPtr != NULL){
+		if (!m_isInitialized && (m_definitionComponentPtr != NULL) && BaseClass::IsValid()) {
+			const ICompositeComponent* parentPtr = dynamic_cast<const ICompositeComponent*>(m_definitionComponentPtr->GetParentComponent());
+			if (parentPtr != NULL) {
 				const QByteArray& componentId = BaseClass::operator*();
 
 				QByteArray baseId;
 				QByteArray subId;
 				BaseClass2::SplitId(componentId, baseId, subId);
 
-				IComponent* componentPtr = parentPtr->GetSubcomponent(baseId);
-				if (componentPtr != NULL){
-					m_componentPtr = BaseClass2::ExtractInterface<Interface>(componentPtr, subId);
-				}
+				m_componentPtr = parentPtr->GetSubcomponent(baseId);
+				if (m_componentPtr != nullptr) {
+					m_interfacePtr = BaseClass2::ExtractInterface<Interface>(m_componentPtr.get(), subId);
 
-				m_isInitialized = true;
-			}
-			else{
-				qCritical("Component %s is defined, but definition component has no parent", BaseClass::operator*().constData());
+					m_isInitialized = true;
+				}
+				else {
+					qCritical("Component %s is defined, but definition component has no parent", BaseClass::operator*().constData());
+				}
 			}
 		}
 	}
 
-	return (m_componentPtr != NULL);
+	return (m_interfacePtr != NULL);
 }
 
 
@@ -134,7 +137,7 @@ Interface* TReferenceMember<Interface>::GetPtr() const
 {
 	EnsureInitialized();
 
-	return m_componentPtr;
+	return m_interfacePtr;
 }
 
 
@@ -142,7 +145,8 @@ template <class Interface>
 Interface* TReferenceMember<Interface>::operator->() const
 {
 	EnsureInitialized();
-	Q_ASSERT(m_componentPtr != NULL);
+
+	Q_ASSERT(m_interfacePtr != NULL);
 
 	return GetPtr();
 }
@@ -155,6 +159,7 @@ TReferenceMember<Interface>::TReferenceMember(const TReferenceMember& ptr)
 :	BaseClass(ptr),
 	m_definitionComponentPtr(ptr.m_definitionComponentPtr),
 	m_componentPtr(ptr.m_componentPtr),
+	m_interfacePtr(ptr.m_interfacePtr),
 	m_isInitialized(ptr.m_isInitialized)
 {
 }

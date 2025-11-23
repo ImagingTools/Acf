@@ -44,11 +44,11 @@ void CBaseComponentStaticInfo::RegisterSubelementInfo(const QByteArray& embedded
 
 //	reimplemented (icomp::IRealComponentStaticInfo)
 
-IComponent* CBaseComponentStaticInfo::CreateComponent() const
+IComponentUniquePtr CBaseComponentStaticInfo::CreateComponent() const
 {
 	qFatal("trying to create abstract base component. Check if I_BEGIN_COMPONENT in constructed component wasn't forgotten");
 
-	return NULL;
+	return IComponentUniquePtr();
 }
 
 

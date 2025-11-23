@@ -58,7 +58,7 @@ protected:
 		Default is instance of interface imod::IObserver extracted, but for
 		composite components it can be inaccurate for some cases.
 	*/
-	virtual ViewUniquePtr ExtractViewInterface(std::unique_ptr<icomp::IComponent>& componentPtr) const;
+	virtual ViewUniquePtr ExtractViewInterface(icomp::IComponentUniquePtr& componentPtr) const;
 
 	// reimplemented (icomp::CComponentBase)
 	virtual void OnComponentCreated() override;

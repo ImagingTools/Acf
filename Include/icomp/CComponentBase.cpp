@@ -18,19 +18,19 @@ CComponentBase::CComponentBase()
 
 // reimplemented (icomp::IComponent)
 
-const ICompositeComponent* CComponentBase::GetParentComponent(bool ownerOnly) const
+const icomp::IComponent* CComponentBase::GetParentComponent(bool ownerOnly) const
 {
 	if (!ownerOnly || m_isParentOwner){
 		return m_parentPtr;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
 void* CComponentBase::GetInterface(const istd::CClassInfo& interfaceType, const QByteArray& subId)
 {
-	if (m_contextPtr != NULL){
+	if (m_contextPtr != nullptr){
 		const IRealComponentStaticInfo& staticInfo = GetComponentStaticInfo();
 
 		return staticInfo.GetComponentInterface(interfaceType, *this, subId);
@@ -40,15 +40,15 @@ void* CComponentBase::GetInterface(const istd::CClassInfo& interfaceType, const 
 }
 
 
-const IComponentContext* CComponentBase::GetComponentContext() const
+IComponentContextSharedPtr CComponentBase::GetComponentContext() const
 {
 	return m_contextPtr;
 }
 
 
 void CComponentBase::SetComponentContext(
-			const icomp::IComponentContext* contextPtr,
-			const ICompositeComponent* parentPtr,
+			const IComponentContextSharedPtr& contextPtr,
+			const icomp::IComponent* parentPtr,
 			bool isParentOwner)
 {
 	m_contextPtr = contextPtr;
@@ -61,13 +61,13 @@ void CComponentBase::SetComponentContext(
 
 void CComponentBase::OnComponentCreated()
 {
-	Q_ASSERT(m_contextPtr != NULL);
+	Q_ASSERT(m_contextPtr != nullptr);
 }
 
 
 void CComponentBase::OnComponentDestroyed()
 {
-	Q_ASSERT(m_contextPtr != NULL);
+	Q_ASSERT(m_contextPtr != nullptr);
 }
 
 

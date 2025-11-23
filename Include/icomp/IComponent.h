@@ -1,12 +1,15 @@
-#ifndef icomp_IComponent_included
-#define icomp_IComponent_included
+#pragma once
 
+
+// STL includes
+#include <memory>
 
 // Qt includes
 #include <QtCore/QByteArray>
 
 // ACF includes
-#include <istd/IPolymorphic.h>
+#include <istd/TInterfacePtr.h>
+#include <icomp/IComponentContext.h>
 
 
 namespace istd
@@ -17,10 +20,6 @@ namespace istd
 
 namespace icomp
 {
-
-
-class IComponentContext;
-class ICompositeComponent;
 
 
 /**
@@ -38,7 +37,7 @@ public:
 		\param	ownerOnly	indicate, that parent should be returned only if it owns this component.
 		\return	pointer to parent component or NULL if parent is not accessible.
 	*/
-	virtual const ICompositeComponent* GetParentComponent(bool ownerOnly = false) const = 0;
+	virtual const icomp::IComponent* GetParentComponent(bool ownerOnly = false) const = 0;
 
 	/**
 		Get access to specified component interface.
@@ -51,7 +50,7 @@ public:
 		Get access to component context describing all application-specified
 		component information loaded from components registry.
 	*/
-	virtual const IComponentContext* GetComponentContext() const = 0;
+	virtual IComponentContextSharedPtr GetComponentContext() const = 0;
 
 	/**
 		Set component context of this component.
@@ -62,15 +61,16 @@ public:
 		\param	isParentOwner	indicate, that life cycle of this component is controller by its parent.
 	*/
 	virtual void SetComponentContext(
-				const icomp::IComponentContext* contextPtr,
-				const ICompositeComponent* parentPtr,
+				const IComponentContextSharedPtr& contextPtr,
+				const icomp::IComponent* parentPtr,
 				bool isParentOwner) = 0;
 };
 
 
+typedef std::shared_ptr<IComponent> IComponentSharedPtr;
+typedef std::unique_ptr<IComponent> IComponentUniquePtr;
+
+
 } // namespace icomp
-
-
-#endif // !icomp_IComponent_included
 
 

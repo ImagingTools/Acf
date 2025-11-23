@@ -1,5 +1,4 @@
-#ifndef icomp_CSimComponentContextBase_included
-#define icomp_CSimComponentContextBase_included
+#pragma once
 
 
 // Qt includes
@@ -44,12 +43,12 @@ public:
 	/**
 		Set named reference to some component.
 	*/
-	bool SetRef(const QByteArray& referenceId, IComponent* componentPtr, const QByteArray& subelementId = "");
+	bool SetRef(const QByteArray& referenceId, IComponentSharedPtr componentPtr, const QByteArray& subelementId = "");
 
 	/**
 		Set named reference to some component.
 	*/
-	bool InsertMultiRef(const QByteArray& referenceId, IComponent* componentPtr, const QByteArray& subelementId = "");
+	bool InsertMultiRef(const QByteArray& referenceId, IComponentSharedPtr componentPtr, const QByteArray& subelementId = "");
 
 	/**
 		Set factory of component instance.
@@ -138,7 +137,7 @@ protected:
 	template <class AttrType>
 	bool IsAttributeTypeCorrect(const QByteArray& attributeId);
 
-	typedef QMap<QByteArray, IComponent*> ComponentsMap;
+	typedef QMap<QByteArray, IComponentSharedPtr> ComponentsMap;
 	ComponentsMap m_componentsMap;
 
 	typedef QMap< QByteArray, const ComponentsFactory* > FactoriesMap;
@@ -167,8 +166,5 @@ bool CSimComponentContextBase::IsAttributeTypeCorrect(const QByteArray& attribut
 
 
 } // namespace icomp
-
-
-#endif // !icomp_CSimComponentContextBase_included
 
 

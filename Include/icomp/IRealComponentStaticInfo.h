@@ -1,9 +1,9 @@
-#ifndef icomp_IRealComponentStaticInfo_included
-#define icomp_IRealComponentStaticInfo_included
+#pragma once
 
 
 // ACF includes
 #include <icomp/IComponentStaticInfo.h>
+#include <icomp/IComponent.h>
 #include <icomp/IComponentInterfaceExtractor.h>
 
 
@@ -27,13 +27,10 @@ public:
 		Create component instance.
 		\return				pointer to created component or NULL if this component cannot be created.
 	 */
-	virtual IComponent* CreateComponent() const = 0;
+	virtual icomp::IComponentUniquePtr CreateComponent() const = 0;
 };
 
 
 } // namespace icomp
-
-
-#endif // !icomp_IRealComponentStaticInfo_included
 
 

@@ -127,6 +127,9 @@ SUBDIRS += AcfLoc
 AcfLoc.file = ../../Impl/AcfLoc/QMake/AcfLoc.pro
 
 # Tests
+SUBDIRS += icompTest
+icompTest.file = ../../Include/icomp/Test/QMake/icompTest.pro
+
 SUBDIRS += iserTest
 iserTest.file = ../../Include/iser/Test/QMake/iserTest.pro
 
@@ -145,4 +148,9 @@ icmmTest.file = ../../Include/icmm/Test/QMake/icmmTest.pro
 SUBDIRS += SelectionParamIntegrationTest
 SelectionParamIntegrationTest.file = ../../Tests/SelectionParamIntegrationTest/QMake/SelectionParamIntegrationTest.pro
 SelectionParamIntegrationTest.depends = Arxc iprm iser itest
+
+SUBDIRS += MultiThreadingComponentTest
+MultiThreadingComponentTest.file = ../../Tests/MultiThreadingComponentTest/QMake/MultiThreadingComponentTest.pro
+MultiThreadingComponentTest.depends = Arxc iprm iser itest
+
 

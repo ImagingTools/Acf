@@ -6,10 +6,12 @@
 #include <QtCore/QByteArray>
 #include <QtCore/QMap>
 #include <QtCore/QReadWriteLock>
+#include <QtCore/QRecursiveMutex>
+#include <QtCore/QWaitCondition>
 
 // ACF includes
 #include <istd/CClassInfo.h>
-
+#include <istd/TSmartPtr.h>
 #include <icomp/ICompositeComponent.h>
 #include <icomp/IRegistry.h>
 #include <icomp/CCompositeComponentContext.h>
@@ -44,24 +46,21 @@ public:
 	bool EnsureAutoInitComponentsCreated() const;
 
 	// reimplemented (icomp::ICompositeComponent)
-	virtual IComponent* GetSubcomponent(const QByteArray& componentId) const override;
-	virtual const IComponentContext* GetSubcomponentContext(const QByteArray& componentId) const override;
-	virtual IComponent* CreateSubcomponent(const QByteArray& componentId) const override;
+	virtual IComponentSharedPtr GetSubcomponent(const QByteArray& componentId) const override;
+	virtual IComponentContextSharedPtr GetSubcomponentContext(const QByteArray& componentId) const override;
+	virtual IComponentUniquePtr CreateSubcomponent(const QByteArray& componentId) const override;
 	virtual void OnSubcomponentDeleted(const IComponent* subcomponentPtr) override;
 
 	// reimplemented (icomp::IComponent)
-	virtual const ICompositeComponent* GetParentComponent(bool ownerOnly = false) const override;
+	virtual const icomp::IComponent* GetParentComponent(bool ownerOnly = false) const override;
 	virtual void* GetInterface(const istd::CClassInfo& interfaceType, const QByteArray& subId = "") override;
-	virtual const IComponentContext* GetComponentContext() const override;
+	virtual IComponentContextSharedPtr GetComponentContext() const override;
 	virtual void SetComponentContext(
-				const icomp::IComponentContext* contextPtr,
-				const ICompositeComponent* parentPtr,
+				const IComponentContextSharedPtr& contextPtr,
+				const icomp::IComponent* parentPtr,
 				bool isParentOwner) override;
 
 protected:
-	typedef istd::TDelPtr<icomp::IComponent> ComponentPtr;
-	typedef istd::TDelPtr<icomp::IComponentContext> ContextPtr;
-
 	/**
 		Create information objects and subcomponent.
 		\param	componentId		ID of subcomponent.
@@ -72,29 +71,51 @@ protected:
 	*/
 	bool CreateSubcomponentInfo(
 				const QByteArray& componentId,
-				ContextPtr& subContextPtr,
-				ComponentPtr* subComponentPtr,
+				IComponentContextSharedPtr& subContextPtr,
+				IComponentUniquePtr* subComponentPtr,
 				bool isOwned) const;
 
 private:
+	struct ComponentInfo;
+
+	bool InitializeSubcomponentInfo(
+				const QByteArray& componentId,
+				ComponentInfo& componentInfo,
+				bool isOwned) const;
+
+
+private:
+	enum ComponentState
+	{
+		CS_NONE,
+		CS_INIT,
+		CS_READY,
+		CS_DESTROYED
+	};
+
 	struct ComponentInfo
 	{
 		ComponentInfo()
-			:isComponentInitialized(false),
-			isContextInitialized(false){}
+			:componentState(CS_NONE),
+			isContextInitialized(false)
+		{
+		}
+
 		/**
 			Pointer to component context for some component type.
 		*/
-		ComponentPtr componentPtr;
+		IComponentSharedPtr componentPtr;
+
 		/**
 			Flag signaling we tried to create context of this component.
 			It is used to avoid multiple initialization of component context.
 		*/
-		bool isComponentInitialized;
+		ComponentState componentState = CS_NONE;
+
 		/**
 			Pointer to static component for some component type.
 		*/
-		ContextPtr contextPtr;
+		IComponentContextSharedPtr contextPtr;
 		/**
 			Flag signaling we tried to create static component.
 			It is used to avoid multiple initialization of component.
@@ -102,12 +123,12 @@ private:
 		bool isContextInitialized;
 	};
 
-	typedef QMap< QByteArray, ComponentInfo > ComponentMap;
+	typedef QMap<QByteArray, ComponentInfo> ComponentMap;
 
 	mutable ComponentMap m_componentMap;
 
-	const CCompositeComponentContext* m_contextPtr;
-	const ICompositeComponent* m_parentPtr;
+	IComponentContextSharedPtr m_contextPtr;
+	const icomp::ICompositeComponent* m_parentPtr;
 	bool m_isParentOwner;
 
 	bool m_manualAutoInit;

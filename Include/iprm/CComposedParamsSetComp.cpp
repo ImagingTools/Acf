@@ -196,7 +196,7 @@ void CComposedParamsSetComp::OnComponentCreated()
 		}
 		else{
 			qDebug(		"Component '%s': Parameter '%s' is set to invalid pointer",
-						icomp::CComponentContext::GetHierarchyAddress(GetComponentContext()).constData(),
+						icomp::CComponentContext::GetHierarchyAddress(GetComponentContext().get()).constData(),
 						id.constData());
 		}
 	}

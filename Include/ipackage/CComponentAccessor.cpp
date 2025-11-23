@@ -20,44 +20,47 @@
 namespace
 {
 
-	
+
+typedef ifile::TFileSerializerComp<ifile::CSimpleXmlFileReadArchive, ifile::CSimpleXmlFileWriteArchive> SimpleXmlSerializer;
+typedef ifile::TFileSerializerComp<ifile::CCompactXmlFileReadArchive, ifile::CCompactXmlFileWriteArchive> CompactXmlSerializer;
+
+
 struct Loader
 {
-	icomp::TSimComponentWrap< ifile::TFileSerializerComp<ifile::CSimpleXmlFileReadArchive, ifile::CSimpleXmlFileWriteArchive> > oldRegistrySerializerComp;
-	icomp::TSimComponentWrap< ifile::TFileSerializerComp<ifile::CCompactXmlFileReadArchive, ifile::CCompactXmlFileWriteArchive> > registrySerializerComp;
-	icomp::TSimComponentWrap<ifile::CComposedFilePersistenceComp> composedSerializerComp;
-	icomp::TSimComponentWrap<ipackage::CPackagesLoaderComp> packagesLoaderComp;
-	icomp::TSimComponentWrap<ilog::CConsoleLogComp> log;
+	icomp::TSimSharedComponentPtr<SimpleXmlSerializer> oldRegistrySerializerComp;
+	icomp::TSimSharedComponentPtr<CompactXmlSerializer> registrySerializerComp;
+	icomp::TSimSharedComponentPtr<ifile::CComposedFilePersistenceComp> composedSerializerComp;
+	icomp::TSimSharedComponentPtr<ipackage::CPackagesLoaderComp> packagesLoaderComp;
+	icomp::TSimSharedComponentPtr<ilog::CConsoleLogComp> log;
 
 	explicit Loader(bool isDiagnosticEnabled)
 	{
-		log.SetBoolAttr("UseCategory", false);
-		log.SetBoolAttr("UseCode", false);
-		log.InitComponent();
+		log->SetBoolAttr("UseCategory", false);
+		log->SetBoolAttr("UseCode", false);
+		log->InitComponent();
 
-		oldRegistrySerializerComp.InsertMultiAttr("FileExtensions", QString("arx"));
-		oldRegistrySerializerComp.InitComponent();
+		oldRegistrySerializerComp->InsertMultiAttr("FileExtensions", QString("arx"));
+		oldRegistrySerializerComp->InitComponent();
 
-		registrySerializerComp.InsertMultiAttr("FileExtensions", QString("acc"));
+		registrySerializerComp->InsertMultiAttr("FileExtensions", QString("acc"));
 		if (isDiagnosticEnabled){
-			registrySerializerComp.SetRef("Log", &log);
-			registrySerializerComp.SetBoolAttr("EnableVerbose", true);
+			registrySerializerComp->SetRef("Log", log);
+			registrySerializerComp->SetBoolAttr("EnableVerbose", true);
+		}
+		registrySerializerComp->InitComponent();
+
+		composedSerializerComp->InsertMultiRef("SlaveLoaders", oldRegistrySerializerComp);
+		composedSerializerComp->InsertMultiRef("SlaveLoaders", registrySerializerComp);
+		composedSerializerComp->InitComponent();
+
+		packagesLoaderComp->SetRef("RegistryLoader", composedSerializerComp);
+
+		if (isDiagnosticEnabled){
+			packagesLoaderComp->SetRef("Log", log);
+			packagesLoaderComp->SetBoolAttr("EnableVerbose", true);
 		}
 
-		registrySerializerComp.InitComponent();
-
-		composedSerializerComp.InsertMultiRef("SlaveLoaders", &oldRegistrySerializerComp);
-		composedSerializerComp.InsertMultiRef("SlaveLoaders", &registrySerializerComp);
-		composedSerializerComp.InitComponent();
-
-		packagesLoaderComp.SetRef("RegistryLoader", &composedSerializerComp);
-
-		if (isDiagnosticEnabled){
-			packagesLoaderComp.SetRef("Log", &log);
-			packagesLoaderComp.SetBoolAttr("EnableVerbose", true);
-		}
-
-		packagesLoaderComp.InitComponent();
+		packagesLoaderComp->InitComponent();
 	}
 };
 
@@ -77,26 +80,26 @@ CComponentAccessor::CComponentAccessor(
 :	m_mainComponent(manualAutoInit)
 {
 	static Loader loader(isDiagnosticEnabled);
-	loader.packagesLoaderComp.LoadPackages(configFile);
+	loader.packagesLoaderComp->LoadPackages(configFile);
 
 	QString usedRegistryFile = registryFile.isEmpty()? QString("default.acc"): registryFile;
-	const icomp::IRegistry* registryPtr = loader.packagesLoaderComp.GetRegistryFromFile(usedRegistryFile);
+	const icomp::IRegistry* registryPtr = loader.packagesLoaderComp->GetRegistryFromFile(usedRegistryFile);
 	if (registryPtr != NULL){
 		static icomp::CRegistryElement dummyElement;
 
 		m_mainComponentStaticInfoPtr.SetPtr(new icomp::CCompositeComponentStaticInfo(
 					*registryPtr,
-					loader.packagesLoaderComp,
+					*loader.packagesLoaderComp,
 					NULL));
 
-		m_mainComponentContextPtr.SetPtr(new icomp::CCompositeComponentContext(
+		m_mainComponentContextPtr.reset(new icomp::CCompositeComponentContext(
 					&dummyElement,
 					m_mainComponentStaticInfoPtr.GetPtr(),
 					registryPtr,
-					&loader.packagesLoaderComp,
+					&(*loader.packagesLoaderComp),
 					NULL,
 					""));
-		m_mainComponent.SetComponentContext(m_mainComponentContextPtr.GetPtr(), NULL, false);
+		m_mainComponent.SetComponentContext(m_mainComponentContextPtr, NULL, false);
 	}
 }
 

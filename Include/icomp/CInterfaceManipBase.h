@@ -1,5 +1,4 @@
-#ifndef icomp_CInterfaceManipBase_included
-#define icomp_CInterfaceManipBase_included
+#pragma once
 
 
 // Qt includes
@@ -8,7 +7,6 @@
 // ACF includes
 #include <istd/CIdManipBase.h>
 #include <istd/CClassInfo.h>
-
 #include <icomp/IComponent.h>
 
 
@@ -44,8 +42,5 @@ Interface* CInterfaceManipBase::ExtractInterface(IComponent* componentPtr, const
 
 
 } // namespace icomp
-
-
-#endif // !icomp_CInterfaceManipBase_included
 
 

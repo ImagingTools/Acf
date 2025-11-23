@@ -41,10 +41,9 @@ bool CSimComponentContextBase::SetAttr(const QByteArray& attributeId, const iser
 }
 
 
-bool CSimComponentContextBase::SetRef(const QByteArray& referenceId, IComponent* componentPtr, const QByteArray& subelementId)
+bool CSimComponentContextBase::SetRef(const QByteArray& referenceId, IComponentSharedPtr componentPtr, const QByteArray& subelementId)
 {
 	Q_ASSERT(IsAttributeTypeCorrect<CReferenceAttribute>(referenceId));
-	Q_ASSERT(componentPtr != NULL);
 
 	QByteArray completeId = JoinId(referenceId, subelementId);
 	if (SetAttr(referenceId, new CReferenceAttribute(completeId))){
@@ -57,7 +56,7 @@ bool CSimComponentContextBase::SetRef(const QByteArray& referenceId, IComponent*
 }
 
 
-bool CSimComponentContextBase::InsertMultiRef(const QByteArray& referenceId, IComponent* componentPtr, const QByteArray& subelementId)
+bool CSimComponentContextBase::InsertMultiRef(const QByteArray& referenceId, IComponentSharedPtr componentPtr, const QByteArray& subelementId)
 {
 	Q_ASSERT(IsAttributeTypeCorrect<CMultiReferenceAttribute>(referenceId));
 

@@ -1,5 +1,4 @@
-#ifndef icomp_TFactoryMember_included
-#define icomp_TFactoryMember_included
+#pragma once
 
 
 // ACF includes
@@ -44,7 +43,7 @@ public:
 	/**
 		Create component without extracting any interface.
 	*/
-	IComponent* CreateComponent() const;
+	IComponentUniquePtr CreateComponent() const;
 
 	/**
 		Extract interface from some component.
@@ -98,10 +97,10 @@ bool TFactoryMember<Interface>::IsValid() const
 
 
 template <class Interface>
-IComponent* TFactoryMember<Interface>::CreateComponent() const
+IComponentUniquePtr TFactoryMember<Interface>::CreateComponent() const
 {
 	if ((m_definitionComponentPtr != NULL) && BaseClass::IsValid()){
-		const ICompositeComponent* parentPtr = m_definitionComponentPtr->GetParentComponent();
+		const ICompositeComponent* parentPtr = dynamic_cast<const ICompositeComponent*>(m_definitionComponentPtr->GetParentComponent());
 		if (parentPtr != NULL){
 			const QByteArray& componentId = BaseClass::operator*();
 
@@ -117,20 +116,20 @@ IComponent* TFactoryMember<Interface>::CreateComponent() const
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
 template <class Interface>
 istd::TUniqueInterfacePtr<Interface> TFactoryMember<Interface>::CreateInstance(const QByteArray& /*typeId*/) const
 {
-	icomp::IComponent* newComponentPtr = CreateComponent();
-
-	return istd::TUniqueInterfacePtr<Interface>(newComponentPtr, [newComponentPtr](){
-		Interface* retVal = BaseClass2::ExtractInterface<Interface>(newComponentPtr);
-		
-		return retVal;
-	});
+	IComponentUniquePtr newComponentPtr = CreateComponent();
+	if (newComponentPtr != nullptr){
+		Interface* retVal = BaseClass2::ExtractInterface<Interface>(newComponentPtr.get());
+		if (retVal != NULL) {
+			return istd::TUniqueInterfacePtr<Interface>(newComponentPtr.release(), retVal);
+		}
+	}
 
 	return istd::TUniqueInterfacePtr<Interface>();
 }
@@ -179,8 +178,5 @@ TFactoryMember<Interface>::TFactoryMember(const TFactoryMember& ptr)
 
 
 } // namespace icomp
-
-
-#endif // !icomp_TFactoryMember_included
 
 

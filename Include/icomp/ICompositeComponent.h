@@ -1,5 +1,4 @@
-#ifndef icomp_ICompositeComponent_included
-#define icomp_ICompositeComponent_included
+#pragma once
 
 
 // ACF includes
@@ -22,18 +21,18 @@ public:
 	/**
 		Get access to subcomponent using its ID.
 	*/
-	virtual IComponent* GetSubcomponent(const QByteArray& componentId) const = 0;
+	virtual IComponentSharedPtr GetSubcomponent(const QByteArray& componentId) const = 0;
 
 	/**
 		Get access to context of subcomponent using its ID.
 		Please note, that this does'n create component instance.
 	*/
-	virtual const IComponentContext* GetSubcomponentContext(const QByteArray& componentId) const = 0;
+	virtual IComponentContextSharedPtr GetSubcomponentContext(const QByteArray& componentId) const = 0;
 
 	/**
 		Create instance of subcomponent using its ID.
 	*/
-	virtual IComponent* CreateSubcomponent(const QByteArray& componentId) const = 0;
+	virtual IComponentUniquePtr CreateSubcomponent(const QByteArray& componentId) const = 0;
 
 	/**
 		Called if subcomponent is removed from memory.
@@ -44,8 +43,5 @@ public:
 
 
 } // namespace icomp
-
-
-#endif // !icomp_ICompositeComponent_included
 
 

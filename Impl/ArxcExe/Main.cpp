@@ -180,82 +180,82 @@ int main(int argc, char *argv[])
 		return 1;
 	}
 
-	icomp::TSimComponentWrap<BasePck::ApplicationInfo> applicationInfo;
-	applicationInfo.SetStringAttr("ApplicationName", "ARX Compiler");
-	applicationInfo.SetStringAttr("CompanyName", "ImagingTools");
-	applicationInfo.InitComponent();
+	icomp::TSimSharedComponentPtr<BasePck::ApplicationInfo> applicationInfoPtr;
+	applicationInfoPtr->SetStringAttr("ApplicationName", "ARX Compiler");
+	applicationInfoPtr->SetStringAttr("CompanyName", "ImagingTools");
+	applicationInfoPtr->InitComponent();
 
-	icomp::TSimComponentWrap<BasePck::ConsoleLog> log;
-	log.InitComponent();
+	icomp::TSimSharedComponentPtr<BasePck::ConsoleLog> log;
+	log->InitComponent();
 
-	icomp::TSimComponentWrap<FilePck::SimpleXmlFileSerializer> oldFormatLoaderComp;
-	oldFormatLoaderComp.InsertMultiAttr("FileExtensions", QString("arx"));
+	icomp::TSimSharedComponentPtr<FilePck::SimpleXmlFileSerializer> oldFormatLoaderComp;
+	oldFormatLoaderComp->InsertMultiAttr("FileExtensions", QString("arx"));
 	if (verboseEnabled || workingMode == 0){
-		oldFormatLoaderComp.SetRef("Log", &log);
+		oldFormatLoaderComp->SetRef("Log", log);
 	}
-	oldFormatLoaderComp.SetRef("VersionInfo", &applicationInfo);
-	oldFormatLoaderComp.SetBoolAttr("EnableVerbose", verboseEnabled);
-	oldFormatLoaderComp.InitComponent();
+	oldFormatLoaderComp->SetRef("VersionInfo", applicationInfoPtr);
+	oldFormatLoaderComp->SetBoolAttr("EnableVerbose", verboseEnabled);
+	oldFormatLoaderComp->InitComponent();
 
-	icomp::TSimComponentWrap<FilePck::CompactXmlFileSerializer> newFormatLoaderComp;
-	newFormatLoaderComp.InsertMultiAttr("FileExtensions", QString("acc"));
+	icomp::TSimSharedComponentPtr<FilePck::CompactXmlFileSerializer> newFormatLoaderComp;
+	newFormatLoaderComp->InsertMultiAttr("FileExtensions", QString("acc"));
 	if (verboseEnabled || workingMode == 0){
-		newFormatLoaderComp.SetRef("Log", &log);
+		newFormatLoaderComp->SetRef("Log", log);
 	}
-	newFormatLoaderComp.SetRef("VersionInfo", &applicationInfo);
-	newFormatLoaderComp.SetBoolAttr("EnableVerbose", verboseEnabled);
-	newFormatLoaderComp.InitComponent();
+	newFormatLoaderComp->SetRef("VersionInfo", applicationInfoPtr);
+	newFormatLoaderComp->SetBoolAttr("EnableVerbose", verboseEnabled);
+	newFormatLoaderComp->InitComponent();
 
-	icomp::TSimComponentWrap<FilePck::ComposedFilePersistence> registryLoaderComp;
-	registryLoaderComp.InsertMultiRef("SlaveLoaders", &oldFormatLoaderComp);
-	registryLoaderComp.InsertMultiRef("SlaveLoaders", &newFormatLoaderComp);
-	registryLoaderComp.SetStringAttr("CommonDescription", "ACF Registry");
-	registryLoaderComp.InitComponent();
+	icomp::TSimSharedComponentPtr<FilePck::ComposedFilePersistence> registryLoaderComp;
+	registryLoaderComp->InsertMultiRef("SlaveLoaders", oldFormatLoaderComp);
+	registryLoaderComp->InsertMultiRef("SlaveLoaders", newFormatLoaderComp);
+	registryLoaderComp->SetStringAttr("CommonDescription", "ACF Registry");
+	registryLoaderComp->InitComponent();
 
-	icomp::TSimComponentWrap<PackagePck::RegistriesManager> registriesManagerComp;
-	registriesManagerComp.SetRef("RegistryLoader", &registryLoaderComp);
-	registriesManagerComp.SetBoolAttr("AreRealPackagesIgnored", !checkRealPackages);
+	icomp::TSimSharedComponentPtr<PackagePck::RegistriesManager> registriesManagerComp;
+	registriesManagerComp->SetRef("RegistryLoader", registryLoaderComp);
+	registriesManagerComp->SetBoolAttr("AreRealPackagesIgnored", !checkRealPackages);
 	if (verboseEnabled || workingMode == 0){
-		registriesManagerComp.SetRef("Log", &log);
+		registriesManagerComp->SetRef("Log", log);
 	}
-	registriesManagerComp.SetBoolAttr("EnableVerbose", verboseEnabled);
-	registriesManagerComp.InitComponent();
+	registriesManagerComp->SetBoolAttr("EnableVerbose", verboseEnabled);
+	registriesManagerComp->InitComponent();
 
-	registriesManagerComp.LoadPackages(configFile);
+	registriesManagerComp->LoadPackages(configFile);
 
-	icomp::TSimComponentWrap<PackagePck::RegistryCodeSaver> codeSaverComp;
+	icomp::TSimSharedComponentPtr<PackagePck::RegistryCodeSaver> codeSaverComp;
 	if (verboseEnabled || workingMode == 0){
-		codeSaverComp.SetRef("Log", &log);
+		codeSaverComp->SetRef("Log", log);
 	}
-	codeSaverComp.SetRef("PackagesManager", &registriesManagerComp);
-	codeSaverComp.SetRef("RegistriesManager", &registriesManagerComp);
-	codeSaverComp.SetIntAttr("WorkingMode", workingMode);
+	codeSaverComp->SetRef("PackagesManager", registriesManagerComp);
+	codeSaverComp->SetRef("RegistriesManager", registriesManagerComp);
+	codeSaverComp->SetIntAttr("WorkingMode", workingMode);
 	if (translateMode >= 0){
-		codeSaverComp.SetIntAttr("TranslationLevel", (translateMode > 0)? 0: -1);
+		codeSaverComp->SetIntAttr("TranslationLevel", (translateMode > 0)? 0: -1);
 	}
-	codeSaverComp.SetBoolAttr("UseBinaryCode", useBinaryCode);
+	codeSaverComp->SetBoolAttr("UseBinaryCode", useBinaryCode);
 	if (!depfilePath.isEmpty()) {
-		codeSaverComp.SetStringAttr("DepfilePath", depfilePath);
+		codeSaverComp->SetStringAttr("DepfilePath", depfilePath);
 	}
-	codeSaverComp.InitComponent();
+	codeSaverComp->InitComponent();
 
 	// registry model
-	icomp::TSimComponentWrap<PackagePck::Registry> registryComp;
-	registryComp.InitComponent();
+	icomp::TSimSharedComponentPtr<PackagePck::Registry> registryComp;
+	registryComp->InitComponent();
 
-	if (registryLoaderComp.LoadFromFile(registryComp, inputFilePath) != ifile::IFilePersistence::OS_OK){
+	if (registryLoaderComp->LoadFromFile(*registryComp, inputFilePath) != ifile::IFilePersistence::OS_OK){
 		std::cout << "Cannot read input registry file '" << inputFilePath.toLocal8Bit().constData() << "'" << std::endl;
 
 		return 2;
 	}
 
-	if (codeSaverComp.SaveToFile(registryComp, outputFilePath) != ifile::IFilePersistence::OS_OK){
+	if (codeSaverComp->SaveToFile(*registryComp, outputFilePath) != ifile::IFilePersistence::OS_OK){
 		std::cout << "Cannot write output file(s) '" << outputFilePath.toLocal8Bit().constData() << "'" << std::endl;
 
 		return 3;
 	}
 
-	if (log.GetWorseCategory() >= istd::IInformationProvider::IC_ERROR){
+	if (log->GetWorseCategory() >= istd::IInformationProvider::IC_ERROR){
 		// there are errors
 		return 4;
 	}

@@ -48,7 +48,7 @@ public:
 	virtual void RegisterSubelementInfo(const QByteArray& subcomponentId, const IElementStaticInfo* staticInfoPtr);
 
 	//	reimplemented (icomp::IRealComponentStaticInfo)
-	virtual IComponent* CreateComponent() const override;
+	virtual IComponentUniquePtr CreateComponent() const override;
 
 	//	reimplemented (icomp::IComponentInterfaceExtractor)
 	virtual void* GetComponentInterface(

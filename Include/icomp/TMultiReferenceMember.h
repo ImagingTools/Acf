@@ -54,7 +54,14 @@ protected:
 private:
 	const IComponent* m_definitionComponentPtr;
 
-	typedef QVector<Interface*> Components;
+	struct Component
+	{
+		IComponentSharedPtr componentPtr;
+		Interface* interfacePtr = nullptr;
+	};
+
+
+	typedef QVector<Component> Components;
 	mutable Components m_components;
 
 	mutable std::atomic<bool> m_isInitialized;
@@ -97,28 +104,29 @@ bool TMultiReferenceMember<Interface>::EnsureInitialized() const
 	if (!m_isInitialized){
 		QMutexLocker lock(&m_mutex);
 
-		if (!m_isInitialized && (m_definitionComponentPtr != NULL) && BaseClass::IsValid()){
-			const ICompositeComponent* parentPtr = m_definitionComponentPtr->GetParentComponent();
-			if (parentPtr != NULL){
+		if (!m_isInitialized && (m_definitionComponentPtr != NULL) && BaseClass::IsValid()) {
+			const ICompositeComponent* parentPtr = dynamic_cast<const ICompositeComponent*>(m_definitionComponentPtr->GetParentComponent());
+			if (parentPtr != NULL) {
 				int attributesCount = BaseClass::GetCount();
 
 				m_components.resize(attributesCount);
 
-				for (int i = 0; i < attributesCount; ++i){
+				for (int i = 0; i < attributesCount; ++i) {
 					const QByteArray& componentId = BaseClass::operator[](i);
 
 					QByteArray baseId;
 					QByteArray subId;
 					BaseClass2::SplitId(componentId, baseId, subId);
 
-					IComponent* componentPtr = parentPtr->GetSubcomponent(baseId);
+					IComponentSharedPtr componentPtr = parentPtr->GetSubcomponent(baseId);
 
-					m_components[i] = BaseClass2::ExtractInterface<Interface>(componentPtr, subId);
+					m_components[i].componentPtr = componentPtr;
+					m_components[i].interfacePtr = BaseClass2::ExtractInterface<Interface>(componentPtr.get(), subId);
 				}
 
 				m_isInitialized = true;
 			}
-			else{
+			else {
 				qCritical("Components are is defined, but definition component has no parent");
 			}
 		}
@@ -136,7 +144,7 @@ Interface* TMultiReferenceMember<Interface>::operator[](int index) const
 	if (EnsureInitialized()){
 		Q_ASSERT(index < int(m_components.size()));
 
-		return m_components[index];
+		return m_components[index].interfacePtr;
 	}
 
 	return NULL;
