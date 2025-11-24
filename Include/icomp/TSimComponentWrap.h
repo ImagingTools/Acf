@@ -45,7 +45,7 @@ public:
 	*/
 	bool SetAttr(const QByteArray& attributeId, const iser::IObject* attributePtr)
 	{
-		SimulationContext* implPtr = dynamic_cast<SimulationContext*>(m_contextPtr.GetPtr());
+		SimulationContext* implPtr = dynamic_cast<SimulationContext*>(m_contextPtr.get());
 
 		return implPtr->SetAttr(attributeId, attributePtr);
 	}
