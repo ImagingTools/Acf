@@ -9,7 +9,7 @@ namespace icmm
 {
 
 
-class IIlluminant: virtual public IWhitePointProvider
+class IIlluminant: virtual public IWhitePointProvider, virtual public iser::ISerializable
 {
 public:
 	virtual void SetWhitePoint(const icmm::CVarColor& whitePoint) = 0;

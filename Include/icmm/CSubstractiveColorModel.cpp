@@ -47,6 +47,10 @@ CSubstractiveColorModel::CSubstractiveColorModel(const ISubstractiveColorModel& 
 		ColorantUsage usage = other.GetColorantUsage(colorantId);
 
 		m_colorants.push_back({ colorantId, usage });
+		icmm::CCieLabColor cieLab(nullptr);
+		if (other.GetColorantVisualInfo(colorantId, cieLab)){
+			SetColorantPreview(colorantId, cieLab.GetLab());
+		}
 	}
 }
 
@@ -94,8 +98,8 @@ bool CSubstractiveColorModel::InsertColorant(const ColorantId & colorantId, Colo
 
 bool CSubstractiveColorModel::RemoveColorant(const ColorantId & colorantId)
 {
-	for (qsizetype i = 0; i < m_colorants.size(); ++i) {
-		if (m_colorants[i].id == colorantId) {
+	for (qsizetype i = 0; i < m_colorants.size(); ++i){
+		if (m_colorants[i].id == colorantId){
 			m_colorants.remove(i);
 			return true;
 		}
@@ -108,7 +112,7 @@ bool CSubstractiveColorModel::RemoveColorant(const ColorantId & colorantId)
 bool CSubstractiveColorModel::SetColorantUsage(const ColorantId& colorantId, ColorantUsage usage)
 {
 	int colorantIndex = FindColorantIndex(colorantId);
-	if (colorantIndex >= 0) {
+	if (colorantIndex >= 0){
 		if (m_colorants[colorantIndex].usage != usage){
 			auto changes = ElementUpdatedChanges(colorantIndex);
 			istd::CChangeNotifier changeNotifier(this, &changes);
@@ -127,7 +131,7 @@ bool CSubstractiveColorModel::SetColorantUsage(const ColorantId& colorantId, Col
 
 bool CSubstractiveColorModel::SetColorantId(const ColorantId& colorantId, const ColorantId& newColorantId)
 {
-	if (colorantId == newColorantId) {
+	if (colorantId == newColorantId){
 		return true;
 	}
 
@@ -173,7 +177,7 @@ bool CSubstractiveColorModel::AppendColorModel(const ISubstractiveColorModel& ot
 		temp.m_colorants.push_back({ otherColorantId, otherUsage });
 
 		icmm::CCieLabColor cieLab(nullptr);
-		if (other.GetColorantVisualInfo(otherColorantId, cieLab)) {
+		if (other.GetColorantVisualInfo(otherColorantId, cieLab)){
 			temp.SetColorantPreview(otherColorantId, cieLab.GetLab());
 		}
 	}
@@ -328,15 +332,55 @@ bool CSubstractiveColorModel::Serialize(iser::IArchive& archive)
 
 	retVal = retVal && archive.EndTag(colorantListTag);
 
+	const iser::CArchiveTag previewSpecTag("PreviewSpec", "Colorant preview specification", iser::CArchiveTag::TT_GROUP);
+	retVal = retVal && archive.BeginTag(previewSpecTag);
+	retVal = retVal && m_previewSpec.Serialize(archive);
+	retVal = retVal && archive.EndTag(previewSpecTag);
+
+	auto SerializeKey = [](iser::IArchive& archive, ColorantId& key){
+		return archive.Process(key);
+	};
+
+	const iser::CArchiveTag colorantPreviewMapTag("ColorantPreviews", "Previews of the model colorants", iser::CArchiveTag::TT_GROUP);
+	retVal = retVal && archive.BeginTag(colorantPreviewMapTag);
+	retVal = retVal && iser::CPrimitiveTypesSerializer::SerializeAssociativeObjectContainer<ColorantPreviewMap, ColorantId>(archive, m_colorantPreviewMap, SerializeKey, "Colorants", "Colorant", "ColorantId", "Lab");
+	retVal = retVal && archive.EndTag(colorantPreviewMapTag);
+
 	return retVal;
 }
 
+
 // reimplemented (istd::IChangeable)
+
+int CSubstractiveColorModel::GetSupportedOperations() const
+{
+	return SO_CLONE | SO_COPY | SO_RESET;
+}
+
+
+bool CSubstractiveColorModel::CopyFrom(const istd::IChangeable& object, CompatibilityMode /*mode*/)
+{
+	const CSubstractiveColorModel* sourceModelPtr = dynamic_cast<const CSubstractiveColorModel*>(&object);
+	if (sourceModelPtr != nullptr){
+		bool retVal = m_colorants.CopyFrom(sourceModelPtr->m_colorants);
+		retVal = retVal && m_previewSpec.CopyFrom(sourceModelPtr->m_previewSpec);
+
+		if (retVal){
+			m_colorantPreviewMap = sourceModelPtr->m_colorantPreviewMap;
+		}
+
+		return retVal;
+	}
+
+	return false;
+}
+
 
 istd::IChangeable *CSubstractiveColorModel::CloneMe(CompatibilityMode /*mode*/) const
 {
 	return new CSubstractiveColorModel(*this);
 }
+
 
 // protected static methods
 
@@ -445,15 +489,15 @@ std::unique_ptr<ISubstractiveColorModel> CSubstractiveColorModel::CreateSubspace
 
 	auto modelIds = model.GetColorantIds();
 
-	for (const auto& id : colorantIds) {
-		if (!modelIds.contains(id)) {
+	for (const auto& id : colorantIds){
+		if (!modelIds.contains(id)){
 			return nullptr;
 		}
-		if (!subModel->InsertColorant(id, model.GetColorantUsage(id))) {
+		if (!subModel->InsertColorant(id, model.GetColorantUsage(id))){
 			return nullptr;
 		}
 		icmm::CCieLabColor cieLab(nullptr);
-		if (model.GetColorantVisualInfo(id, cieLab)) {
+		if (model.GetColorantVisualInfo(id, cieLab)){
 			subModel->SetColorantPreview(id, cieLab.GetLab());
 		}
 	}

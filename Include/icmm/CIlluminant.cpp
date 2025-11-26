@@ -3,6 +3,9 @@
 
 // ACF includes
 #include <istd/CChangeNotifier.h>
+#include <iser/IArchive.h>
+#include <iser/CArchiveTag.h>
+#include <iser/CPrimitiveTypesSerializer.h>
 
 
 namespace icmm
@@ -85,6 +88,9 @@ void CIlluminant::SetIlluminantType(const StandardIlluminant& illuminantType)
 	}
 }
 
+
+// reimplemented (istd::IChangeable)
+
 bool CIlluminant::IsEqual(const IChangeable& other) const
 {
 	const IIlluminant* objectPtr = dynamic_cast<const IIlluminant*>(&other);
@@ -97,6 +103,35 @@ bool CIlluminant::IsEqual(const IChangeable& other) const
 				m_illuminantType == objectPtr->GetIlluminantType() &&
 				m_illuminantName == objectPtr->GetIlluminantName() &&
 				m_whitePoint == objectPtr->GetWhitePoint();
+}
+
+
+
+// reimplemented (iser::ISerializable)
+
+bool CIlluminant::Serialize(iser::IArchive& archive)
+{
+	istd::CChangeNotifier notifier(archive.IsStoring() ? NULL : this, &GetAllChanges());
+	Q_UNUSED(notifier);
+
+	bool retVal = true;
+
+	iser::CArchiveTag illuminantTypeTag("IlluminantType", "Illuminant", iser::CArchiveTag::TT_LEAF);
+	retVal = retVal && archive.BeginTag(illuminantTypeTag);
+	retVal = retVal && iser::CPrimitiveTypesSerializer::SerializeEnum(archive, m_illuminantType, &icmm::staticMetaObject);
+	retVal = retVal && archive.EndTag(illuminantTypeTag);
+
+	iser::CArchiveTag illuminantNameTag("IlluminantName", "Name of the illuminant", iser::CArchiveTag::TT_LEAF);
+	retVal = retVal && archive.BeginTag(illuminantNameTag);
+	retVal = retVal && archive.Process(m_illuminantName);
+	retVal = retVal && archive.EndTag(illuminantNameTag);
+
+	iser::CArchiveTag whitePointTag("WhitePoint", "White point of the illuminant", iser::CArchiveTag::TT_GROUP);
+	retVal = retVal && archive.BeginTag(whitePointTag);
+	retVal = retVal && m_whitePoint.Serialize(archive);
+	retVal = retVal && archive.EndTag(whitePointTag);
+
+	return retVal;
 }
 
 

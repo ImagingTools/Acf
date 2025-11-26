@@ -21,6 +21,9 @@ public:
 	virtual const ISpectrumInfo* GetSpectrumInfo() const override;
 	virtual SpectrumType GetSpectrumType() const override;
 
+	// reimplemented (iser::ISerializable)
+	virtual bool Serialize(iser::IArchive& archive) override;
+
 	// reimplemented (istd::IChangeable)
 	virtual bool IsEqual(const istd::IChangeable& other) const override;
 

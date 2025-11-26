@@ -1,6 +1,13 @@
 #include <icmm/CSpectralColorSpecificationBase.h>
 
 
+// ACF includes
+#include <iser/IArchive.h>
+#include <istd/CChangeNotifier.h>
+#include <iser/CArchiveTag.h>
+#include <iser/CPrimitiveTypesSerializer.h>
+
+
 namespace icmm
 {
 
@@ -46,6 +53,30 @@ ISpectralColorSpecification::SpectrumType CSpectralColorSpecificationBase::GetSp
 }
 
 
+
+// reimplemented (iser::ISerializable)
+
+bool CSpectralColorSpecificationBase::Serialize(iser::IArchive& archive)
+{
+	istd::CChangeNotifier notifier(archive.IsStoring() ? NULL : this, &GetAllChanges());
+	Q_UNUSED(notifier);
+
+	bool retVal = true;
+
+	iser::CArchiveTag spectrumTypeTag("SpectrumType", "Type if used spectrum", iser::CArchiveTag::TT_LEAF);
+	retVal = retVal && archive.BeginTag(spectrumTypeTag);
+	retVal = retVal && iser::CPrimitiveTypesSerializer::SerializeEnum(archive, m_spectrumType, &icmm::staticMetaObject);
+	retVal = retVal && archive.EndTag(spectrumTypeTag);
+
+	iser::CArchiveTag spectrumInfoTag("SpectrumInfo", "Information about spectrum properties", iser::CArchiveTag::TT_LEAF);
+	retVal = retVal && archive.BeginTag(spectrumInfoTag);
+	retVal = retVal && m_info.Serialize(archive);
+	retVal = retVal && archive.EndTag(spectrumInfoTag);
+
+	return retVal;
+}
+
+
 // reimplemented (istd::IChangeable)
 
 bool CSpectralColorSpecificationBase::IsEqual(const IChangeable& other) const
@@ -59,7 +90,6 @@ bool CSpectralColorSpecificationBase::IsEqual(const IChangeable& other) const
 	bool isInfoSame = m_info.IsEqual(*objectPtr->GetSpectrumInfo());
 
 	return isTypeSame && isInfoSame;
-
 }
 
 

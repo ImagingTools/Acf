@@ -42,6 +42,9 @@ public:
 	// reimplemented (istd::IChangeable)
 	virtual bool IsEqual(const istd::IChangeable& other) const override;
 
+	// reimplemented (iser::ISerializable)
+	virtual bool Serialize(iser::IArchive& archive) override;
+
 protected:
 	void InitFromStandardIlluminant(StandardIlluminant illuminantType);
 

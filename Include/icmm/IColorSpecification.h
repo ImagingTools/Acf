@@ -6,6 +6,7 @@
 
 // ACF includes
 #include <istd/IChangeable.h>
+#include <icmm/icmm.h>
 
 
 namespace icmm

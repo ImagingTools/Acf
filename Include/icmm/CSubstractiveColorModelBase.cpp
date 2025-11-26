@@ -3,6 +3,7 @@
 
 // ACF includes
 #include <imath/CGeneralUnitInfo.h>
+#include <iser/CPrimitiveTypesSerializer.h>
 
 
 namespace icmm
@@ -10,9 +11,16 @@ namespace icmm
 
 
 // public methods
+
 CSubstractiveColorModelBase::CSubstractiveColorModelBase()
 	:m_previewSpec(ObserverType::TwoDegree, AstmTableType::Unknown, std::make_shared<CIlluminant>())
 {
+}
+
+
+const icmm::CTristimulusSpecification& CSubstractiveColorModelBase::GetPreviewSpec() const
+{
+	return m_previewSpec;
 }
 
 
