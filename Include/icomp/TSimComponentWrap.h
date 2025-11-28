@@ -297,12 +297,22 @@ public:
 		reset(ptr);
 	}
 
+	const Impl& GetImpl() const
+	{
+		return *dynamic_cast<Impl*>(get());
+	}
+
+	Impl& GetImpl()
+	{
+		return *dynamic_cast<Impl*>(get());
+	}
+
 	Impl* operator->()
 	{
 		return dynamic_cast<Impl*>(get());
 	}
 
-	Base& operator *()
+	Impl& operator *()
 	{
 		return *dynamic_cast<Impl*>(get());
 	}
