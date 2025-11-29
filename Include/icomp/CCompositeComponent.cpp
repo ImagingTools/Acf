@@ -22,15 +22,17 @@ CCompositeComponent::CCompositeComponent(bool manualAutoInit)
 	m_parentPtr(nullptr),
 	m_isParentOwner(false),
 	m_manualAutoInit(manualAutoInit),
-	m_autoInitialized(false),
-	m_mutex(QReadWriteLock::Recursive)
+	m_autoInitialized(false)
+#if QT_VERSION < 0x060000
+	,m_mutex(QMutex::Recursive)
+#endif
 {
 }
 
 
 CCompositeComponent::~CCompositeComponent()
 {
-	QWriteLocker lock(&m_mutex);
+	QMutexLocker lock(&m_mutex);
 
 	if (m_isParentOwner && (m_parentPtr != nullptr)){
 		const_cast<ICompositeComponent*>(m_parentPtr)->OnSubcomponentDeleted(this);
@@ -44,7 +46,7 @@ CCompositeComponent::~CCompositeComponent()
 
 bool CCompositeComponent::EnsureAutoInitComponentsCreated() const
 {
-	QWriteLocker writeLock(&m_mutex);
+	QMutexLocker writeLock(&m_mutex);
 
 	bool retVal = false;
 
@@ -94,7 +96,7 @@ bool CCompositeComponent::EnsureAutoInitComponentsCreated() const
 
 IComponentSharedPtr CCompositeComponent::GetSubcomponent(const QByteArray& componentId) const
 {
-	QWriteLocker lock(&m_mutex);
+	QMutexLocker lock(&m_mutex);
 
 	if (m_contextPtr != nullptr){
 		ComponentMap::ConstIterator iter = m_componentMap.constFind(componentId);
@@ -137,7 +139,7 @@ IComponentSharedPtr CCompositeComponent::GetSubcomponent(const QByteArray& compo
 
 IComponentContextSharedPtr CCompositeComponent::GetSubcomponentContext(const QByteArray& componentId) const
 {
-	QWriteLocker lock(&m_mutex);
+	QMutexLocker lock(&m_mutex);
 
 	if (m_contextPtr != nullptr){
 		ComponentInfo& componentInfo = m_componentMap[componentId];
@@ -163,7 +165,7 @@ IComponentContextSharedPtr CCompositeComponent::GetSubcomponentContext(const QBy
 
 IComponentUniquePtr CCompositeComponent::CreateSubcomponent(const QByteArray& componentId) const
 {
-	QWriteLocker lock(&m_mutex);
+	QMutexLocker lock(&m_mutex);
 
 	if (m_contextPtr != nullptr){
 		ComponentInfo& componentInfo = m_componentMap[componentId];
@@ -186,7 +188,7 @@ void CCompositeComponent::OnSubcomponentDeleted(const IComponent* subcomponentPt
 {
 	Q_ASSERT(subcomponentPtr != NULL);
 
-	QWriteLocker lock(&m_mutex);
+	QMutexLocker lock(&m_mutex);
 
 	for (		ComponentMap::iterator iter = m_componentMap.begin();
 				iter != m_componentMap.end();
@@ -313,7 +315,7 @@ void CCompositeComponent::SetComponentContext(
 			const icomp::IComponent* parentPtr,
 			bool isParentOwner)
 {
-	QWriteLocker lock(&m_mutex);
+	QMutexLocker lock(&m_mutex);
 
 	const icomp::ICompositeComponent* compositeParentPtr = dynamic_cast<const icomp::ICompositeComponent*>(parentPtr);
 

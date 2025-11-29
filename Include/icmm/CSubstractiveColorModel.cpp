@@ -334,8 +334,7 @@ bool CSubstractiveColorModel::Serialize(iser::IArchive& archive)
 
 	const iser::IVersionInfo& versionInfo = archive.GetVersionInfo();
 	quint32 frameworkVersion = 0;
-	if (!versionInfo.GetVersionNumber(iser::IVersionInfo::AcfVersionId, frameworkVersion) ||
-		(frameworkVersion >= 5436)){
+	if (!versionInfo.GetVersionNumber(iser::IVersionInfo::AcfVersionId, frameworkVersion) || (frameworkVersion >= 5436)){
 		const iser::CArchiveTag previewSpecTag("PreviewSpec", "Colorant preview specification", iser::CArchiveTag::TT_GROUP);
 		retVal = retVal && archive.BeginTag(previewSpecTag);
 		retVal = retVal && m_previewSpec.Serialize(archive);

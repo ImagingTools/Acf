@@ -136,7 +136,11 @@ private:
 	mutable bool m_autoInitialized;
 	mutable IRegistry::Ids m_autoInitComponentIds;
 
-	mutable QReadWriteLock m_mutex;
+#if QT_VERSION >= 0x060000
+	mutable QRecursiveMutex m_mutex;
+#else
+	mutable QMutex m_mutex;
+#endif
 };
 
 

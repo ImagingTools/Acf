@@ -21,10 +21,10 @@ void CSubstractiveColorModelTest::DoSerializeTest()
 	QVERIFY(model.Serialize(writeArchive));
 	QByteArray data = writeArchive.GetData();
 
-	icmm::CSubstractiveColorModel model2;
-
 	iser::CJsonMemReadArchive readArchive(data);
+	icmm::CSubstractiveColorModel model2;
 	QVERIFY(model2.Serialize(readArchive));
+
 	QVERIFY(model2.GetColorantIds() == model.GetColorantIds());
 }
 
