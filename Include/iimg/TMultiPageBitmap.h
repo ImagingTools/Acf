@@ -27,7 +27,7 @@ public:
 	typedef BitmapImpl BitmapType;
 
 	// reimplemented (istd::IChangeable)
-	virtual istd::IChangeable* CloneMe(CompatibilityMode mode = CM_WITHOUT_REFS) const override;
+	virtual istd::TUniqueInterfacePtr<istd::IChangeable> CloneMe(CompatibilityMode mode = CM_WITHOUT_REFS) const override;
 
 protected:
 	// reimplemented (CMultiPageBitmapBase)
@@ -40,14 +40,14 @@ protected:
 // reimplemented (istd::IChangeable)
 
 template <class BitmapImpl>
-istd::IChangeable* TMultiPageBitmap<BitmapImpl>::CloneMe(CompatibilityMode mode) const
+istd::IChangeableUniquePtr TMultiPageBitmap<BitmapImpl>::CloneMe(CompatibilityMode mode) const
 {
-	istd::TDelPtr< TMultiPageBitmap<BitmapImpl> > clonedPtr(new TMultiPageBitmap<BitmapImpl>);
+	istd::IChangeableUniquePtr clonedPtr(new TMultiPageBitmap<BitmapImpl>);
 	if (clonedPtr->CopyFrom(*this, mode)){
-		return clonedPtr.PopPtr();
+		return clonedPtr;
 	}
 
-	return NULL;
+	return istd::IChangeableUniquePtr();
 }
 
 

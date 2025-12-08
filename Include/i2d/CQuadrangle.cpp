@@ -277,12 +277,12 @@ bool CQuadrangle::CopyFrom(const IChangeable& object, CompatibilityMode mode)
 }
 
 
-istd::IChangeable* CQuadrangle::CloneMe(CompatibilityMode mode) const 
+istd::IChangeableUniquePtr CQuadrangle::CloneMe(CompatibilityMode mode) const
 {
-	istd::TDelPtr<CQuadrangle> clonePtr(new CQuadrangle);
+	istd::IChangeableUniquePtr clonePtr(new CQuadrangle);
 
 	if (clonePtr->CopyFrom(*this, mode)){
-		return clonePtr.PopPtr();
+		return clonePtr;
 	}
 
 	return NULL;

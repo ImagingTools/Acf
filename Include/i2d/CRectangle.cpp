@@ -787,15 +787,15 @@ bool CRectangle::CopyFrom(const IChangeable& object, CompatibilityMode mode)
 }
 
 
-istd::IChangeable* CRectangle::CloneMe(CompatibilityMode mode) const 
+istd::IChangeableUniquePtr CRectangle::CloneMe(CompatibilityMode mode) const
 {
-	istd::TDelPtr<CRectangle> clonePtr(new CRectangle);
+	istd::IChangeableUniquePtr clonePtr(new CRectangle);
 
 	if (clonePtr->CopyFrom(*this, mode)){
-		return clonePtr.PopPtr();
+		return clonePtr;
 	}
 
-	return NULL;
+	return istd::IChangeableUniquePtr();
 }
 
 

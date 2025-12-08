@@ -198,15 +198,15 @@ bool CPolygon::CopyFrom(const IChangeable& object, CompatibilityMode mode)
 }
 
 
-istd::IChangeable* CPolygon::CloneMe(CompatibilityMode mode) const
+istd::IChangeableUniquePtr CPolygon::CloneMe(CompatibilityMode mode) const
 {
-	istd::TDelPtr<CPolygon> clonePtr(new CPolygon);
+	istd::IChangeableUniquePtr clonePtr(new CPolygon);
 
 	if (clonePtr->CopyFrom(*this, mode)){
-		return clonePtr.PopPtr();
+		return clonePtr;
 	}
 
-	return NULL;
+	return istd::IChangeableUniquePtr();
 }
 
 

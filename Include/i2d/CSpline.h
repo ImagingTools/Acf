@@ -1,5 +1,4 @@
-#ifndef i2d_CSpline_included
-#define i2d_CSpline_included
+#pragma once
 
 
 // Qt includes
@@ -46,7 +45,7 @@ public:
 	// reimplemented (istd::IChangeable)
 	virtual int GetSupportedOperations() const override;
 	virtual bool CopyFrom(const IChangeable& object, CompatibilityMode mode = CM_WITHOUT_REFS) override;
-	virtual istd::IChangeable* CloneMe(CompatibilityMode mode = CM_WITHOUT_REFS) const override;
+	virtual istd::IChangeableUniquePtr CloneMe(CompatibilityMode mode = CM_WITHOUT_REFS) const override;
 
 protected:
 	void CalcAllSegments() const;
@@ -61,6 +60,4 @@ private:
 
 } // namespace i2d
 
-
-#endif // !i2d_CSpline_included
 

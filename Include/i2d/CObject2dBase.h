@@ -1,9 +1,8 @@
-#ifndef i2d_CObject2dBase_included
-#define i2d_CObject2dBase_included
+#pragma once
 
 
 // ACF includes
-#include <istd/TOptDelPtr.h>
+#include <istd/TOptInterfacePtr.h>
 #include <i2d/IObject2d.h>
 
 
@@ -58,13 +57,10 @@ protected:
 	static const ChangeSet s_objectModifiedChange;
 
 private:
-	istd::TOptDelPtr<const ICalibration2d> m_calibrationPtr;
+	istd::TOptInterfacePtr<ICalibration2d> m_calibrationPtr;
 };
 
 
 } // namespace i2d
-
-
-#endif // !i2d_CObject2dBase_included
 
 

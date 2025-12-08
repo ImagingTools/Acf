@@ -55,7 +55,7 @@ std::basic_streambuf<char>::int_type CStandardStreamBridge::overflow(int_type v)
 	QMutexLocker lock(&m_bufferMutex);
 
 	if (v == '\n'){
-		m_messageConsumer.AddMessage(istd::TSmartPtr<const istd::IInformationProvider>(new ilog::CMessage(m_informationSeverity, 0, m_textBuffer, "")));
+		m_messageConsumer.AddMessage(ilog::IMessageConsumer::MessagePtr(new ilog::CMessage(m_informationSeverity, 0, m_textBuffer, "")));
 
 		m_textBuffer.clear();
 	}

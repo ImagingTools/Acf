@@ -115,15 +115,15 @@ bool CSplineSegment::CopyFrom(const IChangeable& object, CompatibilityMode /*mod
 }
 
 
-istd::IChangeable* CSplineSegment::CloneMe(CompatibilityMode mode) const 
+istd::IChangeableUniquePtr CSplineSegment::CloneMe(CompatibilityMode mode) const
 {
-	istd::TDelPtr<CSplineSegment> clonePtr(new CSplineSegment);
+	istd::IChangeableUniquePtr clonePtr(new CSplineSegment);
 
 	if (clonePtr->CopyFrom(*this, mode)){
-		return clonePtr.PopPtr();
+		return clonePtr;
 	}
 
-	return NULL;
+	return istd::IChangeableUniquePtr();
 }
 
 

@@ -92,15 +92,15 @@ bool CLabel::CopyFrom(const IChangeable& object, CompatibilityMode mode)
 }
 
 
-istd::IChangeable* CLabel::CloneMe(CompatibilityMode mode) const 
+istd::IChangeableUniquePtr CLabel::CloneMe(CompatibilityMode mode) const
 {
-	istd::TDelPtr<CLabel> clonePtr(new CLabel);
+	istd::IChangeableUniquePtr clonePtr(new CLabel);
 
 	if (clonePtr->CopyFrom(*this, mode)){
-		return clonePtr.PopPtr();
+		return clonePtr;
 	}
 
-	return NULL;
+	return istd::IChangeableUniquePtr();
 }
 
 

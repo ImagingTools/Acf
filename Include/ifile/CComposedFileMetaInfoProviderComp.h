@@ -26,7 +26,7 @@ public:
 	I_END_COMPONENT;
 
 	// reimplemented (ifile::IFileMetaInfoProvider)
-	virtual MetaInfoPtr GetFileMetaInfo(const QString& filePath, ibase::IProgressManager* progressManagerPtr = NULL) const override;
+	virtual idoc::MetaInfoPtr GetFileMetaInfo(const QString& filePath, ibase::IProgressManager* progressManagerPtr = NULL) const override;
 	
 private:
 	I_MULTIREF(ifile::IFileMetaInfoProvider, m_slaveInfoProvidersCompPtr);

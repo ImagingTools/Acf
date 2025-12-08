@@ -74,7 +74,7 @@ const QString& CExtMessage::GetAttachedObjectDescription(int index) const
 }
 
 
-void CExtMessage::InsertAttachedObject(const iser::IObject* objectPtr, const QString& description)
+void CExtMessage::InsertAttachedObject(iser::IObject* objectPtr, const QString& description)
 {
 	Q_ASSERT(objectPtr != NULL);
 
@@ -190,13 +190,13 @@ bool CExtMessage::CopyFrom(const istd::IChangeable& object, CompatibilityMode mo
 				const AttachedObject& sourceElement = messageObjectPtr->m_attachedObjects[i];
 				Q_ASSERT(sourceElement.objectPtr.IsValid());
 
-				istd::TDelPtr<iser::IObject> clonedPtr;
-				clonedPtr.SetCastedOrRemove(sourceElement.objectPtr->CloneMe(mode));
+				istd::TSharedInterfacePtr<iser::IObject> clonedPtr;
+				clonedPtr.MoveCastedPtr(sourceElement.objectPtr->CloneMe(mode));
 
 				if (clonedPtr.IsValid()){
 					m_attachedObjects.push_back(AttachedObject());
 					AttachedObject& lastElement = m_attachedObjects.last();
-					lastElement.objectPtr.SetPtr(clonedPtr.PopPtr());
+					lastElement.objectPtr = clonedPtr;
 					lastElement.description = sourceElement.description;
 				}
 			}
@@ -209,14 +209,14 @@ bool CExtMessage::CopyFrom(const istd::IChangeable& object, CompatibilityMode mo
 }
 
 
-istd::IChangeable* CExtMessage::CloneMe(CompatibilityMode mode) const
+istd::IChangeableUniquePtr CExtMessage::CloneMe(CompatibilityMode mode) const
 {
-	istd::TDelPtr<CExtMessage> clonedPtr(new CExtMessage);
+	istd::IChangeableUniquePtr clonedPtr(new CExtMessage);
 	if (clonedPtr->CopyFrom(*this, mode)){
-		return clonedPtr.PopPtr();
+		return clonedPtr;
 	}
 
-	return NULL;
+	return istd::IChangeableUniquePtr();
 }
 
 

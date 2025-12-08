@@ -116,14 +116,14 @@ bool CObject2dProxyComp::Serialize(iser::IArchive& /*archive*/)
 
 // reimplemented (istd::IChangeable)
 
-istd::IChangeable* CObject2dProxyComp::CloneMe(CompatibilityMode mode) const
+istd::IChangeableUniquePtr CObject2dProxyComp::CloneMe(CompatibilityMode mode) const
 {
 	const i2d::IObject2d* objectPtr = GetObject2d();
 	if (objectPtr != NULL){
 		return objectPtr->CloneMe(mode);
 	}
 
-	return NULL;
+	return istd::IChangeableUniquePtr();
 }
 
 

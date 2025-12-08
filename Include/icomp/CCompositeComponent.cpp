@@ -172,8 +172,6 @@ IComponentUniquePtr CCompositeComponent::CreateSubcomponent(const QByteArray& co
 
 		componentInfo.isContextInitialized = true;
 
-		lock.unlock();
-
 		IComponentUniquePtr retVal;
 		CreateSubcomponentInfo(componentId, componentInfo.contextPtr, &retVal, false);
 

@@ -145,15 +145,14 @@ bool CSpectrumInfo::IsEqual(const IChangeable& object) const
 }
 
 
-istd::IChangeable* CSpectrumInfo::CloneMe(CompatibilityMode /*mode*/) const
+istd::IChangeableUniquePtr CSpectrumInfo::CloneMe(CompatibilityMode /*mode*/) const
 {
-	istd::TDelPtr<CSpectrumInfo> clonePtr(new CSpectrumInfo());
-
+	istd::IChangeableUniquePtr clonePtr(new CSpectrumInfo());
 	if (clonePtr->CopyFrom(*this)){
-		return clonePtr.PopPtr();
+		return clonePtr;
 	}
 
-	return nullptr;
+	return istd::IChangeableUniquePtr();
 }
 
 

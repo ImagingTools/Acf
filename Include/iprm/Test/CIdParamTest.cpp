@@ -68,8 +68,8 @@ void CIdParamTest::CloneTest()
 {
 	QVERIFY(m_param.GetId() == m_id);
 
-	istd::TDelPtr<iprm::CIdParam> clonePtr;
-	QVERIFY(clonePtr.SetCastedOrRemove(m_param.CloneMe()));
+	istd::TUniqueInterfacePtr<iprm::IIdParam> clonePtr;
+	QVERIFY(clonePtr.MoveCastedPtr(m_param.CloneMe()));
 	QVERIFY(clonePtr.IsValid());
 
 	QVERIFY(clonePtr->GetId() == m_id);

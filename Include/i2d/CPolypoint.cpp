@@ -279,16 +279,17 @@ bool CPolypoint::CopyFrom(const IChangeable& object, CompatibilityMode mode)
 }
 
 
-istd::IChangeable* CPolypoint::CloneMe(CompatibilityMode mode) const 
+istd::IChangeableUniquePtr CPolypoint::CloneMe(CompatibilityMode mode) const
 {
-	istd::TDelPtr<CPolypoint> clonePtr(new CPolypoint);
+	istd::IChangeableUniquePtr clonePtr(new CPolypoint);
 
 	if (clonePtr->CopyFrom(*this, mode)){
-		return clonePtr.PopPtr();
+		return clonePtr;
 	}
 
-	return NULL;
+	return istd::IChangeableUniquePtr();
 }
+
 
 bool CPolypoint::IsEqual(const IChangeable& object) const
 {
@@ -339,7 +340,7 @@ bool CPolypoint::ApplyInverseTransform(
 {
 	int nodesCount = int(nodes.size());
 	
-    Nodes transPoints;
+	Nodes transPoints;
 
 	for (int nodeIndex = 0; nodeIndex < nodesCount; nodeIndex++){
 		i2d::CVector2d transPoint;

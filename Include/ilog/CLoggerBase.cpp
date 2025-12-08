@@ -153,7 +153,7 @@ bool CLoggerBase::SendLogMessage(
 
 		DecorateMessage(category, id, flags, correctedMessage, correctedMessageSource);
 
-		m_logPtr->AddMessage(istd::TSmartPtr<const istd::IInformationProvider>(new ilog::CMessage(category, id, correctedMessage, correctedMessageSource, flags)));
+		m_logPtr->AddMessage(ilog::IMessageConsumer::MessagePtr(new ilog::CMessage(category, id, correctedMessage, correctedMessageSource, flags)));
 	
 		return true;
 	}
@@ -164,9 +164,9 @@ bool CLoggerBase::SendLogMessage(
 
 bool CLoggerBase::SendUserMessage(const istd::IInformationProvider* messagePtr) const
 {
-	istd::TSmartPtr<const istd::IInformationProvider> smartMessagePtr(messagePtr);
-
 	if (m_logPtr != NULL){
+		ilog::IMessageConsumer::MessagePtr smartMessagePtr(const_cast<istd::IInformationProvider*>(messagePtr));
+
 		m_logPtr->AddMessage(smartMessagePtr);
 	
 		return true;

@@ -380,7 +380,7 @@ bool CSubstractiveColorModel::CopyFrom(const istd::IChangeable& object, Compatib
 }
 
 
-istd::IChangeable *CSubstractiveColorModel::CloneMe(CompatibilityMode /*mode*/) const
+istd::IChangeableUniquePtr CSubstractiveColorModel::CloneMe(CompatibilityMode /*mode*/) const
 {
 	return new CSubstractiveColorModel(*this);
 }

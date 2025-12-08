@@ -97,14 +97,14 @@ bool CEnableableParam::CopyFrom(const IChangeable& object, CompatibilityMode /*m
 }
 
 
-istd::IChangeable* CEnableableParam::CloneMe(istd::IChangeable::CompatibilityMode mode) const
+istd::TUniqueInterfacePtr<istd::IChangeable> CEnableableParam::CloneMe(istd::IChangeable::CompatibilityMode mode) const
 {
-	istd::TDelPtr<CEnableableParam> clonedPtr(new CEnableableParam);
+	istd::IChangeableUniquePtr clonedPtr(new CEnableableParam);
 	if (clonedPtr->CopyFrom(*this, mode)){
-		return clonedPtr.PopPtr();
+		return clonedPtr;
 	}
 
-	return NULL;
+	return istd::IChangeableUniquePtr();
 }
 
 

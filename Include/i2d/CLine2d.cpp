@@ -775,15 +775,15 @@ bool CLine2d::CopyFrom(const IChangeable& object, CompatibilityMode mode)
 }
 
 
-istd::IChangeable* CLine2d::CloneMe(CompatibilityMode mode) const 
+istd::IChangeableUniquePtr CLine2d::CloneMe(CompatibilityMode mode) const
 {
-	istd::TDelPtr<CLine2d> clonePtr(new CLine2d);
+	istd::IChangeableUniquePtr clonePtr(new CLine2d);
 
 	if (clonePtr->CopyFrom(*this, mode)){
-		return clonePtr.PopPtr();
+		return clonePtr;
 	}
 
-	return NULL;
+	return istd::IChangeableUniquePtr();
 }
 
 

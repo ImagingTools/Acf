@@ -199,15 +199,15 @@ bool CSampledFunction::IsEqual(const IChangeable& object) const
 }
 
 
-istd::IChangeable* CSampledFunction::CloneMe(CompatibilityMode /*mode*/) const
+istd::IChangeableUniquePtr CSampledFunction::CloneMe(CompatibilityMode /*mode*/) const
 {
-	istd::TDelPtr<CSampledFunction> clonePtr(new CSampledFunction());
+	istd::IChangeableUniquePtr clonePtr(new CSampledFunction());
 
 	if (clonePtr->CopyFrom(*this)){
-		return clonePtr.PopPtr();
+		return clonePtr;
 	}
 
-	return nullptr;
+	return istd::IChangeableUniquePtr();
 }
 
 

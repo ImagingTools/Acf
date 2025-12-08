@@ -59,8 +59,8 @@ void CSelectionParamTest::CloneTest()
 {
 	QVERIFY(m_selectionPtr->SetSelectedOptionIndex(10));
 
-	istd::TDelPtr<iprm::ISelectionParam> clonePtr;
-	clonePtr.SetCastedOrRemove(m_selectionPtr->CloneMe());
+	istd::TUniqueInterfacePtr<iprm::ISelectionParam> clonePtr;
+	clonePtr.MoveCastedPtr(m_selectionPtr->CloneMe());
 
 	QVERIFY(clonePtr.IsValid());
 	QVERIFY(clonePtr->GetSelectedOptionIndex() == 10);

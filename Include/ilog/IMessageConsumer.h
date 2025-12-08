@@ -19,7 +19,7 @@ namespace ilog
 class IMessageConsumer: virtual public istd::IPolymorphic
 {
 public:
-	typedef istd::TSmartPtr<const istd::IInformationProvider> MessagePtr;
+	typedef istd::TSharedInterfacePtr<istd::IInformationProvider> MessagePtr;
 
 	/**
 		Check if some messge is supported.

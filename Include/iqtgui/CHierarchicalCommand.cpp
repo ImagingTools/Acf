@@ -226,14 +226,14 @@ bool CHierarchicalCommand::CopyFrom(const istd::IChangeable& object, Compatibili
 }
 
 
-istd::IChangeable* CHierarchicalCommand::CloneMe(istd::IChangeable::CompatibilityMode mode) const
+istd::IChangeableUniquePtr CHierarchicalCommand::CloneMe(istd::IChangeable::CompatibilityMode mode) const
 {
-	istd::TDelPtr<CHierarchicalCommand> clonedPtr(new CHierarchicalCommand);
+	istd::IChangeableUniquePtr clonedPtr(new CHierarchicalCommand);
 	if (clonedPtr->CopyFrom(*this, mode)){
-		return clonedPtr.PopPtr();
+		return clonedPtr;
 	}
 
-	return NULL;
+	return istd::IChangeableUniquePtr();
 }
 
 

@@ -303,7 +303,7 @@ void CAutoPersistenceComp::OnTimeout()
 		return;
 	}
 
-	m_objectShadowPtr.SetPtr(m_objectCompPtr->CloneMe(istd::IChangeable::CM_WITH_REFS));
+	m_objectShadowPtr = m_objectCompPtr->CloneMe(istd::IChangeable::CM_WITH_REFS);
 	if (!m_objectShadowPtr.IsValid()){
 		return;
 	}

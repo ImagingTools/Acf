@@ -42,7 +42,7 @@ protected:
 	virtual void OnGuiModelDetached() override;
 
 private:
-	QScopedPointer<const i2d::ICalibration2d> m_oldCalibrationPtr;
+	istd::TUniqueInterfacePtr<i2d::ICalibration2d> m_oldCalibrationPtr;
 };
 
 

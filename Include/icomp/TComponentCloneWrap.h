@@ -19,14 +19,14 @@ class TComponentCloneWrap: virtual public BaseClass, protected CInterfaceManipBa
 {
 public:
 	// pseudo-reimplemented (istd::IChangeable)
-	virtual istd::IChangeable* CloneMe(istd::IChangeable::CompatibilityMode mode = istd::IChangeable::CM_WITHOUT_REFS) const override;
+	virtual istd::IChangeableUniquePtr CloneMe(istd::IChangeable::CompatibilityMode mode = istd::IChangeable::CM_WITHOUT_REFS) const override;
 };
 
 
 // pseudo-reimplemented (istd::IChangeable)
 
 template <class BaseClass>
-istd::IChangeable* TComponentCloneWrap<BaseClass>::CloneMe(istd::IChangeable::CompatibilityMode mode) const
+istd::IChangeableUniquePtr TComponentCloneWrap<BaseClass>::CloneMe(istd::IChangeable::CompatibilityMode mode) const
 {
 	icomp::IComponentContextSharedPtr contextPtr = BaseClass::GetComponentContext();
 	if (contextPtr != nullptr){
@@ -65,18 +65,19 @@ istd::IChangeable* TComponentCloneWrap<BaseClass>::CloneMe(istd::IChangeable::Co
 
 			if (parentComponentPtr != nullptr){
 				istd::IChangeable* changeablePtr = ExtractInterface<istd::IChangeable>(clonedComponentPtr.get());
+
 				clonedPtr.SetPtr(clonedComponentPtr.release(), changeablePtr);
 			}
 
 			if (clonedPtr.IsValid()){
 				if (clonedPtr->CopyFrom(*this, mode)){
-					return clonedPtr.PopInterfacePtr();
+					return clonedPtr;
 				}
 			}
 		}
 	}
 
-	return nullptr;
+	return istd::IChangeableUniquePtr();
 }
 
 

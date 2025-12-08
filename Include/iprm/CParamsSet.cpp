@@ -162,7 +162,7 @@ iser::ISerializable* CParamsSet::GetEditableParameter(const QByteArray& id)
 	QByteArray subId;
 	bool isSubelement = istd::CIdManipBase::SplitId(id, baseId, subId);
 
-	const iprm::CParamsSet::ParameterInfo* parameterInfoPtr = FindParameterInfo(baseId);
+	iprm::CParamsSet::ParameterInfo* parameterInfoPtr = FindParameterInfo(baseId);
 	if (parameterInfoPtr != NULL){
 		iser::ISerializable* paramPtr = parameterInfoPtr->parameterPtr.GetPtr();
 		if (isSubelement){
@@ -304,12 +304,13 @@ bool CParamsSet::CopyFrom(const IChangeable& object, CompatibilityMode mode)
 		const ParameterInfo* parameterInfoPtr = inputParamsSetPtr->m_params.GetAt(parameterIndex);
 		Q_ASSERT(parameterInfoPtr != NULL);
 
-		istd::TDelPtr<iser::ISerializable> parameterCopyPtr;
-		
-		parameterCopyPtr.SetCastedOrRemove(parameterInfoPtr->parameterPtr->CloneMe(mode));
+		iser::ISerializableUniquePtr parameterCopyPtr;
+		if (!parameterCopyPtr.MoveCastedPtr(parameterInfoPtr->parameterPtr->CloneMe(mode))) {
+			return false;
+		}
 
 		if (parameterCopyPtr.IsValid()){
-			tempSet.SetEditableParameter(parameterInfoPtr->parameterId, parameterCopyPtr.PopPtr(), true);
+			tempSet.SetEditableParameter(parameterInfoPtr->parameterId, parameterCopyPtr);
 		}
 		else{
 			return false;

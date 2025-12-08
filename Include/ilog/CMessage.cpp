@@ -198,7 +198,7 @@ bool CMessage::CopyFrom(const istd::IChangeable& object, CompatibilityMode /*mod
 }
 
 
-istd::IChangeable* CMessage::CloneMe(CompatibilityMode /*mode*/) const
+istd::IChangeableUniquePtr CMessage::CloneMe(CompatibilityMode /*mode*/) const
 {
 	return new CMessage(
 			m_category,

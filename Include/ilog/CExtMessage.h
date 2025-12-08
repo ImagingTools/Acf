@@ -57,7 +57,7 @@ public:
 		Add some object to this container.
 		\param	objectPtr	attached object, ownership of this object belongs to container (it will be removed automatically).
 	*/
-	void InsertAttachedObject(const iser::IObject* objectPtr, const QString& description = "");
+	void InsertAttachedObject(iser::IObject* objectPtr, const QString& description = "");
 
 	// reimplemented (iser::IObject)
 	virtual QByteArray GetFactoryId() const override;
@@ -67,14 +67,14 @@ public:
 
 	// reimplemented (iser::IChangeable)
 	virtual bool CopyFrom(const istd::IChangeable& object, CompatibilityMode mode = CM_STRICT) override;
-	virtual istd::IChangeable* CloneMe(CompatibilityMode mode = CM_WITHOUT_REFS) const override;
+	virtual istd::TUniqueInterfacePtr<istd::IChangeable> CloneMe(CompatibilityMode mode = CM_WITHOUT_REFS) const override;
 
 	static QByteArray GetTypeName();
 
 protected:
 	struct AttachedObject
 	{
-		istd::TDelPtr<const iser::IObject> objectPtr;
+		istd::TSharedInterfacePtr<iser::IObject> objectPtr;
 		QString description;
 	};
 

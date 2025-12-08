@@ -83,14 +83,14 @@ bool CIdParam::IsEqual(const IChangeable& object) const
 }
 
 
-istd::IChangeable* CIdParam::CloneMe(istd::IChangeable::CompatibilityMode mode) const
+istd::IChangeableUniquePtr CIdParam::CloneMe(istd::IChangeable::CompatibilityMode mode) const
 {
-	istd::TDelPtr<CIdParam> clonePtr(new CIdParam);
+	istd::IChangeableUniquePtr clonePtr(new CIdParam);
 	if (clonePtr->CopyFrom(*this, mode)){
-		return clonePtr.PopPtr();
+		return clonePtr;
 	}
 
-	return NULL;
+	return istd::IChangeableUniquePtr();
 }
 
 

@@ -26,13 +26,13 @@ public:
 	{
 		ParameterInfo(const QByteArray& parameterId, iser::ISerializable* parameterPtr)
 		{
-			this->parameterPtr.SetOptionalPtr(parameterPtr);
+			this->parameterPtr.SetUnmanagedPtr(parameterPtr);
 			this->parameterId = parameterId;
 		}
 
 		ParameterInfo(const QByteArray& parameterId, iser::ISerializableUniquePtr& parameterPtr)
 		{
-			this->parameterPtr.SetPtr(parameterPtr);
+			this->parameterPtr.TakeOver(parameterPtr);
 			this->parameterId = parameterId;
 		}
 

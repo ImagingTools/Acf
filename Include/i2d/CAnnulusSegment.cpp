@@ -201,15 +201,15 @@ bool CAnnulusSegment::CopyFrom(const IChangeable& object, CompatibilityMode mode
 }
 
 
-istd::IChangeable* CAnnulusSegment::CloneMe(CompatibilityMode mode) const 
+istd::IChangeableUniquePtr CAnnulusSegment::CloneMe(CompatibilityMode mode) const
 {
-	istd::TDelPtr<CAnnulusSegment> clonePtr(new CAnnulusSegment);
+	istd::IChangeableUniquePtr clonePtr(new CAnnulusSegment);
 
 	if (clonePtr->CopyFrom(*this, mode)){
-		return clonePtr.PopPtr();
+		return clonePtr;
 	}
 
-	return NULL;
+	return istd::IChangeableUniquePtr();
 }
 
 

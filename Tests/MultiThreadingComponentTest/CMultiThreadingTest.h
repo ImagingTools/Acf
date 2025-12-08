@@ -18,6 +18,7 @@ private slots:
 	void initTestCase();
 
 	void RunParallel4();
+	void CloneTest();
 
 	void cleanupTestCase();
 

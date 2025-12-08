@@ -29,15 +29,16 @@ void CImageViewComp::UpdateGui(const istd::IChangeable::ChangeSet& /*changeSet*/
 
 	iview::CCalibratedViewBase* calibratableViewPtr = dynamic_cast<iview::CCalibratedViewBase*>(GetView());
 	if (calibratableViewPtr != nullptr){
-		auto imageCalibrationPtr = imagePtr ? imagePtr->GetCalibration() : nullptr;
-		if (imageCalibrationPtr) {
-			imageCalibrationPtr = dynamic_cast<i2d::ICalibration2d*>(imageCalibrationPtr->CloneMe());
+		const i2d::ICalibration2d* imageCalibrationPtr = imagePtr ? imagePtr->GetCalibration() : nullptr;
+		istd::TUniqueInterfacePtr<i2d::ICalibration2d> displayCalibrationPtr;
+		if (imageCalibrationPtr != nullptr) {
+			displayCalibrationPtr.MoveCastedPtr<istd::IChangeable>(imageCalibrationPtr->CloneMe());
 		}
 
-		calibratableViewPtr->SetDisplayCalibration(imageCalibrationPtr);
+		calibratableViewPtr->SetDisplayCalibration(displayCalibrationPtr.GetPtr());
 
 		// this is supposed to die after the next clone
-		m_oldCalibrationPtr.reset(imageCalibrationPtr);
+		m_oldCalibrationPtr = std::move(displayCalibrationPtr);
 	}
 
 	consolePtr->UpdateView();

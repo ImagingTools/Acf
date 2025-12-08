@@ -251,12 +251,12 @@ bool CSelectionParam::CopyFrom(const istd::IChangeable& object, CompatibilityMod
 				}
 
 				if (constraintsPtr != m_constraintsPtr){
-					istd::TDelPtr<IOptionsList> copiedConstraintsPtr;
+					istd::TUniqueInterfacePtr<iprm::IOptionsList> copiedConstraintsPtr;
 					if (constraintsPtr != NULL){
-						copiedConstraintsPtr.SetCastedOrRemove(constraintsPtr->CloneMe());
+						copiedConstraintsPtr.MoveCastedPtr(constraintsPtr->CloneMe());
 					}
 
-					constraintsPtr = copiedConstraintsPtr.PopPtr();
+					constraintsPtr = copiedConstraintsPtr.PopInterfacePtr();
 				}
 
 				istd::CChangeNotifier notifier(this, &GetAllChanges());
@@ -307,15 +307,15 @@ bool CSelectionParam::CopyFrom(const istd::IChangeable& object, CompatibilityMod
 }
 
 
-istd::IChangeable* CSelectionParam::CloneMe(CompatibilityMode mode) const
+istd::IChangeableUniquePtr CSelectionParam::CloneMe(CompatibilityMode mode) const
 {
-	istd::TDelPtr<CSelectionParam> clonePtr(new CSelectionParam);
+	istd::IChangeableUniquePtr clonePtr(new CSelectionParam);
 
 	if (clonePtr->CopyFrom(*this, mode)){
-		return clonePtr.PopPtr();
+		return clonePtr;
 	}
 
-	return NULL;
+	return istd::IChangeableUniquePtr();
 }
 
 

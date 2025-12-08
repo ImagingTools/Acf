@@ -62,7 +62,7 @@ public:
 		Please note, that created object is owned by the caller and the caller must remove them.
 		\return	new calibration object (owned by the caller) or NULL if creation was impossible.
 	*/
-	virtual const ICalibration2d* CreateCombinedCalibration(const ITransformation2d& transformation) const = 0;
+	virtual istd::TUniqueInterfacePtr<i2d::ICalibration2d> CreateCombinedCalibration(const ITransformation2d& transformation) const = 0;
 };
 
 

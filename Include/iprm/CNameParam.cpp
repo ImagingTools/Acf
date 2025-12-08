@@ -82,14 +82,14 @@ bool CNameParam::CopyFrom(const IChangeable& object, CompatibilityMode /*mode*/)
 }
 
 
-istd::IChangeable* CNameParam::CloneMe(istd::IChangeable::CompatibilityMode mode) const
+istd::IChangeableUniquePtr CNameParam::CloneMe(istd::IChangeable::CompatibilityMode mode) const
 {
-	istd::TDelPtr<CNameParam> clonePtr(new CNameParam);
+	istd::IChangeableUniquePtr clonePtr(new CNameParam);
 	if (clonePtr->CopyFrom(*this, mode)){
-		return clonePtr.PopPtr();
+		return clonePtr;
 	}
 
-	return NULL;
+	return istd::IChangeableUniquePtr();
 }
 
 

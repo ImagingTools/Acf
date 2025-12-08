@@ -334,15 +334,15 @@ bool CPolyline::CopyFrom(const IChangeable& object, CompatibilityMode mode)
 }
 
 
-istd::IChangeable* CPolyline::CloneMe(CompatibilityMode mode) const 
+istd::IChangeableUniquePtr CPolyline::CloneMe(CompatibilityMode mode) const
 {
-	istd::TDelPtr<CPolyline> clonePtr(new CPolyline);
+	istd::IChangeableUniquePtr clonePtr(new CPolyline);
 
 	if (clonePtr->CopyFrom(*this, mode)){
-		return clonePtr.PopPtr();
+		return clonePtr;
 	}
 
-	return NULL;
+	return istd::IChangeableUniquePtr();
 }
 
 
@@ -358,4 +358,5 @@ bool CPolyline::IsEqual(const IChangeable& object) const
 
 
 } // namespace i2d
+
 

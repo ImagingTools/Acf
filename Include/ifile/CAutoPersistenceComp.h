@@ -230,7 +230,7 @@ private:
 	/**
 		Object copy used for multi-threading barrier.
 	*/
-	mutable istd::TDelPtr<istd::IChangeable> m_objectShadowPtr;
+	mutable istd::IChangeableUniquePtr m_objectShadowPtr;
 
 	QFileSystemWatcher m_fileWatcher;
 

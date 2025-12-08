@@ -228,15 +228,15 @@ bool CArc::CopyFrom(const IChangeable& object, CompatibilityMode mode)
 }
 
 
-istd::IChangeable* CArc::CloneMe(CompatibilityMode mode) const 
+istd::IChangeableUniquePtr CArc::CloneMe(CompatibilityMode mode) const
 {
-	istd::TDelPtr<CArc> clonePtr(new CArc);
+	istd::IChangeableUniquePtr clonePtr(new CArc);
 
 	if (clonePtr->CopyFrom(*this, mode)){
-		return clonePtr.PopPtr();
+		return clonePtr;
 	}
 
-	return NULL;
+	return istd::IChangeableUniquePtr();
 }
 
 

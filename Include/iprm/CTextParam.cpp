@@ -86,14 +86,14 @@ bool CTextParam::IsEqual(const IChangeable& object) const
 }
 
 
-istd::IChangeable* CTextParam::CloneMe(istd::IChangeable::CompatibilityMode mode) const
+istd::IChangeableUniquePtr CTextParam::CloneMe(istd::IChangeable::CompatibilityMode mode) const
 {
-	istd::TDelPtr<CTextParam> clonePtr(new CTextParam);
+	istd::IChangeableUniquePtr clonePtr(new CTextParam);
 	if (clonePtr->CopyFrom(*this, mode)){
-		return clonePtr.PopPtr();
+		return clonePtr;
 	}
 
-	return NULL;
+	return istd::IChangeableUniquePtr();
 }
 
 

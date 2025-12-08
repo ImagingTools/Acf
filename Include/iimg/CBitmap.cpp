@@ -476,10 +476,10 @@ bool CBitmap::CopyFrom(const istd::IChangeable& object, CompatibilityMode /*mode
 	if (sourcePtr != NULL){
 		const i2d::ICalibration2d* calibrationPtr = sourcePtr->GetCalibration();
 		if (calibrationPtr != NULL){
-			istd::TDelPtr<i2d::ICalibration2d> bitmapCalibrationPtr;
-			bitmapCalibrationPtr.SetCastedOrRemove(calibrationPtr->CloneMe());
+			istd::TUniqueInterfacePtr<i2d::ICalibration2d> bitmapCalibrationPtr;
+			bitmapCalibrationPtr.MoveCastedPtr(calibrationPtr->CloneMe());
 			if (bitmapCalibrationPtr.IsValid()){
-				SetCalibration(bitmapCalibrationPtr.PopPtr(), true);
+				SetCalibration(bitmapCalibrationPtr.PopInterfacePtr(), true);
 			}
 		}
 	}
@@ -553,15 +553,15 @@ bool CBitmap::CopyFrom(const istd::IChangeable& object, CompatibilityMode /*mode
 }
 
 
-istd::IChangeable* CBitmap::CloneMe(CompatibilityMode mode) const
+istd::IChangeableUniquePtr CBitmap::CloneMe(CompatibilityMode mode) const
 {
-	istd::TDelPtr<CBitmap> clonePtr(new CBitmap);
+	istd::IChangeableUniquePtr clonePtr(new CBitmap);
 
 	if (clonePtr->CopyFrom(*this, mode)){
-		return clonePtr.PopPtr();
+		return clonePtr;
 	}
 
-	return NULL;
+	return istd::IChangeableUniquePtr();
 }
 
 

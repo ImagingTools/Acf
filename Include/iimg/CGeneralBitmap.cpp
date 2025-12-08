@@ -146,15 +146,15 @@ bool CGeneralBitmap::CopyFrom(const istd::IChangeable& object, CompatibilityMode
 }
 
 
-istd::IChangeable* CGeneralBitmap::CloneMe(CompatibilityMode mode) const
+istd::IChangeableUniquePtr CGeneralBitmap::CloneMe(CompatibilityMode mode) const
 {
-	istd::TDelPtr<CGeneralBitmap> clonePtr(new CGeneralBitmap);
+	istd::IChangeableUniquePtr clonePtr(new CGeneralBitmap);
 
 	if (clonePtr->CopyFrom(*this, mode)){
-		return clonePtr.PopPtr();
+		return clonePtr;
 	}
 
-	return NULL;
+	return istd::IChangeableUniquePtr();
 }
 
 

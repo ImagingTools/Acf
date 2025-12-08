@@ -381,15 +381,15 @@ bool CCircle::CopyFrom(const IChangeable& object, CompatibilityMode mode)
 }
 
 
-istd::IChangeable* CCircle::CloneMe(CompatibilityMode mode) const 
+istd::IChangeableUniquePtr CCircle::CloneMe(CompatibilityMode mode) const
 {
-	istd::TDelPtr<CCircle> clonePtr(new CCircle);
+	istd::IChangeableUniquePtr clonePtr(new CCircle);
 
 	if (clonePtr->CopyFrom(*this, mode)){
-		return clonePtr.PopPtr();
+		return clonePtr;
 	}
 
-	return NULL;
+	return istd::IChangeableUniquePtr();
 }
 
 

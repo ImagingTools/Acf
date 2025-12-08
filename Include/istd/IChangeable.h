@@ -1,5 +1,4 @@
-#ifndef istd_IChangeable_included
-#define istd_IChangeable_included
+#pragma once
 
 
 // Qt includes
@@ -263,7 +262,7 @@ public:
 		Make a copy of this object.
 		\return	new instance or NULL, if this operation is not supported.
 	*/
-	virtual IChangeable* CloneMe(CompatibilityMode mode = CM_WITHOUT_REFS) const;
+	virtual istd::TUniqueInterfacePtr<istd::IChangeable> CloneMe(CompatibilityMode mode = CM_WITHOUT_REFS) const;
 
 	/**
 		Reset data to its default state.
@@ -366,9 +365,9 @@ inline bool IChangeable::IsEqual(const IChangeable& /*object*/) const
 }
 
 
-inline IChangeable* IChangeable::CloneMe(CompatibilityMode /*mode*/) const
+inline istd::TUniqueInterfacePtr<istd::IChangeable> IChangeable::CloneMe(CompatibilityMode /*mode*/) const
 {
-	return NULL;
+	return istd::TUniqueInterfacePtr<istd::IChangeable>();
 }
 
 
@@ -449,6 +448,4 @@ bool AreObjectsEqual(const IChangeable* a, const IChangeable* b);
 
 } // namespace istd
 
-
-#endif // !istd_IChangeable_included
 

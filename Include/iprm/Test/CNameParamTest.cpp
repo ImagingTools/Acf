@@ -67,8 +67,8 @@ void CNameParamTest::CloneTest()
 {
 	QVERIFY(m_param.GetName() == m_refValue);
 
-	istd::TDelPtr<iprm::CNameParam> clonePtr;
-	QVERIFY(clonePtr.SetCastedOrRemove(m_param.CloneMe()));
+	istd::TUniqueInterfacePtr<iprm::CNameParam> clonePtr;
+	QVERIFY(clonePtr.MoveCastedPtr(m_param.CloneMe()));
 	QVERIFY(clonePtr.IsValid());
 
 	QVERIFY(clonePtr->GetName() == m_refValue);

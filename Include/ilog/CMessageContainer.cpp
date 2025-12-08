@@ -35,7 +35,7 @@ CMessageContainer::CMessageContainer(const CMessageContainer& container)
 {
 	for (const auto& message : container.m_messages){
 		ilog::IMessageConsumer::MessagePtr newMessagePtr;
-		newMessagePtr.SetCastedOrRemove(message->CloneMe());
+		newMessagePtr.MoveCastedPtr(message->CloneMe());
 		m_messages.push_back(newMessagePtr);
 	}
 }
@@ -48,7 +48,7 @@ CMessageContainer& CMessageContainer::operator=(const CMessageContainer& contain
 
 	for (const auto& message : container.m_messages){
 		ilog::IMessageConsumer::MessagePtr newMessagePtr;
-		newMessagePtr.SetCastedOrRemove(message->CloneMe());
+		newMessagePtr.MoveCastedPtr(message->CloneMe());
 		m_messages.push_back(newMessagePtr);
 	}
 
@@ -362,12 +362,11 @@ bool CMessageContainer::CopyFrom(const istd::IChangeable& object, CompatibilityM
 					const MessagePtr sourceMessage = *iter;
 					Q_ASSERT(sourceMessage.IsValid());
 
-					istd::TDelPtr<istd::IInformationProvider> newMessagePtr;
-					newMessagePtr.SetCastedOrRemove<istd::IChangeable>(sourceMessage->CloneMe(mode));
+					ilog::IMessageConsumer::MessagePtr newMessagePtr;
+					newMessagePtr.MoveCastedPtr(sourceMessage->CloneMe(mode));
 
-					MessagePtr messagePtr(newMessagePtr.PopPtr());
-					if (messagePtr.IsValid()){
-						m_messages.push_back(messagePtr);
+					if (newMessagePtr.IsValid()){
+						m_messages.push_back(newMessagePtr);
 					}
 				}
 
@@ -388,10 +387,10 @@ bool CMessageContainer::CopyFrom(const istd::IChangeable& object, CompatibilityM
 					const MessagePtr sourceMessage = *iter;
 					Q_ASSERT(sourceMessage.IsValid());
 
-					istd::TDelPtr<istd::IInformationProvider> newMessagePtr;
-					newMessagePtr.SetCastedOrRemove<istd::IChangeable>(sourceMessage->CloneMe(mode));
+					istd::TUniqueInterfacePtr<istd::IInformationProvider> newMessagePtr;
+					newMessagePtr.MoveCastedPtr(sourceMessage->CloneMe(mode));
 
-					MessagePtr messagePtr(newMessagePtr.PopPtr());
+					MessagePtr messagePtr(newMessagePtr.PopInterfacePtr());
 					if (messagePtr.IsValid()){
 						m_messages.push_back(messagePtr);
 					}
@@ -477,15 +476,15 @@ bool CMessageContainer::IsEqual(const istd::IChangeable& object) const
 }
 
 
-istd::IChangeable* CMessageContainer::CloneMe(CompatibilityMode mode) const
+istd::IChangeableUniquePtr CMessageContainer::CloneMe(CompatibilityMode mode) const
 {
-	istd::TDelPtr<CMessageContainer> clonePtr(new CMessageContainer);
+	istd::IChangeableUniquePtr clonePtr(new CMessageContainer);
 
 	if (clonePtr->CopyFrom(*this, mode)){
-		return clonePtr.PopPtr();
+		return clonePtr;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 

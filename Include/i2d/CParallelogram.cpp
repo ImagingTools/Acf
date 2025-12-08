@@ -285,15 +285,15 @@ bool CParallelogram::CopyFrom(const IChangeable& object, CompatibilityMode mode)
 }
 
 
-istd::IChangeable* CParallelogram::CloneMe(CompatibilityMode mode) const 
+istd::IChangeableUniquePtr CParallelogram::CloneMe(CompatibilityMode mode) const
 {
-	istd::TDelPtr<CParallelogram> clonePtr(new CParallelogram);
+	istd::IChangeableUniquePtr clonePtr(new CParallelogram);
 
 	if (clonePtr->CopyFrom(*this, mode)){
-		return clonePtr.PopPtr();
+		return clonePtr;
 	}
 
-	return NULL;
+	return istd::IChangeableUniquePtr();
 }
 
 

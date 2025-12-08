@@ -16,7 +16,7 @@ namespace ifile
 
 // reimplemented (ifile::IFileMetaInfoProvider)
 
-ifile::IFileMetaInfoProvider::MetaInfoPtr CComposedFileMetaInfoProviderComp::GetFileMetaInfo(const QString& filePath, ibase::IProgressManager* progressManagerPtr) const
+idoc::MetaInfoPtr CComposedFileMetaInfoProviderComp::GetFileMetaInfo(const QString& filePath, ibase::IProgressManager* progressManagerPtr) const
 {
 	QString fileExtension = QFileInfo(filePath).suffix();
 
@@ -34,14 +34,14 @@ ifile::IFileMetaInfoProvider::MetaInfoPtr CComposedFileMetaInfoProviderComp::Get
 		}
 
 		if (providerPtr != NULL){
-			MetaInfoPtr retVal = providerPtr->GetFileMetaInfo(filePath, progressManagerPtr);
+			idoc::MetaInfoPtr retVal = providerPtr->GetFileMetaInfo(filePath, progressManagerPtr);
 			if (retVal.IsValid()){
 				return retVal;
 			}
 		}
 	}
 
-	return MetaInfoPtr();
+	return idoc::MetaInfoPtr();
 }
 
 

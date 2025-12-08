@@ -38,7 +38,12 @@ CObject2dBase& CObject2dBase::operator=(const CObject2dBase& object2d)
 {
 	m_calibrationPtr.Reset();
 
-	m_calibrationPtr.SetPtr(object2d.m_calibrationPtr.GetPtr());
+	if (object2d.m_calibrationPtr.IsUnmanaged()) {
+		m_calibrationPtr = object2d.m_calibrationPtr;
+	}
+	else {
+		m_calibrationPtr.TakeOver(object2d.m_calibrationPtr->CloneMe(CM_WITH_REFS));
+	}
 
 	return *this;
 }
@@ -65,7 +70,12 @@ const ICalibration2d* CObject2dBase::GetCalibration() const
 
 void CObject2dBase::SetCalibration(const ICalibration2d* calibrationPtr, bool releaseFlag)
 {
-	m_calibrationPtr.SetPtr(calibrationPtr, releaseFlag);
+	if (releaseFlag) {
+		m_calibrationPtr.AdoptRawPtr(const_cast<ICalibration2d*>(calibrationPtr));
+	}
+	else {
+		m_calibrationPtr.SetUnmanagedPtr(const_cast<ICalibration2d*>(calibrationPtr));
+	}
 }
 
 
@@ -123,11 +133,11 @@ bool CObject2dBase::CopyFrom(const istd::IChangeable& object, CompatibilityMode 
 			break;
 
 		case CM_WITH_REFS:
-			if (!object2dPtr->m_calibrationPtr.IsValid() || !object2dPtr->m_calibrationPtr.IsToRelase()){
-				m_calibrationPtr.SetPtr(object2dPtr->m_calibrationPtr.GetPtr());
+			if (!object2dPtr->m_calibrationPtr.IsValid() || object2dPtr->m_calibrationPtr.IsUnmanaged()){
+				m_calibrationPtr = object2dPtr->m_calibrationPtr;
 			}
 			else{
-				m_calibrationPtr.SetCastedOrRemove(object2dPtr->m_calibrationPtr->CloneMe(CM_WITH_REFS), true);
+				m_calibrationPtr.TakeOver(object2dPtr->m_calibrationPtr->CloneMe(CM_WITH_REFS));
 			}
 			break;
 
@@ -154,7 +164,7 @@ bool CObject2dBase::CopyFrom(const istd::IChangeable& object, CompatibilityMode 
 bool CObject2dBase::ResetData(CompatibilityMode mode)
 {
 	if (mode == CM_WITH_REFS){
-		m_calibrationPtr = NULL;
+		m_calibrationPtr.Reset();
 	}
 
 	return true;

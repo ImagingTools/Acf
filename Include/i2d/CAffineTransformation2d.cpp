@@ -192,7 +192,7 @@ bool CAffineTransformation2d::CopyFrom(const istd::IChangeable& object, Compatib
 }
 
 
-istd::IChangeable* CAffineTransformation2d::CloneMe(CompatibilityMode /*mode*/) const
+istd::IChangeableUniquePtr CAffineTransformation2d::CloneMe(CompatibilityMode /*mode*/) const
 {
 	return new CAffineTransformation2d(m_transformation);
 }
