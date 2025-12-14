@@ -38,11 +38,13 @@ CObject2dBase& CObject2dBase::operator=(const CObject2dBase& object2d)
 {
 	m_calibrationPtr.Reset();
 
-	if (object2d.m_calibrationPtr.IsUnmanaged()) {
-		m_calibrationPtr = object2d.m_calibrationPtr;
-	}
-	else {
-		m_calibrationPtr.TakeOver(object2d.m_calibrationPtr->CloneMe(CM_WITH_REFS));
+	if (object2d.m_calibrationPtr.IsValid()){
+		if (object2d.m_calibrationPtr.IsUnmanaged()){
+			m_calibrationPtr = object2d.m_calibrationPtr;
+		}
+		else{
+			m_calibrationPtr.TakeOver(object2d.m_calibrationPtr->CloneMe(CM_WITH_REFS));
+		}
 	}
 
 	return *this;
@@ -70,10 +72,10 @@ const ICalibration2d* CObject2dBase::GetCalibration() const
 
 void CObject2dBase::SetCalibration(const ICalibration2d* calibrationPtr, bool releaseFlag)
 {
-	if (releaseFlag) {
+	if (releaseFlag){
 		m_calibrationPtr.AdoptRawPtr(const_cast<ICalibration2d*>(calibrationPtr));
 	}
-	else {
+	else{
 		m_calibrationPtr.SetUnmanagedPtr(const_cast<ICalibration2d*>(calibrationPtr));
 	}
 }
@@ -133,11 +135,16 @@ bool CObject2dBase::CopyFrom(const istd::IChangeable& object, CompatibilityMode 
 			break;
 
 		case CM_WITH_REFS:
-			if (!object2dPtr->m_calibrationPtr.IsValid() || object2dPtr->m_calibrationPtr.IsUnmanaged()){
-				m_calibrationPtr = object2dPtr->m_calibrationPtr;
+			if (object2dPtr->m_calibrationPtr.IsValid()){
+				if (object2dPtr->m_calibrationPtr.IsUnmanaged()){
+					m_calibrationPtr = object2dPtr->m_calibrationPtr;
+				}
+				else{
+					m_calibrationPtr.TakeOver(object2dPtr->m_calibrationPtr->CloneMe(CM_WITH_REFS));
+				}
 			}
 			else{
-				m_calibrationPtr.TakeOver(object2dPtr->m_calibrationPtr->CloneMe(CM_WITH_REFS));
+				m_calibrationPtr.Reset();
 			}
 			break;
 
