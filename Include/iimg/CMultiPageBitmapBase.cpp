@@ -40,7 +40,7 @@ istd::IChangeable* CMultiPageBitmapBase::InsertPage(
 		m_documentPages.insert(position, newPage);
 	}
 
-	return bitmapPtr.GetPtr();
+	return newPage.pagePtr.GetPtr();
 }
 
 
