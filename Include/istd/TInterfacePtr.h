@@ -441,6 +441,8 @@ public:
 			return *this;
 		}
 
+		BaseClass::m_interfacePtr = uniquePtr.GetPtr();
+
 		// Acquire raw pointer in one step and assign to shared_ptr to avoid leaks on exceptions.
 		RootIntefaceType* rawRoot = uniquePtr.PopPtr(); // caller (this function) now owns rawRoot
 		if (rawRoot == nullptr){
@@ -450,7 +452,6 @@ public:
 
 		// Create shared_ptr from raw pointer (shared_ptr now owns it)
 		BaseClass::m_rootPtr = std::shared_ptr<RootIntefaceType>(rawRoot);
-		BaseClass::m_interfacePtr = dynamic_cast<InterfaceType*>(BaseClass::m_rootPtr.get());
 
 		return *this;
 	}
