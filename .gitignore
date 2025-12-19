@@ -1,0 +1,24 @@
+# Build directories
+build_test/
+build/
+*.user
+*.user.*
+
+# CMake
+CMakeCache.txt
+CMakeFiles/
+CMakeScripts/
+cmake_install.cmake
+
+# Qt
+*.qm
+moc_*.cpp
+qrc_*.cpp
+ui_*.h
+
+# Compiled Object files
+*.o
+*.obj
+
+# Generated files
+*.autosave
