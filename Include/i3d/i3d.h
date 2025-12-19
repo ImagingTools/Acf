@@ -12,6 +12,8 @@
 #include <i3d/CSphere.h>
 #include <i3d/CBox3d.h>
 #include <i3d/CQuaternion3d.h>
+#include <i3d/CAffine3d.h>
+#include <i3d/Geometry.h>
 
 
 /**
