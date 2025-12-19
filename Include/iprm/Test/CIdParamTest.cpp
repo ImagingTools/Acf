@@ -26,11 +26,11 @@ void CIdParamTest::GetSetTest()
 
 void CIdParamTest::SetSameIdTest()
 {
-	// Setting the same ID should not trigger changes (internal optimization)
+	// Verify that setting the same ID value multiple times works correctly
 	m_param.SetId(m_id);
 	QVERIFY(m_param.GetId() == m_id);
 
-	// Set the same value again
+	// Set the same value again - should remain unchanged
 	m_param.SetId(m_id);
 	QVERIFY(m_param.GetId() == m_id);
 }
@@ -70,7 +70,7 @@ void CIdParamTest::ResetTest()
 
 void CIdParamTest::ResetEmptyTest()
 {
-	// Test resetting when already empty
+	// Test resetting when already empty - using a fresh instance to ensure clean state
 	iprm::CIdParam param;
 	QVERIFY(param.GetId().isEmpty());
 	QVERIFY(param.ResetData());
