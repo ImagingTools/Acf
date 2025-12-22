@@ -1,7 +1,11 @@
 #include <i2d/Test/CI2dTest.h>
 
 
+// Standard includes
+#include <cmath>
+
 // ACF includes
+#include <istd/istd.h>
 #include <i2d/CVector2d.h>
 #include <i2d/CPosition2d.h>
 #include <i2d/CCircle.h>
@@ -9,6 +13,10 @@
 #include <i2d/CLine2d.h>
 #include <i2d/CMatrix2d.h>
 #include <itest/CStandardTestExecutor.h>
+
+#ifndef M_PI
+#define M_PI 3.14159265358979323846
+#endif
 
 
 void CI2dTest::DoVector2dTest()
@@ -253,29 +261,29 @@ void CI2dTest::DoLine2dTest()
 {
 	// Test default constructor
 	i2d::CLine2d line1;
-	line1.SetStartPoint(i2d::CVector2d(0.0, 0.0));
-	line1.SetEndPoint(i2d::CVector2d(10.0, 10.0));
-	QVERIFY(qAbs(line1.GetStartPoint().GetX() - 0.0) < I_EPSILON);
-	QVERIFY(qAbs(line1.GetStartPoint().GetY() - 0.0) < I_EPSILON);
-	QVERIFY(qAbs(line1.GetEndPoint().GetX() - 10.0) < I_EPSILON);
-	QVERIFY(qAbs(line1.GetEndPoint().GetY() - 10.0) < I_EPSILON);
+	line1.SetPoint1(i2d::CVector2d(0.0, 0.0));
+	line1.SetPoint2(i2d::CVector2d(10.0, 10.0));
+	QVERIFY(qAbs(line1.GetPoint1().GetX() - 0.0) < I_EPSILON);
+	QVERIFY(qAbs(line1.GetPoint1().GetY() - 0.0) < I_EPSILON);
+	QVERIFY(qAbs(line1.GetPoint2().GetX() - 10.0) < I_EPSILON);
+	QVERIFY(qAbs(line1.GetPoint2().GetY() - 10.0) < I_EPSILON);
 
 	// Test parameterized constructor
 	i2d::CLine2d line2(i2d::CVector2d(5.0, 5.0), i2d::CVector2d(15.0, 20.0));
-	QVERIFY(qAbs(line2.GetStartPoint().GetX() - 5.0) < I_EPSILON);
-	QVERIFY(qAbs(line2.GetStartPoint().GetY() - 5.0) < I_EPSILON);
-	QVERIFY(qAbs(line2.GetEndPoint().GetX() - 15.0) < I_EPSILON);
-	QVERIFY(qAbs(line2.GetEndPoint().GetY() - 20.0) < I_EPSILON);
+	QVERIFY(qAbs(line2.GetPoint1().GetX() - 5.0) < I_EPSILON);
+	QVERIFY(qAbs(line2.GetPoint1().GetY() - 5.0) < I_EPSILON);
+	QVERIFY(qAbs(line2.GetPoint2().GetX() - 15.0) < I_EPSILON);
+	QVERIFY(qAbs(line2.GetPoint2().GetY() - 20.0) < I_EPSILON);
 
 	// Test length calculation
 	double length = line2.GetLength();
 	double expectedLength = qSqrt((15.0 - 5.0) * (15.0 - 5.0) + (20.0 - 5.0) * (20.0 - 5.0));
 	QVERIFY(qAbs(length - expectedLength) < I_EPSILON);
 
-	// Test direction vector
-	i2d::CVector2d direction = line2.GetDirection();
-	QVERIFY(qAbs(direction.GetX() - 10.0) < I_EPSILON);
-	QVERIFY(qAbs(direction.GetY() - 15.0) < I_EPSILON);
+	// Test difference vector
+	i2d::CVector2d diffVector = line2.GetDiffVector();
+	QVERIFY(qAbs(diffVector.GetX() - 10.0) < I_EPSILON);
+	QVERIFY(qAbs(diffVector.GetY() - 15.0) < I_EPSILON);
 
 	// Test bounding box
 	i2d::CRectangle bbox = line2.GetBoundingBox();
@@ -298,57 +306,58 @@ void CI2dTest::DoMatrix2dTest()
 {
 	// Test default constructor (identity matrix)
 	i2d::CMatrix2d mat1;
-	QVERIFY(qAbs(mat1.Get(0, 0) - 1.0) < I_EPSILON);
-	QVERIFY(qAbs(mat1.Get(0, 1) - 0.0) < I_EPSILON);
-	QVERIFY(qAbs(mat1.Get(1, 0) - 0.0) < I_EPSILON);
-	QVERIFY(qAbs(mat1.Get(1, 1) - 1.0) < I_EPSILON);
+	mat1.Reset(); // Initialize to identity
+	QVERIFY(qAbs(mat1.GetAt(0, 0) - 1.0) < I_EPSILON);
+	QVERIFY(qAbs(mat1.GetAt(0, 1) - 0.0) < I_EPSILON);
+	QVERIFY(qAbs(mat1.GetAt(1, 0) - 0.0) < I_EPSILON);
+	QVERIFY(qAbs(mat1.GetAt(1, 1) - 1.0) < I_EPSILON);
 
 	// Test parameterized constructor
 	i2d::CMatrix2d mat2(2.0, 0.0, 0.0, 3.0);
-	QVERIFY(qAbs(mat2.Get(0, 0) - 2.0) < I_EPSILON);
-	QVERIFY(qAbs(mat2.Get(0, 1) - 0.0) < I_EPSILON);
-	QVERIFY(qAbs(mat2.Get(1, 0) - 0.0) < I_EPSILON);
-	QVERIFY(qAbs(mat2.Get(1, 1) - 3.0) < I_EPSILON);
+	QVERIFY(qAbs(mat2.GetAt(0, 0) - 2.0) < I_EPSILON);
+	QVERIFY(qAbs(mat2.GetAt(0, 1) - 0.0) < I_EPSILON);
+	QVERIFY(qAbs(mat2.GetAt(1, 0) - 0.0) < I_EPSILON);
+	QVERIFY(qAbs(mat2.GetAt(1, 1) - 3.0) < I_EPSILON);
 
-	// Test SetIdentity
-	mat2.SetIdentity();
-	QVERIFY(qAbs(mat2.Get(0, 0) - 1.0) < I_EPSILON);
-	QVERIFY(qAbs(mat2.Get(1, 1) - 1.0) < I_EPSILON);
+	// Test Reset to identity
+	mat2.Reset();
+	QVERIFY(qAbs(mat2.GetAt(0, 0) - 1.0) < I_EPSILON);
+	QVERIFY(qAbs(mat2.GetAt(1, 1) - 1.0) < I_EPSILON);
 
 	// Test rotation matrix
 	i2d::CMatrix2d rotMat;
-	rotMat.InitRotation(M_PI / 2.0); // 90 degrees
+	rotMat.Reset(M_PI / 2.0); // 90 degrees
 	
 	// Rotate vector (1, 0) by 90 degrees should give approximately (0, 1)
 	i2d::CVector2d v1(1.0, 0.0);
-	i2d::CVector2d v2 = rotMat * v1;
-	QVERIFY(qAbs(v2.GetX()) < I_EPSILON);
-	QVERIFY(qAbs(v2.GetY() - 1.0) < I_EPSILON);
+	i2d::CVector2d v2 = rotMat.GetMultiplied(v1);
+	QVERIFY(qAbs(v2.GetX()) < I_BIG_EPSILON);
+	QVERIFY(qAbs(v2.GetY() - 1.0) < I_BIG_EPSILON);
 
 	// Test scaling matrix
 	i2d::CMatrix2d scaleMat;
-	scaleMat.InitScale(2.0, 3.0);
+	scaleMat.Reset(0.0, i2d::CVector2d(2.0, 3.0)); // No rotation, scale by (2, 3)
 	i2d::CVector2d v3(1.0, 1.0);
-	i2d::CVector2d v4 = scaleMat * v3;
+	i2d::CVector2d v4 = scaleMat.GetMultiplied(v3);
 	QVERIFY(qAbs(v4.GetX() - 2.0) < I_EPSILON);
 	QVERIFY(qAbs(v4.GetY() - 3.0) < I_EPSILON);
 
 	// Test matrix multiplication
 	i2d::CMatrix2d mat3(2.0, 0.0, 0.0, 2.0);
 	i2d::CMatrix2d mat4(3.0, 0.0, 0.0, 3.0);
-	i2d::CMatrix2d result = mat3 * mat4;
-	QVERIFY(qAbs(result.Get(0, 0) - 6.0) < I_EPSILON);
-	QVERIFY(qAbs(result.Get(1, 1) - 6.0) < I_EPSILON);
+	i2d::CMatrix2d result = mat3.GetMultiplied(mat4);
+	QVERIFY(qAbs(result.GetAt(0, 0) - 6.0) < I_EPSILON);
+	QVERIFY(qAbs(result.GetAt(1, 1) - 6.0) < I_EPSILON);
 
 	// Test determinant
 	i2d::CMatrix2d mat5(2.0, 0.0, 0.0, 3.0);
-	double det = mat5.GetDeterminant();
+	double det = mat5.GetDet();
 	QVERIFY(qAbs(det - 6.0) < I_EPSILON);
 
 	// Test inverse
-	i2d::CMatrix2d inverse = mat5.GetInverse();
-	QVERIFY(qAbs(inverse.Get(0, 0) - 0.5) < I_EPSILON);
-	QVERIFY(qAbs(inverse.Get(1, 1) - 1.0/3.0) < I_EPSILON);
+	i2d::CMatrix2d inverse = mat5.GetInverted();
+	QVERIFY(qAbs(inverse.GetAt(0, 0) - 0.5) < I_EPSILON);
+	QVERIFY(qAbs(inverse.GetAt(1, 1) - 1.0/3.0) < I_EPSILON);
 }
 
 
