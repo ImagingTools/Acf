@@ -28,6 +28,8 @@ set(TEST_SOURCES
 	${PROJECT_SOURCE_DIR}/../CMemoryArchiveTest.cpp
 	${PROJECT_SOURCE_DIR}/../CBitManipTest.cpp
 	${PROJECT_SOURCE_DIR}/../CCrcCalculatorTest.cpp
+	${PROJECT_SOURCE_DIR}/../CHsvTest.cpp
+	${PROJECT_SOURCE_DIR}/../CLinearInterpolatorTest.cpp
 )
 
 set(TEST_HEADERS
@@ -40,6 +42,8 @@ set(TEST_HEADERS
 	${PROJECT_SOURCE_DIR}/../CMemoryArchiveTest.h
 	${PROJECT_SOURCE_DIR}/../CBitManipTest.h
 	${PROJECT_SOURCE_DIR}/../CCrcCalculatorTest.h
+	${PROJECT_SOURCE_DIR}/../CHsvTest.h
+	${PROJECT_SOURCE_DIR}/../CLinearInterpolatorTest.h
 )
 
 add_executable(${PROJECT_NAME} ${TEST_SOURCES} ${TEST_HEADERS})
@@ -49,6 +53,7 @@ target_link_libraries(${PROJECT_NAME}
 	imath
 	i3d
 	i2d
+	icmm
 	iser
 	itest
 	Qt${QT_VERSION_MAJOR}::Test
