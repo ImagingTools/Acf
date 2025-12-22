@@ -6,6 +6,7 @@
 
 // ACF includes
 #include <istd/istd.h>
+#include <istd/CIndex2d.h>
 #include <i2d/CVector2d.h>
 #include <i2d/CPosition2d.h>
 #include <i2d/CCircle.h>
