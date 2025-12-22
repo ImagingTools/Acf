@@ -702,7 +702,7 @@ void CI2dTest::DoAnnulusSegmentTest()
 	QVERIFY(segment2.Contains(point2));
 	
 	// Point outside the angle range should not be inside
-	i2d::CVector2d point3(10.0, 15.0); // angle = -PI/2
+	i2d::CVector2d point3(10.0, 15.0); // angle = -PI/2 (or 3*PI/2), outside [0, PI] range
 	QVERIFY(!segment2.Contains(point3));
 
 	// Test angle setters
