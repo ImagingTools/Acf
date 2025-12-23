@@ -5,6 +5,7 @@
 // Qt includes
 #include <QtCore/QVector>
 #include <QtCore/QString>
+#include <QtGui/QColor>
 
 // ACF includes
 #include <i2d/CObject2dBase.h>

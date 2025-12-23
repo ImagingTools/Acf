@@ -251,35 +251,52 @@ bool CGraphData2d::Serialize(iser::IArchive& archive)
 	}
 
 	// Serialize basic properties
-	archive.AddString("Title", m_title);
-	archive.AddString("XAxisLabel", m_xAxisLabel);
-	archive.AddString("YAxisLabel", m_yAxisLabel);
-	archive.AddBool("LegendVisible", m_isLegendVisible);
-	archive.AddBool("GridVisible", m_isGridVisible);
+	bool retVal = true;
+	retVal = retVal && archive.Process("Title", m_title);
+	retVal = retVal && archive.Process("XAxisLabel", m_xAxisLabel);
+	retVal = retVal && archive.Process("YAxisLabel", m_yAxisLabel);
+	retVal = retVal && archive.Process("LegendVisible", m_isLegendVisible);
+	retVal = retVal && archive.Process("GridVisible", m_isGridVisible);
 
 	// Serialize curves count
 	int curvesCount = m_curves.count();
-	archive.AddInt("CurvesCount", curvesCount);
+	retVal = retVal && archive.Process("CurvesCount", curvesCount);
+
+	// Adjust curves vector size when loading
+	if (archive.IsLoading()){
+		m_curves.resize(curvesCount);
+	}
 
 	// Serialize each curve
 	for (int i = 0; i < curvesCount; ++i){
 		QString curvePrefix = QString("Curve%1_").arg(i);
-		const Curve& curve = m_curves[i];
+		Curve& curve = m_curves[i];
 		
-		archive.AddString(curvePrefix + "Name", curve.name);
-		archive.AddColor(curvePrefix + "Color", curve.color);
+		retVal = retVal && archive.Process(curvePrefix + "Name", curve.name);
+		retVal = retVal && archive.Process(curvePrefix + "Color", curve.color);
 		
 		int pointsCount = curve.points.count();
-		archive.AddInt(curvePrefix + "PointsCount", pointsCount);
+		retVal = retVal && archive.Process(curvePrefix + "PointsCount", pointsCount);
+		
+		// Adjust points vector size when loading
+		if (archive.IsLoading()){
+			curve.points.resize(pointsCount);
+		}
 		
 		for (int j = 0; j < pointsCount; ++j){
 			QString pointPrefix = curvePrefix + QString("Point%1_").arg(j);
-			archive.AddDouble(pointPrefix + "X", curve.points[j].GetX());
-			archive.AddDouble(pointPrefix + "Y", curve.points[j].GetY());
+			double x = curve.points[j].GetX();
+			double y = curve.points[j].GetY();
+			retVal = retVal && archive.Process(pointPrefix + "X", x);
+			retVal = retVal && archive.Process(pointPrefix + "Y", y);
+			
+			if (archive.IsLoading()){
+				curve.points[j] = CVector2d(x, y);
+			}
 		}
 	}
 
-	return true;
+	return retVal;
 }
 
 
