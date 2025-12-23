@@ -6,7 +6,7 @@
 #include <QtGui/QPainter>
 
 // ACF includes
-#include <iview/CShapeBase.h>
+#include <iview/CRectControlledShapeBase.h>
 #include <i2d/CGraphData2d.h>
 
 
@@ -22,11 +22,13 @@ namespace iview
 	- Grid (optional)
 	- Legend (optional)
 	- Title
+	
+	The shape is interactive and supports rotation, moving, and scaling.
 */
-class CGraphPlotShape: public CShapeBase
+class CGraphPlotShape: public CRectControlledShapeBase
 {
 public:
-	typedef CShapeBase BaseClass;
+	typedef CRectControlledShapeBase BaseClass;
 
 	CGraphPlotShape();
 
@@ -70,9 +72,6 @@ public:
 	*/
 	void SetCurveLineWidth(int width);
 
-	// reimplemented (iview::IVisualizable)
-	virtual void Draw(QPainter& drawContext) const override;
-
 	// reimplemented (imod::IObserver)
 	virtual bool OnModelAttached(imod::IModel* modelPtr, istd::IChangeable::ChangeSet& changeMask) override;
 
@@ -80,6 +79,11 @@ public:
 	virtual TouchState IsTouched(istd::CIndex2d position) const override;
 
 protected:
+	// reimplemented (iview::CRectControlledShapeBase)
+	virtual void EnsureValidNodes() const override;
+	virtual bool IsCurveTouched(istd::CIndex2d position) const override;
+	virtual void DrawFigure(QPainter& drawContext) const override;
+
 	// reimplemented (iview::CShapeBase)
 	virtual i2d::CRect CalcBoundingBox() const override;
 

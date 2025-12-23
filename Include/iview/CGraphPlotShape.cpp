@@ -43,12 +43,33 @@ CGraphPlotShape::CGraphPlotShape()
 	m_tickLabelFontSize(10),
 	m_curveLineWidth(2)
 {
+	// Enable rotation, width and height editing for user interaction
+	SetEditableRotation(true);
+	SetEditableWidth(true);
+	SetEditableHeight(true);
 }
 
 
-// reimplemented (iview::IVisualizable)
+// reimplemented (iview::CRectControlledShapeBase)
 
-void CGraphPlotShape::Draw(QPainter& drawContext) const
+void CGraphPlotShape::EnsureValidNodes() const
+{
+	// Nodes are automatically calculated by the base class from the bounding box
+	// No additional validation needed for this shape
+}
+
+
+bool CGraphPlotShape::IsCurveTouched(istd::CIndex2d position) const
+{
+	Q_ASSERT(IsDisplayConnected());
+	
+	// Check if the position is inside the bounding box
+	i2d::CRect bbox = GetBoundingBox();
+	return bbox.IsInside(position);
+}
+
+
+void CGraphPlotShape::DrawFigure(QPainter& drawContext) const
 {
 	Q_ASSERT(IsDisplayConnected());
 
@@ -59,10 +80,15 @@ void CGraphPlotShape::Draw(QPainter& drawContext) const
 
 	drawContext.save();
 
-	// Get the client rectangle in screen coordinates
-	i2d::CRect clientRect = GetClientRect();
-	QRectF screenRect(clientRect.GetLeft(), clientRect.GetTop(), 
-					  clientRect.GetWidth(), clientRect.GetHeight());
+	// Get the bounding box in screen coordinates
+	i2d::CRect bbox = GetBoundingBox();
+	if (!bbox.IsValid()){
+		drawContext.restore();
+		return;
+	}
+	
+	QRectF screenRect(bbox.GetLeft(), bbox.GetTop(), 
+					  bbox.GetWidth(), bbox.GetHeight());
 
 	// Calculate plot area (inside margins)
 	QRectF plotRect = screenRect.adjusted(m_plotMargin, m_plotMargin, 
@@ -112,14 +138,8 @@ bool CGraphPlotShape::OnModelAttached(imod::IModel* modelPtr, istd::IChangeable:
 
 ITouchable::TouchState CGraphPlotShape::IsTouched(istd::CIndex2d position) const
 {
-	Q_ASSERT(IsDisplayConnected());
-
-	i2d::CRect bbox = GetBoundingBox();
-	if (bbox.IsInside(position)){
-		return TS_INACTIVE;
-	}
-
-	return TS_NONE;
+	// Use base class implementation which handles ticker touch detection
+	return BaseClass::IsTouched(position);
 }
 
 
@@ -127,9 +147,32 @@ ITouchable::TouchState CGraphPlotShape::IsTouched(istd::CIndex2d position) const
 
 i2d::CRect CGraphPlotShape::CalcBoundingBox() const
 {
-	if (IsDisplayConnected()){
-		return GetClientRect();
+	Q_ASSERT(IsDisplayConnected());
+
+	const i2d::CGraphData2d* graphPtr = dynamic_cast<const i2d::CGraphData2d*>(GetObservedModel());
+	if (graphPtr != NULL){
+		// Get the bounding box from the graph data in logical coordinates
+		i2d::CRectangle logicalBBox = graphPtr->GetBoundingBox();
+		
+		if (logicalBBox.IsValid()){
+			// Convert logical bounding box corners to screen coordinates
+			i2d::CVector2d topLeft(logicalBBox.GetLeft(), logicalBBox.GetTop());
+			i2d::CVector2d bottomRight(logicalBBox.GetRight(), logicalBBox.GetBottom());
+			
+			istd::CIndex2d spTopLeft = GetScreenPosition(topLeft).ToIndex2d();
+			istd::CIndex2d spBottomRight = GetScreenPosition(bottomRight).ToIndex2d();
+			
+			i2d::CRect boundingBox(spTopLeft, spTopLeft);
+			boundingBox.Union(spBottomRight);
+			
+			// Add margin for axes, labels, etc.
+			int totalMargin = m_plotMargin + 10; // Extra padding for tickers
+			boundingBox.Expand(i2d::CRect(-totalMargin, -totalMargin, totalMargin, totalMargin));
+			
+			return boundingBox;
+		}
 	}
+	
 	return i2d::CRect();
 }
 
