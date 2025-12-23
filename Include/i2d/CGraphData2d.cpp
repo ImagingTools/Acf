@@ -302,54 +302,60 @@ bool CGraphData2d::Serialize(iser::IArchive& archive)
 
 	// Serialize each curve
 	for (int i = 0; i < curvesCount; ++i){
-		retVal = retVal && archive.BeginTag(s_curveTag);
-		
-		Curve& curve = m_curves[i];
-		
-		retVal = retVal && archive.BeginTag(s_curveNameTag);
-		retVal = retVal && archive.Process(curve.name);
-		retVal = retVal && archive.EndTag(s_curveNameTag);
-		
-		retVal = retVal && archive.BeginTag(s_curveColorTag);
-		retVal = retVal && archive.Process(curve.color);
-		retVal = retVal && archive.EndTag(s_curveColorTag);
-		
-		// Serialize points using BeginMultiTag
-		int pointsCount = curve.points.count();
-		retVal = retVal && archive.BeginMultiTag(s_pointsTag, s_pointTag, pointsCount);
-		
-		// Adjust points vector size when loading
-		if (!archive.IsStoring() && retVal){
-			curve.points.resize(pointsCount);
-		}
-		
-		for (int j = 0; j < pointsCount; ++j){
-			retVal = retVal && archive.BeginTag(s_pointTag);
-			
-			double x = curve.points[j].GetX();
-			double y = curve.points[j].GetY();
-			
-			retVal = retVal && archive.BeginTag(s_pointXTag);
-			retVal = retVal && archive.Process(x);
-			retVal = retVal && archive.EndTag(s_pointXTag);
-			
-			retVal = retVal && archive.BeginTag(s_pointYTag);
-			retVal = retVal && archive.Process(y);
-			retVal = retVal && archive.EndTag(s_pointYTag);
-			
-			retVal = retVal && archive.EndTag(s_pointTag);
-			
-			if (archive.IsLoading()){
-				curve.points[j] = CVector2d(x, y);
-			}
-		}
-		
-		retVal = retVal && archive.EndTag(s_pointsTag);
-		retVal = retVal && archive.EndTag(s_curveTag);
+		retVal = retVal && SerializeCurve(archive, m_curves[i]);
 	}
 	
 	retVal = retVal && archive.EndTag(s_curvesTag);
 
+	return retVal;
+}
+
+
+bool CGraphData2d::SerializeCurve(iser::IArchive& archive, Curve& curve)
+{
+	bool retVal = archive.BeginTag(s_curveTag);
+	
+	retVal = retVal && archive.BeginTag(s_curveNameTag);
+	retVal = retVal && archive.Process(curve.name);
+	retVal = retVal && archive.EndTag(s_curveNameTag);
+	
+	retVal = retVal && archive.BeginTag(s_curveColorTag);
+	retVal = retVal && archive.Process(curve.color);
+	retVal = retVal && archive.EndTag(s_curveColorTag);
+	
+	// Serialize points using BeginMultiTag
+	int pointsCount = curve.points.count();
+	retVal = retVal && archive.BeginMultiTag(s_pointsTag, s_pointTag, pointsCount);
+	
+	// Adjust points vector size when loading
+	if (!archive.IsStoring() && retVal){
+		curve.points.resize(pointsCount);
+	}
+	
+	for (int j = 0; j < pointsCount; ++j){
+		retVal = retVal && archive.BeginTag(s_pointTag);
+		
+		double x = curve.points[j].GetX();
+		double y = curve.points[j].GetY();
+		
+		retVal = retVal && archive.BeginTag(s_pointXTag);
+		retVal = retVal && archive.Process(x);
+		retVal = retVal && archive.EndTag(s_pointXTag);
+		
+		retVal = retVal && archive.BeginTag(s_pointYTag);
+		retVal = retVal && archive.Process(y);
+		retVal = retVal && archive.EndTag(s_pointYTag);
+		
+		retVal = retVal && archive.EndTag(s_pointTag);
+		
+		if (!archive.IsStoring()){
+			curve.points[j] = CVector2d(x, y);
+		}
+	}
+	
+	retVal = retVal && archive.EndTag(s_pointsTag);
+	retVal = retVal && archive.EndTag(s_curveTag);
+	
 	return retVal;
 }
 

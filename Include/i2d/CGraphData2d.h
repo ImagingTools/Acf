@@ -182,6 +182,11 @@ private:
 	*/
 	void CalculateAutoRanges(istd::CRange& xRange, istd::CRange& yRange) const;
 
+	/**
+		Serialize a single curve.
+	*/
+	bool SerializeCurve(iser::IArchive& archive, Curve& curve);
+
 	QVector<Curve> m_curves;
 	QString m_xAxisLabel;
 	QString m_yAxisLabel;
