@@ -8,11 +8,20 @@ The ACF project uses Qt Test framework with a custom test executor (`itest::CSta
 
 ### Test Organization
 
-- **Tests/** - Root directory for all tests
+Tests are organized by location:
+
+- **Tests/** - Integration and component tests
   - **ParamsManagerTest/** - Tests for IParamsManager interface
   - **MultiThreadingComponentTest/** - Tests for multi-threading components
   - **SelectionParamIntegrationTest/** - Integration tests for selection parameters
-  - **UtilityClassesTest/** - Tests for utility classes across multiple modules
+
+- **Include/[library]/Test/** - Unit tests for each library
+  - **Include/istd/Test/** - Tests for standard utilities (CRandomNumber, CIndex2d, CBitManip, CCrcCalculator, etc.)
+  - **Include/imath/Test/** - Tests for mathematics library (CDouble, CLinearInterpolator, etc.)
+  - **Include/i2d/Test/** - Tests for 2D graphics library (CVector2d, etc.)
+  - **Include/i3d/Test/** - Tests for 3D graphics library (CVector3d, CMatrix3d, etc.)
+  - **Include/icmm/Test/** - Tests for color management library (CHsv, etc.)
+  - **Include/iser/Test/** - Tests for serialization library (CMemoryArchive, etc.)
 
 ### Test File Structure
 
@@ -21,7 +30,7 @@ Each test directory contains:
 - `C*Test.h` - Test class header files
 - `C*Test.cpp` - Test class implementation files
 - `CMake/CMakeLists.txt` - CMake build configuration
-- Optional: `.acc` and `.accl` files for component configuration
+- Optional: `.acc` and `.accl` files for component configuration (for component tests)
 
 ### Writing Tests
 
@@ -52,34 +61,39 @@ void CMyClassTest::myTest()
 I_ADD_TEST(CMyClassTest);
 ```
 
-## UtilityClassesTest
+## Library Unit Tests
 
-This test suite covers fundamental utility classes from multiple ACF modules:
+Unit tests for each library are located in `Include/[library]/Test/` directories.
 
-### Tested Classes
+### Tested Classes by Library
 
-#### istd (Standard Utilities)
+#### istd (Standard Utilities) - Include/istd/Test/
 - **CRandomNumber** - Random number generation for integers and doubles
 - **CIndex2d** - 2D indexing with Qt type conversions
 - **CBitManip** - Bit manipulation operations
 - **CCrcCalculator** - CRC-32 checksum calculations
+- **CInterfacePtr** - Smart pointer for interface management
 
-#### imath (Mathematics)
+#### imath (Mathematics) - Include/imath/Test/
 - **CDouble** - Double wrapper with rounding and comparison operations
 - **CLinearInterpolator** - Linear interpolation with optional extrapolation
 
-#### i2d (2D Graphics)
+#### i2d (2D Graphics) - Include/i2d/Test/
 - **CVector2d** - 2D vector operations including angles, orthogonals, and transformations
+- **CI2d** - Comprehensive 2D geometry tests (Vector2d, Circle, Rectangle, Line, Matrix, etc.)
 
-#### i3d (3D Graphics)
+#### i3d (3D Graphics) - Include/i3d/Test/
 - **CVector3d** - 3D vector operations including cross products and normalization
 - **CMatrix3d** - 3D matrix operations including transformations and determinants
 
-#### icmm (Color Management)
+#### icmm (Color Management) - Include/icmm/Test/
 - **CHsv** - HSV color model with component-wise operations
 
-#### iser (Serialization)
+#### iser (Serialization) - Include/iser/Test/
 - **CMemoryArchive** - Binary serialization to/from memory buffers
+- **CBitMemoryArchive** - Bit-level serialization
+- **CCompactXmlArchive** - Compact XML serialization
+- **CJsonArchive** - JSON serialization
 
 ## Building and Running Tests
 
@@ -91,29 +105,43 @@ This test suite covers fundamental utility classes from multiple ACF modules:
 
 ### Build Instructions
 
-Using CMake:
+Tests can be built individually for each library.
+
+Using CMake for a specific library:
 ```bash
-cd Tests/UtilityClassesTest/CMake
+# For istd tests
+cd Include/istd/Test/CMake
 mkdir build && cd build
 cmake ..
 make
+
+# For imath tests
+cd Include/imath/Test/CMake
+mkdir build && cd build
+cmake ..
+make
+
+# Similarly for other libraries: i2d, i3d, icmm, iser
 ```
 
 ### Running Tests
 
-Execute the test binary:
+Execute the test binary for each library:
 ```bash
-./UtilityClassesTest
+./istdTest
+./imathTest
+./i2dTest
+./i3dTest
 ```
 
 Run specific test:
 ```bash
-./UtilityClassesTest CDoubleTest
+./istdTest CRandomNumberTest
 ```
 
 ## Test Coverage
 
-The UtilityClassesTest suite provides comprehensive coverage for:
+Each library's test suite provides comprehensive coverage for:
 - Constructor variations
 - Getter/setter methods
 - Arithmetic operations
@@ -122,15 +150,18 @@ The UtilityClassesTest suite provides comprehensive coverage for:
 - Edge cases and boundary conditions
 - Serialization (where applicable)
 
+Tests are organized by library to maintain clear separation of concerns and enable independent testing of each component.
+
 ## Contributing
 
 When adding new tests:
-1. Follow the existing naming conventions (C*Test for class tests)
-2. Include `initTestCase()` and `cleanupTestCase()` methods
-3. Use descriptive test method names ending in "Test"
-4. Add your test files to CMakeLists.txt
-5. Register your test using `I_ADD_TEST` macro
-6. Document the tested class in this README
+1. Place tests in the appropriate library's Test directory: `Include/[library]/Test/`
+2. Follow the existing naming conventions (C*Test for class tests)
+3. Include `initTestCase()` and `cleanupTestCase()` methods
+4. Use descriptive test method names ending in "Test"
+5. Update the library's CMakeLists.txt if needed
+6. Register your test using `I_ADD_TEST` macro
+7. Update this README with the new test information
 
 ## Notes
 
