@@ -1,6 +1,5 @@
 #pragma once
 
-
 // Standard includes
 #include <atomic>
 
@@ -172,7 +171,9 @@ Interface* TReferenceMember<Interface>::operator->() const
 template <class Interface>
 TReferenceMember<Interface>::TReferenceMember(const TReferenceMember& ptr)
 :	BaseClass(ptr),
-	m_definitionComponentPtr(ptr.m_definitionComponentPtr)
+	m_definitionComponentPtr(ptr.m_definitionComponentPtr),
+	m_interfacePtr(nullptr),
+	m_isInitialized(false)
 {
 	// Thread-safe copy: acquire lock on source object before copying
 	QMutexLocker lock(&ptr.m_mutex);

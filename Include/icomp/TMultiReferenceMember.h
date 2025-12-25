@@ -1,6 +1,5 @@
 #pragma once
 
-
 // Standard includes
 #include <atomic>
 
@@ -173,7 +172,8 @@ Interface* TMultiReferenceMember<Interface>::operator[](int index) const
 template <class Interface>
 TMultiReferenceMember<Interface>::TMultiReferenceMember(const TMultiReferenceMember& ptr)
 :	BaseClass(ptr),
-	m_definitionComponentPtr(ptr.m_definitionComponentPtr)
+	m_definitionComponentPtr(ptr.m_definitionComponentPtr),
+	m_isInitialized(false)
 {
 	// Thread-safe copy: acquire lock on source object before copying
 	QMutexLocker lock(&ptr.m_mutex);
