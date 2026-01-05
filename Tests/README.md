@@ -104,6 +104,14 @@ Unit tests for each library are located in `Include/[library]/Test/` directories
 - **CCompactXmlArchive** - Compact XML serialization
 - **CJsonArchive** - JSON serialization
 
+#### iprm (Parameters) - Include/iprm/Test/
+- **CIdParam** - ID parameter with get/set, serialization, copy/clone, and comparison operations
+- **CNameParam** - Name parameter with get/set, serialization, copy/clone, and comparison operations
+- **CTextParam** - Text parameter with get/set, serialization, copy/clone, and comparison operations
+- **CEnableableParam** - Enableable parameter with enable/disable state management
+- **CSelectionParam** - Selection parameter for managing option selections
+- **IOptionsList** - Helper function FindOptionIndexById for finding options by ID
+
 ## Building and Running Tests
 
 ### Prerequisites
@@ -130,7 +138,7 @@ mkdir build && cd build
 cmake ..
 make
 
-# Similarly for other libraries: i2d, i3d, icmm, iser
+# Similarly for other libraries: i2d, i3d, icmm, iser, iprm
 ```
 
 ### Running Tests
@@ -141,6 +149,7 @@ Execute the test binary for each library:
 ./imathTest
 ./i2dTest
 ./i3dTest
+./iprmTest
 ```
 
 Run specific test:
