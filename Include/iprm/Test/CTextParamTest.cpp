@@ -97,12 +97,15 @@ void CTextParamTest::SerializeTest()
 
 void CTextParamTest::CopyFromTest()
 {
+	iprm::CTextParam sourceParam;
+	sourceParam.SetText(m_text);
+	
 	iprm::CTextParam param;
 
-	QVERIFY(m_param.GetText() == m_text);
+	QVERIFY(sourceParam.GetText() == m_text);
 	QVERIFY(param.GetText().isEmpty());
 
-	QVERIFY(param.CopyFrom(m_param));
+	QVERIFY(param.CopyFrom(sourceParam));
 
 	QVERIFY(param.GetText() == m_text);
 }

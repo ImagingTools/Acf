@@ -9,12 +9,15 @@
 class CMockOptionsList: public iprm::IOptionsList
 {
 public:
-	CMockOptionsList()
+	CMockOptionsList(bool empty = false)
 	{
-		// Add some test options
-		m_options.append(Option{"Option1", "First option", "opt1"});
-		m_options.append(Option{"Option2", "Second option", "opt2"});
-		m_options.append(Option{"Option3", "Third option", "opt3"});
+		if (!empty)
+		{
+			// Add some test options
+			m_options.append(Option{"Option1", "First option", "opt1"});
+			m_options.append(Option{"Option2", "Second option", "opt2"});
+			m_options.append(Option{"Option3", "Third option", "opt3"});
+		}
 	}
 
 	// IOptionsList interface
@@ -147,29 +150,13 @@ void COptionsListTest::FindOptionIndexById_EmptyId_Test()
 
 void COptionsListTest::FindOptionIndexById_EmptyList_Test()
 {
-	// Create an empty mock list
-	class CEmptyMockOptionsList: public iprm::IOptionsList
-	{
-	public:
-		virtual int GetOptionsFlags() const override { return 0; }
-		virtual int GetOptionsCount() const override { return 0; }
-		virtual QString GetOptionName(int /*index*/) const override { return QString(); }
-		virtual QString GetOptionDescription(int /*index*/) const override { return QString(); }
-		virtual QByteArray GetOptionId(int /*index*/) const override { return QByteArray(); }
-		virtual bool IsOptionEnabled(int /*index*/) const override { return false; }
-		virtual bool Serialize(iser::IArchive& /*archive*/) override { return true; }
-		virtual int GetSupportedOperations() const override { return 0; }
-		virtual bool CopyFrom(const IChangeable& /*object*/, CompatibilityMode /*mode*/ = CM_WITHOUT_REFS) override { return false; }
-		virtual bool IsEqual(const IChangeable& /*object*/) const override { return false; }
-		virtual istd::TUniqueInterfacePtr<istd::IChangeable> CloneMe(CompatibilityMode /*mode*/ = CM_WITHOUT_REFS) const override { return istd::TUniqueInterfacePtr<istd::IChangeable>(); }
-		virtual bool ResetData(CompatibilityMode /*mode*/ = CM_WITHOUT_REFS) override { return false; }
-	};
-
-	CEmptyMockOptionsList emptyList;
+	// Create an empty mock list using constructor parameter
+	CMockOptionsList emptyList(true);
 	
 	// Test with empty list - should return -1
 	int index = iprm::FindOptionIndexById("any_id", emptyList);
 	QCOMPARE(index, -1);
+}
 }
 
 
