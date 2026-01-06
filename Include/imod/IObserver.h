@@ -46,13 +46,13 @@ public:
 	virtual bool OnModelDetached(IModel* modelPtr) = 0;
 
 	/**
-		This function will be called before update of the observer contents occures.
+		This function will be called before update of the observer contents occurs.
 		Please note, that in some cases no following AfterUpdate can be called.
 	*/
 	virtual void BeforeUpdate(IModel* modelPtr) = 0;
 
 	/**
-		This function will be called after update of the observer contents occures.
+		This function will be called after update of the observer contents occurs.
 	*/
 	virtual void AfterUpdate(IModel* modelPtr, const istd::IChangeable::ChangeSet& changeSet) = 0;
 };
