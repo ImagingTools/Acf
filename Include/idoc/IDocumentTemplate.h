@@ -133,10 +133,22 @@ public:
 		\param	documentTypeId	ID of document type.
 		\param	documentPtr		Pointer to document object that this view will display.
 		\param	viewTypeId		Optional ID specifying view type if more view types are supported.
-								If empty, the default view type is used.
+								If empty or not provided, the first/default view type for this document type is used.
+								Use GetViewTypeIds() to discover available view types for a document type.
 		\return	Unique pointer to the created view, or nullptr if creation failed.
 		
 		The view is responsible for displaying the document's content to the user.
+		Some document types support multiple view types (e.g., text view, hex view, preview).
+		
+		\par Example
+		\code
+		// Create default view
+		istd::IPolymorphic* view = tmpl->CreateView(docTypeId, doc.Get()).Release();
+		
+		// Create specific view type
+		QByteArray viewType = "HexView";
+		istd::IPolymorphic* hexView = tmpl->CreateView(docTypeId, doc.Get(), viewType).Release();
+		\endcode
 	*/
 	virtual ViewUniquePtr CreateView(
 				const QByteArray& documentTypeId,
