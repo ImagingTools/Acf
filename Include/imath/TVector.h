@@ -23,6 +23,71 @@ namespace imath
 
 /**
 	Implementation of fixed-size mathematical vector with specified type of elements.
+	
+	\section VectorPurpose Purpose
+	TVector is a template class that provides a generic implementation of fixed-size
+	mathematical vectors. It supports common vector operations like addition, scaling,
+	dot product, normalization, and distance calculations. The vector size is determined
+	at compile-time, enabling efficient memory layout and operations.
+
+	\section VectorTemplate Template Parameters
+	- \b Size: The number of elements in the vector (compile-time constant)
+	- \b Element: The type of each vector element (default: double). Common types include
+	  float, double, int, or any numeric type.
+
+	\section VectorUsageExamples Usage Examples
+	\code
+	// Create a 3D vector with double precision
+	imath::TVector<3, double> vec3d;
+	vec3d.SetElement(0, 1.0);
+	vec3d.SetElement(1, 2.0);
+	vec3d.SetElement(2, 3.0);
+
+	// Create a 2D vector with float precision using initializer list
+	imath::TVector<2, float> vec2f = {3.0f, 4.0f};
+
+	// Calculate vector length
+	double length = vec3d.GetLength();  // sqrt(1^2 + 2^2 + 3^2) = sqrt(14)
+
+	// Normalize vector to unit length
+	imath::TVector<3, double> unitVec = vec3d;
+	if (unitVec.Normalize()) {
+		// Now unitVec has length 1.0
+	}
+
+	// Dot product of two vectors
+	imath::TVector<3, double> other = {1.0, 0.0, 0.0};
+	double dotProduct = vec3d.GetDotProduct(other);  // 1.0 * 1.0 = 1.0
+
+	// Calculate distance between two points
+	imath::TVector<2, float> point1 = {0.0f, 0.0f};
+	imath::TVector<2, float> point2 = {3.0f, 4.0f};
+	float distance = point1.GetDistance(point2);  // 5.0
+
+	// Vector addition
+	imath::TVector<2, float> result = point1;
+	result.Translate(point2);  // result is now {3.0f, 4.0f}
+
+	// Check if vector is null (all zeros)
+	imath::TVector<3, double> zero;
+	zero.Clear();
+	if (zero.IsNull()) {
+		// Vector is all zeros
+	}
+	\endcode
+
+	\section VectorOperations Common Operations
+	- Element access: GetElement(), SetElement(), GetElements()
+	- Initialization: Clear(), Reset(), SetAllElements()
+	- Arithmetic: Translate(), ScaledCumulate()
+	- Metrics: GetLength(), GetLength2(), GetDistance(), GetDotProduct()
+	- Normalization: Normalize(), GetNormalized()
+	- Comparison: IsNull()
+	- Operators: +, -, *, /, ==, != (if implemented)
+
+	\sa imath::TFastVector, imath::CVarVector, i3d::CVector3d
+
+	\ingroup Geometry
 */
 template <int Size, class Element = double>
 class TVector
@@ -32,48 +97,121 @@ public:
 	typedef Element Elements[Size];
 
 	/**
-		Create an uninitialized point.
+		Creates an uninitialized vector.
+		
+		This constructor creates a vector with the specified size but does not initialize
+		the element values. The element values will contain undefined data until explicitly
+		set using SetElement(), SetAllElements(), or other initialization methods.
+		
+		\note For better performance, use this constructor when you plan to immediately
+		      initialize all elements anyway.
+		\note If you need a zero-initialized vector, call Clear() or SetAllElements(0) after construction.
+		
+		\sa Clear(), SetAllElements()
 	 */
 	TVector();
+	
 	/**
-		Copy constructor.
+		Creates a copy of another vector.
+		
+		\param vector The source vector to copy from. All elements will be copied to
+		             this new vector.
 	 */
 	TVector(const TVector<Size, Element>& vector);
 
 	/**
-		Initializer list constructor.
+		Creates a vector from an initializer list.
+		
+		Allows convenient initialization using brace syntax. If the initializer list
+		contains fewer elements than Size, remaining elements are default-initialized
+		(typically to zero for numeric types). If the list contains more elements than
+		Size, only the first Size elements are used.
+		
+		\param values Initializer list of element values
+		
+		\code
+		// Create a 3D vector
+		TVector<3, double> v = {1.0, 2.0, 3.0};
+		
+		// Partial initialization (remaining elements are 0)
+		TVector<5, int> v2 = {1, 2};  // v2 = {1, 2, 0, 0, 0}
+		\endcode
 	*/
 	TVector(std::initializer_list<Element> values);
 
 	/**
-		Get element at specified i.
+		Gets the element at the specified index (read-only).
+		
+		\param i Zero-based index of the element to retrieve (0 <= i < Size)
+		
+		\return Const reference to the element at index i
+		
+		\note No bounds checking is performed in release builds. Accessing out-of-bounds
+		      indices results in undefined behavior.
+		
+		\sa GetElementRef(), SetElement()
 	*/
 	const Element& GetElement(int i) const;
 
 	/**
-		Get reference to element at specified i.
+		Gets a reference to the element at the specified index (read-write).
+		
+		Returns a non-const reference allowing direct modification of the element.
+		
+		\param i Zero-based index of the element (0 <= i < Size)
+		
+		\return Reference to the element at index i
+		
+		\code
+		TVector<3, double> v;
+		v.GetElementRef(0) = 1.0;  // Direct assignment
+		v.GetElementRef(1) += 2.0;  // Direct modification
+		\endcode
+		
+		\sa GetElement(), SetElement()
 	*/
 	Element& GetElementRef(int i);
 
 	/**
-		Set element at specified i.
+		Sets the element at the specified index.
+		
+		\param i Zero-based index of the element to set (0 <= i < Size)
+		\param value The new value for the element
+		
+		\sa GetElement(), GetElementRef()
 	*/
 	void SetElement(int i, const Element& value);
 
 	/**
-		Set some value to all elements.
+		Sets all elements to the same value.
+		
+		\param value The value to assign to all vector elements
+		
+		\code
+		TVector<5, int> v;
+		v.SetAllElements(7);  // All elements are now 7
+		\endcode
+		
+		\sa Clear(), Reset()
 	*/
 	void SetAllElements(const Element& value);
 
 	/**
-		Set all coordinates to zero.
-		It makes the same as Clear() and is used for compatibility with other vector implementations.
+		Sets all coordinates to zero.
+		
+		Equivalent to SetAllElements(0). This method is provided for compatibility
+		with other vector implementations.
+		
+		\sa Clear(), SetAllElements()
 	*/
 	void Reset();
 
 	/**
-		Set all coordinates to zero.
-		It makes the same as Clear() and is used for compatibility with other vector implementations.
+		Sets all coordinates to zero.
+		
+		Equivalent to SetAllElements(0) and Reset().
+		
+		\sa Reset(), SetAllElements()
 	*/
 	void Clear();
 
@@ -87,70 +225,216 @@ public:
 	typename TVector<Size, Element>::Elements& GetElementsRef();
 
 	/**
-		Translate the point.
+		Translates (adds) another vector to this vector.
+		
+		Performs element-wise addition: this[i] += vector[i] for all i.
+		
+		\param vector The vector to add to this vector
+		
+		\code
+		TVector<2, double> v1 = {1.0, 2.0};
+		TVector<2, double> v2 = {3.0, 4.0};
+		v1.Translate(v2);  // v1 is now {4.0, 6.0}
+		\endcode
+		
+		\sa GetTranslated(), ScaledCumulate()
 	*/
 	void Translate(const TVector<Size, Element>& vector);
 
 	/**
-		Get translated point.
+		Returns a new vector that is the translation of this vector.
+		
+		\param vector The vector to add
+		\return A new vector containing the sum of this vector and the given vector
+		
+		\sa Translate(), GetTranslated(const TVector<Size, Element>&, TVector<Size, Element>&)
 	*/
 	TVector<Size, Element> GetTranslated(const TVector<Size, Element>& vector);
 
 	/**
-		/overloaded
+		Computes the translated vector and stores it in the result parameter.
+		
+		\param vector The vector to add to this vector
+		\param result Output parameter that receives the translated vector
+		
+		\sa Translate(), GetTranslated(const TVector<Size, Element>&)
 	*/
 	void GetTranslated(const TVector<Size, Element>& vector, TVector<Size, Element>& result);
 
 	/**
-		Add second vector scaled by specified factor.
-		It is equal of Translate(vector * scale) but can be faster implemented.
+		Adds a scaled vector to this vector.
+		
+		Performs the operation: this[i] += vector[i] * scale for all i.
+		This is equivalent to Translate(vector * scale) but may be more efficiently implemented.
+		
+		\param vector The vector to add (scaled)
+		\param scale The scaling factor to apply to the vector before addition
+		
+		\code
+		TVector<2, double> v1 = {1.0, 2.0};
+		TVector<2, double> v2 = {3.0, 4.0};
+		v1.ScaledCumulate(v2, 2.0);  // v1 is now {7.0, 10.0} = {1+3*2, 2+4*2}
+		\endcode
+		
+		\sa Translate()
 	*/
 	void ScaledCumulate(const TVector<Size, Element>& vector, Element scale);
 
 	/**
-		Check if this vector is null.
+		Checks if this vector is null (all elements approximately zero).
+		
+		\param tolerance The maximum absolute value for each element to be considered zero.
+		                Default is I_BIG_EPSILON (typically 1e-6 for double precision).
+		
+		\return true if all elements have absolute value less than or equal to tolerance
+		
+		\code
+		TVector<3, double> v = {0.0, 0.0000001, 0.0};
+		bool isNull = v.IsNull();  // true with default tolerance
+		bool isExactNull = v.IsNull(0.0);  // false, middle element is not exactly zero
+		\endcode
+		
+		\sa Clear(), Reset()
 	*/
 	bool IsNull(Element tolerance = I_BIG_EPSILON) const;
 
 	/**
-		Return dot product of two vectors.
+		Calculates the dot product with another vector.
+		
+		The dot product is defined as: sum(this[i] * vector[i]) for all i.
+		It measures the similarity of direction between two vectors.
+		
+		\param vector The other vector for dot product calculation
+		\return The scalar dot product value
+		
+		\code
+		TVector<3, double> v1 = {1.0, 0.0, 0.0};
+		TVector<3, double> v2 = {0.0, 1.0, 0.0};
+		double dot = v1.GetDotProduct(v2);  // 0.0 (perpendicular vectors)
+		
+		TVector<3, double> v3 = {2.0, 0.0, 0.0};
+		double dot2 = v1.GetDotProduct(v3);  // 2.0 (parallel vectors)
+		\endcode
+		
+		\sa GetLength(), Normalize()
 	*/
 	Element GetDotProduct(const TVector<Size, Element>& vector) const;
 
 	/**
-		Return euclidian length square.
+		Calculates the squared Euclidean length of the vector.
+		
+		Returns sum(element[i]^2) for all i. This is more efficient than GetLength()
+		when only relative lengths need to be compared, as it avoids the square root operation.
+		
+		\return The squared length of the vector
+		
+		\sa GetLength(), GetDistance2()
 	*/
 	Element GetLength2() const;
+	
 	/**
-		Return euclidian length.
+		Calculates the Euclidean length (magnitude) of the vector.
+		
+		Returns sqrt(sum(element[i]^2)) for all i.
+		
+		\return The length of the vector
+		
+		\code
+		TVector<2, double> v = {3.0, 4.0};
+		double length = v.GetLength();  // 5.0
+		\endcode
+		
+		\sa GetLength2(), Normalize()
 	*/
 	Element GetLength() const;
 
 	/**
-		Return distance square between two vectors.
+		Calculates the squared distance to another vector.
+		
+		More efficient than GetDistance() when only relative distances need to be
+		compared, as it avoids the square root operation.
+		
+		\param vector The other vector (point)
+		\return The squared Euclidean distance
+		
+		\sa GetDistance(), GetLength2()
 	*/
 	Element GetDistance2(const TVector<Size, Element>& vector) const;
 
 	/**
-		Return distance between two vectors.
+		Calculates the Euclidean distance to another vector.
+		
+		\param vector The other vector (point)
+		\return The Euclidean distance between this vector and the given vector
+		
+		\code
+		TVector<2, double> p1 = {0.0, 0.0};
+		TVector<2, double> p2 = {3.0, 4.0};
+		double dist = p1.GetDistance(p2);  // 5.0
+		\endcode
+		
+		\sa GetDistance2(), GetLength()
 	*/
 	Element GetDistance(const TVector<Size, Element>& vector) const;
 
 	/**
-		Get simple sum of all elements.
+		Calculates the sum of all vector elements.
+		
+		\return Sum of all element values
+		
+		\code
+		TVector<4, int> v = {1, 2, 3, 4};
+		int sum = v.GetElementsSum();  // 10
+		\endcode
 	*/
 	Element GetElementsSum() const;
 
 	/**
-		Normalize vector to specified length.
-		\param	length	new vector length.
-		\return	true, if normalization succeeded.
+		Normalizes the vector to a specified length.
+		
+		Scales the vector so that its length becomes the specified value.
+		If the current length is zero (or very close to zero), the operation fails.
+		
+		\param length The desired length after normalization (default: 1.0 for unit vector)
+		
+		\return true if normalization succeeded, false if the vector length was zero
+		
+		\code
+		TVector<2, double> v = {3.0, 4.0};  // length = 5.0
+		if (v.Normalize()) {
+			// v is now {0.6, 0.8} with length 1.0
+		}
+		
+		TVector<3, double> v2 = {1.0, 2.0, 3.0};
+		if (v2.Normalize(10.0)) {
+			// v2 now has length 10.0 but same direction
+		}
+		\endcode
+		
+		\sa GetNormalized(), GetLength()
 	*/
 	bool Normalize(Element length = 1.0);
+	
 	/**
-		Return normalized vector with the same direction and specified length.
-		\param	length	new vector length.
-		\return	true, if normalization succeeded.
+		Returns a normalized copy of this vector with specified length.
+		
+		Creates a new vector with the same direction as this vector but with the
+		specified length. The original vector is not modified.
+		
+		\param result Output parameter that receives the normalized vector
+		\param length The desired length for the normalized vector (default: 1.0)
+		
+		\return true if normalization succeeded, false if this vector's length was zero
+		
+		\code
+		TVector<2, double> v = {3.0, 4.0};
+		TVector<2, double> unit;
+		if (v.GetNormalized(unit)) {
+			// unit is {0.6, 0.8}, v is unchanged
+		}
+		\endcode
+		
+		\sa Normalize()
 	*/
 	bool GetNormalized(TVector<Size, Element>& result, Element length = 1.0) const;
 
