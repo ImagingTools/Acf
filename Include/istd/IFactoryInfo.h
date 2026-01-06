@@ -23,7 +23,7 @@ public:
 	typedef QSet<QByteArray> KeyList;
 
 	/**
-		Returns all posible keys for this factory.
+		Returns all possible keys for this factory.
 	*/
 	virtual KeyList GetFactoryKeys() const = 0;
 };

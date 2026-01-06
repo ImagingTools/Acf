@@ -82,7 +82,7 @@ public:
 
 
 	/**
-		Get operation control flags of some paramter set or whole manager.
+		Get operation control flags of some parameter set or whole manager.
 		\sa ManagerFlags.
 		\param	index	index addressing position in parameter set list.
 						For negative value general flags are returned.

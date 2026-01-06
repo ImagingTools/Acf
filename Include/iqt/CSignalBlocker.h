@@ -24,7 +24,7 @@ public:
 		Constructor.
 		
 		\param [in,out]	objectPtr	if non-null, pointer to the object to be blocked/unblocked.
-		\param	blockChilds		 	(Optional) true to block the object's childs.
+		\param	blockChilds		 	(Optional) true to block the object's children.
 	*/
 	CSignalBlocker(QObject* objectPtr, bool blockChilds = false);
 
@@ -35,7 +35,7 @@ public:
 
 private:
 	/**
-		Block/unblock all childs.
+		Block/unblock all children.
 		
 		\param [in,out]	objectPtr	If non-null, pointer to the object to be blocked/unblocked.
 		\param	block			 	true to block, false to unblock.
