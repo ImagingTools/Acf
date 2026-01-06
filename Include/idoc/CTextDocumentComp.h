@@ -16,6 +16,39 @@ namespace idoc
 
 /**
 	Simple implementation of a text document model.
+	
+	This component provides a complete implementation of the ITextDocument interface,
+	storing plain text content. It supports serialization and can be used as the document
+	model in text editing applications.
+	
+	\par Component Attributes
+	- \b DefaultText - Initial text content when document is created (default: "Hallo World!")
+	
+	\par Registered Interfaces
+	- iser::ISerializable - For saving/loading document state
+	- ITextDocument - For text access and manipulation
+	
+	\par Configuration Example
+	\code
+	CTextDocumentComp {
+		DefaultText = "Type your text here..."
+	}
+	\endcode
+	
+	\par Usage with Document Template
+	\code
+	CSingleDocumentTemplateComp {
+		DocumentTypeId = "TextDocument"
+		DocumentFactory = CTextDocumentComp {
+			DefaultText = "New Document"
+		}
+		ViewFactory = TextEditorView
+		DocumentLoader = CTextFileLoaderComp
+	}
+	\endcode
+	
+	\sa ITextDocument, CTextFileLoaderComp
+	\ingroup DocumentBasedFramework
 */
 class CTextDocumentComp: public icomp::CComponentBase, virtual public ITextDocument
 {

@@ -12,7 +12,51 @@ namespace idoc
 
 
 /**
-	Persistence component for the files contains plain text.
+	Persistence component for files containing plain text.
+	
+	This component handles loading and saving of plain text files. It implements
+	the IFilePersistence interface to integrate with the ACF file I/O framework
+	and IFileTypeInfo to provide file type metadata.
+	
+	The loader supports multiple file extensions and can provide different type
+	descriptions for each extension.
+	
+	\par Component Attributes
+	- \b FileExtensions - List of supported file extensions (default: "txt")
+	- \b TypeDescriptions - List of human-readable descriptions for each extension (default: "Text file")
+	
+	\par Registered Interfaces
+	- ifile::IFileTypeInfo - Provides file type metadata
+	- ifile::IFilePersistence - Handles file loading/saving operations
+	
+	\par Configuration Example
+	\code
+	CTextFileLoaderComp {
+		FileExtensions = ["txt", "log", "md"]
+		TypeDescriptions = ["Text file", "Log file", "Markdown file"]
+	}
+	\endcode
+	
+	\par Usage with Document Template
+	\code
+	CSingleDocumentTemplateComp {
+		DocumentTypeId = "TextDocument"
+		DocumentFactory = CTextDocumentComp
+		DocumentLoader = CTextFileLoaderComp {
+			FileExtensions = ["txt", "text"]
+			TypeDescriptions = ["Text Document", "Plain Text"]
+		}
+	}
+	\endcode
+	
+	The component automatically handles:
+	- Reading text files with various encodings
+	- Writing text files
+	- File type validation
+	- File dialog filters
+	
+	\sa CTextDocumentComp, ITextDocument
+	\ingroup DocumentBasedFramework
 */
 class CTextFileLoaderComp: public icomp::CComponentBase, public ifile::IFilePersistence
 {

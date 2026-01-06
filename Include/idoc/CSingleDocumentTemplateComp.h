@@ -14,7 +14,78 @@ namespace idoc
 
 
 /**
-	Document template component supported only one type of the provided document.
+	Document template component supporting only one type of the provided document.
+	
+	This is the standard template implementation for applications that work with a single
+	document type. It integrates a document factory, view factory, file loader, and
+	optional undo manager into a cohesive template.
+	
+	\par Component Attributes
+	- \b DocumentTypeId - Unique identifier for this document type (default: "Default")
+	- \b DocumentTypeName - Human-readable name shown in UI
+	- \b DefaultDirectory - Default directory for file operations (default: ".")
+	- \b IsNewSupported - Whether "File > New" is supported (default: false)
+	- \b IsEditSupported - Whether document is editable (default: false)
+	
+	\par Component References
+	- \b DocumentFactory - Factory for creating document instances (required)
+	- \b ViewFactory - Factory for creating view instances (required)
+	- \b DocumentLoader - Component handling file I/O (required)
+	- \b UndoManager - Optional undo manager factory
+	
+	\par Configuration Example
+	\code
+	CSingleDocumentTemplateComp {
+		DocumentTypeId = "TextDocument"
+		DocumentTypeName = "Text Document"
+		DefaultDirectory = "~/Documents"
+		IsNewSupported = true
+		IsEditSupported = true
+		
+		DocumentFactory = CTextDocumentComp {
+			DefaultText = "Type here..."
+		}
+		
+		ViewFactory = CTextEditorGuiComp
+		
+		DocumentLoader = CTextFileLoaderComp {
+			FileExtensions = ["txt", "text"]
+			TypeDescriptions = ["Text File", "Plain Text"]
+		}
+		
+		UndoManager = CSerializedUndoManagerComp {
+			MaxBufferSize = 50
+		}
+	}
+	\endcode
+	
+	\par Usage in Single Document Application
+	\code
+	// Define in application configuration
+	CSingleDocumentManagerBase {
+		Template = MyDocumentTemplate
+	}
+	
+	MyDocumentTemplate = CSingleDocumentTemplateComp {
+		DocumentTypeId = "MyDoc"
+		DocumentTypeName = "My Document"
+		IsNewSupported = true
+		IsEditSupported = true
+		DocumentFactory = MyDocumentComp
+		ViewFactory = MyViewComp
+		DocumentLoader = MyLoaderComp
+	}
+	\endcode
+	
+	The template handles:
+	- Creating new document instances
+	- Creating views for documents
+	- Providing file persistence operations
+	- Creating undo managers
+	- Reporting document type capabilities
+	
+	\sa IDocumentTemplate, CSingleDocumentManagerBase, CCompositeDocumentTemplateComp
+	\ingroup DocumentBasedFramework
 */
 class CSingleDocumentTemplateComp: public icomp::CComponentBase, public CSingleDocumentTemplateBase
 {
