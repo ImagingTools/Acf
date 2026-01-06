@@ -16,7 +16,106 @@ namespace imath
 
 
 /**
-	Simple implementation of fixed-size vector.
+	Optimized implementation of a variable-size vector with compile-time maximum capacity.
+	
+	\section FastVectorPurpose Purpose
+	TFastVector is a hybrid between fixed-size and dynamic vectors. It allocates space
+	for MaxSize elements on the stack (or inline within the containing object), but
+	allows the actual number of active elements to vary at runtime. This provides the
+	performance benefits of stack allocation while maintaining some runtime flexibility.
+
+	\section FastVectorVsOthers TFastVector vs Other Vector Types
+	- **vs TVector**: TVector has a fixed size known at compile time. TFastVector has
+	  a runtime-variable size up to a compile-time maximum.
+	- **vs CVarVector**: CVarVector is fully dynamic with heap allocation. TFastVector
+	  uses stack/inline storage for better performance.
+	- **vs QVector/std::vector**: TFastVector avoids heap allocation up to MaxSize
+	  elements, making it faster for small vectors in performance-critical code.
+
+	\section FastVectorUseCases When to Use TFastVector
+	- Small vectors (typically < 20 elements) where size varies at runtime
+	- Performance-critical code where heap allocation overhead matters
+	- Temporary vectors in tight loops
+	- Return values from functions (avoids heap allocation)
+	- Embedded or real-time systems with limited dynamic memory
+
+	\section FastVectorExample Usage Examples
+	\code
+	// Example 1: Basic usage
+	imath::TFastVector<10, double> vec;  // Can hold up to 10 doubles
+	
+	// Start with 3 elements, initialized to 0.0
+	vec.SetElementsCount(3, 0.0);
+	
+	// Set values
+	vec.SetElement(0, 1.5);
+	vec.SetElement(1, 2.5);
+	vec.SetElement(2, 3.5);
+	
+	// Access values
+	double sum = 0.0;
+	for (int i = 0; i < vec.GetElementsCount(); ++i) {
+		sum += vec.GetElement(i);
+	}
+
+	// Example 2: Dynamic growth
+	imath::TFastVector<100, int> numbers;
+	numbers.SetElementsCount(0);  // Start empty
+	
+	for (int i = 0; i < 50; ++i) {
+		int currentSize = numbers.GetElementsCount();
+		if (numbers.SetElementsCount(currentSize + 1)) {
+			numbers.SetElement(currentSize, i * i);
+		}
+	}
+
+	// Example 3: Initializer list
+	imath::TFastVector<5, double> coords = {1.0, 2.0, 3.0};
+	// coords has 3 elements
+
+	// Example 4: Conversion from TVector
+	imath::TVector<3, double> fixedVec;
+	fixedVec.SetElement(0, 1.0);
+	fixedVec.SetElement(1, 2.0);
+	fixedVec.SetElement(2, 3.0);
+	
+	imath::TFastVector<10, double> fastVec(fixedVec);  // Convert to TFastVector
+
+	// Example 5: Ensure minimum size
+	imath::TFastVector<20, float> buffer;
+	buffer.SetElementsCount(5);
+	
+	// Ensure at least 10 elements (grows if needed, stays same if >= 10)
+	buffer.EnsureElementsCount(10);
+	// Now has 10 elements
+
+	// Example 6: Vector operations
+	imath::TFastVector<10, double> v1(3, 1.0);  // [1, 1, 1]
+	imath::TFastVector<10, double> v2(3, 2.0);  // [2, 2, 2]
+	
+	v1.Translate(v2);  // v1 is now [3, 3, 3]
+	
+	double length = v1.GetLength();  // sqrt(3^2 + 3^2 + 3^2) = sqrt(27)
+	
+	v1.Normalize();  // Make unit length
+	\endcode
+
+	\section FastVectorPerformance Performance Characteristics
+	- **No heap allocation** up to MaxSize elements (stack/inline storage)
+	- **Cache-friendly** - all data stored contiguously
+	- **Fast copy** - simple memory copy for assignment
+	- **Zero overhead** for size queries (just returns m_elementsCount)
+	- **Bounds checking** in SetElementsCount() prevents overflow
+
+	\section FastVectorLimitations Limitations
+	- Cannot grow beyond MaxSize (compile-time maximum)
+	- Wastes memory if typical size << MaxSize
+	- Large MaxSize values increase stack usage / object size
+	- SetElementsCount() returns false if requested size > MaxSize
+
+	\sa imath::TVector, imath::CVarVector, imath::TMathVectorWrap
+
+	\ingroup Geometry
 */
 template <int MaxSize, class Element = double>
 class TFastVector
