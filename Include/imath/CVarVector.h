@@ -193,14 +193,14 @@ public:
 	/**
 		Normalize vector to specified length.
 		\param	length	new vector length.
-		\return	true, if normalization successed.
+		\return	true, if normalization succeeded.
 	*/
 	bool Normalize(double length = 1.0);
 
 	/**
 		Return normalized vector with the same direction and specified length.
 		\param	length	new vector length.
-		\return	true, if normalization successed.
+		\return	true, if normalization succeeded.
 	*/
 	bool GetNormalized(CVarVector& result, double length = 1.0) const;
 

@@ -26,17 +26,17 @@ class IGuiObject: virtual public istd::IPolymorphic
 {
 public:
 	/**
-		Inform if GUI was initilized.
+		Inform if GUI was initialized.
 	 */
 	virtual bool IsGuiCreated() const = 0;
 	/**
 		Initialize GUI and connect it to the parent.
-		\return		true if initialization successed.
+		\return		true if initialization succeeded.
 	 */
 	virtual bool CreateGui(QWidget* parentPtr) = 0;
 	/**
 		Release GUI and disconnect it from parent.
-		\return		true if this operation successed.
+		\return		true if this operation succeeded.
 	 */
 	virtual bool DestroyGui() = 0;
 	/**

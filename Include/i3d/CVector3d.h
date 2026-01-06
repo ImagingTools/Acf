@@ -25,7 +25,7 @@ public:
 
 	/**
 		Default constructor.
-		Please note, elements will be not initilized.
+		Please note, elements will be not initialized.
 	 */
 	CVector3d();
 	/**

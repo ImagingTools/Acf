@@ -144,13 +144,13 @@ public:
 	/**
 		Normalize vector to specified length.
 		\param	length	new vector length.
-		\return	true, if normalization successed.
+		\return	true, if normalization succeeded.
 	*/
 	bool Normalize(Element length = 1.0);
 	/**
 		Return normalized vector with the same direction and specified length.
 		\param	length	new vector length.
-		\return	true, if normalization successed.
+		\return	true, if normalization succeeded.
 	*/
 	bool GetNormalized(TVector<Size, Element>& result, Element length = 1.0) const;
 

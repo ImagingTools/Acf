@@ -77,7 +77,7 @@ public:
 
 	/**
 		End of archive tag.
-		This method should be allways called after BeginTag is successfull called.
+		This method should be always called after BeginTag is successfully called.
 		If skipping of tag contains is supported, this will skip to the end of tag while archive reading.
 		Otherwise you have to read contains of archive completely. \sa IsTagSkippingSupported.
 	*/
