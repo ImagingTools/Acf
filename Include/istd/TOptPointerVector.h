@@ -1,5 +1,4 @@
-#ifndef istd_TOptPointerVector_included
-#define istd_TOptPointerVector_included
+#pragma once
 
 
 // ACF includes
@@ -96,5 +95,4 @@ void TOptPointerVector<Pointer>::InsertAt(int index, Pointer* pointer, bool rele
 } // namespace istd
 
 
-#endif // !istd_TOptPointerVector_included
 

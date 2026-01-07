@@ -1,5 +1,4 @@
-#ifndef ibase_CObjectQueueComp_included
-#define ibase_CObjectQueueComp_included
+#pragma once
 
 
 // Qt includes
@@ -74,6 +73,5 @@ private:
 } // namespace ibase
 
 
-#endif // !ibase_CObjectQueueComp_included
 
 

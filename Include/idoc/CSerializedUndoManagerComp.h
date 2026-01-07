@@ -1,5 +1,4 @@
-#ifndef idoc_CSerializedUndoManagerComp_included
-#define idoc_CSerializedUndoManagerComp_included
+#pragma once
 
 
 // Qt includes
@@ -182,6 +181,5 @@ private:
 } // namespace idoc
 
 
-#endif // !idoc_CSerializedUndoManagerComp_included
 
 

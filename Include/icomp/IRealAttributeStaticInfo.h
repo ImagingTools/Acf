@@ -1,5 +1,4 @@
-#ifndef icomp_IRealAttributeStaticInfo_included
-#define icomp_IRealAttributeStaticInfo_included
+#pragma once
 
 
 // Qt includes
@@ -35,6 +34,5 @@ public:
 } // namespace icomp
 
 
-#endif // !icomp_IRealAttributeStaticInfo_included
 
 

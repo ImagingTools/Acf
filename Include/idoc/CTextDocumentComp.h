@@ -1,5 +1,4 @@
-#ifndef idoc_CTextDocumentComp_included
-#define idoc_CTextDocumentComp_included
+#pragma once
 
 
 // Qt includes
@@ -83,6 +82,5 @@ private:
 
 
 
-#endif // !idoc_CTextDocumentComp_included
 
 

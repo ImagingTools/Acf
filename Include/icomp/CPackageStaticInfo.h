@@ -1,5 +1,4 @@
-#ifndef icomp_CPackageStaticInfo_included
-#define icomp_CPackageStaticInfo_included
+#pragma once
 
 
 #include <icomp/CComponentStaticInfoBase.h>
@@ -59,6 +58,5 @@ private:
 } // namespace icomp
 
 
-#endif // !icomp_CPackageStaticInfo_included
 
 

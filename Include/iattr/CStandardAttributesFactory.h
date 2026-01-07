@@ -1,5 +1,4 @@
-#ifndef iattr_CStandardAttributesFactory_included
-#define iattr_CStandardAttributesFactory_included
+#pragma once
 
 
 // ACF includes
@@ -37,6 +36,5 @@ private:
 } // namespace iattr
 
 
-#endif // !iattr_CStandardAttributesFactory_included
 
 

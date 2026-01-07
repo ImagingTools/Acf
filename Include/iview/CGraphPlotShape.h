@@ -1,5 +1,4 @@
-#ifndef iview_CGraphPlotShape_included
-#define iview_CGraphPlotShape_included
+#pragma once
 
 
 // Qt includes
@@ -201,4 +200,3 @@ inline void CGraphPlotShape::SetCurveLineWidth(int width)
 } // namespace iview
 
 
-#endif // !iview_CGraphPlotShape_included

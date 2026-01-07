@@ -1,5 +1,4 @@
-#ifndef TutorialPck_included
-#define TutorialPck_included
+#pragma once
 
 
 #include <icomp/TModelCompWrap.h>
@@ -31,6 +30,5 @@ typedef ibase::TModelObserverCompWrap<itutacf::CInterpolationTestComp> Interpola
 } // namespace TutorialPck
 
 
-#endif // !TutorialPck_included
 
 

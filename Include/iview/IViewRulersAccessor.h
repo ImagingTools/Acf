@@ -1,5 +1,4 @@
-#ifndef iview_IViewRulersAccessor_included
-#define iview_IViewRulersAccessor_included
+#pragma once
 
 
 #include <istd/IPolymorphic.h>
@@ -35,6 +34,5 @@ public:
 } // namespace iview
 
 
-#endif // !iview_IViewRulersAccessor_included
 
 

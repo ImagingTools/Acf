@@ -1,5 +1,4 @@
-#ifndef i2d_CSplineSegment_included
-#define i2d_CSplineSegment_included
+#pragma once
 
 
 // ACF includes
@@ -250,4 +249,3 @@ inline void CSplineSegment::D(const i2d::CVector2d& value)
 } // namespace i2d
 
 
-#endif // !i2d_CSplineSegment_included

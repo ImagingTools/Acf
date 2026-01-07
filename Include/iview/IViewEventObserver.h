@@ -1,5 +1,4 @@
-#ifndef iview_IViewEventObserver_included
-#define iview_IViewEventObserver_included
+#pragma once
 
 
 // Qt includes
@@ -46,7 +45,6 @@ public:
 
 
 
-#endif // !iview_IViewEventObserver_included
 
 
 

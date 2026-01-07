@@ -1,5 +1,4 @@
-#ifndef i2d_CAffineTransformation2d_included
-#define i2d_CAffineTransformation2d_included
+#pragma once
 
 
 // ACF includes
@@ -118,6 +117,5 @@ inline i2d::CAffine2d& CAffineTransformation2d::GetTransformationRef()
 } // namespace i2d
 
 
-#endif // !i2d_CAffineTransformation2d_included
 
 

@@ -1,5 +1,4 @@
-#ifndef iqtgui_CGuiApplicationComp_included
-#define iqtgui_CGuiApplicationComp_included
+#pragma once
 
 
 // Qt includes
@@ -159,5 +158,4 @@ protected:
 } // namespace iqtgui
 
 
-#endif // iqtgui_CGuiApplicationComp_included
 

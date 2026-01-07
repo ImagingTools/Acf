@@ -1,5 +1,4 @@
-#ifndef iqtgui_TGuiComponentBase_included
-#define iqtgui_TGuiComponentBase_included
+#pragma once
 
 
 // Qt includes
@@ -67,6 +66,5 @@ QWidget* TGuiComponentBase<WidgetType>::CreateQtWidget(QWidget* parentPtr)
 } // namespace iqtgui
 
 
-#endif // !iqtgui_TGuiComponentBase_included
 
 

@@ -1,5 +1,4 @@
-#ifndef i2d_TObject2dCompWrap_included
-#define i2d_TObject2dCompWrap_included
+#pragma once
 
 
 // ACF includes
@@ -71,6 +70,5 @@ void TObject2dCompWrap<BaseObject2d>::OnComponentCreated()
 } // namespace i2d
 
 
-#endif // !i2d_TObject2dCompWrap_included
 
 

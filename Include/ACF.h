@@ -1,5 +1,4 @@
-#ifndef ACF_included
-#define ACF_included
+#pragma once
 
 
 /**
@@ -430,6 +429,5 @@ Below are some of the main features of ACF:
 */
 
 
-#endif // !ACF_included
 
 

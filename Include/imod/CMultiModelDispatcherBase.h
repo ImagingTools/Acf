@@ -1,5 +1,4 @@
-#ifndef imod_CMultiModelDispatcherBase_included
-#define imod_CMultiModelDispatcherBase_included
+#pragma once
 
 
 // Qt includes
@@ -105,6 +104,5 @@ Object* CMultiModelDispatcherBase::GetObjectAt(int modelId) const
 } // namespace imod
 
 
-#endif // !imod_CMultiModelDispatcherBase_included
 
 

@@ -1,5 +1,4 @@
-#ifndef istd_TSingleFactory_included
-#define istd_TSingleFactory_included
+#pragma once
 
 
 // Qt includes
@@ -73,6 +72,5 @@ Interface* TSingleFactory<Interface, Implementation>::CreateInstance(const QByte
 } // namespace istd
 
 
-#endif // !istd_TSingleFactory_included
 
 

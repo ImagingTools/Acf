@@ -1,5 +1,4 @@
-#ifndef istd_CSystem_included
-#define istd_CSystem_included
+#pragma once
 
 
 // Qt includes
@@ -177,6 +176,5 @@ private:
 } // namespace istd
 
 
-#endif // !istd_CSystem_included
 
 

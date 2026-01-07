@@ -1,5 +1,4 @@
-#ifndef imod_TMultiModelObserverBase_included
-#define imod_TMultiModelObserverBase_included
+#pragma once
 
 
 // ACF includes
@@ -80,5 +79,4 @@ bool TMultiModelObserverBase<ModelInterface>::OnModelAttached(imod::IModel* mode
 } // namespace imod
 
 
-#endif // !imod_TMultiModelObserverBase_included
 

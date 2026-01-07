@@ -1,5 +1,4 @@
-#ifndef i2d_CPolypoint_included
-#define i2d_CPolypoint_included
+#pragma once
 
 
 // ACF includes
@@ -187,6 +186,5 @@ inline void CPolypoint::SetNodePos(int index, const i2d::CVector2d& position)
 } // namespace i2d
 
 
-#endif // !i2d_CPolypoint_included
 
 

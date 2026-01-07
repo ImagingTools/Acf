@@ -1,5 +1,4 @@
-#ifndef ilog_CConsoleLogComp_included
-#define ilog_CConsoleLogComp_included
+#pragma once
 
 
 // ACF includes
@@ -36,5 +35,4 @@ private:
 } // namespace ilog
 
 
-#endif // !ilog_CConsoleLogComp_included
 

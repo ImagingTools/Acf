@@ -1,5 +1,4 @@
-#ifndef iser_TCopySerializedWrap_included
-#define iser_TCopySerializedWrap_included
+#pragma once
 
 
 // ACF includes
@@ -79,6 +78,5 @@ bool TCopySerializedWrap<Base>::IsEqual(const istd::IChangeable& object) const
 } // namespace iser
 
 
-#endif // !iser_TCopySerializedWrap_included
 
 

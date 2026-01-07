@@ -1,5 +1,4 @@
-#ifndef ilog_CLoggerBase_included
-#define ilog_CLoggerBase_included
+#pragma once
 
 
 // ACF includes
@@ -188,6 +187,5 @@ private:
 } // namespace ilog
 
 
-#endif // !ilog_CLoggerBase_included
 
 

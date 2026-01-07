@@ -1,5 +1,4 @@
-#ifndef iprm_CSelectionParamComp_included
-#define iprm_CSelectionParamComp_included
+#pragma once
 
 
 // ACF includes
@@ -49,5 +48,4 @@ private:
 } // namespace iprm
 
 
-#endif // !iprm_CSelectionParamComp_included
 

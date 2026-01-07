@@ -1,5 +1,4 @@
-#ifndef iqtgui_CTabContainerGuiComp_included
-#define iqtgui_CTabContainerGuiComp_included
+#pragma once
 
 
 // ACF includes
@@ -50,5 +49,4 @@ private:
 } // namespace iqtgui
 
 
-#endif // !iqtgui_CTabContainerGuiComp_included
 

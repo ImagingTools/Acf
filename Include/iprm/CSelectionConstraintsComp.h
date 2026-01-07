@@ -1,5 +1,4 @@
-#ifndef iprm_CSelectionConstraintsComp_included
-#define iprm_CSelectionConstraintsComp_included
+#pragma once
 
 
 // ACF includes
@@ -51,6 +50,5 @@ private:
 } // namespace iprm
 
 
-#endif // !iprm_CSelectionConstraintsComp_included
 
 

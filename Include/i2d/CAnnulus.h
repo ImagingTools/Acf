@@ -1,5 +1,4 @@
-#ifndef i2d_CAnnulus_included
-#define i2d_CAnnulus_included
+#pragma once
 
 
 #include <i2d/CPosition2d.h>
@@ -126,6 +125,5 @@ protected:
 } // namespace i2d
 
 
-#endif // !i2d_CAnnulus_included
 
 

@@ -1,5 +1,4 @@
-#ifndef iview_IColorSchema_included
-#define iview_IColorSchema_included
+#pragma once
 
 
 // Qt includes
@@ -176,6 +175,5 @@ inline iview::IColorSchema::TickerType operator|(iview::IColorSchema::TickerType
 } // namespace iview
 
 
-#endif // !iview_IColorSchema_included
 
 

@@ -1,5 +1,4 @@
-#ifndef iprm_IEnableableParam_included
-#define iprm_IEnableableParam_included
+#pragma once
 
 
 #include <iser/ISerializable.h>
@@ -171,6 +170,5 @@ public:
 } // namespace iprm
 
 
-#endif // !iprm_IEnableableParam_included
 
 

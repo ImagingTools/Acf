@@ -1,5 +1,4 @@
-#ifndef iqtgui_CGuiComponentDialog_included
-#define iqtgui_CGuiComponentDialog_included
+#pragma once
 
 
 // Qt includes
@@ -99,6 +98,5 @@ inline const iqtgui::IGuiObject* CGuiComponentDialog::GetGuiPtr() const
 } // namespace iqtgui
 
 
-#endif // !iqtgui_CGuiComponentDialog_included
 
 

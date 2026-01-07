@@ -1,5 +1,4 @@
-#ifndef icomp_IPackagesManager_included
-#define icomp_IPackagesManager_included
+#pragma once
 
 
 // Qt includes
@@ -67,6 +66,5 @@ public:
 } // namespace icomp
 
 
-#endif // !icomp_IPackagesManager_included
 
 

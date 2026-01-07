@@ -1,5 +1,4 @@
-#ifndef ibase_IRuntimeStatusProvider_included
-#define ibase_IRuntimeStatusProvider_included
+#pragma once
 
 
 // ACF includes
@@ -49,6 +48,5 @@ public:
 } // namespace ibase
 
 
-#endif // !ibase_IRuntimeStatusProvider_included
 
 

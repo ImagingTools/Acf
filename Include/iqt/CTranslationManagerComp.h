@@ -1,5 +1,4 @@
-#ifndef iqt_CTranslationManagerComp_included
-#define iqt_CTranslationManagerComp_included
+#pragma once
 
 
 // Qt includes
@@ -136,6 +135,5 @@ protected:
 } // namespace iqt
 
 
-#endif // !iqt_CTranslationManagerComp_included
 
 

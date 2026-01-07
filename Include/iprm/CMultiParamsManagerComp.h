@@ -1,5 +1,4 @@
-#ifndef iprm_CMultiParamsManagerComp_included
-#define iprm_CMultiParamsManagerComp_included
+#pragma once
 
 
 // Qt includes
@@ -107,6 +106,5 @@ private:
 } // namespace iprm
 
 
-#endif // !iprm_CMultiParamsManagerComp_included
 
 

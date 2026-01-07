@@ -1,5 +1,4 @@
-#ifndef iser_CTextReadArchiveBase_included
-#define iser_CTextReadArchiveBase_included
+#pragma once
 
 
 // Qt includes
@@ -49,6 +48,5 @@ protected:
 } // namespace iser
 
 
-#endif // !iser_CTextReadArchiveBase_included
 
 

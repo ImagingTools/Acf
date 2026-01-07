@@ -1,5 +1,4 @@
-#ifndef iqt2d_CPolygonParamsGuiComp_included
-#define iqt2d_CPolygonParamsGuiComp_included
+#pragma once
 
 
 // ACF includes
@@ -38,4 +37,3 @@ protected Q_SLOTS:
 } // namespace iqt2d
 
 
-#endif // !iqt2d_CPolygonParamsGuiComp_included

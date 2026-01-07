@@ -1,5 +1,4 @@
-#ifndef iview_CImageShape_included
-#define iview_CImageShape_included
+#pragma once
 
 
 // Qt includes
@@ -59,7 +58,6 @@ private:
 } // namespace iview
 
 
-#endif // !iview_CImageShape_included
 
 
 

@@ -1,5 +1,4 @@
-#ifndef iwidgets_CExtLineEdit_included
-#define iwidgets_CExtLineEdit_included
+#pragma once
 
 
 // Qt includes
@@ -107,6 +106,5 @@ private:
 } // namespace iwidgets
 
 
-#endif // !iwidgets_CExtLineEdit_included
 
 

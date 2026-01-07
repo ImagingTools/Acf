@@ -1,5 +1,4 @@
-#ifndef istd_TComposedFactory_included
-#define istd_TComposedFactory_included
+#pragma once
 
 
 // Qt includes
@@ -96,6 +95,5 @@ InterfaceType* TComposedFactory<InterfaceType>::CreateInstance(const QByteArray&
 } // namespace istd
 
 
-#endif // !istd_TComposedFactory_included
 
 

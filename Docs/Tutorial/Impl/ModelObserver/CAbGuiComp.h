@@ -1,5 +1,4 @@
-#ifndef CAbGuiComp_included
-#define CAbGuiComp_included
+#pragma once
 
 
 // ACF includes
@@ -46,6 +45,5 @@ private Q_SLOTS:
 };
 
 
-#endif // !CAbGuiComp_included
 
 

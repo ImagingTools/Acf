@@ -1,5 +1,4 @@
-#ifndef iser_CReadArchiveBase_included
-#define iser_CReadArchiveBase_included
+#pragma once
 
 
 // ACF includes
@@ -37,6 +36,5 @@ private:
 } // namespace iser
 
 
-#endif // !iser_CReadArchiveBase_included
 
 

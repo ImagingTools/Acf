@@ -1,5 +1,4 @@
-#ifndef i3d_CSphere_included
-#define i3d_CSphere_included
+#pragma once
 
 
 // ACF includes
@@ -200,4 +199,3 @@ inline bool CSphere::operator!=(const CSphere& sphere) const
 } // namespace i3d
 
 
-#endif // !i3d_CSphere_included

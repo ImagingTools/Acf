@@ -1,5 +1,4 @@
-#ifndef ipackage_included
-#define ipackage_included
+#pragma once
 
 
 #include <icomp/icomp.h>
@@ -25,6 +24,5 @@ namespace ipackage
 } // namespace ipackage
 
 
-#endif // !ipackage_included
 
 

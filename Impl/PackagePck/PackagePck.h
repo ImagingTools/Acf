@@ -1,5 +1,4 @@
-#ifndef PackagePck_included
-#define PackagePck_included
+#pragma once
 
 
 #include <icomp/TModelCompWrap.h>
@@ -38,6 +37,5 @@ typedef ipackage::CRegistryCodeSaverComp RegistryCodeSaver;
 } // namespace PackagePck
 
 
-#endif // !PackagePck_included
 
 

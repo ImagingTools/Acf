@@ -1,5 +1,4 @@
-#ifndef idoc_IMultiPageDocumentProvider_included
-#define idoc_IMultiPageDocumentProvider_included
+#pragma once
 
 
 // ACF includes
@@ -57,6 +56,5 @@ public:
 } // namespace idoc
 
 
-#endif // !idoc_IMultiPageDocumentProvider_included
 
 

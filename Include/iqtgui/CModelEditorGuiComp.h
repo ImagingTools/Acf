@@ -1,5 +1,4 @@
-#ifndef iqtgui_CModelEditorGuiComp_included
-#define iqtgui_CModelEditorGuiComp_included
+#pragma once
 
 
 // ACF includes
@@ -70,6 +69,5 @@ private:
 } // namespace iqtgui
 
 
-#endif // !iqtgui_CModelEditorGuiComp_included
 
 

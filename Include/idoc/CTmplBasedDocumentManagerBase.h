@@ -1,5 +1,4 @@
-#ifndef idoc_CTmplBasedDocumentManagerBase_included
-#define idoc_CTmplBasedDocumentManagerBase_included
+#pragma once
 
 
 // ACF includes
@@ -48,6 +47,5 @@ private:
 } // namespace idoc
 
 
-#endif // idoc_CTmplBasedDocumentManagerBase_included
 
 

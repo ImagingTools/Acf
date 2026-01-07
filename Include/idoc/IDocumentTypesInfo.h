@@ -1,5 +1,4 @@
-#ifndef idoc_IDocumentTypesInfo_included
-#define idoc_IDocumentTypesInfo_included
+#pragma once
 
 
 // Qt includes
@@ -148,6 +147,5 @@ public:
 } // namespace idoc
 
 
-#endif // !idoc_IDocumentTypesInfo_included
 
 

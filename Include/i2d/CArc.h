@@ -1,5 +1,4 @@
-#ifndef i2d_CArc_included
-#define i2d_CArc_included
+#pragma once
 
 
 // Acf includes
@@ -125,6 +124,5 @@ inline double CArc::GetEndAngle() const
 } // namespace i2d
 
 
-#endif // !i2d_CArc_included
 
 

@@ -1,5 +1,4 @@
-#ifndef iattr_IAttributesMetaInfoProvider_included
-#define iattr_IAttributesMetaInfoProvider_included
+#pragma once
 
 
 // ACF includes
@@ -32,6 +31,5 @@ public:
 } // namespace iattr
 
 
-#endif // !iattr_IAttributesMetaInfoProvider_included
 
 

@@ -1,5 +1,4 @@
-#ifndef iqtgui_IMultiVisualStatusProvider_included
-#define iqtgui_IMultiVisualStatusProvider_included
+#pragma once
 
 
 // ACF includes
@@ -31,6 +30,5 @@ public:
 } // namespace iqtgui
 
 
-#endif // !iqtgui_IMultiVisualStatusProvider_included
 
 

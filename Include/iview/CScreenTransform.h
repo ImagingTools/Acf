@@ -1,5 +1,4 @@
-#ifndef iview_CScreenTransform_included
-#define iview_CScreenTransform_included
+#pragma once
 
 
 #include <i2d/CAffine2d.h>
@@ -170,6 +169,5 @@ inline const i2d::CAffine2d& CScreenTransform::GetInverted() const
 } // namespace iview
 
 
-#endif // !iview_CScreenTransform_included
 
 

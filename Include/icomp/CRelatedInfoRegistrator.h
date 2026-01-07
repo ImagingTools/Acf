@@ -1,5 +1,4 @@
-#ifndef icomp_CRelatedInfoRegistrator_included
-#define icomp_CRelatedInfoRegistrator_included
+#pragma once
 
 
 // Qt includes
@@ -27,6 +26,5 @@ public:
 } // namespace icomp
 
 
-#endif // !icomp_CRelatedInfoRegistrator_included
 
 

@@ -1,5 +1,4 @@
-#ifndef QtPck_included
-#define QtPck_included
+#pragma once
 
 
 #include <icomp/TModelCompWrap.h>
@@ -31,6 +30,5 @@ typedef icomp::TModelCompWrap<iqt::CTranslationManagerComp> TranslationManager;
 } // namespace QtPck
 
 
-#endif // !QtPck_included
 
 

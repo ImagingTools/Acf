@@ -1,5 +1,4 @@
-#ifndef iview_CSplineShape_included
-#define iview_CSplineShape_included
+#pragma once
 
 
 // ACF includes
@@ -36,6 +35,5 @@ protected:
 } // namespace iview
 
 
-#endif // !iview_CSplineShape_included
 
 

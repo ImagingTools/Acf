@@ -1,5 +1,4 @@
-#ifndef iqtgui_CSimpleMainWindowGuiComp_included
-#define iqtgui_CSimpleMainWindowGuiComp_included
+#pragma once
 
 
 // Qt includes
@@ -265,6 +264,5 @@ private:
 } // namespace iqtgui
 
 
-#endif // !iqtgui_CSimpleMainWindowGuiComp_included
 
 

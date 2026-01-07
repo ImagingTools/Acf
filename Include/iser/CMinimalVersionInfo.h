@@ -1,5 +1,4 @@
-#ifndef iser_CMinimalVersionInfo_included
-#define iser_CMinimalVersionInfo_included
+#pragma once
 
 
 // Qt includes
@@ -66,6 +65,5 @@ private:
 } // namespace iser
 
 
-#endif // !iser_CMinimalVersionInfo_included
 
 

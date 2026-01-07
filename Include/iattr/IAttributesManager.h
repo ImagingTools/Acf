@@ -1,5 +1,4 @@
-#ifndef iattr_IAttributesManager_included
-#define iattr_IAttributesManager_included
+#pragma once
 
 
 // ACF includes
@@ -46,6 +45,5 @@ public:
 } // namespace iattr
 
 
-#endif // !iattr_IAttributesManager_included
 
 

@@ -1,5 +1,4 @@
-#ifndef ilog_CMessage_included
-#define ilog_CMessage_included
+#pragma once
 
 
 // Qt includes
@@ -117,6 +116,5 @@ inline int CMessage::GetInformationFlags() const
 } // namespace ilog
 
 
-#endif // !ilog_CMessage_included
 
 

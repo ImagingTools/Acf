@@ -1,5 +1,4 @@
-#ifndef istd_CBitManip_included
-#define istd_CBitManip_included
+#pragma once
 
 
 // Qt includes
@@ -65,6 +64,5 @@ inline int CBitManip::GetFirstBitIndex(quint32 bits) const
 } // namespace istd
 
 
-#endif // !istd_CBitManip_included
 
 

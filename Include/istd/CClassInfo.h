@@ -1,5 +1,4 @@
-#ifndef istd_CClassInfo_included
-#define istd_CClassInfo_included
+#pragma once
 
 
 // STL includes
@@ -231,6 +230,5 @@ QByteArray CClassInfo::GetName()
 } // namespace istd
 
 
-#endif // !istd_CClassInfo_included
 
 

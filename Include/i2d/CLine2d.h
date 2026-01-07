@@ -1,5 +1,4 @@
-#ifndef i2d_CLine2d_included
-#define i2d_CLine2d_included
+#pragma once
 
 
 // Qt includes
@@ -439,6 +438,5 @@ inline uint qHash(const CLine2d& key, uint seed = 0)
 } // namespace i2d
 
 
-#endif // !i2d_CLine2d_included
 
 

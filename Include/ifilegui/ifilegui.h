@@ -1,5 +1,4 @@
-#ifndef ifilegui_included
-#define ifilegui_included
+#pragma once
 
 
 // ACF includes
@@ -18,6 +17,5 @@ namespace ifilegui
 } // namespace ifilegui
 
 
-#endif // !ifilegui_included
 
 

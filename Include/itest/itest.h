@@ -1,5 +1,4 @@
-#ifndef itest_included
-#define itest_included
+#pragma once
 
 
 #include <istd/istd.h>
@@ -15,5 +14,4 @@ namespace itest
 } // namespace itest
 
 
-#endif // !itest_included
 

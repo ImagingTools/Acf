@@ -1,5 +1,4 @@
-#ifndef iser_CArchiveTag_included
-#define iser_CArchiveTag_included
+#pragma once
 
 
 // Qt includes
@@ -120,6 +119,5 @@ inline bool CArchiveTag::IsTagSkippingUsed() const
 } // namespace iser
 
 
-#endif // !iser_CArchiveTag_included
 
 

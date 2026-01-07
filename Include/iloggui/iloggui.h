@@ -1,5 +1,4 @@
-#ifndef iloggui_included
-#define iloggui_included
+#pragma once
 
 
 // ACF includes
@@ -17,6 +16,5 @@ namespace iloggui
 } // namespace iloggui
 
 
-#endif // !iloggui_included
 
 

@@ -1,5 +1,4 @@
-#ifndef iser_CCompactXmlWriteArchiveBase_included
-#define iser_CCompactXmlWriteArchiveBase_included
+#pragma once
 
 
 // Qt includes
@@ -70,6 +69,5 @@ private:
 } // namespace iser
 
 
-#endif // !iser_CCompactXmlWriteArchiveBase_included
 
 

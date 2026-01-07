@@ -1,5 +1,4 @@
-#ifndef ibase_CInstantiatorComp_included
-#define ibase_CInstantiatorComp_included
+#pragma once
 
 
 #include <icomp/CComponentBase.h>
@@ -34,6 +33,5 @@ private:
 } // namespace ibase
 
 
-#endif // !ibase_CInstantiatorComp_included
 
 

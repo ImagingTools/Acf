@@ -1,5 +1,4 @@
-#ifndef iwidgets_CToolBoxDelegate_included
-#define iwidgets_CToolBoxDelegate_included
+#pragma once
 
 
 // ACF includes
@@ -55,6 +54,5 @@ public:
 } // namespace iwidgets
 
 
-#endif // !iwidgets_CToolBoxDelegate_included
 
 

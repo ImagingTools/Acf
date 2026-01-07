@@ -1,5 +1,4 @@
-#ifndef iview_CInteractiveViewLayer_included
-#define iview_CInteractiveViewLayer_included
+#pragma once
 
 
 #include <iview/ISelectableLayer.h>
@@ -110,7 +109,6 @@ inline int CInteractiveViewLayer::GetDisplayMode() const
 } // namespace iview
 
 
-#endif // !iview_CInteractiveViewLayer_included
 
 
 

@@ -1,5 +1,4 @@
-#ifndef QtViewPck_included
-#define QtViewPck_included
+#pragma once
 
 
 // ACF includes
@@ -81,6 +80,5 @@ typedef iqt2d::CArcParamsGuiComp ArcParamsGui;
 } // namespace QtViewPck
 
 
-#endif // !QtViewPck_included
 
 

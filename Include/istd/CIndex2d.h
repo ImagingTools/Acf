@@ -1,5 +1,4 @@
-#ifndef istd_CIndex2d_included
-#define istd_CIndex2d_included
+#pragma once
 
 
 // Qt includes
@@ -180,6 +179,5 @@ inline CIndex2d::operator QPointF() const
 } // namespace istd
 
 
-#endif // !istd_CIndex2d_included
 
 

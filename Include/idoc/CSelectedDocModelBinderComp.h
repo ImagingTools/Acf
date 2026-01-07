@@ -1,5 +1,4 @@
-#ifndef idoc_CSelectedDocModelBinderComp_included
-#define idoc_CSelectedDocModelBinderComp_included
+#pragma once
 
 
 // ACF includes
@@ -104,6 +103,5 @@ private:
 } // namespace idoc
 
 
-#endif // !idoc_CSelectedDocModelBinderComp_included
 
 

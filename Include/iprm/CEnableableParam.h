@@ -1,5 +1,4 @@
-#ifndef iprm_CEnableableParam_included
-#define iprm_CEnableableParam_included
+#pragma once
 
 
 // ACF includes
@@ -38,6 +37,5 @@ private:
 } // namespace iprm
 
 
-#endif // iprm_CEnableableParam_included
 
 

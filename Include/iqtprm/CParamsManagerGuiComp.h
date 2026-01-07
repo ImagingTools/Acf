@@ -1,5 +1,4 @@
-#ifndef iqtprm_CParamsManagerGuiComp_included
-#define iqtprm_CParamsManagerGuiComp_included
+#pragma once
 
 
 // ACF includes
@@ -42,6 +41,5 @@ private:
 } // namespace iqtprm
 
 
-#endif // !iqtprm_CParamsManagerGuiComp_included
 
 

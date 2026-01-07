@@ -1,5 +1,4 @@
-#ifndef iview_CTubePolylineShape_included
-#define iview_CTubePolylineShape_included
+#pragma once
 
 
 #include <iview/CPolylineShape.h>
@@ -56,7 +55,6 @@ protected:
 } // namespace qto
 
 
-#endif // !iview_CTubePolylineShape_included
 
 
 

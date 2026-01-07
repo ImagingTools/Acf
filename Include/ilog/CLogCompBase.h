@@ -1,5 +1,4 @@
-#ifndef ilog_CLogCompBase_included
-#define ilog_CLogCompBase_included
+#pragma once
 
 
 // Qt includes
@@ -49,5 +48,4 @@ Q_SIGNALS:
 } // namespace ilog
 
 
-#endif // !ilog_CLogCompBase_included
 

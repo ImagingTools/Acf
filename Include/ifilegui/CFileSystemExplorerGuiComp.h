@@ -1,5 +1,4 @@
-#ifndef ifilegui_CFileSystemExplorerGuiComp_included
-#define ifilegui_CFileSystemExplorerGuiComp_included
+#pragma once
 
 
 // Qt includes
@@ -118,6 +117,5 @@ private:
 } // namespace ifilegui
 
 
-#endif // !ifilegui_CFileSystemExplorerGuiComp_included
 
 

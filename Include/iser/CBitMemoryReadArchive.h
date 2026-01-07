@@ -1,5 +1,4 @@
-#ifndef iser_CBitMemoryReadArchive_included
-#define iser_CBitMemoryReadArchive_included
+#pragma once
 
 
 // Qt includes
@@ -59,5 +58,4 @@ protected:
 } // namespace iser
 
 
-#endif // !iser_CBitMemoryReadArchive_included
 

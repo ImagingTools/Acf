@@ -1,5 +1,4 @@
-#ifndef istd_CBinaryIndex_included
-#define istd_CBinaryIndex_included
+#pragma once
 
 
 // ACF includes
@@ -464,6 +463,5 @@ inline CFastBinaryIndex::Iterator& CFastBinaryIndex::Iterator::operator=(const I
 } // namespace istd
 
 
-#endif // !istd_CBinaryIndex_included
 
 

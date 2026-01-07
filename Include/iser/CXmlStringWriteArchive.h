@@ -1,5 +1,4 @@
-#ifndef iser_CXmlStringWriteArchive_included
-#define iser_CXmlStringWriteArchive_included
+#pragma once
 
 
 // Qt includes
@@ -49,6 +48,5 @@ private:
 } // namespace iser
 
 
-#endif // !iser_CXmlStringWriteArchive_included
 
 

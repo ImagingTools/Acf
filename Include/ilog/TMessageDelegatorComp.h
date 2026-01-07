@@ -1,5 +1,4 @@
-#ifndef ilog_TMessageDelegatorComp_included
-#define ilog_TMessageDelegatorComp_included
+#pragma once
 
 
 // ACF includes
@@ -69,6 +68,5 @@ void TMessageDelegatorComp<BaseComponent>::AddMessage(const MessagePtr& messageP
 } // namespace ilog
 
 
-#endif // !ilog_TMessageDelegatorComp_included
 
 

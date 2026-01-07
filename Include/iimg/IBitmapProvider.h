@@ -1,5 +1,4 @@
-#ifndef iimg_IBitmapProvider_included
-#define iimg_IBitmapProvider_included
+#pragma once
 
 
 // ACF includes
@@ -31,6 +30,5 @@ public:
 } // namespace iimg
 
 
-#endif // !iimg_IBitmapProvider_included
 
 

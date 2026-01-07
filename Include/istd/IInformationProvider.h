@@ -1,5 +1,4 @@
-#ifndef istd_IInformationProvider_included
-#define istd_IInformationProvider_included
+#pragma once
 
 
 // Qt includes
@@ -101,6 +100,5 @@ public:
 } // namespace istd
 
 
-#endif // !istd_IInformationProvider_included
 
 

@@ -1,5 +1,4 @@
-#ifndef iview_CShapeStatusInfoComp_included
-#define iview_CShapeStatusInfoComp_included
+#pragma once
 
 
 // ACF includes
@@ -35,6 +34,5 @@ private:
 } // namespace iview
 
 
-#endif // !iview_CShapeStatusInfoComp_included
 
 

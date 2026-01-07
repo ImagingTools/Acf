@@ -1,5 +1,4 @@
-#ifndef ibase_TSerializableContainer_included
-#define ibase_TSerializableContainer_included
+#pragma once
 
 
 // ACF includes
@@ -95,6 +94,5 @@ bool TSerializableContainer<ItemClass, ContainerType>::Serialize(iser::IArchive&
 } // namespace ibase
 
 
-#endif // !ibase_TSerializableContainer_included
 
 

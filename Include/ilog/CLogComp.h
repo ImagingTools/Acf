@@ -1,5 +1,4 @@
-#ifndef ilog_CLogComp_included
-#define ilog_CLogComp_included
+#pragma once
 
 
 // ACF includes
@@ -51,5 +50,4 @@ private:
 } // namespace ilog
 
 
-#endif // !ilog_CLogComp_included
 

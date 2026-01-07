@@ -1,5 +1,4 @@
-#ifndef ilog_IMessageContainer_included
-#define ilog_IMessageContainer_included
+#pragma once
 
 
 // STL includes
@@ -60,5 +59,4 @@ typedef istd::TIHierarchical<ilog::IMessageContainer> IHierarchicalMessageContai
 } // namespace ilog
 
 
-#endif // !ilog_IMessageContainer_included
 

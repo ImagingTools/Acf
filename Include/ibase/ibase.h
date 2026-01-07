@@ -1,5 +1,4 @@
-#ifndef ibase_included
-#define ibase_included
+#pragma once
 
 
 #include <istd/istd.h>
@@ -22,5 +21,4 @@ namespace ibase
 } // namespace ibase
 
 
-#endif // !ibase_included
 

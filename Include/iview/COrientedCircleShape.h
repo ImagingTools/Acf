@@ -1,5 +1,4 @@
-#ifndef iview_COrientedCircleShape_included
-#define iview_COrientedCircleShape_included
+#pragma once
 
 
 // ACF includes
@@ -32,6 +31,5 @@ protected:
 } // namespace iview
 
 
-#endif // !iview_COrientedCircleShape_included
 
 

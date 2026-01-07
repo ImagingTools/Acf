@@ -1,5 +1,4 @@
-#ifndef iqtprm_CCheckableOptionsEditorComp_included
-#define iqtprm_CCheckableOptionsEditorComp_included
+#pragma once
 
 
 // ACF includes
@@ -44,6 +43,5 @@ private:
 } // namespace iqtprm
 
 
-#endif // !iqtprm_CCheckableOptionsEditorComp_included
 
 

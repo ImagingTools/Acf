@@ -1,5 +1,4 @@
-#ifndef istd_TIMap_included
-#define istd_TIMap_included
+#pragma once
 
 
 // Qt includes
@@ -73,6 +72,5 @@ public:
 };
 
 
-#endif // !istd_TIMap_included
 
 

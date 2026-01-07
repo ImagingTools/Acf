@@ -1,5 +1,4 @@
-#ifndef i3d_CPlane3d_included
-#define i3d_CPlane3d_included
+#pragma once
 
 
 // ACF includes
@@ -176,4 +175,3 @@ inline bool CPlane3d::operator!=(const CPlane3d& plane) const
 } // namespace i3d
 
 
-#endif // !i3d_CPlane3d_included

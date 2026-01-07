@@ -1,5 +1,4 @@
-#ifndef iqtgui_CToolBarWidgetGuiComp_included
-#define iqtgui_CToolBarWidgetGuiComp_included
+#pragma once
 
 
 // ACF includes
@@ -37,5 +36,4 @@ private:
 } // namespace iqtgui
 
 
-#endif // !iqtgui_CToolBarWidgetGuiComp_included
 

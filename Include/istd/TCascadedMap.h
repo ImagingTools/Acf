@@ -1,5 +1,4 @@
-#ifndef istd_TCascadedMap_included
-#define istd_TCascadedMap_included
+#pragma once
 
 
 // Qt includes
@@ -398,6 +397,5 @@ const typename TCascadedMap<Key, Value>::ValueType& TCascadedMap<Key, Value>::Ge
 }//namespace istd
 
 
-#endif // !istd_TCascadedMap_included
 
 

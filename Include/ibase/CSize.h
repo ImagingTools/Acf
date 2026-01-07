@@ -1,5 +1,4 @@
-#ifndef ibase_CSize_included
-#define ibase_CSize_included
+#pragma once
 
 
 // ACF includes
@@ -39,6 +38,5 @@ public:
 } // namespace ibase
 
 
-#endif // !ibase_CSize_included
 
 

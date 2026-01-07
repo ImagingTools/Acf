@@ -1,5 +1,4 @@
-#ifndef iview_TVisualObjects_included
-#define iview_TVisualObjects_included
+#pragma once
 
 
 // ACF includes
@@ -96,4 +95,3 @@ TBitmapVisualObject<Object, BitmapShape>::TBitmapVisualObject(const Object* imag
 } // namespace iview
 
 
-#endif // !iview_TVisualObjects_included

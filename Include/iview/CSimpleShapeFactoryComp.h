@@ -1,5 +1,4 @@
-#ifndef iview_CSimpleShapeFactoryComp_included
-#define iview_CSimpleShapeFactoryComp_included
+#pragma once
 
 
 // ACF includes
@@ -44,6 +43,5 @@ protected:
 } // namespace iview
 
 
-#endif // !iview_CSimpleShapeFactoryComp_included
 
 

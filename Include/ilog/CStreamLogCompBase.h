@@ -1,5 +1,4 @@
-#ifndef ilog_CStreamLogCompBase_included
-#define ilog_CStreamLogCompBase_included
+#pragma once
 
 
 // ACF includes
@@ -83,5 +82,4 @@ private:
 } // namespace ilog
 
 
-#endif // !ilog_CStreamLogCompBase_included
 

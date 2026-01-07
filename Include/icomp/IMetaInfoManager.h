@@ -1,5 +1,4 @@
-#ifndef icomp_IMetaInfoManager_included
-#define icomp_IMetaInfoManager_included
+#pragma once
 
 
 // ACF includes
@@ -33,6 +32,5 @@ public:
 } // namespace icomp
 
 
-#endif // !icomp_IMetaInfoManager_included
 
 

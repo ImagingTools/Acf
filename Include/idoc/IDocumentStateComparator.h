@@ -1,5 +1,4 @@
-#ifndef idoc_IDocumentStateComparator_included
-#define idoc_IDocumentStateComparator_included
+#pragma once
 
 
 // ACF includes
@@ -115,6 +114,5 @@ public:
 } // namespace idoc
 
 
-#endif // !idoc_IDocumentStateComparator_included
 
 

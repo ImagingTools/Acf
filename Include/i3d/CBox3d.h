@@ -1,5 +1,4 @@
-#ifndef i3d_CBox3d_included
-#define i3d_CBox3d_included
+#pragma once
 
 
 // ACF includes
@@ -296,4 +295,3 @@ inline bool CBox3d::operator!=(const CBox3d& box) const
 } // namespace i3d
 
 
-#endif // !i3d_CBox3d_included

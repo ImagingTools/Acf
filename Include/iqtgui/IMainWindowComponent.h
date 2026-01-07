@@ -1,5 +1,4 @@
-#ifndef iqtgui_IMainWindowComponent_included
-#define iqtgui_IMainWindowComponent_included
+#pragma once
 
 
 // ACF includes
@@ -67,6 +66,5 @@ public:
 } // namespace iqtgui
 
 
-#endif // !iqtgui_IMainWindowComponent_included
 
 

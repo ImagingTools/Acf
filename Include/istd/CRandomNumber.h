@@ -1,5 +1,4 @@
-#ifndef istd_CRandomNumber_included
-#define istd_CRandomNumber_included
+#pragma once
 
 
 namespace istd
@@ -32,6 +31,5 @@ protected:
 } // namespace istd
 
 
-#endif // !istd_CRandomNumber_included
 
 

@@ -1,5 +1,4 @@
-#ifndef iprm_CParamsSet_included
-#define iprm_CParamsSet_included
+#pragma once
 
 
 // Qt includes
@@ -128,6 +127,5 @@ inline void CParamsSet::SetSlaveSet(const IParamsSet* slaveSetPtr)
 } // namespace iprm
 
 
-#endif // !iprm_CParamsSet_included
 
 

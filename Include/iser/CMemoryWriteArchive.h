@@ -1,5 +1,4 @@
-#ifndef iser_CMemoryWriteArchive_included
-#define iser_CMemoryWriteArchive_included
+#pragma once
 
 
 // Qt includes
@@ -68,6 +67,5 @@ inline bool CMemoryWriteArchive::operator!=(const CMemoryWriteArchive& archive) 
 } // namespace iser
 
 
-#endif // !iser_CMemoryWriteArchive_included
 
 

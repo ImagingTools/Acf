@@ -1,5 +1,4 @@
-#ifndef iqt_CClipboardSerializerComp_included
-#define iqt_CClipboardSerializerComp_included
+#pragma once
 
 
 // ACF includes
@@ -60,6 +59,5 @@ private:
 } // namespace iqt
 
 
-#endif // !iqt_CClipboardSerializerComp_included
 
 

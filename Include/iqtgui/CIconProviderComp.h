@@ -1,5 +1,4 @@
-#ifndef iqtgui_CIconProviderComp_included
-#define iqtgui_CIconProviderComp_included
+#pragma once
 
 
 // ACF includes
@@ -36,5 +35,4 @@ private:
 } // namespace iqtgui
 
 
-#endif // !iqtgui_CIconProviderComp_included
 

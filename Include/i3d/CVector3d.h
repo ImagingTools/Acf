@@ -1,5 +1,4 @@
-#ifndef i3d_CVector3d_included
-#define i3d_CVector3d_included
+#pragma once
 
 
 // Qt includes
@@ -410,5 +409,4 @@ inline CVector3d& CVector3d::operator/=(double scalar)
 } // namespace i3d
 
 
-#endif // !i3d_CVector3d_included
 

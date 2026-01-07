@@ -1,5 +1,4 @@
-#ifndef istd_TTransPtr_included
-#define istd_TTransPtr_included
+#pragma once
 
 
 // Qt includes
@@ -127,6 +126,5 @@ inline TTransPtr<Type>::TTransPtr()
 } // namespace istd
 
 
-#endif // !istd_TTransPtr_included
 
 

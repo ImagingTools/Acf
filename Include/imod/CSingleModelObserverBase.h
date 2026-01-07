@@ -1,5 +1,4 @@
-#ifndef imod_CSingleModelObserverBase_included
-#define imod_CSingleModelObserverBase_included
+#pragma once
 
 
 // ACF includes
@@ -117,6 +116,5 @@ inline void CSingleModelObserverBase::SetModelPtr(imod::IModel* modelPtr)
 } // namespace imod
 
 
-#endif // !imod_CSingleModelObserverBase_included
 
 

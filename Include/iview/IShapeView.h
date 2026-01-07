@@ -1,5 +1,4 @@
-#ifndef iview_IShapeView_included
-#define iview_IShapeView_included
+#pragma once
 
 
 // Qt includes
@@ -148,6 +147,5 @@ public:
 } // namespace iview
 
 
-#endif // !iview_IShapeView_included
 
 

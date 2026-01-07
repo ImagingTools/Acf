@@ -1,5 +1,4 @@
-#ifndef iimg_included
-#define iimg_included
+#pragma once
 
 
 #include <icmm/icmm.h>
@@ -21,5 +20,4 @@ namespace iimg
 } // namespace iimg
 
 
-#endif // !iimg_included
 

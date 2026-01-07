@@ -1,5 +1,4 @@
-#ifndef istd_IChangeDelegator_included
-#define istd_IChangeDelegator_included
+#pragma once
 
 
 // ACF includes
@@ -111,6 +110,5 @@ public:
 } // namespace istd
 
 
-#endif // !istd_IChangeDelegator_included
 
 

@@ -1,5 +1,4 @@
-#ifndef ibase_TCommandsProviderCompWrap_included
-#define ibase_TCommandsProviderCompWrap_included
+#pragma once
 
 
 // ACF includes
@@ -32,6 +31,5 @@ public:
 } // namespace ibase
 
 
-#endif // !ibase_TCommandsProviderCompWrap_included
 
 

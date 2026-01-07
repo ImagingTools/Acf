@@ -1,5 +1,4 @@
-#ifndef iser_IArchive_included
-#define iser_IArchive_included
+#pragma once
 
 
 // Qt includes
@@ -460,5 +459,4 @@ public:
 } // namespace iser
 
 
-#endif // !iser_IArchive_included
 

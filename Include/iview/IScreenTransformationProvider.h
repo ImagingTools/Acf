@@ -1,5 +1,4 @@
-#ifndef iview_IScreenTransformationProvider_included
-#define iview_IScreenTransformationProvider_included
+#pragma once
 
 
 // ACF includes
@@ -21,6 +20,5 @@ public:
 } // namespace iview
 
 
-#endif // !iview_IScreenTransformationProvider_included
 
 

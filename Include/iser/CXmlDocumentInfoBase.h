@@ -1,5 +1,4 @@
-#ifndef iser_CXmlDocumentInfoBase_included
-#define iser_CXmlDocumentInfoBase_included
+#pragma once
 
 
 // Qt includes
@@ -92,6 +91,5 @@ inline void CXmlDocumentInfoBase::SetCommentEnabled(bool state)
 } // namespace iser
 
 
-#endif // !iser_CXmlDocumentInfoBase_included
 
 

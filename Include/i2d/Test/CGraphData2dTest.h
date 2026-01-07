@@ -1,5 +1,4 @@
-#ifndef i2d_CGraphData2dTest_included
-#define i2d_CGraphData2dTest_included
+#pragma once
 
 
 #include <QtCore/QObject>
@@ -31,4 +30,3 @@ private Q_SLOTS:
 } // namespace i2d
 
 
-#endif // !i2d_CGraphData2dTest_included

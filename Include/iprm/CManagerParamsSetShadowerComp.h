@@ -1,5 +1,4 @@
-#ifndef iprm_CManagerParamsSetShadowerComp_included
-#define iprm_CManagerParamsSetShadowerComp_included
+#pragma once
 
 
 #include <icomp/CComponentBase.h>
@@ -85,6 +84,5 @@ private:
 } // namespace iprm
 
 
-#endif // !iprm_CManagerParamsSetShadowerComp_included
 
 

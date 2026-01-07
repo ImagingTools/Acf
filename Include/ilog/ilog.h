@@ -1,5 +1,4 @@
-#ifndef ilog_included
-#define ilog_included
+#pragma once
 
 
 #include <istd/istd.h>
@@ -22,5 +21,4 @@ namespace ilog
 } // namespace ilog
 
 
-#endif // !ilog_included
 

@@ -1,5 +1,4 @@
-#ifndef iview_included
-#define iview_included
+#pragma once
 
 
 /**
@@ -13,6 +12,5 @@ namespace iview
 
 
 
-#endif // !iview_included
 
 

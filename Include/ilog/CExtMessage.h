@@ -1,5 +1,4 @@
-#ifndef ilog_CExtMessage_included
-#define ilog_CExtMessage_included
+#pragma once
 
 
 // Qt includes
@@ -87,6 +86,5 @@ protected:
 } // namespace ilog
 
 
-#endif // ilog_CExtMessage_included
 
 

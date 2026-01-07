@@ -1,5 +1,4 @@
-#ifndef ipackage_CRegistryCodeSaverComp_included
-#define ipackage_CRegistryCodeSaverComp_included
+#pragma once
 
 
 // Qt includes
@@ -232,6 +231,5 @@ private:
 } // namespace ipackage
 
 
-#endif // !ipackage_CRegistryCodeSaverComp_included
 
 

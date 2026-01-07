@@ -1,5 +1,4 @@
-#ifndef iprm_CParamsManagerComp_included
-#define iprm_CParamsManagerComp_included
+#pragma once
 
 
 // Qt includes
@@ -77,6 +76,5 @@ private:
 } // namespace iprm
 
 
-#endif // !iprm_CParamsManagerComp_included
 
 

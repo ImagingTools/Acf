@@ -1,5 +1,4 @@
-#ifndef iqtgui_CVersionInfoGuiComp_included
-#define iqtgui_CVersionInfoGuiComp_included
+#pragma once
 
 
 // ACF includes
@@ -37,6 +36,5 @@ private:
 } // namespace iqtgui
 
 
-#endif // !iqtgui_CVersionInfoGuiComp_included
 
 

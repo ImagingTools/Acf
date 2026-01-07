@@ -1,5 +1,4 @@
-#ifndef iprm_included
-#define iprm_included
+#pragma once
 
 
 #include <istd/istd.h>
@@ -188,5 +187,4 @@ namespace iprm
 } // namespace iprm
 
 
-#endif // !iprm_included
 

@@ -1,5 +1,4 @@
-#ifndef iqtgui_CFreeWidgetGuiComp_included
-#define iqtgui_CFreeWidgetGuiComp_included
+#pragma once
 
 
 // Qt includes
@@ -46,5 +45,4 @@ protected:
 } // namespace iqtgui
 
 
-#endif // !iqtgui_CFreeWidgetGuiComp_included
 

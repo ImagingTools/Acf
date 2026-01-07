@@ -1,5 +1,4 @@
-#ifndef i2d_CPolygon_included
-#define i2d_CPolygon_included
+#pragma once
 
 
 // Qt includes
@@ -76,6 +75,5 @@ public:
 } // namespace i2d
 
 
-#endif // !i2d_CPolygon_included
 
 

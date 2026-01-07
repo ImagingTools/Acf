@@ -1,5 +1,4 @@
-#ifndef ilog_IMessageConsumer_included
-#define ilog_IMessageConsumer_included
+#pragma once
 
 
 #include <istd/IPolymorphic.h>
@@ -43,6 +42,5 @@ public:
 } // namespace ilog
 
 
-#endif // !ilog_IMessageConsumer_included
 
 

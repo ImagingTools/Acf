@@ -1,5 +1,4 @@
-#ifndef idoc_CTextFileLoaderComp_included
-#define idoc_CTextFileLoaderComp_included
+#pragma once
 
 
 // ACF includes
@@ -98,6 +97,5 @@ private:
 } // namespace idoc
 
 
-#endif // !idoc_CTextFileLoaderComp_included
 
 

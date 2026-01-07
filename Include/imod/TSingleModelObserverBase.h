@@ -1,5 +1,4 @@
-#ifndef imod_TSingleModelObserverBase_included
-#define imod_TSingleModelObserverBase_included
+#pragma once
 
 
 // STL includes
@@ -153,6 +152,5 @@ ModelInterface* TSingleModelObserverBase<ModelInterface>::CastFromModel(imod::IM
 } // namespace imod
 
 
-#endif // !imod_TSingleModelObserverBase_included
 
 

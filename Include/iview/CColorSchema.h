@@ -1,5 +1,4 @@
-#ifndef iview_CColorSchema_included
-#define iview_CColorSchema_included
+#pragma once
 
 
 // Qt includes
@@ -87,6 +86,5 @@ inline const QBrush& CColorSchema::GetBrush(IColorSchema::StandardBrush brushTyp
 } // namespace iview
 
 
-#endif // !iview_CColorSchema_included
 
 

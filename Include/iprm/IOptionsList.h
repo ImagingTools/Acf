@@ -1,5 +1,4 @@
-#ifndef iprm_IOptionsList_included
-#define iprm_IOptionsList_included
+#pragma once
 
 
 // Qt includes
@@ -300,6 +299,5 @@ int FindOptionIndexById(const QByteArray& id, const iprm::IOptionsList& list);
 } // namespace iprm
 
 
-#endif // !iprm_IOptionsList_included
 
 

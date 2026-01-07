@@ -1,5 +1,4 @@
-#ifndef iview_CAffineTransformation2dShape_included
-#define iview_CAffineTransformation2dShape_included
+#pragma once
 
 
 // ACF includes
@@ -84,6 +83,5 @@ private:
 } // namespace iview
 
 
-#endif // !iview_CAffineTransformation2dShape_included
 
 

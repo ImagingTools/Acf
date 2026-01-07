@@ -1,5 +1,4 @@
-#ifndef iqtgui_CCommandsMultiplexerComp_included
-#define iqtgui_CCommandsMultiplexerComp_included
+#pragma once
 
 
 // ACF includes
@@ -68,6 +67,5 @@ private:
 } // namespace iqtgui
 
 
-#endif // !iqtgui_CCommandsMultiplexerComp_included
 
 

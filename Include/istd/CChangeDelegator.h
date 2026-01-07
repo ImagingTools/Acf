@@ -1,5 +1,4 @@
-#ifndef istd_CChangeDelegator_included
-#define istd_CChangeDelegator_included
+#pragma once
 
 
 // ACF includes
@@ -53,5 +52,4 @@ inline istd::IChangeable* CChangeDelegator::GetSlavePtr() const
 } // namespace istd
 
 
-#endif // !istd_CChangeDelegator_included
 

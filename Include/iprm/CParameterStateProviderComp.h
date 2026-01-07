@@ -1,5 +1,4 @@
-#ifndef iprm_CParameterStateProviderComp_included
-#define iprm_CParameterStateProviderComp_included
+#pragma once
 
 
 // ACF includes
@@ -44,6 +43,5 @@ private:
 } // namespace iprm
 
 
-#endif // !iprm_CParameterStateProviderComp_included
 
 

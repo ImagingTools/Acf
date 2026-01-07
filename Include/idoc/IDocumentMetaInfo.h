@@ -1,5 +1,4 @@
-#ifndef idoc_IDocumentMetaInfo_included
-#define idoc_IDocumentMetaInfo_included
+#pragma once
 
 
 // Qt includes
@@ -185,4 +184,3 @@ typedef istd::TSharedInterfacePtr<IDocumentMetaInfo> MetaInfoPtr;
 } // namespace idoc
 
 
-#endif // !idoc_IDocumentMetaInfo_included

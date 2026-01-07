@@ -1,5 +1,4 @@
-#ifndef i3d_CAffine3d_included
-#define i3d_CAffine3d_included
+#pragma once
 
 
 // ACF includes
@@ -287,4 +286,3 @@ inline bool CAffine3d::operator!=(const CAffine3d& other) const
 } // namespace i3d
 
 
-#endif // !i3d_CAffine3d_included

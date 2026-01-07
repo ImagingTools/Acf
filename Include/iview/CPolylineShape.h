@@ -1,5 +1,4 @@
-#ifndef iview_CPolylineShape_included
-#define iview_CPolylineShape_included
+#pragma once
 
 
 // Qt includes
@@ -86,6 +85,5 @@ inline void CPolylineShape::SetOrientationVisible(bool state)
 } // namespace iview
 
 
-#endif // !iview_CPolylineShape_included
 
 

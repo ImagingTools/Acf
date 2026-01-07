@@ -1,5 +1,4 @@
-#ifndef BasePck_included
-#define BasePck_included
+#pragma once
 
 
 #include <imod/IObserver.h>
@@ -148,6 +147,5 @@ typedef icomp::TMakeComponentWrap<
 } // namespace BasePck
 
 
-#endif // !BasePck_included
 
 

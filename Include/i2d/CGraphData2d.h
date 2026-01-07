@@ -1,5 +1,4 @@
-#ifndef i2d_CGraphData2d_included
-#define i2d_CGraphData2d_included
+#pragma once
 
 
 // Qt includes
@@ -258,4 +257,3 @@ inline bool CGraphData2d::IsGridVisible() const
 } // namespace i2d
 
 
-#endif // !i2d_CGraphData2d_included

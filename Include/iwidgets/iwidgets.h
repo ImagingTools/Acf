@@ -1,5 +1,4 @@
-#ifndef iwidgets_included
-#define iwidgets_included
+#pragma once
 
 
 // ACF includes
@@ -25,6 +24,5 @@ void ClearLayout(QLayout* layout);
 } // namespace iwidgets
 
 
-#endif // !iwidgets_included
 
 

@@ -1,5 +1,4 @@
-#ifndef icomp_CComponentStaticInfoBase_included
-#define icomp_CComponentStaticInfoBase_included
+#pragma once
 
 
 // STL includes
@@ -37,6 +36,5 @@ public:
 } // namespace icomp
 
 
-#endif // !icomp_CComponentStaticInfoBase_included
 
 

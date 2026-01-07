@@ -1,5 +1,4 @@
-#ifndef iattr_included
-#define iattr_included
+#pragma once
 
 
 #include <iser/iser.h>
@@ -19,6 +18,5 @@ namespace iattr
 } // namespace iattr
 
 
-#endif // !iattr_included
 
 

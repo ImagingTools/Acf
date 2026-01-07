@@ -1,5 +1,4 @@
-#ifndef i3d_CQuaternion3d_included
-#define i3d_CQuaternion3d_included
+#pragma once
 
 
 // ACF includes
@@ -300,4 +299,3 @@ inline bool CQuaternion3d::operator!=(const CQuaternion3d& other) const
 } // namespace i3d
 
 
-#endif // !i3d_CQuaternion3d_included

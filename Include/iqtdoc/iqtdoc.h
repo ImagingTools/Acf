@@ -1,5 +1,4 @@
-#ifndef iqtdoc_included
-#define iqtdoc_included
+#pragma once
 
 
 // ACF includes
@@ -186,6 +185,5 @@ namespace iqtdoc
 } // namespace iqtdoc
 
 
-#endif // !iqtdoc_included
 
 

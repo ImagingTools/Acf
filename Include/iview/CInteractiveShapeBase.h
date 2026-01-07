@@ -1,5 +1,4 @@
-#ifndef iview_CInteractiveShapeBase_included
-#define iview_CInteractiveShapeBase_included
+#pragma once
 
 
 // ACF includes
@@ -159,6 +158,5 @@ inline bool CInteractiveShapeBase::IsDisplayChangeImportant(const istd::IChangea
 } // namespace iview
 
 
-#endif // !iview_CInteractiveShapeBase_included
 
 

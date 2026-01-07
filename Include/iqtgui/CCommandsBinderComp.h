@@ -1,5 +1,4 @@
-#ifndef iqtgui_CCommandsBinderComp_included
-#define iqtgui_CCommandsBinderComp_included
+#pragma once
 
 
 // ACF includes
@@ -58,6 +57,5 @@ private:
 } // namespace iqtgui
 
 
-#endif // !iqtgui_CCommandsBinderComp_included
 
 

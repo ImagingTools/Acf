@@ -1,5 +1,4 @@
-#ifndef idoc_CCompositeDocumentTemplateComp_included
-#define idoc_CCompositeDocumentTemplateComp_included
+#pragma once
 
 
 // ACF includes
@@ -67,6 +66,5 @@ private:
 } // namespace idoc
 
 
-#endif // !idoc_CCompositeDocumentTemplateComp_included
 
 

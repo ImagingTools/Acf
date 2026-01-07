@@ -1,5 +1,4 @@
-#ifndef idoc_IUndoManager_included
-#define idoc_IUndoManager_included
+#pragma once
 
 
 // ACF includes
@@ -128,6 +127,5 @@ typedef istd::TSharedInterfacePtr<idoc::IUndoManager> IUndoManagerSharedPtr;
 } // namespace idoc
 
 
-#endif // !idoc_IUndoManager_included
 
 

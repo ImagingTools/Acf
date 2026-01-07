@@ -1,5 +1,4 @@
-#ifndef iwidgets_CCollapsiblePage_included
-#define iwidgets_CCollapsiblePage_included
+#pragma once
 
 
 // ACF includes
@@ -35,6 +34,5 @@ private:
 } // namespace iwidgets
 
 
-#endif // !iwidgets_CCollapsiblePage_included
 
 

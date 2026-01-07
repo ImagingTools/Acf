@@ -1,5 +1,4 @@
-#ifndef idoc_IMultiPageDocument_included
-#define idoc_IMultiPageDocument_included
+#pragma once
 
 
 // Qt includes
@@ -151,6 +150,5 @@ typedef istd::TUniqueInterfacePtr<IMultiPageDocument> IMultiPageDocumentPtr;
 } // namespace idoc
 
 
-#endif // !idoc_IMultiPageDocument_included
 
 

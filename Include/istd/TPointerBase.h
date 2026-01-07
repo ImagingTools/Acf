@@ -1,5 +1,4 @@
-#ifndef istd_TPointerBase_included
-#define istd_TPointerBase_included
+#pragma once
 
 
 namespace istd
@@ -281,6 +280,5 @@ inline Type*& TPointerBase<Type>::GetPtrRef()
 } // namespace istd
 
 
-#endif // !istd_TPointerBase_included
 
 

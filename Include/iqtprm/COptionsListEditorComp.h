@@ -1,5 +1,4 @@
-#ifndef iqtprm_COptionsListEditorComp_included
-#define iqtprm_COptionsListEditorComp_included
+#pragma once
 
 
 //Qt includes
@@ -63,6 +62,5 @@ private:
 } // namespace iqtprm
 
 
-#endif // !iqtprm_COptionsListEditorComp_included
 
 

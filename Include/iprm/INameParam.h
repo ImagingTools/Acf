@@ -1,5 +1,4 @@
-#ifndef iprm_INameParam_included
-#define iprm_INameParam_included
+#pragma once
 
 
 // Qt includes
@@ -139,4 +138,3 @@ public:
 } // namespace iprm
 
 
-#endif // !iprm_INameParam_included

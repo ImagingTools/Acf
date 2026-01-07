@@ -1,5 +1,4 @@
-#ifndef iqtprm_CExtComposedParamsSetGuiComp_included
-#define iqtprm_CExtComposedParamsSetGuiComp_included
+#pragma once
 
 
 // Qt includes
@@ -85,6 +84,5 @@ private:
 } // namespace iqtprm
 
 
-#endif // !iqtprm_CExtComposedParamsSetGuiComp_included
 
 

@@ -1,5 +1,4 @@
-#ifndef i2d_ICalibration2d_included
-#define i2d_ICalibration2d_included
+#pragma once
 
 
 // ACF includes
@@ -74,6 +73,5 @@ public:
 } // namespace i2d
 
 
-#endif // !i2d_ICalibration2d_included
 
 

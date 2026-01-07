@@ -1,5 +1,4 @@
-#ifndef iattr_CNumericAttributeMetaInfo_included
-#define iattr_CNumericAttributeMetaInfo_included
+#pragma once
 
 
 // ACF includes
@@ -50,6 +49,5 @@ private:
 } // namespace iattr
 
 
-#endif // !iattr_CNumericAttributeMetaInfo_included
 
 
