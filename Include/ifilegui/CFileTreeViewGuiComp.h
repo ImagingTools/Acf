@@ -179,6 +179,3 @@ private:
 } // namespace ifilegui
 
 
-#endif // !ifilegui_CFileTreeProviderGuiComp_included
-
-
