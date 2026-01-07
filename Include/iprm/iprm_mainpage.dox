@@ -1,0 +1,408 @@
+/**
+\mainpage iprm - Parameter Management Library
+
+\section intro_sec Introduction
+
+The iprm library provides a flexible and extensible framework for managing parameters in applications. 
+It offers a comprehensive set of interfaces and implementations for handling different types of parameters, 
+parameter sets, and dynamic parameter management with support for serialization, validation, and change notification.
+
+\section features_sec Key Features
+
+- **Type-Safe Parameter Management**: Strongly typed parameter interfaces for text, IDs, names, and selections
+- **Dynamic Parameter Sets**: Support for creating, modifying, and managing collections of parameters
+- **Selection Constraints**: Flexible option lists with support for hierarchical selections
+- **Serialization**: Built-in support for parameter persistence through the ACF serialization framework
+- **Change Notification**: Observer pattern implementation for tracking parameter modifications
+- **Validation**: Extensible parameter set validation framework
+- **State Management**: Parameter state providers for managing edit/display states
+
+\section architecture_sec Architecture
+
+The iprm library is organized into several key components:
+
+\subsection param_types Parameter Types
+
+- **iprm::ITextParam**: Simple text parameter interface
+- **iprm::IIdParam**: Parameter containing a unique identifier
+- **iprm::INameParam**: Named parameter with fixed/editable name support
+- **iprm::ISelectionParam**: Single selection from a list of options
+- **iprm::IEnableableParam**: Parameter that can be enabled/disabled
+- **iprm::IVariableParam**: Parameter with changeable type
+
+\subsection param_containers Parameter Containers
+
+- **iprm::IParamsSet**: Container for a collection of related parameters
+- **iprm::IParamsManager**: Manager for multiple parameter sets with CRUD operations
+
+\subsection constraints_options Options and Constraints
+
+- **iprm::IOptionsList**: Read-only list of selection options
+- **iprm::IOptionsManager**: Dynamic options manager with add/remove/modify capabilities
+
+\subsection utilities Utilities
+
+- **iprm::IParameterStateProvider**: Provides state information for parameters
+- **iprm::IParamsSetValidator**: Validates parameter set consistency
+
+\section usage_sec Usage Examples
+
+\subsection example_text Text Parameter Example
+
+\code{.cpp}
+#include <iprm/CTextParam.h>
+
+// Create a text parameter
+iprm::CTextParam textParam;
+
+// Set text value
+textParam.SetText("Hello, World!");
+
+// Get text value
+QString text = textParam.GetText();
+
+// Check if read-only
+bool isReadOnly = textParam.IsReadOnly();
+
+// Serialize to archive
+iser::CMemoryWriteArchive archive(nullptr);
+textParam.Serialize(archive);
+\endcode
+
+\subsection example_selection Selection Parameter Example
+
+\code{.cpp}
+#include <iprm/CSelectionParam.h>
+#include <iprm/COptionsManager.h>
+
+// Create options manager
+iprm::COptionsManager optionsManager;
+
+// Add options
+optionsManager.InsertOption("Option 1", "opt1", "First option");
+optionsManager.InsertOption("Option 2", "opt2", "Second option");
+optionsManager.InsertOption("Option 3", "opt3", "Third option");
+
+// Create selection parameter
+iprm::CSelectionParam selectionParam;
+selectionParam.SetSelectionConstraints(&optionsManager);
+
+// Set selection by index
+selectionParam.SetSelectedOptionIndex(1);
+
+// Get selected index
+int selectedIndex = selectionParam.GetSelectedOptionIndex();
+
+// Set selection by option ID
+selectionParam.SetSelectedOptionById("opt3");
+
+// Get constraints
+const iprm::IOptionsList* constraints = selectionParam.GetSelectionConstraints();
+int optionsCount = constraints->GetOptionsCount();
+QString optionName = constraints->GetOptionName(0);
+\endcode
+
+\subsection example_paramsset Parameter Set Example
+
+\code{.cpp}
+#include <iprm/IParamsSet.h>
+#include <iprm/CTextParam.h>
+
+// Assuming you have a parameter set implementation
+iprm::IParamsSet* paramsSet = /* ... obtained from somewhere ... */;
+
+// Get list of parameter IDs
+iprm::IParamsSet::Ids paramIds = paramsSet->GetParamIds();
+
+// Iterate through parameters
+for (const QByteArray& id : paramIds)
+{
+    const iser::ISerializable* param = paramsSet->GetParameter(id);
+    // Process parameter...
+}
+
+// Get editable parameter
+iser::ISerializable* editableParam = paramsSet->GetEditableParameter("myParamId");
+if (editableParam)
+{
+    // Cast to appropriate type and modify
+    iprm::ITextParam* textParam = dynamic_cast<iprm::ITextParam*>(editableParam);
+    if (textParam)
+    {
+        textParam->SetText("New Value");
+    }
+}
+\endcode
+
+\subsection example_paramsmanager Parameter Manager Example
+
+\code{.cpp}
+#include <iprm/IParamsManager.h>
+
+// Assuming you have a parameter manager implementation
+iprm::IParamsManager* paramsManager = /* ... obtained from component ... */;
+
+// Get number of parameter sets
+int count = paramsManager->GetParamsSetsCount();
+
+// Get operation flags
+int flags = paramsManager->GetIndexOperationFlags(-1);
+bool canInsert = (flags & iprm::IParamsManager::MF_SUPPORT_INSERT) != 0;
+bool canDelete = (flags & iprm::IParamsManager::MF_SUPPORT_DELETE) != 0;
+
+// Insert new parameter set
+if (canInsert)
+{
+    int newIndex = paramsManager->InsertParamsSet();
+    if (newIndex >= 0)
+    {
+        // Set name for new parameter set
+        paramsManager->SetParamsSetName(newIndex, "My Parameter Set");
+        
+        // Get the parameter set
+        iprm::IParamsSet* paramsSet = paramsManager->GetParamsSet(newIndex);
+        
+        // Work with the parameter set...
+    }
+}
+
+// Iterate through all parameter sets
+for (int i = 0; i < count; ++i)
+{
+    QString name = paramsManager->GetParamsSetName(i);
+    QString description = paramsManager->GetParamsSetDescription(i);
+    iprm::IParamsSet* paramsSet = paramsManager->GetParamsSet(i);
+    // Process parameter set...
+}
+
+// Remove a parameter set
+if (canDelete)
+{
+    paramsManager->RemoveParamsSet(2);
+}
+
+// Swap two parameter sets
+bool canSwap = (flags & iprm::IParamsManager::MF_SUPPORT_SWAP) != 0;
+if (canSwap)
+{
+    paramsManager->SwapParamsSet(0, 1);
+}
+\endcode
+
+\subsection example_optionsmanager Options Manager Example
+
+\code{.cpp}
+#include <iprm/COptionsManager.h>
+
+// Create options manager
+iprm::COptionsManager optionsManager;
+
+// Check operation flags
+int flags = optionsManager.GetOptionOperationFlags(-1);
+bool canAddOptions = (flags & iprm::IOptionsManager::OOF_SUPPORT_INSERT) != 0;
+
+// Insert options
+if (canAddOptions)
+{
+    optionsManager.InsertOption("Red", "color_red", "Red color", -1);
+    optionsManager.InsertOption("Green", "color_green", "Green color", -1);
+    optionsManager.InsertOption("Blue", "color_blue", "Blue color", -1);
+}
+
+// Get options count
+int optionsCount = optionsManager.GetOptionsCount();
+
+// Iterate through options
+for (int i = 0; i < optionsCount; ++i)
+{
+    QString name = optionsManager.GetOptionName(i);
+    QByteArray id = optionsManager.GetOptionId(i);
+    QString description = optionsManager.GetOptionDescription(i);
+    bool isEnabled = optionsManager.IsOptionEnabled(i);
+    
+    qDebug() << "Option" << i << ":" << name << "(" << id << ")";
+}
+
+// Modify option
+optionsManager.SetOptionName(0, "Dark Red");
+optionsManager.SetOptionDescription(0, "Dark red color");
+
+// Enable/disable option
+optionsManager.SetOptionEnabled(1, false);
+
+// Remove option
+bool canRemove = (flags & iprm::IOptionsManager::OOF_SUPPORT_DELETE) != 0;
+if (canRemove)
+{
+    optionsManager.RemoveOption(2);
+}
+
+// Select an option
+optionsManager.SetSelectedOptionIndex(0);
+int selectedIndex = optionsManager.GetSelectedOptionIndex();
+\endcode
+
+\subsection example_enableable Enableable Parameter Example
+
+\code{.cpp}
+#include <iprm/CEnableableParam.h>
+
+// Create enableable parameter
+iprm::CEnableableParam param;
+
+// Check if enabled
+bool isEnabled = param.IsEnabled();
+
+// Check if enabling is allowed
+bool canEnable = param.IsEnablingAllowed();
+
+// Enable/disable
+if (canEnable)
+{
+    bool success = param.SetEnabled(true);
+    if (success)
+    {
+        // Parameter was enabled
+    }
+}
+
+// Disable
+param.SetEnabled(false);
+\endcode
+
+\subsection example_validation Parameter Set Validation Example
+
+\code{.cpp}
+#include <iprm/IParamsSetValidator.h>
+#include <ilog/CMessageConsumer.h>
+
+// Assuming you have a validator implementation
+iprm::IParamsSetValidator* validator = /* ... obtained from somewhere ... */;
+
+// Get supported type IDs
+iprm::IParamsSetValidator::Ids supportedTypes = validator->GetSupportedTypeIds();
+
+// Create message consumer for validation messages
+ilog::CMessageConsumer messageConsumer;
+
+// Validate parameter set
+iprm::IParamsSet* paramsSet = /* ... obtained from somewhere ... */;
+QByteArray validationContext = "myContext";
+
+bool isValid = validator->IsParamsSetConsistent(
+    validationContext,
+    *paramsSet,
+    &messageConsumer);
+
+if (!isValid)
+{
+    // Handle validation errors
+    // Check messageConsumer for detailed error messages
+}
+\endcode
+
+\subsection example_serialization Serialization Example
+
+\code{.cpp}
+#include <iprm/CTextParam.h>
+#include <iprm/CSelectionParam.h>
+#include <iser/CMemoryReadArchive.h>
+#include <iser/CMemoryWriteArchive.h>
+
+// Create and configure parameters
+iprm::CTextParam textParam;
+textParam.SetText("Important Data");
+
+iprm::CSelectionParam selectionParam;
+selectionParam.SetSelectedOptionIndex(2);
+
+// Serialize to archive
+iser::CMemoryWriteArchive writeArchive(nullptr);
+textParam.Serialize(writeArchive);
+selectionParam.Serialize(writeArchive);
+
+// Later, deserialize from archive
+iprm::CTextParam loadedTextParam;
+iprm::CSelectionParam loadedSelectionParam;
+
+iser::CMemoryReadArchive readArchive(writeArchive);
+loadedTextParam.Serialize(readArchive);
+loadedSelectionParam.Serialize(readArchive);
+
+// Verify data was restored
+QString text = loadedTextParam.GetText(); // "Important Data"
+int index = loadedSelectionParam.GetSelectedOptionIndex(); // 2
+\endcode
+
+\subsection example_change_notification Change Notification Example
+
+\code{.cpp}
+#include <iprm/ISelectionParam.h>
+#include <imod/IModelObserver.h>
+
+// Create observer for selection changes
+class MySelectionObserver : public imod::IModelObserver
+{
+public:
+    virtual void OnModelChanged(const istd::IChangeable* modelPtr, 
+                               const istd::IChangeable::ChangeSet& changeSet) override
+    {
+        if (changeSet.Contains(iprm::ISelectionParam::CF_SELECTION_CHANGED))
+        {
+            // Selection has changed
+            const iprm::ISelectionParam* selection = 
+                dynamic_cast<const iprm::ISelectionParam*>(modelPtr);
+            if (selection)
+            {
+                int newIndex = selection->GetSelectedOptionIndex();
+                // Handle the change...
+            }
+        }
+    }
+};
+
+// Use the observer
+MySelectionObserver observer;
+iprm::CSelectionParam selectionParam;
+
+// Attach observer (implementation specific)
+// selectionParam.AttachObserver(&observer);
+
+// When selection changes, observer will be notified
+selectionParam.SetSelectedOptionIndex(3);
+\endcode
+
+\section thread_safety Thread Safety
+
+The iprm library components are generally not thread-safe by default. When using parameters 
+across multiple threads, appropriate synchronization mechanisms should be employed by the application.
+
+\section dependencies Dependencies
+
+The iprm library depends on the following ACF components:
+- **istd**: Standard utilities, change notification interfaces
+- **iser**: Serialization framework
+- **imod**: Model-observer pattern implementation
+- **icomp**: Component framework
+- **Qt Core**: QString, QByteArray, QSet, and other core classes
+
+\section best_practices Best Practices
+
+-# **Use Smart Pointers**: Prefer istd::TUniqueInterfacePtr and istd::TSharedInterfacePtr for memory management
+-# **Check Operation Flags**: Always verify operation flags before attempting insert/delete/swap operations
+-# **Handle Validation**: Use parameter set validators to ensure data consistency
+-# **Leverage Serialization**: Utilize built-in serialization for persistence and undo/redo functionality
+-# **Observe Changes**: Implement observers to react to parameter changes in a decoupled manner
+-# **Clone Parameters**: Use CloneMe() for creating copies of parameters rather than manual copying
+-# **Check Constraints**: Verify selection constraints before setting option indices
+
+\section see_also See Also
+
+- iprm::IParamsSet
+- iprm::IParamsManager
+- iprm::ISelectionParam
+- iprm::ITextParam
+- iprm::IOptionsList
+- iprm::IOptionsManager
+
+*/
