@@ -1,5 +1,4 @@
-#ifndef iview_CAnnulusSegmentShape_included
-#define iview_CAnnulusSegmentShape_included
+#pragma once
 
 
 #include <iview/CAnnulusShape.h>
@@ -67,5 +66,4 @@ inline bool CAnnulusSegmentShape::IsEditableAngles() const
 } // namespace iview
 
 
-#endif // !iview_CAnnulusSegmentShape_included
 

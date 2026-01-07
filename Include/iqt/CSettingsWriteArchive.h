@@ -1,5 +1,4 @@
-#ifndef iqt_CSettingsWriteArchive_included
-#define iqt_CSettingsWriteArchive_included
+#pragma once
 
 
 // ACF includes
@@ -54,6 +53,5 @@ protected:
 } // namespace iqt
 
 
-#endif // !iqt_CSettingsWriteArchive_included
 
 

@@ -1,5 +1,4 @@
-#ifndef iwidgets_CSplitterDelegate_included
-#define iwidgets_CSplitterDelegate_included
+#pragma once
 
 
 // ACF includes
@@ -58,6 +57,5 @@ private:
 } // namespace iwidgets
 
 
-#endif // !iwidgets_CSplitterDelegate_included
 
 

@@ -1,5 +1,4 @@
-#ifndef iview_IShapeStatusInfo_included
-#define iview_IShapeStatusInfo_included
+#pragma once
 
 
 // Qt includes
@@ -34,6 +33,5 @@ public:
 } // namespace iview
 
 
-#endif // !iview_IShapeStatusInfo_included
 
 

@@ -1,5 +1,4 @@
-#ifndef ibase_TMakeModelObserverCompWrap_included
-#define ibase_TMakeModelObserverCompWrap_included
+#pragma once
 
 
 // ACF includes
@@ -64,6 +63,5 @@ public:
 } // namespace ibase
 
 
-#endif // !ibase_TMakeModelObserverCompWrap_included
 
 

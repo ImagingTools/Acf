@@ -1,5 +1,4 @@
-#ifndef iqtgui_CComposedGuiComp_included
-#define iqtgui_CComposedGuiComp_included
+#pragma once
 
 
 // Qt includes
@@ -84,6 +83,5 @@ private:
 } // namespace iqtgui
 
 
-#endif // !iqtgui_CComposedGuiComp_included
 
 

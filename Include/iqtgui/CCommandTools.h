@@ -1,5 +1,4 @@
-#ifndef iqtgui_CCommandTools_included
-#define iqtgui_CCommandTools_included
+#pragma once
 
 
 // Qt includes
@@ -141,6 +140,5 @@ void CCommandTools::CreateMenu(
 } // namespace iqtgui
 
 
-#endif // !iqtgui_CCommandTools_included
 
 

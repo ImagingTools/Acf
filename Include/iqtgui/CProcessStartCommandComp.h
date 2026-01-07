@@ -1,5 +1,4 @@
-#ifndef iqtgui_CProcessStartCommanComp_included
-#define iqtgui_CProcessStartCommanComp_included
+#pragma once
 
 
 // ACF includes
@@ -64,6 +63,5 @@ protected:
 }  // namespace iqtgui
 
 
-#endif // iqtgui_CProcessStartCommanComp_included
 
 

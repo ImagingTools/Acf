@@ -1,5 +1,4 @@
-#ifndef iqtgui_TDesignerGuiCompBase_included
-#define iqtgui_TDesignerGuiCompBase_included
+#pragma once
 
 
 // Qt includes
@@ -83,6 +82,5 @@ void TDesignerGuiCompBase<UI, WidgetType>::OnGuiRetranslate()
 } // namespace iqtgui
 
 
-#endif // !iqtgui_TDesignerGuiCompBase_included
 
 

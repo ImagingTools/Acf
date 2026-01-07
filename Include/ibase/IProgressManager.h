@@ -1,5 +1,4 @@
-#ifndef ibase_IProgressManager_included
-#define ibase_IProgressManager_included
+#pragma once
 
 
 // Qt includes
@@ -54,6 +53,5 @@ public:
 } // namespace ibase
 
 
-#endif // !ibase_IProgressManager_included
 
 

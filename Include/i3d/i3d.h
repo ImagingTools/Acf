@@ -1,5 +1,4 @@
-#ifndef i3d_included
-#define i3d_included
+#pragma once
 
 
 #include <imath/imath.h>
@@ -22,6 +21,5 @@ namespace i3d
 } // namespace i3d
 
 
-#endif // !i3d_included
 
 

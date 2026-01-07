@@ -1,5 +1,4 @@
-#ifndef istd_TIHierarchical_included
-#define istd_TIHierarchical_included
+#pragma once
 
 
 // ACF includes
@@ -65,5 +64,4 @@ typedef TIHierarchical<IPolymorphic> IHierarchical;
 } // namespace istd
 
 
-#endif // !istd_TIHierarchical_included
 

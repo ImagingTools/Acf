@@ -1,5 +1,4 @@
-#ifndef istd_TRanges_included
-#define istd_TRanges_included
+#pragma once
 
 
 // STL includes
@@ -950,6 +949,5 @@ typedef TRanges<int> CIntRanges;
 } // namespace istd
 
 
-#endif //!istd_TRanges_included
 
 

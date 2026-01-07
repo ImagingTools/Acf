@@ -1,5 +1,4 @@
-#ifndef iwidgets_CDoubleRangeSpinEdit_included
-#define iwidgets_CDoubleRangeSpinEdit_included
+#pragma once
 
 
 // Local includes
@@ -52,4 +51,3 @@ protected:
 } // namespace iwidgets
 
 
-#endif // !iwidgets_CDoubleRangeSpinEdit_included

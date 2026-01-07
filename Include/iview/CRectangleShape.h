@@ -1,5 +1,4 @@
-#ifndef iview_CRectangleShape_included
-#define iview_CRectangleShape_included
+#pragma once
 
 
 #include <iview/CInteractiveShapeBase.h>
@@ -69,6 +68,5 @@ protected:
 } // namespace iview
 
 
-#endif //iview_CRectangleShape_included
 
 

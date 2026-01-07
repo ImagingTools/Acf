@@ -1,5 +1,4 @@
-#ifndef iview_IInteractiveShape_included
-#define iview_IInteractiveShape_included
+#pragma once
 
 
 // ACF includes
@@ -36,6 +35,5 @@ public:
 } // namespace iview
 
 
-#endif // !iview_IInteractiveShape_included
 
 

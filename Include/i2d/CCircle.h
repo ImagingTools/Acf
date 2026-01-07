@@ -1,5 +1,4 @@
-#ifndef i2d_CCircle_included
-#define i2d_CCircle_included
+#pragma once
 
 
 #include <i2d/CPosition2d.h>
@@ -121,6 +120,5 @@ inline double CCircle::GetRadius() const
 } // namespace i2d
 
 
-#endif // !i2d_CCircle_included
 
 

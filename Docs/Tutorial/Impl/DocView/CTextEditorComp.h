@@ -1,5 +1,4 @@
-#ifndef CTextEditorComp_included
-#define CTextEditorComp_included
+#pragma once
 
 
 // Qt includes
@@ -69,6 +68,5 @@ private:
 };
 
 
-#endif // !CTextEditorComp_included
 
 

@@ -1,5 +1,4 @@
-#ifndef iimg_CBitmap_included
-#define iimg_CBitmap_included
+#pragma once
 
 
 // Qt includes
@@ -93,6 +92,5 @@ inline QImage& CBitmap::GetQImageRef()
 } // namespace iimg
 
 
-#endif //!iimg_CBitmap_included
 
 

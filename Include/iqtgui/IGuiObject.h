@@ -1,5 +1,4 @@
-#ifndef iqtgui_IGuiObject_included
-#define iqtgui_IGuiObject_included
+#pragma once
 
 
 // Qt includes
@@ -254,6 +253,5 @@ typedef istd::TSharedInterfacePtr<IGuiObject> IGuiObjectSharedPtr;
 } // namespace iqtgui
 
 
-#endif // !iqtgui_IGuiObject_included
 
 

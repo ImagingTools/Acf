@@ -1,5 +1,4 @@
-#ifndef iqtgui_TItemModelEditorCompBase_included
-#define iqtgui_TItemModelEditorCompBase_included
+#pragma once
 
 
 // Qt includes
@@ -92,6 +91,5 @@ void TItemModelEditorCompBase<ItemWidgetClass>::OnGuiCreated()
 } // namespace iqtgui
 
 
-#endif // !iqtgui_TItemModelEditorCompBase_included
 
 

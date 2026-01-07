@@ -1,5 +1,4 @@
-#ifndef iimg_CGeneralBitmap_included
-#define iimg_CGeneralBitmap_included
+#pragma once
 
 // ACF includes
 #include <istd/TOptDelPtr.h>
@@ -134,6 +133,5 @@ inline istd::CIndex2d CGeneralBitmap::GetImageSize() const
 } // namespace iimg
 
 
-#endif // !iimg_CGeneralBitmap_included
 
 

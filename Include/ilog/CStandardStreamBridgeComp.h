@@ -1,5 +1,4 @@
-#ifndef ilog_CStandardStreamBridgeComp_included
-#define ilog_CStandardStreamBridgeComp_included
+#pragma once
 
 
 // ACF includes
@@ -40,5 +39,4 @@ private:
 } // namespace ilog
 
 
-#endif // !ilog_CStandardStreamBridgeComp_included
 

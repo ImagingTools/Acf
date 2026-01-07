@@ -1,5 +1,4 @@
-#ifndef i3d_CLine3d_included
-#define i3d_CLine3d_included
+#pragma once
 
 
 // ACF includes
@@ -199,4 +198,3 @@ inline bool CLine3d::operator!=(const CLine3d& line) const
 } // namespace i3d
 
 
-#endif // !i3d_CLine3d_included

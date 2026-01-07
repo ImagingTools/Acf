@@ -1,5 +1,4 @@
-#ifndef i2d_ISceneController_included
-#define i2d_ISceneController_included
+#pragma once
 
 
 #include <istd/IPolymorphic.h>
@@ -150,6 +149,5 @@ public:
 } // namespace i2d
 
 
-#endif // !i2d_ISceneController_included
 
 

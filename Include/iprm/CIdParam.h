@@ -1,5 +1,4 @@
-#ifndef iprm_CIdParam_included
-#define iprm_CIdParam_included
+#pragma once
 
 
 // ACF includes
@@ -38,6 +37,5 @@ protected:
 } // namespace iprm
 
 
-#endif // !iprm_CIdParam_included
 
 

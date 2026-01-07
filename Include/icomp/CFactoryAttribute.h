@@ -1,5 +1,4 @@
-#ifndef icomp_CFactoryAttribute_included
-#define icomp_CFactoryAttribute_included
+#pragma once
 
 
 // Qt includes
@@ -42,6 +41,5 @@ public:
 } // namespace icomp
 
 
-#endif // !icomp_CFactoryAttribute_included
 
 

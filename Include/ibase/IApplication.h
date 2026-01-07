@@ -1,5 +1,4 @@
-#ifndef ibase_IApplication_included
-#define ibase_IApplication_included
+#pragma once
 
 
 // Qt includes
@@ -47,6 +46,5 @@ public:
 } // namespace ibase
 
 
-#endif // !ibase_IApplication_included
 
 

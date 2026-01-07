@@ -1,5 +1,4 @@
-#ifndef iqtgui_CProgressManagerGuiComp_included
-#define iqtgui_CProgressManagerGuiComp_included
+#pragma once
 
 
 // ACF includes
@@ -51,6 +50,5 @@ private:
 } // namespace iqtgui
 
 
-#endif // !iqtgui_CProgressManagerGuiComp_included
 
 

@@ -1,5 +1,4 @@
-#ifndef iloggui_CMessageBoxComp_included
-#define iloggui_CMessageBoxComp_included
+#pragma once
 
 
 // Qt includes
@@ -78,6 +77,5 @@ private:
 } // namespace iloggui
 
 
-#endif // !iloggui_CMessageBoxComp_included
 
 

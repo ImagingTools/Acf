@@ -1,5 +1,4 @@
-#ifndef istd_CGeneralTimeStamp_included
-#define istd_CGeneralTimeStamp_included
+#pragma once
 
 
 // Qt includes
@@ -50,6 +49,5 @@ protected:
 } // namespace istd
 
 
-#endif // !istd_CGeneralTimeStamp_included
 
 

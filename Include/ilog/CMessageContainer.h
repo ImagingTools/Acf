@@ -1,5 +1,4 @@
-#ifndef ilog_CMessageContainer_included
-#define ilog_CMessageContainer_included
+#pragma once
 
 
 // Qt includes
@@ -142,6 +141,5 @@ bool CMessageContainer::RegisterMessageType(const QByteArray& messageTypeId)
 } // namespace ilog
 
 
-#endif // !ilog_CMessageContainer_included
 
 

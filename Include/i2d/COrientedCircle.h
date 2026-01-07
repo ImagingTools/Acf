@@ -1,5 +1,4 @@
-#ifndef i2d_COrientedCircle_included
-#define i2d_COrientedCircle_included
+#pragma once
 
 
 #include <i2d/CCircle.h>
@@ -63,6 +62,5 @@ inline bool COrientedCircle::IsOrientedOutside() const
 } // namespace i2d
 
 
-#endif // !i2d_COrientedCircle_included
 
 

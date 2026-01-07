@@ -1,5 +1,4 @@
-#ifndef icomp_CCompositePackageStaticInfo_included
-#define icomp_CCompositePackageStaticInfo_included
+#pragma once
 
 
 // Qt includes
@@ -57,6 +56,5 @@ private:
 } // namespace icomp
 
 
-#endif // !icomp_CCompositePackageStaticInfo_included
 
 

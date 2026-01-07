@@ -1,5 +1,4 @@
-#ifndef iattr_TMultiAttribute_included
-#define iattr_TMultiAttribute_included
+#pragma once
 
 
 // Qt includes
@@ -271,6 +270,5 @@ typedef TMultiAttribute<QByteArray> CIdListAttribute;
 } // namespace iattr
 
 
-#endif // !iattr_TMultiAttribute_included
 
 

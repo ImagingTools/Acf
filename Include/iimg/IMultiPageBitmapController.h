@@ -1,5 +1,4 @@
-#ifndef iimg_IMultiPageBitmapController_included
-#define iimg_IMultiPageBitmapController_included
+#pragma once
 
 
 // ACF includes
@@ -61,6 +60,5 @@ public:
 } // namespace iimg
 
 
-#endif // iimg_IMultiPageBitmapController_included
 
 

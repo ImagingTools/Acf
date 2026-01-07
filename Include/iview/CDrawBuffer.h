@@ -1,5 +1,4 @@
-#ifndef iview_CDrawBuffer_included
-#define iview_CDrawBuffer_included
+#pragma once
 
 
 // Qt includes
@@ -84,5 +83,4 @@ inline QPainter& CDrawBuffer::GetDrawContext()
 } // namespace iview
 
 
-#endif // !iview_CDrawBuffer_included
 

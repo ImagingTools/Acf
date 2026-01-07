@@ -1,5 +1,4 @@
-#ifndef iser_CBitMemoryWriteArchive_included
-#define iser_CBitMemoryWriteArchive_included
+#pragma once
 
 
 // ACF includes
@@ -40,5 +39,4 @@ protected:
 } // namespace iser
 
 
-#endif // !iser_CBitMemoryWriteArchive_included
 

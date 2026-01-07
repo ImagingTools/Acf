@@ -1,5 +1,4 @@
-#ifndef i2d_included
-#define i2d_included
+#pragma once
 
 
 #include <limits>
@@ -23,6 +22,5 @@ namespace i2d
 } // namespace i2d
 
 
-#endif // !i2d_included
 
 

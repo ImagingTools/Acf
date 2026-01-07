@@ -1,5 +1,4 @@
-#ifndef imod_CModelProxy_included
-#define imod_CModelProxy_included
+#pragma once
 
 
 // Qt includes
@@ -90,6 +89,5 @@ private:
 } // namespace imod
 
 
-#endif // !imod_CModelProxy_included
 
 

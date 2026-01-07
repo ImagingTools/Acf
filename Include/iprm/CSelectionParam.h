@@ -1,5 +1,4 @@
-#ifndef iprm_CSelectionParam_included
-#define iprm_CSelectionParam_included
+#pragma once
 
 
 // Qt includes
@@ -103,6 +102,5 @@ private:
 } // namespace iprm
 
 
-#endif // !iprm_CSelectionParam_included
 
 

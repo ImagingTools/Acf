@@ -1,5 +1,4 @@
-#ifndef iview_IDisplay_included
-#define iview_IDisplay_included
+#pragma once
 
 
 #include <i2d/CRect.h>
@@ -93,6 +92,5 @@ public:
 } // namespace iview
 
 
-#endif // !iview_IDisplay_included
 
 

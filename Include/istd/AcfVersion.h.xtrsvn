@@ -1,5 +1,4 @@
-#ifndef istd_AcfVersion_included
-#define istd_AcfVersion_included
+#pragma once
 
 
 namespace istd
@@ -17,8 +16,5 @@ enum RepositoryState
 
 
 } // namespace istd
-
-
-#endif // !istd_AcfVersion_included
 
 

@@ -1,5 +1,4 @@
-#ifndef iwidgets_CSimpleGuiContainerDelegate_included
-#define iwidgets_CSimpleGuiContainerDelegate_included
+#pragma once
 
 
 // ACF includes
@@ -62,6 +61,5 @@ private:
 } // namespace iwidgets
 
 
-#endif // !iwidgets_CSimpleGuiContainerDelegate_included
 
 

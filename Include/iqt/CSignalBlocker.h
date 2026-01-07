@@ -1,5 +1,4 @@
-#ifndef iqt_CSignalBlocker_included
-#define iqt_CSignalBlocker_included
+#pragma once
 
 
 // Qt includes
@@ -196,5 +195,4 @@ private:
 } // namespace iqt
 
 
-#endif // !iqt_CSignalBlocker_included
 

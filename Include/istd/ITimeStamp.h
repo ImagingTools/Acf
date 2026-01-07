@@ -1,5 +1,4 @@
-#ifndef istd_ITimeStamp_included
-#define istd_ITimeStamp_included
+#pragma once
 
 
 // Qt includes
@@ -65,5 +64,4 @@ public:
 } // namespace istd
 
 
-#endif // !istd_ITimeStamp_included
 

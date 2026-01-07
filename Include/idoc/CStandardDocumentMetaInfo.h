@@ -1,5 +1,4 @@
-#ifndef idoc_CStandardDocumentMetaInfo_included
-#define idoc_CStandardDocumentMetaInfo_included
+#pragma once
 
 
 // Qt includes
@@ -106,6 +105,5 @@ private:
 } // namespace idoc
 
 
-#endif // !idoc_CStandardDocumentMetaInfo_included
 
 

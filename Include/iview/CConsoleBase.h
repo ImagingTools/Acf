@@ -1,5 +1,4 @@
-#ifndef iview_CConsoleBase_included
-#define iview_CConsoleBase_included
+#pragma once
 
 
 // Qt includes
@@ -204,5 +203,4 @@ private:
 } // namespace iview
 
 
-#endif // !iview_CConsoleBase_included
 

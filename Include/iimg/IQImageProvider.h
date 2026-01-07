@@ -1,5 +1,4 @@
-#ifndef iimg_IQImageProvider_included
-#define iimg_IQImageProvider_included
+#pragma once
 
 
 // Qt includes
@@ -41,6 +40,5 @@ public:
 } // namespace iimg
 
 
-#endif // !iimg_IQImageProvider_included
 
 

@@ -1,5 +1,4 @@
-#ifndef ibase_CUuidComp_included
-#define ibase_CUuidComp_included
+#pragma once
 
 
 // ACF includes
@@ -36,6 +35,5 @@ protected:
 } // namespace ibase
 
 
-#endif // !ibase_CUuidComp_included
 
 

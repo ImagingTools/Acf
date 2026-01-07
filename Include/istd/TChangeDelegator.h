@@ -1,5 +1,4 @@
-#ifndef istd_TChangeDelegator_included
-#define istd_TChangeDelegator_included
+#pragma once
 
 
 // ACF includes
@@ -72,5 +71,4 @@ void TChangeDelegator<Base>::OnEndChanges(const istd::IChangeable::ChangeSet& ch
 } // namespace istd
 
 
-#endif // !istd_TChangeDelegator_included
 

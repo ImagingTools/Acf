@@ -1,5 +1,4 @@
-#ifndef ifilegui_CFileTreeViewGuiComp_included
-#define ifilegui_CFileTreeViewGuiComp_included
+#pragma once
 
 
 // Qt includes
@@ -13,7 +12,6 @@
 #include <QtWidgets/QFileIconProvider>
 #else
 #include <QtGui/QFileIconProvider>
-#endif
 
 
 // ACF includes
@@ -179,8 +177,5 @@ private:
 
 
 } // namespace ifilegui
-
-
-#endif // !ifilegui_CFileTreeProviderGuiComp_included
 
 

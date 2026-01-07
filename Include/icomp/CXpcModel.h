@@ -1,5 +1,4 @@
-#ifndef icomp_CXpcModel_included
-#define icomp_CXpcModel_included
+#pragma once
 
 
 // Qt includes
@@ -56,6 +55,5 @@ private:
 } // namespace icomp
 
 
-#endif // !icomp_CXpcModel_included
 
 

@@ -1,5 +1,4 @@
-#ifndef i2d_CRectangle_included
-#define i2d_CRectangle_included
+#pragma once
 
 
 // Qt includes
@@ -397,6 +396,5 @@ inline const i2d::CRectangle& CRectangle::GetInvalid()
 } // namespace i2d
 
 
-#endif // !i2d_CRectangle_included
 
 

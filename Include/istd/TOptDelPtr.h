@@ -1,5 +1,4 @@
-#ifndef istd_TOptDelPtr_included
-#define istd_TOptDelPtr_included
+#pragma once
 
 
 // ACF includes
@@ -240,6 +239,5 @@ void TOptDelPtr<Type, DelArray>::Detach()
 } // namespace istd
 
 
-#endif // !istd_TOptDelPtr_included
 
 

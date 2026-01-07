@@ -1,5 +1,4 @@
-#ifndef i2d_CAnnulusSegmentComp_included
-#define i2d_CAnnulusSegmentComp_included
+#pragma once
 
 
 // ACF includes
@@ -51,6 +50,5 @@ private:
 } // namespace i2d
 
 
-#endif // !i2d_CAnnulusSegmentComp_included
 
 

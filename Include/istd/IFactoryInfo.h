@@ -1,5 +1,4 @@
-#ifndef istd_IFactoryInfo_included
-#define istd_IFactoryInfo_included
+#pragma once
 
 
 // Qt includes
@@ -142,5 +141,4 @@ public:
 } // namespace istd
 
 
-#endif // !istd_IFactoryInfo_included
 

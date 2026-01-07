@@ -1,5 +1,4 @@
-#ifndef ilog_TExtMessage_included
-#define ilog_TExtMessage_included
+#pragma once
 
 
 // ACF includes
@@ -169,6 +168,5 @@ TExtMessageModel<Element>::TExtMessageModel(
 } // namespace ilog
 
 
-#endif // ilog_TExtMessage_included
 
 

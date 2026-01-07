@@ -1,5 +1,4 @@
-#ifndef iqtgui_TRestorableGuiWrap_included
-#define iqtgui_TRestorableGuiWrap_included
+#pragma once
 
 
 // ACF includes
@@ -67,6 +66,5 @@ bool TRestorableGuiWrap<Gui>::DestroyGui()
 } // namespace iqtgui
 
 
-#endif // !iqtgui_TRestorableGuiWrap_included
 
 

@@ -1,5 +1,4 @@
-#ifndef iprm_CNameParamComp_included
-#define iprm_CNameParamComp_included
+#pragma once
 
 
 // ACF includes
@@ -48,6 +47,5 @@ private:
 } // namespace iprm
 
 
-#endif // !iprm_CNameParamComp_included
 
 

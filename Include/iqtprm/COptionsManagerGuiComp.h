@@ -1,5 +1,4 @@
-#ifndef iqtprm_COptionsManagerGuiComp_included
-#define iqtprm_COptionsManagerGuiComp_included
+#pragma once
 
 
 // Qt includes
@@ -111,6 +110,5 @@ private:
 } // namespace iqtprm
 
 
-#endif // !iqtprm_COptionsManagerGuiComp_included
 
 

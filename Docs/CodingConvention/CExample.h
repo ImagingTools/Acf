@@ -1,5 +1,4 @@
-#ifndef myNamespace_CExample_included
-#define myNamespace_CExample_included
+#pragma once
 
 
 // ACF includes
@@ -74,6 +73,5 @@ private:
 } // namespace myNamespace
 
 
-#endif // !myNamespace_CExample_included
 
 

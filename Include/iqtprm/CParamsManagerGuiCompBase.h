@@ -1,5 +1,4 @@
-#ifndef iqtprm_CParamsManagerGuiCompBase_included
-#define iqtprm_CParamsManagerGuiCompBase_included
+#pragma once
 
 
 // Qt includes
@@ -187,6 +186,5 @@ private:
 } // namespace iqtprm
 
 
-#endif // !iqtprm_CParamsManagerGuiCompBase_included
 
 

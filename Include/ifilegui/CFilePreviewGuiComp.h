@@ -1,5 +1,4 @@
-#ifndef ifilegui_CFilePreviewGuiComp_included
-#define ifilegui_CFilePreviewGuiComp_included
+#pragma once
 
 
 // Qt includes
@@ -121,6 +120,5 @@ protected:
 } // namespace ifilegui
 
 
-#endif // !ifilegui_CFilePreviewGuiComp_included
 
 

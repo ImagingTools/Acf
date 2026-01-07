@@ -1,5 +1,4 @@
-#ifndef iview_CViewBase_included
-#define iview_CViewBase_included
+#pragma once
 
 
 // ACF includes
@@ -517,6 +516,5 @@ inline CViewBase::Layers& CViewBase::GetLayers()
 } // namespace iview
 
 
-#endif // !iview_CViewBase_included
 
 

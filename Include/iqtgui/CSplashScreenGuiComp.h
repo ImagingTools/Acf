@@ -1,5 +1,4 @@
-#ifndef iqtgui_CSplashScreen_included
-#define iqtgui_CSplashScreen_included
+#pragma once
 
 
 // Qt includes
@@ -98,6 +97,5 @@ private:
 } // namespace iqtgui
 
 
-#endif // iqtgui_CSplashScreen_included
 
 

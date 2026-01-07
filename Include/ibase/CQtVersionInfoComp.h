@@ -1,5 +1,4 @@
-#ifndef ibase_CQtVersionInfo_included
-#define ibase_CQtVersionInfo_included
+#pragma once
 
 
 // ACF includes
@@ -50,6 +49,5 @@ private:
 } // namespace ibase
 
 
-#endif // !ibase_CQtVersionInfo_included
 
 

@@ -1,5 +1,4 @@
-#ifndef iser_CBinaryReadArchiveBase_included
-#define iser_CBinaryReadArchiveBase_included
+#pragma once
 
 
 // ACF includes
@@ -52,5 +51,4 @@ protected:
 } // namespace iser
 
 
-#endif // !iser_CBinaryReadArchiveBase_included
 

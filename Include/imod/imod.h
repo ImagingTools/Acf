@@ -1,5 +1,4 @@
-#ifndef imod_included
-#define imod_included
+#pragma once
 
 
 #include <istd/istd.h>
@@ -24,5 +23,4 @@ namespace imod
 } // namespace imod
 
 
-#endif // !imod_included
 

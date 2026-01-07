@@ -1,5 +1,4 @@
-#ifndef iview_IMoveable_included
-#define iview_IMoveable_included
+#pragma once
 
 
 #include <istd/IPolymorphic.h>
@@ -44,6 +43,5 @@ public:
 } // namespace iview
 
 
-#endif // !iview_IMoveable_included
 
 

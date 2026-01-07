@@ -1,5 +1,4 @@
-#ifndef iprm_IParamsSet_included
-#define iprm_IParamsSet_included
+#pragma once
 
 
 // Qt includes
@@ -175,6 +174,5 @@ typedef istd::TSharedInterfacePtr<iprm::IParamsSet> IParamsSetSharedPtr;
 } // namespace iprm
 
 
-#endif // !iprm_IParamsSet_included
 
 

@@ -1,5 +1,4 @@
-#ifndef iimg_CBitmapSurface_included
-#define iimg_CBitmapSurface_included
+#pragma once
 
 
 // ACF includes
@@ -37,6 +36,5 @@ private:
 } // namespace iimg
 
 
-#endif //!iimg_CBitmapSurface_included
 
 

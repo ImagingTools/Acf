@@ -1,5 +1,4 @@
-#ifndef iimg_IMultiBitmapProvider_included
-#define iimg_IMultiBitmapProvider_included
+#pragma once
 
 
 // ACF includes
@@ -45,6 +44,5 @@ typedef istd::TSharedInterfacePtr<IMultiBitmapProvider> IMultiBitmapProviderShar
 } // namespace iimg
 
 
-#endif // !iimg_IMultiBitmapProvider_included
 
 

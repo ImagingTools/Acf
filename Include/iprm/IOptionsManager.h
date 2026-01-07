@@ -1,5 +1,4 @@
-#ifndef iprm_IOptionsManager_included
-#define iprm_IOptionsManager_included
+#pragma once
 
 
 // ACF includes
@@ -380,6 +379,5 @@ public:
 } // namespace iprm
 
 
-#endif // !iprm_IOptionsManager_included
 
 

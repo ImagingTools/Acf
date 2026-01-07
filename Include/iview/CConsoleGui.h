@@ -1,5 +1,4 @@
-#ifndef iview_CConsoleGui_included
-#define iview_CConsoleGui_included
+#pragma once
 
 
 // ACF includes
@@ -217,6 +216,5 @@ inline CViewport& CConsoleGui::GetViewRef()
 } // namespace iview
 
 
-#endif // !iview_CConsoleGui_included
 
 

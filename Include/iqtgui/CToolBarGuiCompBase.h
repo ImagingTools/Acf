@@ -1,5 +1,4 @@
-#ifndef iqtgui_CToolBarGuiCompBase_included
-#define iqtgui_CToolBarGuiCompBase_included
+#pragma once
 
 
 // Qt includes
@@ -64,6 +63,5 @@ private:
 } // namespace iqtgui
 
 
-#endif // !iqtgui_CToolBarGuiCompBase_included
 
 

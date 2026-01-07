@@ -1,5 +1,4 @@
-#ifndef idoc_IHelpViewer_included
-#define idoc_IHelpViewer_included
+#pragma once
 
 
 // Qt includes
@@ -59,6 +58,5 @@ public:
 } // namespace idoc
 
 
-#endif // !idoc_IHelpViewer_included
 
 

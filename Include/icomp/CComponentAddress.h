@@ -1,5 +1,4 @@
-#ifndef icomp_CComponentAddress_included
-#define icomp_CComponentAddress_included
+#pragma once
 
 
 // Qt includes
@@ -115,6 +114,5 @@ inline uint qHash(const CComponentAddress& address, uint seed = 0)
 } // namespace icomp
 
 
-#endif // !icomp_CComponentAddress_included
 
 

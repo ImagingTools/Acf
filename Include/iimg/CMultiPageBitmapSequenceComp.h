@@ -1,5 +1,4 @@
-#ifndef iimg_CMultiPageBitmapSequenceComp_included
-#define iimg_CMultiPageBitmapSequenceComp_included
+#pragma once
 
 
 // ACF includes
@@ -47,6 +46,5 @@ private:
 } // namespace iimg
 
 
-#endif // !iimg_CMultiPageBitmapSequenceComp_included
 
 

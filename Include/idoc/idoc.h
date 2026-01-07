@@ -1,5 +1,4 @@
-#ifndef idoc_included
-#define idoc_included
+#pragma once
 
 
 /**
@@ -109,5 +108,4 @@ namespace idoc
 } // namespace idoc
 
 
-#endif // !idoc_included
 

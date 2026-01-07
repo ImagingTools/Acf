@@ -1,5 +1,4 @@
-#ifndef i2d_IObject2dProvider_included
-#define i2d_IObject2dProvider_included
+#pragma once
 
 
 // ACF includes
@@ -26,6 +25,5 @@ public:
 } // namespace i2d
 
 
-#endif // !i2d_IObject2dProvider_included
 
 

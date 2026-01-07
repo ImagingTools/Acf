@@ -1,5 +1,4 @@
-#ifndef iview_IShapeObserver_included
-#define iview_IShapeObserver_included
+#pragma once
 
 
 #include <istd/IPolymorphic.h>
@@ -38,6 +37,5 @@ public:
 } // namespace iview
 
 
-#endif // !iview_IShapeObserver_included
 
 

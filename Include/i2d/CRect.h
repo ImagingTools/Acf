@@ -1,5 +1,4 @@
-#ifndef i2d_CRect_included
-#define i2d_CRect_included
+#pragma once
 
 
 // ACF includes
@@ -675,6 +674,5 @@ inline const i2d::CRect& CRect::GetInvalid()
 } // namespace i2d
 
 
-#endif // !i2d_CRect_included
 
 

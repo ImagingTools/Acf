@@ -1,5 +1,4 @@
-#ifndef iqtgui_CDialogGuiComp_included
-#define iqtgui_CDialogGuiComp_included
+#pragma once
 
 
 // ACF includes
@@ -144,5 +143,4 @@ private:
 } // namespace iqtgui
 
 
-#endif // !iqtgui_CDialogGuiComp_included
 

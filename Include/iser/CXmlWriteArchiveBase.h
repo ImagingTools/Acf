@@ -1,5 +1,4 @@
-#ifndef iser_CXmlWriteArchiveBase_included
-#define iser_CXmlWriteArchiveBase_included
+#pragma once
 
 
 // ACF includes
@@ -60,6 +59,5 @@ private:
 } // namespace iser
 
 
-#endif // !iser_CXmlWriteArchiveBase_included
 
 

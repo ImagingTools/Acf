@@ -1,5 +1,4 @@
-#ifndef iqt2d_IViewExtender_included
-#define iqt2d_IViewExtender_included
+#pragma once
 
 
 // ACF includes
@@ -49,6 +48,5 @@ public:
 } // namespace iqt2d
 
 
-#endif // !iqt2d_IViewExtender_included
 
 

@@ -1,5 +1,4 @@
-#ifndef icomp_CMultiReferenceAttribute_included
-#define icomp_CMultiReferenceAttribute_included
+#pragma once
 
 
 // Qt includes
@@ -43,6 +42,5 @@ public:
 } // namespace icomp
 
 
-#endif // icomp_CMultiReferenceAttribute_included
 
 

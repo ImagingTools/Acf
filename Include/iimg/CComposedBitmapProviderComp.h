@@ -1,5 +1,4 @@
-#ifndef iimg_CComposedBitmapProviderComp_included
-#define iimg_CComposedBitmapProviderComp_included
+#pragma once
 
 
 // ACF includes
@@ -61,6 +60,5 @@ private:
 } // namespace iimg
 
 
-#endif // !iimg_CComposedBitmapProviderComp_included
 
 

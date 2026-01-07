@@ -1,5 +1,4 @@
-#ifndef idoc_IDocumentTemplate_included
-#define idoc_IDocumentTemplate_included
+#pragma once
 
 
 // Qt includes
@@ -171,6 +170,5 @@ public:
 } // namespace idoc
 
 
-#endif // !idoc_IDocumentTemplate_included
 
 

@@ -1,5 +1,4 @@
-#ifndef iqtgui_IDialog_included
-#define iqtgui_IDialog_included
+#pragma once
 
 
 // ACF includes
@@ -28,6 +27,5 @@ public:
 } // namespace iqtgui
 
 
-#endif // !iqtgui_IDialog_included
 
 

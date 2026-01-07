@@ -1,5 +1,4 @@
-#ifndef ibase_TLocalizableWrap_included
-#define ibase_TLocalizableWrap_included
+#pragma once
 
 
 // Qt includes
@@ -99,5 +98,4 @@ bool TLocalizableWrap<Base>::LanguageChangeEventFilter::eventFilter(QObject* sou
 } // namespace ibase
 
 
-#endif // ibase_TLocalizableWrap_included
 

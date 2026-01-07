@@ -1,5 +1,4 @@
-#ifndef ifilegui_CSimpleFilePathParamGuiComp_included
-#define ifilegui_CSimpleFilePathParamGuiComp_included
+#pragma once
 
 
 // ACF includes
@@ -78,6 +77,5 @@ private:
 } // namespace ifilegui
 
 
-#endif // !ifilegui_CSimpleFilePathParamGuiComp_included
 
 

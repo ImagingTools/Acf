@@ -1,5 +1,4 @@
-#ifndef ilog_CStandardStreamBridge_included
-#define ilog_CStandardStreamBridge_included
+#pragma once
 
 
 // STL includes
@@ -50,6 +49,5 @@ private:
 } // namespace ilog
 
 
-#endif // !ilog_CStandardStreamBridge_included
 
 

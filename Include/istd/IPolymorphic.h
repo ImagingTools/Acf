@@ -1,5 +1,4 @@
-#ifndef istd_IPolymorphic_included
-#define istd_IPolymorphic_included
+#pragma once
 
 
 #include <istd/istd.h>
@@ -27,5 +26,4 @@ public:
 } // namespace istd
 
 
-#endif // !istd_IPolymorphic_included
 

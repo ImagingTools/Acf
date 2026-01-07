@@ -1,5 +1,4 @@
-#ifndef iview_CRectControlledShapeBase_included
-#define iview_CRectControlledShapeBase_included
+#pragma once
 
 
 // ACF includes
@@ -198,7 +197,6 @@ inline bool CRectControlledShapeBase::AreNodesValid() const
 } // namespace iview
 
 
-#endif // !iview_CRectControlledShapeBase_included
 
 
 

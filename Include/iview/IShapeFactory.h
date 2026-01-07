@@ -1,5 +1,4 @@
-#ifndef iview_IShapeFactory_included
-#define iview_IShapeFactory_included
+#pragma once
 
 
 // ACF includes
@@ -36,6 +35,5 @@ public:
 } // namespace iview
 
 
-#endif // !iview_IShapeFactory_included
 
 

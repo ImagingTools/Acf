@@ -1,5 +1,4 @@
-#ifndef iprm_CTextParam_included
-#define iprm_CTextParam_included
+#pragma once
 
 
 // ACF includes
@@ -39,6 +38,5 @@ protected:
 } // namespace iprm
 
 
-#endif // !iprm_CTextParam_included
 
 

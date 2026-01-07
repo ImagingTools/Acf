@@ -1,5 +1,4 @@
-#ifndef istd_TVarArray_included
-#define istd_TVarArray_included
+#pragma once
 
 
 // Qt includes
@@ -504,6 +503,5 @@ typedef TVarArray<double> CVarArray;
 } // namespace istd
 
 
-#endif // !istd_TVarArray_included
 
 

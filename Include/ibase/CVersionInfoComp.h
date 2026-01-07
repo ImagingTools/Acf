@@ -1,5 +1,4 @@
-#ifndef ibase_CVersionInfoComp_included
-#define ibase_CVersionInfoComp_included
+#pragma once
 
 
 // ACF includes
@@ -50,6 +49,5 @@ private:
 } // namespace ibase
 
 
-#endif // !ibase_CVersionInfoComp_included
 
 

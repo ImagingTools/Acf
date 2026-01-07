@@ -1,5 +1,4 @@
-#ifndef iview_IRuler_included
-#define iview_IRuler_included
+#pragma once
 
 
 // Qt includes
@@ -80,5 +79,4 @@ public:
 } // namespace iview
 
 
-#endif // !iview_IRuler_included
 

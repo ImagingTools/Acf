@@ -1,5 +1,4 @@
-#ifndef iqtprm_CMultiParamsManagerGuiComp_included
-#define iqtprm_CMultiParamsManagerGuiComp_included
+#pragma once
 
 
 // Qt includes
@@ -67,6 +66,5 @@ private:
 } // namespace iqtprm
 
 
-#endif // !iqtprm_CMultiParamsManagerGuiComp_included
 
 

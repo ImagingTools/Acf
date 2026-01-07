@@ -1,5 +1,4 @@
-#ifndef iattr_IEnumAttributeMetaInfo_included
-#define iattr_IEnumAttributeMetaInfo_included
+#pragma once
 
 
 #include <iattr/IAttributeMetaInfo.h>
@@ -39,6 +38,5 @@ public:
 } // namespace iattr
 
 
-#endif // !iattr_IEnumAttributeMetaInfo_included
 
 

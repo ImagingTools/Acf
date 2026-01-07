@@ -1,5 +1,4 @@
-#ifndef iprm_CSelectionBasedParameterStateProviderComp_included
-#define iprm_CSelectionBasedParameterStateProviderComp_included
+#pragma once
 
 
 // ACF includes
@@ -46,6 +45,5 @@ private:
 } // namespace iprm
 
 
-#endif // !iprm_CSelectionBasedParameterStateProviderComp_included
 
 

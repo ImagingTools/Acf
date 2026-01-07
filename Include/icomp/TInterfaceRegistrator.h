@@ -1,5 +1,4 @@
-#ifndef icomp_TInterfaceRegistrator_included
-#define icomp_TInterfaceRegistrator_included
+#pragma once
 
 
 // ACF includes
@@ -66,6 +65,5 @@ inline void* TInterfaceRegistrator<void>::InterfaceExtractor(IComponent& /*compo
 } // namespace icomp
 
 
-#endif // !icomp_TInterfaceRegistrator_included
 
 

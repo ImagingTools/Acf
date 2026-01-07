@@ -1,5 +1,4 @@
-#ifndef iwidgets_CCheckableComboBox_included
-#define iwidgets_CCheckableComboBox_included
+#pragma once
 
 
 // Qt includes
@@ -74,6 +73,5 @@ private:
 } // namespace iwidgets
 
 
-#endif // !iwidgets_CCheckableComboBox_included
 
 

@@ -1,5 +1,4 @@
-#ifndef iprm_IParameterStateProvider_included
-#define iprm_IParameterStateProvider_included
+#pragma once
 
 
 // Qt includes
@@ -152,6 +151,5 @@ public:
 } // namespace iprm
 
 
-#endif // !iprm_IParameterStateProvider_included
 
 

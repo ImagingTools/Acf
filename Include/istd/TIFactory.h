@@ -1,5 +1,4 @@
-#ifndef istd_TIFactory_included
-#define istd_TIFactory_included
+#pragma once
 
 
 // ACF includes
@@ -35,5 +34,4 @@ typedef TIFactory<istd::IPolymorphic> IFactory;
 } // namespace istd
 
 
-#endif // !istd_TIFactory_included
 

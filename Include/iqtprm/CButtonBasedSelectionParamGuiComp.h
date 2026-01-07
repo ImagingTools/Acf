@@ -1,5 +1,4 @@
-#ifndef iqtprm_CButtonBasedSelectionParamGuiComp_included
-#define iqtprm_CButtonBasedSelectionParamGuiComp_included
+#pragma once
 
 
 // Qt includes
@@ -88,6 +87,5 @@ private:
 } // namespace iqtprm
 
 
-#endif // !iqtprm_CButtonBasedSelectionParamGuiComp_included
 
 

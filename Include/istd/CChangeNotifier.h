@@ -1,5 +1,4 @@
-#ifndef istd_CChangeNotifier_included
-#define istd_CChangeNotifier_included
+#pragma once
 
 
 // ACF includes
@@ -79,6 +78,5 @@ inline CChangeNotifier::~CChangeNotifier()
 } // namespace istd
 
 
-#endif // !istd_CChangeNotifier_included
 
 

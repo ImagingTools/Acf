@@ -1,5 +1,4 @@
-#ifndef iqt_CNetworkWriteArchive_included
-#define iqt_CNetworkWriteArchive_included
+#pragma once
 
 
 // Qt includes
@@ -67,6 +66,5 @@ private:
 } // namespace iqt
 
 
-#endif // !iqt_CNetworkWriteArchive_included
 
 

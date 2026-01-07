@@ -1,5 +1,4 @@
-#ifndef ibase_IObjectQueue_included
-#define ibase_IObjectQueue_included
+#pragma once
 
 
 // Qt includes
@@ -105,6 +104,5 @@ public:
 } // namespace ibase
 
 
-#endif // !ibase_IObjectQueue_included
 
 

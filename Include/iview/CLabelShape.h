@@ -1,5 +1,4 @@
-#ifndef iview_CLabelShape_included
-#define iview_CLabelShape_included
+#pragma once
 
 
 // ACF includes
@@ -138,6 +137,5 @@ inline void CLabelShape::SetDrawOffset(const istd::CIndex2d& offset)
 } // namespace iview
 
 
-#endif // !iview_CLabelShape_included
 
 

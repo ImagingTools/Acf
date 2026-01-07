@@ -1,5 +1,4 @@
-#ifndef iqtgui_CStatusBarWidgetGuiComp_included
-#define iqtgui_CStatusBarWidgetGuiComp_included
+#pragma once
 
 
 // Qt includes
@@ -54,6 +53,5 @@ private:
 } // namespace iqtgui
 
 
-#endif // !iqtgui_CStatusBarWidgetGuiComp_included
 
 

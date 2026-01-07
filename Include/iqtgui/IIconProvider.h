@@ -1,5 +1,4 @@
-#ifndef iqtgui_IIconProvider_included
-#define iqtgui_IIconProvider_included
+#pragma once
 
 
 // Qt includes
@@ -36,5 +35,4 @@ public:
 } // namespace iqtgui
 
 
-#endif // !iqtgui_IIconProvider_included
 

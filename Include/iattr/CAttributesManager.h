@@ -1,5 +1,4 @@
-#ifndef iattr_CAttributesManager_included
-#define iattr_CAttributesManager_included
+#pragma once
 
 
 // Qt includes
@@ -60,6 +59,5 @@ private:
 } // namespace iattr
 
 
-#endif // !iattr_CAttributesManager_included
 
 

@@ -1,5 +1,4 @@
-#ifndef ilog_ILoggable_included
-#define ilog_ILoggable_included
+#pragma once
 
 
 #include <ilog/IMessageConsumer.h>
@@ -30,6 +29,5 @@ public:
 } // namespace ilog
 
 
-#endif // !ilog_ILoggable_included
 
 

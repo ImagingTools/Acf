@@ -1,5 +1,4 @@
-#ifndef iqt2d_TCircleBasedParamsGuiComp_included
-#define iqt2d_TCircleBasedParamsGuiComp_included
+#pragma once
 
 
 // ACF includes
@@ -164,6 +163,5 @@ inline void TCircleBasedParamsGuiComp<CircleBasedShape, CircleBasedModel, Circle
 } // namespace iqt2d
 
 
-#endif // !iqt2d_TCircleBasedParamsGuiComp_included
 
 

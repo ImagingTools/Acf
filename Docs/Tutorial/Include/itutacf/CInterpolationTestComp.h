@@ -1,5 +1,4 @@
-#ifndef itutacf_CInterpolationTestComp_included
-#define itutacf_CInterpolationTestComp_included
+#pragma once
 
 
 // ACF includes
@@ -43,6 +42,5 @@ private:
 } // namespace itutacf
 
 
-#endif // !itutacf_CInterpolationTestComp_included
 
 

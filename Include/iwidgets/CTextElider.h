@@ -1,5 +1,4 @@
-#ifndef iwidgets_CTextElider_included
-#define iwidgets_CTextElider_included
+#pragma once
 
 
 // Qt includes
@@ -66,6 +65,5 @@ private:
 } // namespace iwidgets
 
 
-#endif // !iwidgets_CTextElider_included
 
 

@@ -1,5 +1,4 @@
-#ifndef iqt2d_included
-#define iqt2d_included
+#pragma once
 
 
 // ACF includes
@@ -23,6 +22,5 @@ namespace iqt2d
 } // namespace iqt2d
 
 
-#endif // !iqt2d_included
 
 

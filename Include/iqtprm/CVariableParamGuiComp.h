@@ -1,5 +1,4 @@
-#ifndef iqtprm_CVariableParamGuiComp_included
-#define iqtprm_CVariableParamGuiComp_included
+#pragma once
 
 
 // ACF includes
@@ -83,6 +82,5 @@ private:
 } // namespace iqtprm
 
 
-#endif // !iqtprm_CVariableParamGuiComp_included
 
 

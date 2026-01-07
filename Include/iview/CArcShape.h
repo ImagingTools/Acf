@@ -1,5 +1,4 @@
-#ifndef iview_CArcShape_included
-#define iview_CArcShape_included
+#pragma once
 
 
 // ACF includes
@@ -64,5 +63,3 @@ protected:
 
 } // namespace iview
 
-
-#endif // !iview_CArcShape_included

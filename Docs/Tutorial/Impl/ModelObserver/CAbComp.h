@@ -1,5 +1,4 @@
-#ifndef CAbComp_included
-#define CAbComp_included
+#pragma once
 
 // ACF includes
 #include <iser/ISerializable.h>
@@ -84,5 +83,4 @@ private:
 };
 
 
-#endif // !CAbComp_included
 

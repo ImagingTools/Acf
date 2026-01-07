@@ -1,5 +1,4 @@
-#ifndef icomp_IComponentEnvironmentManager_included
-#define icomp_IComponentEnvironmentManager_included
+#pragma once
 
 
 #include <icomp/IPackagesManager.h>
@@ -28,6 +27,5 @@ public:
 } // namespace icomp
 
 
-#endif // !icomp_IComponentEnvironmentManager_included
 
 

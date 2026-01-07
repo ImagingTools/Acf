@@ -1,5 +1,4 @@
-#ifndef ilog_CLogRouterComp_included
-#define ilog_CLogRouterComp_included
+#pragma once
 
 
 // ACF includes
@@ -51,6 +50,5 @@ private:
 } // namespace ilog
 
 
-#endif // !ilog_CLogRouterComp_included
 
 

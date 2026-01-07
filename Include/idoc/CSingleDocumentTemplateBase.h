@@ -1,5 +1,4 @@
-#ifndef idoc_CSingleDocumentTemplateBase_included
-#define idoc_CSingleDocumentTemplateBase_included
+#pragma once
 
 
 // ACF includes
@@ -85,5 +84,4 @@ inline bool CSingleDocumentTemplateBase::IsViewTypeSupported(const QByteArray& v
 } // namespace idoc
 
 
-#endif // !idoc_CSingleDocumentTemplateBase_included
 

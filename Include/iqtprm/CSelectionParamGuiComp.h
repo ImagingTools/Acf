@@ -1,5 +1,4 @@
-#ifndef iqtprm_CSelectionParamGuiComp_included
-#define iqtprm_CSelectionParamGuiComp_included
+#pragma once
 
 
 // Qt includes
@@ -202,6 +201,5 @@ private:
 } // namespace iqtprm
 
 
-#endif // !iqtprm_CSelectionParamGuiComp_included
 
 

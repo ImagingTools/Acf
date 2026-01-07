@@ -1,5 +1,4 @@
-#ifndef icomp_CComponentMetaDescriptionEncoder_included
-#define icomp_CComponentMetaDescriptionEncoder_included
+#pragma once
 
 
 // Qt includes
@@ -48,6 +47,5 @@ private:
 } // namespace icomp
 
 
-#endif // !icomp_CComponentMetaDescriptionEncoder_included
 
 

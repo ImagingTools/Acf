@@ -1,5 +1,4 @@
-#ifndef iview_IVisualCalibrationInfo_included
-#define iview_IVisualCalibrationInfo_included
+#pragma once
 
 
 #include <istd/IChangeable.h>
@@ -35,6 +34,5 @@ public:
 } // namespace iview
 
 
-#endif // !iview_IVisualCalibrationInfo_included
 
 

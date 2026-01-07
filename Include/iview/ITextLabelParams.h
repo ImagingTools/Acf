@@ -1,5 +1,4 @@
-#ifndef iview_ITextLabelParams_included
-#define iview_ITextLabelParams_included
+#pragma once
 
 
 // Qt includes
@@ -59,6 +58,5 @@ public:
 } // namespace iview
 
 
-#endif // !iview_ITextLabelParams_included
 
 

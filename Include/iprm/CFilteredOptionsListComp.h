@@ -1,5 +1,4 @@
-#ifndef iprm_CFilteredOptionsListComp_included
-#define iprm_CFilteredOptionsListComp_included
+#pragma once
 
 
 // ACF includes
@@ -68,6 +67,5 @@ private:
 } // namespace iprm
 
 
-#endif // !iprm_CFilteredOptionsListComp_included
 
 

@@ -1,5 +1,4 @@
-#ifndef iqtgui_CMultiPageGuiCompBase_included
-#define iqtgui_CMultiPageGuiCompBase_included
+#pragma once
 
 
 // Qt includes
@@ -239,6 +238,5 @@ private:
 } // namespace iqtgui
 
 
-#endif // !iqtgui_CMultiPageGuiCompBase_included
 
 

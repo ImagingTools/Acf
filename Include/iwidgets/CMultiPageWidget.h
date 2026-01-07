@@ -1,5 +1,4 @@
-#ifndef iwidgets_CMultiPageWidget_included
-#define iwidgets_CMultiPageWidget_included
+#pragma once
 
 
 // Qt includes
@@ -295,6 +294,5 @@ void CMultiPageWidget::RegisterMultiPageWidgetDelegate(int uiMode)
 } // namespace iwidgets
 
 
-#endif // !iwidgets_CMultiPageWidget_included
 
 

@@ -1,5 +1,4 @@
-#ifndef iser_CArchiveHeaderInfo_included
-#define iser_CArchiveHeaderInfo_included
+#pragma once
 
 
 // Qt includes
@@ -77,6 +76,5 @@ private:
 } // namespace iser
 
 
-#endif // !iser_CArchiveHeaderInfo_included
 
 

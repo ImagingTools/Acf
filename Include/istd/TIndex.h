@@ -1,5 +1,4 @@
-#ifndef istd_TIndex_included
-#define istd_TIndex_included
+#pragma once
 
 
 // Qt includes
@@ -589,6 +588,5 @@ inline uint qHash(const TIndex<Dimensions>& key, uint seed = 0)
 } // namespace istd
 
 
-#endif // !istd_TIndex_included
 
 

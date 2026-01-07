@@ -1,5 +1,4 @@
-#ifndef iwidgets_CHierarchicalHeaderView_included
-#define iwidgets_CHierarchicalHeaderView_included
+#pragma once
 
 
 // Qt includes
@@ -109,5 +108,4 @@ private:
 } // namespace iwidgets
 
 
-#endif // !iwidgets_CHierarchicalHeaderView_included
 

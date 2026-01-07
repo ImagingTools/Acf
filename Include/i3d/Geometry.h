@@ -1,5 +1,4 @@
-#ifndef i3d_Geometry_included
-#define i3d_Geometry_included
+#pragma once
 
 
 // ACF includes
@@ -217,4 +216,3 @@ inline double GetTriangleArea(const CVector3d& p1, const CVector3d& p2, const CV
 } // namespace i3d
 
 
-#endif // !i3d_Geometry_included

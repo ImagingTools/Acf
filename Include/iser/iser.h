@@ -1,5 +1,4 @@
-#ifndef iser_included
-#define iser_included
+#pragma once
 
 
 // ACF includes
@@ -22,5 +21,4 @@ namespace iser
 } // namespace iser
 
 
-#endif // !iser_included
 

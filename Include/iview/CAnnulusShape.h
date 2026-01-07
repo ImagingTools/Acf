@@ -1,5 +1,4 @@
-#ifndef iview_CAnnulusShape_included
-#define iview_CAnnulusShape_included
+#pragma once
 
 
 #include <iview/CPinShape.h>
@@ -64,7 +63,6 @@ protected:
 } // namespace iview
 
 
-#endif // !iview_CAnnulusShape_included
 
 
 
