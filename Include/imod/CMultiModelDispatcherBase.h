@@ -31,7 +31,7 @@ class CMultiModelDispatcherBase: virtual public istd::IPolymorphic
 {
 public:
 	/**
-		Register the data model to be observed. If model registration was successfull, the function returns \c true.
+		Register the data model to be observed. If model registration was successful, the function returns \c true.
 		\param modelPtr	Pointer to the data model object, which should be observed.
 		\param modelId	Logical model ID for possible event filtering in the notification callback.
 						Each observed model must be registered with unique ID.

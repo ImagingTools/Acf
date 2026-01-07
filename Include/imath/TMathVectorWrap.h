@@ -83,13 +83,13 @@ public:
 	/**
 		Normalize vector to specified length.
 		\param	length	new vector length.
-		\return	true, if normalization successed.
+		\return	true, if normalization succeeded.
 	*/
 	bool Normalize(typename Base::ElementType length = 1.0);
 	/**
 		Return normalized vector with the same direction and specified length.
 		\param	length	new vector length.
-		\return	true, if normalization successed.
+		\return	true, if normalization succeeded.
 	*/
 	bool GetNormalized(TMathVectorWrap<Base>& result, typename Base::ElementType length = 1.0) const;
 

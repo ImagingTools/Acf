@@ -50,7 +50,7 @@ public:
 		I_ASSIGN(m_maxRecentFilesCountAttrPtr, "MaxRecentFiles", "Maximal size of recent file list for one document type", true, 10);
 		I_ASSIGN(m_isOpenCommandVisibleAttrPtr, "OpenCommandVisible", "If enabled the open document command will be shown", false, true);
 		I_ASSIGN(m_isSaveCommandVisibleAttrPtr, "SaveCommandVisible", "If enabled the save document commands will be shown", false, true);
-		I_ASSIGN_MULTI_0(m_mainWindowCompTypeIdsAttrPtr, "MainWindowCompTypeIds", "Set of document type IDs (comma seperated) to enable main window component, empty string enables component independly from document selection", true);
+		I_ASSIGN_MULTI_0(m_mainWindowCompTypeIdsAttrPtr, "MainWindowCompTypeIds", "Set of document type IDs (comma separated) to enable main window component, empty string enables component independently from document selection", true);
 	I_END_COMPONENT;
 
 protected:

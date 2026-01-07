@@ -9,10 +9,10 @@ ACF Core Libraries is a set of implementations of most important concepts and de
 
 \mainpage
 \section Introduction
-ACF is a C++ based, cross-plattform component framework, that was especially designed for creation of complex, customizable and highly scalable applications.
+ACF is a C++ based, cross-platform component framework, that was especially designed for creation of complex, customizable and highly scalable applications.
 ACF follows the component-oriented programming paradigm and provides instruments to build software from reusable components and serves interfaces and concepts to create those components.
-ACF contains a set of libraries with implementations of most usefull design patterns, such Serialization, Model/Observer, Factory, Dependency Injection etc..
-ACF implements a powerfull component concept and includes many well designed components, which you can directly use in your application.
+ACF contains a set of libraries with implementations of most useful design patterns, such Serialization, Model/Observer, Factory, Dependency Injection etc..
+ACF implements a powerful component concept and includes many well designed components, which you can directly use in your application.
 The UI-part of the framework is based on Qt library provided by Qt Company.
 ACF is open source and released under the terms of the GNU Lesser General Public License (LGPL).
 
@@ -33,7 +33,7 @@ The usual steps to implement a component are:
 To keep the management component packages consistent, all kind of packages have the same file extension - ARP (ACF Registry Package).
 
 If all the necessary components have been implemented, the application can be executed. There are two basic ways. A composition of components can be run directly by Framework-Runtime.
-However, this mechanism is usefull only in the prototyping stage. For the final application a different approach can be used. ACF provides a special source-code generator, which makes it possible to produce source code back from component compositions. The resulting source code is then compiled by the usual way.
+However, this mechanism is useful only in the prototyping stage. For the final application a different approach can be used. ACF provides a special source-code generator, which makes it possible to produce source code back from component compositions. The resulting source code is then compiled by the usual way.
 This has the advantage that during the runtime of the application no modules (DLLs) must be loaded.
 
 \section Features
@@ -49,7 +49,7 @@ Below are some of the main features of ACF:
 	- XSLT
 	- Generic object serialization
 - Multi-Document Interface application framework
-- Component library for industrial and scientic image processing
+- Component library for industrial and scientific image processing
 - Component library for 2D and 3D visualization
 - Component wrappers for popular 3rd-party libraries and solutions such:
 	- Boost

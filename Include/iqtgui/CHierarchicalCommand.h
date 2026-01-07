@@ -53,7 +53,7 @@ public:
 	void SetGroupId(int groupId);
 
 	/**
-		Reset list of childs.
+		Reset list of children.
 	*/
 	void ResetChilds();
 
