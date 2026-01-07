@@ -72,7 +72,113 @@ protected:
 
 
 /**
-	Standard main window component for any document based application.
+	Standard main window component for any document-based application.
+	
+	This component provides a complete main window implementation for document-based
+	applications, including menus, toolbars, file operations, undo/redo, and document
+	management integration. It's designed to work seamlessly with IDocumentManager and
+	provides a professional application UI out of the box.
+	
+	\par Key Features
+	- Complete File menu (New, Open, Save, Save As, Recent Files, Quit)
+	- Edit menu with Undo/Redo
+	- Tools menu (Copy Path, Open Containing Folder)
+	- Automatic recent files tracking
+	- Document state monitoring
+	- Drag & drop support for opening files
+	- Progress display for file operations
+	- Multi-document type support
+	
+	\par Component References
+	- \b ApplicationInfo - Application metadata (name, version, etc.) (required)
+	- \b DocumentManager - Document manager instance (required)
+	- \b Application - Application command line access (required)
+	- \b DropConsumer - Optional custom drop handler
+	- \b PersistenceProgress - Optional progress manager for file operations
+	
+	\par Component Attributes
+	- \b IsCopyPathVisible - Show "Copy Path" command (default: false)
+	- \b IsOpenContainingFolderVisible - Show "Open Containing Folder" (default: false)
+	- \b MaxRecentFiles - Maximum recent files per type (default: 10)
+	- \b OpenCommandVisible - Show open command (default: true)
+	- \b SaveCommandVisible - Show save commands (default: true)
+	- \b MainWindowCompTypeIds - Document types to enable for main window component
+	
+	\par Configuration Example
+	\code
+	CMainWindowGuiComp {
+		ApplicationInfo = ApplicationInfo
+		DocumentManager = DocumentManager
+		Application = Application
+		
+		MaxRecentFiles = 15
+		IsCopyPathVisible = true
+		IsOpenContainingFolderVisible = true
+		
+		// Optional workspace
+		Workspace = CSingleDocumentWorkspaceGuiComp {
+			DocumentManager = DocumentManager
+		}
+		
+		// Optional help
+		HelpViewer = CHtmlHelpGuiComp {
+			HelpFileProvider = HelpProvider
+		}
+	}
+	\endcode
+	
+	\par MDI Application Example
+	\code
+	CMainWindowGuiComp {
+		ApplicationInfo = AppInfo
+		DocumentManager = MultiDocManager
+		Application = App
+		
+		Workspace = CMultiDocumentWorkspaceGuiComp {
+			DocumentManager = MultiDocManager
+			ViewMode = "Tabbed"
+		}
+	}
+	\endcode
+	
+	\par Recent Files
+	The main window automatically maintains separate recent file lists for each
+	document type. Recent files appear in the File menu and are persisted between
+	application sessions.
+	
+	\par File Operations
+	\code
+	// File menu operations are automatically wired up:
+	// - New: Creates new document (if template supports SF_NEW_DOCUMENT)
+	// - Open: Opens existing file with dialog
+	// - Save: Saves active document
+	// - Save As: Saves with new filename
+	// - Recent Files: Quick access to recently used files
+	// - Quit: Closes application (prompts to save dirty documents)
+	\endcode
+	
+	\par Edit Operations
+	\code
+	// Edit menu automatically includes:
+	// - Undo: Reverses last change (if undo manager available)
+	// - Redo: Reapplies undone change
+	// Commands are automatically enabled/disabled based on undo availability
+	\endcode
+	
+	\par Drag & Drop
+	Files can be dragged onto the main window to open them. The component
+	automatically determines the document type from file extension.
+	
+	\par Progress Display
+	When PersistenceProgress is configured, file operations show progress in a dialog:
+	\code
+	PersistenceProgress = CProgressManagerComp {
+		// Progress configuration
+	}
+	\endcode
+	
+	\sa IDocumentManager, CSingleDocumentWorkspaceGuiComp, CMultiDocumentWorkspaceGuiComp
+	\ingroup DocumentBasedFramework
 */
 class CMainWindowGuiComp:
 			public CMainWindowGuiCompBase,
