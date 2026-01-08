@@ -29,7 +29,7 @@ public:
 	I_END_COMPONENT;
 
 	// reimplemented (iview::IShapeFactory)
-	virtual IShape* CreateShape(const istd::IChangeable* objectPtr, bool connectToModel = false) const;
+	virtual IShape* CreateShape(const istd::IChangeable* objectPtr, bool connectToModel = false) const override;
 
 protected:
 	virtual CShapeBase* CreateShapeInstance(const istd::IChangeable& object) const;

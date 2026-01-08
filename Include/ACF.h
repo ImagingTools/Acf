@@ -290,7 +290,7 @@ Below are some of the main features of ACF:
 	public:
 		
 		// reimplemented (iser::ISerializable)
-		virtual bool Serialize(iser::IArchive& archive);
+		virtual bool Serialize(iser::IArchive& archive) override;
 
 	private:
 		QString m_firstName;

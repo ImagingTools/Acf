@@ -35,7 +35,7 @@ public:
 
 protected:
 	// reimplemented (iqt2d::TViewExtenderCompBase)
-	virtual void CreateShapes(int sceneId, Shapes& result);
+	virtual void CreateShapes(int sceneId, Shapes& result) override;
 
 	// reimplemented (iqtgui::TGuiObserverWrap)
 	virtual void OnGuiModelAttached() override;

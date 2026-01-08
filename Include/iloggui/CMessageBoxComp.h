@@ -46,7 +46,7 @@ public:
 				int messageCategory = -1,
 				int messageId = -1,
 				const istd::IInformationProvider* messagePtr = NULL) const;
-	virtual void AddMessage(const MessagePtr& messagePtr);
+	virtual void AddMessage(const MessagePtr& messagePtr) override;
 
 protected:
 	/**

@@ -46,8 +46,8 @@ public:
 	virtual bool OnModelDetached(imod::IModel* modelPtr) override;
 
 	// reimplemented (iqt2d::IViewExtender)
-	virtual void AddItemsToScene(iqt2d::IViewProvider* providerPtr, int flags);
-	virtual void RemoveItemsFromScene(iqt2d::IViewProvider* providerPtr);
+	virtual void AddItemsToScene(iqt2d::IViewProvider* providerPtr, int flags) override;
+	virtual void RemoveItemsFromScene(iqt2d::IViewProvider* providerPtr) override;
 
 protected:
 	void AttachCurrentType();

@@ -31,8 +31,8 @@ public:
 	I_END_COMPONENT;
 
 	// reimplemented (iprm::INameParam)
-	virtual void SetName(const QString& name);
-	virtual bool IsNameFixed() const;
+	virtual void SetName(const QString& name) override;
+	virtual bool IsNameFixed() const override;
 
 protected:
 	// reimplemented (icomp::CComponentBase)

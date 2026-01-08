@@ -71,7 +71,7 @@ public:
 	CDialogGuiComp();
 
 	// reimplemented (iqtgui::IDialog)
-	virtual int ExecuteDialog(IGuiObject* parentPtr);
+	virtual int ExecuteDialog(IGuiObject* parentPtr) override;
 
 protected:
 	virtual iqtgui::CGuiComponentDialog* CreateComponentDialog(int buttons, IGuiObject* parentPtr) const;

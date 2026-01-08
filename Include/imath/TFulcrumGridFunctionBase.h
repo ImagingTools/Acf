@@ -38,7 +38,7 @@ public:
 
 protected:
 	// reimplemented (istd::TCachedUpdateManagerWrap)
-	virtual bool CalculateCache(const ChangeSet& changeSet);
+	virtual bool CalculateCache(const ChangeSet& changeSet) override;
 };
 
 

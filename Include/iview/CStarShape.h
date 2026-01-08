@@ -21,11 +21,11 @@ public:
 	typedef CInteractiveShapeBase ShapeBaseClass;
 
 	// reimplemented (iview::IVisualizable)
-	virtual void Draw(QPainter& drawContext) const;
+	virtual void Draw(QPainter& drawContext) const override;
 
 protected:
 	// reimplemented (iview::CShapeBase)
-	virtual i2d::CRect CalcBoundingBox() const;
+	virtual i2d::CRect CalcBoundingBox() const override;
 };
 
 

@@ -108,7 +108,7 @@ public:
 	CSimpleMainWindowGuiComp();
 
 	// reimplemented (iqtgui::IGuiObject)
-	virtual void OnTryClose(bool* ignoredPtr = NULL);
+	virtual void OnTryClose(bool* ignoredPtr = NULL) override;
 
 protected:
 	virtual void UpdateMenuActions();
