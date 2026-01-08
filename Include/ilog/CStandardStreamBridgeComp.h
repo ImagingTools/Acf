@@ -43,7 +43,7 @@ namespace ilog
 	istd::TSharedInterfacePtr<ilog::CStandardStreamBridgeComp> bridge(
 	    new ilog::CStandardStreamBridgeComp);
 	
-	// Configure via .acfc or programmatically:
+	// Configure via .acc or programmatically:
 	//   SlaveMessageConsumer -> logger
 	
 	// Now all std::cout and std::cerr output goes to logger

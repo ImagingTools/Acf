@@ -41,7 +41,7 @@ namespace ilog
 	    new ilog::CConsoleLogComp);
 	
 	// Configure formatting
-	// In .acfc:
+	// In .acc:
 	//   MinCategory: 1        (info and above)
 	//   UseCategory: true     (show "Warning:", "Error:")
 	//   UseCode: true         (show message IDs)

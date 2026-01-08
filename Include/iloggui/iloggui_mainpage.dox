@@ -104,56 +104,80 @@ Text-based log viewer with rich formatting:
 
 \subsection example_log_viewer Creating a Log Viewer Window
 
+\par Configuration in .acc file
+\code{.xml}
+<Element Id="MainLog" ComponentId="ilog::CLogComp">
+    <AttributeInfo Id="MaxMessageCount"><Data IsEnabled="true" Value="5000"/></AttributeInfo>
+</Element>
+
+<Element Id="LogGuiWidget" ComponentId="iloggui::CLogGuiComp">
+    <AttributeInfo Id="MaxMessageCount"><Data IsEnabled="true" Value="5000"/></AttributeInfo>
+    <AttributeInfo Id="DefaultMode"><Data IsEnabled="true" Value="0"/></AttributeInfo>
+    <AttributeInfo Id="ShowMessageTextFilter"><Data IsEnabled="true" Value="true"/></AttributeInfo>
+    <AttributeInfo Id="TimeFormat"><Data IsEnabled="true" Value="hh:mm:ss.zzz"/></AttributeInfo>
+</Element>
+
+<!-- Connect MainLog to forward messages to GUI -->
+<Element Id="MainLog">
+    <Reference Id="SlaveMessageConsumer" Value="LogGuiWidget"/>
+</Element>
+\endcode
+
+\par Programmatic Usage (with simulation layer)
 \code{.cpp}
+#include <icomp/TSimComponentWrap.h>
 #include <iloggui/CLogGuiComp.h>
 #include <ilog/CLogComp.h>
+#include <ilog/CMessage.h>
 #include <QtWidgets/QMainWindow>
 
 // Create main window
 QMainWindow* mainWindow = new QMainWindow;
 
 // Create log component (stores messages)
-istd::TSharedInterfacePtr<ilog::CLogComp> logComp(new ilog::CLogComp);
+icomp::TSimSharedComponentPtr<ilog::CLogComp> logComp;
+logComp->SetIntAttr("MaxMessageCount", 5000);
+logComp->InitComponent();
 
 // Create log GUI component
-istd::TSharedInterfacePtr<iloggui::CLogGuiComp> logGui(
-    new iloggui::CLogGuiComp);
-
-// Configure log GUI
-// In .acfc file or programmatically:
-// MaxMessageCount: 5000
-// DefaultMode: 0 (show all)
-// ShowMessageTextFilter: true
-// TimeFormat: "hh:mm:ss.zzz"
+icomp::TSimSharedComponentPtr<iloggui::CLogGuiComp> logGui;
+logGui->SetIntAttr("MaxMessageCount", 5000);
+logGui->SetIntAttr("DefaultMode", 0);
+logGui->SetBoolAttr("ShowMessageTextFilter", true);
+logGui->SetStringAttr("TimeFormat", "hh:mm:ss.zzz");
+logGui->InitComponent();
 
 // Set log GUI as central widget
 QWidget* logWidget = logGui->GetWidget();
 mainWindow->setCentralWidget(logWidget);
 
-// Connect log component to GUI
-// The logGui IS a CMessageContainer, so it stores and displays messages
-logComp->SetSlaveConsumer(logGui.get());
+// Connect log component to GUI (logGui is a CMessageContainer)
+logComp->SetRef("SlaveMessageConsumer", logGui);
 
 // Add test messages
 logComp->AddMessage(istd::TSharedInterfacePtr<ilog::CMessage>(
     new ilog::CMessage(istd::IInformationProvider::IC_INFO,
                       1, "Application started", "Main")));
-logComp->AddMessage(istd::TSharedInterfacePtr<ilog::CMessage>(
-    new ilog::CMessage(istd::IInformationProvider::IC_WARNING,
-                      2, "Configuration file not found, using defaults", "Config")));
 
 mainWindow->show();
 \endcode
 
 \subsection example_message_box Simple Message Box Display
 
+\par Configuration in .acc file
+\code{.xml}
+<Element Id="ErrorDialog" ComponentId="iloggui::CMessageBoxComp"/>
+\endcode
+
+\par Programmatic Usage (with simulation layer)
 \code{.cpp}
+#include <icomp/TSimComponentWrap.h>
 #include <iloggui/CMessageBoxComp.h>
 #include <ilog/CMessage.h>
 
 // Create message box component
-istd::TSharedInterfacePtr<iloggui::CMessageBoxComp> messageBox(
-    new iloggui::CMessageBoxComp);
+icomp::TSimSharedComponentPtr<iloggui::CMessageBoxComp> messageBox;
+messageBox->InitComponent();
 
 // Create a critical error message
 istd::TSharedInterfacePtr<ilog::CMessage> errorMsg(
@@ -178,6 +202,8 @@ istd::TSharedInterfacePtr<ilog::CMessage> errorMsg2(
     )
 );
 messageBox->AddMessage(errorMsg2);
+// Both messages shown in single dialog with detailed text
+\endcode
 // Both messages shown in single dialog with detailed text
 \endcode
 
@@ -235,14 +261,15 @@ logViewer->AddMessage(/* message */);
 #include <ilog/CLogComp.h>
 
 // Create log component (message container)
-istd::TSharedInterfacePtr<ilog::CLogComp> logComp(new ilog::CLogComp);
+icomp::TSimSharedComponentPtr<ilog::CLogComp> logComp;
+logComp->InitComponent();
 
 // Create text log viewer
 istd::TSharedInterfacePtr<iloggui::CTextLogGuiComp> textLogViewer(
     new iloggui::CTextLogGuiComp);
 
 // Configure to ignore certain message IDs
-// In .acfc: IgnoreIdsList: [1000, 1001, 1002]
+// In .acc: IgnoreIdsList: [1000, 1001, 1002]
 
 // Connect viewer to observe log container
 // Set as model in component configuration:
@@ -308,7 +335,7 @@ istd::TSharedInterfacePtr<iloggui::CLogGuiComp> logGui(
     new iloggui::CLogGuiComp);
 
 // Configure file exporter component
-// In .acfc: Exporter -> fileExporter (IFilePersistence implementation)
+// In .acc: Exporter -> fileExporter (IFilePersistence implementation)
 
 // User can click Export action in GUI
 // This triggers file save dialog
@@ -358,7 +385,7 @@ istd::TSharedInterfacePtr<iloggui::CLogGuiComp> logGui(
     new iloggui::CLogGuiComp);
 
 // Configure time format (Qt date/time format string)
-// In .acfc or programmatically:
+// In .acc or programmatically:
 // TimeFormat: "yyyy-MM-dd HH:mm:ss.zzz"  // Full date and time with milliseconds
 // TimeFormat: "HH:mm:ss"                  // Time only
 // TimeFormat: "dd.MM HH:mm"               // Day, month, hours, minutes
@@ -378,8 +405,10 @@ istd::TSharedInterfacePtr<iloggui::CLogGuiComp> mainLog(
     new iloggui::CLogGuiComp);
 
 // Create subsystem logs
-istd::TSharedInterfacePtr<ilog::CLogComp> networkLog(new ilog::CLogComp);
-istd::TSharedInterfacePtr<ilog::CLogComp> databaseLog(new ilog::CLogComp);
+icomp::TSimSharedComponentPtr<ilog::CLogComp> networkLog;
+networkLog->InitComponent();
+icomp::TSimSharedComponentPtr<ilog::CLogComp> databaseLog;
+databaseLog->InitComponent();
 
 // Add as child containers
 mainLog->AddChildContainer(networkLog.get());

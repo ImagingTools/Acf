@@ -47,11 +47,11 @@ namespace ilog
 	istd::TSharedInterfacePtr<ilog::CTracingConfigurationComp> tracing(
 	    new ilog::CTracingConfigurationComp);
 	
-	// Configure default level (or via .acfc: DefaulTracingtLevel: 1)
+	// Configure default level (or via .acc: DefaulTracingtLevel: 1)
 	tracing->SetTracingLevel(1); // Enable levels 0 and 1
 	
 	// Components reference this for tracing control
-	// In .acfc for components:
+	// In .acc for components:
 	//   <Reference Id="TracingConfiguration" Value="GlobalTracing"/>
 	
 	// Runtime control

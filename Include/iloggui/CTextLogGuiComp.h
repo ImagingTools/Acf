@@ -45,7 +45,7 @@ namespace iloggui
 	    new iloggui::CTextLogGuiComp);
 	
 	// Configure to observe container
-	// In .acfc: Model -> logContainer
+	// In .acc: Model -> logContainer
 	
 	// Get widget for display
 	QWidget* widget = textLog->GetWidget();

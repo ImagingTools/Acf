@@ -46,7 +46,7 @@ namespace ilog
 	istd::TSharedInterfacePtr<ilog::CLogComp> log(new ilog::CLogComp);
 	
 	// Configure maximum messages
-	// In .acfc: MaxMessageCount: 5000
+	// In .acc: MaxMessageCount: 5000
 	
 	// Add messages (thread-safe)
 	log->AddMessage(istd::TSharedInterfacePtr<ilog::CMessage>(
@@ -70,7 +70,7 @@ namespace ilog
 	\endcode
 	
 	\par Component Integration
-	In ACF component configuration (.acfc files):
+	In ACF component configuration (.acc files):
 	\code{.xml}
 	<Component Id="ApplicationLog" Class="ilog::CLogComp">
 	    <Attribute Id="MaxMessageCount" Value="10000"/>

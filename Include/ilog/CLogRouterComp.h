@@ -54,7 +54,7 @@ namespace ilog
 	istd::TSharedInterfacePtr<ilog::CLogRouterComp> router(
 	    new ilog::CLogRouterComp);
 	
-	// Configure via .acfc:
+	// Configure via .acc:
 	//   InputMessageContainer -> mainLog
 	//   OutputMessageConsumer -> errorLog
 	//   MinimalCategory -> 3 (errors and critical)

@@ -191,15 +191,19 @@ Message delegation component:
 
 \section usage_sec Usage Examples
 
-\subsection example_basic_logging Basic Logging
+\subsection example_basic_logging Basic Logging with Simulation Components
 
 \code{.cpp}
-#include <ilog/CLogComp.h>
+#include <icomp/TSimComponentWrap.h>
 #include <ilog/CConsoleLogComp.h>
 #include <ilog/CMessage.h>
 
-// Create console logger
-istd::TSharedInterfacePtr<ilog::CConsoleLogComp> consoleLog(new ilog::CConsoleLogComp);
+// Create console logger using simulation layer
+icomp::TSimSharedComponentPtr<ilog::CConsoleLogComp> consoleLog;
+consoleLog->SetIntAttr("MinCategory", 0); // Log all categories
+consoleLog->SetBoolAttr("UseCategory", true);
+consoleLog->SetBoolAttr("UseTimeStamp", false);
+consoleLog->InitComponent();
 
 // Create a message
 istd::TSharedInterfacePtr<ilog::CMessage> message(
@@ -215,48 +219,67 @@ istd::TSharedInterfacePtr<ilog::CMessage> message(
 consoleLog->AddMessage(message);
 \endcode
 
+\par Note
+Components are typically configured in .acc files and loaded through the ACF
+registry system. The simulation layer (TSimComponentWrap) is used for direct
+component instantiation in applications without full registry loading.
+
 \subsection example_component_logging Component-Based Logging
 
 \code{.cpp}
 #include <ilog/TLoggerCompWrap.h>
 
-// Create a component with logging capability
+// Define a component with logging capability
 class MyComponent : public ilog::CLoggerComponentBase
 {
 public:
-    void DoWork()
+    I_BEGIN_COMPONENT(MyComponent);
+    I_END_COMPONENT;
+    
+protected:
+    // reimplemented (icomp::CComponentBase)
+    virtual void OnComponentCreated() override
     {
-        // Send different severity messages
-        SendInfoMessage(2001, "Starting work", "MyComponent::DoWork");
+        BaseClass::OnComponentCreated();
         
-        try {
-            // ... do work ...
-            SendInfoMessage(2002, "Work completed", "MyComponent::DoWork");
-        }
-        catch (const std::exception& e) {
-            SendErrorMessage(2003, 
-                QString("Work failed: %1").arg(e.what()),
-                "MyComponent::DoWork");
-        }
+        // Component is now initialized and can use logging
+        SendInfoMessage(2001, "Component created", "OnComponentCreated");
     }
     
-    void VerboseOperation()
+    virtual void OnComponentDestroyed() override
     {
-        // Only logged if verbose is enabled
-        SendVerboseMessage("Detailed diagnostic information", 
-                          "MyComponent::VerboseOperation");
+        SendInfoMessage(2002, "Component destroyed", "OnComponentDestroyed");
+        BaseClass::OnComponentDestroyed();
     }
 };
+
+// Usage in application (with simulation layer)
+icomp::TSimSharedComponentPtr<ilog::CConsoleLogComp> log;
+log->InitComponent();
+
+icomp::TSimSharedComponentPtr<MyComponent> component;
+component->SetRef("Log", log); // Connect log consumer
+component->SetBoolAttr("EnableVerbose", false);
+component->InitComponent();
+
+// Or configure in .acc file:
+// <Element Id="MyComp" ComponentId="MyComponent">
+//   <Reference Id="Log" Value="ConsoleLog"/>
+//   <Attribute Id="EnableVerbose" Value="false"/>
+// </Element>
 \endcode
 
 \subsection example_message_container Message Container Usage
 
 \code{.cpp}
+#include <icomp/TSimComponentWrap.h>
 #include <ilog/CLogComp.h>
-#include <ilog/CMessageContainer.h>
+#include <ilog/CMessage.h>
 
-// Create log component (which includes message container)
-istd::TSharedInterfacePtr<ilog::CLogComp> logComp(new ilog::CLogComp);
+// Create log component using simulation layer
+icomp::TSimSharedComponentPtr<ilog::CLogComp> logComp;
+logComp->SetIntAttr("MaxMessageCount", 1000);
+logComp->InitComponent();
 
 // Add messages
 logComp->AddMessage(istd::TSharedInterfacePtr<ilog::CMessage>(
@@ -282,6 +305,15 @@ if (worst >= istd::IInformationProvider::IC_ERROR) {
 
 // Clear all messages
 logComp->ClearMessages();
+\endcode
+
+\par Configuration in .acc file
+\code{.xml}
+<Element Id="ApplicationLog" ComponentId="ilog::CLogComp">
+    <AttributeInfo Id="MaxMessageCount">
+        <Data IsEnabled="true" Value="5000"/>
+    </AttributeInfo>
+</Element>
 \endcode
 
 \subsection example_extended_message Extended Messages with Attachments
@@ -322,68 +354,121 @@ for (int i = 0; i < count; ++i) {
 \subsection example_stream_formatting Custom Stream Formatting
 
 \code{.cpp}
+#include <icomp/TSimComponentWrap.h>
 #include <ilog/CConsoleLogComp.h>
 
-// Create console log with custom formatting
-istd::TSharedInterfacePtr<ilog::CConsoleLogComp> console(
-    new ilog::CConsoleLogComp);
-
-// Configure via component attributes (typically in .acfc file)
-// MinCategory: 2 (warnings and above)
-// UseCategory: true (show "Warning:", "Error:", etc.)
-// UseCode: true (show message ID)
-// UseTimeStamp: true (show timestamp)
-// TimeFormat: "hh:mm:ss.zzz" (custom time format)
-// ShowDots: true (show dots for filtered messages)
+// Create console log with custom formatting using simulation layer
+icomp::TSimSharedComponentPtr<ilog::CConsoleLogComp> console;
+console->SetIntAttr("MinCategory", 2); // Warnings and above
+console->SetBoolAttr("UseCategory", true); // Show "Warning:", "Error:"
+console->SetBoolAttr("UseCode", true); // Show message ID
+console->SetBoolAttr("UseTimeStamp", true); // Show timestamp
+console->SetStringAttr("TimeFormat", "hh:mm:ss.zzz"); // Custom time format
+console->SetBoolAttr("ShowDots", true); // Show dots for filtered messages
+console->InitComponent();
 
 // Messages below warning level will show as "." if ShowDots=true
 // Output format: "[12:34:56.789] Warning (5001): Low disk space - DiskMonitor"
+
+// Or configure in .acc file:
+// <Element Id="ConsoleLog" ComponentId="ilog::CConsoleLogComp">
+//   <AttributeInfo Id="MinCategory"><Data IsEnabled="true" Value="2"/></AttributeInfo>
+//   <AttributeInfo Id="UseCategory"><Data IsEnabled="true" Value="true"/></AttributeInfo>
+//   <AttributeInfo Id="UseTimeStamp"><Data IsEnabled="true" Value="true"/></AttributeInfo>
+//   <AttributeInfo Id="TimeFormat"><Data IsEnabled="true" Value="hh:mm:ss.zzz"/></AttributeInfo>
+// </Element>
 \endcode
 
 \subsection example_log_routing Message Routing Between Logs
 
+\par Configuration in .acc file
+This example is best configured in .acc files rather than programmatically:
+
+\code{.xml}
+<!-- Source log that receives all messages -->
+<Element Id="SourceLog" ComponentId="ilog::CLogComp">
+    <AttributeInfo Id="MaxMessageCount"><Data IsEnabled="true" Value="5000"/></AttributeInfo>
+</Element>
+
+<!-- Console log for all messages -->
+<Element Id="ConsoleLog" ComponentId="ilog::CConsoleLogComp">
+    <AttributeInfo Id="MinCategory"><Data IsEnabled="true" Value="0"/></AttributeInfo>
+</Element>
+
+<!-- Error log for errors only -->
+<Element Id="ErrorLog" ComponentId="ilog::CLogComp">
+    <AttributeInfo Id="MaxMessageCount"><Data IsEnabled="true" Value="1000"/></AttributeInfo>
+</Element>
+
+<!-- Router that forwards only errors from SourceLog to ErrorLog -->
+<Element Id="ErrorRouter" ComponentId="ilog::CLogRouterComp">
+    <Reference Id="InputMessageContainer" Value="SourceLog"/>
+    <Reference Id="OutputMessageConsumer" Value="ErrorLog"/>
+    <AttributeInfo Id="MinimalCategory"><Data IsEnabled="true" Value="3"/></AttributeInfo>
+</Element>
+
+<!-- Connect console log as slave of source log -->
+<Element Id="SourceLog">
+    <Reference Id="SlaveMessageConsumer" Value="ConsoleLog"/>
+</Element>
+\endcode
+
+\par Programmatic Usage (with simulation layer)
 \code{.cpp}
+#include <icomp/TSimComponentWrap.h>
 #include <ilog/CLogComp.h>
 #include <ilog/CLogRouterComp.h>
-#include <ilog/CConsoleLogComp.h>
 
 // Create source log
-istd::TSharedInterfacePtr<ilog::CLogComp> sourceLog(new ilog::CLogComp);
+icomp::TSimSharedComponentPtr<ilog::CLogComp> sourceLog;
+sourceLog->InitComponent();
 
-// Create destination logs
-istd::TSharedInterfacePtr<ilog::CConsoleLogComp> consoleLog(
-    new ilog::CConsoleLogComp);
-istd::TSharedInterfacePtr<ilog::CLogComp> errorLog(new ilog::CLogComp);
+// Create error log
+icomp::TSimSharedComponentPtr<ilog::CLogComp> errorLog;
+errorLog->InitComponent();
 
 // Create router for errors only
-istd::TSharedInterfacePtr<ilog::CLogRouterComp> errorRouter(
-    new ilog::CLogRouterComp);
-// Configure: InputMessageContainer -> sourceLog
-//           OutputMessageConsumer -> errorLog
-//           MinimalCategory -> IC_ERROR
+icomp::TSimSharedComponentPtr<ilog::CLogRouterComp> errorRouter;
+errorRouter->SetRef("InputMessageContainer", sourceLog);
+errorRouter->SetRef("OutputMessageConsumer", errorLog);
+errorRouter->SetIntAttr("MinimalCategory", 3); // IC_ERROR
+errorRouter->InitComponent();
 
 // Messages sent to sourceLog will be automatically forwarded
 // to errorLog if they are errors or critical
-sourceLog->AddMessage(/* ... */);
+sourceLog->AddMessage(errorMessage);
 \endcode
 
 \subsection example_stream_bridge Standard Stream Bridging
 
+\par Configuration in .acc file
+\code{.xml}
+<Element Id="ConsoleLog" ComponentId="ilog::CConsoleLogComp">
+    <AttributeInfo Id="MinCategory"><Data IsEnabled="true" Value="0"/></AttributeInfo>
+</Element>
+
+<Element Id="StreamBridge" ComponentId="ilog::CStandardStreamBridgeComp">
+    <Reference Id="SlaveMessageConsumer" Value="ConsoleLog"/>
+</Element>
+\endcode
+
+\par Programmatic Usage (with simulation layer)
 \code{.cpp}
+#include <icomp/TSimComponentWrap.h>
 #include <ilog/CStandardStreamBridgeComp.h>
 #include <ilog/CConsoleLogComp.h>
 #include <iostream>
 
 // Create log destination
-istd::TSharedInterfacePtr<ilog::CConsoleLogComp> logComp(
-    new ilog::CConsoleLogComp);
+icomp::TSimSharedComponentPtr<ilog::CConsoleLogComp> logComp;
+logComp->InitComponent();
 
 // Create bridge component
-istd::TSharedInterfacePtr<ilog::CStandardStreamBridgeComp> bridge(
-    new ilog::CStandardStreamBridgeComp);
-// Configure: SlaveMessageConsumer -> logComp
+icomp::TSimSharedComponentPtr<ilog::CStandardStreamBridgeComp> bridge;
+bridge->SetRef("SlaveMessageConsumer", logComp);
+bridge->InitComponent();
 
-// Now std::cout and std::cerr are redirected
+// Now std::cout and std::cerr are redirected to the log
 std::cout << "This goes to log as INFO" << std::endl;
 std::cerr << "This goes to log as ERROR" << std::endl;
 
@@ -392,34 +477,51 @@ std::cerr << "This goes to log as ERROR" << std::endl;
 
 \subsection example_tracing Tracing Configuration
 
+\par Configuration in .acc file
+\code{.xml}
+<Element Id="GlobalTracing" ComponentId="ilog::CTracingConfigurationComp">
+    <AttributeInfo Id="DefaulTracingtLevel"><Data IsEnabled="true" Value="1"/></AttributeInfo>
+</Element>
+
+<Element Id="MyComponent" ComponentId="MyComponentClass">
+    <Reference Id="Log" Value="ConsoleLog"/>
+    <Reference Id="TracingConfiguration" Value="GlobalTracing"/>
+    <AttributeInfo Id="EnableVerbose"><Data IsEnabled="true" Value="true"/></AttributeInfo>
+</Element>
+\endcode
+
+\par Component Implementation
 \code{.cpp}
 #include <ilog/TLoggerCompWrap.h>
-#include <ilog/CTracingConfigurationComp.h>
 
-class MyComponent : public ilog::CLoggerComponentBase
+class MyComponentClass : public ilog::CLoggerComponentBase
 {
 public:
-    void AnalyzeData()
+    I_BEGIN_COMPONENT(MyComponentClass);
+    I_END_COMPONENT;
+    
+protected:
+    // reimplemented (icomp::CComponentBase)
+    virtual void OnComponentCreated() override
     {
+        BaseClass::OnComponentCreated();
+        
         // Level 0 tracing (always shown when tracing enabled)
-        SendVerboseMessage("Starting analysis", QString(), 0);
+        SendVerboseMessage("Component initialized", QString(), 0);
         
         // Level 1 tracing (more detailed)
         if (IsVerboseEnabled(1)) {
-            SendVerboseMessage("Processing phase 1", QString(), 1);
+            SendVerboseMessage("Detailed initialization info", QString(), 1);
         }
         
         // Level 2 tracing (very detailed)
         if (IsVerboseEnabled(2)) {
-            SendVerboseMessage("Detailed step information", QString(), 2);
+            SendVerboseMessage("Internal state details", QString(), 2);
         }
     }
 };
 
-// In configuration:
-// Component has reference: TracingConfiguration -> tracingConfig
-// TracingConfiguration component has: DefaulTracingtLevel = 1
-// This enables tracing levels 0 and 1, but not 2
+// Configuration with DefaulTracingtLevel = 1 enables tracing levels 0 and 1, but not 2
 \endcode
 
 \subsection example_message_once Preventing Duplicate Messages
