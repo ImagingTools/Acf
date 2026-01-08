@@ -35,10 +35,10 @@ public:
 
 protected:
 	// reimplemented (CParamsManagerGuiCompBase)
-	virtual imod::IObserver* GetObserverPtr(const iprm::IParamsSet* paramsSetPtr) const;
-	virtual iqtgui::IGuiObject* GetEditorGuiPtr(const iprm::IParamsSet* paramsSetPtr) const;
-	virtual void UpdateParamsView(int selectedIndex);
-	virtual iqt2d::IViewExtender* GetCurrentViewExtenderPtr() const;
+	virtual imod::IObserver* GetObserverPtr(const iprm::IParamsSet* paramsSetPtr) const override;
+	virtual iqtgui::IGuiObject* GetEditorGuiPtr(const iprm::IParamsSet* paramsSetPtr) const override;
+	virtual void UpdateParamsView(int selectedIndex) override;
+	virtual iqt2d::IViewExtender* GetCurrentViewExtenderPtr() const override;
 
 	// reimplemented (iqtgui::CComponentBase)
 	virtual void OnGuiCreated() override;

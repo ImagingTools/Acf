@@ -37,17 +37,17 @@ public:
 	CAbComp();
 
 	// reimplemented (IAb)
-	virtual const IAConstraints& GetAConstraints() const;
-	virtual int GetA() const;
-	virtual bool SetA(int a);
-	virtual QByteArray GetB() const;
-	virtual void SetB(const QByteArray& b);
+	virtual const IAConstraints& GetAConstraints() const override;
+	virtual int GetA() const override;
+	virtual bool SetA(int a) override;
+	virtual QByteArray GetB() const override;
+	virtual void SetB(const QByteArray& b) override;
 
 	// reimplemented (IAConstraints)
-	virtual const istd::CRange& GetARange() const;
+	virtual const istd::CRange& GetARange() const override;
 
 	// reimplemented (iser::ISerializable)
-	virtual bool Serialize(iser::IArchive& archive);
+	virtual bool Serialize(iser::IArchive& archive) override;
 
 protected:
 	// reimplemented (icomp::CComponentBase)

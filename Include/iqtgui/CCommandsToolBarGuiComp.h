@@ -37,7 +37,7 @@ public:
 
 protected:
 	// reimplemented (imod::TSingleModelObserverBase)
-	virtual void OnUpdate(const istd::IChangeable::ChangeSet& changeSet);
+	virtual void OnUpdate(const istd::IChangeable::ChangeSet& changeSet) override;
 
 	// reimplemented (CGuiComponentBase)
 	virtual void OnGuiCreated() override;

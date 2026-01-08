@@ -38,10 +38,10 @@ public:
 	I_END_COMPONENT;
 
 	// reimplemented (iqtgui::IMainWindowComponent)
-	virtual bool AddToMainWindow(QMainWindow& mainWindow);
-	virtual bool RemoveFromMainWindow(QMainWindow& mainWindow);
-	virtual QString GetTitle() const;
-	virtual int GetFlags() const;
+	virtual bool AddToMainWindow(QMainWindow& mainWindow) override;
+	virtual bool RemoveFromMainWindow(QMainWindow& mainWindow) override;
+	virtual QString GetTitle() const override;
+	virtual int GetFlags() const override;
 
 private:
 	I_MULTIREF(iqtgui::IGuiObject, m_statusBarWidgetsCompPtr);

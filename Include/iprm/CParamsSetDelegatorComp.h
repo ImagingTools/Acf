@@ -41,7 +41,7 @@ public:
 	virtual iser::ISerializable* GetEditableParameter(const QByteArray& id) override;
 
 	// reimplemented (iser::IObject)
-	virtual QByteArray GetFactoryId() const;
+	virtual QByteArray GetFactoryId() const override;
 
 	// reimplemented (iser::ISerializable)
 	virtual bool Serialize(iser::IArchive& archive) override;

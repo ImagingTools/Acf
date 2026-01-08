@@ -42,8 +42,8 @@ public:
 	bool ApproximateCoefficientsFromFulcrums(const CoeffGridSize& coeffGridSize, const ArgumentType* arguments, const ResultType* destValues, int count);
 
 	// reimplemented (imath::TIMathFunction)
-	virtual bool GetValueAt(const ArgumentType& argument, ResultType& result) const;
-	virtual ResultType GetValueAt(const ArgumentType& argument) const;
+	virtual bool GetValueAt(const ArgumentType& argument, ResultType& result) const override;
+	virtual ResultType GetValueAt(const ArgumentType& argument) const override;
 
 	// reimplemented (iser::ISerializable)
 	virtual bool Serialize(iser::IArchive& archive) override;

@@ -146,7 +146,7 @@ protected:
 	virtual void OnGuiCreated() override;
 
 	// reimplemented (imod::CSingleModelObserverBase)
-	virtual void AfterUpdate(imod::IModel* modelPtr, const istd::IChangeable::ChangeSet& changeSet);
+	virtual void AfterUpdate(imod::IModel* modelPtr, const istd::IChangeable::ChangeSet& changeSet) override;
 
 private:
 	void AttachCurrentExtender();

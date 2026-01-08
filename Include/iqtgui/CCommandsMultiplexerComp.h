@@ -49,8 +49,8 @@ protected:
 	virtual void OnLanguageChanged() override;
 
 	// reimplemented (imod::IObserver)
-	virtual void BeforeUpdate(imod::IModel* modelPtr);
-	virtual void AfterUpdate(imod::IModel* modelPtr, const istd::IChangeable::ChangeSet& changeSet);
+	virtual void BeforeUpdate(imod::IModel* modelPtr) override;
+	virtual void AfterUpdate(imod::IModel* modelPtr, const istd::IChangeable::ChangeSet& changeSet) override;
 
 	// reimpemented (icomp::CComponentBase)
 	virtual void OnComponentCreated() override;
