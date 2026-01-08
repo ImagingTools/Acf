@@ -52,11 +52,10 @@ public:
         I_REGISTER_INTERFACE(IPluginManager);
         
         // Multiple plugin factories
-        I_ASSIGN_MULTIFACTORY(m_pluginFactories, "Plugins", 
-                             "List of plugin factories", true);
+        I_ASSIGN_MULTI_0(m_pluginFactories, "Plugins", true);
         
         // Logger reference
-        I_ASSIGN_REF(m_loggerRef, "Logger", "Logger component", true);
+        I_ASSIGN(m_loggerRef, "Logger", "Logger component", true);
     I_END_COMPONENT;
     
     CPluginManager();
@@ -83,7 +82,7 @@ private:
         bool initialized;
     };
     
-    I_MULTIFACTORY(m_pluginFactories);
+    I_MULTIFACT(m_pluginFactories);
     I_REF(ILogger, m_loggerRef);
     
     std::vector<PluginInfo> m_plugins;
@@ -480,8 +479,7 @@ public:
         I_REGISTER_INTERFACE(IObservable);
         
         // Multiple observer references
-        I_ASSIGN_MULTIREF(m_observersRef, "Observers", 
-                         "List of observers", true);
+        I_ASSIGN_MULTI_0(m_observersRef, "Observers", true);
     I_END_COMPONENT;
     
 protected:
@@ -653,12 +651,12 @@ public:
         I_REGISTER_INTERFACE(IConfiguration);
         
         // Optional parent configuration
-        I_ASSIGN_REF(m_parentConfigRef, "ParentConfig",
-                    "Parent configuration for inheritance", true);
+        I_ASSIGN(m_parentConfigRef, "ParentConfig",
+                 "Parent configuration for inheritance", true);
         
         // Persistence
-        I_ASSIGN_REF(m_persistenceRef, "Persistence",
-                    "Configuration persistence handler", true);
+        I_ASSIGN(m_persistenceRef, "Persistence",
+                 "Configuration persistence handler", true);
         
         I_ASSIGN(m_autoSaveAttr, "AutoSave", 
                 "Auto-save on changes", true, false);
@@ -861,10 +859,9 @@ public:
         I_REGISTER_INTERFACE(IPipeline);
         
         // Ordered list of processors
-        I_ASSIGN_MULTIREF(m_processorsRef, "Processors",
-                         "Processing stages", false);
+        I_ASSIGN_MULTI_0(m_processorsRef, "Processors", false);
         
-        I_ASSIGN_REF(m_loggerRef, "Logger", "Logger", true);
+        I_ASSIGN(m_loggerRef, "Logger", "Logger", true);
         
         I_ASSIGN(m_parallelAttr, "Parallel", 
                 "Use parallel processing", true, false);

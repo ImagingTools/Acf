@@ -465,10 +465,10 @@ public:
         I_REGISTER_INTERFACE(IMyInterface);
         
         // Single reference
-        I_ASSIGN_REF(m_loggerRef, "Logger", "Logging component", false);
+        I_ASSIGN(m_loggerRef, "Logger", "Logging component", false);
         
         // Optional reference
-        I_ASSIGN_REF(m_helpProviderRef, "HelpProvider", "Help provider", true);
+        I_ASSIGN(m_helpProviderRef, "HelpProvider", "Help provider", true);
     I_END_COMPONENT;
     
 private:
@@ -511,7 +511,7 @@ For arrays of references:
 ```cpp
 I_BEGIN_COMPONENT(MyComponent);
     // Multiple references
-    I_ASSIGN_MULTIREF(m_processorsRef, "Processors", "Data processors", true);
+    I_ASSIGN_MULTI_0(m_processorsRef, "Processors", true);
 I_END_COMPONENT;
 
 private:
@@ -578,17 +578,17 @@ public:
     
     I_BEGIN_COMPONENT(DocumentTemplate);
         // Factory for creating documents
-        I_ASSIGN_FACTORY(m_documentFactory, "DocumentFactory", 
-                        "Factory for document instances", false);
+        I_ASSIGN(m_documentFactory, "DocumentFactory", 
+                 "Factory for document instances", false);
         
         // Optional factory
-        I_ASSIGN_FACTORY(m_viewFactory, "ViewFactory", 
-                        "Factory for view instances", true);
+        I_ASSIGN(m_viewFactory, "ViewFactory", 
+                 "Factory for view instances", true);
     I_END_COMPONENT;
     
 private:
-    I_FACTORY(m_documentFactory);
-    I_FACTORY(m_viewFactory);
+    I_FACT(m_documentFactory);
+    I_FACT(m_viewFactory);
 };
 ```
 
@@ -631,12 +631,12 @@ IComponentSharedPtr DocumentTemplate::CreateView()
 
 ```cpp
 I_BEGIN_COMPONENT(MyComponent);
-    I_ASSIGN_MULTIFACTORY(m_pluginFactories, "PluginFactories", 
-                          "Plugin factory list", true);
+    I_ASSIGN_MULTI_0(m_pluginFactories, "PluginFactories", 
+                     true);  // or I_ASSIGN_MULTI_1 with default
 I_END_COMPONENT;
 
 private:
-    I_MULTIFACTORY(m_pluginFactories);
+    I_MULTIFACT(m_pluginFactories);
 ```
 
 Usage:
@@ -1072,13 +1072,13 @@ public:
         I_REGISTER_INTERFACE(IDataProcessor);
         
         // Required reference to logger
-        I_ASSIGN_REF(m_loggerRef, "Logger", "Logging component", false);
+        I_ASSIGN(m_loggerRef, "Logger", "Logging component", false);
         
         // Required reference to data source
-        I_ASSIGN_REF(m_dataSourceRef, "DataSource", "Data source", false);
+        I_ASSIGN(m_dataSourceRef, "DataSource", "Data source", false);
         
         // Optional reference to backup processor
-        I_ASSIGN_REF(m_backupRef, "Backup", "Backup processor", true);
+        I_ASSIGN(m_backupRef, "Backup", "Backup processor", true);
         
         // Attributes
         I_ASSIGN(m_enabledAttr, "Enabled", "Enable processing", true, true);
@@ -1190,22 +1190,20 @@ public:
         I_REGISTER_INTERFACE(IDocumentManager);
         
         // Factory for creating documents
-        I_ASSIGN_FACTORY(m_documentFactory, "DocumentFactory", 
-                        "Document factory", false);
+        I_ASSIGN(m_documentFactory, "DocumentFactory", "Document factory", false);
         
         // Multiple view factories
-        I_ASSIGN_MULTIFACTORY(m_viewFactories, "ViewFactories",
-                             "View factories", true);
+        I_ASSIGN_MULTI_0(m_viewFactories, "ViewFactories", true);
         
-        I_ASSIGN_REF(m_loggerRef, "Logger", "Logger", true);
+        I_ASSIGN(m_loggerRef, "Logger", "Logger", true);
     I_END_COMPONENT;
     
     IDocument* CreateDocument();
     IView* CreateView(int index = 0);
     
 private:
-    I_FACTORY(m_documentFactory);
-    I_MULTIFACTORY(m_viewFactories);
+    I_FACT(m_documentFactory);
+    I_MULTIFACT(m_viewFactories);
     I_REF(ILogger, m_loggerRef);
     
     std::vector<IComponentSharedPtr> m_documents;
@@ -1844,18 +1842,18 @@ The ACF Component Framework provides:
 
 | Macro | Purpose |
 |-------|---------|
-| `I_FACTORY(member)` | Declare factory attribute |
-| `I_MULTIFACTORY(member)` | Declare multi-factory attribute |
+| `I_FACT(member)` | Declare factory attribute |
+| `I_MULTIFACT(member)` | Declare multi-factory attribute |
 
 ### Initialization Macros
 
 | Macro | Purpose |
 |-------|---------|
 | `I_ASSIGN(member, id, desc, opt, def)` | Initialize attribute |
-| `I_ASSIGN_REF(member, id, desc, opt)` | Initialize reference |
-| `I_ASSIGN_FACTORY(member, id, desc, opt)` | Initialize factory |
-| `I_ASSIGN_MULTIREF(member, id, desc, opt)` | Initialize multi-reference |
-| `I_ASSIGN_MULTIFACTORY(member, id, desc, opt)` | Initialize multi-factory |
+| `I_ASSIGN(member, id, desc, opt)` | Initialize reference (no default needed) |
+| `I_ASSIGN(member, id, desc, opt)` | Initialize factory (no default needed) |
+| `I_ASSIGN_MULTI_0(member, id, opt)` | Initialize multi-reference/factory (no defaults) |
+| `I_ASSIGN_MULTI_1(member, id, opt, def1)` | Initialize multi-attribute with 1 default |
 
 ---
 
