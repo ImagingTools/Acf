@@ -37,7 +37,7 @@ jobs:
       - name: Copy documentation to repository
         run: |
           mkdir -p docs
-          cp -r ../Docs/TechnicalDoc/* docs/
+          cp -r $GITHUB_WORKSPACE/../Docs/TechnicalDoc/* docs/
       
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
