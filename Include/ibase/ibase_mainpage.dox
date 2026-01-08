@@ -1,0 +1,35 @@
+/**
+\page page_ibase ibase - Base Components Library
+
+\section intro_sec Introduction
+
+The ibase library provides fundamental application infrastructure components including
+application information, console application support, and progress management.
+
+\section features_sec Key Features
+
+- **Application Info**: Application metadata and version information
+- **Console Applications**: Console application component infrastructure
+- **Progress Management**: Cumulated progress tracking and reporting
+- **Application Infrastructure**: Core application component support
+
+\section architecture_sec Architecture
+
+Key components:
+
+- **ibase::CApplicationInfoComp**: Application information component
+- **ibase::CConsoleApplicationComp**: Console application component
+- **ibase::CCumulatedProgressManagerBase**: Cumulated progress manager
+
+\section dependencies Dependencies
+
+- **istd**: Standard utilities and interfaces
+- **icomp**: Component framework
+- **Qt Core**: QString and other core classes
+
+\section see_also See Also
+
+- ibase::CApplicationInfoComp
+- ibase::CConsoleApplicationComp
+
+*/

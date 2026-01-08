@@ -1,0 +1,41 @@
+/**
+\page page_iqtgui iqtgui - Qt GUI Utilities Library
+
+\section intro_sec Introduction
+
+The iqtgui library provides comprehensive Qt GUI utility components including application
+base classes, designer support, and common GUI widgets.
+
+\section features_sec Key Features
+
+- **Application Base Classes**: Foundation classes for Qt applications
+- **Designer Support**: Qt Designer integration and custom widgets
+- **GUI Components**: Reusable GUI component infrastructure
+- **About Widget**: Standard about dialog component
+- **Observer Wrapping**: GUI-safe observer pattern implementation
+
+\section architecture_sec Architecture
+
+Key components:
+
+- **iqtgui::CApplicationCompBase**: Application component base class
+- **iqtgui::CAboutWidgetGuiComp**: About dialog GUI component
+- **iqtgui::TGuiObserverWrap**: Thread-safe GUI observer wrapper
+- **iqtgui::TDesignerGuiObserverCompBase**: Designer-integrated observer base
+- **iqtgui::IGuiObject**: GUI object interface
+
+\section dependencies Dependencies
+
+- **istd**: Standard utilities and interfaces
+- **icomp**: Component framework
+- **imod**: Model-observer pattern
+- **Qt Widgets**: Qt GUI framework
+- **Qt Designer**: Qt Designer support
+
+\section see_also See Also
+
+- iqtgui::CApplicationCompBase
+- iqtgui::IGuiObject
+- iqtgui::TGuiObserverWrap
+
+*/
