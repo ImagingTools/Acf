@@ -17,3 +17,7 @@ Makefile
 moc_*.cpp
 ui_*.h
 qrc_*.cpp
+
+# Generated documentation
+docs/
+Docs/TechnicalDoc/
