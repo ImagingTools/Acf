@@ -1,0 +1,36 @@
+/**
+\mainpage iimg - Imaging Library
+
+\section intro_sec Introduction
+
+The iimg library provides bitmap handling, image loading, and image manipulation functionality.
+
+\section features_sec Key Features
+
+- **Bitmap Handling**: Bitmap creation, loading, and manipulation
+- **Image Loading**: Component-based image loading
+- **Bitmap Base Classes**: Foundation classes for bitmap operations
+- **Format Support**: Various image format support
+
+\section architecture_sec Architecture
+
+Key components:
+
+- **iimg::CBitmap**: Bitmap representation and operations
+- **iimg::CBitmapBase**: Base class for bitmap implementations
+- **iimg::CBitmapLoaderComp**: Component for loading bitmap images
+
+\section dependencies Dependencies
+
+- **istd**: Standard utilities and interfaces
+- **iser**: Serialization framework
+- **icomp**: Component framework
+- **Qt GUI**: QImage and related classes
+
+\section see_also See Also
+
+- iimg::CBitmap
+- iimg::CBitmapBase
+- iimg::CBitmapLoaderComp
+
+*/

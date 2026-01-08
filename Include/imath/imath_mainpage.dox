@@ -1,0 +1,34 @@
+/**
+\mainpage imath - Mathematical Utilities Library
+
+\section intro_sec Introduction
+
+The imath library provides mathematical utilities including interpolation algorithms, complex number
+operations, and numerical methods.
+
+\section features_sec Key Features
+
+- **Interpolation**: Akima spline, linear, and other interpolation methods
+- **Complex Numbers**: Complex number operations and manipulations
+- **Numerical Methods**: Various numerical algorithms and computations
+- **Precision Handling**: Double precision utilities and comparisons
+
+\section architecture_sec Architecture
+
+Key components:
+
+- **imath::CAkimaInterpolator**: Akima spline interpolation
+- **imath::CComplexDoubleManip**: Complex number manipulation utilities
+- **imath::CDouble**: Enhanced double precision handling
+
+\section dependencies Dependencies
+
+- **istd**: Standard utilities and interfaces
+- **Qt Core**: QString and other core classes
+
+\section see_also See Also
+
+- imath::CAkimaInterpolator
+- imath::CComplexDoubleManip
+
+*/

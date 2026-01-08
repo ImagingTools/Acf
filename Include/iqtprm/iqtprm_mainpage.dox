@@ -1,0 +1,36 @@
+/**
+\mainpage iqtprm - Qt Parameter Widgets Library
+
+\section intro_sec Introduction
+
+The iqtprm library provides Qt widgets for editing and displaying ACF parameters with
+GUI components for various parameter types.
+
+\section features_sec Key Features
+
+- **Parameter Editing Widgets**: GUI widgets for parameter editing
+- **Selection Parameter GUI**: Button-based and combo-box selection editors
+- **Options Editors**: Checkable options editing widgets
+- **Parameter Binding**: Automatic binding of parameters to GUI widgets
+- **Qt Designer Support**: UI files for designer integration
+
+\section architecture_sec Architecture
+
+Key components:
+
+- **iqtprm::CButtonBasedSelectionParamGuiComp**: Button-based selection parameter GUI
+- **iqtprm::CCheckableOptionsEditorComp**: Checkable options editor component
+
+\section dependencies Dependencies
+
+- **istd**: Standard utilities and interfaces
+- **icomp**: Component framework
+- **iprm**: Parameter management
+- **Qt Widgets**: Qt GUI framework
+
+\section see_also See Also
+
+- iqtprm::CButtonBasedSelectionParamGuiComp
+- iqtprm::CCheckableOptionsEditorComp
+
+*/

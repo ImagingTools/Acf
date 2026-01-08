@@ -1,0 +1,36 @@
+/**
+\mainpage icmm - Color Management Library
+
+\section intro_sec Introduction
+
+The icmm library provides color management functionality including color space conversions
+and color model implementations.
+
+\section features_sec Key Features
+
+- **Color Models**: RGB, CMY, CMYK, HSV, HSL, CIE Lab support
+- **Color Conversions**: Conversion between different color spaces
+- **Color Manipulation**: Color adjustment and manipulation utilities
+- **Serialization**: Full serialization support for color objects
+
+\section architecture_sec Architecture
+
+Key components:
+
+- **icmm::CCieLabColor**: CIE L*a*b* color representation
+- **icmm::CCieLabColorModel**: CIE Lab color model
+- **icmm::CCmy**: CMY color representation
+- **icmm::CRgb**: RGB color representation
+
+\section dependencies Dependencies
+
+- **istd**: Standard utilities and interfaces
+- **iser**: Serialization framework
+- **imath**: Mathematical utilities
+
+\section see_also See Also
+
+- icmm::CCieLabColor
+- icmm::CRgb
+
+*/

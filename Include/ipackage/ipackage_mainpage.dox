@@ -1,0 +1,34 @@
+/**
+\mainpage ipackage - Package Management Library
+
+\section intro_sec Introduction
+
+The ipackage library provides dynamic package and plugin loading functionality for
+extensible applications.
+
+\section features_sec Key Features
+
+- **Package Loading**: Dynamic loading of plugin packages
+- **Component Access**: Simplified component accessor pattern
+- **Plugin Architecture**: Support for modular plugin systems
+- **Dynamic Extensions**: Runtime extension loading
+
+\section architecture_sec Architecture
+
+Key components:
+
+- **ipackage::CComponentAccessor**: Simplified component access
+- **ipackage::CPackagesLoaderComp**: Package loader component
+
+\section dependencies Dependencies
+
+- **istd**: Standard utilities and interfaces
+- **icomp**: Component framework
+- **Qt Core**: Plugin loading support
+
+\section see_also See Also
+
+- ipackage::CComponentAccessor
+- ipackage::CPackagesLoaderComp
+
+*/

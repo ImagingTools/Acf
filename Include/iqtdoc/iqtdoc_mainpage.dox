@@ -1,0 +1,36 @@
+/**
+\mainpage iqtdoc - Qt Document Framework
+
+\section intro_sec Introduction
+
+The iqtdoc library provides Qt-based document framework components including document
+import/export, metadata editing, and help file integration.
+
+\section features_sec Key Features
+
+- **Document Import/Export**: Commands for document import and export operations
+- **Metadata Editing**: GUI for editing document metadata
+- **Help Integration**: Doxygen-generated help file providers
+- **Document Commands**: Qt-integrated document operation commands
+
+\section architecture_sec Architecture
+
+Key components:
+
+- **iqtdoc::CDocumentImportExportCommandComp**: Document import/export command
+- **iqtdoc::CDocumentMetaInfoEditorComp**: Document metadata editor
+- **iqtdoc::CDoxygenHelpFileProviderComp**: Doxygen help file provider
+
+\section dependencies Dependencies
+
+- **istd**: Standard utilities and interfaces
+- **icomp**: Component framework
+- **idoc**: Document framework
+- **Qt Widgets**: Qt GUI framework
+
+\section see_also See Also
+
+- iqtdoc::CDocumentImportExportCommandComp
+- iqtdoc::CDocumentMetaInfoEditorComp
+
+*/

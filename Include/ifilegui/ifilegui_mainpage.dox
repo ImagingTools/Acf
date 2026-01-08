@@ -1,0 +1,35 @@
+/**
+\mainpage ifilegui - File GUI Components
+
+\section intro_sec Introduction
+
+The ifilegui library provides GUI components for file operations including file dialogs,
+file list providers, and document opening commands.
+
+\section features_sec Key Features
+
+- **File Dialogs**: Standard file open/save dialogs
+- **File List Providers**: GUI components for managing file lists
+- **Document Commands**: External document opening commands
+- **File Selection**: User-friendly file selection interfaces
+
+\section architecture_sec Architecture
+
+Key components:
+
+- **ifilegui::CFileDialogLoaderComp**: File dialog component
+- **ifilegui::CFileListProviderGuiComp**: File list provider GUI
+- **ifilegui::CExternalOpenDocumentCommandCompBase**: External open command base
+
+\section dependencies Dependencies
+
+- **istd**: Standard utilities and interfaces
+- **icomp**: Component framework
+- **ifile**: File handling
+- **Qt Widgets**: Qt GUI framework
+
+\section see_also See Also
+
+- ifilegui::CFileDialogLoaderComp
+
+*/

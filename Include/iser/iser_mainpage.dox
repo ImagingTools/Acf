@@ -1,0 +1,167 @@
+/**
+\mainpage iser - Serialization Framework
+
+\section intro_sec Introduction
+
+The iser library provides a comprehensive serialization framework for persisting and loading objects.
+It supports multiple archive formats including binary, XML, and compact XML, with automatic version handling
+and type identification.
+
+\section features_sec Key Features
+
+- **Archive-Based Serialization**: Read and write archives with consistent interface
+- **Multiple Formats**: Binary, XML, and compact XML archive support
+- **Version Management**: Automatic version tracking and compatibility checking
+- **Type Safety**: Object type identification and validation
+- **Memory and File**: Support for both memory-based and file-based archives
+- **Compression**: Optional bit-level compression for compact storage
+
+\section architecture_sec Architecture
+
+The iser library is organized into several key components:
+
+\subsection archives Archive Types
+
+- **iser::CMemoryWriteArchive**: Write to memory buffer
+- **iser::CMemoryReadArchive**: Read from memory buffer
+- **iser::CFileWriteArchive**: Write to file
+- **iser::CFileReadArchive**: Read from file
+- **iser::CBitMemoryWriteArchive**: Bit-level compressed memory writing
+- **iser::CCompactXmlMemWriteArchive**: Compact XML format writing
+
+\subsection interfaces Core Interfaces
+
+- **iser::ISerializable**: Interface for serializable objects
+- **iser::IReadArchive**: Interface for reading archives
+- **iser::IWriteArchive**: Interface for writing archives
+- **iser::IObject**: Extended serializable interface with type information
+- **iser::IVersionInfo**: Version information for compatibility
+
+\subsection utilities Utilities
+
+- **iser::CArchiveHeaderInfo**: Archive header metadata
+- **iser::CArchiveTag**: Tagged data sections in archives
+- **iser::CVersionInfo**: Version information implementation
+
+\section usage_sec Usage Examples
+
+\subsection example_write Writing to Archive
+
+\code{.cpp}
+#include <iser/CMemoryWriteArchive.h>
+#include <iser/ISerializable.h>
+
+class MyData : public iser::ISerializable
+{
+public:
+    virtual void Serialize(iser::IArchive& archive) override
+    {
+        archive.Process(m_value, "value");
+        archive.Process(m_name, "name");
+    }
+    
+private:
+    int m_value = 42;
+    QString m_name = "Example";
+};
+
+// Write to memory
+iser::CMemoryWriteArchive writeArchive;
+MyData data;
+data.Serialize(writeArchive);
+
+// Get serialized data
+QByteArray serialized = writeArchive.GetData();
+\endcode
+
+\subsection example_read Reading from Archive
+
+\code{.cpp}
+#include <iser/CMemoryReadArchive.h>
+
+// Read from memory
+iser::CMemoryReadArchive readArchive(serialized);
+MyData loadedData;
+loadedData.Serialize(readArchive);
+
+// Data is now restored
+\endcode
+
+\subsection example_file File-Based Serialization
+
+\code{.cpp}
+#include <iser/CFileWriteArchive.h>
+#include <iser/CFileReadArchive.h>
+
+// Write to file
+iser::CFileWriteArchive fileWrite("data.bin");
+data.Serialize(fileWrite);
+
+// Read from file
+iser::CFileReadArchive fileRead("data.bin");
+MyData loadedFromFile;
+loadedFromFile.Serialize(fileRead);
+\endcode
+
+\subsection example_version Version Management
+
+\code{.cpp}
+#include <iser/CVersionInfo.h>
+#include <iser/CMemoryWriteArchive.h>
+
+// Create version info
+iser::CVersionInfo versionInfo(1, 2, 0);
+
+// Create archive with version
+iser::CMemoryWriteArchive archive(&versionInfo);
+
+// When reading, version is automatically checked
+iser::CMemoryReadArchive readArchive(archive.GetData());
+const iser::IVersionInfo* loadedVersion = readArchive.GetVersionInfo();
+\endcode
+
+\subsection example_tagged Tagged Sections
+
+\code{.cpp}
+#include <iser/CArchiveTag.h>
+
+// Write with tags
+iser::CMemoryWriteArchive archive;
+{
+    iser::CArchiveTag tag(archive, "Header");
+    archive.Process(headerData, "data");
+}
+{
+    iser::CArchiveTag tag(archive, "Body");
+    archive.Process(bodyData, "data");
+}
+\endcode
+
+\section thread_safety Thread Safety
+
+Archive objects are not thread-safe. Each thread should use its own archive instance.
+
+\section dependencies Dependencies
+
+The iser library depends on:
+- **istd**: Standard utilities and interfaces
+- **Qt Core**: QString, QByteArray, QIODevice, and other core classes
+
+\section best_practices Best Practices
+
+-# **Implement ISerializable**: All persistent objects should implement ISerializable
+-# **Use Named Fields**: Always provide field names for better debugging and XML output
+-# **Version Control**: Include version information for data compatibility
+-# **Handle Errors**: Check archive state after serialization operations
+-# **Symmetric Operations**: Ensure Serialize() works for both reading and writing
+-# **Use Tags**: Organize complex data structures with CArchiveTag
+-# **Test Compatibility**: Test serialization with different versions
+
+\section see_also See Also
+
+- iser::ISerializable
+- iser::CMemoryWriteArchive
+- iser::CMemoryReadArchive
+- iser::IArchive
+
+*/

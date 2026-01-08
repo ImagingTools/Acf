@@ -1,0 +1,35 @@
+/**
+\mainpage iwidgets - Widget Utilities Library
+
+\section intro_sec Introduction
+
+The iwidgets library provides custom Qt widgets and widget utilities including checkable
+combo boxes, collapsible widgets, and other specialized controls.
+
+\section features_sec Key Features
+
+- **Custom Widgets**: Specialized Qt widgets for common use cases
+- **Checkable Combo Box**: Combo box with checkable items
+- **Collapsible Widgets**: Expandable/collapsible widget containers
+- **Widget Delegates**: Custom delegates for enhanced widget behavior
+- **Reusable Controls**: Library of reusable widget components
+
+\section architecture_sec Architecture
+
+Key components:
+
+- **iwidgets::CCheckableComboBox**: Combo box with checkable items
+- **iwidgets::CCollapsibleGroupWidgetDelegate**: Collapsible group delegate
+- **iwidgets::CCollapsiblePage**: Collapsible page widget
+
+\section dependencies Dependencies
+
+- **Qt Widgets**: Qt GUI framework
+- **Qt Core**: Qt core functionality
+
+\section see_also See Also
+
+- iwidgets::CCheckableComboBox
+- iwidgets::CCollapsiblePage
+
+*/

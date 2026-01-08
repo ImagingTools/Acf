@@ -1,0 +1,39 @@
+/**
+\mainpage ilog - Logging Library
+
+\section intro_sec Introduction
+
+The ilog library provides logging functionality with message handling, console logging,
+and extensible message consumers.
+
+\section features_sec Key Features
+
+- **Message Handling**: Structured message creation and handling
+- **Console Logging**: Output to console with formatting
+- **Message Consumers**: Pluggable message consumer architecture
+- **Extended Messages**: Rich message objects with metadata
+- **Log Components**: Component-based logging infrastructure
+
+\section architecture_sec Architecture
+
+Key components:
+
+- **ilog::IMessageConsumer**: Interface for consuming log messages
+- **ilog::CExtMessage**: Extended message with metadata
+- **ilog::CConsoleLogComp**: Console logging component
+- **ilog::CLogComp**: General logging component
+- **ilog::CMessageConsumer**: Base message consumer implementation
+
+\section dependencies Dependencies
+
+- **istd**: Standard utilities and interfaces
+- **icomp**: Component framework
+- **Qt Core**: QString and other core classes
+
+\section see_also See Also
+
+- ilog::IMessageConsumer
+- ilog::CExtMessage
+- ilog::CConsoleLogComp
+
+*/

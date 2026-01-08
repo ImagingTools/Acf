@@ -1,0 +1,39 @@
+/**
+\mainpage iview - View Framework
+
+\section intro_sec Introduction
+
+The iview library provides a view framework for displaying and interacting with geometric shapes
+and calibrated views. It includes interactive shapes and visualization support.
+
+\section features_sec Key Features
+
+- **Interactive Shapes**: User-interactable geometric shapes
+- **Calibrated Views**: Views with coordinate system calibration
+- **Shape Visualization**: Display of 2D and 3D geometric primitives
+- **Grid Display**: Configurable grid overlay for calibrated views
+- **Shape Manipulation**: Interactive shape editing and transformation
+
+\section architecture_sec Architecture
+
+Key components:
+
+- **iview::IShape**: Base interface for displayable shapes
+- **iview::CCalibratedViewBase**: Base class for calibrated views
+- **iview::CAffineTransformation2dShape**: Interactive affine transformation shape
+- **iview::CAnnulusShape**: Annulus shape visualization
+- **iview::CAnnulusSegmentShape**: Annulus segment visualization
+
+\section dependencies Dependencies
+
+- **istd**: Standard utilities and interfaces
+- **iser**: Serialization framework
+- **i2d**: 2D graphics utilities
+- **icomp**: Component framework
+
+\section see_also See Also
+
+- iview::IShape
+- iview::CCalibratedViewBase
+
+*/

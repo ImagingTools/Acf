@@ -1,0 +1,42 @@
+/**
+\mainpage icomp - Component Framework
+
+\section intro_sec Introduction
+
+The icomp library provides a comprehensive component-based architecture for building modular applications.
+It implements dependency injection, component registration, and a flexible attribute system.
+
+\section features_sec Key Features
+
+- **Component Model**: Interface-based component architecture
+- **Dependency Injection**: Automatic dependency resolution and injection
+- **Registry System**: Hierarchical component registry for lookups
+- **Attribute System**: Extensible attribute-based metadata
+- **Factory Pattern**: Component factories for dynamic instantiation
+- **Environment Management**: Cached and hierarchical environment contexts
+- **Static Info**: Compile-time component metadata and reflection
+
+\section architecture_sec Architecture
+
+Key components:
+
+- **icomp::IComponent**: Base interface for all components
+- **icomp::IRegistry**: Component registry for lookup and navigation
+- **icomp::IComponentFactory**: Factory for creating component instances
+- **icomp::IComponentStaticInfo**: Static metadata about component types
+- **icomp::IAttribute**: Attribute interface for component properties
+- **icomp::IEnvironment**: Environment context for component creation
+
+\section dependencies Dependencies
+
+- **istd**: Standard utilities and interfaces
+- **iser**: Serialization framework
+- **Qt Core**: QString, QByteArray, and other core classes
+
+\section see_also See Also
+
+- icomp::IComponent
+- icomp::IRegistry
+- icomp::IComponentFactory
+
+*/

@@ -1,0 +1,37 @@
+/**
+\mainpage imod - Model-Observer Pattern Library
+
+\section intro_sec Introduction
+
+The imod library provides model-observer pattern implementation for decoupled change notification
+and model management.
+
+\section features_sec Key Features
+
+- **Model Base Classes**: Foundation classes for observable models
+- **Observer Pattern**: Standard observer pattern implementation
+- **Model Proxy**: Proxy pattern for model delegation
+- **Change Tracking**: Automatic change notification and tracking
+
+\section architecture_sec Architecture
+
+Key components:
+
+- **imod::IModel**: Base model interface
+- **imod::IModelObserver**: Observer interface for model changes
+- **imod::CModelBase**: Base implementation of observable model
+- **imod::CModelProxy**: Proxy for delegating model operations
+
+\section dependencies Dependencies
+
+- **istd**: Standard utilities and interfaces (IChangeable)
+- **iser**: Serialization framework
+- **icomp**: Component framework
+
+\section see_also See Also
+
+- imod::IModel
+- imod::IModelObserver
+- imod::CModelBase
+
+*/

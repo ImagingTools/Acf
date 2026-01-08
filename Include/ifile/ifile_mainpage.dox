@@ -1,0 +1,38 @@
+/**
+\mainpage ifile - File Handling Library
+
+\section intro_sec Introduction
+
+The ifile library provides file handling functionality including file loading, saving,
+auto-persistence, and file path management based on application information.
+
+\section features_sec Key Features
+
+- **File Operations**: Standard file loading and saving operations
+- **Auto-Persistence**: Automatic document persistence on changes
+- **Path Management**: Application-based file path resolution
+- **Archive Support**: File-based archive reading and writing
+- **Device Archives**: Serialization directly to/from QIODevice
+
+\section architecture_sec Architecture
+
+Key components:
+
+- **ifile::CAutoPersistenceComp**: Automatic document persistence component
+- **ifile::CApplicationInfoBasedFileNameComp**: Application-based file naming
+- **ifile::CCompactXmlDeviceReadArchive**: XML reading from devices
+- **ifile::CFileLoader**: File loading utilities
+
+\section dependencies Dependencies
+
+- **istd**: Standard utilities and interfaces
+- **iser**: Serialization framework
+- **icomp**: Component framework
+- **ibase**: Base components (application info)
+
+\section see_also See Also
+
+- ifile::CAutoPersistenceComp
+- ifile::CFileLoader
+
+*/

@@ -1,0 +1,41 @@
+/**
+\mainpage idoc - Document Framework
+
+\section intro_sec Introduction
+
+The idoc library provides a template-based document management framework with support for
+multi-level undo/redo, document persistence, and document-view architecture.
+
+\section features_sec Key Features
+
+- **Document Templates**: Template-based document creation
+- **Multi-Document Management**: Managing multiple documents simultaneously
+- **Undo/Redo**: Multi-level undo mechanism based on serialization
+- **Document Persistence**: File-based document storage and loading
+- **Model-Observer**: Document change notification and observation
+- **Composite Documents**: Complex documents composed of multiple templates
+
+\section architecture_sec Architecture
+
+Key components:
+
+- **idoc::IDocument**: Base document interface
+- **idoc::IDocumentTemplate**: Document template interface
+- **idoc::CMultiDocumentManagerBase**: Multi-document manager base class
+- **idoc::CCompositeDocumentTemplateComp**: Composite document template
+- **idoc::CMultiLevelUndoComp**: Multi-level undo/redo implementation
+
+\section dependencies Dependencies
+
+- **istd**: Standard utilities and interfaces
+- **iser**: Serialization framework
+- **icomp**: Component framework
+- **imod**: Model-observer pattern
+
+\section see_also See Also
+
+- idoc::IDocument
+- idoc::IDocumentTemplate
+- idoc::CMultiDocumentManagerBase
+
+*/

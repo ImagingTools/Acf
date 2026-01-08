@@ -1,0 +1,129 @@
+/**
+\mainpage istd - Standard Utilities Library
+
+\section intro_sec Introduction
+
+The istd library provides foundational utilities and interfaces used throughout the ACF framework.
+It includes standard patterns, helper classes, and core interfaces that form the basis for other ACF components.
+
+\section features_sec Key Features
+
+- **Change Notification**: Observer pattern implementation with granular change tracking
+- **Smart Pointers**: Interface-based smart pointer templates for safe memory management
+- **Utilities**: Bit manipulation, CRC calculation, and other common utilities
+- **Interface Definitions**: Base interfaces for changeable objects and type information
+- **Event Handling**: Event-based notification and change delegation
+- **Type System**: Version information and type identification support
+
+\section architecture_sec Architecture
+
+The istd library is organized into several key components:
+
+\subsection changeable Change Notification
+
+- **istd::IChangeable**: Base interface for objects that can notify observers of changes
+- **istd::CChangeDelegator**: Delegates change notifications from one object to another
+- **istd::CChangeNotifier**: Scope-based automatic change notification
+- **istd::CChangeGroup**: Groups multiple changes into a single notification
+- **istd::CEventBasedNotifier**: Qt event-based change notification
+
+\subsection smart_pointers Smart Pointers
+
+- **istd::TUniqueInterfacePtr**: Unique ownership smart pointer for interfaces
+- **istd::TSharedInterfacePtr**: Shared ownership smart pointer for interfaces
+- **istd::TWeakInterfacePtr**: Weak reference smart pointer for interfaces
+
+\subsection utilities Utilities
+
+- **istd::CBitManip**: Bit manipulation utilities
+- **istd::CCrc**: CRC calculation for data integrity
+- **istd::CFastBinaryIndex**: Fast binary indexing for sorted data
+- **istd::CRandomGenerator**: Random number generation
+
+\subsection version Version Information
+
+- **istd::IVersionInfo**: Interface for version information
+- **istd::CVersionInfo**: Version information implementation
+
+\section usage_sec Usage Examples
+
+\subsection example_changeable Change Notification Example
+
+\code{.cpp}
+#include <istd/IChangeable.h>
+#include <istd/CChangeNotifier.h>
+
+class MyModel : public istd::IChangeable
+{
+public:
+    static const ChangeFlag CF_VALUE_CHANGED = MakeChangeFlag(0);
+    
+    void SetValue(int value)
+    {
+        if (m_value != value)
+        {
+            istd::CChangeNotifier notifier(this, &CF_VALUE_CHANGED);
+            m_value = value;
+        }
+    }
+    
+private:
+    int m_value = 0;
+};
+\endcode
+
+\subsection example_smart_ptr Smart Pointer Example
+
+\code{.cpp}
+#include <istd/TUniqueInterfacePtr.h>
+#include <istd/TSharedInterfacePtr.h>
+
+// Unique ownership
+istd::TUniqueInterfacePtr<IMyInterface> uniquePtr = CreateObject();
+uniquePtr->DoSomething();
+
+// Shared ownership
+istd::TSharedInterfacePtr<IMyInterface> sharedPtr = CreateObject();
+istd::TSharedInterfacePtr<IMyInterface> anotherRef = sharedPtr;
+sharedPtr->DoSomething();
+\endcode
+
+\subsection example_crc CRC Calculation Example
+
+\code{.cpp}
+#include <istd/CCrc.h>
+
+QByteArray data = "Hello, World!";
+quint32 crc = istd::CCrc::GetCrcFromData(
+    reinterpret_cast<const quint8*>(data.data()), 
+    data.size()
+);
+\endcode
+
+\section thread_safety Thread Safety
+
+The istd library components are generally not thread-safe by default. When using across multiple threads,
+appropriate synchronization mechanisms should be employed by the application.
+
+\section dependencies Dependencies
+
+The istd library has minimal dependencies:
+- **Qt Core**: QString, QByteArray, QList, and other core classes
+- Standard C++ library
+
+\section best_practices Best Practices
+
+-# **Use Smart Pointers**: Prefer smart pointers over raw pointers for automatic memory management
+-# **Scope Change Notifications**: Use CChangeNotifier for automatic notification on scope exit
+-# **Group Related Changes**: Use CChangeGroup to batch multiple changes into one notification
+-# **Check Change Flags**: Always check specific change flags rather than relying on "any change"
+-# **Version Compatibility**: Use IVersionInfo for version checking when serializing data
+
+\section see_also See Also
+
+- istd::IChangeable
+- istd::TUniqueInterfacePtr
+- istd::TSharedInterfacePtr
+- istd::CChangeNotifier
+
+*/

@@ -1,0 +1,35 @@
+/**
+\mainpage iattr - Attributes Library
+
+\section intro_sec Introduction
+
+The iattr library provides attribute management functionality including metadata handling
+and extensible attribute systems.
+
+\section features_sec Key Features
+
+- **Attribute Management**: Managing component attributes
+- **Metadata**: Attribute metadata and information
+- **Meta Info Providers**: Attribute metadata provider architecture
+- **Extensible System**: Pluggable attribute system
+
+\section architecture_sec Architecture
+
+Key components:
+
+- **iattr::CAttributeMetaInfo**: Attribute metadata information
+- **iattr::CAttributesManager**: Manager for component attributes
+- **iattr::CAttributesMetaInfoProvider**: Metadata provider
+
+\section dependencies Dependencies
+
+- **istd**: Standard utilities and interfaces
+- **iser**: Serialization framework
+- **icomp**: Component framework
+
+\section see_also See Also
+
+- iattr::CAttributeMetaInfo
+- iattr::CAttributesManager
+
+*/

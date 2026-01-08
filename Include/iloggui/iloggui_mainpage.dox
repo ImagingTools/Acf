@@ -1,0 +1,35 @@
+/**
+\mainpage iloggui - Logging GUI Components
+
+\section intro_sec Introduction
+
+The iloggui library provides GUI components for displaying log messages including log widgets
+and message boxes.
+
+\section features_sec Key Features
+
+- **Log Display Widgets**: GUI widgets for displaying log messages
+- **Message Boxes**: Modal and non-modal message display
+- **Log GUI Components**: Component-based log display infrastructure
+- **Rich Display**: Formatted message display with metadata
+
+\section architecture_sec Architecture
+
+Key components:
+
+- **iloggui::CLogGuiComp**: Log display GUI component
+- **iloggui::CMessageBoxComp**: Message box component
+
+\section dependencies Dependencies
+
+- **istd**: Standard utilities and interfaces
+- **icomp**: Component framework
+- **ilog**: Logging library
+- **Qt Widgets**: Qt GUI framework
+
+\section see_also See Also
+
+- iloggui::CLogGuiComp
+- iloggui::CMessageBoxComp
+
+*/

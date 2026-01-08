@@ -1,0 +1,37 @@
+/**
+\mainpage iqt - Qt Utilities Library
+
+\section intro_sec Introduction
+
+The iqt library provides Qt-specific utility components including application settings,
+clipboard serialization, and console reading functionality.
+
+\section features_sec Key Features
+
+- **Application Settings**: Qt-based application settings management
+- **Clipboard Operations**: Serialization to/from system clipboard
+- **Console Reader**: Console input reading utilities
+- **Qt Integration**: Deep Qt framework integration
+
+\section architecture_sec Architecture
+
+Key components:
+
+- **iqt::CApplicationSettingsProviderComp**: Application settings provider
+- **iqt::CClipboardSerializerComp**: Clipboard serialization component
+- **iqt::CConsoleReader**: Console input reader
+
+\section dependencies Dependencies
+
+- **istd**: Standard utilities and interfaces
+- **iser**: Serialization framework
+- **icomp**: Component framework
+- **Qt Core**: Qt core functionality
+- **Qt GUI**: Qt GUI classes
+
+\section see_also See Also
+
+- iqt::CApplicationSettingsProviderComp
+- iqt::CClipboardSerializerComp
+
+*/
