@@ -15,6 +15,47 @@ namespace iloggui
 {
 
 
+/**
+	Text-based log viewer with rich formatting.
+	
+	CTextLogGuiComp provides a read-only, rich-text display of log messages using
+	QTextEdit. It observes a message container and updates its display automatically
+	when messages are added.
+	
+	The component displays messages in a formatted table with icons, timestamps,
+	sources, and message text. It provides filtering controls for severity, source,
+	and message content.
+	
+	This component is simpler than CLogGuiComp and is best suited for read-only
+	log displays where advanced features like export and commands aren't needed.
+	
+	For detailed documentation including configuration and usage examples, see
+	the \ref page_iloggui "iloggui library documentation".
+	
+	\ingroup iloggui
+	
+	\par Quick Example
+	\code{.cpp}
+	// Create log container
+	istd::TSharedInterfacePtr<ilog::CLogComp> logContainer(
+	    new ilog::CLogComp);
+	
+	// Create text log viewer
+	istd::TSharedInterfacePtr<iloggui::CTextLogGuiComp> textLog(
+	    new iloggui::CTextLogGuiComp);
+	
+	// Configure to observe container
+	// In .acfc: Model -> logContainer
+	
+	// Get widget for display
+	QWidget* widget = textLog->GetWidget();
+	layout->addWidget(widget);
+	
+	// Messages added to logContainer appear automatically
+	\endcode
+	
+	\see \ref page_iloggui, ilog::IMessageContainer, iqtgui::TDesignerGuiObserverCompBase
+*/
 class CTextLogGuiComp:
 	public iqtgui::TDesignerGuiObserverCompBase<
 				Ui::CTextLogGuiComp, ilog::IMessageContainer>
@@ -22,6 +63,7 @@ class CTextLogGuiComp:
 	Q_OBJECT
 
 public:
+	/// Base class typedef
 	typedef iqtgui::TDesignerGuiObserverCompBase<
 				Ui::CTextLogGuiComp, ilog::IMessageContainer> BaseClass;
 
