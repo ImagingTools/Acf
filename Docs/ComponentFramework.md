@@ -511,7 +511,7 @@ For arrays of references:
 ```cpp
 I_BEGIN_COMPONENT(MyComponent);
     // Multiple references
-    I_ASSIGN_MULTI_0(m_processorsRef, "Processors", true);
+    I_ASSIGN_MULTI_0(m_processorsRef, "Processors", "Data processors", true);
 I_END_COMPONENT;
 
 private:
@@ -632,7 +632,7 @@ IComponentSharedPtr DocumentTemplate::CreateView()
 ```cpp
 I_BEGIN_COMPONENT(MyComponent);
     I_ASSIGN_MULTI_0(m_pluginFactories, "PluginFactories", 
-                     true);  // or I_ASSIGN_MULTI_1 with default
+                     "Plugin factory list", true);
 I_END_COMPONENT;
 
 private:
@@ -1193,7 +1193,7 @@ public:
         I_ASSIGN(m_documentFactory, "DocumentFactory", "Document factory", false);
         
         // Multiple view factories
-        I_ASSIGN_MULTI_0(m_viewFactories, "ViewFactories", true);
+        I_ASSIGN_MULTI_0(m_viewFactories, "ViewFactories", "View factories", true);
         
         I_ASSIGN(m_loggerRef, "Logger", "Logger", true);
     I_END_COMPONENT;

@@ -52,7 +52,8 @@ public:
         I_REGISTER_INTERFACE(IPluginManager);
         
         // Multiple plugin factories
-        I_ASSIGN_MULTI_0(m_pluginFactories, "Plugins", true);
+        I_ASSIGN_MULTI_0(m_pluginFactories, "Plugins", 
+                        "List of plugin factories", true);
         
         // Logger reference
         I_ASSIGN(m_loggerRef, "Logger", "Logger component", true);
@@ -479,7 +480,8 @@ public:
         I_REGISTER_INTERFACE(IObservable);
         
         // Multiple observer references
-        I_ASSIGN_MULTI_0(m_observersRef, "Observers", true);
+        I_ASSIGN_MULTI_0(m_observersRef, "Observers", 
+                        "List of observers", true);
     I_END_COMPONENT;
     
 protected:
@@ -859,7 +861,8 @@ public:
         I_REGISTER_INTERFACE(IPipeline);
         
         // Ordered list of processors
-        I_ASSIGN_MULTI_0(m_processorsRef, "Processors", false);
+        I_ASSIGN_MULTI_0(m_processorsRef, "Processors", 
+                        "Processing stages", false);
         
         I_ASSIGN(m_loggerRef, "Logger", "Logger", true);
         
