@@ -12,12 +12,79 @@ namespace ilog
 {
 
 
+/**
+	Component that routes messages from one container to another with filtering.
+	
+	CLogRouterComp observes a source message container and automatically forwards
+	new messages to an output message consumer. It can filter messages by minimum
+	severity level, and prevents duplicate forwarding by tracking already-processed
+	messages.
+	
+	This component is useful for:
+	- Separating errors from general logs
+	- Forwarding critical messages to multiple destinations
+	- Building hierarchical logging systems
+	- Creating filtered log views
+	
+	\ingroup Logging
+	
+	\par Features
+	- Automatic message forwarding when source container changes
+	- Severity-based filtering (forward only messages >= minimum category)
+	- Duplicate detection (won't forward same message twice)
+	- Model-observer integration for reactive updates
+	- Component-based configuration
+	
+	\par Configuration
+	Component references:
+	- **InputMessageContainer**: Source container to monitor (IMessageContainer)
+	- **OutputMessageConsumer**: Destination for forwarded messages (IMessageConsumer)
+	
+	Component attributes:
+	- **MinimalCategory**: Minimum severity to forward (-1=all, 0=none, 1=info+, 
+	                       2=warning+, 3=error+, 4=critical only)
+	
+	\par Usage Example
+	\code{.cpp}
+	// Create source and destination
+	istd::TSharedInterfacePtr<ilog::CLogComp> mainLog(new ilog::CLogComp);
+	istd::TSharedInterfacePtr<ilog::CLogComp> errorLog(new ilog::CLogComp);
+	
+	// Create router
+	istd::TSharedInterfacePtr<ilog::CLogRouterComp> router(
+	    new ilog::CLogRouterComp);
+	
+	// Configure via .acc:
+	//   InputMessageContainer -> mainLog
+	//   OutputMessageConsumer -> errorLog
+	//   MinimalCategory -> 3 (errors and critical)
+	
+	// Add messages to main log
+	mainLog->AddMessage(infoMsg);    // Not forwarded
+	mainLog->AddMessage(errorMsg);   // Forwarded to errorLog
+	mainLog->AddMessage(criticalMsg);// Forwarded to errorLog
+	\endcode
+	
+	\par Component Configuration
+	\code{.xml}
+	<Component Id="ErrorRouter" Class="ilog::CLogRouterComp">
+	    <Reference Id="InputMessageContainer" Value="MainLog"/>
+	    <Reference Id="OutputMessageConsumer" Value="ErrorLog"/>
+	    <Attribute Id="MinimalCategory" Value="3"/>
+	</Component>
+	\endcode
+	
+	\see ilog::IMessageContainer, ilog::IMessageConsumer, imod::IObserver
+*/
 class CLogRouterComp:
 			public icomp::CComponentBase,
 			public imod::CSingleModelObserverBase
 {
 public:
+	/// Base class typedef for component functionality
 	typedef icomp::CComponentBase BaseClass;
+	
+	/// Base class typedef for observer functionality
 	typedef imod::CSingleModelObserverBase BaseClass2;
 
 	I_BEGIN_COMPONENT(CLogRouterComp);

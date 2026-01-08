@@ -10,13 +10,73 @@ namespace ilog
 
 
 /**
-	Basic implementation for a log written to an output stream.
-
+	Base class for stream-based logging components.
+	
+	CStreamLogCompBase provides foundation for logging components that output formatted
+	messages to text streams. It handles message filtering by severity, message formatting
+	with customizable elements (category, code, timestamp), and tracks statistics.
+	
+	Derived classes implement WriteText() to output the formatted message to their
+	specific destination (console, file, network, etc.).
+	
 	\ingroup Logging
+	
+	\par Features
+	- Severity level filtering (only log messages above minimum category)
+	- Customizable message formatting:
+	  - Optional category label ("Info:", "Warning:", "Error:", "Critical:")
+	  - Optional message ID/code display
+	  - Optional timestamp with configurable format
+	- Dot display for filtered messages (shows "." for suppressed messages)
+	- Worst category tracking (highest severity seen)
+	- Thread-safe operation via CLogCompBase
+	
+	\par Configuration
+	Component attributes:
+	- **MinCategory**: Minimum severity to log (0=all, 1=info+, 2=warning+, 3=error+, 4=critical)
+	- **ShowDots**: Show dot (".") for each filtered message (default: false)
+	- **UseCategory**: Include category label in output (default: true)
+	- **UseCode**: Include message ID in output (default: true)
+	- **UseTimeStamp**: Include timestamp in output (default: false)
+	- **TimeFormat**: Qt date/time format string (default: "dd.MM hh:mm:ss:zzz")
+	
+	\par Message Format
+	Typical output format (depending on configuration):
+	\code
+	[12:34:56.789] Warning (2001): Low disk space - DiskMonitor
+	Error (5001): Connection failed - NetworkManager
+	Info: Application started - Main
+	\endcode
+	
+	\par Usage Example (Derived Class)
+	\code{.cpp}
+	class CFileLogComp : public ilog::CStreamLogCompBase
+	{
+	public:
+	    CFileLogComp() : m_file("log.txt") {
+	        m_file.open(QIODevice::WriteOnly | QIODevice::Text);
+	    }
+	    
+	protected:
+	    virtual void WriteText(const QString& text, 
+	                          istd::IInformationProvider::InformationCategory category) override {
+	        if (m_file.isOpen()) {
+	            m_file.write(text.toUtf8());
+	            m_file.flush();
+	        }
+	    }
+	    
+	private:
+	    QFile m_file;
+	};
+	\endcode
+	
+	\see ilog::CConsoleLogComp, ilog::CLogCompBase
 */
 class CStreamLogCompBase: public CLogCompBase
 {
 public:
+	/// Base class typedef
 	typedef ilog::CLogCompBase BaseClass;
 
 	I_BEGIN_BASE_COMPONENT(CStreamLogCompBase);

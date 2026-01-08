@@ -3,37 +3,681 @@
 
 \section intro_sec Introduction
 
-The ilog library provides logging functionality with message handling, console logging,
-and extensible message consumers.
+The ilog library provides a comprehensive, component-based logging framework for the ACF (Application 
+Component Framework). It offers flexible message handling, multiple output targets, hierarchical message 
+organization, and extensible message consumers. The library is designed for system-independent logging 
+with support for severity levels, message filtering, tracing, and both synchronous and asynchronous 
+message delivery.
 
 \section features_sec Key Features
 
-- **Message Handling**: Structured message creation and handling
-- **Console Logging**: Output to console with formatting
-- **Message Consumers**: Pluggable message consumer architecture
-- **Extended Messages**: Rich message objects with metadata
-- **Log Components**: Component-based logging infrastructure
+- **Structured Message System**: Type-safe message objects with category, ID, timestamp, and source information
+- **Message Consumer Architecture**: Pluggable consumers for flexible message routing and processing
+- **Console Logging**: Colored console output with customizable formatting
+- **Message Containers**: Storage and retrieval of messages with hierarchical organization
+- **Extended Messages**: Rich message objects with attached custom data and metadata
+- **Component Integration**: Seamless integration with ACF component framework
+- **Tracing Support**: Configurable tracing levels for verbose diagnostic output
+- **Stream Bridging**: Redirect standard output/error streams to logging system
+- **Log Routing**: Forward messages between different logging components based on severity
+- **Thread-Safe Operations**: Qt signal-slot based asynchronous message handling
+- **Serialization**: Full support for message persistence and loading
 
 \section architecture_sec Architecture
 
-Key components:
+The ilog library is organized into several layers:
 
-- **ilog::IMessageConsumer**: Interface for consuming log messages
-- **ilog::CExtMessage**: Extended message with metadata
-- **ilog::CConsoleLogComp**: Console logging component
-- **ilog::CLogComp**: General logging component
-- **ilog::CMessageConsumer**: Base message consumer implementation
+\subsection core_interfaces Core Interfaces
 
-\section dependencies Dependencies
+\subsubsection message_consumer IMessageConsumer
+The fundamental interface for consuming log messages:
+- **ilog::IMessageConsumer**: Base interface for all message consumers
+  - `IsMessageSupported()`: Check if a message type/category is accepted
+  - `AddMessage()`: Add a message to the consumer
 
-- **istd**: Standard utilities and interfaces
-- **icomp**: Component framework
-- **Qt Core**: QString and other core classes
+\subsubsection message_container IMessageContainer
+Interface for storing and managing collections of messages:
+- **ilog::IMessageContainer**: Container interface with message retrieval
+  - `GetMessages()`: Retrieve all stored messages
+  - `ClearMessages()`: Remove all messages from container
+  - `GetWorstCategory()`: Get highest severity level of stored messages
+- **ilog::IHierarchicalMessageContainer**: Hierarchical container support
 
-\section see_also See Also
+\subsubsection loggable ILoggable
+Interface for objects that can have a log consumer attached:
+- **ilog::ILoggable**: Provides log attachment capability
+  - `SetLogPtr()`: Attach a message consumer
+  - `GetLogPtr()`: Retrieve attached consumer
 
+\subsubsection tracing ITracingConfiguration
+Interface for configuring tracing verbosity:
+- **ilog::ITracingConfiguration**: Control tracing levels
+  - `GetTracingLevel()`: Get current tracing level (-1=off, 0=all)
+  - `SetTracingLevel()`: Set tracing level
+
+\subsection message_classes Message Classes
+
+\subsubsection basic_message CMessage
+Basic implementation of information provider interface:
+- **ilog::CMessage**: Fundamental message class implementing istd::IInformationProvider
+  - Stores category, ID, text, source, flags, and timestamp
+  - Implements serialization for persistence
+  - Supports cloning and copying
+
+\subsubsection extended_message CExtMessage
+Extended message with attached objects:
+- **ilog::CExtMessage**: Message with attached serializable objects
+  - Inherits from CMessage
+  - Can attach multiple IObject instances with descriptions
+  - Useful for passing complex data with log messages
+
+\subsubsection template_message TExtMessage
+Template-based extended message:
+- **ilog::TExtMessage<Element>**: Template for creating custom message types
+  - Combines CMessage with user-defined Element type
+  - Automatic serialization of both parts
+  - Type-safe message specialization
+
+\subsection logging_components Logging Components
+
+\subsubsection log_comp_base CLogCompBase
+Base class for logging components with event queue:
+- **ilog::CLogCompBase**: Threadsafe logging using Qt signals/slots
+  - Inherits from QObject and TMessageDelegatorComp
+  - Asynchronous message delivery via EmitAddMessage signal
+  - Delegates messages to slave consumer
+  - Abstract WriteMessageToLog() for derived implementations
+
+\subsubsection log_comp CLogComp
+Standard logging component with message storage:
+- **ilog::CLogComp**: Complete logging component with message container
+  - Inherits from CLogCompBase and CMessageContainer
+  - Configurable maximum message count
+  - Automatic message pruning when limit exceeded
+  - Supports message serialization
+  - Provides IMessageContainer interface
+
+\subsubsection stream_log_base CStreamLogCompBase
+Base class for stream-based logging:
+- **ilog::CStreamLogCompBase**: Foundation for text stream logging
+  - Configurable minimum severity level filtering
+  - Optional dot display for filtered messages
+  - Customizable message formatting (category, code, timestamp)
+  - Time format configuration
+  - Tracks worst category encountered
+  - Abstract WriteText() for output implementation
+
+\subsubsection console_log CConsoleLogComp
+Console output with color support:
+- **ilog::CConsoleLogComp**: Colored console logging
+  - Platform-specific color support (Windows/Unix)
+  - Severity-based coloring (error=red, warning=yellow, info=default)
+  - Writes to std::wcout
+  - Inherits all CStreamLogCompBase features
+
+\subsection utility_components Utility Components
+
+\subsubsection log_router CLogRouterComp
+Routes messages between containers:
+- **ilog::CLogRouterComp**: Observes source container and forwards messages
+  - Monitors IMessageContainer for new messages
+  - Filters by minimum severity category
+  - Prevents duplicate message forwarding
+  - Integrates with model-observer pattern
+
+\subsubsection stream_bridge CStandardStreamBridge
+Bridges C++ streams to logging:
+- **ilog::CStandardStreamBridge**: Redirects std::cout/std::cerr
+  - Inherits from std::basic_streambuf
+  - Converts stream output to log messages
+  - Restores original stream buffer on destruction
+  - Thread-safe with mutex protection
+
+\subsubsection stream_bridge_comp CStandardStreamBridgeComp
+Component wrapper for stream bridging:
+- **ilog::CStandardStreamBridgeComp**: Manages stream bridges as component
+  - Creates bridges for both cout and cerr
+  - Configurable message severity per stream
+  - Automatic cleanup on component destruction
+
+\subsubsection tracing_config CTracingConfigurationComp
+Tracing level configuration:
+- **ilog::CTracingConfigurationComp**: Manages tracing verbosity
+  - Implements ITracingConfiguration interface
+  - Configurable default tracing level
+  - Serialization support for persistence
+  - Component-based configuration
+
+\subsection base_classes Base Classes
+
+\subsubsection logger_base CLoggerBase
+Foundation for logging functionality:
+- **ilog::CLoggerBase**: Implements ILogger via IMessageConsumer
+  - Convenience methods: SendInfoMessage, SendWarningMessage, SendErrorMessage, SendCriticalMessage
+  - "Send once" variants to prevent message duplication
+  - Message decoration hook (DecorateMessage)
+  - Log consumption checking (IsLogConsumed)
+  - Manages attached IMessageConsumer
+
+\subsubsection message_container_impl CMessageContainer
+Message storage implementation:
+- **ilog::CMessageContainer**: Full-featured message container
+  - Implements IMessageContainer and IMessageConsumer
+  - Hierarchical container support
+  - Configurable maximum message count
+  - Slave consumer delegation
+  - Message type registration for serialization
+  - Thread-safe operations
+  - Worst category tracking
+
+\subsection template_classes Template Classes
+
+\subsubsection logger_comp_wrap TLoggerCompWrap
+Logger functionality for components:
+- **ilog::TLoggerCompWrap<Base>**: Adds logging to any component
+  - Inherits from Base and CLoggerBase
+  - Automatic log consumer connection from "Log" reference
+  - Verbose message support with tracing level
+  - Component ID decoration of message sources
+  - Type alias: CLoggerComponentBase for simple components
+
+\subsubsection message_delegator TMessageDelegatorComp
+Message delegation component:
+- **ilog::TMessageDelegatorComp<BaseComponent>**: Forwards messages
+  - Implements IMessageConsumer interface
+  - Delegates all messages to slave consumer
+  - Component-based message routing
+  - Configurable via "SlaveMessageConsumer" reference
+
+\section usage_sec Usage Examples
+
+\subsection example_basic_logging Basic Logging with Simulation Components
+
+\code{.cpp}
+#include <icomp/TSimComponentWrap.h>
+#include <ilog/CConsoleLogComp.h>
+#include <ilog/CMessage.h>
+
+// Create console logger using simulation layer
+icomp::TSimSharedComponentPtr<ilog::CConsoleLogComp> consoleLog;
+consoleLog->SetIntAttr("MinCategory", 0); // Log all categories
+consoleLog->SetBoolAttr("UseCategory", true);
+consoleLog->SetBoolAttr("UseTimeStamp", false);
+consoleLog->InitComponent();
+
+// Create a message
+istd::TSharedInterfacePtr<ilog::CMessage> message(
+    new ilog::CMessage(
+        istd::IInformationProvider::IC_INFO,
+        1001,
+        "Application started successfully",
+        "MyApplication"
+    )
+);
+
+// Send message to console
+consoleLog->AddMessage(message);
+\endcode
+
+\par Note
+Components are typically configured in .acc files and loaded through the ACF
+registry system. The simulation layer (TSimComponentWrap) is used for direct
+component instantiation in applications without full registry loading.
+
+\subsection example_component_logging Component-Based Logging
+
+\code{.cpp}
+#include <ilog/TLoggerCompWrap.h>
+
+// Define a component with logging capability
+class MyComponent : public ilog::CLoggerComponentBase
+{
+public:
+    I_BEGIN_COMPONENT(MyComponent);
+    I_END_COMPONENT;
+    
+protected:
+    // reimplemented (icomp::CComponentBase)
+    virtual void OnComponentCreated() override
+    {
+        BaseClass::OnComponentCreated();
+        
+        // Component is now initialized and can use logging
+        SendInfoMessage(2001, "Component created", "OnComponentCreated");
+    }
+    
+    virtual void OnComponentDestroyed() override
+    {
+        SendInfoMessage(2002, "Component destroyed", "OnComponentDestroyed");
+        BaseClass::OnComponentDestroyed();
+    }
+};
+
+// Usage in application (with simulation layer)
+icomp::TSimSharedComponentPtr<ilog::CConsoleLogComp> log;
+log->InitComponent();
+
+icomp::TSimSharedComponentPtr<MyComponent> component;
+component->SetRef("Log", log); // Connect log consumer
+component->SetBoolAttr("EnableVerbose", false);
+component->InitComponent();
+
+// Or configure in .acc file:
+// <Element Id="MyComp" ComponentId="MyComponent">
+//   <Reference Id="Log" Value="ConsoleLog"/>
+//   <Attribute Id="EnableVerbose" Value="false"/>
+// </Element>
+\endcode
+
+\subsection example_message_container Message Container Usage
+
+\code{.cpp}
+#include <icomp/TSimComponentWrap.h>
+#include <ilog/CLogComp.h>
+#include <ilog/CMessage.h>
+
+// Create log component using simulation layer
+icomp::TSimSharedComponentPtr<ilog::CLogComp> logComp;
+logComp->SetIntAttr("MaxMessageCount", 1000);
+logComp->InitComponent();
+
+// Add messages
+logComp->AddMessage(istd::TSharedInterfacePtr<ilog::CMessage>(
+    new ilog::CMessage(istd::IInformationProvider::IC_WARNING, 
+                      3001, "Low memory warning", "System")));
+
+logComp->AddMessage(istd::TSharedInterfacePtr<ilog::CMessage>(
+    new ilog::CMessage(istd::IInformationProvider::IC_ERROR, 
+                      3002, "File not found", "FileSystem")));
+
+// Retrieve all messages
+ilog::IMessageContainer::Messages messages = logComp->GetMessages();
+for (const auto& msgPtr : messages) {
+    qDebug() << msgPtr->GetInformationDescription();
+}
+
+// Check worst category
+istd::IInformationProvider::InformationCategory worst = 
+    logComp->GetWorstCategory();
+if (worst >= istd::IInformationProvider::IC_ERROR) {
+    qDebug() << "Errors were logged!";
+}
+
+// Clear all messages
+logComp->ClearMessages();
+\endcode
+
+\par Configuration in .acc file
+\code{.xml}
+<Element Id="ApplicationLog" ComponentId="ilog::CLogComp">
+    <AttributeInfo Id="MaxMessageCount">
+        <Data IsEnabled="true" Value="5000"/>
+    </AttributeInfo>
+</Element>
+\endcode
+
+\subsection example_extended_message Extended Messages with Attachments
+
+\code{.cpp}
+#include <ilog/CExtMessage.h>
+#include <iser/IObjectFactory.h>
+
+// Create extended message
+istd::TSharedInterfacePtr<ilog::CExtMessage> extMsg(
+    new ilog::CExtMessage(
+        istd::IInformationProvider::IC_ERROR,
+        4001,
+        "Data validation failed",
+        "Validator",
+        0,
+        nullptr,
+        myObjectFactory  // Factory for deserialization
+    )
+);
+
+// Attach custom objects
+istd::TSharedInterfacePtr<iser::IObject> dataObject(new MyDataObject);
+extMsg->InsertAttachedObject(dataObject.PopPtr(), "Invalid data sample");
+
+istd::TSharedInterfacePtr<iser::IObject> contextObject(new MyContextObject);
+extMsg->InsertAttachedObject(contextObject.PopPtr(), "Validation context");
+
+// Access attached objects later
+int count = extMsg->GetAttachedObjectsCount();
+for (int i = 0; i < count; ++i) {
+    const iser::IObject* objPtr = extMsg->GetAttachedObject(i);
+    const QString& desc = extMsg->GetAttachedObjectDescription(i);
+    qDebug() << "Attachment" << i << ":" << desc;
+}
+\endcode
+
+\subsection example_stream_formatting Custom Stream Formatting
+
+\code{.cpp}
+#include <icomp/TSimComponentWrap.h>
+#include <ilog/CConsoleLogComp.h>
+
+// Create console log with custom formatting using simulation layer
+icomp::TSimSharedComponentPtr<ilog::CConsoleLogComp> console;
+console->SetIntAttr("MinCategory", 2); // Warnings and above
+console->SetBoolAttr("UseCategory", true); // Show "Warning:", "Error:"
+console->SetBoolAttr("UseCode", true); // Show message ID
+console->SetBoolAttr("UseTimeStamp", true); // Show timestamp
+console->SetStringAttr("TimeFormat", "hh:mm:ss.zzz"); // Custom time format
+console->SetBoolAttr("ShowDots", true); // Show dots for filtered messages
+console->InitComponent();
+
+// Messages below warning level will show as "." if ShowDots=true
+// Output format: "[12:34:56.789] Warning (5001): Low disk space - DiskMonitor"
+
+// Or configure in .acc file:
+// <Element Id="ConsoleLog" ComponentId="ilog::CConsoleLogComp">
+//   <AttributeInfo Id="MinCategory"><Data IsEnabled="true" Value="2"/></AttributeInfo>
+//   <AttributeInfo Id="UseCategory"><Data IsEnabled="true" Value="true"/></AttributeInfo>
+//   <AttributeInfo Id="UseTimeStamp"><Data IsEnabled="true" Value="true"/></AttributeInfo>
+//   <AttributeInfo Id="TimeFormat"><Data IsEnabled="true" Value="hh:mm:ss.zzz"/></AttributeInfo>
+// </Element>
+\endcode
+
+\subsection example_log_routing Message Routing Between Logs
+
+\par Configuration in .acc file
+This example is best configured in .acc files rather than programmatically:
+
+\code{.xml}
+<!-- Source log that receives all messages -->
+<Element Id="SourceLog" ComponentId="ilog::CLogComp">
+    <AttributeInfo Id="MaxMessageCount"><Data IsEnabled="true" Value="5000"/></AttributeInfo>
+</Element>
+
+<!-- Console log for all messages -->
+<Element Id="ConsoleLog" ComponentId="ilog::CConsoleLogComp">
+    <AttributeInfo Id="MinCategory"><Data IsEnabled="true" Value="0"/></AttributeInfo>
+</Element>
+
+<!-- Error log for errors only -->
+<Element Id="ErrorLog" ComponentId="ilog::CLogComp">
+    <AttributeInfo Id="MaxMessageCount"><Data IsEnabled="true" Value="1000"/></AttributeInfo>
+</Element>
+
+<!-- Router that forwards only errors from SourceLog to ErrorLog -->
+<Element Id="ErrorRouter" ComponentId="ilog::CLogRouterComp">
+    <Reference Id="InputMessageContainer" Value="SourceLog"/>
+    <Reference Id="OutputMessageConsumer" Value="ErrorLog"/>
+    <AttributeInfo Id="MinimalCategory"><Data IsEnabled="true" Value="3"/></AttributeInfo>
+</Element>
+
+<!-- Connect console log as slave of source log -->
+<Element Id="SourceLog">
+    <Reference Id="SlaveMessageConsumer" Value="ConsoleLog"/>
+</Element>
+\endcode
+
+\par Programmatic Usage (with simulation layer)
+\code{.cpp}
+#include <icomp/TSimComponentWrap.h>
+#include <ilog/CLogComp.h>
+#include <ilog/CLogRouterComp.h>
+
+// Create source log
+icomp::TSimSharedComponentPtr<ilog::CLogComp> sourceLog;
+sourceLog->InitComponent();
+
+// Create error log
+icomp::TSimSharedComponentPtr<ilog::CLogComp> errorLog;
+errorLog->InitComponent();
+
+// Create router for errors only
+icomp::TSimSharedComponentPtr<ilog::CLogRouterComp> errorRouter;
+errorRouter->SetRef("InputMessageContainer", sourceLog);
+errorRouter->SetRef("OutputMessageConsumer", errorLog);
+errorRouter->SetIntAttr("MinimalCategory", 3); // IC_ERROR
+errorRouter->InitComponent();
+
+// Messages sent to sourceLog will be automatically forwarded
+// to errorLog if they are errors or critical
+sourceLog->AddMessage(errorMessage);
+\endcode
+
+\subsection example_stream_bridge Standard Stream Bridging
+
+\par Configuration in .acc file
+\code{.xml}
+<Element Id="ConsoleLog" ComponentId="ilog::CConsoleLogComp">
+    <AttributeInfo Id="MinCategory"><Data IsEnabled="true" Value="0"/></AttributeInfo>
+</Element>
+
+<Element Id="StreamBridge" ComponentId="ilog::CStandardStreamBridgeComp">
+    <Reference Id="SlaveMessageConsumer" Value="ConsoleLog"/>
+</Element>
+\endcode
+
+\par Programmatic Usage (with simulation layer)
+\code{.cpp}
+#include <icomp/TSimComponentWrap.h>
+#include <ilog/CStandardStreamBridgeComp.h>
+#include <ilog/CConsoleLogComp.h>
+#include <iostream>
+
+// Create log destination
+icomp::TSimSharedComponentPtr<ilog::CConsoleLogComp> logComp;
+logComp->InitComponent();
+
+// Create bridge component
+icomp::TSimSharedComponentPtr<ilog::CStandardStreamBridgeComp> bridge;
+bridge->SetRef("SlaveMessageConsumer", logComp);
+bridge->InitComponent();
+
+// Now std::cout and std::cerr are redirected to the log
+std::cout << "This goes to log as INFO" << std::endl;
+std::cerr << "This goes to log as ERROR" << std::endl;
+
+// Bridge is destroyed when component is destroyed, restoring streams
+\endcode
+
+\subsection example_tracing Tracing Configuration
+
+\par Configuration in .acc file
+\code{.xml}
+<Element Id="GlobalTracing" ComponentId="ilog::CTracingConfigurationComp">
+    <AttributeInfo Id="DefaulTracingtLevel"><Data IsEnabled="true" Value="1"/></AttributeInfo>
+</Element>
+
+<Element Id="MyComponent" ComponentId="MyComponentClass">
+    <Reference Id="Log" Value="ConsoleLog"/>
+    <Reference Id="TracingConfiguration" Value="GlobalTracing"/>
+    <AttributeInfo Id="EnableVerbose"><Data IsEnabled="true" Value="true"/></AttributeInfo>
+</Element>
+\endcode
+
+\par Component Implementation
+\code{.cpp}
+#include <ilog/TLoggerCompWrap.h>
+
+class MyComponentClass : public ilog::CLoggerComponentBase
+{
+public:
+    I_BEGIN_COMPONENT(MyComponentClass);
+    I_END_COMPONENT;
+    
+protected:
+    // reimplemented (icomp::CComponentBase)
+    virtual void OnComponentCreated() override
+    {
+        BaseClass::OnComponentCreated();
+        
+        // Level 0 tracing (always shown when tracing enabled)
+        SendVerboseMessage("Component initialized", QString(), 0);
+        
+        // Level 1 tracing (more detailed)
+        if (IsVerboseEnabled(1)) {
+            SendVerboseMessage("Detailed initialization info", QString(), 1);
+        }
+        
+        // Level 2 tracing (very detailed)
+        if (IsVerboseEnabled(2)) {
+            SendVerboseMessage("Internal state details", QString(), 2);
+        }
+    }
+};
+
+// Configuration with DefaulTracingtLevel = 1 enables tracing levels 0 and 1, but not 2
+\endcode
+
+\subsection example_message_once Preventing Duplicate Messages
+
+\code{.cpp}
+#include <ilog/CLoggerBase.h>
+
+class MyComponent : public ilog::CLoggerBase
+{
+public:
+    void FrequentOperation()
+    {
+        // This message is only sent the first time
+        SendWarningMessageOnce(7001, 
+            "Performance degraded, consider optimization",
+            "MyComponent");
+        
+        // ... operation that might be called many times ...
+    }
+    
+    void Reset()
+    {
+        // Allow the message to be sent again
+        AllowMessageOnceAgain(7001);
+    }
+};
+\endcode
+
+\subsection example_custom_message_type Custom Message Types
+
+\code{.cpp}
+#include <ilog/TExtMessage.h>
+
+// Define custom data structure
+struct DiagnosticData : public iser::ISerializable
+{
+    double cpuUsage;
+    qint64 memoryUsed;
+    
+    virtual bool Serialize(iser::IArchive& archive) override {
+        return archive.Process(cpuUsage, "cpu") &&
+               archive.Process(memoryUsed, "memory");
+    }
+};
+
+// Create message type combining CMessage and DiagnosticData
+typedef ilog::TExtMessage<DiagnosticData> DiagnosticMessage;
+
+// Register for serialization
+I_REGISTER_MESSAGE_TYPE(DiagnosticMessage, "DiagnosticMessage");
+
+// Use custom message
+istd::TSharedInterfacePtr<DiagnosticMessage> diagMsg(
+    new DiagnosticMessage(
+        istd::IInformationProvider::IC_INFO,
+        8001,
+        "System diagnostics",
+        "Monitor"
+    )
+);
+diagMsg->cpuUsage = 45.2;
+diagMsg->memoryUsed = 1024*1024*512; // 512 MB
+\endcode
+
+\section threading_sec Thread Safety
+
+The ilog library uses several mechanisms to ensure thread-safe operation:
+
+- **CLogCompBase**: Uses Qt signals/slots for thread-safe message delivery across thread boundaries
+- **CStandardStreamBridge**: Uses QMutex to protect internal buffer during stream operations
+- **Message Objects**: Individual message objects (CMessage, CExtMessage) are immutable after creation
+- **Shared Pointers**: TSharedInterfacePtr ensures thread-safe reference counting
+
+\warning Message containers (CMessageContainer) are not inherently thread-safe for concurrent 
+modifications. Use appropriate synchronization when accessing from multiple threads, or use 
+CLogCompBase which provides thread-safe message addition via signals.
+
+\section serialization_sec Serialization
+
+The ilog library fully supports serialization of messages:
+
+- **CMessage**: Serializes all message properties (category, ID, text, source, flags, timestamp)
+- **CExtMessage**: Serializes base message plus attached objects
+- **TExtMessage<T>**: Serializes both message and custom element
+- **CMessageContainer**: Can serialize entire message collections
+- **Message Type Registration**: Use RegisterMessageType() or I_REGISTER_MESSAGE_TYPE macro
+
+\code{.cpp}
+// Register custom message type for serialization
+bool registered = ilog::CMessageContainer::RegisterMessageType<MyCustomMessage>(
+    "com.myapp.MyCustomMessage");
+
+// Or use macro for automatic registration
+I_REGISTER_MESSAGE_TYPE(MyCustomMessage, "com.myapp.MyCustomMessage");
+
+// Serialization is then automatic via IMessageContainer
+\endcode
+
+\section dependencies_sec Dependencies
+
+The ilog library depends on:
+- **istd**: Standard utilities (IChangeable, IInformationProvider, ILogger, smart pointers)
+- **iser**: Serialization framework (ISerializable, IObject, IArchive)
+- **icomp**: Component framework (CComponentBase, IComponent)
+- **imod**: Model-observer pattern (IModel, IObserver)
+- **Qt Core**: QString, QDateTime, QByteArray, QObject, signals/slots
+- **Qt Widgets**: (Optional, for some implementations)
+- **C++ STL**: iostream, streambuf for stream bridging
+
+\section best_practices_sec Best Practices
+
+-# **Use Component-Based Logging**: Prefer TLoggerCompWrap for components to get integrated logging
+-# **Assign Unique Message IDs**: Use unique IDs for each message type for filtering and processing
+-# **Include Message Source**: Always provide source information for easier debugging
+-# **Choose Appropriate Severity**: Use IC_INFO for informational, IC_WARNING for warnings, 
+   IC_ERROR for errors, IC_CRITICAL for critical failures
+-# **Use Message Containers**: Store messages in CLogComp for later analysis and export
+-# **Configure Maximum Messages**: Set reasonable limits to prevent memory issues in long-running apps
+-# **Leverage Hierarchical Containers**: Use child containers to organize messages by subsystem
+-# **Use SendOnce Variants**: Prevent log spam from repeated messages in loops or frequent operations
+-# **Enable Tracing Selectively**: Use tracing levels to control verbose output granularity
+-# **Test with Stream Bridge**: CStandardStreamBridgeComp helps capture legacy code output
+-# **Format Consistently**: Configure stream loggers with consistent time formats and message structure
+-# **Route by Severity**: Use CLogRouterComp to separate errors from general logs
+-# **Attach Context with CExtMessage**: For complex errors, attach relevant objects for debugging
+-# **Implement Custom Decorators**: Override DecorateMessage() to add application-specific formatting
+-# **Handle Asynchronous Delivery**: Remember CLogCompBase delivers messages asynchronously via events
+
+\section see_also_sec See Also
+
+\subsection interfaces_ref Interfaces
 - ilog::IMessageConsumer
+- ilog::IMessageContainer
+- ilog::ILoggable
+- ilog::ITracingConfiguration
+
+\subsection messages_ref Message Classes
+- ilog::CMessage
 - ilog::CExtMessage
+- ilog::TExtMessage
+
+\subsection components_ref Logging Components
+- ilog::CLogComp
 - ilog::CConsoleLogComp
+- ilog::CLogCompBase
+- ilog::CStreamLogCompBase
+- ilog::CLogRouterComp
+- ilog::CStandardStreamBridgeComp
+- ilog::CTracingConfigurationComp
+
+\subsection base_ref Base Classes
+- ilog::CLoggerBase
+- ilog::CMessageContainer
+
+\subsection templates_ref Template Classes
+- ilog::TLoggerCompWrap
+- ilog::TMessageDelegatorComp
 
 */
