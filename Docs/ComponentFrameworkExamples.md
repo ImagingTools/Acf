@@ -83,7 +83,7 @@ private:
         bool initialized;
     };
     
-    I_MULTIFACT(m_pluginFactories);
+    I_MULTIFACT(IPlugin, m_pluginFactories);
     I_REF(ILogger, m_loggerRef);
     
     std::vector<PluginInfo> m_plugins;

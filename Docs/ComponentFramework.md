@@ -587,8 +587,8 @@ public:
     I_END_COMPONENT;
     
 private:
-    I_FACT(m_documentFactory);
-    I_FACT(m_viewFactory);
+    I_FACT(IDocument, m_documentFactory);
+    I_FACT(IView, m_viewFactory);
 };
 ```
 
@@ -636,7 +636,7 @@ I_BEGIN_COMPONENT(MyComponent);
 I_END_COMPONENT;
 
 private:
-    I_MULTIFACT(m_pluginFactories);
+    I_MULTIFACT(IPlugin, m_pluginFactories);
 ```
 
 Usage:
@@ -1202,8 +1202,8 @@ public:
     IView* CreateView(int index = 0);
     
 private:
-    I_FACT(m_documentFactory);
-    I_MULTIFACT(m_viewFactories);
+    I_FACT(IDocument, m_documentFactory);
+    I_MULTIFACT(IView, m_viewFactories);
     I_REF(ILogger, m_loggerRef);
     
     std::vector<IComponentSharedPtr> m_documents;
@@ -1842,8 +1842,8 @@ The ACF Component Framework provides:
 
 | Macro | Purpose |
 |-------|---------|
-| `I_FACT(member)` | Declare factory attribute |
-| `I_MULTIFACT(member)` | Declare multi-factory attribute |
+| `I_FACT(InterfaceType, member)` | Declare factory attribute |
+| `I_MULTIFACT(InterfaceType, member)` | Declare multi-factory attribute |
 
 ### Initialization Macros
 
@@ -1852,8 +1852,8 @@ The ACF Component Framework provides:
 | `I_ASSIGN(member, id, desc, opt, def)` | Initialize attribute |
 | `I_ASSIGN(member, id, desc, opt)` | Initialize reference (no default needed) |
 | `I_ASSIGN(member, id, desc, opt)` | Initialize factory (no default needed) |
-| `I_ASSIGN_MULTI_0(member, id, opt)` | Initialize multi-reference/factory (no defaults) |
-| `I_ASSIGN_MULTI_1(member, id, opt, def1)` | Initialize multi-attribute with 1 default |
+| `I_ASSIGN_MULTI_0(member, id, desc, opt)` | Initialize multi-reference/factory (no defaults) |
+| `I_ASSIGN_MULTI_1(member, id, desc, opt, def1)` | Initialize multi-attribute with 1 default |
 
 ---
 
