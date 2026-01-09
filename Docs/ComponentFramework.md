@@ -24,6 +24,46 @@
 
 The **icomp** library provides a comprehensive component-based architecture for building modular, extensible applications. It implements a sophisticated dependency injection system, component registration, and a flexible attribute-based configuration mechanism.
 
+### The Key Concept: Components All The Way Down
+
+The fundamental and unique feature of ACF is that **a composition of components is itself a component**. This means:
+
+- The **entire application** is a composition of components
+- A complex application with thousands of components can be seen from the outside as a **single component**
+- This single "application component" can be **reused** as a component in another application
+- There is **no distinction** between a host application and plugins - everything is a component
+- Components can be **nested** to any depth, creating hierarchical structures
+
+This compositional approach enables:
+- **Extreme Modularity**: Build large systems from small, testable pieces
+- **Reusability**: Entire subsystems can be dropped into other projects
+- **Testability**: Test complex components in isolation
+- **Flexibility**: Reconfigure systems by changing component composition
+
+### Example: Application as a Component
+
+A complete text editor application might be structured as:
+
+```
+TextEditorApp (Component)
+├── DocumentManager (Component)
+│   ├── TextDocument (Component)
+│   ├── FileLoader (Component)
+│   └── UndoManager (Component)
+├── MainWindow (Component)
+│   ├── MenuBar (Component)
+│   ├── ToolBar (Component)
+│   └── TextView (Component)
+└── SettingsManager (Component)
+    └── XmlPersistence (Component)
+```
+
+This entire `TextEditorApp` component can be:
+- Run as a standalone application
+- Embedded in another application as a document editor
+- Tested as a single unit
+- Configured via a single `.acc` file
+
 ### Key Features
 
 - **Interface-Based Architecture**: Components implement interfaces for loose coupling
@@ -50,12 +90,12 @@ The icomp library depends on:
 ### Components
 
 A **component** is the fundamental building block in ACF. Components:
-- Implement one or more interfaces
-- Have a unique ID within their parent
+- Implement one or more interfaces for their functionality
+- Have a unique ID within their parent/context
 - Can have attributes (configuration parameters)
-- Can reference other components
-- Can be serialized and deserialized
-- Support dependency injection
+- Can reference other components (dependency injection)
+- Can be composed into larger components (composite pattern)
+- Support serialization when implementing `iser::ISerializable`
 
 ### Interfaces
 
@@ -65,41 +105,42 @@ Components communicate through **interfaces** (abstract base classes). This enab
 - Runtime polymorphism
 - Easy testing with mock implementations
 
-### Registry
+**Important**: When a component declares `I_REGISTER_INTERFACE(IMyInterface)`, it must actually inherit from `IMyInterface`.
 
-The **registry** is a container that holds component configurations. It defines:
-- What components exist
-- How components are connected (references)
-- Component attribute values
-- Component addresses (package and component IDs)
+### Component Composition
 
-Registries are typically loaded from `.acc` (ACF Component Configuration) XML files.
+The **composite pattern** is central to ACF:
+- A composite component contains other components as subcomponents
+- The composite component itself is also a component
+- Subcomponents can be accessed by ID
+- The whole hierarchy can be configured via `.acc` XML files
+- Any composition can be treated as a single reusable unit
 
-### Context
+### Configuration Files (.acc)
 
-A **component context** (`IComponentContext`) provides:
-- Access to the component's registry information
-- Component ID and address
-- Parent component reference
-- Attribute and reference metadata
+Component configurations are stored in XML files:
+- Define what components exist and how they're connected
+- Specify attribute values
+- Define references between components
+- Enable runtime reconfiguration without code changes
 
-### Environment
+### Serialization
 
-A **component environment** manages:
-- Component creation and lifecycle
-- Registry lookup
-- Interface resolution
-- Shared component instances
+Components can persist their state when they implement `iser::ISerializable`:
+- Not all components are serializable by default
+- Serialization must be explicitly supported
+- Used for saving/loading component state
+- Integrated with the ACF file persistence system
 
 ---
 
 ## Component Architecture
 
-### Core Interfaces
+### Core Interfaces for Component Users
 
 #### IComponent
 
-The base interface for all components:
+The base interface for all components (from the framework, not typically used directly):
 
 ```cpp
 class IComponent: virtual public istd::IPolymorphic
@@ -108,74 +149,16 @@ public:
     // Get parent component
     virtual const IComponent* GetParentComponent(bool ownerOnly = false) const = 0;
     
-    // Get access to an interface
-    virtual void* GetInterface(const istd::CClassInfo& interfaceType, 
-                               const QByteArray& subId = "") = 0;
-    
-    // Get component context
+    // Get component context (framework usage)
     virtual IComponentContextSharedPtr GetComponentContext() const = 0;
-    
-    // Set component context (for internal use)
-    virtual void SetComponentContext(
-        const IComponentContextSharedPtr& contextPtr,
-        const IComponent* parentPtr,
-        bool isParentOwner) = 0;
 };
 ```
 
-#### ICompositeComponent
+**Note**: Most component developers don't interact with `IComponent` directly - they inherit from `CComponentBase` instead.
 
-Interface for components that contain subcomponents:
+#### Component Base Classes
 
-```cpp
-class ICompositeComponent: virtual public IComponent
-{
-public:
-    // Get subcomponent by ID
-    virtual IComponentSharedPtr GetSubcomponent(const QByteArray& componentId) const = 0;
-    
-    // Get subcomponent context
-    virtual IComponentContextSharedPtr GetSubcomponentContext(
-        const QByteArray& componentId) const = 0;
-    
-    // Create subcomponent instance
-    virtual IComponentUniquePtr CreateSubcomponent(const QByteArray& componentId) const = 0;
-    
-    // Notification when subcomponent is deleted
-    virtual void OnSubcomponentDeleted(const IComponent* subcomponentPtr) = 0;
-};
-```
-
-#### IRegistry
-
-Interface for component registry:
-
-```cpp
-class IRegistry: virtual public iser::ISerializable
-{
-public:
-    // Get list of all component IDs
-    virtual Ids GetElementIds() const = 0;
-    
-    // Get component info
-    virtual const ElementInfo* GetElementInfo(const QByteArray& elementId) const = 0;
-    
-    // Insert component info
-    virtual ElementInfo* InsertElementInfo(
-        const QByteArray& elementId,
-        const CComponentAddress& address,
-        bool ensureElementCreated = true) = 0;
-    
-    // Map of exported interfaces
-    virtual const ExportedInterfacesMap& GetExportedInterfacesMap() const = 0;
-};
-```
-
-### Base Implementation Classes
-
-#### CComponentBase
-
-The standard base class for component implementations:
+**CComponentBase** - The standard base class for implementing components:
 
 ```cpp
 class CComponentBase: virtual public IComponent
@@ -184,12 +167,62 @@ protected:
     // Check if component is active
     bool IsComponentActive() const;
     
-    // Lifecycle hooks
+    // Lifecycle hooks (override these in your component)
     virtual void OnComponentCreated();
     virtual void OnComponentDestroyed();
+};
+```
+
+**CCompositeComponent** - Base class for components that contain subcomponents:
+
+```cpp
+class CCompositeComponent: public CComponentBase
+{
+protected:
+    // Access subcomponents by ID
+    IComponentSharedPtr GetSubcomponent(const QByteArray& componentId) const;
     
-    // Abstract: provide static info
-    virtual const IRealComponentStaticInfo& GetComponentStaticInfo() const = 0;
+    // Create new instance of subcomponent
+    IComponentUniquePtr CreateSubcomponent(const QByteArray& componentId) const;
+};
+```
+
+### Typical Component Structure
+
+Most components follow this pattern:
+
+```cpp
+// 1. Define your interface
+class IDataProcessor
+{
+public:
+    virtual ~IDataProcessor() = default;
+    virtual void ProcessData(const Data& input) = 0;
+};
+
+// 2. Implement your component
+class CMyProcessor: 
+    public icomp::CComponentBase,
+    public IDataProcessor
+{
+public:
+    typedef icomp::CComponentBase BaseClass;
+    
+    // 3. Define component structure with macros
+    I_BEGIN_COMPONENT(CMyProcessor);
+        I_REGISTER_INTERFACE(IDataProcessor);
+        I_ASSIGN(m_bufferSize, "BufferSize", "Processing buffer size", true, 1024);
+    I_END_COMPONENT;
+    
+    // 4. Implement your interface
+    virtual void ProcessData(const Data& input) override;
+    
+protected:
+    // 5. Initialize in OnComponentCreated
+    virtual void OnComponentCreated() override;
+    
+private:
+    I_ATTR(int, m_bufferSize);
 };
 ```
 
@@ -197,7 +230,86 @@ protected:
 
 ## Component Lifecycle
 
-Components go through a well-defined lifecycle:
+Components go through a well-defined lifecycle with symmetric creation/destruction pairs:
+
+### Lifecycle Diagram
+
+```
+Component Lifecycle States and Transitions:
+
+Constructor()
+    |
+    | [Object created in memory]
+    v
+SetComponentContext(context, parent, isOwner)
+    |
+    | [Component configured with registry data]
+    v
+OnComponentCreated()  <--- INITIALIZATION PHASE
+    |
+    | [Component is active]
+    | [Safe to use attributes, references, factories]
+    | [Component performs its work]
+    |
+OnComponentDestroyed()  <--- CLEANUP PHASE
+    |
+    | [Component resources released]
+    v
+~Destructor()
+    |
+    v
+[Object destroyed]
+
+
+Model/Observer Lifecycle (for components using imod interfaces):
+
+AttachObserver(observer)
+    |
+    v
+observer->OnModelAttached(model, changeMask)  <--- OBSERVER INITIALIZATION
+    |
+    | [Observer receives updates]
+    | BeforeUpdate() / AfterUpdate()
+    |
+DetachObserver(observer)
+    |
+    v
+observer->OnModelDetached(model)  <--- OBSERVER CLEANUP
+
+
+GUI Component Lifecycle (for iqtgui components):
+
+OnComponentCreated()
+    |
+    v
+OnGuiCreated()  <--- GUI WIDGET CREATION
+    |
+    | [Optional] OnGuiModelAttached()  <--- GUI-MODEL BINDING
+    |     |
+    |     | [GUI displays and updates model]
+    |     |
+    |     v
+    | OnGuiModelDetached()  <--- GUI-MODEL UNBINDING
+    |
+    v
+OnGuiDestroyed()  <--- GUI WIDGET CLEANUP
+    |
+    v
+OnComponentDestroyed()
+```
+
+### Symmetric Pairs
+
+The lifecycle has symmetric pairs that must be balanced:
+
+| Creation Phase | Destruction Phase | Purpose |
+|----------------|-------------------|---------|
+| `Constructor()` | `~Destructor()` | C++ object lifecycle |
+| `SetComponentContext(...)` | `SetComponentContext(null, ...)` | Framework configuration |
+| `OnComponentCreated()` | `OnComponentDestroyed()` | Component initialization/cleanup |
+| `OnModelAttached(...)` | `OnModelDetached(...)` | Observer pattern binding |
+| `OnGuiCreated()` | `OnGuiDestroyed()` | GUI widget creation/destruction |
+| `OnGuiModelAttached()` | `OnGuiModelDetached()` | GUI-to-model binding |
 
 ### 1. Construction
 
@@ -385,11 +497,11 @@ Use `I_ASSIGN` macro in the component definition:
 
 ```cpp
 I_BEGIN_COMPONENT(MyComponent);
-    // I_ASSIGN(member, attrId, description, isOptional, defaultValue)
-    I_ASSIGN(m_enabledAttr, "Enabled", "Enable this feature", false, true);
-    I_ASSIGN(m_countAttr, "Count", "Number of items", true, 10);
-    I_ASSIGN(m_scaleAttr, "Scale", "Scaling factor", true, 1.0);
-    I_ASSIGN(m_nameAttr, "Name", "Component name", false, QByteArray("default"));
+    // I_ASSIGN(member, attrId, description, isObligatory, defaultValue)
+    I_ASSIGN(m_enabledAttr, "Enabled", "Enable this feature", true, true);
+    I_ASSIGN(m_countAttr, "Count", "Number of items", false, 10);
+    I_ASSIGN(m_scaleAttr, "Scale", "Scaling factor", false, 1.0);
+    I_ASSIGN(m_nameAttr, "Name", "Component name", true, QByteArray("default"));
 I_END_COMPONENT;
 ```
 
@@ -397,7 +509,7 @@ Parameters:
 - **member**: The attribute member variable
 - **attrId**: Attribute ID used in configuration files
 - **description**: Human-readable description
-- **isOptional**: `true` if attribute can be omitted (nullable)
+- **isObligatory**: `true` means the attribute is obligatory and the framework will automatically create it (IsValid() always returns true). `false` means optional/nullable.
 - **defaultValue**: Default value if not specified in configuration
 
 ### Accessing Attribute Values
@@ -456,20 +568,34 @@ References allow components to depend on and access other components.
 ### Declaring References
 
 ```cpp
-class MyComponent: public icomp::CComponentBase
+// IMyInterface.h - Interface definition
+class IMyInterface
+{
+public:
+    virtual ~IMyInterface() = default;
+    virtual void DoWork() = 0;
+};
+
+// MyComponent.h
+class MyComponent: 
+    public icomp::CComponentBase,
+    public IMyInterface  // Inherit from the interface
 {
 public:
     typedef icomp::CComponentBase BaseClass;
     
     I_BEGIN_COMPONENT(MyComponent);
-        I_REGISTER_INTERFACE(IMyInterface);
+        I_REGISTER_INTERFACE(IMyInterface);  // Register the interface we inherit
         
         // Single reference
-        I_ASSIGN(m_loggerRef, "Logger", "Logging component", false);
+        I_ASSIGN(m_loggerRef, "Logger", "Logging component", true);
         
         // Optional reference
-        I_ASSIGN(m_helpProviderRef, "HelpProvider", "Help provider", true);
+        I_ASSIGN(m_helpProviderRef, "HelpProvider", "Help provider", false);
     I_END_COMPONENT;
+    
+    // IMyInterface implementation
+    virtual void DoWork() override;
     
 private:
     // Reference to ILogger interface
@@ -656,76 +782,39 @@ void MyComponent::LoadPlugins()
 
 ---
 
-## Component Registry
+## Component Configuration
 
-The registry stores component configurations and enables dependency injection.
+### Configuration Files (.acc)
 
-### Registry Structure
+Component systems are configured using XML files with `.acc` extension (ACF Component Configuration):
 
-```cpp
-// Registry contains elements (components)
-IRegistry::Ids ids = registry->GetElementIds();
-
-// Each element has:
-struct ElementInfo {
-    IRegistryElement* elementPtr;       // Registry element
-    CComponentAddress address;          // Package + Component ID
-};
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<Acf>
+    <AcfHeader>
+        <VersionInfos>
+            <Version Id="0" Number="4358" Description="ACF"/>
+        </VersionInfos>
+    </AcfHeader>
+    <Description>My Application Configuration</Description>
+    <ElementsList>
+        <!-- Define your components here -->
+        <Element Id="MyComponent" PackageId="MyPackage" ComponentId="MyComponentType">
+            <Data IsEnabled="true">
+                <AttributeInfoMap>
+                    <AttributeInfo Id="Name" Type="String">
+                        <Data IsEnabled="true" Value="MyInstance"/>
+                    </AttributeInfo>
+                </AttributeInfoMap>
+            </Data>
+        </Element>
+    </ElementsList>
+</Acf>
 ```
 
-### Component Address
+### Loading Configuration
 
-Identifies component type:
-
-```cpp
-class CComponentAddress
-{
-public:
-    QByteArray GetPackageId() const;    // e.g., "LoggingPck"
-    QByteArray GetComponentId() const;  // e.g., "ConsoleLogger"
-};
-```
-
-### Accessing Registry
-
-From within a component:
-
-```cpp
-void MyComponent::OnComponentCreated()
-{
-    BaseClass::OnComponentCreated();
-    
-    // Get component context
-    IComponentContextSharedPtr ctx = GetComponentContext();
-    if (!ctx) return;
-    
-    // Get registry
-    IRegistry* registry = ctx->GetRegistry();
-    if (!registry) return;
-    
-    // Enumerate all components in registry
-    IRegistry::Ids ids = registry->GetElementIds();
-    for (const QByteArray& id : ids) {
-        const IRegistry::ElementInfo* info = registry->GetElementInfo(id);
-        // Process component info
-    }
-}
-```
-
-### Registry Serialization
-
-Registries can be loaded from and saved to files:
-
-```cpp
-// Load registry from file
-iser::CXmlFileReadArchive readArchive("config.acc");
-IRegistryUniquePtr registry(new CRegistry());
-registry->Serialize(readArchive);
-
-// Save registry to file
-iser::CXmlFileWriteArchive writeArchive("config.acc");
-registry->Serialize(writeArchive);
-```
+The framework automatically loads and applies configuration from .acc files. Component developers typically don't need to interact with the registry directly - the framework handles dependency injection based on the configuration.
 
 ---
 
@@ -809,74 +898,9 @@ void MyContainer::OnSubcomponentDeleted(const IComponent* subcomponentPtr)
 
 ---
 
-## Static Information and Metadata
-
-Static info provides compile-time reflection for components.
-
-### Component Static Info
-
-```cpp
-class IRealComponentStaticInfo
-{
-public:
-    // Component identification
-    virtual QByteArray GetComponentId() const = 0;
-    virtual QByteArray GetPackageId() const = 0;
-    
-    // Description
-    virtual QString GetDescription() const = 0;
-    virtual QString GetKeywords() const = 0;
-    
-    // Interfaces
-    virtual bool IsInterfaceSupported(const istd::CClassInfo& interfaceType) const = 0;
-    
-    // Attributes
-    virtual const IAttributeStaticInfo* GetAttributeStaticInfo(
-        const QByteArray& attributeId) const = 0;
-        
-    // Factory
-    virtual IComponent* CreateInstance() const = 0;
-};
-```
-
-### Accessing Static Info
-
-```cpp
-void MyComponent::OnComponentCreated()
-{
-    BaseClass::OnComponentCreated();
-    
-    // Get static info for this component
-    const IRealComponentStaticInfo& staticInfo = GetComponentStaticInfo();
-    
-    // Get metadata
-    QByteArray componentId = staticInfo.GetComponentId();
-    QString description = staticInfo.GetDescription();
-    
-    // Check interface support
-    bool supportsLogger = staticInfo.IsInterfaceSupported(
-        istd::CClassInfo::Get<ilog::ILogger>());
-}
-```
-
-### Attribute Static Info
-
-```cpp
-class IAttributeStaticInfo
-{
-public:
-    virtual QByteArray GetAttributeId() const = 0;
-    virtual QByteArray GetAttributeType() const = 0;
-    virtual QString GetDescription() const = 0;
-    virtual int GetFlags() const = 0;
-};
-```
-
----
-
 ## Component Registration
 
-Components must be registered to be available for instantiation.
+Components must be registered in a package to be available for instantiation.
 
 ### Package Definition
 
@@ -897,7 +921,6 @@ namespace mypkg
 // MyPackage.cpp
 #include "MyPackage.h"
 #include "MyComponent.h"
-#include "AnotherComponent.h"
 
 namespace mypkg
 {
@@ -912,37 +935,17 @@ icomp::CPackageStaticInfo& GetMyPackageStaticInfo()
     return packageInfo;
 }
 
-// Register components
+// Register components in this package
 static icomp::TComponentRegistrator<MyComponent> s_myComponentReg(
     "MyComponent",                          // Component ID
     GetMyPackageStaticInfo(),              // Package
     "My custom component",                 // Description
     "Custom Processing");                  // Keywords
 
-static icomp::TComponentRegistrator<AnotherComponent> s_anotherComponentReg(
-    "AnotherComponent",
-    GetMyPackageStaticInfo(),
-    "Another component",
-    "Custom Helper");
-
 } // namespace mypkg
 ```
 
-### Package Initialization
-
-Register package with the system:
-
-```cpp
-#include <ipackage/IPackagesManager.h>
-
-void InitializePackages()
-{
-    IPackagesManager* manager = GetPackagesManager();
-    
-    // Register package
-    manager->RegisterPackage(&mypkg::GetMyPackageStaticInfo());
-}
-```
+**Note**: The registration system (packages, static info, etc.) is part of the framework infrastructure. Component users typically only need to create the package file and register their components as shown above.
 
 ---
 
