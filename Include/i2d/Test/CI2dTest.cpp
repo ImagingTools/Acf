@@ -964,7 +964,12 @@ void CI2dTest::DoRectTest()
 {
 	// Test default constructor
 	i2d::CRect rect1;
+
+#if QT_NO_DEBUG
 	QVERIFY(rect1.IsEmpty());
+#else
+	QVERIFY(!rect1.IsValid());
+#endif
 
 	// Test constructor with coordinates
 	i2d::CRect rect2(0, 0, 10, 10);

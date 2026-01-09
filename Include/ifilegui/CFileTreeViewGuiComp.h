@@ -12,7 +12,7 @@
 #include <QtWidgets/QFileIconProvider>
 #else
 #include <QtGui/QFileIconProvider>
-
+#endif
 
 // ACF includes
 #include <ifile/IFileNameParam.h>

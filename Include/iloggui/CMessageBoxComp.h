@@ -45,7 +45,7 @@ public:
 	virtual bool IsMessageSupported(
 				int messageCategory = -1,
 				int messageId = -1,
-				const istd::IInformationProvider* messagePtr = NULL) const;
+				const istd::IInformationProvider* messagePtr = NULL) const override;
 	virtual void AddMessage(const MessagePtr& messagePtr) override;
 
 protected:

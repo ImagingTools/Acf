@@ -84,8 +84,8 @@ namespace icmm
 
 	// Example 3: Chromatic adaptation between illuminants
 	icmm::CVarColor AdaptColor(const icmm::CVarColor& colorXyz,
-	                          const icmm::IIlluminant* sourceIlluminant,
-	                          const icmm::IIlluminant* destIlluminant)
+							  const icmm::IIlluminant* sourceIlluminant,
+							  const icmm::IIlluminant* destIlluminant)
 	{
 		// Get white points
 		icmm::CVarColor sourceWP = sourceIlluminant->GetWhitePoint();
@@ -132,18 +132,6 @@ namespace icmm
 		
 		// This specification can then be used with RGB color models
 		// to ensure accurate, device-independent color
-	}
-
-	// Example 6: Serialization for persistence
-	void SaveIlluminant(const icmm::IIlluminant* illuminant,
-	                   const QString& filename)
-	{
-		ifile::CFileWriteArchive archive(filename);
-		if (archive.IsOpen()) {
-			// IIlluminant is ISerializable
-			icmm::IIlluminant* copy = /* clone illuminant */;
-			copy->Serialize(archive);
-		}
 	}
 
 	// Example 7: Illuminant selection helper

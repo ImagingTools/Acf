@@ -57,12 +57,6 @@ public:
 		return (index >= 0 && index < m_options.count());
 	}
 
-	// ISerializable interface (minimal implementation)
-	virtual bool Serialize(iser::IArchive& /*archive*/) override
-	{
-		return true;
-	}
-
 	// IChangeable interface (minimal implementation)
 	virtual int GetSupportedOperations() const override
 	{
@@ -156,7 +150,6 @@ void COptionsListTest::FindOptionIndexById_EmptyList_Test()
 	// Test with empty list - should return -1
 	int index = iprm::FindOptionIndexById("any_id", emptyList);
 	QCOMPARE(index, -1);
-}
 }
 
 
