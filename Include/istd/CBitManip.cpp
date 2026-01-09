@@ -18,6 +18,7 @@ CBitManip::CBitManip()
 				}
 			}
 		}
+
 		m_firstBitInByte[v] = static_cast<qint8>(idx);
 	}
 }

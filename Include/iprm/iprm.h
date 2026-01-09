@@ -95,15 +95,15 @@
 
 	\code{.cpp}
 	// Work with parameter manager
-	iprm::IParamsManager* manager = /* obtained from component */;
+	iprm::IParamsManager* manager ;
 	
 	// Check capabilities
 	int flags = manager->GetIndexOperationFlags(-1);
 	if (flags & iprm::IParamsManager::MF_SUPPORT_INSERT)
 	{
-	    // Insert new parameter set
-	    int index = manager->InsertParamsSet();
-	    manager->SetParamsSetName(index, "My Parameters");
+		// Insert new parameter set
+		int index = manager->InsertParamsSet();
+		manager->SetParamsSetName(index, "My Parameters");
 	}
 	\endcode
 
@@ -136,11 +136,11 @@
 	Parameter sets can be validated using IParamsSetValidator:
 
 	\code{.cpp}
-	iprm::IParamsSetValidator* validator = /* ... */;
+	iprm::IParamsSetValidator* validator;
 	bool isValid = validator->IsParamsSetConsistent(
-	    "contextId",
-	    paramSet,
-	    &messageConsumer);
+		"contextId",
+		paramSet,
+		&messageConsumer);
 	\endcode
 
 	\section iprm_best_practices Best Practices

@@ -33,58 +33,58 @@ class IParamsSet;
 	
 	\code{.cpp}
 	// Assuming stateProvider is obtained from a component
-	iprm::IParameterStateProvider* stateProvider = /* ... */;
+	iprm::IParameterStateProvider* stateProvider;
 	
 	// Assuming paramsSet is obtained
-	iprm::IParamsSet* paramsSet = /* ... */;
+	iprm::IParamsSet* paramsSet;
 	
 	// Check if a parameter is editable
 	QByteArray paramId = "threshold";
-	iprm::IParameterStateProvider::ParameterState editState = 
-	    stateProvider->GetState(
-	        *paramsSet,
-	        paramId,
-	        iprm::IParameterStateProvider::ST_EDIT);
-	
+	iprm::IParameterStateProvider::ParameterState editState =
+		stateProvider->GetState(
+			*paramsSet,
+			paramId,
+			iprm::IParameterStateProvider::ST_EDIT);
+
 	switch (editState)
 	{
-	    case iprm::IParameterStateProvider::PS_ON:
-	        qDebug() << "Parameter is editable";
-	        // Allow user to edit
-	        break;
-	    
-	    case iprm::IParameterStateProvider::PS_OFF:
-	        qDebug() << "Parameter is read-only";
-	        // Disable editing UI
-	        break;
-	    
-	    case iprm::IParameterStateProvider::PS_UNKNOWN:
-	        qDebug() << "State not determined by provider";
-	        // Use default behavior
-	        break;
+		case iprm::IParameterStateProvider::PS_ON:
+			qDebug() << "Parameter is editable";
+			// Allow user to edit
+			break;
+
+		case iprm::IParameterStateProvider::PS_OFF:
+			qDebug() << "Parameter is read-only";
+			// Disable editing UI
+			break;
+
+		case iprm::IParameterStateProvider::PS_UNKNOWN:
+			qDebug() << "State not determined by provider";
+			// Use default behavior
+			break;
 	}
 	\endcode
-	
+
 	\section iparameterstateprovider_iteration Checking Multiple Parameters
-	
+
 	\code{.cpp}
 	iprm::IParamsSet::Ids paramIds = paramsSet->GetParamIds();
-	
+
 	for (const QByteArray& id : paramIds)
 	{
-	    auto state = stateProvider->GetState(
-	        *paramsSet, id, iprm::IParameterStateProvider::ST_EDIT);
-	    
-	    if (state == iprm::IParameterStateProvider::PS_ON)
-	    {
-	        qDebug() << "Parameter" << id << "is editable";
-	    }
+		auto state = stateProvider->GetState(
+			*paramsSet, id, iprm::IParameterStateProvider::ST_EDIT);
+
+		if (state == iprm::IParameterStateProvider::PS_ON)
+		{
+			qDebug() << "Parameter" << id << "is editable";
+		}
 	}
 	\endcode
-	
+
 	\note Inherits from istd::IChangeable for change notification support.
 	\note State providers enable separation of UI logic from data model.
-	
+
 	\see IParamsSet
 */
 class IParameterStateProvider: virtual public istd::IChangeable
@@ -118,24 +118,24 @@ public:
 
 	/**
 		\brief Return state for the given parameter.
-		
+
 		Queries the state of a specific parameter within a parameter set.
-		
+
 		\param paramSet The parameter set containing the parameter.
 		\param parameterId ID of the parameter to check.
 		\param stateType Type of state to query (e.g., ST_EDIT).
 		\return The state of the parameter: PS_ON, PS_OFF, or PS_UNKNOWN.
-		
+
 		\note PS_UNKNOWN indicates this provider doesn't determine the state,
-		      allowing other providers or default behavior to apply.
-		
+			  allowing other providers or default behavior to apply.
+
 		\code{.cpp}
 		// Check if parameter can be edited
 		auto editState = stateProvider->GetState(
-		    *paramsSet,
-		    "paramId",
-		    iprm::IParameterStateProvider::ST_EDIT);
-		
+			*paramsSet,
+			"paramId",
+			iprm::IParameterStateProvider::ST_EDIT);
+
 		bool canEdit = (editState == iprm::IParameterStateProvider::PS_ON);
 		\endcode
 		
