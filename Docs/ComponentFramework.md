@@ -105,8 +105,6 @@ Components communicate through **interfaces** (abstract base classes). This enab
 - Runtime polymorphism
 - Easy testing with mock implementations
 
-**Important**: When a component declares `I_REGISTER_INTERFACE(IMyInterface)`, it must actually inherit from `IMyInterface`.
-
 ### Component Composition
 
 The **composite pattern** is central to ACF:
@@ -123,14 +121,6 @@ Component configurations are stored in XML files:
 - Specify attribute values
 - Define references between components
 - Enable runtime reconfiguration without code changes
-
-### Serialization
-
-Components can persist their state when they implement `iser::ISerializable`:
-- Not all components are serializable by default
-- Serialization must be explicitly supported
-- Used for saving/loading component state
-- Integrated with the ACF file persistence system
 
 ---
 
@@ -828,132 +818,179 @@ The framework automatically loads and applies configuration from .acc files. Com
 
 ## Composite Components
 
-Composite components contain and manage subcomponents.
+Composite components are NOT defined in C++ code. Instead, they are created using the **Compositor** visual editing tool and saved as `.acc` files in the `Partitura` directory.
 
-### Defining Composite Components
+### Understanding Component Packages
 
-```cpp
-#include <icomp/CCompositeComponent.h>
+**Physical Components (C++)**:
+- C++ classes that implement components
+- Registered in a **Component Package** (a DLL/shared library)
+- Example packages: `BasePck`, `FilePck`, `QtGuiPck`
+- Components are statically registered within the package
 
-class MyContainer: public icomp::CCompositeComponent
-{
-public:
-    typedef icomp::CCompositeComponent BaseClass;
-    
-    I_BEGIN_COMPONENT(MyContainer);
-        I_REGISTER_INTERFACE(IContainer);
-    I_END_COMPONENT;
-    
-    MyContainer();
-    
-protected:
-    virtual void OnComponentCreated() override;
-};
+**Composite Components (Configuration)**:
+- XML-based configurations (`.acc` files)
+- Describe connections between physical components or other composite components
+- Live in the `Partitura` folder and `*Voce` subfolders
+- `*Voce` subfolders represent composite component packages (analogous to physical C++ packages)
+
+### Creating Composite Components
+
+Composite components are created and edited using the **Compositor** application:
+
+1. Open Compositor tool
+2. Create component diagram visually
+3. Connect components and configure attributes
+4. Save as `.acc` file to `Partitura` directory
+
+### Example Composite Component Structure
+
+```
+Partitura/
+├── AcfVoce.arp/              # Composite component package
+│   ├── XmlFilePersistence.acc    # Composite component
+│   ├── BinaryFilePersistence.acc # Composite component
+│   └── ...
+└── AcfGuiVoce.arp/           # Another composite package
+    ├── MultiDocApp.acc
+    └── ...
 ```
 
-### Accessing Subcomponents
+### Accessing Subcomponents in C++
+
+From within a C++ component, you can access subcomponents defined in the registry:
 
 ```cpp
-void MyContainer::OnComponentCreated()
+void MyComponent::OnComponentCreated()
 {
     BaseClass::OnComponentCreated();
     
-    // Get subcomponent by ID
-    IComponentSharedPtr subcomp = GetSubcomponent("Processor1");
-    if (subcomp) {
-        // Use subcomponent
-    }
+    // Get component context to access registry
+    IComponentContextSharedPtr ctx = GetComponentContext();
     
-    // Create new instance of subcomponent
-    IComponentUniquePtr instance = CreateSubcomponent("Processor2");
-    
-    // Get subcomponent context without creating instance
-    IComponentContextSharedPtr ctx = GetSubcomponentContext("Processor3");
+    // Access would be through the framework's registry system
+    // This is typically handled automatically by references (I_REF)
 }
 ```
 
-### Registry Configuration
-
-```xml
-<Element Id="Container" PackageId="MyPck" ComponentId="MyContainer">
-    <Data IsEnabled="true">
-        <ElementsList>
-            <!-- Subcomponent 1 -->
-            <Element Id="Processor1" PackageId="ProcessingPck" ComponentId="DataProcessor">
-                <Data IsEnabled="true"/>
-            </Element>
-            
-            <!-- Subcomponent 2 -->
-            <Element Id="Processor2" PackageId="ProcessingPck" ComponentId="DataProcessor">
-                <Data IsEnabled="true"/>
-            </Element>
-        </ElementsList>
-    </Data>
-</Element>
-```
-
-### Subcomponent Lifecycle
-
-Parent components are notified when subcomponents are deleted:
-
-```cpp
-void MyContainer::OnSubcomponentDeleted(const IComponent* subcomponentPtr)
-{
-    // Clean up references to deleted subcomponent
-    // Release resources
-}
-```
+**Note**: Direct manipulation of composite components is rare in C++ code. The framework handles composition automatically based on `.acc` configuration files.
 
 ---
 
 ## Component Registration
 
-Components must be registered in a package to be available for instantiation.
+Physical components (C++ classes) must be registered in a package to be available for instantiation. A package is a DLL/shared library that contains component implementations.
 
-### Package Definition
+### Package Structure
 
+Looking at `BasePck` (Base Package) as an example:
+
+**BasePck.h** - Package header with component type definitions:
 ```cpp
-// MyPackage.h
-#include <icomp/CPackageStaticInfo.h>
+#pragma once
 
-namespace mypkg
+#include <icomp/TModelCompWrap.h>
+#include <ilog/CLogComp.h>
+#include <ibase/CInstantiatorComp.h>
+// ... other includes
+
+namespace BasePck
 {
-    // Declare package
-    extern icomp::CPackageStaticInfo& GetMyPackageStaticInfo();
+    // Type definitions for components in this package
+    typedef ilog::CConsoleLogComp ConsoleLog;
+    typedef icomp::TModelCompWrap<ilog::CLogComp> Log;
+    typedef ibase::CInstantiatorComp Instantiator;
+    // ... more component typedefs
 }
 ```
 
-### Component Registration
-
+**BasePck.cpp** - Package implementation with component exports:
 ```cpp
-// MyPackage.cpp
-#include "MyPackage.h"
-#include "MyComponent.h"
+#include "BasePck.h"
+#include <icomp/export.h>
 
-namespace mypkg
+namespace BasePck
 {
 
-// Define package
-icomp::CPackageStaticInfo& GetMyPackageStaticInfo()
-{
-    static icomp::CPackageStaticInfo packageInfo(
-        "MyPackage",              // Package ID
-        "My Package",             // Package name
-        "Custom components");     // Description
-    return packageInfo;
+// Export the package itself
+I_EXPORT_PACKAGE(
+    "Acf/Base",
+    "Base system-independent general package",
+    IM_PROJECT("ACF") IM_TAG("Basic") IM_COMPANY("ImagingTools"));
+
+// Export individual components
+I_EXPORT_COMPONENT(
+    ConsoleLog,
+    "Simple log on windows console",
+    "Windows Message Consumer" IM_CATEGORY(I_SERVICE) IM_TAG("Log"));
+
+I_EXPORT_COMPONENT(
+    Log,
+    "Data model of the logging component",
+    IM_TAG("Log"));
+
+I_EXPORT_COMPONENT(
+    Instantiator,
+    "Access specified components forcing to create its instances",
+    "Instance Create Free Components" IM_CATEGORY(I_SERVICE));
+
+// ... more component exports
 }
-
-// Register components in this package
-static icomp::TComponentRegistrator<MyComponent> s_myComponentReg(
-    "MyComponent",                          // Component ID
-    GetMyPackageStaticInfo(),              // Package
-    "My custom component",                 // Description
-    "Custom Processing");                  // Keywords
-
-} // namespace mypkg
 ```
 
-**Note**: The registration system (packages, static info, etc.) is part of the framework infrastructure. Component users typically only need to create the package file and register their components as shown above.
+### Key Registration Macros
+
+- **I_EXPORT_PACKAGE**: Registers the package with metadata
+  - Package path (e.g., "Acf/Base")
+  - Description
+  - Project info, tags, company, author
+
+- **I_EXPORT_COMPONENT**: Registers a component in the package
+  - Component type name
+  - Description
+  - Keywords and tags for searchability
+
+### Creating Your Own Package
+
+To create a new component package:
+
+1. Create package header file (e.g., `MyPck.h`)
+2. Define component typedefs in package namespace
+3. Create package implementation file (e.g., `MyPck.cpp`)
+4. Use `I_EXPORT_PACKAGE` to register the package
+5. Use `I_EXPORT_COMPONENT` for each component
+6. Build as a DLL/shared library
+
+Example:
+
+```cpp
+// MyPck.h
+#pragma once
+#include <icomp/CComponentBase.h>
+#include "CMyComponent.h"
+
+namespace MyPck
+{
+    typedef CMyComponent MyComponent;
+}
+
+// MyPck.cpp
+#include "MyPck.h"
+#include <icomp/export.h>
+
+namespace MyPck
+{
+    I_EXPORT_PACKAGE(
+        "MyCompany/MyPck",
+        "My custom component package",
+        IM_PROJECT("MyProject") IM_COMPANY("MyCompany"));
+    
+    I_EXPORT_COMPONENT(
+        MyComponent,
+        "My custom component for data processing",
+        IM_TAG("Processing") IM_TAG("Custom"));
+}
+```
 
 ---
 
@@ -1635,152 +1672,6 @@ class CTextDocumentTemplate: public icomp::CComponentBase
 {
     // ...
 };
-```
-
----
-
-## Advanced Topics
-
-### Subelement Registration
-
-For components with identifiable subelements:
-
-```cpp
-class CFormComponent: public icomp::CComponentBase
-{
-public:
-    I_BEGIN_COMPONENT(CFormComponent);
-        // Register subelements
-        I_REGISTER_SUBELEMENT(NameField);
-        I_REGISTER_SUBELEMENT(EmailField);
-        I_REGISTER_SUBELEMENT(SubmitButton);
-        
-        // Register interfaces for subelements
-        I_REGISTER_SUBELEMENT_INTERFACE(NameField, ITextField, GetNameField);
-        I_REGISTER_SUBELEMENT_INTERFACE(EmailField, ITextField, GetEmailField);
-        I_REGISTER_SUBELEMENT_INTERFACE(SubmitButton, IButton, GetSubmitButton);
-    I_END_COMPONENT;
-    
-private:
-    static ITextField* GetNameField(CFormComponent& form) {
-        return &form.m_nameField;
-    }
-    
-    CTextField m_nameField;
-    CTextField m_emailField;
-    CButton m_submitButton;
-};
-```
-
-### Custom Attributes
-
-```cpp
-// Define custom attribute type
-class CColorAttribute: public iattr::TAttribute<QColor>
-{
-public:
-    CColorAttribute() : TAttribute(QColor(Qt::white)) {}
-    explicit CColorAttribute(const QColor& color) : TAttribute(color) {}
-    
-    // Override serialization if needed
-    virtual void Serialize(iser::IArchive& archive) override;
-    
-    static QByteArray GetTypeName() { return "Color"; }
-};
-
-// Use in component
-class MyComponent: public icomp::CComponentBase
-{
-    I_BEGIN_COMPONENT(MyComponent);
-        I_ASSIGN(m_colorAttr, "Color", "Background color", true, QColor(Qt::white));
-    I_END_COMPONENT;
-    
-private:
-    I_USER_ATTR(CColorAttribute, m_colorAttr);
-};
-```
-
-### Environment Managers
-
-For advanced component creation control:
-
-```cpp
-class IComponentEnvironmentManager
-{
-public:
-    virtual IComponentSharedPtr GetComponent(
-        const QByteArray& componentId) = 0;
-        
-    virtual IComponentUniquePtr CreateComponent(
-        const CComponentAddress& address) = 0;
-};
-```
-
-### Package Dependencies
-
-```cpp
-namespace mypkg
-{
-
-icomp::CPackageStaticInfo& GetMyPackageStaticInfo()
-{
-    static icomp::CPackageStaticInfo packageInfo(
-        "MyPackage",
-        "My Package",
-        "Custom components");
-    
-    // Register dependencies
-    static bool initialized = false;
-    if (!initialized) {
-        packageInfo.RegisterDependency("LoggingPck");
-        packageInfo.RegisterDependency("DocumentPck");
-        initialized = true;
-    }
-    
-    return packageInfo;
-}
-
-} // namespace mypkg
-```
-
-### Component Wrappers
-
-For lifecycle control:
-
-```cpp
-// TComponentWrap ensures proper OnComponentCreated/OnComponentDestroyed calls
-template <class Component>
-class TComponentWrap: public Component
-{
-public:
-    virtual void SetComponentContext(
-        const IComponentContextSharedPtr& contextPtr,
-        const IComponent* parentPtr,
-        bool isParentOwner) override;
-};
-
-// Usage
-typedef icomp::TComponentWrap<MyComponent> MyComponentWrap;
-```
-
-### Meta-Information
-
-```cpp
-void MyComponent::DumpMetaInfo()
-{
-    const IRealComponentStaticInfo& staticInfo = GetComponentStaticInfo();
-    
-    qDebug() << "Component:" << staticInfo.GetComponentId();
-    qDebug() << "Package:" << staticInfo.GetPackageId();
-    qDebug() << "Description:" << staticInfo.GetDescription();
-    qDebug() << "Keywords:" << staticInfo.GetKeywords();
-    
-    // List supported interfaces
-    if (staticInfo.IsInterfaceSupported(
-            istd::CClassInfo::Get<ILogger>())) {
-        qDebug() << "Supports ILogger";
-    }
-}
 ```
 
 ---
