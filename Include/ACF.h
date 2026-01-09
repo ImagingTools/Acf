@@ -64,11 +64,11 @@ The typical workflow to implement an ACF component involves:
 
 \subsubsection Step1 1. Define the Interface
 
-A C++ pure virtual interface must be defined, typically inheriting from icomp::IComponent:
+A C++ pure virtual interface must be defined, inheriting from istd::IPolymorphic (or a derived interface like iser::ISerializable):
 
 \code{.cpp}
 // Define the interface
-class IDataProcessor : virtual public icomp::IComponent
+class IDataProcessor : virtual public istd::IPolymorphic
 {
 public:
     virtual bool ProcessData(const QString& input, QString& output) = 0;
@@ -76,18 +76,27 @@ public:
 };
 \endcode
 
+Note: You typically don't inherit from icomp::IComponent directly - it's an internal framework interface. Use istd::IPolymorphic or iser::ISerializable as the base.
+
 \subsubsection Step2 2. Implement the Component Class
 
 Create a class that implements this interface. There are several approaches:
 
-<b>a) Direct Implementation with Macros:</b>
+<b>a) Basic Component Implementation:</b>
 \code{.cpp}
 // Implement the component
-class CDataProcessor : public icomp::TComponent<IDataProcessor>
+class CDataProcessor : 
+    public icomp::CComponentBase,
+    virtual public IDataProcessor
 {
-    ICOMP_COMPONENT_COMMON(CDataProcessor)
-    
 public:
+    typedef icomp::CComponentBase BaseClass;
+    
+    // Component initialization
+    I_BEGIN_COMPONENT(CDataProcessor);
+        I_REGISTER_INTERFACE(IDataProcessor);
+    I_END_COMPONENT;
+    
     CDataProcessor() : m_mode(0) {}
     
     // Implement interface methods
@@ -107,54 +116,93 @@ private:
 };
 \endcode
 
-<b>b) Component with Dependencies:</b>
+<b>b) Component with References (Dependencies):</b>
 
-Components can declare dependencies on other components. The framework automatically resolves and injects these dependencies:
+Components can declare references to other components for dependency injection:
 
 \code{.cpp}
-class CAdvancedProcessor : public icomp::TComponent<IDataProcessor>
+class CAdvancedProcessor : 
+    public icomp::CComponentBase,
+    virtual public IDataProcessor
 {
-    ICOMP_COMPONENT_COMMON(CAdvancedProcessor)
-    
 public:
-    // Declare dependency on logging component
-    ICOMP_REFERENCE(ILogger, m_logger, "Logger")
+    typedef icomp::CComponentBase BaseClass;
+    
+    I_BEGIN_COMPONENT(CAdvancedProcessor);
+        I_REGISTER_INTERFACE(IDataProcessor);
+        
+        // Declare reference to another component
+        I_ASSIGN_INTERFACE_REFERENCE(ILogger, m_loggerRefPtr, "Logger", "Logging component", false);
+    I_END_COMPONENT;
     
     virtual bool ProcessData(const QString& input, QString& output) override
     {
-        if (m_logger)
-            m_logger->LogMessage("Processing data...");
-        // ... processing logic
+        // Access referenced component
+        istd::ILogger* logger = GetReferenceValue(m_loggerRefPtr);
+        if (logger)
+            logger->LogMessage("Processing data...");
+        
+        output = input.toUpper();
         return true;
     }
+    
+    virtual void SetProcessingMode(int mode) override {}
+    
+private:
+    // Reference pointer
+    I_REF_PTR(istd::ILogger, m_loggerRefPtr);
 };
 \endcode
 
 <b>c) Component with Attributes:</b>
 
-Attributes allow parameterization of component behavior:
+Attributes allow configuration of component behavior:
 
 \code{.cpp}
-class CConfigurableProcessor : public icomp::TComponent<IDataProcessor>
+class CConfigurableProcessor : 
+    public icomp::CComponentBase,
+    virtual public IDataProcessor
 {
-    ICOMP_COMPONENT_COMMON(CConfigurableProcessor)
-    
 public:
-    // Declare attributes
-    ICOMP_ATTRIBUTE(int, MaxLength, 100)
-    ICOMP_ATTRIBUTE(bool, EnableLogging, true)
+    typedef icomp::CComponentBase BaseClass;
+    
+    I_BEGIN_COMPONENT(CConfigurableProcessor);
+        I_REGISTER_INTERFACE(IDataProcessor);
+        
+        // Declare attributes with defaults
+        I_ASSIGN(m_maxLengthAttrPtr, "MaxLength", "Maximum input length", false, 100);
+        I_ASSIGN(m_enableLoggingAttrPtr, "EnableLogging", "Enable logging", false, true);
+    I_END_COMPONENT;
     
     virtual bool ProcessData(const QString& input, QString& output) override
     {
-        if (input.length() > GetMaxLength())
+        // Access attribute values
+        int maxLength = GetAttributeValue(m_maxLengthAttrPtr);
+        bool enableLogging = GetAttributeValue(m_enableLoggingAttrPtr);
+        
+        if (input.length() > maxLength)
             return false;
             
-        if (GetEnableLogging())
+        if (enableLogging)
             qDebug() << "Processing:" << input;
             
-        // ... processing logic
+        output = input.toUpper();
         return true;
     }
+    
+    virtual void SetProcessingMode(int mode) override {}
+    
+protected:
+    virtual void OnComponentCreated() override
+    {
+        BaseClass::OnComponentCreated();
+        // Initialize component here - attributes and references are now available
+    }
+    
+private:
+    // Attribute pointers
+    I_ATTR(int, m_maxLengthAttrPtr);
+    I_ATTR(bool, m_enableLoggingAttrPtr);
 };
 \endcode
 
@@ -644,9 +692,9 @@ ACF supports multiple deployment strategies:
 <b>1. Define an Interface</b>
 \code{.cpp}
 // MyInterface.h
-#include <icomp/IComponent.h>
+#include <istd/IPolymorphic.h>
 
-class IMyProcessor : virtual public icomp::IComponent
+class IMyProcessor : virtual public istd::IPolymorphic
 {
 public:
     virtual bool Process(const QString& input, QString& output) = 0;
@@ -659,22 +707,24 @@ public:
 #include <icomp/CComponentBase.h>
 #include "MyInterface.h"
 
-class CMyProcessor : public CComponentBase, 
-                     public virtual IMyProcessor
+class CMyProcessor : 
+    public icomp::CComponentBase, 
+    virtual public IMyProcessor
 {
 public:
+    typedef icomp::CComponentBase BaseClass;
+    
+    I_BEGIN_COMPONENT(CMyProcessor);
+        I_REGISTER_INTERFACE(IMyProcessor);
+    I_END_COMPONENT;
+    
     CMyProcessor();
     
     // Implement interface
     virtual bool Process(const QString& input, QString& output) override;
-    
-    // Component framework integration
-    ICOMP_DECLARE_STATICINFO()
 };
 
 // MyComponent.cpp
-ICOMP_DEFINE_STATICINFO(CMyProcessor)
-
 CMyProcessor::CMyProcessor() 
 {
 }
@@ -687,15 +737,22 @@ bool CMyProcessor::Process(const QString& input, QString& output)
 \endcode
 
 <b>3. Register and Use</b>
+
+Components are registered in package registration files and accessed through the component registry:
+
 \code{.cpp}
-// Registration (in package)
+// Package registration (in .cpp file)
 ICOMP_REGISTER_COMPONENT(CMyProcessor)
 
-// Usage
-IMyProcessor* processor = GetComponent<IMyProcessor>("MyProcessor");
-QString result;
-processor->Process("hello", result);
-// result = "HELLO"
+// Usage - accessing via registry
+icomp::IRegistry* registry = GetRegistry();
+IMyProcessor* processor = registry->QueryInterface<IMyProcessor>("MyProcessor");
+if (processor)
+{
+    QString result;
+    processor->Process("hello", result);
+    // result = "HELLO"
+}
 \endcode
 
 \subsection LearnMore Learning Resources
