@@ -410,7 +410,7 @@ These libraries form the foundation of the framework:
 - Core interfaces: icomp::IComponent, icomp::IRegistry, icomp::IComponentFactory
 - Attribute system for component configuration
 - Automatic dependency resolution and lifecycle management
-- See \ref page_icomp and \ref ComponentFramework for complete guide
+- See \ref page_icomp for complete guide
 
 <b>\ref page_iser "iser - Serialization Framework"</b>
 - Archive-based object persistence with multiple format support
@@ -457,7 +457,7 @@ These libraries form the foundation of the framework:
 - Template-based document management with multi-level undo/redo
 - Document lifecycle: idoc::IDocument, idoc::IDocumentTemplate
 - Multi-document management and persistence
-- See \ref page_idoc and \ref DocumentViewFramework for details
+- See \ref page_idoc for details
 
 <b>\ref page_iview "iview - View Framework"</b>
 - Interactive shapes and calibrated views
@@ -554,9 +554,9 @@ These libraries form the foundation of the framework:
 
 \subsection Tutorials Tutorials and Examples
 
-- <b>\ref ComponentFramework "Component Framework Guide"</b>: Comprehensive guide to building components
-- <b>\ref ComponentFrameworkExamples "Component Examples"</b>: Practical implementation examples
-- <b>\ref DocumentViewFramework "Document/View Framework"</b>: Building document-based applications
+- <b>Component Framework Guide</b>: Comprehensive guide to building components (see Docs/ComponentFramework.md)
+- <b>Component Examples</b>: Practical implementation examples (see Docs/ComponentFrameworkExamples.md)
+- <b>Document/View Framework</b>: Building document-based applications (see Docs/DocumentViewFrameworkREADME.md)
 
 \subsection ArchitectureGuides Architecture Guides
 
@@ -704,7 +704,7 @@ processor->Process("hello", result);
 - Learn \ref page_icomp for component architecture
 - Study \ref page_iser for object persistence
 - Explore \ref page_iprm for parameter management
-- Read the complete \ref ComponentFramework guide
+- Read the complete Component Framework guide (Docs/ComponentFramework.md)
 
 \section DesignPatterns Design Patterns in ACF
 
@@ -1210,12 +1210,12 @@ Contributions are welcome! To contribute:
 
 
 /**
-	\defgroup ImageProcessing
+	\defgroup ImageProcessing Image Processing
 	Image-based data definition and algorithms.
 */
 
 /**
-	\defgroup Geometry
+	\defgroup Geometry Geometry
 	Basic implementations of geometrical primitives in 2D- and 3D-space.
 
 	\ingroup NumericalBase
