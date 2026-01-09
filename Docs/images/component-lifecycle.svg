@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="700" viewBox="0 0 600 700">
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#333" />
+    </marker>
+  </defs>
+  
+  <!-- Title -->
+  <text x="300" y="30" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#333">
+    Component Lifecycle
+  </text>
+  
+  <!-- Constructor -->
+  <rect x="200" y="60" width="200" height="50" rx="5" fill="#e3f2fd" stroke="#1976d2" stroke-width="2"/>
+  <text x="300" y="90" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#333">Constructor()</text>
+  
+  <!-- Arrow -->
+  <line x1="300" y1="110" x2="300" y2="150" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <text x="310" y="135" font-family="Arial, sans-serif" font-size="12" fill="#666">[Object created]</text>
+  
+  <!-- SetComponentContext -->
+  <rect x="150" y="150" width="300" height="50" rx="5" fill="#e3f2fd" stroke="#1976d2" stroke-width="2"/>
+  <text x="300" y="175" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#333">SetComponentContext</text>
+  <text x="300" y="192" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#666">(context, parent, isOwner)</text>
+  
+  <!-- Arrow -->
+  <line x1="300" y1="200" x2="300" y2="240" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <text x="310" y="225" font-family="Arial, sans-serif" font-size="12" fill="#666">[Configured]</text>
+  
+  <!-- OnComponentCreated -->
+  <rect x="150" y="240" width="300" height="50" rx="5" fill="#c8e6c9" stroke="#388e3c" stroke-width="2"/>
+  <text x="300" y="270" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#333">OnComponentCreated()</text>
+  <text x="520" y="265" font-family="Arial, sans-serif" font-size="11" fill="#388e3c">INITIALIZATION</text>
+  
+  <!-- Arrow -->
+  <line x1="300" y1="290" x2="300" y2="400" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <text x="310" y="315" font-family="Arial, sans-serif" font-size="12" fill="#666">[Component is active]</text>
+  <text x="310" y="335" font-family="Arial, sans-serif" font-size="12" fill="#666">[Safe to use attributes,</text>
+  <text x="310" y="355" font-family="Arial, sans-serif" font-size="12" fill="#666">references, factories]</text>
+  <text x="310" y="375" font-family="Arial, sans-serif" font-size="12" fill="#666">[Performs work]</text>
+  
+  <!-- OnComponentDestroyed -->
+  <rect x="150" y="400" width="300" height="50" rx="5" fill="#ffccbc" stroke="#d84315" stroke-width="2"/>
+  <text x="300" y="430" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#333">OnComponentDestroyed()</text>
+  <text x="520" y="425" font-family="Arial, sans-serif" font-size="11" fill="#d84315">CLEANUP</text>
+  
+  <!-- Arrow -->
+  <line x1="300" y1="450" x2="300" y2="490" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <text x="310" y="475" font-family="Arial, sans-serif" font-size="12" fill="#666">[Resources released]</text>
+  
+  <!-- Destructor -->
+  <rect x="200" y="490" width="200" height="50" rx="5" fill="#e3f2fd" stroke="#1976d2" stroke-width="2"/>
+  <text x="300" y="520" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#333">~Destructor()</text>
+  
+  <!-- Arrow -->
+  <line x1="300" y1="540" x2="300" y2="580" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- End state -->
+  <ellipse cx="300" cy="600" rx="80" ry="30" fill="#f5f5f5" stroke="#333" stroke-width="2"/>
+  <text x="300" y="607" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#666">[Object destroyed]</text>
+  
+  <!-- Symmetric Pairs Box -->
+  <rect x="50" y="640" width="500" height="30" rx="3" fill="#fff3e0" stroke="#ff6f00" stroke-width="1"/>
+  <text x="300" y="660" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#333">
+    Symmetric pairs: Constructor ↔ Destructor, OnComponentCreated ↔ OnComponentDestroyed
+  </text>
+</svg>

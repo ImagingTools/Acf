@@ -224,6 +224,8 @@ Components go through a well-defined lifecycle with symmetric creation/destructi
 
 ### Lifecycle Diagram
 
+**Text Format:**
+
 ```
 Component Lifecycle States and Transitions:
 
@@ -287,6 +289,14 @@ OnGuiDestroyed()  <--- GUI WIDGET CLEANUP
     v
 OnComponentDestroyed()
 ```
+
+**Image Format:**
+
+![Component Lifecycle](images/component-lifecycle.svg)
+
+![Model/Observer Lifecycle](images/model-observer-lifecycle.svg)
+
+![GUI Component Lifecycle](images/gui-lifecycle.svg)
 
 ### Symmetric Pairs
 
