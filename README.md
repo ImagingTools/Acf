@@ -8,6 +8,25 @@ The full API documentation is available at: [https://imagingtools.github.io/Acf/
 
 The documentation is automatically generated from the source code using Doxygen and deployed to GitHub Pages.
 
+### Framework Documentation
+
+- **[Component Framework](Docs/ComponentFramework.md)**: Comprehensive guide to the ACF component framework (icomp library)
+  - Component architecture and lifecycle
+  - Attributes, references, and factories
+  - Dependency injection and registry system
+  - Complete working examples
+  - Best practices and patterns
+
+- **[Component Framework Examples](Docs/ComponentFrameworkExamples.md)**: Additional practical examples
+  - Plugin system implementation
+  - Service locator pattern
+  - Observer pattern
+  - Configuration system
+  - Multi-threaded processing pipeline
+  - Component testing strategies
+
+- **[Document/View Framework](Docs/DocumentViewFrameworkREADME.md)**: Documentation for document-based applications (idoc and iqtdoc libraries)
+
 ## Key Features
 
 - **Component Framework**: Flexible component-based architecture

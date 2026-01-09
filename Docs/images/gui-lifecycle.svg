@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="650" height="650" viewBox="0 0 650 650">
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#333" />
+    </marker>
+  </defs>
+  
+  <!-- Title -->
+  <text x="325" y="30" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#333">
+    GUI Component Lifecycle
+  </text>
+  
+  <!-- OnComponentCreated -->
+  <rect x="175" y="60" width="300" height="50" rx="5" fill="#e3f2fd" stroke="#1976d2" stroke-width="2"/>
+  <text x="325" y="90" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#333">OnComponentCreated()</text>
+  
+  <!-- Arrow -->
+  <line x1="325" y1="110" x2="325" y2="150" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- OnGuiCreated -->
+  <rect x="175" y="150" width="300" height="50" rx="5" fill="#c8e6c9" stroke="#388e3c" stroke-width="2"/>
+  <text x="325" y="180" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#333">OnGuiCreated()</text>
+  <text x="520" y="175" font-family="Arial, sans-serif" font-size="11" fill="#388e3c">GUI WIDGET CREATE</text>
+  
+  <!-- Arrow to optional section -->
+  <line x1="325" y1="200" x2="325" y2="240" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <text x="335" y="225" font-family="Arial, sans-serif" font-size="12" fill="#666">[Optional]</text>
+  
+  <!-- Optional OnGuiModelAttached -->
+  <rect x="150" y="240" width="350" height="50" rx="5" fill="#c8e6c9" stroke="#388e3c" stroke-width="2" stroke-dasharray="5,5"/>
+  <text x="325" y="270" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#333">OnGuiModelAttached()</text>
+  <text x="540" y="265" font-family="Arial, sans-serif" font-size="11" fill="#388e3c">GUI-MODEL BIND</text>
+  
+  <!-- Arrow in optional section -->
+  <line x1="325" y1="290" x2="325" y2="360" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <text x="335" y="310" font-family="Arial, sans-serif" font-size="12" fill="#666">[GUI displays and]</text>
+  <text x="335" y="330" font-family="Arial, sans-serif" font-size="12" fill="#666">[updates model]</text>
+  
+  <!-- Optional OnGuiModelDetached -->
+  <rect x="150" y="360" width="350" height="50" rx="5" fill="#ffccbc" stroke="#d84315" stroke-width="2" stroke-dasharray="5,5"/>
+  <text x="325" y="390" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#333">OnGuiModelDetached()</text>
+  <text x="540" y="385" font-family="Arial, sans-serif" font-size="11" fill="#d84315">GUI-MODEL UNBIND</text>
+  
+  <!-- Arrow to OnGuiDestroyed -->
+  <line x1="325" y1="410" x2="325" y2="450" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- OnGuiDestroyed -->
+  <rect x="175" y="450" width="300" height="50" rx="5" fill="#ffccbc" stroke="#d84315" stroke-width="2"/>
+  <text x="325" y="480" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#333">OnGuiDestroyed()</text>
+  <text x="520" y="475" font-family="Arial, sans-serif" font-size="11" fill="#d84315">GUI WIDGET CLEANUP</text>
+  
+  <!-- Arrow -->
+  <line x1="325" y1="500" x2="325" y2="540" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- OnComponentDestroyed -->
+  <rect x="175" y="540" width="300" height="50" rx="5" fill="#e3f2fd" stroke="#1976d2" stroke-width="2"/>
+  <text x="325" y="570" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#333">OnComponentDestroyed()</text>
+  
+  <!-- Symmetric Pairs Box -->
+  <rect x="25" y="610" width="600" height="30" rx="3" fill="#fff3e0" stroke="#ff6f00" stroke-width="1"/>
+  <text x="325" y="630" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#333">
+    Symmetric pairs: OnGuiCreated ↔ OnGuiDestroyed, OnGuiModelAttached ↔ OnGuiModelDetached
+  </text>
+</svg>
