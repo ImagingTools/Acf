@@ -498,9 +498,15 @@ Use `I_ASSIGN` macro in the component definition:
 ```cpp
 I_BEGIN_COMPONENT(MyComponent);
     // I_ASSIGN(member, attrId, description, isObligatory, defaultValue)
+    
+    // Obligatory attribute - must be configured, framework ensures it exists
     I_ASSIGN(m_enabledAttr, "Enabled", "Enable this feature", true, true);
+    
+    // Optional attributes - can be omitted, may return invalid
     I_ASSIGN(m_countAttr, "Count", "Number of items", false, 10);
     I_ASSIGN(m_scaleAttr, "Scale", "Scaling factor", false, 1.0);
+    
+    // Obligatory attribute with default
     I_ASSIGN(m_nameAttr, "Name", "Component name", true, QByteArray("default"));
 I_END_COMPONENT;
 ```
@@ -509,8 +515,10 @@ Parameters:
 - **member**: The attribute member variable
 - **attrId**: Attribute ID used in configuration files
 - **description**: Human-readable description
-- **isObligatory**: `true` means the attribute is obligatory and the framework will automatically create it (IsValid() always returns true). `false` means optional/nullable.
-- **defaultValue**: Default value if not specified in configuration
+- **isObligatory**: 
+  - `true` = Obligatory attribute - framework ensures the attribute is created. `IsValid()` will always return `true`. Use for required configuration.
+  - `false` = Optional/nullable attribute - may not be configured. `IsValid()` returns `false` if not set. Check validity before use.
+- **defaultValue**: Default value used when not explicitly configured
 
 ### Accessing Attribute Values
 
