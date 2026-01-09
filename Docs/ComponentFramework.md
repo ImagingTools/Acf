@@ -765,24 +765,24 @@ IComponentSharedPtr DocumentTemplate::CreateView()
 
 ```cpp
 I_BEGIN_COMPONENT(MyComponent);
-    I_ASSIGN_MULTI_0(m_pluginFactories, "PluginFactories", 
-                     "Plugin factory list", true);
+    I_ASSIGN_MULTI_0(m_processorFactories, "ProcessorFactories", 
+                     "Data processor factory list", true);
 I_END_COMPONENT;
 
 private:
-    I_MULTIFACT(IPlugin, m_pluginFactories);
+    I_MULTIFACT(IDataProcessor, m_processorFactories);
 ```
 
 Usage:
 
 ```cpp
-void MyComponent::LoadPlugins()
+void MyComponent::InitializeProcessors()
 {
-    if (m_pluginFactories.IsValid()) {
-        int count = m_pluginFactories.GetCount();
+    if (m_processorFactories.IsValid()) {
+        int count = m_processorFactories.GetCount();
         for (int i = 0; i < count; ++i) {
-            IComponentUniquePtr plugin = m_pluginFactories.CreateInstance(i);
-            // Use plugin
+            IComponentUniquePtr processor = m_processorFactories.CreateInstance(i);
+            // Use processor
         }
     }
 }

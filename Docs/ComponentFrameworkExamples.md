@@ -4,274 +4,283 @@ This document provides additional practical examples for working with the ACF Co
 
 ## Table of Contents
 
-1. [Plugin System Example](#plugin-system-example)
+1. [Data Processing Pipeline with Multiple Processors](#data-processing-pipeline-with-multiple-processors)
 2. [Service Locator Pattern](#service-locator-pattern)
 3. [Observer Pattern with Components](#observer-pattern-with-components)
 4. [Configuration System](#configuration-system)
 5. [Multi-Threaded Processing Pipeline](#multi-threaded-processing-pipeline)
-6. [Dynamic Component Loading](#dynamic-component-loading)
-7. [State Machine Component](#state-machine-component)
-8. [Component Testing Patterns](#component-testing-patterns)
+6. [Component Testing Patterns](#component-testing-patterns)
 
 ---
 
-## Plugin System Example
+## Data Processing Pipeline with Multiple Processors
 
-This example shows how to build an extensible plugin system using the component framework.
+This example shows how to build a flexible data processing system using component composition. The system manager coordinates multiple processor components without treating them as "plugins" - they're simply components in a composition.
 
-### Plugin Interface
+### Processor Interface
 
 ```cpp
-// IPlugin.h
-class IPlugin
+// IDataProcessor.h
+class IDataProcessor
 {
 public:
-    virtual ~IPlugin() = default;
+    virtual ~IDataProcessor() = default;
     
-    virtual QString GetPluginName() const = 0;
-    virtual QString GetPluginVersion() const = 0;
+    virtual QString GetProcessorName() const = 0;
+    virtual QString GetProcessorVersion() const = 0;
     virtual bool Initialize() = 0;
     virtual void Shutdown() = 0;
-    virtual void Execute() = 0;
+    virtual bool Process(const QVariant& data) = 0;
 };
 ```
 
-### Plugin Manager Component
+### Processing Coordinator Component
 
 ```cpp
-// CPluginManager.h
+// CProcessingCoordinator.h
 #include <icomp/CComponentBase.h>
-#include "IPlugin.h"
+#include "IDataProcessor.h"
 
-class CPluginManager: public icomp::CComponentBase
+class CProcessingCoordinator: public icomp::CComponentBase
 {
 public:
     typedef icomp::CComponentBase BaseClass;
     
-    I_BEGIN_COMPONENT(CPluginManager);
-        I_REGISTER_INTERFACE(IPluginManager);
+    I_BEGIN_COMPONENT(CProcessingCoordinator);
+        I_REGISTER_INTERFACE(IProcessingCoordinator);
         
-        // Multiple plugin factories
-        I_ASSIGN_MULTI_0(m_pluginFactories, "Plugins", 
-                        "List of plugin factories", true);
+        // Multiple processor factories
+        I_ASSIGN_MULTI_0(m_processorFactories, "Processors", 
+                        "List of data processor factories", true);
         
         // Logger reference
         I_ASSIGN(m_loggerRef, "Logger", "Logger component", true);
     I_END_COMPONENT;
     
-    CPluginManager();
-    virtual ~CPluginManager();
+    CProcessingCoordinator();
+    virtual ~CProcessingCoordinator();
     
-    // Plugin management
-    bool LoadPlugins();
-    void UnloadPlugins();
-    void ExecutePlugins();
+    // Processor management
+    bool InitializeProcessors();
+    void ShutdownProcessors();
+    bool ProcessData(const QVariant& data);
     
-    int GetPluginCount() const;
-    IPlugin* GetPlugin(int index) const;
-    IPlugin* FindPlugin(const QString& name) const;
+    int GetProcessorCount() const;
+    IDataProcessor* GetProcessor(int index) const;
+    IDataProcessor* FindProcessor(const QString& name) const;
     
 protected:
     virtual void OnComponentCreated() override;
     virtual void OnComponentDestroyed() override;
     
 private:
-    struct PluginInfo {
+    struct ProcessorInfo {
         IComponentSharedPtr componentPtr;
-        IPlugin* pluginPtr;
+        IDataProcessor* processorPtr;
         QString name;
         bool initialized;
     };
     
-    I_MULTIFACT(IPlugin, m_pluginFactories);
+    I_MULTIFACT(IDataProcessor, m_processorFactories);
     I_REF(ILogger, m_loggerRef);
     
-    std::vector<PluginInfo> m_plugins;
+    std::vector<ProcessorInfo> m_processors;
 };
 
-// CPluginManager.cpp
-CPluginManager::CPluginManager()
+// CProcessingCoordinator.cpp
+CProcessingCoordinator::CProcessingCoordinator()
 {
 }
 
-CPluginManager::~CPluginManager()
+CProcessingCoordinator::~CProcessingCoordinator()
 {
-    UnloadPlugins();
+    ShutdownProcessors();
 }
 
-void CPluginManager::OnComponentCreated()
+void CProcessingCoordinator::OnComponentCreated()
 {
     BaseClass::OnComponentCreated();
     
-    // Auto-load plugins
-    LoadPlugins();
+    // Auto-initialize processors
+    InitializeProcessors();
 }
 
-void CPluginManager::OnComponentDestroyed()
+void CProcessingCoordinator::OnComponentDestroyed()
 {
-    UnloadPlugins();
+    ShutdownProcessors();
     BaseClass::OnComponentDestroyed();
 }
 
-bool CPluginManager::LoadPlugins()
+bool CProcessingCoordinator::InitializeProcessors()
 {
-    if (!m_pluginFactories.IsValid()) {
+    if (!m_processorFactories.IsValid()) {
         if (m_loggerRef.IsValid()) {
-            m_loggerRef->LogMessage("No plugins configured");
+            m_loggerRef->LogMessage("No processors configured");
         }
         return true;
     }
     
-    int count = m_pluginFactories.GetCount();
+    int count = m_processorFactories.GetCount();
     
     if (m_loggerRef.IsValid()) {
-        m_loggerRef->LogMessage(QString("Loading %1 plugin(s)...").arg(count));
+        m_loggerRef->LogMessage(QString("Initializing %1 processor(s)...").arg(count));
     }
     
     for (int i = 0; i < count; ++i) {
-        // Create plugin instance
-        IComponentUniquePtr componentPtr = m_pluginFactories.CreateInstance(i);
+        // Create processor instance
+        IComponentUniquePtr componentPtr = m_processorFactories.CreateInstance(i);
         if (!componentPtr) {
             if (m_loggerRef.IsValid()) {
-                m_loggerRef->LogError(QString("Failed to create plugin %1").arg(i));
+                m_loggerRef->LogError(QString("Failed to create processor %1").arg(i));
             }
             continue;
         }
         
-        // Query for IPlugin interface
-        IPlugin* pluginPtr = dynamic_cast<IPlugin*>(componentPtr.get());
-        if (!pluginPtr) {
+        // Query for IDataProcessor interface
+        IDataProcessor* processorPtr = dynamic_cast<IDataProcessor*>(componentPtr.get());
+        if (!processorPtr) {
             if (m_loggerRef.IsValid()) {
                 m_loggerRef->LogError(
-                    QString("Plugin %1 doesn't implement IPlugin").arg(i));
+                    QString("Component %1 doesn't implement IDataProcessor").arg(i));
             }
             continue;
         }
         
-        // Store plugin info
-        PluginInfo info;
+        // Store processor info
+        ProcessorInfo info;
         info.componentPtr = IComponentSharedPtr(std::move(componentPtr));
-        info.pluginPtr = pluginPtr;
-        info.name = pluginPtr->GetPluginName();
+        info.processorPtr = processorPtr;
+        info.name = processorPtr->GetProcessorName();
         info.initialized = false;
         
-        // Initialize plugin
-        if (pluginPtr->Initialize()) {
+        // Initialize processor
+        if (processorPtr->Initialize()) {
             info.initialized = true;
-            m_plugins.push_back(info);
+            m_processors.push_back(info);
             
             if (m_loggerRef.IsValid()) {
                 m_loggerRef->LogMessage(
-                    QString("Loaded plugin: %1 v%2")
+                    QString("Initialized processor: %1 v%2")
                         .arg(info.name)
-                        .arg(pluginPtr->GetPluginVersion()));
+                        .arg(processorPtr->GetProcessorVersion()));
             }
         } else {
             if (m_loggerRef.IsValid()) {
                 m_loggerRef->LogError(
-                    QString("Failed to initialize plugin: %1").arg(info.name));
+                    QString("Failed to initialize processor: %1").arg(info.name));
             }
         }
     }
     
-    return !m_plugins.empty();
+    return !m_processors.empty();
 }
 
-void CPluginManager::UnloadPlugins()
+void CProcessingCoordinator::ShutdownProcessors()
 {
     if (m_loggerRef.IsValid()) {
-        m_loggerRef->LogMessage("Unloading plugins...");
+        m_loggerRef->LogMessage("Shutting down processors...");
     }
     
     // Shutdown in reverse order
-    for (auto it = m_plugins.rbegin(); it != m_plugins.rend(); ++it) {
-        if (it->initialized && it->pluginPtr) {
-            it->pluginPtr->Shutdown();
+    for (auto it = m_processors.rbegin(); it != m_processors.rend(); ++it) {
+        if (it->initialized && it->processorPtr) {
+            it->processorPtr->Shutdown();
             
             if (m_loggerRef.IsValid()) {
                 m_loggerRef->LogMessage(
-                    QString("Unloaded plugin: %1").arg(it->name));
+                    QString("Shutdown processor: %1").arg(it->name));
             }
         }
     }
     
-    m_plugins.clear();
+    m_processors.clear();
 }
 
-void CPluginManager::ExecutePlugins()
+bool CProcessingCoordinator::ProcessData(const QVariant& data)
 {
-    for (const auto& info : m_plugins) {
-        if (info.initialized && info.pluginPtr) {
+    bool allSuccess = true;
+    
+    for (const auto& info : m_processors) {
+        if (info.initialized && info.processorPtr) {
             try {
-                info.pluginPtr->Execute();
+                if (!info.processorPtr->Process(data)) {
+                    allSuccess = false;
+                    if (m_loggerRef.IsValid()) {
+                        m_loggerRef->LogError(
+                            QString("Processor %1 failed").arg(info.name));
+                    }
+                }
             }
             catch (const std::exception& e) {
+                allSuccess = false;
                 if (m_loggerRef.IsValid()) {
                     m_loggerRef->LogError(
-                        QString("Plugin %1 execution failed: %2")
+                        QString("Processor %1 threw exception: %2")
                             .arg(info.name)
                             .arg(e.what()));
                 }
             }
         }
     }
+    
+    return allSuccess;
 }
 
-int CPluginManager::GetPluginCount() const
+int CProcessingCoordinator::GetProcessorCount() const
 {
-    return static_cast<int>(m_plugins.size());
+    return static_cast<int>(m_processors.size());
 }
 
-IPlugin* CPluginManager::GetPlugin(int index) const
+IDataProcessor* CProcessingCoordinator::GetProcessor(int index) const
 {
-    if (index >= 0 && index < static_cast<int>(m_plugins.size())) {
-        return m_plugins[index].pluginPtr;
+    if (index >= 0 && index < static_cast<int>(m_processors.size())) {
+        return m_processors[index].processorPtr;
     }
     return nullptr;
 }
 
-IPlugin* CPluginManager::FindPlugin(const QString& name) const
+IDataProcessor* CProcessingCoordinator::FindProcessor(const QString& name) const
 {
-    for (const auto& info : m_plugins) {
+    for (const auto& info : m_processors) {
         if (info.name == name) {
-            return info.pluginPtr;
+            return info.processorPtr;
         }
     }
     return nullptr;
 }
 ```
 
-### Example Plugin Implementation
+### Example Processor Implementation
 
 ```cpp
-// CDataProcessorPlugin.h
+// CImageFilterProcessor.h
 #include <icomp/CComponentBase.h>
-#include "IPlugin.h"
+#include "IDataProcessor.h"
 
-class CDataProcessorPlugin: 
+class CImageFilterProcessor: 
     public icomp::CComponentBase,
-    public IPlugin
+    public IDataProcessor
 {
 public:
     typedef icomp::CComponentBase BaseClass;
     
-    I_BEGIN_COMPONENT(CDataProcessorPlugin);
-        I_REGISTER_INTERFACE(IPlugin);
+    I_BEGIN_COMPONENT(CImageFilterProcessor);
+        I_REGISTER_INTERFACE(IDataProcessor);
         
-        I_ASSIGN(m_nameAttr, "PluginName", "Plugin name", 
-                 false, QByteArray("DataProcessor"));
-        I_ASSIGN(m_versionAttr, "PluginVersion", "Plugin version",
-                 false, QByteArray("1.0.0"));
-        I_ASSIGN(m_enabledAttr, "Enabled", "Enable plugin", 
+        I_ASSIGN(m_nameAttr, "ProcessorName", "Processor name", 
+                 true, QByteArray("ImageFilter"));
+        I_ASSIGN(m_versionAttr, "ProcessorVersion", "Processor version",
+                 true, QByteArray("1.0.0"));
+        I_ASSIGN(m_enabledAttr, "Enabled", "Enable processor", 
                  true, true);
     I_END_COMPONENT;
     
-    // IPlugin implementation
-    virtual QString GetPluginName() const override;
-    virtual QString GetPluginVersion() const override;
+    // IDataProcessor implementation
+    virtual QString GetProcessorName() const override;
+    virtual QString GetProcessorVersion() const override;
     virtual bool Initialize() override;
     virtual void Shutdown() override;
-    virtual void Execute() override;
+    virtual bool Process(const QVariant& data) override;
     
 private:
     I_ATTR(QByteArray, m_nameAttr);
@@ -279,49 +288,51 @@ private:
     I_ATTR(bool, m_enabledAttr);
 };
 
-// CDataProcessorPlugin.cpp
-QString CDataProcessorPlugin::GetPluginName() const
+// CImageFilterProcessor.cpp
+QString CImageFilterProcessor::GetProcessorName() const
 {
     return QString::fromUtf8(*m_nameAttr);
 }
 
-QString CDataProcessorPlugin::GetPluginVersion() const
+QString CImageFilterProcessor::GetProcessorVersion() const
 {
     return QString::fromUtf8(*m_versionAttr);
 }
 
-bool CDataProcessorPlugin::Initialize()
+bool CImageFilterProcessor::Initialize()
 {
-    qDebug() << "Initializing" << GetPluginName();
+    qDebug() << "Initializing" << GetProcessorName();
     return true;
 }
 
-void CDataProcessorPlugin::Shutdown()
+void CImageFilterProcessor::Shutdown()
 {
-    qDebug() << "Shutting down" << GetPluginName();
+    qDebug() << "Shutting down" << GetProcessorName();
 }
 
-void CDataProcessorPlugin::Execute()
+bool CImageFilterProcessor::Process(const QVariant& data)
 {
     if (*m_enabledAttr) {
-        qDebug() << "Executing" << GetPluginName();
-        // Do work...
+        qDebug() << "Processing data with" << GetProcessorName();
+        // Perform image filtering...
+        return true;
     }
+    return false;
 }
 ```
 
 ### Configuration
 
 ```xml
-<Element Id="PluginSystem" PackageId="SystemPck" ComponentId="PluginManager">
+<Element Id="ProcessingSystem" PackageId="ProcessingPck" ComponentId="ProcessingCoordinator">
     <Data IsEnabled="true">
         <AttributeInfoMap>
-            <AttributeInfo Id="Plugins" Type="MultiFactory">
+            <AttributeInfo Id="Processors" Type="MultiFactory">
                 <Data IsEnabled="true">
                     <Values>
-                        <Value>DataProcessorPlugin</Value>
-                        <Value>ImageFilterPlugin</Value>
-                        <Value>ReportGeneratorPlugin</Value>
+                        <Value>ImageFilterProcessor</Value>
+                        <Value>DataValidatorProcessor</Value>
+                        <Value>ResultAggregatorProcessor</Value>
                     </Values>
                 </Data>
             </AttributeInfo>
@@ -332,6 +343,8 @@ void CDataProcessorPlugin::Execute()
     </Data>
 </Element>
 ```
+
+**Key Point**: This demonstrates component composition where all processors are equal components coordinated by another component. There's no "host application with plugins" - it's a composition of components where each has a specific role.
 
 ---
 
@@ -1190,7 +1203,7 @@ void CComponentTest::testWithMock()
 
 These examples demonstrate:
 
-1. **Plugin System**: Extensible architecture with dynamic plugin loading
+1. **Data Processing Pipeline**: Component composition where multiple processor components are coordinated by another component
 2. **Service Locator**: Centralized service access and dependency management
 3. **Observer Pattern**: Event-driven communication between components
 4. **Configuration System**: Hierarchical configuration with persistence
