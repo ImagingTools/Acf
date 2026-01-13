@@ -405,7 +405,7 @@ istd::TUniqueInterfacePtr<istd::IChangeable> CGraphData2d::CloneMe(Compatibility
 {
 	istd::TUniqueInterfacePtr<CGraphData2d> resultPtr(new CGraphData2d());
 	if (resultPtr->CopyFrom(*this, mode)){
-		return istd::TUniqueInterfacePtr<istd::IChangeable>(resultPtr.PopPtr());
+		return resultPtr;
 	}
 	return istd::TUniqueInterfacePtr<istd::IChangeable>();
 }
