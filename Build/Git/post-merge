@@ -1,0 +1,34 @@
+#!/bin/sh
+
+echo "Running post-merge hook..."
+
+# Получаем абсолютный путь к корню репозитория
+REPO_ROOT="$(pwd)"
+BAT_FILE="$REPO_ROOT/Build/Git/GenerateVersion.bat"
+
+echo "Looking for: $BAT_FILE"
+
+# Проверяем существование файла
+if [ -f "$BAT_FILE" ]; then
+    echo "Executing $BAT_FILE..."
+    
+    # Переходим в корень репозитория (на всякий случай)
+    cd "$REPO_ROOT"
+    
+    # Запускаем .bat файл
+    cmd //c "$BAT_FILE"
+    
+    # Или так:
+    # "$BAT_FILE"
+    
+    # Или так (если проблемы с путями):
+    # cd "$REPO_ROOT/Build/Git"
+    # ./GenerateVersion.bat
+else
+    echo "Error: $BAT_FILE not found"
+    echo "Checking Build/Git directory:"
+    ls -la "Build/Git/" 2>/dev/null || echo "Directory Build/Git does not exist"
+    exit 1
+fi
+
+echo "Post-merge hook completed"
