@@ -36,12 +36,12 @@ static const iser::CArchiveTag s_xAxisLabelTag("XAxisLabel", "X-axis label", ise
 static const iser::CArchiveTag s_yAxisLabelTag("YAxisLabel", "Y-axis label", iser::CArchiveTag::TT_LEAF);
 static const iser::CArchiveTag s_legendVisibleTag("LegendVisible", "Legend visibility flag", iser::CArchiveTag::TT_LEAF);
 static const iser::CArchiveTag s_gridVisibleTag("GridVisible", "Grid visibility flag", iser::CArchiveTag::TT_LEAF);
-static const iser::CArchiveTag s_curvesTag("Curves", "Curves collection", iser::CArchiveTag::TT_NODE);
-static const iser::CArchiveTag s_curveTag("Curve", "Curve data", iser::CArchiveTag::TT_NODE);
+static const iser::CArchiveTag s_curvesTag("Curves", "Curves collection", iser::CArchiveTag::TT_GROUP);
+static const iser::CArchiveTag s_curveTag("Curve", "Curve data", iser::CArchiveTag::TT_GROUP);
 static const iser::CArchiveTag s_curveNameTag("Name", "Curve name", iser::CArchiveTag::TT_LEAF);
 static const iser::CArchiveTag s_curveColorTag("Color", "Curve color", iser::CArchiveTag::TT_LEAF);
-static const iser::CArchiveTag s_pointsTag("Points", "Points collection", iser::CArchiveTag::TT_NODE);
-static const iser::CArchiveTag s_pointTag("Point", "Point data", iser::CArchiveTag::TT_NODE);
+static const iser::CArchiveTag s_pointsTag("Points", "Points collection", iser::CArchiveTag::TT_GROUP);
+static const iser::CArchiveTag s_pointTag("Point", "Point data", iser::CArchiveTag::TT_GROUP);
 static const iser::CArchiveTag s_pointXTag("X", "Point X coordinate", iser::CArchiveTag::TT_LEAF);
 static const iser::CArchiveTag s_pointYTag("Y", "Point Y coordinate", iser::CArchiveTag::TT_LEAF);
 
