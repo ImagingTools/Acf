@@ -1,5 +1,4 @@
-#ifndef i2d_CTubePolyline_included
-#define i2d_CTubePolyline_included
+#pragma once
 
 
 // ACF includes
@@ -30,7 +29,6 @@ public:
 } // namespace i2d
 
 
-#endif // !i2d_CTubePolyline_included
 
 
 

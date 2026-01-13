@@ -1,5 +1,4 @@
-#ifndef i2d_CAffine2d_included
-#define i2d_CAffine2d_included
+#pragma once
 
 
 // ACF includes
@@ -361,6 +360,5 @@ inline const CAffine2d& CAffine2d::GetIdentity()
 } // namespace i2d
 
 
-#endif // !i2d_CAffine2d_included
 
 

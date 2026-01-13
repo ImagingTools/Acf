@@ -1,5 +1,4 @@
-#ifndef iqtgui_TRestorableGuiWrap_included
-#define iqtgui_TRestorableGuiWrap_included
+#pragma once
 
 
 // ACF includes
@@ -30,8 +29,8 @@ protected:
 	virtual void OnSaveSettings(QSettings& settings) const = 0;
 
 	// pseudo-reimplemented (iqtgui::CGuiComponentBase)
-	virtual bool CreateGui(QWidget* parentPtr);
-	virtual bool DestroyGui();
+	virtual bool CreateGui(QWidget* parentPtr) override;
+	virtual bool DestroyGui() override;
 
 protected:
 	I_REF(iqt::ISettingsProvider, m_settingsProviderCompPtr);
@@ -67,6 +66,5 @@ bool TRestorableGuiWrap<Gui>::DestroyGui()
 } // namespace iqtgui
 
 
-#endif // !iqtgui_TRestorableGuiWrap_included
 
 

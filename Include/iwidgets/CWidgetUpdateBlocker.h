@@ -1,5 +1,4 @@
-#ifndef iwidgets_CWidgetUpdateBlocker_included
-#define iwidgets_CWidgetUpdateBlocker_included
+#pragma once
 
 
 // Qt includes
@@ -49,6 +48,5 @@ inline CWidgetUpdateBlocker::~CWidgetUpdateBlocker()
 } // namespace iwidgets
 
 
-#endif // !iwidgets_CWidgetUpdateBlocker_included
 
 

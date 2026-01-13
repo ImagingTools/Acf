@@ -1,5 +1,4 @@
-#ifndef ibase_CModelBinderComp_included
-#define ibase_CModelBinderComp_included
+#pragma once
 
 
 // ACF includes
@@ -54,6 +53,5 @@ private:
 } // namespace ibase
 
 
-#endif // !ibase_CModelBinderComp_included
 
 

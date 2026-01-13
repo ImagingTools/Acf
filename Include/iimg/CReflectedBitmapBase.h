@@ -1,5 +1,4 @@
-#ifndef iimg_CReflectedBitmapBase_included
-#define iimg_CReflectedBitmapBase_included
+#pragma once
 
 
 // ACF includes
@@ -51,6 +50,5 @@ private:
 } // namespace iimg
 
 
-#endif // !iimg_CReflectedBitmapBase_included
 
 

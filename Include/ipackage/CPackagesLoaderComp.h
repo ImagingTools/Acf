@@ -1,5 +1,4 @@
-#ifndef ipackage_CPackagesLoaderComp_included
-#define ipackage_CPackagesLoaderComp_included
+#pragma once
 
 
 // Qt includes
@@ -154,6 +153,5 @@ private:
 } // namespace ipackage
 
 
-#endif // !ipackage_CPackagesLoaderComp_included
 
 

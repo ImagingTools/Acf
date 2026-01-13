@@ -1,5 +1,4 @@
-#ifndef iqtgui_CGuiComponentBase_included
-#define iqtgui_CGuiComponentBase_included
+#pragma once
 
 
 // Qt includes
@@ -190,6 +189,5 @@ inline QWidget* CGuiComponentBase::GetWidget() const
 } // namespace iqtgui
 
 
-#endif // !iqtgui_CGuiComponentBase_included
 
 

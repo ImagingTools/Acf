@@ -1,5 +1,4 @@
-#ifndef iser_CWriteArchiveBase_included
-#define iser_CWriteArchiveBase_included
+#pragma once
 
 
 // ACF includes
@@ -59,6 +58,5 @@ private:
 } // namespace iser
 
 
-#endif // !iser_CWriteArchiveBase_included
 
 

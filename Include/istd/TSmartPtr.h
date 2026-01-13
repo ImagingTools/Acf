@@ -1,5 +1,4 @@
-#ifndef istd_TSmartPtr_included
-#define istd_TSmartPtr_included
+#pragma once
 
 
 // STD includes
@@ -94,6 +93,5 @@ inline bool TSmartPtr<Type>::operator==(const TSmartPtr<Type>& other) const
 } // namespace istd
 
 
-#endif // !istd_TSmartPtr_included
 
 

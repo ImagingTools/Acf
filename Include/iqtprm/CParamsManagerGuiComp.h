@@ -1,5 +1,4 @@
-#ifndef iqtprm_CParamsManagerGuiComp_included
-#define iqtprm_CParamsManagerGuiComp_included
+#pragma once
 
 
 // ACF includes
@@ -26,8 +25,8 @@ public:
 
 protected:
 	// reimplemented (CParamsManagerGuiCompBase)
-	virtual imod::IObserver* GetObserverPtr(const iprm::IParamsSet* paramsSetPtr) const;
-	virtual iqtgui::IGuiObject* GetEditorGuiPtr(const iprm::IParamsSet* paramsSetPtr) const;
+	virtual imod::IObserver* GetObserverPtr(const iprm::IParamsSet* paramsSetPtr) const override;
+	virtual iqtgui::IGuiObject* GetEditorGuiPtr(const iprm::IParamsSet* paramsSetPtr) const override;
 	
 	// reimplemented (iqtgui::CComponentBase)
 	virtual void OnGuiCreated() override;
@@ -42,6 +41,5 @@ private:
 } // namespace iqtprm
 
 
-#endif // !iqtprm_CParamsManagerGuiComp_included
 
 

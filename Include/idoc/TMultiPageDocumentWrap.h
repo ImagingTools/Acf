@@ -1,5 +1,4 @@
-#ifndef idoc_TMultiPageDocumentWrap_included
-#define idoc_TMultiPageDocumentWrap_included
+#pragma once
 
 
 // Qt includes
@@ -359,6 +358,5 @@ typedef idoc::TMultiPageDocumentWrap<idoc::IMultiPageDocument> CMultiPageDocumen
 } // namespace idoc
 
 
-#endif // !idoc_TMultiPageDocumentWrap_included
 
 

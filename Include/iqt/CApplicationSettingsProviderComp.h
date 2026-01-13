@@ -29,7 +29,7 @@ public:
 	I_END_COMPONENT;
 
 	// reimplemented (iqt::ISettingsProvider)
-	virtual QSettings& GetSettings() const;
+	virtual QSettings& GetSettings() const override;
 
 protected:
 	// reimplemented (icomp::CComponentBase)

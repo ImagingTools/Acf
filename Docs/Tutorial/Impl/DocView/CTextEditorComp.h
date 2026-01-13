@@ -1,5 +1,4 @@
-#ifndef CTextEditorComp_included
-#define CTextEditorComp_included
+#pragma once
 
 
 // Qt includes
@@ -59,7 +58,7 @@ protected:
 
 	// reimplemented (iqtgui::CGuiComponentBase)
 	virtual void OnGuiCreated() override;
-	virtual void OnRetranslate();
+	virtual void OnRetranslate() override;
 
 private:
 	iqtgui::CHierarchicalCommand m_rootCommand;
@@ -69,6 +68,5 @@ private:
 };
 
 
-#endif // !CTextEditorComp_included
 
 

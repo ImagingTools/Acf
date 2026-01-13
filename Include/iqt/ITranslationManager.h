@@ -1,5 +1,4 @@
-#ifndef iqt_ITranslationManager_included
-#define iqt_ITranslationManager_included
+#pragma once
 
 
 // ACF includes
@@ -53,6 +52,5 @@ public:
 } // namespace iqt
 
 
-#endif // !iqt_ITranslationManager_included
 
 

@@ -1,5 +1,4 @@
-#ifndef icomp_IComponentInterfaceExtractor_included
-#define icomp_IComponentInterfaceExtractor_included
+#pragma once
 
 
 // ACF includes
@@ -33,6 +32,5 @@ public:
 } // namespace icomp
 
 
-#endif // !icomp_IComponentInterfaceExtractor_included
 
 

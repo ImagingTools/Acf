@@ -1,5 +1,4 @@
-#ifndef iview_CScreenTransformationProviderComp_included
-#define iview_CScreenTransformationProviderComp_included
+#pragma once
 
 
 // ACF includes
@@ -32,8 +31,5 @@ private:
 
 
 } // namespace iview
-
-
-#endif // !iview_CColorSchemaComp_included
 
 

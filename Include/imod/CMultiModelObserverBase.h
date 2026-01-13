@@ -1,5 +1,4 @@
-#ifndef imod_CMultiModelObserverBase_included
-#define imod_CMultiModelObserverBase_included
+#pragma once
 
 
 // Qt includes
@@ -87,5 +86,4 @@ private:
 } // namespace imod
 
 
-#endif // !imod_CMultiModelObserverBase_included
 

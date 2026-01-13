@@ -1,5 +1,4 @@
-#ifndef ilog_CLoggerBase_included
-#define ilog_CLoggerBase_included
+#pragma once
 
 
 // ACF includes
@@ -15,17 +14,87 @@ class IMessageConsumer;
 
 
 /**
-	Base class implementing interface istd::ILogger sending log messages over ilog::IMessageConsumer.
-	Access to interface ilog::IMessageConsumer must be registered by user.
-	To register it use interface ilog::ILoggable implemented by this wrapper.
-
+	Base class for objects that need logging functionality.
+	
+	CLoggerBase provides a complete implementation of logging capabilities by combining
+	istd::ILogger (for sending messages) with ilog::ILoggable (for attaching a message
+	consumer). It offers convenience methods for sending messages at different severity
+	levels and supports "send once" variants to prevent log spam.
+	
+	This class is designed to be used as a base class for components and other objects
+	that need to output log messages. It doesn't own the message consumer; that must
+	be provided via SetLogPtr().
+	
+	The class inherits ILogger as protected, so only derived classes can use the
+	logging methods. This encourages encapsulation and prevents external code from
+	arbitrarily logging through an object.
+	
 	\ingroup Logging
+	
+	\par Severity Levels
+	Messages can be sent at four severity levels:
+	- **Info**: Informational messages (IC_INFO)
+	- **Warning**: Warning messages (IC_WARNING)
+	- **Error**: Error messages (IC_ERROR)
+	- **Critical**: Critical failure messages (IC_CRITICAL)
+	
+	\par Send Once Feature
+	Each severity level has a "send once" variant that ensures a message with a
+	specific ID is only sent the first time. Subsequent calls with the same ID
+	are ignored. This prevents flooding the log with repeated messages from loops
+	or frequently-called functions.
+	
+	\par Message Decoration
+	The DecorateMessage() virtual method can be overridden to add custom prefixes,
+	timestamps, or other formatting to messages before they're sent.
+	
+	\par Usage Example
+	\code{.cpp}
+	class MyComponent : public ilog::CLoggerBase
+	{
+	public:
+	    void ProcessData() {
+	        SendInfoMessage(1001, "Processing started", "MyComponent");
+	        
+	        if (data.IsInvalid()) {
+	            SendErrorMessage(1002, "Invalid data detected", "MyComponent");
+	            return;
+	        }
+	        
+	        // This will only be logged once per component instance
+	        SendWarningMessageOnce(1003, 
+	            "Using fallback algorithm", 
+	            "MyComponent::ProcessData");
+	        
+	        SendInfoMessage(1004, "Processing completed", "MyComponent");
+	    }
+	};
+	
+	// Usage
+	MyComponent component;
+	istd::TSharedInterfacePtr<ilog::IMessageConsumer> logger = GetLogger();
+	component.SetLogPtr(logger.get());
+	component.ProcessData(); // Messages sent to logger
+	\endcode
+	
+	\par Thread Safety
+	The class itself is not thread-safe. However, if the attached message consumer
+	handles messages asynchronously (like CLogCompBase does), the logging methods
+	can be safely called from multiple threads.
+	
+	\see ilog::ILoggable, ilog::IMessageConsumer, ilog::TLoggerCompWrap, istd::ILogger
 */
 class CLoggerBase:
 			virtual public ILoggable,
 			virtual protected istd::ILogger
 {
 public:
+	/**
+		Default constructor.
+		
+		Creates a logger with no message consumer attached. Call SetLogPtr()
+		to attach a consumer before logging.
+	*/
 	CLoggerBase();
 
 	// reimplemented (ilog::ILoggable)
@@ -188,6 +257,5 @@ private:
 } // namespace ilog
 
 
-#endif // !ilog_CLoggerBase_included
 
 

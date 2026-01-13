@@ -1,0 +1,36 @@
+/**
+\page page_iqt2d iqt2d - Qt 2D Graphics Library
+
+\section intro_sec Introduction
+
+The iqt2d library provides Qt widgets for editing and displaying 2D geometry parameters
+including transformations and geometric shapes.
+
+\section features_sec Key Features
+
+- **Geometry Parameter Widgets**: GUI widgets for 2D geometry parameters
+- **Affine Transformation GUI**: Visual editing of affine transformations
+- **Shape Parameter Editors**: Editors for geometric shape parameters
+- **Qt Designer Support**: UI files for designer integration
+
+\section architecture_sec Architecture
+
+Key components:
+
+- **iqt2d::CAffineTransformationParamsGuiComp**: Affine transformation parameter GUI
+- **iqt2d::CAnnulusParamsGuiComp**: Annulus parameter GUI
+
+\section dependencies Dependencies
+
+- **istd**: Standard utilities and interfaces
+- **icomp**: Component framework
+- **i2d**: 2D graphics utilities
+- **iprm**: Parameter management
+- **Qt Widgets**: Qt GUI framework
+
+\section see_also See Also
+
+- iqt2d::CAffineTransformationParamsGuiComp
+- iqt2d::CAnnulusParamsGuiComp
+
+*/

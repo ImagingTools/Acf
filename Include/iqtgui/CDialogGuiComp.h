@@ -1,5 +1,4 @@
-#ifndef iqtgui_CDialogGuiComp_included
-#define iqtgui_CDialogGuiComp_included
+#pragma once
 
 
 // ACF includes
@@ -72,7 +71,7 @@ public:
 	CDialogGuiComp();
 
 	// reimplemented (iqtgui::IDialog)
-	virtual int ExecuteDialog(IGuiObject* parentPtr);
+	virtual int ExecuteDialog(IGuiObject* parentPtr) override;
 
 protected:
 	virtual iqtgui::CGuiComponentDialog* CreateComponentDialog(int buttons, IGuiObject* parentPtr) const;
@@ -144,5 +143,4 @@ private:
 } // namespace iqtgui
 
 
-#endif // !iqtgui_CDialogGuiComp_included
 

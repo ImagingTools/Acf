@@ -1,5 +1,4 @@
-#ifndef istd_CIdManipBase_included
-#define istd_CIdManipBase_included
+#pragma once
 
 
 // Qt includes
@@ -33,6 +32,5 @@ public:
 }//namespace istd
 
 
-#endif // !istd_CIdManipBase_included
 
 

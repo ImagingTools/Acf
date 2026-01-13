@@ -1,5 +1,4 @@
-#ifndef iview_IMouseActionObserver_included
-#define iview_IMouseActionObserver_included
+#pragma once
 
 
 // Qt includes
@@ -43,6 +42,5 @@ public:
 } // namespace iview
 
 
-#endif // !iview_IMouseActionObserver_included
 
 

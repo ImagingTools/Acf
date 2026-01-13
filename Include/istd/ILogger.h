@@ -1,5 +1,4 @@
-#ifndef istd_ILogger_included
-#define istd_ILogger_included
+#pragma once
 
 
 // Qt includes
@@ -95,6 +94,5 @@ inline void ILogger::DecorateMessage(
 } // namespace istd
 
 
-#endif // !istd_ILogger_included
 
 

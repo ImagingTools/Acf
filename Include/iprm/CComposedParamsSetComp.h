@@ -1,5 +1,4 @@
-#ifndef iprm_CComposedParamsSetComp_included
-#define iprm_CComposedParamsSetComp_included
+#pragma once
 
 
 // ACF includes
@@ -68,4 +67,3 @@ private:
 } // namespace iprm
 
 
-#endif // !iprm_CComposedParamsSetComp_included

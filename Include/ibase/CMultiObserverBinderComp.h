@@ -1,5 +1,4 @@
-#ifndef ibase_CMultiObserverBinderComp_included
-#define ibase_CMultiObserverBinderComp_included
+#pragma once
 
 
 // ACF includes
@@ -70,7 +69,6 @@ private:
 } // namespace ibase
 
 
-#endif // !ibase_CMultiObserverBinderComp_included
 
 
 

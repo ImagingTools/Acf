@@ -1,5 +1,4 @@
-#ifndef ibase_TVersionInfoBase_included
-#define ibase_TVersionInfoBase_included
+#pragma once
 
 
 // ACF includes
@@ -106,6 +105,5 @@ typedef TVersionInfoBase<ilog::CLoggerComponentBase> CVersionInfoLoggerCompBase;
 } // namespace ibase
 
 
-#endif // !ibase_TVersionInfoBase_included
 
 

@@ -1,5 +1,4 @@
-#ifndef iprm_CIdParamComp_included
-#define iprm_CIdParamComp_included
+#pragma once
 
 
 // ACF includes
@@ -41,6 +40,5 @@ private:
 } // namespace iprm
 
 
-#endif // !iprm_CIdParamComp_included
 
 

@@ -1,5 +1,4 @@
-#ifndef iimg_TPixelConversion_included
-#define iimg_TPixelConversion_included
+#pragma once
 
 
 // ACF includes
@@ -151,6 +150,5 @@ typedef TPixelConversion<float, float> CFloatFloatPixelConversion;
 } // namespace iimg
 
 
-#endif // !iimg_TPixelConversion_included
 
 

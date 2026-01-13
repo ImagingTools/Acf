@@ -1,5 +1,4 @@
-#ifndef iview_IViewLayer_included
-#define iview_IViewLayer_included
+#pragma once
 
 
 // ACF includes
@@ -130,6 +129,5 @@ public:
 } // namespace iview
 
 
-#endif // !iview_IViewLayer_included
 
 

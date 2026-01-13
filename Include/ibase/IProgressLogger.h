@@ -1,5 +1,4 @@
-#ifndef ibase_IProgressLogger_included
-#define ibase_IProgressLogger_included
+#pragma once
 
 
 // ACF includes
@@ -32,6 +31,5 @@ public:
 } // namespace ibase
 
 
-#endif // !ibase_IProgressLogger_included
 
 

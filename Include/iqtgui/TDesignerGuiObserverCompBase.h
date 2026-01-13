@@ -1,5 +1,4 @@
-#ifndef iqtgui_TDesignerGuiObserverCompBase_included
-#define iqtgui_TDesignerGuiObserverCompBase_included
+#pragma once
 
 
 // Qt includes
@@ -102,6 +101,5 @@ void TDesignerGuiObserverCompBase<UI, Model, WidgetType>::OnComponentCreated()
 } // namespace iqtgui
 
 
-#endif // !iqtgui_TDesignerGuiObserverCompBase_included
 
 

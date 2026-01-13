@@ -1,5 +1,4 @@
-#ifndef ipackage_CRegistriesManagerComp_included
-#define ipackage_CRegistriesManagerComp_included
+#pragma once
 
 
 // Qt includes
@@ -123,6 +122,5 @@ private:
 } // namespace ipackage
 
 
-#endif // !ipackage_CRegistriesManagerComp_included
 
 

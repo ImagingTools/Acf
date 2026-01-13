@@ -1,5 +1,4 @@
-#ifndef i2d_CDirection2d_included
-#define i2d_CDirection2d_included
+#pragma once
 
 
 namespace i2d
@@ -115,6 +114,5 @@ private:
 } // namespace i2d
 
 
-#endif // !i2d_CDirection2d_included
 
 

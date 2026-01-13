@@ -1,5 +1,4 @@
-#ifndef iqtgui_TGuiObserverWrap_included
-#define iqtgui_TGuiObserverWrap_included
+#pragma once
 
 
 // Qt includes
@@ -448,6 +447,5 @@ TGuiObserverWrap<Gui, Observer>::UpdateBlocker::~UpdateBlocker()
 } // namespace iqtgui
 
 
-#endif // !iqtgui_TGuiObserverWrap_included
 
 

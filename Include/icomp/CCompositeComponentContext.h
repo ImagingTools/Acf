@@ -1,5 +1,4 @@
-#ifndef icomp_CCompositeComponentContext_included
-#define icomp_CCompositeComponentContext_included
+#pragma once
 
 
 #include <icomp/CComponentContext.h>
@@ -62,6 +61,5 @@ inline const IComponentEnvironmentManager& CCompositeComponentContext::GetEnviro
 } // namespace icomp
 
 
-#endif // !icomp_CCompositeComponentContext_included
 
 

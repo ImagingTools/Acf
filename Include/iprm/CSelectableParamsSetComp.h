@@ -1,5 +1,4 @@
-#ifndef iprm_CSelectableParamsSetComp_included
-#define iprm_CSelectableParamsSetComp_included
+#pragma once
 
 
 #include <icomp/CComponentBase.h>
@@ -68,6 +67,5 @@ private:
 } // namespace iprm
 
 
-#endif // !iprm_CSelectableParamsSetComp_included
 
 

@@ -1,5 +1,4 @@
-#ifndef IAb_included
-#define IAb_included
+#pragma once
 
 
 // Qt includes
@@ -62,6 +61,5 @@ public:
 };
 
 
-#endif // !IAb_included
 
 

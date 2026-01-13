@@ -1,5 +1,4 @@
-#ifndef iview_CParallelogramShape_included
-#define iview_CParallelogramShape_included
+#pragma once
 
 
 // ACF includes
@@ -227,6 +226,5 @@ inline const i2d::CVector2d* CParallelogramShape::GetNodes() const
 } // namespace iview
 
 
-#endif // !iview_CParallelogramShape_included
 
 

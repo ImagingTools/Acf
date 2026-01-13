@@ -1,5 +1,4 @@
-#ifndef iimg_CScanlineMask_included
-#define iimg_CScanlineMask_included
+#pragma once
 
 
 // STL includes
@@ -340,6 +339,5 @@ uint qHash(const CScanlineMask& key, uint seed = 0);
 } // namespace iimg
 
 
-#endif // !iimg_CScanlineMask_included
 
 

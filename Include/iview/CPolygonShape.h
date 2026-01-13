@@ -1,5 +1,4 @@
-#ifndef iview_CPolygonShape_included
-#define iview_CPolygonShape_included
+#pragma once
 
 
 // Qt includes
@@ -134,6 +133,5 @@ inline void CPolygonShape::SetAlwaysMovable(bool state)
 } // namespace iview
 
 
-#endif // !iview_CPolygonShape_included
 
 

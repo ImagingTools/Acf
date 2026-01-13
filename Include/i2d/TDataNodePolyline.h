@@ -1,5 +1,4 @@
-#ifndef i2d_TDataNodePolyline_included
-#define i2d_TDataNodePolyline_included
+#pragma once
 
 
 // STL includes
@@ -198,6 +197,5 @@ bool TDataNodePolyline<NodeData>::CopyFrom(const IChangeable& object, Compatibil
 } // namespace i2d
 
 
-#endif // !i2d_TDataNodePolyline_included
 
 

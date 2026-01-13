@@ -1,5 +1,4 @@
-#ifndef iloggui_CLogGuiComp_included
-#define iloggui_CLogGuiComp_included
+#pragma once
 
 
 // Qt includes
@@ -27,7 +26,41 @@ namespace iloggui
 
 
 /**
-	Message container displaying messages as log list.
+	Interactive log viewer component with filtering and commands.
+	
+	CLogGuiComp is the primary log viewing component in the iloggui library. It
+	provides a full-featured Qt widget for displaying, filtering, searching, and
+	exporting log messages.
+	
+	The component combines:
+	- QTreeWidget-based display with multiple columns (icon, time, source, message)
+	- Message storage via CMessageContainer
+	- Filter controls (info/warning/error modes)
+	- Text search
+	- Command integration for toolbars/menus
+	- Export functionality
+	- Diagnostic mode support
+	
+	For detailed documentation including configuration, usage examples, and
+	integration patterns, see the \ref page_iloggui "iloggui library documentation".
+	
+	\ingroup iloggui
+	
+	\par Quick Example
+	\code{.cpp}
+	// Create log GUI component
+	istd::TSharedInterfacePtr<iloggui::CLogGuiComp> logGui(
+	    new iloggui::CLogGuiComp);
+	
+	// Get widget for display
+	QWidget* widget = logGui->GetWidget();
+	mainWindow->setCentralWidget(widget);
+	
+	// Add messages
+	logGui->AddMessage(messagePtr);
+	\endcode
+	
+	\see \ref page_iloggui, ilog::CMessageContainer, iqtgui::TDesignerGuiCompBase
 */
 class CLogGuiComp:
 			public iqtgui::TDesignerGuiCompBase<Ui::CLogGuiComp>,
@@ -37,7 +70,10 @@ class CLogGuiComp:
 	Q_OBJECT
 
 public:
+	/// Base class typedef for GUI functionality
 	typedef iqtgui::TDesignerGuiCompBase<Ui::CLogGuiComp> BaseClass;
+	
+	/// Base class typedef for container functionality
 	typedef ilog::CMessageContainer BaseClass2;
 
 	enum ColumnType
@@ -238,5 +274,4 @@ private:
 } // namespace iloggui
 
 
-#endif // !iloggui_CLogGuiComp_included
 

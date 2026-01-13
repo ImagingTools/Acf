@@ -1,5 +1,4 @@
-#ifndef iprm_COptionsManager_included
-#define iprm_COptionsManager_included
+#pragma once
 
 
 // Qt includes
@@ -125,6 +124,5 @@ private:
 } // namespace iprm
 
 
-#endif // !iprm_COptionsManager_included
 
 

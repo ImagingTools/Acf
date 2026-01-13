@@ -1,5 +1,4 @@
-#ifndef iqtgui_IGuiApplication_included
-#define iqtgui_IGuiApplication_included
+#pragma once
 
 
 #include <ibase/IApplication.h>
@@ -27,6 +26,5 @@ public:
 } // namespace iqtgui
 
 
-#endif // !iqtgui_IGuiApplication_included
 
 

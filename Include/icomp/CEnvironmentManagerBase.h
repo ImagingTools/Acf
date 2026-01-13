@@ -1,5 +1,4 @@
-#ifndef icomp_CEnvironmentManagerBase_included
-#define icomp_CEnvironmentManagerBase_included
+#pragma once
 
 
 // ACF includes
@@ -40,6 +39,5 @@ public:
 } // namespace icomp
 
 
-#endif // !icomp_CEnvironmentManagerBase_included
 
 

@@ -19,6 +19,10 @@ namespace i2d
 {
 
 
+/**
+	Represents a smooth cubic spline curve passing through a set of control points.
+	The spline is composed of polynomial segments connecting polyline nodes.
+*/
 class CSpline: public i2d::CPolyline
 {
 public:

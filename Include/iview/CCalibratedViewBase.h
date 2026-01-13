@@ -1,5 +1,4 @@
-#ifndef iview_CCalibratedViewBase_included
-#define iview_CCalibratedViewBase_included
+#pragma once
 
 
 // Qt includes
@@ -282,7 +281,6 @@ inline const i2d::ICalibration2d* CCalibratedViewBase::GetCalibration() const
 } // namespace iview
 
 
-#endif // !iview_CCalibratedViewBase_included
 
 
 

@@ -1,5 +1,4 @@
-#ifndef i2d_CParallelogram_included
-#define i2d_CParallelogram_included
+#pragma once
 
 
 
@@ -105,6 +104,5 @@ inline void CParallelogram::SetDeformMatrix(const i2d::CMatrix2d& deform)
 } // namespace i2d
 
 
-#endif // !i2d_CParallelogram_included
 
 

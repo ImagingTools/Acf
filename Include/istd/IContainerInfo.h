@@ -1,5 +1,4 @@
-#ifndef istd_IContainerInfo_included
-#define istd_IContainerInfo_included
+#pragma once
 
 
 // ACF includes
@@ -36,5 +35,4 @@ public:
 } // namespace istd
 
 
-#endif // istd_IContainerInfo_included
 

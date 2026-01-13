@@ -1,5 +1,4 @@
-#ifndef iprm_CDelegatedParamsSetComp_included
-#define iprm_CDelegatedParamsSetComp_included
+#pragma once
 
 
 // ACF includes
@@ -42,7 +41,7 @@ public:
 	virtual iser::ISerializable* GetEditableParameter(const QByteArray& id) override;
 
 	// reimplemented (iser::IObject)
-	virtual QByteArray GetFactoryId() const;
+	virtual QByteArray GetFactoryId() const override;
 
 	// reimplemented (iser::ISerializable)
 	virtual bool Serialize(iser::IArchive& archive) override;
@@ -65,6 +64,5 @@ private:
 } // namespace iprm
 
 
-#endif // !iprm_CDelegatedParamsSetComp_included
 
 

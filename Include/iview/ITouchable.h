@@ -1,5 +1,4 @@
-#ifndef iview_ITouchable_included
-#define iview_ITouchable_included
+#pragma once
 
 
 #include <istd/IPolymorphic.h>
@@ -81,6 +80,5 @@ public:
 } // namespace iview
 
 
-#endif // !iview_ITouchable_included
 
 

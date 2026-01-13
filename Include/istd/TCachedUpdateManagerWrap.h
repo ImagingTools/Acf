@@ -1,5 +1,4 @@
-#ifndef istd_TCachedUpdateManagerWrap_included
-#define istd_TCachedUpdateManagerWrap_included
+#pragma once
 
 
 #include <istd/IChangeable.h>
@@ -136,6 +135,5 @@ TCachedUpdateManagerWrap<Base>::TCachedUpdateManagerWrap()
 } // namespace istd
 
 
-#endif // !istd_TCachedUpdateManagerWrap_included
 
 

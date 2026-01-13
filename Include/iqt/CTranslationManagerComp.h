@@ -1,5 +1,4 @@
-#ifndef iqt_CTranslationManagerComp_included
-#define iqt_CTranslationManagerComp_included
+#pragma once
 
 
 // Qt includes
@@ -61,20 +60,20 @@ public:
 	virtual void OnComponentDestroyed() override;
 
 	// reimplemented (iqt::ITranslationManager)
-	virtual const iprm::IOptionsList& GetLanguagesInfo() const;
-	virtual int GetCurrentLanguageIndex() const;
-	virtual const QTranslator* GetLanguageTranslator(int languageIndex) const;
-	virtual const ITranslationManager* GetSlaveTranslationManager() const;
-	virtual void SwitchLanguage(int languageIndex);
-	virtual void SetSystemLanguage();
+	virtual const iprm::IOptionsList& GetLanguagesInfo() const override;
+	virtual int GetCurrentLanguageIndex() const override;
+	virtual const QTranslator* GetLanguageTranslator(int languageIndex) const override;
+	virtual const ITranslationManager* GetSlaveTranslationManager() const override;
+	virtual void SwitchLanguage(int languageIndex) override;
+	virtual void SetSystemLanguage() override;
 
 	// reimplemented (iprm::IOptionsList)
-	virtual int GetOptionsFlags() const;
-	virtual int GetOptionsCount() const;
-	virtual QString GetOptionName(int index) const;
-	virtual QString GetOptionDescription(int index) const;
-	virtual QByteArray GetOptionId(int index) const;
-	virtual bool IsOptionEnabled(int index) const;
+	virtual int GetOptionsFlags() const override;
+	virtual int GetOptionsCount() const override;
+	virtual QString GetOptionName(int index) const override;
+	virtual QString GetOptionDescription(int index) const override;
+	virtual QByteArray GetOptionId(int index) const override;
+	virtual bool IsOptionEnabled(int index) const override;
 
 protected:
 	virtual void LoadTranslations();
@@ -136,6 +135,5 @@ protected:
 } // namespace iqt
 
 
-#endif // !iqt_CTranslationManagerComp_included
 
 

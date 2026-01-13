@@ -1,5 +1,4 @@
-#ifndef iwidgets_CTreeWidgetFilter_included
-#define iwidgets_CTreeWidgetFilter_included
+#pragma once
 
 
 // Qt includes
@@ -46,6 +45,5 @@ private:
 } // namespace iwidgets
 
 
-#endif // !iwidgets_CTreeWidgetFilter_included
 
 

@@ -1,5 +1,4 @@
-#ifndef iqtgui_CIconProviderComp_included
-#define iqtgui_CIconProviderComp_included
+#pragma once
 
 
 // ACF includes
@@ -24,8 +23,8 @@ public:
 	I_END_COMPONENT;
 
 	// reimplemented (iqtgui::IIconProvider)
-	virtual int GetIconCount() const;
-	virtual QIcon GetIcon(int index) const;
+	virtual int GetIconCount() const override;
+	virtual QIcon GetIcon(int index) const override;
 
 private:
 	I_MULTIATTR(QString, m_iconFilesAttrPtr);
@@ -36,5 +35,4 @@ private:
 } // namespace iqtgui
 
 
-#endif // !iqtgui_CIconProviderComp_included
 

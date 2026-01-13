@@ -1,5 +1,4 @@
-#ifndef iview_CShapeStatusInfoComp_included
-#define iview_CShapeStatusInfoComp_included
+#pragma once
 
 
 // ACF includes
@@ -24,8 +23,8 @@ public:
 	I_END_COMPONENT;
 
 	// reimplemented (iview::IShapeStatusInfo)
-	virtual QString GetInfoText() const;
-	virtual void SetInfoText(const QString& infoText);
+	virtual QString GetInfoText() const override;
+	virtual void SetInfoText(const QString& infoText) override;
 
 private:
 	QString m_infoText;
@@ -35,6 +34,5 @@ private:
 } // namespace iview
 
 
-#endif // !iview_CShapeStatusInfoComp_included
 
 

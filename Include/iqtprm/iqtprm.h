@@ -1,5 +1,4 @@
-#ifndef iqtprm_included
-#define iqtprm_included
+#pragma once
 
 
 #include <iqt2d/iqt2d.h>
@@ -21,6 +20,5 @@ namespace iqtprm
 } // namespace iqtprm
 
 
-#endif // !iqtprm_included
 
 

@@ -1,0 +1,38 @@
+/**
+\page page_i3d i3d - 3D Graphics Utilities Library
+
+\section intro_sec Introduction
+
+The i3d library provides 3D geometric primitives and transformations. It extends the 2D capabilities
+to three dimensions with support for 3D vectors, boxes, lines, and affine transformations.
+
+\section features_sec Key Features
+
+- **3D Primitives**: Vectors, boxes, lines, and other 3D geometric objects
+- **3D Transformations**: Affine transformations in 3D space
+- **Vector Operations**: Dot product, cross product, normalization
+- **Bounding Volumes**: 3D bounding box support
+- **Serialization**: Full serialization support for all 3D types
+
+\section architecture_sec Architecture
+
+Key components:
+
+- **i3d::CVector3d**: 3D vector
+- **i3d::CBox3d**: 3D bounding box
+- **i3d::CLine3d**: 3D line segment
+- **i3d::CAffine3d**: 3D affine transformation
+
+\section dependencies Dependencies
+
+- **istd**: Standard utilities and interfaces
+- **iser**: Serialization framework
+- **imath**: Mathematical utilities
+
+\section see_also See Also
+
+- i3d::CVector3d
+- i3d::CBox3d
+- i3d::CAffine3d
+
+*/

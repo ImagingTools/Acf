@@ -1,5 +1,4 @@
-#ifndef iview_CPolypointShape_included
-#define iview_CPolypointShape_included
+#pragma once
 
 
 #include <iview/CShapeBase.h>
@@ -36,6 +35,5 @@ protected:
 } // namespace iview
 
 
-#endif // !iview_CPolypointShape_included
 
 

@@ -1,5 +1,4 @@
-#ifndef icomp_CRegistryElement_included
-#define icomp_CRegistryElement_included
+#pragma once
 
 
 // Qt includes
@@ -53,6 +52,5 @@ private:
 } // namespace icomp
 
 
-#endif // !icomp_CRegistryElement_included
 
 

@@ -1,5 +1,4 @@
-#ifndef iqtgui_CCommandsToolBarGuiComp_included
-#define iqtgui_CCommandsToolBarGuiComp_included
+#pragma once
 
 
 // ACF includes
@@ -38,7 +37,7 @@ public:
 
 protected:
 	// reimplemented (imod::TSingleModelObserverBase)
-	virtual void OnUpdate(const istd::IChangeable::ChangeSet& changeSet);
+	virtual void OnUpdate(const istd::IChangeable::ChangeSet& changeSet) override;
 
 	// reimplemented (CGuiComponentBase)
 	virtual void OnGuiCreated() override;
@@ -59,6 +58,5 @@ private:
 } // namespace iqtgui
 
 
-#endif // !iqtgui_CCommandsToolBarGuiComp_included
 
 

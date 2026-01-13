@@ -1,5 +1,4 @@
-#ifndef iview_CCircleShape_included
-#define iview_CCircleShape_included
+#pragma once
 
 
 #include <iview/CPinShape.h>
@@ -55,6 +54,5 @@ protected:
 } // namespace iview
 
 
-#endif // !iview_CCircleShape_included
 
 

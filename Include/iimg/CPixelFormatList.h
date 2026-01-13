@@ -1,5 +1,4 @@
-#ifndef iimg_CPixelFormatList_included
-#define iimg_CPixelFormatList_included
+#pragma once
 
 #include <QtCore/QSet>
 
@@ -42,6 +41,5 @@ private:
 } // namespace iimg
 
 
-#endif // !iimg_CPixelFormatList_included
 
 

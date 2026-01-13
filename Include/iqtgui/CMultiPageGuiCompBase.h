@@ -1,5 +1,4 @@
-#ifndef iqtgui_CMultiPageGuiCompBase_included
-#define iqtgui_CMultiPageGuiCompBase_included
+#pragma once
 
 
 // Qt includes
@@ -149,7 +148,7 @@ protected:
 	virtual void OnGuiCreated() override;
 	virtual void OnGuiDestroyed() override;
 	virtual void OnGuiRetranslate() override;
-	virtual void OnTryClose(bool* ignoredPtr = NULL);
+	virtual void OnTryClose(bool* ignoredPtr = NULL) override;
 
 	// reimplemented (icomp::CComponentBase)
 	virtual void OnComponentCreated() override;
@@ -239,6 +238,5 @@ private:
 } // namespace iqtgui
 
 
-#endif // !iqtgui_CMultiPageGuiCompBase_included
 
 

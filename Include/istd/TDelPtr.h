@@ -1,5 +1,4 @@
-#ifndef istd_TDelPtr_included
-#define istd_TDelPtr_included
+#pragma once
 
 
 // ACF includes
@@ -233,6 +232,5 @@ void TDelPtr<Type, Accessor>::Detach()
 } // namespace istd
 
 
-#endif // !istd_TDelPtr_included
 
 

@@ -1,5 +1,4 @@
-#ifndef iimg_TMultiPageBitmap_included
-#define iimg_TMultiPageBitmap_included
+#pragma once
 
 
 // ACF includes
@@ -68,6 +67,5 @@ typedef TMultiPageBitmap<CGeneralBitmap> CGeneralMultiPageBitmap;
 } // namespace iimg
 
 
-#endif // !iimg_TMultiPageBitmap_included
 
 

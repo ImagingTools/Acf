@@ -1,0 +1,36 @@
+/**
+\page page_itest itest - Testing Framework
+
+\section intro_sec Introduction
+
+The itest library provides a Qt Test-based testing framework for unit testing ACF components
+and applications.
+
+\section features_sec Key Features
+
+- **Test Execution**: Standard test executor infrastructure
+- **Test Instances**: Test instance management and running
+- **Qt Test Integration**: Built on Qt Test framework
+- **Component Testing**: Support for testing ACF components
+
+\section architecture_sec Architecture
+
+Key components:
+
+- **itest::ITestExecutor**: Test executor interface
+- **itest::ITestInstance**: Test instance interface
+- **itest::CStandardTestExecutor**: Standard test executor implementation
+
+\section dependencies Dependencies
+
+- **istd**: Standard utilities and interfaces
+- **icomp**: Component framework
+- **Qt Test**: Qt testing framework
+
+\section see_also See Also
+
+- itest::ITestExecutor
+- itest::ITestInstance
+- itest::CStandardTestExecutor
+
+*/

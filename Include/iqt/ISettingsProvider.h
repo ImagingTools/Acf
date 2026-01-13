@@ -1,5 +1,4 @@
-#ifndef iqt_ISettingsProvider_included
-#define iqt_ISettingsProvider_included
+#pragma once
 
 
 // Qt includes
@@ -30,6 +29,5 @@ public:
 } // namespace iqt
 
 
-#endif // !iqt_ISettingsProvider_included
 
 

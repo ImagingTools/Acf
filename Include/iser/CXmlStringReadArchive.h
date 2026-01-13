@@ -1,5 +1,4 @@
-#ifndef iser_CXmlStringReadArchive_included
-#define iser_CXmlStringReadArchive_included
+#pragma once
 
 
 // Qt includes
@@ -35,5 +34,4 @@ private:
 } // namespace iser
 
 
-#endif // !iser_CXmlStringReadArchive_included
 

@@ -1,5 +1,4 @@
-#ifndef ifilegui_CFileDialogSerializerComp_included
-#define ifilegui_CFileDialogSerializerComp_included
+#pragma once
 
 
 // Qt includes
@@ -107,5 +106,4 @@ private:
 } // namespace ifilegui
 
 
-#endif // !ifilegui_CFileDialogSerializerComp_included
 

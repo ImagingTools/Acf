@@ -1,5 +1,4 @@
-#ifndef iqtgui_CDialogApplicationComp_included
-#define iqtgui_CDialogApplicationComp_included
+#pragma once
 
 
 // ACF includes
@@ -25,8 +24,8 @@ public:
 	I_END_COMPONENT;
 
 	// reimplemented (ibase::IApplication)
-	virtual int Execute(int argc, char** argv);
-	virtual QString GetHelpText() const;
+	virtual int Execute(int argc, char** argv) override;
+	virtual QString GetHelpText() const override;
 
 private:
 	I_REF(IDialog, m_mainDialogCompPtr);
@@ -36,5 +35,4 @@ private:
 } // namespace iqtgui
 
 
-#endif // iqtgui_CDialogApplicationComp_included
 

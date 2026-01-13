@@ -1,5 +1,4 @@
-#ifndef IAConstraints_included
-#define IAConstraints_included
+#pragma once
 
 
 // ACF includes
@@ -20,6 +19,5 @@ public:
 };
 
 
-#endif // !IAConstraints_included
 
 

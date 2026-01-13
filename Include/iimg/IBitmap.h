@@ -1,5 +1,4 @@
-#ifndef iimg_IBitmap_included
-#define iimg_IBitmap_included
+#pragma once
 
 
 // ACF includes
@@ -190,6 +189,5 @@ typedef istd::TSharedInterfacePtr<iimg::IBitmap> IBitmapSharedPtr;
 } // namespace iimg
 
 
-#endif // !iimg_IBitmap_included
 
 

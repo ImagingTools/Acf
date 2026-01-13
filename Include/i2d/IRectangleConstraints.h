@@ -1,5 +1,4 @@
-#ifndef i2d_IRectangleConstraints_included
-#define i2d_IRectangleConstraints_included
+#pragma once
 
 
 // ACF includes
@@ -10,10 +9,22 @@ namespace i2d
 {
 
 
+/**
+	Interface for defining constraints on rectangle dimensions.
+	Provides methods to retrieve valid ranges for width and height.
+*/
 class IRectangleConstraints: virtual public istd::IPolymorphic
 {
 public:
+	/**
+		Get the valid range for rectangle width.
+		\return	Range of acceptable width values.
+	*/
 	virtual istd::CIntRange GetWidthRange() const = 0;
+	/**
+		Get the valid range for rectangle height.
+		\return	Range of acceptable height values.
+	*/
 	virtual istd::CIntRange GetHeightRange() const = 0;
 };
 
@@ -21,4 +32,3 @@ public:
 } // namespace i2d
 
 
-#endif // !i2d_IRectangleConstraints_included

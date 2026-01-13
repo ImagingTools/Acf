@@ -1,5 +1,4 @@
-#ifndef iqtgui_CHierarchicalCommand_included
-#define iqtgui_CHierarchicalCommand_included
+#pragma once
 
 
 // Qt includes
@@ -53,7 +52,7 @@ public:
 	void SetGroupId(int groupId);
 
 	/**
-		Reset list of childs.
+		Reset list of children.
 	*/
 	void ResetChilds();
 
@@ -148,6 +147,5 @@ private:
 } // namespace iqtgui
 
 
-#endif // !iqtgui_CHierarchicalCommand_included
 
 

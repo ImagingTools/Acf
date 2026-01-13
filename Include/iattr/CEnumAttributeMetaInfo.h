@@ -1,5 +1,4 @@
-#ifndef iattr_CEnumAttributeMetaInfo_included
-#define iattr_CEnumAttributeMetaInfo_included
+#pragma once
 
 
 // Qt includes
@@ -75,6 +74,5 @@ private:
 } // namespace iattr
 
 
-#endif // !iattr_CEnumAttributeMetaInfo_included
 
 

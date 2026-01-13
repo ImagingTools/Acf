@@ -1,5 +1,4 @@
-#ifndef istd_TIHierarchical_included
-#define istd_TIHierarchical_included
+#pragma once
 
 
 // ACF includes
@@ -41,7 +40,7 @@ public:
 	*/
 	virtual int GetHierarchicalFlags() const = 0;
 	/**
-		Get number of childs.
+		Get number of children.
 		For single direction graph when only parent connection is stored it will be always 0.
 		To check if this feature is supported check HF_CHILDS_SUPPORTED in flags.
 	*/
@@ -65,5 +64,4 @@ typedef TIHierarchical<IPolymorphic> IHierarchical;
 } // namespace istd
 
 
-#endif // !istd_TIHierarchical_included
 

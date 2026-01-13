@@ -1,5 +1,4 @@
-#ifndef iview_IVisualisable_included
-#define iview_IVisualisable_included
+#pragma once
 
 
 #include <istd/IPolymorphic.h>
@@ -61,6 +60,5 @@ public:
 } // namespace iview
 
 
-#endif // !iview_IVisualisable_included
 
 

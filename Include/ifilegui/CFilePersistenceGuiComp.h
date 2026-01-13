@@ -1,5 +1,4 @@
-#ifndef ifilegui_CFilePersistenceGuiComp_included
-#define ifilegui_CFilePersistenceGuiComp_included
+#pragma once
 
 
 // ACF includes
@@ -46,6 +45,5 @@ private:
 } // namespace ifilegui
 
 
-#endif // !ifilegui_CFilePersistenceGuiComp_included
 
 

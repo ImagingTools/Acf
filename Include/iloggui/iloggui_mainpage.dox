@@ -1,0 +1,549 @@
+/**
+\page page_iloggui iloggui - Logging GUI Components
+
+\section intro_sec Introduction
+
+The iloggui library provides Qt-based GUI components for visualizing and interacting with log messages 
+from the ilog logging system. It offers rich visual display widgets, message box integration, and 
+interactive log viewers with filtering, searching, and export capabilities. The library seamlessly 
+integrates with the ACF component framework and Qt's widget system.
+
+\section features_sec Key Features
+
+- **Interactive Log Viewer**: QTreeWidget-based log display with multi-column layout
+- **Severity Filtering**: Visual buttons for filtering by info/warning/error levels
+- **Text Search**: Real-time search and filtering of log messages by content
+- **Message Export**: Export log messages to files for analysis
+- **Message Boxes**: Display critical messages in modal/non-modal dialog boxes
+- **Color-Coded Display**: Icons and colors indicate message severity
+- **Timestamp Display**: Configurable timestamp formatting for messages
+- **Diagnostic Mode**: Optional diagnostic message collection and display
+- **Text-Based Log View**: Rich text display with formatted message output
+- **Message Container Integration**: Observes and displays messages from ilog::IMessageContainer
+- **Commands Integration**: Provides toolbar/menu commands for log operations
+- **Hierarchical Messages**: Support for hierarchical message organization
+- **Auto-Update**: Real-time display updates when messages arrive
+
+\section architecture_sec Architecture
+
+The iloggui library contains three main GUI components:
+
+\subsection log_gui_comp CLogGuiComp
+
+The primary log viewing component with full interactive features:
+
+- **iloggui::CLogGuiComp**: Complete log viewer with filtering and commands
+  - Inherits from iqtgui::TDesignerGuiCompBase and ilog::CMessageContainer
+  - Implements ICommandsProvider for toolbar/menu integration
+  - Uses QTreeWidget for message display with columns:
+    - Icon column (severity indicator)
+    - Time column (message timestamp)
+    - Source column (message origin)
+    - Message column (message text)
+  - Filter modes: Info (all), Warning (warning+error+critical), Error (error+critical)
+  - Interactive features:
+    - Clear messages action
+    - Export to file action
+    - Diagnostic mode toggle
+    - Text filter with real-time search
+    - Column sorting
+  - Configuration attributes:
+    - MaxMessageCount: Limit on stored messages
+    - DefaultMode: Initial filter mode (0=info, 1=warning, 2=error)
+    - ShowLogDescription: Toggle log description visibility
+    - ShowMessageTextFilter: Toggle text filter widget
+    - ShowPanel: Toggle filter panel visibility
+    - AutoUpdateVisualStatus: Auto-update visual indicators
+    - TimeFormat: Custom timestamp format string
+    - AllowDiagnosticMessages: Enable diagnostic message collection
+  - Diagnostic state: Provides IEnableableParam interface for diagnostic control
+  - Slave consumer: Can delegate messages to another consumer
+  - File export: Integrated with ifile::IFilePersistence for export
+
+\subsection message_box_comp CMessageBoxComp
+
+Component for displaying messages in standard Qt message boxes:
+
+- **iloggui::CMessageBoxComp**: Modal message box display
+  - Inherits from QObject, icomp::CComponentBase, and ilog::IMessageConsumer
+  - Displays messages in QMessageBox dialogs
+  - Automatic message queuing for sequential display
+  - Thread-safe message addition with QMutex
+  - Severity-based icons:
+    - Information icon for IC_INFO and IC_NONE
+    - Warning icon for IC_WARNING
+    - Critical icon for IC_ERROR and IC_CRITICAL
+  - Batches multiple messages into single dialog
+  - Creates detailed text from multiple queued messages
+  - Modal display (blocks until user acknowledges)
+
+\subsection text_log_gui_comp CTextLogGuiComp
+
+Text-based log viewer with rich formatting:
+
+- **iloggui::CTextLogGuiComp**: Rich text log display
+  - Inherits from iqtgui::TDesignerGuiObserverCompBase
+  - Observes ilog::IMessageContainer for changes
+  - Uses QTextEdit for formatted message display
+  - Displays messages in table format with:
+    - Category icon column
+    - Timestamp column
+    - Source column
+    - Message text column
+  - Filter controls:
+    - Severity level filter (info/warning/error/all)
+    - Source filter (text matching)
+    - Message text filter (content search)
+  - Configuration:
+    - IgnoreIdsList: Message IDs to exclude from display
+  - Real-time update when container changes
+  - Formatted text with custom table styling
+  - Read-only display (no editing)
+
+\section usage_sec Usage Examples
+
+\subsection example_log_viewer Creating a Log Viewer Window
+
+\par Configuration in .acc file
+\code{.xml}
+<Element Id="MainLog" ComponentId="ilog::CLogComp">
+    <AttributeInfo Id="MaxMessageCount"><Data IsEnabled="true" Value="5000"/></AttributeInfo>
+</Element>
+
+<Element Id="LogGuiWidget" ComponentId="iloggui::CLogGuiComp">
+    <AttributeInfo Id="MaxMessageCount"><Data IsEnabled="true" Value="5000"/></AttributeInfo>
+    <AttributeInfo Id="DefaultMode"><Data IsEnabled="true" Value="0"/></AttributeInfo>
+    <AttributeInfo Id="ShowMessageTextFilter"><Data IsEnabled="true" Value="true"/></AttributeInfo>
+    <AttributeInfo Id="TimeFormat"><Data IsEnabled="true" Value="hh:mm:ss.zzz"/></AttributeInfo>
+</Element>
+
+<!-- Connect MainLog to forward messages to GUI -->
+<Element Id="MainLog">
+    <Reference Id="SlaveMessageConsumer" Value="LogGuiWidget"/>
+</Element>
+\endcode
+
+\par Programmatic Usage (with simulation layer)
+\code{.cpp}
+#include <icomp/TSimComponentWrap.h>
+#include <iloggui/CLogGuiComp.h>
+#include <ilog/CLogComp.h>
+#include <ilog/CMessage.h>
+#include <QtWidgets/QMainWindow>
+
+// Create main window
+QMainWindow* mainWindow = new QMainWindow;
+
+// Create log component (stores messages)
+icomp::TSimSharedComponentPtr<ilog::CLogComp> logComp;
+logComp->SetIntAttr("MaxMessageCount", 5000);
+logComp->InitComponent();
+
+// Create log GUI component
+icomp::TSimSharedComponentPtr<iloggui::CLogGuiComp> logGui;
+logGui->SetIntAttr("MaxMessageCount", 5000);
+logGui->SetIntAttr("DefaultMode", 0);
+logGui->SetBoolAttr("ShowMessageTextFilter", true);
+logGui->SetStringAttr("TimeFormat", "hh:mm:ss.zzz");
+logGui->InitComponent();
+
+// Set log GUI as central widget
+QWidget* logWidget = logGui->GetWidget();
+mainWindow->setCentralWidget(logWidget);
+
+// Connect log component to GUI (logGui is a CMessageContainer)
+logComp->SetRef("SlaveMessageConsumer", logGui);
+
+// Add test messages
+logComp->AddMessage(istd::TSharedInterfacePtr<ilog::CMessage>(
+    new ilog::CMessage(istd::IInformationProvider::IC_INFO,
+                      1, "Application started", "Main")));
+
+mainWindow->show();
+\endcode
+
+\subsection example_message_box Simple Message Box Display
+
+\par Configuration in .acc file
+\code{.xml}
+<Element Id="ErrorDialog" ComponentId="iloggui::CMessageBoxComp"/>
+\endcode
+
+\par Programmatic Usage (with simulation layer)
+\code{.cpp}
+#include <icomp/TSimComponentWrap.h>
+#include <iloggui/CMessageBoxComp.h>
+#include <ilog/CMessage.h>
+
+// Create message box component
+icomp::TSimSharedComponentPtr<iloggui::CMessageBoxComp> messageBox;
+messageBox->InitComponent();
+
+// Create a critical error message
+istd::TSharedInterfacePtr<ilog::CMessage> errorMsg(
+    new ilog::CMessage(
+        istd::IInformationProvider::IC_CRITICAL,
+        5001,
+        "Failed to connect to database",
+        "DatabaseManager"
+    )
+);
+
+// Display in message box (modal, blocks until user clicks OK)
+messageBox->AddMessage(errorMsg);
+
+// Multiple messages can be queued and shown together
+istd::TSharedInterfacePtr<ilog::CMessage> errorMsg2(
+    new ilog::CMessage(
+        istd::IInformationProvider::IC_ERROR,
+        5002,
+        "Network connection lost",
+        "NetworkManager"
+    )
+);
+messageBox->AddMessage(errorMsg2);
+// Both messages shown in single dialog with detailed text
+\endcode
+// Both messages shown in single dialog with detailed text
+\endcode
+
+\subsection example_integrated_logging Integrated Application Logging
+
+\code{.cpp}
+#include <ilog/CLogComp.h>
+#include <ilog/CConsoleLogComp.h>
+#include <iloggui/CLogGuiComp.h>
+#include <iloggui/CMessageBoxComp.h>
+#include <ilog/CLogRouterComp.h>
+
+// Create central log storage
+istd::TSharedInterfacePtr<ilog::CLogComp> centralLog(
+    new ilog::CLogComp);
+
+// Create console log for debugging
+istd::TSharedInterfacePtr<ilog::CConsoleLogComp> consoleLog(
+    new ilog::CConsoleLogComp);
+centralLog->SetSlaveConsumer(consoleLog.get());
+
+// Create GUI log viewer
+istd::TSharedInterfacePtr<iloggui::CLogGuiComp> logViewer(
+    new iloggui::CLogGuiComp);
+// logViewer stores its own copy of messages
+
+// Create message box for critical errors
+istd::TSharedInterfacePtr<iloggui::CMessageBoxComp> errorBox(
+    new iloggui::CMessageBoxComp);
+
+// Create router to send only errors to message box
+istd::TSharedInterfacePtr<ilog::CLogRouterComp> errorRouter(
+    new ilog::CLogRouterComp);
+// Configure:
+//   InputMessageContainer -> logViewer
+//   OutputMessageConsumer -> errorBox
+//   MinimalCategory -> IC_ERROR
+
+// Now all messages go to:
+// 1. Console (via centralLog slave)
+// 2. GUI viewer (explicitly sent)
+// 3. Message box (if error/critical, via router)
+
+// Application sends all messages to central log
+centralLog->AddMessage(/* message */);
+
+// And also to GUI viewer
+logViewer->AddMessage(/* message */);
+\endcode
+
+\subsection example_text_log_viewer Text-Based Log Viewer
+
+\code{.cpp}
+#include <iloggui/CTextLogGuiComp.h>
+#include <ilog/CLogComp.h>
+
+// Create log component (message container)
+icomp::TSimSharedComponentPtr<ilog::CLogComp> logComp;
+logComp->InitComponent();
+
+// Create text log viewer
+istd::TSharedInterfacePtr<iloggui::CTextLogGuiComp> textLogViewer(
+    new iloggui::CTextLogGuiComp);
+
+// Configure to ignore certain message IDs
+// In .acc: IgnoreIdsList: [1000, 1001, 1002]
+
+// Connect viewer to observe log container
+// Set as model in component configuration:
+//   Model -> logComp (IMessageContainer interface)
+
+// Add widget to layout
+QWidget* logWidget = textLogViewer->GetWidget();
+layout->addWidget(logWidget);
+
+// Messages added to logComp will automatically appear in viewer
+logComp->AddMessage(istd::TSharedInterfacePtr<ilog::CMessage>(
+    new ilog::CMessage(istd::IInformationProvider::IC_INFO,
+                      2001, "Data loaded successfully", "DataLoader")));
+
+// User can filter by:
+// - Severity level (dropdown)
+// - Source text (text field)
+// - Message content (text field)
+\endcode
+
+\subsection example_log_commands Using Log Commands
+
+\code{.cpp}
+#include <iloggui/CLogGuiComp.h>
+#include <ibase/ICommandsProvider.h>
+#include <QtWidgets/QToolBar>
+
+// Create log GUI component
+istd::TSharedInterfacePtr<iloggui::CLogGuiComp> logGui(
+    new iloggui::CLogGuiComp);
+
+// Get commands from component
+const ibase::IHierarchicalCommand* commands = logGui->GetCommands();
+
+// Create toolbar and populate with log commands
+QToolBar* toolbar = new QToolBar("Log Tools");
+
+// Commands include:
+// - Info filter toggle (show all messages)
+// - Warning filter toggle (show warnings and above)
+// - Error filter toggle (show errors only)
+// - Clear messages action
+// - Export messages action
+// - Diagnostic mode toggle
+
+// Commands are organized in groups:
+// - Filter commands (info/warning/error)
+// - Edit commands (clear/export)
+
+// Commands are checkable for filter modes
+// Commands have icons and tooltips
+// Commands are connected to internal slots
+\endcode
+
+\subsection example_export_log Exporting Log Messages
+
+\code{.cpp}
+#include <iloggui/CLogGuiComp.h>
+#include <ifile/IFilePersistence.h>
+
+// Create log GUI with file exporter
+istd::TSharedInterfacePtr<iloggui::CLogGuiComp> logGui(
+    new iloggui::CLogGuiComp);
+
+// Configure file exporter component
+// In .acc: Exporter -> fileExporter (IFilePersistence implementation)
+
+// User can click Export action in GUI
+// This triggers file save dialog
+// Messages are saved in format supported by exporter
+// Typically text or XML format
+
+// Programmatic export (if needed):
+ilog::IMessageContainer::Messages messages = logGui->GetMessages();
+// Process messages for export...
+\endcode
+
+\subsection example_diagnostic_mode Diagnostic Mode
+
+\code{.cpp}
+#include <iloggui/CLogGuiComp.h>
+#include <iprm/IEnableableParam.h>
+
+// Create log GUI with diagnostics enabled
+istd::TSharedInterfacePtr<iloggui::CLogGuiComp> logGui(
+    new iloggui::CLogGuiComp);
+
+// Configure: AllowDiagnosticMessages: true
+
+// Access diagnostic state (subelement)
+iprm::IEnableableParam* diagState = 
+    logGui->GetSubElement<iprm::IEnableableParam>("DiagnosticState");
+
+// Check if diagnostic mode is enabled
+bool diagEnabled = diagState->IsEnabled();
+
+// Enable/disable diagnostic mode
+diagState->SetEnabled(true);
+
+// When enabled, diagnostic messages are collected and displayed
+// When disabled, they are filtered out
+
+// User can toggle via diagnostic action in GUI
+\endcode
+
+\subsection example_custom_time_format Custom Time Formatting
+
+\code{.cpp}
+#include <iloggui/CLogGuiComp.h>
+
+// Create log GUI
+istd::TSharedInterfacePtr<iloggui::CLogGuiComp> logGui(
+    new iloggui::CLogGuiComp);
+
+// Configure time format (Qt date/time format string)
+// In .acc or programmatically:
+// TimeFormat: "yyyy-MM-dd HH:mm:ss.zzz"  // Full date and time with milliseconds
+// TimeFormat: "HH:mm:ss"                  // Time only
+// TimeFormat: "dd.MM HH:mm"               // Day, month, hours, minutes
+// TimeFormat: ""                          // Empty = default format
+
+// Time format applies to all messages displayed in log viewer
+\endcode
+
+\subsection example_hierarchical_logs Hierarchical Log Containers
+
+\code{.cpp}
+#include <iloggui/CLogGuiComp.h>
+#include <ilog/CLogComp.h>
+
+// Create main log
+istd::TSharedInterfacePtr<iloggui::CLogGuiComp> mainLog(
+    new iloggui::CLogGuiComp);
+
+// Create subsystem logs
+icomp::TSimSharedComponentPtr<ilog::CLogComp> networkLog;
+networkLog->InitComponent();
+icomp::TSimSharedComponentPtr<ilog::CLogComp> databaseLog;
+databaseLog->InitComponent();
+
+// Add as child containers
+mainLog->AddChildContainer(networkLog.get());
+mainLog->AddChildContainer(databaseLog.get());
+
+// mainLog->GetMessages() now returns messages from:
+// - Main log itself
+// - Network log
+// - Database log
+
+// Useful for organizing messages by subsystem while displaying all together
+\endcode
+
+\section threading_sec Thread Safety
+
+The iloggui components handle threading as follows:
+
+- **CLogGuiComp**: Uses Qt signals/slots for thread-safe message addition
+  - Messages can be added from any thread
+  - GUI updates always occur on GUI thread via EmitAddMessage signal
+  - Message container operations are protected
+
+- **CMessageBoxComp**: Uses QMutex to protect message queue
+  - Messages can be added from any thread
+  - Dialog display occurs on GUI thread via EmitAddMessage signal
+  - Queue access is synchronized
+
+- **CTextLogGuiComp**: Inherits model-observer thread safety
+  - Updates triggered by model change notifications
+  - GUI updates occur on GUI thread
+  - Observer pattern handles thread transitions
+
+\warning Always create GUI components on the main GUI thread. Only message addition (AddMessage) 
+is thread-safe; other operations should be performed on the GUI thread.
+
+\section styling_sec Visual Styling
+
+The iloggui components use standard Qt styling:
+
+\subsection icons Message Icons
+
+Icons indicate message severity:
+- **Info/None**: Information icon (blue "i")
+- **Warning**: Warning icon (yellow triangle with "!")
+- **Error**: Error icon (red "X")
+- **Critical**: Critical icon (red stop sign)
+
+Icons are platform-specific Qt standard pixmaps for consistent look.
+
+\subsection colors Color Coding
+
+CLogGuiComp uses color coding:
+- Info messages: Default color
+- Warning messages: Yellow/amber highlighting
+- Error messages: Red highlighting
+- Critical messages: Dark red highlighting
+
+Colors adapt to Qt style and platform theme.
+
+\section integration_sec ACF Component Integration
+
+The iloggui components integrate with ACF framework:
+
+- **Component References**: Use I_REF macros for dependencies
+  - SlaveMessageConsumer: Delegate messages
+  - Exporter: File export handler
+  - InputMessageContainer: Source for routing
+  - Model: Container to observe
+
+- **Component Attributes**: Use I_ATTR macros for configuration
+  - MaxMessageCount, DefaultMode, TimeFormat, etc.
+  - Serializable for persistence
+  - Observable for real-time updates
+
+- **Subelements**: CLogGuiComp provides DiagnosticState subelement
+  - Accessible as IEnableableParam
+  - Serializable and changeable
+  - Integrated with model system
+
+- **Interface Registration**: Implement standard ACF interfaces
+  - IMessageConsumer for receiving messages
+  - ICommandsProvider for toolbar/menu integration
+  - IMessageContainer for message storage
+
+\section dependencies_sec Dependencies
+
+The iloggui library depends on:
+- **ilog**: Logging framework (IMessageConsumer, IMessageContainer, CMessage, CMessageContainer)
+- **iqtgui**: Qt GUI framework (TDesignerGuiCompBase, CHierarchicalCommand, CGuiComponentBase)
+- **icomp**: Component framework (CComponentBase, IComponent)
+- **imod**: Model-observer (IModel, IObserver, CSingleModelObserverBase)
+- **iprm**: Parameters (IEnableableParam, CEnableableParam)
+- **ibase**: Base interfaces (ICommandsProvider, IHierarchicalCommand)
+- **ifile**: File operations (IFilePersistence)
+- **istd**: Standard utilities (IChangeable, smart pointers)
+- **Qt Widgets**: QTreeWidget, QTextEdit, QMessageBox, QAction, QIcon
+- **Qt Core**: QString, QDateTime, QVector, QMutex
+- **Qt GUI**: QIcon, QImage, QTextDocument
+
+\section best_practices_sec Best Practices
+
+-# **Use CLogGuiComp for Main Window**: Best for primary application log display
+-# **Use CMessageBoxComp for Critical Errors**: Alert users to critical issues immediately
+-# **Use CTextLogGuiComp for Read-Only Views**: Good for simple log display without interaction
+-# **Configure Maximum Messages**: Prevent memory issues in long-running applications
+-# **Set Appropriate Default Mode**: Start with appropriate filter level (errors for production)
+-# **Enable Text Filter**: Allow users to search log content
+-# **Provide Export Capability**: Let users save logs for support and debugging
+-# **Use Hierarchical Containers**: Organize logs by subsystem or component
+-# **Configure Time Format**: Match user locale and preferences
+-# **Integrate Commands**: Add log commands to main toolbar/menu for accessibility
+-# **Handle Message Overflow**: Configure MaxMessageCount and consider log rotation
+-# **Test Thread Safety**: Ensure messages from worker threads display correctly
+-# **Style Appropriately**: Use Qt stylesheets to match application theme
+-# **Provide Clear Action**: Make clear/export actions easily accessible
+-# **Consider Performance**: With many messages, filtering and scrolling may slow down
+
+\section see_also_sec See Also
+
+\subsection components_ref GUI Components
+- iloggui::CLogGuiComp
+- iloggui::CMessageBoxComp
+- iloggui::CTextLogGuiComp
+
+\subsection ilog_ref ilog Library
+- ilog::IMessageConsumer
+- ilog::IMessageContainer
+- ilog::CMessage
+- ilog::CMessageContainer
+- ilog::CLogComp
+
+\subsection qt_ref Qt Classes
+- QTreeWidget
+- QTextEdit
+- QMessageBox
+- QAction
+
+*/

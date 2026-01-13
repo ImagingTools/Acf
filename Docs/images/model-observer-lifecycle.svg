@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="500" viewBox="0 0 600 500">
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#333" />
+    </marker>
+  </defs>
+  
+  <!-- Title -->
+  <text x="300" y="30" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#333">
+    Model/Observer Lifecycle
+  </text>
+  
+  <!-- AttachObserver -->
+  <rect x="150" y="60" width="300" height="50" rx="5" fill="#e3f2fd" stroke="#1976d2" stroke-width="2"/>
+  <text x="300" y="90" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#333">AttachObserver(observer)</text>
+  
+  <!-- Arrow -->
+  <line x1="300" y1="110" x2="300" y2="150" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- OnModelAttached -->
+  <rect x="100" y="150" width="400" height="50" rx="5" fill="#c8e6c9" stroke="#388e3c" stroke-width="2"/>
+  <text x="300" y="175" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#333">observer→OnModelAttached</text>
+  <text x="300" y="192" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#666">(model, changeMask)</text>
+  <text x="520" y="175" font-family="Arial, sans-serif" font-size="11" fill="#388e3c">OBSERVER INIT</text>
+  
+  <!-- Arrow -->
+  <line x1="300" y1="200" x2="300" y2="270" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <text x="310" y="220" font-family="Arial, sans-serif" font-size="12" fill="#666">[Observer receives updates]</text>
+  <text x="310" y="240" font-family="Arial, sans-serif" font-size="12" fill="#666">[BeforeUpdate() / AfterUpdate()]</text>
+  
+  <!-- DetachObserver -->
+  <rect x="150" y="270" width="300" height="50" rx="5" fill="#e3f2fd" stroke="#1976d2" stroke-width="2"/>
+  <text x="300" y="300" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#333">DetachObserver(observer)</text>
+  
+  <!-- Arrow -->
+  <line x1="300" y1="320" x2="300" y2="360" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- OnModelDetached -->
+  <rect x="100" y="360" width="400" height="50" rx="5" fill="#ffccbc" stroke="#d84315" stroke-width="2"/>
+  <text x="300" y="390" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#333">observer→OnModelDetached(model)</text>
+  <text x="520" y="385" font-family="Arial, sans-serif" font-size="11" fill="#d84315">OBSERVER CLEANUP</text>
+  
+  <!-- Symmetric Pairs Box -->
+  <rect x="50" y="440" width="500" height="30" rx="3" fill="#fff3e0" stroke="#ff6f00" stroke-width="1"/>
+  <text x="300" y="460" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#333">
+    Symmetric pairs: AttachObserver/OnModelAttached ↔ DetachObserver/OnModelDetached
+  </text>
+</svg>

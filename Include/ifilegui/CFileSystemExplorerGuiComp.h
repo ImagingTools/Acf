@@ -1,5 +1,4 @@
-#ifndef ifilegui_CFileSystemExplorerGuiComp_included
-#define ifilegui_CFileSystemExplorerGuiComp_included
+#pragma once
 
 
 // Qt includes
@@ -39,7 +38,7 @@ namespace ifilegui
 
 	CFileSystemExplorerGuiComp is implemented as an observer of IFileNameParam.
 	Connected to model, this component will show the file system item, provided by the data model.
-	Model data will be changed, if the the user selects a supported file item in the file system view.
+	Model data will be changed, if the user selects a supported file item in the file system view.
 */
 class CFileSystemExplorerGuiComp:
 			public iqtgui::TDesignerGuiObserverCompBase<Ui::CFileSystemExplorerGuiComp, ifile::IFileNameParam>,
@@ -118,6 +117,5 @@ private:
 } // namespace ifilegui
 
 
-#endif // !ifilegui_CFileSystemExplorerGuiComp_included
 
 

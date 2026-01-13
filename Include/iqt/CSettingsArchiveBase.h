@@ -1,5 +1,4 @@
-#ifndef iqt_CSettingsArchiveBase_included
-#define iqt_CSettingsArchiveBase_included
+#pragma once
 
 
 // Qt includes
@@ -68,5 +67,4 @@ protected:
 } // namespace iqt
 
 
-#endif // !iqt_CSettingsArchiveBase_included
 

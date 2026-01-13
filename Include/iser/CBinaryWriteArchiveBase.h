@@ -1,5 +1,4 @@
-#ifndef iser_CBinaryWriteArchiveBase_included
-#define iser_CBinaryWriteArchiveBase_included
+#pragma once
 
 
 // ACF includes
@@ -44,5 +43,4 @@ protected:
 } // namespace iser
 
 
-#endif // !iser_CBinaryWriteArchiveBase_included
 

@@ -1,5 +1,4 @@
-#ifndef iwidgets_CItemDelegate_included
-#define iwidgets_CItemDelegate_included
+#pragma once
 
 
 // Qt includes
@@ -51,6 +50,5 @@ private:
 } // namespace iwidgets
 
 
-#endif // !iwidgets_CItemDelegate_included
 
 

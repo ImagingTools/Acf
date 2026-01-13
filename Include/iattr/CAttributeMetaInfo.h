@@ -1,5 +1,4 @@
-#ifndef iattr_CAttributeMetaInfo_included
-#define iattr_CAttributeMetaInfo_included
+#pragma once
 
 
 // ACF includes
@@ -43,6 +42,5 @@ private:
 } // namespace iattr
 
 
-#endif // !iattr_CAttributeMetaInfo_included
 
 

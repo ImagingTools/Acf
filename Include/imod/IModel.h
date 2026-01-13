@@ -1,5 +1,4 @@
-#ifndef imod_IModel_included
-#define imod_IModel_included
+#pragma once
 
 
 // ACF includes
@@ -55,5 +54,4 @@ public:
 } // namespace imod
 
 
-#endif // !imod_IModel_included
 

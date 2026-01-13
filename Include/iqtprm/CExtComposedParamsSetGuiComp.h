@@ -1,5 +1,4 @@
-#ifndef iqtprm_CExtComposedParamsSetGuiComp_included
-#define iqtprm_CExtComposedParamsSetGuiComp_included
+#pragma once
 
 
 // Qt includes
@@ -42,24 +41,24 @@ public:
 	I_END_COMPONENT;
 
 	// reimplemented (imod::IModelEditor)
-	virtual void UpdateEditor(const istd::IChangeable::ChangeSet& changeSet);
-	virtual void SetReadOnly(bool state);
+	virtual void UpdateEditor(const istd::IChangeable::ChangeSet& changeSet) override;
+	virtual void SetReadOnly(bool state) override;
 
 	// reimplemented (iqtgui::CGuiComponentBase)
 	virtual void OnGuiCreated() override;
 	virtual void OnGuiDestroyed() override;
 
 	// reimplemented (iqt2d::IViewExtender)
-	virtual void AddItemsToScene(iqt2d::IViewProvider* providerPtr, int flags);
-	virtual void RemoveItemsFromScene(iqt2d::IViewProvider* providerPtr);
+	virtual void AddItemsToScene(iqt2d::IViewProvider* providerPtr, int flags) override;
+	virtual void RemoveItemsFromScene(iqt2d::IViewProvider* providerPtr) override;
 
 protected:
 	void AttachToScene(iqt2d::IViewProvider* providerPtr, int flags);
 	void DetachFromScene(iqt2d::IViewProvider* providerPtr);
 
 	// reimplemented (iqtgui::CMultiPageGuiCompBase)
-	virtual void CreatePages();
-	virtual void OnPageChanged(int widgetIndex);
+	virtual void CreatePages() override;
+	virtual void OnPageChanged(int widgetIndex) override;
 
 	// reimplemented (iqtgui::TGuiObserverWrap)
 	virtual void OnGuiModelAttached() override;
@@ -85,6 +84,5 @@ private:
 } // namespace iqtprm
 
 
-#endif // !iqtprm_CExtComposedParamsSetGuiComp_included
 
 

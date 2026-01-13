@@ -1,5 +1,4 @@
-#ifndef QtGuiPck_included
-#define QtGuiPck_included
+#pragma once
 
 
 #include <icomp/TModelCompWrap.h>
@@ -153,6 +152,5 @@ typedef iloggui::CMessageBoxComp MessageBoxBasedLog;
 } // namespace QtGuiPck
 
 
-#endif // !QtGuiPck_included
 
 

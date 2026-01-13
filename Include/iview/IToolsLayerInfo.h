@@ -1,5 +1,4 @@
-#ifndef iview_IToolsLayerInfo_included
-#define iview_IToolsLayerInfo_included
+#pragma once
 
 
 // ACF includes
@@ -32,4 +31,3 @@ public:
 
 
 
-#endif // !iview_IToolsLayerInfo_included

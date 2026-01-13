@@ -1,5 +1,4 @@
-#ifndef iqtgui_TDesignerBasicGui_included
-#define iqtgui_TDesignerBasicGui_included
+#pragma once
 
 
 // Qt includes
@@ -41,6 +40,5 @@ TDesignerBasicGui<UI, WidgetType>::TDesignerBasicGui(QWidget* parentPtr, Qt::Win
 } // namespace iqtgui
 
 
-#endif // !iqtgui_TDesignerBasicGui_included
 
 

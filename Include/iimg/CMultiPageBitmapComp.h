@@ -1,5 +1,4 @@
-#ifndef iimg_CMultiPageBitmapComp_included
-#define iimg_CMultiPageBitmapComp_included
+#pragma once
 
 
 // ACF includes
@@ -45,6 +44,5 @@ private:
 } // namespace iimg
 
 
-#endif // !iimg_CMultiPageBitmapComp_included
 
 

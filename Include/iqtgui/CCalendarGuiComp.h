@@ -1,5 +1,4 @@
-#ifndef iqtgui_CCalendarGuiComp_included
-#define iqtgui_CCalendarGuiComp_included
+#pragma once
 
 
 // ACF includes
@@ -34,6 +33,5 @@ protected:
 } // namespace iqtgui
 
 
-#endif // !iqtgui_CCalendarGuiComp_included
 
 

@@ -1,5 +1,4 @@
-#ifndef iser_ISerializable_included
-#define iser_ISerializable_included
+#pragma once
 
 
 // ACF includes
@@ -52,6 +51,5 @@ typedef istd::TSharedInterfacePtr<iser::ISerializable> ISerializableSharedPtr;
 } // namespace iser
 
 
-#endif // !iser_ISerializable_included
 
 

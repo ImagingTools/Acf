@@ -28,7 +28,114 @@ namespace iqtdoc
 
 
 /**
-	This class is a Qt-based workspace implementation of a document manager.
+	This class is a Qt-based workspace implementation of a multi-document manager.
+	
+	Provides a Multiple Document Interface (MDI) workspace using Qt's QMdiArea.
+	This component manages multiple documents simultaneously, each with its own
+	view(s) displayed in the workspace. Users can switch between documents,
+	tile/cascade windows, and work with multiple documents at once.
+	
+	MDI applications are useful for:
+	- Image editors handling multiple images
+	- Text editors with multiple files open
+	- CAD applications with multiple drawings
+	- Any application where users work with multiple documents simultaneously
+	
+	\par Component Attributes
+	- \b ShowViewMaximized - Start with views maximized (default: true)
+	- \b ShowFilePathAsToolTip - Show full path in tab tooltip (default: false)
+	- \b AllowViewRepeating - Allow multiple views of same document (default: true)
+	- \b RememberOpenDocumentsOnExit - Restore session on restart (default: false)
+	- \b WorkspaceBackgroundColor - MDI area background color (default: empty = system)
+	- \b DefaultCreatedDocumentTypeId - Auto-create document type on startup
+	
+	\par Component References
+	- \b DocumentTemplate - Document template for creating documents (required)
+	
+	\par View Modes
+	The workspace supports different view modes for organizing document windows:
+	- Tabbed - Documents appear in tabs (modern, clean interface)
+	- Windowed - Traditional MDI with movable/resizable sub-windows
+	
+	\par Configuration Example
+	\code
+	CMultiDocumentWorkspaceGuiComp {
+		DocumentTemplate = CompositeTemplate
+		
+		// View display settings
+		ShowViewMaximized = false
+		ShowFilePathAsToolTip = true
+		
+		// Multiple views support
+		AllowViewRepeating = true
+		
+		// Session persistence
+		RememberOpenDocumentsOnExit = true
+		
+		// Auto-create on startup
+		DefaultCreatedDocumentTypeId = "TextDocument"
+		
+		// Appearance
+		WorkspaceBackgroundColor = "#f0f0f0"
+	}
+	\endcode
+	
+	\par Tabbed Mode Configuration
+	\code
+	CMultiDocumentWorkspaceGuiComp {
+		DocumentTemplate = MyTemplate
+		ViewMode = "Tabbed"
+		IsViewCloseEnabled = true
+		IsTabsMovable = true
+	}
+	\endcode
+	
+	\par Usage in Application
+	\code
+	CMainWindowGuiComp {
+		ApplicationInfo = AppInfo
+		DocumentManager = MultiDocManager
+		
+		Workspace = CMultiDocumentWorkspaceGuiComp {
+			DocumentTemplate = CompositeTemplate
+			AllowViewRepeating = true
+			RememberOpenDocumentsOnExit = true
+		}
+	}
+	\endcode
+	
+	\par Document Management Commands
+	The workspace provides commands for:
+	- Window > Cascade - Arrange windows in cascade
+	- Window > Tile - Tile windows to fill workspace
+	- Window > Close - Close active document
+	- Window > Close All - Close all documents
+	- Window > Next - Switch to next document
+	- Window > Previous - Switch to previous document
+	- Window list - Quick selection of open documents
+	
+	\par Multiple Views
+	When AllowViewRepeating is enabled, users can create multiple views
+	of the same document (e.g., split view for large documents):
+	\code
+	// Create additional view for same document
+	idoc::IDocumentManager* docMgr = GetDocumentManager();
+	istd::IPolymorphic* view1 = docMgr->GetActiveView();
+	istd::IChangeable* doc = docMgr->GetDocumentFromView(*view1);
+	
+	// Create second view for same document
+	istd::IPolymorphic* view2 = docMgr->AddViewToDocument(*doc);
+	\endcode
+	
+	\par Session Restoration
+	When RememberOpenDocumentsOnExit is enabled:
+	- All open document paths are saved on exit
+	- Documents are automatically reopened on next launch
+	- Window positions and states are preserved
+	- Active document is restored
+	
+	\sa CMainWindowGuiComp, CMultiDocumentManagerBase, CSingleDocumentWorkspaceGuiComp
+	\ingroup DocumentBasedFramework
 */
 class CMultiDocumentWorkspaceGuiComp:
 			public iqtdoc::TQtDocumentManagerWrap<

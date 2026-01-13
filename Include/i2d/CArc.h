@@ -1,5 +1,4 @@
-#ifndef i2d_CArc_included
-#define i2d_CArc_included
+#pragma once
 
 
 // Acf includes
@@ -10,21 +9,61 @@ namespace i2d
 {
 
 
+/**
+	Represents a circular arc defined by a center point, radius, and start/end angles.
+	An arc is a portion of a circle's circumference between two angles.
+*/
 class CArc: public CCircle
 {
 public:
 	typedef CCircle BaseClass;
 
+	/**
+		Construct an empty arc object.
+	*/
 	CArc();
+	/**
+		Construct an arc with specified parameters.
+		\param	startAngle	Starting angle in radians.
+		\param	endAngle	Ending angle in radians.
+		\param	radius		Radius of the arc.
+		\param	center		Center point of the arc.
+	*/
 	CArc(double startAngle, double endAngle, const double radius, const CVector2d& center);
 
+	/**
+		Get the starting angle of the arc.
+		\return	Starting angle in radians.
+	*/
 	double GetStartAngle() const;
+	/**
+		Set the starting angle of the arc.
+		\param	angle	Starting angle in radians.
+	*/
 	void SetStartAngle(double angle);
 
+	/**
+		Get the ending angle of the arc.
+		\return	Ending angle in radians.
+	*/
 	double GetEndAngle() const;
+	/**
+		Set the ending angle of the arc.
+		\param	angle	Ending angle in radians.
+	*/
 	void SetEndAngle(double angle);
 
+	/**
+		Compare this arc with another arc for equality.
+		\param	arc	Arc to compare with.
+		\return	true if arcs are equal, false otherwise.
+	*/
 	bool operator==(const CArc& arc) const;
+	/**
+		Compare this arc with another arc for inequality.
+		\param	arc	Arc to compare with.
+		\return	true if arcs are not equal, false otherwise.
+	*/
 	bool operator!=(const CArc& arc) const;
 
 	/**
@@ -85,6 +124,5 @@ inline double CArc::GetEndAngle() const
 } // namespace i2d
 
 
-#endif // !i2d_CArc_included
 
 

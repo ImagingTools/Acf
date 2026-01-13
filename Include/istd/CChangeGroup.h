@@ -1,5 +1,4 @@
-#ifndef istd_CChangeGroup_included
-#define istd_CChangeGroup_included
+#pragma once
 
 
 // ACF includes
@@ -74,6 +73,5 @@ inline CChangeGroup::~CChangeGroup()
 } // namespace istd
 
 
-#endif // !istd_CChangeGroup_included
 
 

@@ -1,5 +1,4 @@
-#ifndef iview_ISelectableLayer_included
-#define iview_ISelectableLayer_included
+#pragma once
 
 
 // ACF includes
@@ -89,6 +88,5 @@ inline ITouchable::TouchState ISelectableLayer::IsTouched(istd::CIndex2d positio
 } // namespace iview
 
 
-#endif // !iview_ISelectableLayer_included
 
 

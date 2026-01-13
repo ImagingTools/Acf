@@ -1,5 +1,4 @@
-#ifndef i2d_CPolyline_included
-#define i2d_CPolyline_included
+#pragma once
 
 
 // ACF includes
@@ -121,6 +120,5 @@ inline bool CPolyline::IsClosed() const
 } // namespace i2d
 
 
-#endif // !i2d_CPolyline_included
 
 

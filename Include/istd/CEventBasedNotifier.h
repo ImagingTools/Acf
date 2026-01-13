@@ -1,5 +1,4 @@
-#ifndef istd_CEventBasedNotifier_included
-#define istd_CEventBasedNotifier_included
+#pragma once
 
 
 // Qt includes
@@ -79,6 +78,5 @@ private:
 } // namespace istd
 
 
-#endif // !istd_CEventBasedNotifier_included
 
 

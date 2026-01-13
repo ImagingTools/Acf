@@ -1,5 +1,4 @@
-#ifndef iqtgui_CApplicationCompBase_included
-#define iqtgui_CApplicationCompBase_included
+#pragma once
 
 
 // Qt includes
@@ -127,5 +126,4 @@ private:
 } // namespace iqtgui
 
 
-#endif // iqtgui_CApplicationCompBase_included
 

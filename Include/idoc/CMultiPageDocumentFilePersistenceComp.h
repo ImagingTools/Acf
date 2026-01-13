@@ -1,5 +1,4 @@
-#ifndef idoc_CMultiPageDocumentFilePersistenceComp_included
-#define idoc_CMultiPageDocumentFilePersistenceComp_included
+#pragma once
 
 
 // ACF includes
@@ -93,6 +92,5 @@ private:
 } // namespace idoc
 
 
-#endif // !idoc_CMultiPageDocumentFilePersistenceComp_included
 
 

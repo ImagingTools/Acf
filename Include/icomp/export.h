@@ -1,5 +1,4 @@
-#ifndef icomp_export_included
-#define icomp_export_included
+#pragma once
 
 
 // Qt includes
@@ -74,6 +73,5 @@ static struct Registrator_##resourceId\
 } // namespace icomp
 
 
-#endif // !icomp_export_included
 
 

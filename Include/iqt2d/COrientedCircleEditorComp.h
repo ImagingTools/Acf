@@ -30,7 +30,7 @@ public:
 
 protected:
 	// reimplemented (iqt2d::TCircleBasedParamsGuiComp)
-	virtual bool PopulateActions(QWidget& host, imod::IModel* modelPtr);
+	virtual bool PopulateActions(QWidget& host, imod::IModel* modelPtr) override;
 
 	// reimplemented (iqtgui::CGuiComponentBase)
 	virtual void OnGuiRetranslate() override;

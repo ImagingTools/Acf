@@ -1,5 +1,4 @@
-#ifndef iser_IVersionInfo_included
-#define iser_IVersionInfo_included
+#pragma once
 
 
 // Qt includes
@@ -77,6 +76,5 @@ public:
 } // namespace iser
 
 
-#endif // !iser_IVersionInfo_included
 
 

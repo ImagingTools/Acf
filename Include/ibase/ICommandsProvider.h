@@ -1,5 +1,4 @@
-#ifndef ibase_ICommandsProvider_included
-#define ibase_ICommandsProvider_included
+#pragma once
 
 
 // ACF includes
@@ -40,6 +39,5 @@ inline const IHierarchicalCommand* ICommandsProvider::GetCommands() const
 } // namespace ibase
 
 
-#endif // !ibase_ICommandsProvider_included
 
 

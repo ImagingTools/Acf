@@ -1,5 +1,4 @@
-#ifndef iview_CToolsViewLayer_included
-#define iview_CToolsViewLayer_included
+#pragma once
 
 
 // ACF includes
@@ -53,6 +52,5 @@ public:
 } // namespace iview
 
 
-#endif // !iview_CToolsViewLayer_included
 
 

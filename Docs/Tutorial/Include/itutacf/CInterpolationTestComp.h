@@ -1,5 +1,4 @@
-#ifndef itutacf_CInterpolationTestComp_included
-#define itutacf_CInterpolationTestComp_included
+#pragma once
 
 
 // ACF includes
@@ -31,7 +30,7 @@ public:
 	
 protected:
 	// reimplemented (imod::CSingleModelObserverBase)
-	virtual void OnUpdate(const istd::IChangeable::ChangeSet& changeSet);
+	virtual void OnUpdate(const istd::IChangeable::ChangeSet& changeSet) override;
 
 private:
 	I_REF(i2d::CPolygon, m_slaveObjectCompPtr);
@@ -43,6 +42,5 @@ private:
 } // namespace itutacf
 
 
-#endif // !itutacf_CInterpolationTestComp_included
 
 

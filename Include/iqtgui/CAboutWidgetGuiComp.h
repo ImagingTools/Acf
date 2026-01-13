@@ -1,5 +1,4 @@
-#ifndef iqtgui_CAboutWidgetGuiComp_included
-#define iqtgui_CAboutWidgetGuiComp_included
+#pragma once
 
 
 // ACF includes
@@ -55,6 +54,5 @@ protected:
 } // namespace iqtgui
 
 
-#endif // !iqtgui_CAboutWidgetGuiComp_included
 
 

@@ -1,5 +1,4 @@
-#ifndef BitmapPck_included
-#define BitmapPck_included
+#pragma once
 
 
 #include <icomp/TModelCompWrap.h>
@@ -54,6 +53,5 @@ typedef icomp::TModelCompWrap<iimg::CMultiPageBitmapSequenceComp> MultiPageBitma
 } // namespace BitmapPck
 
 
-#endif // !BitmapPck_included
 
 

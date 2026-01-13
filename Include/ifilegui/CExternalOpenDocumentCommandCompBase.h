@@ -1,5 +1,4 @@
-#ifndef ifilegui_CExternalOpenDocumentCommandCompBase_included
-#define ifilegui_CExternalOpenDocumentCommandCompBase_included
+#pragma once
 
 
 // ACF includes
@@ -43,6 +42,5 @@ protected:
 }  // namespace ifilegui
 
 
-#endif // ifilegui_CExternalOpenDocumentCommandCompBase_included
 
 

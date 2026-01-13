@@ -1,5 +1,4 @@
-#ifndef FileGuiPck_included
-#define FileGuiPck_included
+#pragma once
 
 
 #include <ifilegui/CFileTreeViewGuiComp.h>
@@ -30,6 +29,5 @@ typedef ifilegui::CSimpleFilePathParamGuiComp SimpleFilePathParamGui;
 } // namespace FileGuiPck
 
 
-#endif // !FileGuiPck_included
 
 

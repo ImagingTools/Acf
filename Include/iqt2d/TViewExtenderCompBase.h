@@ -1,5 +1,4 @@
-#ifndef iqt2d_TSceneExtenderCompBase_included
-#define iqt2d_TSceneExtenderCompBase_included
+#pragma once
 
 
 // ACF includes
@@ -230,6 +229,5 @@ void TViewExtenderCompBase<Base>::UpdateAllViews()
 } // namespace iqt2d
 
 
-#endif // !iqt2d_TSceneExtenderCompBase_included
 
 

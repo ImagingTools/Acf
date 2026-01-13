@@ -1,5 +1,4 @@
-#ifndef iview_CColorSchemaComp_included
-#define iview_CColorSchemaComp_included
+#pragma once
 
 
 // Qt includes
@@ -106,6 +105,5 @@ private:
 } // namespace iview
 
 
-#endif // !iview_CColorSchemaComp_included
 
 

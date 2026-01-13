@@ -1,0 +1,44 @@
+/**
+\page page_i2d i2d - 2D Graphics Utilities Library
+
+\section intro_sec Introduction
+
+The i2d library provides comprehensive 2D geometric primitives, transformations, and calibration support.
+It is system-independent and can be used in both GUI and non-GUI applications.
+
+\section features_sec Key Features
+
+- **Geometric Primitives**: Points, lines, rectangles, circles, ellipses, polygons
+- **Transformations**: Affine transformations (rotation, translation, scaling)
+- **Calibration**: Coordinate system calibration and conversion
+- **Collision Detection**: Intersection and containment tests
+- **Measurement**: Distance and area calculations
+- **Serialization**: Full serialization support for all geometric types
+
+\section architecture_sec Architecture
+
+Key components:
+
+- **i2d::CPoint2d**: 2D point
+- **i2d::CLine2d**: 2D line segment
+- **i2d::CRect2d**: 2D rectangle
+- **i2d::CCircle**: Circle primitive
+- **i2d::CEllipse**: Ellipse primitive
+- **i2d::CPolygon**: Polygon primitive
+- **i2d::CAffineTransformation2d**: Affine transformation matrix
+- **i2d::ICalibration2d**: Calibration interface
+
+\section dependencies Dependencies
+
+- **istd**: Standard utilities and interfaces
+- **iser**: Serialization framework
+- **imath**: Mathematical utilities
+- **icomp**: Component framework
+
+\section see_also See Also
+
+- i2d::CPoint2d
+- i2d::CAffineTransformation2d
+- i2d::ICalibration2d
+
+*/

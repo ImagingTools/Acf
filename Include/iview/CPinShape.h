@@ -1,5 +1,4 @@
-#ifndef iview_CPinShape_included
-#define iview_CPinShape_included
+#pragma once
 
 
 #include <i2d/CVector2d.h>
@@ -47,6 +46,5 @@ protected:
 } // namespace iview
 
 
-#endif // !iview_CPinShape_included
 
 

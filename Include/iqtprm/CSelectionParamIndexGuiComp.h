@@ -1,5 +1,4 @@
-#ifndef iqtprm_CSelectionParamIndexGuiComp_included
-#define iqtprm_CSelectionParamIndexGuiComp_included
+#pragma once
 
 
 #include <iprm/ISelectionParam.h>
@@ -40,6 +39,5 @@ protected Q_SLOTS:
 } // namespace iqtprm
 
 
-#endif // !iqtprm_CSelectionParamIndexGuiComp_included
 
 

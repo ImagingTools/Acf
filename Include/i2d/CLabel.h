@@ -1,5 +1,4 @@
-#ifndef i2d_CLabel_included
-#define i2d_CLabel_included
+#pragma once
 
 
 // ACF includes
@@ -66,6 +65,5 @@ inline const QString& CLabel::GetText() const
 } // namespace i2d
 
 
-#endif // !i2d_CLabel_included
 
 

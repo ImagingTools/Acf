@@ -1,5 +1,4 @@
-#ifndef icomp_CCompositeComponent_included
-#define icomp_CCompositeComponent_included
+#pragma once
 
 
 // Qt includes
@@ -158,6 +157,5 @@ inline InterfaceType* CCompositeComponent::GetComponentInterface(const QByteArra
 } // namespace icomp
 
 
-#endif // !icomp_CCompositeComponent_included
 
 

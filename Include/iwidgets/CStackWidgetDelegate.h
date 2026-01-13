@@ -1,5 +1,4 @@
-#ifndef iwidgets_CStackWidgetDelegate_included
-#define iwidgets_CStackWidgetDelegate_included
+#pragma once
 
 
 // ACF includes
@@ -58,6 +57,5 @@ private:
 } // namespace iwidgets
 
 
-#endif // !iwidgets_CStackWidgetDelegate_included
 
 

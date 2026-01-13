@@ -1,5 +1,4 @@
-#ifndef iqtgui_IVisualStatusProvider_included
-#define iqtgui_IVisualStatusProvider_included
+#pragma once
 
 
 // ACF includes
@@ -20,6 +19,5 @@ public:
 } // namespace iqtgui
 
 
-#endif // !iqtgui_IVisualStatusProvider_included
 
 

@@ -1,5 +1,4 @@
-#ifndef ifilegui_CFileListProviderGuiComp_included
-#define ifilegui_CFileListProviderGuiComp_included
+#pragma once
 
 
 // ACF includes
@@ -35,6 +34,5 @@ protected:
 } // namespace ifilegui
 
 
-#endif // !ifilegui_CFileListProviderGuiComp_included
 
 

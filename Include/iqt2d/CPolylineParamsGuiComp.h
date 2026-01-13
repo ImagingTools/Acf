@@ -26,8 +26,8 @@ public:
 
 protected:
 	// reimplemented (iqt2d::TShapeParamsGuiCompBase)
-	virtual bool PopulateActions(QWidget& host, imod::IModel* modelPtr);
-	virtual iview::CInteractiveShapeBase* CreateShapeInstance() const;
+	virtual bool PopulateActions(QWidget& host, imod::IModel* modelPtr) override;
+	virtual iview::CInteractiveShapeBase* CreateShapeInstance() const override;
 
 	// reimplemented (iqtgui::CGuiComponentBase)
 	virtual void OnGuiRetranslate() override;
@@ -41,7 +41,7 @@ protected Q_SLOTS:
 	void on_PasteButton_clicked();
 
 	// reimplemented (iqt2d::TShapeParamsGuiCompBase)
-	virtual void OnActionTriggered(QAction* actionPtr);
+	virtual void OnActionTriggered(QAction* actionPtr) override;
 
 private:
 	I_ATTR(bool, m_showOrientationAttrPtr);

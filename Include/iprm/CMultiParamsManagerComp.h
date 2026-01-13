@@ -1,5 +1,4 @@
-#ifndef iprm_CMultiParamsManagerComp_included
-#define iprm_CMultiParamsManagerComp_included
+#pragma once
 
 
 // Qt includes
@@ -28,26 +27,26 @@ public:
 	I_END_COMPONENT;
 
 	// reimplemented (iprm::IParamsManager)
-	virtual const IOptionsList* GetParamsTypeConstraints() const;
+	virtual const IOptionsList* GetParamsTypeConstraints() const override;
 
 	// reimplemented (iser::ISerializable)
-	virtual bool Serialize(iser::IArchive& archive);
+	virtual bool Serialize(iser::IArchive& archive) override;
 
 	// reimplemented (iprm::IOptionsManager)
-	virtual int GetOptionOperationFlags(int index = -1) const;
-	virtual bool SetOptionEnabled(int index, bool isEnabled = true);
-	virtual bool RemoveOption(int index);
+	virtual int GetOptionOperationFlags(int index = -1) const override;
+	virtual bool SetOptionEnabled(int index, bool isEnabled = true) override;
+	virtual bool RemoveOption(int index) override;
 	virtual bool InsertOption(
 				const QString& optionName,
 				const QByteArray& optionId,
 				const QString& optionDescription = QString(),
 				int index = -1);
-	virtual bool SwapOptions(int index1, int index2);
-	virtual bool SetOptionName(int optionIndex, const QString& optionName);
-	virtual bool SetOptionDescription(int optionIndex, const QString& optionDescription);
+	virtual bool SwapOptions(int index1, int index2) override;
+	virtual bool SetOptionName(int optionIndex, const QString& optionName) override;
+	virtual bool SetOptionDescription(int optionIndex, const QString& optionDescription) override;
 
 	// reimplemented (istd::IChangeable)
-	virtual bool CopyFrom(const istd::IChangeable& object, istd::IChangeable::CompatibilityMode mode = CM_WITHOUT_REFS);
+	virtual bool CopyFrom(const istd::IChangeable& object, istd::IChangeable::CompatibilityMode mode = CM_WITHOUT_REFS) override;
 
 protected:
 	struct TypeInfo
@@ -107,6 +106,5 @@ private:
 } // namespace iprm
 
 
-#endif // !iprm_CMultiParamsManagerComp_included
 
 

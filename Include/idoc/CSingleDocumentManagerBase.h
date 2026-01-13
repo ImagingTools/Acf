@@ -82,7 +82,7 @@ protected:
 		\param	createView		if true, instance of view will be created.
 		\param	viewTypeId		optional view type ID should be created.
 		\param	documentTypeId	output parameter returning loaded ducument type ID.
-		\return	instance of created document or NULL if error is occured.
+		\return	instance of created document or NULL if error occurred.
 	*/
 	virtual bool OpenSingleDocument(
 				const QString& filePath,

@@ -1,5 +1,4 @@
-#ifndef iqtprm_CSelectableParamsSetGuiComp_included
-#define iqtprm_CSelectableParamsSetGuiComp_included
+#pragma once
 
 
 // ACF includes
@@ -52,6 +51,5 @@ private:
 } // namespace iqtprm
 
 
-#endif // !iqtprm_CSelectableParamsSetGuiComp_included
 
 

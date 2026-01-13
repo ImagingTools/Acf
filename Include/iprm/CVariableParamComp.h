@@ -1,5 +1,4 @@
-#ifndef iprm_CVariableParamComp_included
-#define iprm_CVariableParamComp_included
+#pragma once
 
 
 // ACF includes
@@ -29,10 +28,10 @@ public:
 	CVariableParamComp();
 
 	// reimplemented (iprm::IVariableParam)
-	virtual TypeIds GetKnownTypeIds() const;
-	virtual QByteArray GetParameterTypeId() const;
-	virtual iser::ISerializable* GetParameter() const;
-	virtual bool AssignTypeId(const QByteArray& typeId);
+	virtual TypeIds GetKnownTypeIds() const override;
+	virtual QByteArray GetParameterTypeId() const override;
+	virtual iser::ISerializable* GetParameter() const override;
+	virtual bool AssignTypeId(const QByteArray& typeId) override;
 
 	// reimplemented (iser::ISerializable)
 	virtual bool Serialize(iser::IArchive& archive) override;
@@ -52,6 +51,5 @@ private:
 } // namespace iprm
 
 
-#endif // !iprm_CVariableParamComp_included
 
 

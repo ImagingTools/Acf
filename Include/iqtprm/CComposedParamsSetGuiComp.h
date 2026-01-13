@@ -1,5 +1,4 @@
-#ifndef iqtprm_CComposedParamsSetGuiComp_included
-#define iqtprm_CComposedParamsSetGuiComp_included
+#pragma once
 
 
 // Qt includes
@@ -58,7 +57,7 @@ public:
 	CComposedParamsSetGuiComp();
 
 	// reimplemented (imod::IModelEditor)
-	virtual void UpdateEditor(const istd::IChangeable::ChangeSet& changeSet);
+	virtual void UpdateEditor(const istd::IChangeable::ChangeSet& changeSet) override;
 
 	// reimplemented (iqtgui::CGuiComponentBase)
 	virtual void OnGuiCreated() override;
@@ -66,8 +65,8 @@ public:
 	virtual void OnGuiRetranslate() override;
 
 	// reimplemented (iqt2d::IViewExtender)
-	virtual void AddItemsToScene(iqt2d::IViewProvider* providerPtr, int flags);
-	virtual void RemoveItemsFromScene(iqt2d::IViewProvider* providerPtr);
+	virtual void AddItemsToScene(iqt2d::IViewProvider* providerPtr, int flags) override;
+	virtual void RemoveItemsFromScene(iqt2d::IViewProvider* providerPtr) override;
 
 	// reimplemented (iview::IShapeFactory)
 	virtual iview::IShape* CreateShape(const istd::IChangeable* objectPtr, bool connectToModel = false) const override;
@@ -134,6 +133,5 @@ private:
 } // namespace iqtprm
 
 
-#endif // !iqtprm_CComposedParamsSetGuiComp_included
 
 

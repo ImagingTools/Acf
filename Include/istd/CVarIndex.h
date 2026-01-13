@@ -1,5 +1,4 @@
-#ifndef istd_CVarIndex_included
-#define istd_CVarIndex_included
+#pragma once
 
 
 // Qt includes
@@ -443,6 +442,5 @@ uint qHash(const CVarIndex& index, uint seed = 0);
 } // namespace istd
 
 
-#endif // !istd_CVarIndex_included
 
 

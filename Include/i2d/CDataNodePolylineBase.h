@@ -1,5 +1,4 @@
-#ifndef i2d_CDataNodePolylineBase_included
-#define i2d_CDataNodePolylineBase_included
+#pragma once
 
 
 // ACF includes
@@ -36,5 +35,4 @@ public:
 } // namespace i2d
 
 
-#endif // !i2d_CDataNodePolylineBase_included
 

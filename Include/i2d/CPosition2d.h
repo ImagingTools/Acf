@@ -1,5 +1,4 @@
-#ifndef i2d_CPosition2d_included
-#define i2d_CPosition2d_included
+#pragma once
 
 
 // ACF includes
@@ -94,5 +93,4 @@ inline CPosition2d CPosition2d::GetTranslated(const i2d::CVector2d& vector) cons
 } // namespace i2d
 
 
-#endif // !i2d_CPosition2d_included
 

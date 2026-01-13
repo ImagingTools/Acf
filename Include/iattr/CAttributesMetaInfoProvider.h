@@ -1,5 +1,4 @@
-#ifndef iattr_CAttributesMetaInfoProvider_included
-#define iattr_CAttributesMetaInfoProvider_included
+#pragma once
 
 
 // Qt includes
@@ -54,6 +53,5 @@ private:
 } // namespace iattr
 
 
-#endif // !iattr_CAttributesMetaInfoProvider_included
 
 

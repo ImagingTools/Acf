@@ -1,5 +1,4 @@
-#ifndef iview_CLineShape_included
-#define iview_CLineShape_included
+#pragma once
 
 
 #include <i2d/CVector2d.h>
@@ -132,6 +131,5 @@ inline void CLineShape::EnsurePointsAreValid(const i2d::CLine2d& line) const
 } // namespace iview
 
 
-#endif // !iview_CLineShape_included
 
 

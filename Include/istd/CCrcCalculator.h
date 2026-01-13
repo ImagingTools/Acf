@@ -1,5 +1,4 @@
-#ifndef istd_CCrcCalculator_included
-#define istd_CCrcCalculator_included
+#pragma once
 
 
 // Qt includes
@@ -56,5 +55,4 @@ inline void CCrcCalculator::UpdateCrc(const quint8& byte, quint32& crcValue)
 } // namespace istd
 
 
-#endif // !istd_CCrcCalculator_included
 

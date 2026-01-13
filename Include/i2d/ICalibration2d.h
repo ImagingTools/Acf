@@ -1,5 +1,4 @@
-#ifndef i2d_ICalibration2d_included
-#define i2d_ICalibration2d_included
+#pragma once
 
 
 // ACF includes
@@ -14,6 +13,11 @@ namespace i2d
 class CRectangle;
 
 
+/**
+	Interface for 2D calibration and coordinate transformation with unit information.
+	Extends ITransformation2d to provide calibration-specific functionality including
+	unit information, argument/result areas, and calibration combination operations.
+*/
 class ICalibration2d: virtual public ITransformation2d
 {
 public:
@@ -69,6 +73,5 @@ public:
 } // namespace i2d
 
 
-#endif // !i2d_ICalibration2d_included
 
 

@@ -1,5 +1,4 @@
-#ifndef istd_TArray_included
-#define istd_TArray_included
+#pragma once
 
 
 // STL includes
@@ -570,6 +569,5 @@ TArray<Element, Dimensions>::Iterator::Iterator(TArray* arrayPtr)
 } // namespace istd
 
 
-#endif // !istd_TArray_included
 
 

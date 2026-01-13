@@ -33,7 +33,7 @@ public:
 	virtual void OnSaveSettings(QSettings& settings) const override;
 
 	// pseudo-reimplemented (idoc::CSingleDocumentManagerBase)
-	virtual QString GetSaveFilePath(const QByteArray& documentTypeId, const istd::IChangeable* dataObjectPtr, const QString& currentFilePath) const;
+	virtual QString GetSaveFilePath(const QByteArray& documentTypeId, const istd::IChangeable* dataObjectPtr, const QString& currentFilePath) const override;
 
 protected:
 	/**

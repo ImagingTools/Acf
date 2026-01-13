@@ -1,5 +1,4 @@
-#ifndef iser_CArchiveTag_included
-#define iser_CArchiveTag_included
+#pragma once
 
 
 // Qt includes
@@ -37,7 +36,7 @@ public:
 		TT_GROUP,
 		/**
 			Multiple tag containing variable number of child tags.
-			All childs must be the same type.
+			All children must be the same type.
 		*/
 		TT_MULTIPLE,
 		/**
@@ -120,6 +119,5 @@ inline bool CArchiveTag::IsTagSkippingUsed() const
 } // namespace iser
 
 
-#endif // !iser_CArchiveTag_included
 
 

@@ -1,5 +1,4 @@
-#ifndef ibase_ICommand_included
-#define ibase_ICommand_included
+#pragma once
 
 
 // ACF includes
@@ -113,6 +112,5 @@ typedef istd::TIHierarchical<ICommand> IHierarchicalCommand;
 } // namespace ibase
 
 
-#endif // !ibase_ICommand_included
 
 

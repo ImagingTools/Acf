@@ -1,5 +1,4 @@
-#ifndef iqt_included
-#define iqt_included
+#pragma once
 
 
 // Qt includes
@@ -57,6 +56,5 @@ QByteArray GetTranslation(const iqt::ITranslationManager* translationManagerPtr,
 } // namespace iqt
 
 
-#endif // !iqt_included
 
 

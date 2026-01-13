@@ -1,5 +1,4 @@
-#ifndef iloggui_CMessageBoxComp_included
-#define iloggui_CMessageBoxComp_included
+#pragma once
 
 
 // Qt includes
@@ -24,7 +23,83 @@ namespace iloggui
 
 
 /**
-	Message container displaying messages as log list.
+	Component for displaying log messages in modal Qt message boxes.
+	
+	CMessageBoxComp provides a simple way to display important messages (especially
+	errors and warnings) to users in standard Qt message box dialogs. It implements
+	IMessageConsumer to receive messages and displays them in modal dialogs with
+	appropriate icons.
+	
+	Messages are queued and displayed one at a time. If multiple messages are added
+	before the dialog is shown, they're batched into a single dialog with a detailed
+	text area.
+	
+	\ingroup iloggui
+	
+	\par Features
+	- Modal message box display
+	- Severity-appropriate icons (info, warning, critical)
+	- Thread-safe message queuing with QMutex
+	- Batch multiple messages into one dialog
+	- Signal/slot based asynchronous display
+	- Automatic message formatting
+	
+	\par Message Icons
+	- IC_INFO, IC_NONE: Information icon (blue "i")
+	- IC_WARNING: Warning icon (yellow triangle)
+	- IC_ERROR, IC_CRITICAL: Critical icon (red "X")
+	
+	\par Usage Example
+	\code{.cpp}
+	// Create message box component
+	istd::TSharedInterfacePtr<iloggui::CMessageBoxComp> msgBox(
+	    new iloggui::CMessageBoxComp);
+	
+	// Send error message (displays immediately)
+	msgBox->AddMessage(istd::TSharedInterfacePtr<ilog::CMessage>(
+	    new ilog::CMessage(
+	        istd::IInformationProvider::IC_CRITICAL,
+	        5001,
+	        "Database connection failed",
+	        "DatabaseManager"
+	    )
+	));
+	
+	// Dialog blocks until user clicks OK
+	\endcode
+	
+	\par Component Configuration
+	\code{.xml}
+	<Component Id="ErrorDialog" Class="iloggui::CMessageBoxComp">
+	    <!-- No additional configuration needed -->
+	</Component>
+	\endcode
+	
+	\par Integration with Logging
+	\code{.cpp}
+	// Create main log
+	istd::TSharedInterfacePtr<ilog::CLogComp> mainLog(
+	    new ilog::CLogComp);
+	
+	// Create message box for errors
+	istd::TSharedInterfacePtr<iloggui::CMessageBoxComp> errorBox(
+	    new iloggui::CMessageBoxComp);
+	
+	// Create router to send only errors to message box
+	istd::TSharedInterfacePtr<ilog::CLogRouterComp> router(
+	    new ilog::CLogRouterComp);
+	// Configure:
+	//   InputMessageContainer -> mainLog
+	//   OutputMessageConsumer -> errorBox
+	//   MinimalCategory -> IC_ERROR
+	
+	// All messages go to log, but only errors show in dialogs
+	\endcode
+	
+	\warning Message boxes are modal and block the application. Use sparingly
+	         for critical messages only, not for general logging.
+	
+	\see ilog::IMessageConsumer, ilog::CMessage, QMessageBox
 */
 class CMessageBoxComp:
 			public QObject,
@@ -34,6 +109,7 @@ class CMessageBoxComp:
 	Q_OBJECT
 
 public:
+	/// Base class typedef
 	typedef icomp::CComponentBase BaseClass;
 
 	I_BEGIN_COMPONENT(CMessageBoxComp);
@@ -46,8 +122,8 @@ public:
 	virtual bool IsMessageSupported(
 				int messageCategory = -1,
 				int messageId = -1,
-				const istd::IInformationProvider* messagePtr = NULL) const;
-	virtual void AddMessage(const MessagePtr& messagePtr);
+				const istd::IInformationProvider* messagePtr = NULL) const override;
+	virtual void AddMessage(const MessagePtr& messagePtr) override;
 
 protected:
 	/**
@@ -78,6 +154,5 @@ private:
 } // namespace iloggui
 
 
-#endif // !iloggui_CMessageBoxComp_included
 
 

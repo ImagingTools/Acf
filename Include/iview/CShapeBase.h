@@ -1,5 +1,4 @@
-#ifndef iview_CShapeBase_included
-#define iview_CShapeBase_included
+#pragma once
 
 
 // ACF includes
@@ -203,6 +202,5 @@ private:
 } // namespace iview
 
 
-#endif // !iview_CShapeBase_included
 
 

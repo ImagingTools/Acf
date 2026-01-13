@@ -1,5 +1,4 @@
-#ifndef istd_THierarchicalBase_included
-#define istd_THierarchicalBase_included
+#pragma once
 
 
 #include <istd/TIHierarchical.h>
@@ -89,6 +88,5 @@ Interface* THierarchicalBase<Base, Interface>::GetParent() const
 } // namespace istd
 
 
-#endif // istd_THierarchicalBase_included
 
 

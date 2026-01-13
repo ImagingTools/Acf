@@ -1,5 +1,4 @@
-#ifndef i2d_CVector2d_included
-#define i2d_CVector2d_included
+#pragma once
 
 
 // Qt includes
@@ -322,6 +321,5 @@ inline uint qHash(const CVector2d& key, uint seed = 0)
 } // namespace i2d
 
 
-#endif // !i2d_CVector2d_included
 
 

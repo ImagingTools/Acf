@@ -1,5 +1,4 @@
-#ifndef iview_CShapeInfoGuiComp_included
-#define iview_CShapeInfoGuiComp_included
+#pragma once
 
 
 // ACF includes
@@ -33,6 +32,5 @@ protected:
 } // namespace iview
 
 
-#endif // !iview_CShapeInfoGuiComp_included
 
 

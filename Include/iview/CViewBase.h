@@ -1,5 +1,4 @@
-#ifndef iview_CViewBase_included
-#define iview_CViewBase_included
+#pragma once
 
 
 // ACF includes
@@ -69,20 +68,20 @@ public:
 	int GetActiveLayerIndex() const;
 
 	// reimplemented (iview::IShapeView)
-	virtual void AddViewEventObserver(iview::IViewEventObserver* listenerPtr);
-	virtual void RemoveViewEventObserver(iview::IViewEventObserver* listenerPtr);
-	virtual void SetZoom(ZoomMode zoom);
-	virtual void SetEditMode(int mode);
-	virtual void SetDisplayMode(int mode);
+	virtual void AddViewEventObserver(iview::IViewEventObserver* listenerPtr) override;
+	virtual void RemoveViewEventObserver(iview::IViewEventObserver* listenerPtr) override;
+	virtual void SetZoom(ZoomMode zoom) override;
+	virtual void SetEditMode(int mode) override;
+	virtual void SetDisplayMode(int mode) override;
 	virtual void Update() override;
-	virtual void UpdateAllShapes(const istd::IChangeable::ChangeSet& changeSet);
-	virtual void SetScreenPosition(const i2d::CVector2d& client, istd::CIndex2d screen);
-	virtual const i2d::CRectangle& GetFitArea() const;
-	virtual void SetFitArea(const i2d::CRectangle& area);
-	virtual void SetViewDraggable(bool state = true);
-	virtual void SetMultiselectable(bool state = true);
-	virtual void SetDraggable(bool state = true);
-	virtual void InsertDefaultLayers();
+	virtual void UpdateAllShapes(const istd::IChangeable::ChangeSet& changeSet) override;
+	virtual void SetScreenPosition(const i2d::CVector2d& client, istd::CIndex2d screen) override;
+	virtual const i2d::CRectangle& GetFitArea() const override;
+	virtual void SetFitArea(const i2d::CRectangle& area) override;
+	virtual void SetViewDraggable(bool state = true) override;
+	virtual void SetMultiselectable(bool state = true) override;
+	virtual void SetDraggable(bool state = true) override;
+	virtual void InsertDefaultLayers() override;
 	virtual bool IsViewDraggable() const override;
 	virtual bool IsMultiselectable() const override;
 	virtual int InsertLayer(IViewLayer* layerPtr, int index = -1, int layerType = IViewLayer::LT_NONE) override;
@@ -517,6 +516,5 @@ inline CViewBase::Layers& CViewBase::GetLayers()
 } // namespace iview
 
 
-#endif // !iview_CViewBase_included
 
 

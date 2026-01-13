@@ -1,5 +1,4 @@
-#ifndef iattr_TAttribute_included
-#define iattr_TAttribute_included
+#pragma once
 
 
 // Qt includes
@@ -187,6 +186,5 @@ typedef TAttribute<QByteArray> CIdAttribute;
 } // namespace iattr
 
 
-#endif // !iattr_TAttribute_included
 
 

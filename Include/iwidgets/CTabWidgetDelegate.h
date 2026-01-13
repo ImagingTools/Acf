@@ -1,5 +1,4 @@
-#ifndef iwidgets_CTabWidgetDelegate_included
-#define iwidgets_CTabWidgetDelegate_included
+#pragma once
 
 
 // Qt includes
@@ -76,6 +75,5 @@ private:
 } // namespace iwidgets
 
 
-#endif // !iwidgets_CTabWidgetDelegate_included
 
 

@@ -1,5 +1,4 @@
-#ifndef iqtgui_IDropConsumer_included
-#define iqtgui_IDropConsumer_included
+#pragma once
 
 
 // Qt includes
@@ -36,6 +35,5 @@ public:
 } // namespace iqtgui
 
 
-#endif // !iqtgui_IDropConsumer_included
 
 

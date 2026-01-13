@@ -1,5 +1,4 @@
-#ifndef itest_ITestInstance_included
-#define itest_ITestInstance_included
+#pragma once
 
 
 // Qt includes
@@ -28,6 +27,5 @@ public:
 } // namespace itest
 
 
-#endif // !itest_ITestInstance_included
 
 

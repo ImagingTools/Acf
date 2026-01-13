@@ -1,5 +1,4 @@
-#ifndef iqtgui_CTableBasedModelEditorComp_included
-#define iqtgui_CTableBasedModelEditorComp_included
+#pragma once
 
 
 // Qt includes
@@ -45,6 +44,5 @@ private:
 } // namespace iqtgui
 
 
-#endif // !iqtgui_CTableBasedModelEditorComp_included
 
 

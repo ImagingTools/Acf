@@ -1,5 +1,4 @@
-#ifndef iimg_CBitmapBase_included
-#define iimg_CBitmapBase_included
+#pragma once
 
 
 // ACF includes
@@ -58,6 +57,5 @@ protected:
 } // namespace iimg
 
 
-#endif // !iimg_CBitmapBase_included
 
 

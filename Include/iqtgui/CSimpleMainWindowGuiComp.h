@@ -1,5 +1,4 @@
-#ifndef iqtgui_CSimpleMainWindowGuiComp_included
-#define iqtgui_CSimpleMainWindowGuiComp_included
+#pragma once
 
 
 // Qt includes
@@ -109,7 +108,7 @@ public:
 	CSimpleMainWindowGuiComp();
 
 	// reimplemented (iqtgui::IGuiObject)
-	virtual void OnTryClose(bool* ignoredPtr = NULL);
+	virtual void OnTryClose(bool* ignoredPtr = NULL) override;
 
 protected:
 	virtual void UpdateMenuActions();
@@ -265,6 +264,5 @@ private:
 } // namespace iqtgui
 
 
-#endif // !iqtgui_CSimpleMainWindowGuiComp_included
 
 

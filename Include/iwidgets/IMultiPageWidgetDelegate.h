@@ -1,5 +1,4 @@
-#ifndef iwidgets_IMultiPageWidgetDelegate_included
-#define iwidgets_IMultiPageWidgetDelegate_included
+#pragma once
 
 
 // Qt includes
@@ -215,6 +214,5 @@ public:
 } // namespace iwidgets
 
 
-#endif // !iwidgets_IMultiPageWidgetDelegate_included
 
 

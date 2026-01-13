@@ -1,5 +1,4 @@
-#ifndef istd_TPointerVector_included
-#define istd_TPointerVector_included
+#pragma once
 
 
 // STL includes
@@ -340,6 +339,5 @@ void TPointerVector<Pointer, AccessAdapter>::SwapElements(int index1, int index2
 } // namespace istd
 
 
-#endif // !istd_TPointerVector_included
 
 

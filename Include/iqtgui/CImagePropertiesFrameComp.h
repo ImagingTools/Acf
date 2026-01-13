@@ -1,5 +1,4 @@
-#ifndef iqtgui_CImagePropertiesFrameComp_included
-#define iqtgui_CImagePropertiesFrameComp_included
+#pragma once
 
 
 #include <iimg/IBitmap.h>
@@ -35,6 +34,5 @@ protected:
 } // namespace iqtgui
 
 
-#endif // !iqtgui_CImagePropertiesFrameComp_included
 
 

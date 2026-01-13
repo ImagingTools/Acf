@@ -1,5 +1,4 @@
-#ifndef iqt_CSettingsSerializerComp_included
-#define iqt_CSettingsSerializerComp_included
+#pragma once
 
 
 // Qt includes
@@ -65,6 +64,5 @@ private:
 } // namespace iqt
 
 
-#endif // !iqt_CSettingsSerializerComp_included
 
 

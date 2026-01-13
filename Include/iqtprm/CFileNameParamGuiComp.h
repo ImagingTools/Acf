@@ -1,5 +1,4 @@
-#ifndef iqtprm_CFileNameParamGuiComp_included
-#define iqtprm_CFileNameParamGuiComp_included
+#pragma once
 
 
 // Qt includes
@@ -87,6 +86,5 @@ private:
 } // namespace iqtprm
 
 
-#endif // !iqtprm_CFileNameParamGuiComp_included
 
 

@@ -1,5 +1,4 @@
-#ifndef istd_included
-#define istd_included
+#pragma once
 
 
 // STL includes
@@ -188,5 +187,4 @@ static const QChar QCHAR_PERMILLE = QChar(0x2030);
 	}
 
 
-#endif // !istd_included
 

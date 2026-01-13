@@ -1,5 +1,4 @@
-#ifndef i2d_CMatrix2d_included
-#define i2d_CMatrix2d_included
+#pragma once
 
 
 // ACF includes
@@ -312,6 +311,5 @@ inline const CMatrix2d& CMatrix2d::GetIdentity()
 } // namespace i2d
 
 
-#endif // !i2d_CMatrix2d_included
 
 

@@ -1,5 +1,4 @@
-#ifndef i3d_CMatrix3d_included
-#define i3d_CMatrix3d_included
+#pragma once
 
 
 // ACF includes
@@ -305,5 +304,4 @@ inline const CMatrix3d& CMatrix3d::GetIdentity()
 } // namespace i3d
 
 
-#endif // !i3d_CMatrix3d_included
 

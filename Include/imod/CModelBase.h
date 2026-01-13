@@ -1,5 +1,4 @@
-#ifndef imod_CModelBase_included
-#define imod_CModelBase_included
+#pragma once
 
 
 // Qt includes
@@ -137,5 +136,4 @@ inline istd::IChangeable::ChangeSet CModelBase::GetCumulatedChanges() const
 } // namespace imod
 
 
-#endif // !imod_CModelBase_included
 

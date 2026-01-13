@@ -1,5 +1,4 @@
-#ifndef iprm_CSelectionParamComp_included
-#define iprm_CSelectionParamComp_included
+#pragma once
 
 
 // ACF includes
@@ -33,7 +32,7 @@ public:
 	I_END_COMPONENT;
 
 	// reimplemented (iprm::ISelectionParam)
-	virtual ISelectionParam* GetSubselection(int index) const;
+	virtual ISelectionParam* GetSubselection(int index) const override;
 
 protected:
 	// reimplemented (icomp::CComponentBase)
@@ -49,5 +48,4 @@ private:
 } // namespace iprm
 
 
-#endif // !iprm_CSelectionParamComp_included
 

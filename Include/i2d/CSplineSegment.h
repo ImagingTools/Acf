@@ -1,5 +1,4 @@
-#ifndef i2d_CSplineSegment_included
-#define i2d_CSplineSegment_included
+#pragma once
 
 
 // ACF includes
@@ -12,6 +11,11 @@ namespace i2d
 {
 
 
+/**
+	Represents a single cubic polynomial segment of a spline curve.
+	A spline segment is defined by four coefficient vectors (A, B, C, D) that form
+	a cubic Bezier curve: P(t) = At^3 + Bt^2 + Ct + D, where t is in [0, 1].
+*/
 class CSplineSegment: virtual public istd::IChangeable
 {
 public:
@@ -72,14 +76,45 @@ public:
 	*/
 	virtual void GetHalfSegmentSecond(CSplineSegment& result) const;
 
-	// acces to members
+	/**
+		Get cubic coefficient A (coefficient of t^3 term).
+		\return	Coefficient vector A.
+	*/
 	const i2d::CVector2d& A() const;
+	/**
+		Set cubic coefficient A (coefficient of t^3 term).
+		\param	value	New coefficient vector A.
+	*/
 	void A(const i2d::CVector2d& value);
+	/**
+		Get quadratic coefficient B (coefficient of t^2 term).
+		\return	Coefficient vector B.
+	*/
 	const i2d::CVector2d& B() const;
+	/**
+		Set quadratic coefficient B (coefficient of t^2 term).
+		\param	value	New coefficient vector B.
+	*/
 	void B(const i2d::CVector2d& value);
+	/**
+		Get linear coefficient C (coefficient of t term).
+		\return	Coefficient vector C.
+	*/
 	const i2d::CVector2d& C() const;
+	/**
+		Set linear coefficient C (coefficient of t term).
+		\param	value	New coefficient vector C.
+	*/
 	void C(const i2d::CVector2d& value);
+	/**
+		Get constant coefficient D (constant term).
+		\return	Coefficient vector D.
+	*/
 	const i2d::CVector2d& D() const;
+	/**
+		Set constant coefficient D (constant term).
+		\param	value	New coefficient vector D.
+	*/
 	void D(const i2d::CVector2d& value);
 
 	// reimplemented (istd::IChangeable)
@@ -214,4 +249,3 @@ inline void CSplineSegment::D(const i2d::CVector2d& value)
 } // namespace i2d
 
 
-#endif // !i2d_CSplineSegment_included

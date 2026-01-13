@@ -1,5 +1,4 @@
-#ifndef iprm_COptionsManagerComp_included
-#define iprm_COptionsManagerComp_included
+#pragma once
 
 
 // ACF includes
@@ -43,6 +42,5 @@ private:
 } // namespace iprm
 
 
-#endif // !iprm_COptionsManagerComp_included
 
 

@@ -1,5 +1,4 @@
-#ifndef ibase_TMsbWord_included
-#define ibase_TMsbWord_included
+#pragma once
 
 
 // ACF includes
@@ -119,6 +118,5 @@ typedef TMsbWord<2> CMsbWord;
 } // namespace ibase
 
 
-#endif // !ibase_TMsbWord_included
 
 

@@ -34,7 +34,7 @@ public:
 	I_END_COMPONENT;
 
 	// reimplemented (iqtgui::IDialog)
-	virtual int ExecuteDialog(IGuiObject* parentPtr);
+	virtual int ExecuteDialog(IGuiObject* parentPtr) override;
 
 private:
 	I_REF(imod::IObserver, m_editorCompPtr);

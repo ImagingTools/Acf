@@ -1,5 +1,4 @@
-#ifndef ibase_IItemModelProvider_included
-#define ibase_IItemModelProvider_included
+#pragma once
 
 
 // Qt includes
@@ -30,6 +29,5 @@ public:
 } // namespace ibase
 
 
-#endif // !ibase_IItemModelProvider_included
 
 

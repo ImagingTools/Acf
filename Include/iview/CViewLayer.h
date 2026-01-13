@@ -1,5 +1,4 @@
-#ifndef iview_CLayerBase_included
-#define iview_CLayerBase_included
+#pragma once
 
 
 // Qt includes
@@ -113,6 +112,5 @@ inline bool CViewLayer::IsVisible() const
 } // namespace iview
 
 
-#endif // !iview_CLayerBase_included
 
 

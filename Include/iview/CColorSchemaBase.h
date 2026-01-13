@@ -1,5 +1,4 @@
-#ifndef iview_CColorSchemaBase_included
-#define iview_CColorSchemaBase_included
+#pragma once
 
 
 // Qt includes
@@ -50,7 +49,6 @@ inline int CColorSchemaBase::GetLogicalLineWidth() const
 } // namespace iview
 
 
-#endif // !iview_CColorSchemaBase_included
 
 
 
