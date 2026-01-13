@@ -187,7 +187,7 @@ CVector2d CGraphData2d::GetCenter() const
 }
 
 
-void CGraphData2d::MoveCenterTo(const CVector2d& position)
+void CGraphData2d::MoveCenterTo(const CVector2d& /*position*/)
 {
 	// Graph data is typically not moved in space
 	// This is a no-op for graph data
@@ -208,9 +208,9 @@ CRectangle CGraphData2d::GetBoundingBox() const
 
 
 bool CGraphData2d::Transform(
-			const ITransformation2d& transformation,
-			ITransformation2d::ExactnessMode mode,
-			double* errorFactorPtr)
+			const ITransformation2d& /*transformation*/,
+			ITransformation2d::ExactnessMode /*mode*/,
+			double* /*errorFactorPtr*/)
 {
 	// Transforming graph data is not typically supported
 	return false;
@@ -218,9 +218,9 @@ bool CGraphData2d::Transform(
 
 
 bool CGraphData2d::InvTransform(
-			const ITransformation2d& transformation,
-			ITransformation2d::ExactnessMode mode,
-			double* errorFactorPtr)
+			const ITransformation2d& /*transformation*/,
+			ITransformation2d::ExactnessMode /*mode*/,
+			double* /*errorFactorPtr*/)
 {
 	// Transforming graph data is not typically supported
 	return false;
@@ -228,10 +228,10 @@ bool CGraphData2d::InvTransform(
 
 
 bool CGraphData2d::GetTransformed(
-			const ITransformation2d& transformation,
-			IObject2d& result,
-			ITransformation2d::ExactnessMode mode,
-			double* errorFactorPtr) const
+			const ITransformation2d& /*transformation*/,
+			IObject2d& /*result*/,
+			ITransformation2d::ExactnessMode /*mode*/,
+			double* /*errorFactorPtr*/) const
 {
 	// Transforming graph data is not typically supported
 	return false;
@@ -239,10 +239,10 @@ bool CGraphData2d::GetTransformed(
 
 
 bool CGraphData2d::GetInvTransformed(
-			const ITransformation2d& transformation,
-			IObject2d& result,
-			ITransformation2d::ExactnessMode mode,
-			double* errorFactorPtr) const
+			const ITransformation2d& /*transformation*/,
+			IObject2d& /*result*/,
+			ITransformation2d::ExactnessMode /*mode*/,
+			double* /*errorFactorPtr*/) const
 {
 	// Transforming graph data is not typically supported
 	return false;
@@ -403,10 +403,11 @@ bool CGraphData2d::CopyFrom(const IChangeable& object, CompatibilityMode mode)
 
 istd::TUniqueInterfacePtr<istd::IChangeable> CGraphData2d::CloneMe(CompatibilityMode mode) const
 {
-	istd::TUniqueInterfacePtr<CGraphData2d> resultPtr(new CGraphData2d());
+	istd::IChangeableUniquePtr resultPtr(new CGraphData2d());
 	if (resultPtr->CopyFrom(*this, mode)){
-		return istd::TUniqueInterfacePtr<istd::IChangeable>(resultPtr.PopPtr());
+		return resultPtr;
 	}
+
 	return istd::TUniqueInterfacePtr<istd::IChangeable>();
 }
 
