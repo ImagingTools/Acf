@@ -160,7 +160,7 @@ void CGraphData2d::SetYAxisRange(const istd::CRange& range)
 void CGraphData2d::SetLegendVisible(bool visible)
 {
 	if (m_isLegendVisible != visible){
-		istd::CChangeNotifier notifier(*this, s_setLegendVisibleChange);
+		istd::CChangeNotifier notifier(this, &s_setLegendVisibleChange);
 		m_isLegendVisible = visible;
 	}
 }
@@ -169,7 +169,7 @@ void CGraphData2d::SetLegendVisible(bool visible)
 void CGraphData2d::SetGridVisible(bool visible)
 {
 	if (m_isGridVisible != visible){
-		istd::CChangeNotifier notifier(*this, s_setGridVisibleChange);
+		istd::CChangeNotifier notifier(this, &s_setGridVisibleChange);
 		m_isGridVisible = visible;
 	}
 }
@@ -320,7 +320,17 @@ bool CGraphData2d::SerializeCurve(iser::IArchive& archive, Curve& curve)
 	retVal = retVal && archive.EndTag(s_curveNameTag);
 	
 	retVal = retVal && archive.BeginTag(s_curveColorTag);
-	retVal = retVal && archive.Process(curve.color);
+	// Serialize QColor as a QString using QColor::name() format
+	if (archive.IsStoring()){
+		QString colorName = curve.color.name();
+		retVal = retVal && archive.Process(colorName);
+	} else {
+		QString colorName;
+		retVal = retVal && archive.Process(colorName);
+		if (retVal){
+			curve.color.setNamedColor(colorName);
+		}
+	}
 	retVal = retVal && archive.EndTag(s_curveColorTag);
 	
 	// Serialize points using BeginMultiTag
@@ -395,7 +405,7 @@ istd::TUniqueInterfacePtr<istd::IChangeable> CGraphData2d::CloneMe(Compatibility
 {
 	istd::TUniqueInterfacePtr<CGraphData2d> resultPtr(new CGraphData2d());
 	if (resultPtr->CopyFrom(*this, mode)){
-		return istd::TUniqueInterfacePtr<istd::IChangeable>(resultPtr.Release());
+		return istd::TUniqueInterfacePtr<istd::IChangeable>(resultPtr.PopPtr());
 	}
 	return istd::TUniqueInterfacePtr<istd::IChangeable>();
 }

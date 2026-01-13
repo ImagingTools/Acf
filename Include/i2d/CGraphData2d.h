@@ -23,6 +23,8 @@ namespace i2d
 */
 class CGraphData2d: public CObject2dBase
 {
+	typedef CObject2dBase BaseClass;
+	
 public:
 	enum ChangeFlags
 	{
