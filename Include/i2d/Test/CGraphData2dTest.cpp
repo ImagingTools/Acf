@@ -1,13 +1,8 @@
 #include <i2d/Test/CGraphData2dTest.h>
 
 
-#include <QtTest/QtTest>
 #include <i2d/CGraphData2d.h>
-#include <itest/TestMain.h>
-
-
-namespace i2d
-{
+#include <itest/CStandardTestExecutor.h>
 
 
 void CGraphData2dTest::initTestCase()
@@ -18,7 +13,7 @@ void CGraphData2dTest::initTestCase()
 
 void CGraphData2dTest::testConstruction()
 {
-	CGraphData2d graph;
+	i2d::CGraphData2d graph;
 	
 	QCOMPARE(graph.GetCurvesCount(), 0);
 	QVERIFY(graph.GetTitle().isEmpty());
@@ -31,14 +26,14 @@ void CGraphData2dTest::testConstruction()
 
 void CGraphData2dTest::testAddCurve()
 {
-	CGraphData2d graph;
+	i2d::CGraphData2d graph;
 	
-	CGraphData2d::Curve curve1;
+	i2d::CGraphData2d::Curve curve1;
 	curve1.name = "Test Curve 1";
 	curve1.color = Qt::red;
-	curve1.points.append(CVector2d(0.0, 0.0));
-	curve1.points.append(CVector2d(1.0, 1.0));
-	curve1.points.append(CVector2d(2.0, 4.0));
+	curve1.points.append(i2d::CVector2d(0.0, 0.0));
+	curve1.points.append(i2d::CVector2d(1.0, 1.0));
+	curve1.points.append(i2d::CVector2d(2.0, 4.0));
 	
 	graph.AddCurve(curve1);
 	
@@ -47,11 +42,11 @@ void CGraphData2dTest::testAddCurve()
 	QCOMPARE(graph.GetCurve(0).color, QColor(Qt::red));
 	QCOMPARE(graph.GetCurve(0).points.count(), 3);
 	
-	CGraphData2d::Curve curve2;
+	i2d::CGraphData2d::Curve curve2;
 	curve2.name = "Test Curve 2";
 	curve2.color = Qt::blue;
-	curve2.points.append(CVector2d(0.0, 1.0));
-	curve2.points.append(CVector2d(1.0, 2.0));
+	curve2.points.append(i2d::CVector2d(0.0, 1.0));
+	curve2.points.append(i2d::CVector2d(1.0, 2.0));
 	
 	graph.AddCurve(curve2);
 	
@@ -62,13 +57,13 @@ void CGraphData2dTest::testAddCurve()
 
 void CGraphData2dTest::testRemoveCurve()
 {
-	CGraphData2d graph;
+	i2d::CGraphData2d graph;
 	
-	CGraphData2d::Curve curve1;
+	i2d::CGraphData2d::Curve curve1;
 	curve1.name = "Curve 1";
 	graph.AddCurve(curve1);
 	
-	CGraphData2d::Curve curve2;
+	i2d::CGraphData2d::Curve curve2;
 	curve2.name = "Curve 2";
 	graph.AddCurve(curve2);
 	
@@ -83,9 +78,9 @@ void CGraphData2dTest::testRemoveCurve()
 
 void CGraphData2dTest::testClearCurves()
 {
-	CGraphData2d graph;
+	i2d::CGraphData2d graph;
 	
-	CGraphData2d::Curve curve;
+	i2d::CGraphData2d::Curve curve;
 	curve.name = "Test";
 	graph.AddCurve(curve);
 	graph.AddCurve(curve);
@@ -101,7 +96,7 @@ void CGraphData2dTest::testClearCurves()
 
 void CGraphData2dTest::testAxisLabels()
 {
-	CGraphData2d graph;
+	i2d::CGraphData2d graph;
 	
 	graph.SetXAxisLabel("Time (s)");
 	QCOMPARE(graph.GetXAxisLabel(), QString("Time (s)"));
@@ -116,7 +111,7 @@ void CGraphData2dTest::testAxisLabels()
 
 void CGraphData2dTest::testAxisRanges()
 {
-	CGraphData2d graph;
+	i2d::CGraphData2d graph;
 	
 	// Test auto-calculated ranges with no data
 	istd::CRange xRange = graph.GetXAxisRange();
@@ -125,9 +120,9 @@ void CGraphData2dTest::testAxisRanges()
 	QVERIFY(yRange.IsValid());
 	
 	// Add some data
-	CGraphData2d::Curve curve;
-	curve.points.append(CVector2d(0.0, 0.0));
-	curve.points.append(CVector2d(10.0, 20.0));
+	i2d::CGraphData2d::Curve curve;
+	curve.points.append(i2d::CVector2d(0.0, 0.0));
+	curve.points.append(i2d::CVector2d(10.0, 20.0));
 	graph.AddCurve(curve);
 	
 	// Test auto-calculated ranges with data
@@ -156,7 +151,7 @@ void CGraphData2dTest::testAxisRanges()
 
 void CGraphData2dTest::testLegendVisibility()
 {
-	CGraphData2d graph;
+	i2d::CGraphData2d graph;
 	
 	QVERIFY(graph.IsLegendVisible());
 	
@@ -170,7 +165,7 @@ void CGraphData2dTest::testLegendVisibility()
 
 void CGraphData2dTest::testGridVisibility()
 {
-	CGraphData2d graph;
+	i2d::CGraphData2d graph;
 	
 	QVERIFY(graph.IsGridVisible());
 	
@@ -184,16 +179,16 @@ void CGraphData2dTest::testGridVisibility()
 
 void CGraphData2dTest::testBoundingBox()
 {
-	CGraphData2d graph;
+	i2d::CGraphData2d graph;
 	
 	// Test with no data
-	CRectangle bbox = graph.GetBoundingBox();
+	i2d::CRectangle bbox = graph.GetBoundingBox();
 	QVERIFY(bbox.IsValid());
 	
 	// Add data
-	CGraphData2d::Curve curve;
-	curve.points.append(CVector2d(1.0, 2.0));
-	curve.points.append(CVector2d(5.0, 8.0));
+	i2d::CGraphData2d::Curve curve;
+	curve.points.append(i2d::CVector2d(1.0, 2.0));
+	curve.points.append(i2d::CVector2d(5.0, 8.0));
 	graph.AddCurve(curve);
 	
 	bbox = graph.GetBoundingBox();
@@ -211,7 +206,4 @@ void CGraphData2dTest::cleanupTestCase()
 }
 
 
-} // namespace i2d
-
-
-I_ADD_TEST(i2d::CGraphData2dTest);
+I_ADD_TEST(CGraphData2dTest);

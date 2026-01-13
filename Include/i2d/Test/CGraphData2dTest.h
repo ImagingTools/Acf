@@ -1,11 +1,9 @@
 #pragma once
 
 
+// Qt includes
 #include <QtCore/QObject>
-
-
-namespace i2d
-{
+#include <QtTest/QtTest>
 
 
 class CGraphData2dTest: public QObject
@@ -25,8 +23,5 @@ private Q_SLOTS:
 	void testBoundingBox();
 	void cleanupTestCase();
 };
-
-
-} // namespace i2d
 
 

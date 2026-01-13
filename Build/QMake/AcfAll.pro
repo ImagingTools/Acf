@@ -142,6 +142,9 @@ iprmTest.file = ../../Include/iprm/Test/QMake/iprmTest.pro
 SUBDIRS += ibaseTest
 ibaseTest.file = ../../Include/ibase/Test/QMake/ibaseTest.pro
 
+SUBDIRS += i2dTest
+i2dTest.file = ../../Include/i2d/Test/QMake/i2dTest.pro
+
 SUBDIRS += ifileTest
 ifileTest.file = ../../Include/ifile/Test/QMake/ifileTest.pro
 
