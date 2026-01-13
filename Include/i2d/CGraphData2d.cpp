@@ -65,7 +65,7 @@ CGraphData2d::CGraphData2d()
 
 void CGraphData2d::AddCurve(const Curve& curve)
 {
-	istd::CChangeNotifier notifier(*this, s_addCurveChange);
+	istd::CChangeNotifier notifier(this, &s_addCurveChange);
 	m_curves.append(curve);
 }
 
@@ -73,7 +73,7 @@ void CGraphData2d::AddCurve(const Curve& curve)
 void CGraphData2d::RemoveCurve(int index)
 {
 	if (index >= 0 && index < m_curves.count()){
-		istd::CChangeNotifier notifier(*this, s_removeCurveChange);
+		istd::CChangeNotifier notifier(this, &s_removeCurveChange);
 		m_curves.remove(index);
 	}
 }
@@ -82,7 +82,7 @@ void CGraphData2d::RemoveCurve(int index)
 void CGraphData2d::ClearCurves()
 {
 	if (!m_curves.isEmpty()){
-		istd::CChangeNotifier notifier(*this, s_clearCurvesChange);
+		istd::CChangeNotifier notifier(this, &s_clearCurvesChange);
 		m_curves.clear();
 	}
 }
@@ -91,7 +91,7 @@ void CGraphData2d::ClearCurves()
 void CGraphData2d::SetXAxisLabel(const QString& label)
 {
 	if (m_xAxisLabel != label){
-		istd::CChangeNotifier notifier(*this, s_setXAxisLabelChange);
+		istd::CChangeNotifier notifier(this, &s_setXAxisLabelChange);
 		m_xAxisLabel = label;
 	}
 }
@@ -100,7 +100,7 @@ void CGraphData2d::SetXAxisLabel(const QString& label)
 void CGraphData2d::SetYAxisLabel(const QString& label)
 {
 	if (m_yAxisLabel != label){
-		istd::CChangeNotifier notifier(*this, s_setYAxisLabelChange);
+		istd::CChangeNotifier notifier(this, &s_setYAxisLabelChange);
 		m_yAxisLabel = label;
 	}
 }
@@ -109,7 +109,7 @@ void CGraphData2d::SetYAxisLabel(const QString& label)
 void CGraphData2d::SetTitle(const QString& title)
 {
 	if (m_title != title){
-		istd::CChangeNotifier notifier(*this, s_setTitleChange);
+		istd::CChangeNotifier notifier(this, &s_setTitleChange);
 		m_title = title;
 	}
 }
@@ -130,7 +130,7 @@ istd::CRange CGraphData2d::GetXAxisRange() const
 void CGraphData2d::SetXAxisRange(const istd::CRange& range)
 {
 	if (m_xAxisRange != range){
-		istd::CChangeNotifier notifier(*this, s_setXAxisRangeChange);
+		istd::CChangeNotifier notifier(this, &s_setXAxisRangeChange);
 		m_xAxisRange = range;
 	}
 }
@@ -151,7 +151,7 @@ istd::CRange CGraphData2d::GetYAxisRange() const
 void CGraphData2d::SetYAxisRange(const istd::CRange& range)
 {
 	if (m_yAxisRange != range){
-		istd::CChangeNotifier notifier(*this, s_setYAxisRangeChange);
+		istd::CChangeNotifier notifier(this, &s_setYAxisRangeChange);
 		m_yAxisRange = range;
 	}
 }
@@ -328,7 +328,7 @@ bool CGraphData2d::SerializeCurve(iser::IArchive& archive, Curve& curve)
 		QString colorName;
 		retVal = retVal && archive.Process(colorName);
 		if (retVal){
-			curve.color.setNamedColor(colorName);
+			curve.color = QColor::fromString(colorName);
 		}
 	}
 	retVal = retVal && archive.EndTag(s_curveColorTag);
@@ -405,7 +405,7 @@ istd::TUniqueInterfacePtr<istd::IChangeable> CGraphData2d::CloneMe(Compatibility
 {
 	istd::TUniqueInterfacePtr<CGraphData2d> resultPtr(new CGraphData2d());
 	if (resultPtr->CopyFrom(*this, mode)){
-		return resultPtr;
+		return istd::TUniqueInterfacePtr<istd::IChangeable>(resultPtr.PopPtr());
 	}
 	return istd::TUniqueInterfacePtr<istd::IChangeable>();
 }
