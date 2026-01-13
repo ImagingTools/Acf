@@ -39,6 +39,13 @@ jobs:
           echo "ACFCONFIGDIR=$GITHUB_WORKSPACE/Config" >> $GITHUB_ENV
           echo "QTDIR=${{ env.Qt6_DIR }}" >> $GITHUB_ENV
       
+      - name: Generate version files (Windows)
+        if: runner.os == 'Windows'
+        shell: cmd
+        run: |
+          cd Build\Git
+          call GenerateVersion.bat
+      
       - name: Configure CMake
         run: |
           cmake -S Build/CMake -B build -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH="${{ env.Qt6_DIR }}"
@@ -72,6 +79,13 @@ jobs:
           echo "ACFDIR=$GITHUB_WORKSPACE" >> $GITHUB_ENV
           echo "ACFCONFIGDIR=$GITHUB_WORKSPACE/Config" >> $GITHUB_ENV
           echo "QTDIR=${{ env.Qt6_DIR }}" >> $GITHUB_ENV
+      
+      - name: Generate version files (Windows)
+        if: runner.os == 'Windows'
+        shell: cmd
+        run: |
+          cd Build\Git
+          call GenerateVersion.bat
       
       - name: Find first .pro file
         id: find-pro
