@@ -39,6 +39,12 @@ jobs:
           echo "ACFCONFIGDIR=$GITHUB_WORKSPACE/Config" >> $GITHUB_ENV
           echo "QTDIR=${{ env.Qt6_DIR }}" >> $GITHUB_ENV
       
+      - name: Generate version files (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          cd Build/Git
+          ./GenerateVersion.sh
+      
       - name: Generate version files (Windows)
         if: runner.os == 'Windows'
         shell: cmd
@@ -79,6 +85,12 @@ jobs:
           echo "ACFDIR=$GITHUB_WORKSPACE" >> $GITHUB_ENV
           echo "ACFCONFIGDIR=$GITHUB_WORKSPACE/Config" >> $GITHUB_ENV
           echo "QTDIR=${{ env.Qt6_DIR }}" >> $GITHUB_ENV
+      
+      - name: Generate version files (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          cd Build/Git
+          ./GenerateVersion.sh
       
       - name: Generate version files (Windows)
         if: runner.os == 'Windows'
