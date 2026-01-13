@@ -18,6 +18,11 @@ moc_*.cpp
 ui_*.h
 qrc_*.cpp
 
+# Generated version files
+Config/QMake/AcfVersion.pri
+Include/istd/AcfVersion.h
+Partitura/AcfVoce.arp/VersionInfo.acc
+
 # Generated documentation
 docs/
 Docs/TechnicalDoc/

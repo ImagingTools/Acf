@@ -1,0 +1,125 @@
+name: CI
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  cmake:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Install Qt 6.8.3
+        uses: jurplel/install-qt-action@v4
+        with:
+          version: '6.8.3'
+          cache: false
+      
+      - name: Install Ninja (Ubuntu)
+        if: runner.os == 'Linux'
+        run: sudo apt-get update && sudo apt-get install -y ninja-build
+      
+      - name: Install Ninja (Windows)
+        if: runner.os == 'Windows'
+        run: choco install ninja
+      
+      - name: Set environment variables
+        shell: bash
+        run: |
+          echo "ACFDIR=$GITHUB_WORKSPACE" >> $GITHUB_ENV
+          echo "ACFCONFIGDIR=$GITHUB_WORKSPACE/Config" >> $GITHUB_ENV
+          echo "QTDIR=${{ env.Qt6_DIR }}" >> $GITHUB_ENV
+      
+      - name: Generate version files (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          cd Build/Git
+          ./GenerateVersion.sh
+      
+      - name: Generate version files (Windows)
+        if: runner.os == 'Windows'
+        shell: cmd
+        run: |
+          cd Build\Git
+          call GenerateVersion.bat
+      
+      - name: Configure CMake
+        run: |
+          cmake -S Build/CMake -B build -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH="${{ env.Qt6_DIR }}"
+      
+      - name: Build
+        run: cmake --build build --config Release
+      
+      - name: Run tests
+        run: ctest --test-dir build --output-on-failure -C Release
+
+  qmake:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Install Qt 6.8.3
+        uses: jurplel/install-qt-action@v4
+        with:
+          version: '6.8.3'
+          cache: false
+      
+      - name: Set environment variables
+        shell: bash
+        run: |
+          echo "ACFDIR=$GITHUB_WORKSPACE" >> $GITHUB_ENV
+          echo "ACFCONFIGDIR=$GITHUB_WORKSPACE/Config" >> $GITHUB_ENV
+          echo "QTDIR=${{ env.Qt6_DIR }}" >> $GITHUB_ENV
+      
+      - name: Generate version files (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          cd Build/Git
+          ./GenerateVersion.sh
+      
+      - name: Generate version files (Windows)
+        if: runner.os == 'Windows'
+        shell: cmd
+        run: |
+          cd Build\Git
+          call GenerateVersion.bat
+      
+      - name: Find first .pro file
+        id: find-pro
+        shell: bash
+        run: |
+          PRO_FILE=$(find . -name "*.pro" | sort | head -n 1)
+          echo "pro_file=$PRO_FILE" >> $GITHUB_OUTPUT
+          echo "Found .pro file: $PRO_FILE"
+      
+      - name: Build with QMake (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          qmake ${{ steps.find-pro.outputs.pro_file }}
+          make -j$(nproc)
+      
+      - name: Setup MSVC (Windows)
+        if: runner.os == 'Windows'
+        uses: ilammy/msvc-dev-cmd@v1
+      
+      - name: Build with QMake (Windows)
+        if: runner.os == 'Windows'
+        shell: cmd
+        run: |
+          qmake ${{ steps.find-pro.outputs.pro_file }}
+          nmake

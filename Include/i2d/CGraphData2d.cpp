@@ -36,12 +36,12 @@ static const iser::CArchiveTag s_xAxisLabelTag("XAxisLabel", "X-axis label", ise
 static const iser::CArchiveTag s_yAxisLabelTag("YAxisLabel", "Y-axis label", iser::CArchiveTag::TT_LEAF);
 static const iser::CArchiveTag s_legendVisibleTag("LegendVisible", "Legend visibility flag", iser::CArchiveTag::TT_LEAF);
 static const iser::CArchiveTag s_gridVisibleTag("GridVisible", "Grid visibility flag", iser::CArchiveTag::TT_LEAF);
-static const iser::CArchiveTag s_curvesTag("Curves", "Curves collection", iser::CArchiveTag::TT_NODE);
-static const iser::CArchiveTag s_curveTag("Curve", "Curve data", iser::CArchiveTag::TT_NODE);
+static const iser::CArchiveTag s_curvesTag("Curves", "Curves collection", iser::CArchiveTag::TT_GROUP);
+static const iser::CArchiveTag s_curveTag("Curve", "Curve data", iser::CArchiveTag::TT_GROUP);
 static const iser::CArchiveTag s_curveNameTag("Name", "Curve name", iser::CArchiveTag::TT_LEAF);
 static const iser::CArchiveTag s_curveColorTag("Color", "Curve color", iser::CArchiveTag::TT_LEAF);
-static const iser::CArchiveTag s_pointsTag("Points", "Points collection", iser::CArchiveTag::TT_NODE);
-static const iser::CArchiveTag s_pointTag("Point", "Point data", iser::CArchiveTag::TT_NODE);
+static const iser::CArchiveTag s_pointsTag("Points", "Points collection", iser::CArchiveTag::TT_GROUP);
+static const iser::CArchiveTag s_pointTag("Point", "Point data", iser::CArchiveTag::TT_GROUP);
 static const iser::CArchiveTag s_pointXTag("X", "Point X coordinate", iser::CArchiveTag::TT_LEAF);
 static const iser::CArchiveTag s_pointYTag("Y", "Point Y coordinate", iser::CArchiveTag::TT_LEAF);
 
@@ -65,7 +65,7 @@ CGraphData2d::CGraphData2d()
 
 void CGraphData2d::AddCurve(const Curve& curve)
 {
-	istd::CChangeNotifier notifier(*this, s_addCurveChange);
+	istd::CChangeNotifier notifier(this, &s_addCurveChange);
 	m_curves.append(curve);
 }
 
@@ -73,7 +73,7 @@ void CGraphData2d::AddCurve(const Curve& curve)
 void CGraphData2d::RemoveCurve(int index)
 {
 	if (index >= 0 && index < m_curves.count()){
-		istd::CChangeNotifier notifier(*this, s_removeCurveChange);
+		istd::CChangeNotifier notifier(this, &s_removeCurveChange);
 		m_curves.remove(index);
 	}
 }
@@ -82,7 +82,7 @@ void CGraphData2d::RemoveCurve(int index)
 void CGraphData2d::ClearCurves()
 {
 	if (!m_curves.isEmpty()){
-		istd::CChangeNotifier notifier(*this, s_clearCurvesChange);
+		istd::CChangeNotifier notifier(this, &s_clearCurvesChange);
 		m_curves.clear();
 	}
 }
@@ -91,7 +91,7 @@ void CGraphData2d::ClearCurves()
 void CGraphData2d::SetXAxisLabel(const QString& label)
 {
 	if (m_xAxisLabel != label){
-		istd::CChangeNotifier notifier(*this, s_setXAxisLabelChange);
+		istd::CChangeNotifier notifier(this, &s_setXAxisLabelChange);
 		m_xAxisLabel = label;
 	}
 }
@@ -100,7 +100,7 @@ void CGraphData2d::SetXAxisLabel(const QString& label)
 void CGraphData2d::SetYAxisLabel(const QString& label)
 {
 	if (m_yAxisLabel != label){
-		istd::CChangeNotifier notifier(*this, s_setYAxisLabelChange);
+		istd::CChangeNotifier notifier(this, &s_setYAxisLabelChange);
 		m_yAxisLabel = label;
 	}
 }
@@ -109,7 +109,7 @@ void CGraphData2d::SetYAxisLabel(const QString& label)
 void CGraphData2d::SetTitle(const QString& title)
 {
 	if (m_title != title){
-		istd::CChangeNotifier notifier(*this, s_setTitleChange);
+		istd::CChangeNotifier notifier(this, &s_setTitleChange);
 		m_title = title;
 	}
 }
@@ -130,7 +130,7 @@ istd::CRange CGraphData2d::GetXAxisRange() const
 void CGraphData2d::SetXAxisRange(const istd::CRange& range)
 {
 	if (m_xAxisRange != range){
-		istd::CChangeNotifier notifier(*this, s_setXAxisRangeChange);
+		istd::CChangeNotifier notifier(this, &s_setXAxisRangeChange);
 		m_xAxisRange = range;
 	}
 }
@@ -151,7 +151,7 @@ istd::CRange CGraphData2d::GetYAxisRange() const
 void CGraphData2d::SetYAxisRange(const istd::CRange& range)
 {
 	if (m_yAxisRange != range){
-		istd::CChangeNotifier notifier(*this, s_setYAxisRangeChange);
+		istd::CChangeNotifier notifier(this, &s_setYAxisRangeChange);
 		m_yAxisRange = range;
 	}
 }
@@ -160,7 +160,7 @@ void CGraphData2d::SetYAxisRange(const istd::CRange& range)
 void CGraphData2d::SetLegendVisible(bool visible)
 {
 	if (m_isLegendVisible != visible){
-		istd::CChangeNotifier notifier(*this, s_setLegendVisibleChange);
+		istd::CChangeNotifier notifier(this, &s_setLegendVisibleChange);
 		m_isLegendVisible = visible;
 	}
 }
@@ -169,7 +169,7 @@ void CGraphData2d::SetLegendVisible(bool visible)
 void CGraphData2d::SetGridVisible(bool visible)
 {
 	if (m_isGridVisible != visible){
-		istd::CChangeNotifier notifier(*this, s_setGridVisibleChange);
+		istd::CChangeNotifier notifier(this, &s_setGridVisibleChange);
 		m_isGridVisible = visible;
 	}
 }
@@ -187,7 +187,7 @@ CVector2d CGraphData2d::GetCenter() const
 }
 
 
-void CGraphData2d::MoveCenterTo(const CVector2d& position)
+void CGraphData2d::MoveCenterTo(const CVector2d& /*position*/)
 {
 	// Graph data is typically not moved in space
 	// This is a no-op for graph data
@@ -208,9 +208,9 @@ CRectangle CGraphData2d::GetBoundingBox() const
 
 
 bool CGraphData2d::Transform(
-			const ITransformation2d& transformation,
-			ITransformation2d::ExactnessMode mode,
-			double* errorFactorPtr)
+			const ITransformation2d& /*transformation*/,
+			ITransformation2d::ExactnessMode /*mode*/,
+			double* /*errorFactorPtr*/)
 {
 	// Transforming graph data is not typically supported
 	return false;
@@ -218,9 +218,9 @@ bool CGraphData2d::Transform(
 
 
 bool CGraphData2d::InvTransform(
-			const ITransformation2d& transformation,
-			ITransformation2d::ExactnessMode mode,
-			double* errorFactorPtr)
+			const ITransformation2d& /*transformation*/,
+			ITransformation2d::ExactnessMode /*mode*/,
+			double* /*errorFactorPtr*/)
 {
 	// Transforming graph data is not typically supported
 	return false;
@@ -228,10 +228,10 @@ bool CGraphData2d::InvTransform(
 
 
 bool CGraphData2d::GetTransformed(
-			const ITransformation2d& transformation,
-			IObject2d& result,
-			ITransformation2d::ExactnessMode mode,
-			double* errorFactorPtr) const
+			const ITransformation2d& /*transformation*/,
+			IObject2d& /*result*/,
+			ITransformation2d::ExactnessMode /*mode*/,
+			double* /*errorFactorPtr*/) const
 {
 	// Transforming graph data is not typically supported
 	return false;
@@ -239,10 +239,10 @@ bool CGraphData2d::GetTransformed(
 
 
 bool CGraphData2d::GetInvTransformed(
-			const ITransformation2d& transformation,
-			IObject2d& result,
-			ITransformation2d::ExactnessMode mode,
-			double* errorFactorPtr) const
+			const ITransformation2d& /*transformation*/,
+			IObject2d& /*result*/,
+			ITransformation2d::ExactnessMode /*mode*/,
+			double* /*errorFactorPtr*/) const
 {
 	// Transforming graph data is not typically supported
 	return false;
@@ -320,7 +320,17 @@ bool CGraphData2d::SerializeCurve(iser::IArchive& archive, Curve& curve)
 	retVal = retVal && archive.EndTag(s_curveNameTag);
 	
 	retVal = retVal && archive.BeginTag(s_curveColorTag);
-	retVal = retVal && archive.Process(curve.color);
+	// Serialize QColor as a QString using QColor::name() format
+	if (archive.IsStoring()){
+		QString colorName = curve.color.name();
+		retVal = retVal && archive.Process(colorName);
+	} else {
+		QString colorName;
+		retVal = retVal && archive.Process(colorName);
+		if (retVal){
+			curve.color = QColor::fromString(colorName);
+		}
+	}
 	retVal = retVal && archive.EndTag(s_curveColorTag);
 	
 	// Serialize points using BeginMultiTag
@@ -393,10 +403,11 @@ bool CGraphData2d::CopyFrom(const IChangeable& object, CompatibilityMode mode)
 
 istd::TUniqueInterfacePtr<istd::IChangeable> CGraphData2d::CloneMe(CompatibilityMode mode) const
 {
-	istd::TUniqueInterfacePtr<CGraphData2d> resultPtr(new CGraphData2d());
+	istd::IChangeableUniquePtr resultPtr(new CGraphData2d());
 	if (resultPtr->CopyFrom(*this, mode)){
-		return istd::TUniqueInterfacePtr<istd::IChangeable>(resultPtr.Release());
+		return resultPtr;
 	}
+
 	return istd::TUniqueInterfacePtr<istd::IChangeable>();
 }
 
