@@ -264,29 +264,25 @@ bool CGraphData2d::Serialize(iser::IArchive& archive)
 	istd::CChangeNotifier notifier(archive.IsStoring()? NULL: this, &GetAllChanges());
 	Q_UNUSED(notifier);
 
-	if (!BaseClass::Serialize(archive)){
-		return false;
-	}
-
 	// Serialize basic properties
 	bool retVal = true;
 	
 	retVal = retVal && archive.BeginTag(s_titleTag);
 	retVal = retVal && archive.Process(m_title);
 	retVal = retVal && archive.EndTag(s_titleTag);
-	
+
 	retVal = retVal && archive.BeginTag(s_xAxisLabelTag);
 	retVal = retVal && archive.Process(m_xAxisLabel);
 	retVal = retVal && archive.EndTag(s_xAxisLabelTag);
-	
+
 	retVal = retVal && archive.BeginTag(s_yAxisLabelTag);
 	retVal = retVal && archive.Process(m_yAxisLabel);
 	retVal = retVal && archive.EndTag(s_yAxisLabelTag);
-	
+
 	retVal = retVal && archive.BeginTag(s_legendVisibleTag);
 	retVal = retVal && archive.Process(m_isLegendVisible);
 	retVal = retVal && archive.EndTag(s_legendVisibleTag);
-	
+
 	retVal = retVal && archive.BeginTag(s_gridVisibleTag);
 	retVal = retVal && archive.Process(m_isGridVisible);
 	retVal = retVal && archive.EndTag(s_gridVisibleTag);
@@ -294,7 +290,7 @@ bool CGraphData2d::Serialize(iser::IArchive& archive)
 	// Serialize curves using BeginMultiTag
 	int curvesCount = m_curves.count();
 	retVal = retVal && archive.BeginMultiTag(s_curvesTag, s_curveTag, curvesCount);
-	
+
 	// Adjust curves vector size when loading
 	if (!archive.IsStoring() && retVal){
 		m_curves.resize(curvesCount);
@@ -304,7 +300,7 @@ bool CGraphData2d::Serialize(iser::IArchive& archive)
 	for (int i = 0; i < curvesCount; ++i){
 		retVal = retVal && SerializeCurve(archive, m_curves[i]);
 	}
-	
+
 	retVal = retVal && archive.EndTag(s_curvesTag);
 
 	return retVal;
@@ -314,17 +310,18 @@ bool CGraphData2d::Serialize(iser::IArchive& archive)
 bool CGraphData2d::SerializeCurve(iser::IArchive& archive, Curve& curve)
 {
 	bool retVal = archive.BeginTag(s_curveTag);
-	
+
 	retVal = retVal && archive.BeginTag(s_curveNameTag);
 	retVal = retVal && archive.Process(curve.name);
 	retVal = retVal && archive.EndTag(s_curveNameTag);
-	
+
 	retVal = retVal && archive.BeginTag(s_curveColorTag);
 	// Serialize QColor as a QString using QColor::name() format
 	if (archive.IsStoring()){
 		QString colorName = curve.color.name();
 		retVal = retVal && archive.Process(colorName);
-	} else {
+	}
+	else{
 		QString colorName;
 		retVal = retVal && archive.Process(colorName);
 		if (retVal){
@@ -332,40 +329,40 @@ bool CGraphData2d::SerializeCurve(iser::IArchive& archive, Curve& curve)
 		}
 	}
 	retVal = retVal && archive.EndTag(s_curveColorTag);
-	
+
 	// Serialize points using BeginMultiTag
 	int pointsCount = curve.points.count();
 	retVal = retVal && archive.BeginMultiTag(s_pointsTag, s_pointTag, pointsCount);
-	
+
 	// Adjust points vector size when loading
 	if (!archive.IsStoring() && retVal){
 		curve.points.resize(pointsCount);
 	}
-	
+
 	for (int j = 0; j < pointsCount; ++j){
 		retVal = retVal && archive.BeginTag(s_pointTag);
-		
+
 		double x = curve.points[j].GetX();
 		double y = curve.points[j].GetY();
-		
+
 		retVal = retVal && archive.BeginTag(s_pointXTag);
 		retVal = retVal && archive.Process(x);
 		retVal = retVal && archive.EndTag(s_pointXTag);
-		
+
 		retVal = retVal && archive.BeginTag(s_pointYTag);
 		retVal = retVal && archive.Process(y);
 		retVal = retVal && archive.EndTag(s_pointYTag);
-		
+
 		retVal = retVal && archive.EndTag(s_pointTag);
-		
+
 		if (!archive.IsStoring()){
 			curve.points[j] = CVector2d(x, y);
 		}
 	}
-	
+
 	retVal = retVal && archive.EndTag(s_pointsTag);
 	retVal = retVal && archive.EndTag(s_curveTag);
-	
+
 	return retVal;
 }
 
