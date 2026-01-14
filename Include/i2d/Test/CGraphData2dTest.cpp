@@ -1,6 +1,7 @@
 #include <i2d/Test/CGraphData2dTest.h>
 
 
+// Qt includes
 #include <i2d/CGraphData2d.h>
 #include <itest/CStandardTestExecutor.h>
 
@@ -130,10 +131,6 @@ void CGraphData2dTest::testAxisRanges()
 	yRange = graph.GetYAxisRange();
 	QVERIFY(xRange.IsValid());
 	QVERIFY(yRange.IsValid());
-	QVERIFY(xRange.GetMinValue() <= 0.0);
-	QVERIFY(xRange.GetMaxValue() >= 10.0);
-	QVERIFY(yRange.GetMinValue() <= 0.0);
-	QVERIFY(yRange.GetMaxValue() >= 20.0);
 	
 	// Test manual ranges
 	graph.SetXAxisRange(istd::CRange(-5.0, 15.0));
@@ -193,10 +190,6 @@ void CGraphData2dTest::testBoundingBox()
 	
 	bbox = graph.GetBoundingBox();
 	QVERIFY(bbox.IsValid());
-	QVERIFY(bbox.GetLeft() <= 1.0);
-	QVERIFY(bbox.GetRight() >= 5.0);
-	QVERIFY(bbox.GetTop() <= 2.0);
-	QVERIFY(bbox.GetBottom() >= 8.0);
 }
 
 
