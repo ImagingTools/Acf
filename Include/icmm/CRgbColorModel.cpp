@@ -116,6 +116,7 @@ bool CRgbColorModel::CopyFrom(const IChangeable& object, CompatibilityMode /*mod
 	if (objectPtr != nullptr){
 		istd::CChangeNotifier notifier(this);
 
+		m_unitInfo = objectPtr->m_unitInfo;
 		m_spec = objectPtr->m_spec;
 
 		return true;

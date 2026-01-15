@@ -114,8 +114,12 @@ bool CSpectralColorSpecificationBase::IsEqual(const IChangeable& other) const
 
 istd::IChangeableUniquePtr CSpectralColorSpecificationBase::CloneMe(CompatibilityMode /*mode*/) const
 {
-	istd::IChangeableUniquePtr clonePtr(new CSpectralColorSpecificationBase(*this));
-	return clonePtr;
+	istd::IChangeableUniquePtr clonePtr(new CSpectralColorSpecificationBase(istd::CIntRange(), 0));
+	if (clonePtr->CopyFrom(*this)){
+		return clonePtr;
+	}
+
+	return istd::IChangeableUniquePtr();
 }
 
 
