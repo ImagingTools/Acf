@@ -104,7 +104,7 @@ bool CTristimulusSpecification::Serialize(iser::IArchive& archive)
 	iser::CArchiveTag baseSpecTag("BaseSpec", "Base specification", iser::CArchiveTag::TT_WEAK, nullptr, true);
 	retVal = retVal && archive.BeginTag(baseSpecTag);
 	if (m_baseSpecPtr != nullptr) {
-		retVal = retVal && iser::CPrimitiveTypesSerializer::SerializeEnum(archive, m_method, &icmm::staticMetaObject);
+		retVal = retVal && m_baseSpecPtr->Serialize(archive);
 	}
 	retVal = retVal && archive.EndTag(baseSpecTag);
 
