@@ -124,10 +124,10 @@ bool CCieLabColorModel::CopyFrom(const IChangeable& object, CompatibilityMode /*
 }
 
 
-istd::IChangeableUniquePtr CCieLabColorModel::CloneMe(CompatibilityMode /*mode*/) const
+istd::IChangeableUniquePtr CCieLabColorModel::CloneMe(CompatibilityMode mode) const
 {
 	istd::IChangeableUniquePtr clonePtr(new CCieLabColorModel());
-	if (clonePtr->CopyFrom(*this)){
+	if (clonePtr->CopyFrom(*this, mode)){
 		return clonePtr;
 	}
 

@@ -129,10 +129,10 @@ bool CIlluminant::IsEqual(const IChangeable& other) const
 }
 
 
-istd::IChangeableUniquePtr CIlluminant::CloneMe(CompatibilityMode /*mode*/) const
+istd::IChangeableUniquePtr CIlluminant::CloneMe(CompatibilityMode mode) const
 {
 	istd::IChangeableUniquePtr clonePtr(new CIlluminant());
-	if (clonePtr->CopyFrom(*this)){
+	if (clonePtr->CopyFrom(*this, mode)){
 		return clonePtr;
 	}
 

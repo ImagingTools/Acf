@@ -101,10 +101,10 @@ bool CTristimulusSpecification::IsEqual(const IChangeable& other) const
 }
 
 
-istd::IChangeableUniquePtr CTristimulusSpecification::CloneMe(CompatibilityMode /*mode*/) const
+istd::IChangeableUniquePtr CTristimulusSpecification::CloneMe(CompatibilityMode mode) const
 {
 	istd::IChangeableUniquePtr clonePtr(new CTristimulusSpecification());
-	if (clonePtr->CopyFrom(*this)){
+	if (clonePtr->CopyFrom(*this, mode)){
 		return clonePtr;
 	}
 

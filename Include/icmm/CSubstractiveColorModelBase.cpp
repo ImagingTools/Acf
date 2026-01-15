@@ -128,10 +128,10 @@ bool CSubstractiveColorModelBase::CopyFrom(const IChangeable& object, Compatibil
 }
 
 
-istd::IChangeableUniquePtr CSubstractiveColorModelBase::CloneMe(CompatibilityMode /*mode*/) const
+istd::IChangeableUniquePtr CSubstractiveColorModelBase::CloneMe(CompatibilityMode mode) const
 {
 	istd::IChangeableUniquePtr clonePtr(new CSubstractiveColorModelBase());
-	if (clonePtr->CopyFrom(*this)){
+	if (clonePtr->CopyFrom(*this, mode)){
 		return clonePtr;
 	}
 

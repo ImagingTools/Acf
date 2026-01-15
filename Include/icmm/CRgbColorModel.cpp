@@ -126,10 +126,10 @@ bool CRgbColorModel::CopyFrom(const IChangeable& object, CompatibilityMode /*mod
 }
 
 
-istd::IChangeableUniquePtr CRgbColorModel::CloneMe(CompatibilityMode /*mode*/) const
+istd::IChangeableUniquePtr CRgbColorModel::CloneMe(CompatibilityMode mode) const
 {
 	istd::IChangeableUniquePtr clonePtr(new CRgbColorModel());
-	if (clonePtr->CopyFrom(*this)){
+	if (clonePtr->CopyFrom(*this, mode)){
 		return clonePtr;
 	}
 

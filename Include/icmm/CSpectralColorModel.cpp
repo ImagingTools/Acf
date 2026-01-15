@@ -112,10 +112,10 @@ bool CSpectralColorModel::CopyFrom(const IChangeable& object, CompatibilityMode 
 }
 
 
-istd::IChangeableUniquePtr CSpectralColorModel::CloneMe(CompatibilityMode /*mode*/) const
+istd::IChangeableUniquePtr CSpectralColorModel::CloneMe(CompatibilityMode mode) const
 {
 	istd::IChangeableUniquePtr clonePtr(new CSpectralColorModel());
-	if (clonePtr->CopyFrom(*this)){
+	if (clonePtr->CopyFrom(*this, mode)){
 		return clonePtr;
 	}
 

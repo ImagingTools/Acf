@@ -61,10 +61,10 @@ std::unique_ptr<ISubstractiveColorModel> CCmyColorModel::CreateSubspaceModel(con
 
 // reimplemented (istd::IChangeable)
 
-istd::IChangeableUniquePtr CCmyColorModel::CloneMe(CompatibilityMode /*mode*/) const
+istd::IChangeableUniquePtr CCmyColorModel::CloneMe(CompatibilityMode mode) const
 {
 	istd::IChangeableUniquePtr clonePtr(new CCmyColorModel());
-	if (clonePtr->CopyFrom(*this)){
+	if (clonePtr->CopyFrom(*this, mode)){
 		return clonePtr;
 	}
 
