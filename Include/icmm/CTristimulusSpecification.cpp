@@ -68,7 +68,7 @@ int CTristimulusSpecification::GetSupportedOperations() const
 }
 
 
-bool CTristimulusSpecification::CopyFrom(const IChangeable& object, CompatibilityMode /*mode*/)
+bool CTristimulusSpecification::CopyFrom(const IChangeable& object, CompatibilityMode mode)
 {
 	const CTristimulusSpecification* objectPtr = dynamic_cast<const CTristimulusSpecification*>(&object);
 	if (objectPtr != nullptr){
@@ -76,8 +76,12 @@ bool CTristimulusSpecification::CopyFrom(const IChangeable& object, Compatibilit
 
 		m_observerType = objectPtr->m_observerType;
 		m_method = objectPtr->m_method;
-		m_illuminantPtr = objectPtr->m_illuminantPtr;
-		m_baseSpecPtr = objectPtr->m_baseSpecPtr;
+
+		// Only copy external resources if mode is CM_WITH_REFS
+		if (mode == CM_WITH_REFS){
+			m_illuminantPtr = objectPtr->m_illuminantPtr;
+			m_baseSpecPtr = objectPtr->m_baseSpecPtr;
+		}
 
 		return true;
 	}

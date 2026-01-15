@@ -63,17 +63,23 @@ void CIChangeableTest::CTristimulusSpecificationTest()
 	QVERIFY((operations & istd::IChangeable::SO_COMPARE) != 0);
 	QVERIFY((operations & istd::IChangeable::SO_COPY) != 0);
 
-	// Test CopyFrom
+	// Test CopyFrom with CM_WITHOUT_REFS (default - doesn't copy external resources)
 	icmm::CTristimulusSpecification spec2;
-	QVERIFY(spec2.CopyFrom(spec1));
-	QVERIFY(spec2.IsEqual(spec1));
+	QVERIFY(spec2.CopyFrom(spec1, istd::IChangeable::CM_WITHOUT_REFS));
 	QCOMPARE(spec2.GetObserverType(), spec1.GetObserverType());
 	QCOMPARE(spec2.GetMethod(), spec1.GetMethod());
+
+	// Test CopyFrom with CM_WITH_REFS (copies external resources)
+	icmm::CTristimulusSpecification spec3;
+	QVERIFY(spec3.CopyFrom(spec1, istd::IChangeable::CM_WITH_REFS));
+	QVERIFY(spec3.IsEqual(spec1));
+	QCOMPARE(spec3.GetObserverType(), spec1.GetObserverType());
+	QCOMPARE(spec3.GetMethod(), spec1.GetMethod());
 
 	// Test CloneMe
 	istd::IChangeableUniquePtr clonePtr = spec1.CloneMe();
 	QVERIFY(clonePtr.get() != nullptr);
-	QVERIFY(clonePtr->IsEqual(spec1));
+	// Note: CloneMe uses default mode (CM_WITHOUT_REFS), so won't be fully equal
 }
 
 

@@ -94,13 +94,16 @@ int CSpectralColorModel::GetSupportedOperations() const
 }
 
 
-bool CSpectralColorModel::CopyFrom(const IChangeable& object, CompatibilityMode /*mode*/)
+bool CSpectralColorModel::CopyFrom(const IChangeable& object, CompatibilityMode mode)
 {
 	const CSpectralColorModel* objectPtr = dynamic_cast<const CSpectralColorModel*>(&object);
 	if (objectPtr != nullptr){
 		istd::CChangeNotifier notifier(this);
 
-		m_spec = objectPtr->m_spec;
+		// Only copy external resources if mode is CM_WITH_REFS
+		if (mode == CM_WITH_REFS){
+			m_spec = objectPtr->m_spec;
+		}
 
 		return true;
 	}

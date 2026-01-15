@@ -86,10 +86,15 @@ bool CSpectralColorSpecificationBase::CopyFrom(const IChangeable& object, Compat
 {
 	const CSpectralColorSpecificationBase* objectPtr = dynamic_cast<const CSpectralColorSpecificationBase*>(&object);
 	if (objectPtr != nullptr){
+		const ISpectrumInfo* spectrumInfo = objectPtr->GetSpectrumInfo();
+		if (spectrumInfo == nullptr){
+			return false;
+		}
+
 		istd::CChangeNotifier notifier(this);
 
 		m_spectrumType = objectPtr->m_spectrumType;
-		m_info.CopyFrom(*objectPtr->GetSpectrumInfo());
+		m_info.CopyFrom(*spectrumInfo);
 
 		return true;
 	}
