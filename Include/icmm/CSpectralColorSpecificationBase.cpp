@@ -29,9 +29,9 @@ CSpectralColorSpecificationBase::CSpectralColorSpecificationBase(istd::CIntRange
 
 
 CSpectralColorSpecificationBase::CSpectralColorSpecificationBase(const CSpectralColorSpecificationBase& spec)
+	: m_spectrumType(spec.GetSpectrumType())
 {
 	m_info.CopyFrom(*spec.GetSpectrumInfo());
-	m_spectrumType = spec.GetSpectrumType();
 }
 
 

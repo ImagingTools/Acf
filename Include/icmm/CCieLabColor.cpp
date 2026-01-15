@@ -19,17 +19,16 @@ CCieLabColor::CCieLabColor(const CCieLabColorModel* modelPtr)
 
 
 CCieLabColor::CCieLabColor(const icmm::CLab& lab, const ITristimulusSpecification& spec)
-	:m_lab(lab)
+	: m_lab(lab),
+	m_modelPtr(std::make_shared<icmm::CCieLabColorModel>(spec))
 {
-	m_modelPtr = std::make_shared<icmm::CCieLabColorModel>(spec);
 }
 
 
 CCieLabColor::CCieLabColor(const CCieLabColor& color)
+	: m_lab(color.m_lab),
+	m_modelPtr(color.m_modelPtr)
 {
-	m_modelPtr = color.m_modelPtr;
-
-	m_lab = color.m_lab;
 }
 
 
