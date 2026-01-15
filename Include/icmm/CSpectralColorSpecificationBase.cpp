@@ -14,27 +14,24 @@ namespace icmm
 
 
 CSpectralColorSpecificationBase::CSpectralColorSpecificationBase(const ISpectrumInfo& spectrumInfo)
+	: m_spectrumType(Reflective)
 {
 	m_info.CopyFrom(spectrumInfo);
 }
 
 
 CSpectralColorSpecificationBase::CSpectralColorSpecificationBase(istd::CIntRange range, int step)
+	: m_spectrumType(Reflective)
 {
 	m_info.SetRange(range);
 	m_info.SetStep(step);
 }
 
 
-CSpectralColorSpecificationBase::~CSpectralColorSpecificationBase()
-{
-}
-
-
 CSpectralColorSpecificationBase::CSpectralColorSpecificationBase(const CSpectralColorSpecificationBase& spec)
+	: m_spectrumType(spec.GetSpectrumType())
 {
 	m_info.CopyFrom(*spec.GetSpectrumInfo());
-	m_spectrumType = spec.GetSpectrumType();
 }
 
 
@@ -58,7 +55,7 @@ ISpectralColorSpecification::SpectrumType CSpectralColorSpecificationBase::GetSp
 
 bool CSpectralColorSpecificationBase::Serialize(iser::IArchive& archive)
 {
-	istd::CChangeNotifier notifier(archive.IsStoring() ? NULL : this, &GetAllChanges());
+	istd::CChangeNotifier notifier(archive.IsStoring() ? nullptr : this, &GetAllChanges());
 	Q_UNUSED(notifier);
 
 	bool retVal = true;

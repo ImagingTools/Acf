@@ -111,7 +111,7 @@ bool CIlluminant::IsEqual(const IChangeable& other) const
 
 bool CIlluminant::Serialize(iser::IArchive& archive)
 {
-	istd::CChangeNotifier notifier(archive.IsStoring() ? NULL : this, &GetAllChanges());
+	istd::CChangeNotifier notifier(archive.IsStoring() ? nullptr : this, &GetAllChanges());
 	Q_UNUSED(notifier);
 
 	bool retVal = true;
