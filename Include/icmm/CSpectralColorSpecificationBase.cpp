@@ -14,14 +14,14 @@ namespace icmm
 
 
 CSpectralColorSpecificationBase::CSpectralColorSpecificationBase(const ISpectrumInfo& spectrumInfo)
-	: m_spectrumType(ST_REFLECTANCE)
+	: m_spectrumType(Reflective)
 {
 	m_info.CopyFrom(spectrumInfo);
 }
 
 
 CSpectralColorSpecificationBase::CSpectralColorSpecificationBase(istd::CIntRange range, int step)
-	: m_spectrumType(ST_REFLECTANCE)
+	: m_spectrumType(Reflective)
 {
 	m_info.SetRange(range);
 	m_info.SetStep(step);
