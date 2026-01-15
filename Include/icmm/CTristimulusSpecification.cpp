@@ -81,7 +81,7 @@ bool CTristimulusSpecification::Serialize(iser::IArchive& archive)
 		return false;
 	}
 
-	istd::CChangeNotifier notifier(archive.IsStoring() ? NULL : this, &GetAllChanges());
+	istd::CChangeNotifier notifier(archive.IsStoring() ? nullptr : this, &GetAllChanges());
 	Q_UNUSED(notifier);
 
 	bool retVal = true;

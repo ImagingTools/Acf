@@ -10,6 +10,7 @@ namespace icmm
 
 
 CCieLabColor::CCieLabColor(const CCieLabColorModel* modelPtr)
+	: m_modelPtr(nullptr)
 {
 	if (modelPtr != nullptr){
 		m_modelPtr = std::make_shared<CCieLabColorModel>(modelPtr->GetTristimulusSpecification());

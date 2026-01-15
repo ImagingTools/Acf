@@ -13,8 +13,6 @@ namespace icmm
 class CSpectralColorSpecificationBase: virtual public ISpectralColorSpecification
 {
 public:
-	virtual ~CSpectralColorSpecificationBase();
-
 	CSpectralColorSpecificationBase(const CSpectralColorSpecificationBase& spec);
 
 	// reimplemented (ISpectrumInfoProvider)

@@ -21,7 +21,7 @@ icmm::IColorTransformation* CColorTransformationProvider::GetColorTransformation
 		return &s_cmykToRgbTransform;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
