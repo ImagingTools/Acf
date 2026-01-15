@@ -150,6 +150,11 @@ public:
 	virtual const icmm::IColorTransformation* CreateColorTranformation(const IColorModel& otherColorModel, const QByteArray& transformationId) const override;
 	virtual IColorSpecification::ConstColorSpecPtr GetSpecification() const override;
 
+	// reimplemented (istd::IChangeable)
+	virtual int GetSupportedOperations() const override;
+	virtual bool CopyFrom(const istd::IChangeable& object, CompatibilityMode mode = CM_WITHOUT_REFS) override;
+	virtual istd::IChangeableUniquePtr CloneMe(CompatibilityMode mode = CM_WITHOUT_REFS) const override;
+
 protected:
 	imath::CGeneralUnitInfo m_unitInfo;
 	CTristimulusSpecification m_spec;

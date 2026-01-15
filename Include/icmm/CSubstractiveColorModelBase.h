@@ -37,6 +37,11 @@ public:
 	// reimplemented (icmm::ISubstractiveColorModel)
 	virtual bool GetColorantVisualInfo(const ColorantId& colorantId, icmm::ICieLabColor& preview) const override;
 
+	// reimplemented (istd::IChangeable)
+	virtual int GetSupportedOperations() const override;
+	virtual bool CopyFrom(const istd::IChangeable& object, CompatibilityMode mode = CM_WITHOUT_REFS) override;
+	virtual istd::IChangeableUniquePtr CloneMe(CompatibilityMode mode = CM_WITHOUT_REFS) const override;
+
 protected:
 	/**
 		Tristimulus specification used for all colorants in the color model.

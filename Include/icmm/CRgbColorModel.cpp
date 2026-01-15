@@ -2,6 +2,7 @@
 
 
 // ACF includes
+#include <istd/CChangeNotifier.h>
 #include <icmm/CCmykColorModel.h>
 #include <icmm/CRgbToHsvTranformation.h>
 #include <icmm/CRgbToXyzTransformation.h>
@@ -98,6 +99,40 @@ const icmm::IColorTransformation* CRgbColorModel::CreateColorTranformation(const
 IColorSpecification::ConstColorSpecPtr CRgbColorModel::GetSpecification() const
 {
 	return std::make_shared<CTristimulusSpecification>(m_spec);
+}
+
+
+// reimplemented (istd::IChangeable)
+
+int CRgbColorModel::GetSupportedOperations() const
+{
+	return SO_CLONE | SO_COMPARE | SO_COPY;
+}
+
+
+bool CRgbColorModel::CopyFrom(const IChangeable& object, CompatibilityMode /*mode*/)
+{
+	const CRgbColorModel* objectPtr = dynamic_cast<const CRgbColorModel*>(&object);
+	if (objectPtr != nullptr){
+		istd::CChangeNotifier notifier(this);
+
+		m_spec = objectPtr->m_spec;
+
+		return true;
+	}
+
+	return false;
+}
+
+
+istd::IChangeableUniquePtr CRgbColorModel::CloneMe(CompatibilityMode /*mode*/) const
+{
+	istd::IChangeableUniquePtr clonePtr(new CRgbColorModel());
+	if (clonePtr->CopyFrom(*this)){
+		return clonePtr;
+	}
+
+	return istd::IChangeableUniquePtr();
 }
 
 

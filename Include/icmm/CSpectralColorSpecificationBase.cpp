@@ -76,6 +76,28 @@ bool CSpectralColorSpecificationBase::Serialize(iser::IArchive& archive)
 
 // reimplemented (istd::IChangeable)
 
+int CSpectralColorSpecificationBase::GetSupportedOperations() const
+{
+	return SO_CLONE | SO_COMPARE | SO_COPY;
+}
+
+
+bool CSpectralColorSpecificationBase::CopyFrom(const IChangeable& object, CompatibilityMode /*mode*/)
+{
+	const CSpectralColorSpecificationBase* objectPtr = dynamic_cast<const CSpectralColorSpecificationBase*>(&object);
+	if (objectPtr != nullptr){
+		istd::CChangeNotifier notifier(this);
+
+		m_spectrumType = objectPtr->m_spectrumType;
+		m_info.CopyFrom(*objectPtr->GetSpectrumInfo());
+
+		return true;
+	}
+
+	return false;
+}
+
+
 bool CSpectralColorSpecificationBase::IsEqual(const IChangeable& other) const
 {
 	const CSpectralColorSpecificationBase* objectPtr = dynamic_cast<const CSpectralColorSpecificationBase*>(&other);
@@ -87,6 +109,13 @@ bool CSpectralColorSpecificationBase::IsEqual(const IChangeable& other) const
 	bool isInfoSame = m_info.IsEqual(*objectPtr->GetSpectrumInfo());
 
 	return isTypeSame && isInfoSame;
+}
+
+
+istd::IChangeableUniquePtr CSpectralColorSpecificationBase::CloneMe(CompatibilityMode /*mode*/) const
+{
+	istd::IChangeableUniquePtr clonePtr(new CSpectralColorSpecificationBase(*this));
+	return clonePtr;
 }
 
 

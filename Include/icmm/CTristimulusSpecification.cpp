@@ -62,6 +62,30 @@ std::shared_ptr<ISpectralColorSpecification> CTristimulusSpecification::GetBaseS
 
 // reimplemented (istd::IChangeable)
 
+int CTristimulusSpecification::GetSupportedOperations() const
+{
+	return SO_CLONE | SO_COMPARE | SO_COPY;
+}
+
+
+bool CTristimulusSpecification::CopyFrom(const IChangeable& object, CompatibilityMode /*mode*/)
+{
+	const CTristimulusSpecification* objectPtr = dynamic_cast<const CTristimulusSpecification*>(&object);
+	if (objectPtr != nullptr){
+		istd::CChangeNotifier notifier(this);
+
+		m_observerType = objectPtr->m_observerType;
+		m_method = objectPtr->m_method;
+		m_illuminantPtr = objectPtr->m_illuminantPtr;
+		m_baseSpecPtr = objectPtr->m_baseSpecPtr;
+
+		return true;
+	}
+
+	return false;
+}
+
+
 bool CTristimulusSpecification::IsEqual(const IChangeable& other) const
 {
 	const CTristimulusSpecification* objectPtr = dynamic_cast<const CTristimulusSpecification*>(&other);
@@ -70,6 +94,17 @@ bool CTristimulusSpecification::IsEqual(const IChangeable& other) const
 	}
 
 	return *this == *objectPtr;
+}
+
+
+istd::IChangeableUniquePtr CTristimulusSpecification::CloneMe(CompatibilityMode /*mode*/) const
+{
+	istd::IChangeableUniquePtr clonePtr(new CTristimulusSpecification());
+	if (clonePtr->CopyFrom(*this)){
+		return clonePtr;
+	}
+
+	return istd::IChangeableUniquePtr();
 }
 
 

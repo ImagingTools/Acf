@@ -60,6 +60,19 @@ std::unique_ptr<ISubstractiveColorModel> CCmykColorModel::CreateSubspaceModel(co
 }
 
 
+// reimplemented (istd::IChangeable)
+
+istd::IChangeableUniquePtr CCmykColorModel::CloneMe(CompatibilityMode /*mode*/) const
+{
+	istd::IChangeableUniquePtr clonePtr(new CCmykColorModel());
+	if (clonePtr->CopyFrom(*this)){
+		return clonePtr;
+	}
+
+	return istd::IChangeableUniquePtr();
+}
+
+
 } // namespace icmm
 
 

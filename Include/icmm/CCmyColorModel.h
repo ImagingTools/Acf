@@ -22,6 +22,9 @@ public:
 
 	// reimplemented ISubstractiveColorModel
 	virtual std::unique_ptr<ISubstractiveColorModel> CreateSubspaceModel(const QStringList& colorantIds) const override;
+
+	// reimplemented (istd::IChangeable)
+	virtual istd::IChangeableUniquePtr CloneMe(CompatibilityMode mode = CM_WITHOUT_REFS) const override;
 };
 
 
