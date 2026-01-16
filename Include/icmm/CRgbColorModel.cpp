@@ -110,14 +110,14 @@ int CRgbColorModel::GetSupportedOperations() const
 }
 
 
-bool CRgbColorModel::CopyFrom(const IChangeable& object, CompatibilityMode /*mode*/)
+bool CRgbColorModel::CopyFrom(const IChangeable& object, CompatibilityMode mode)
 {
 	const CRgbColorModel* objectPtr = dynamic_cast<const CRgbColorModel*>(&object);
 	if (objectPtr != nullptr){
 		istd::CChangeNotifier notifier(this);
 
 		m_unitInfo = objectPtr->m_unitInfo;
-		m_spec = objectPtr->m_spec;
+		m_spec.CopyFrom(objectPtr->m_spec, mode);
 
 		return true;
 	}

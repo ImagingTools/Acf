@@ -109,13 +109,13 @@ int CCieLabColorModel::GetSupportedOperations() const
 }
 
 
-bool CCieLabColorModel::CopyFrom(const IChangeable& object, CompatibilityMode /*mode*/)
+bool CCieLabColorModel::CopyFrom(const IChangeable& object, CompatibilityMode mode)
 {
 	const CCieLabColorModel* objectPtr = dynamic_cast<const CCieLabColorModel*>(&object);
 	if (objectPtr != nullptr){
 		istd::CChangeNotifier notifier(this);
 
-		m_spec = objectPtr->m_spec;
+		m_spec.CopyFrom(objectPtr->m_spec, mode);
 
 		return true;
 	}

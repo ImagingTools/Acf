@@ -2,6 +2,7 @@
 
 
 // ACF includes
+#include <itest/CStandardTestExecutor.h>
 #include <icmm/CIlluminant.h>
 #include <icmm/CTristimulusSpecification.h>
 #include <icmm/CSpectrumInfo.h>
