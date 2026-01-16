@@ -40,7 +40,6 @@ public:
 	// reimplemented (istd::IChangeable)
 	virtual int GetSupportedOperations() const override;
 	virtual bool CopyFrom(const istd::IChangeable& object, CompatibilityMode mode = CM_WITHOUT_REFS) override;
-	virtual istd::IChangeableUniquePtr CloneMe(CompatibilityMode mode = CM_WITHOUT_REFS) const override;
 
 protected:
 	/**
