@@ -105,13 +105,13 @@ jobs:
             
             if [ "$STATE" = "finished" ]; then
               BUILD_URL=$(echo "$BODY" | jq -r '.webUrl // "N/A"')
+              echo "Build URL: $BUILD_URL"
+              
               if [ "$STATUS" = "SUCCESS" ]; then
                 echo "✅ TeamCity build completed successfully!"
-                echo "Build URL: $BUILD_URL"
                 exit 0
               else
                 echo "❌ TeamCity build failed with status: $STATUS"
-                echo "Build URL: $BUILD_URL"
                 exit 1
               fi
             fi
