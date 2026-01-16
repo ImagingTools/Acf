@@ -40,11 +40,11 @@ void CIChangeableTest::CIlluminantTest()
 
 	// Test CloneMe
 	istd::IChangeableUniquePtr clonePtr = illuminant1.CloneMe();
-	QVERIFY(clonePtr.get() != nullptr);
+	QVERIFY(clonePtr.GetPtr() != nullptr);
 	QVERIFY(clonePtr->IsEqual(illuminant1));
 
 	// Test that cloned object is different instance
-	icmm::CIlluminant* clonedIlluminant = dynamic_cast<icmm::CIlluminant*>(clonePtr.get());
+	icmm::CIlluminant* clonedIlluminant = dynamic_cast<icmm::CIlluminant*>(clonePtr.GetPtr());
 	QVERIFY(clonedIlluminant != nullptr);
 	QCOMPARE(clonedIlluminant->GetIlluminantType(), illuminant1.GetIlluminantType());
 }
@@ -78,7 +78,7 @@ void CIChangeableTest::CTristimulusSpecificationTest()
 
 	// Test CloneMe
 	istd::IChangeableUniquePtr clonePtr = spec1.CloneMe();
-	QVERIFY(clonePtr.get() != nullptr);
+	QVERIFY(clonePtr.GetPtr() != nullptr);
 	// Note: CloneMe uses default mode (CM_WITHOUT_REFS), so won't be fully equal
 }
 
@@ -102,7 +102,7 @@ void CIChangeableTest::CSpectrumInfoTest()
 
 	// Test CloneMe
 	istd::IChangeableUniquePtr clonePtr = info1.CloneMe();
-	QVERIFY(clonePtr.get() != nullptr);
+	QVERIFY(clonePtr.GetPtr() != nullptr);
 	QVERIFY(clonePtr->IsEqual(info1));
 }
 
@@ -122,10 +122,10 @@ void CIChangeableTest::CRgbColorModelTest()
 
 	// Test CloneMe
 	istd::IChangeableUniquePtr clonePtr = model1.CloneMe();
-	QVERIFY(clonePtr.get() != nullptr);
+	QVERIFY(clonePtr.GetPtr() != nullptr);
 	
 	// Verify it's an RGB color model
-	icmm::CRgbColorModel* clonedModel = dynamic_cast<icmm::CRgbColorModel*>(clonePtr.get());
+	icmm::CRgbColorModel* clonedModel = dynamic_cast<icmm::CRgbColorModel*>(clonePtr.GetPtr());
 	QVERIFY(clonedModel != nullptr);
 	QCOMPARE(clonedModel->GetModelType(), icmm::IColorModel::MT_RGB);
 }
@@ -146,10 +146,10 @@ void CIChangeableTest::CCieLabColorModelTest()
 
 	// Test CloneMe
 	istd::IChangeableUniquePtr clonePtr = model1.CloneMe();
-	QVERIFY(clonePtr.get() != nullptr);
+	QVERIFY(clonePtr.GetPtr() != nullptr);
 	
 	// Verify it's a Lab color model
-	icmm::CCieLabColorModel* clonedModel = dynamic_cast<icmm::CCieLabColorModel*>(clonePtr.get());
+	icmm::CCieLabColorModel* clonedModel = dynamic_cast<icmm::CCieLabColorModel*>(clonePtr.GetPtr());
 	QVERIFY(clonedModel != nullptr);
 	QCOMPARE(clonedModel->GetModelType(), icmm::IColorModel::MT_LAB);
 }
@@ -170,10 +170,10 @@ void CIChangeableTest::CSpectralColorModelTest()
 
 	// Test CloneMe
 	istd::IChangeableUniquePtr clonePtr = model1.CloneMe();
-	QVERIFY(clonePtr.get() != nullptr);
+	QVERIFY(clonePtr.GetPtr() != nullptr);
 	
 	// Verify it's a spectral color model
-	icmm::CSpectralColorModel* clonedModel = dynamic_cast<icmm::CSpectralColorModel*>(clonePtr.get());
+	icmm::CSpectralColorModel* clonedModel = dynamic_cast<icmm::CSpectralColorModel*>(clonePtr.GetPtr());
 	QVERIFY(clonedModel != nullptr);
 	QCOMPARE(clonedModel->GetModelType(), icmm::IColorModel::MI_SPECTRAL);
 }
@@ -242,10 +242,10 @@ void CIChangeableTest::CCmyColorModelTest()
 
 	// Test CloneMe (override to return correct type)
 	istd::IChangeableUniquePtr clonePtr = model1.CloneMe();
-	QVERIFY(clonePtr.get() != nullptr);
+	QVERIFY(clonePtr.GetPtr() != nullptr);
 	
 	// Verify it's a CMY color model
-	icmm::CCmyColorModel* clonedModel = dynamic_cast<icmm::CCmyColorModel*>(clonePtr.get());
+	icmm::CCmyColorModel* clonedModel = dynamic_cast<icmm::CCmyColorModel*>(clonePtr.GetPtr());
 	QVERIFY(clonedModel != nullptr);
 	QCOMPARE(clonedModel->GetColorantIds().count(), 3); // C, M, Y
 }
@@ -266,10 +266,10 @@ void CIChangeableTest::CCmykColorModelTest()
 
 	// Test CloneMe (override to return correct type)
 	istd::IChangeableUniquePtr clonePtr = model1.CloneMe();
-	QVERIFY(clonePtr.get() != nullptr);
+	QVERIFY(clonePtr.GetPtr() != nullptr);
 	
 	// Verify it's a CMYK color model
-	icmm::CCmykColorModel* clonedModel = dynamic_cast<icmm::CCmykColorModel*>(clonePtr.get());
+	icmm::CCmykColorModel* clonedModel = dynamic_cast<icmm::CCmykColorModel*>(clonePtr.GetPtr());
 	QVERIFY(clonedModel != nullptr);
 	QCOMPARE(clonedModel->GetColorantIds().count(), 4); // C, M, Y, K
 }
