@@ -200,6 +200,10 @@ object QMakeBuildLinux : BuildType({
             name = "Find and Build with QMake"
             scriptContent = """
                 PRO_FILE=${'$'}(find . -name "*.pro" | sort | head -n 1)
+                if [ -z "${'$'}PRO_FILE" ]; then
+                    echo "Error: No .pro file found"
+                    exit 1
+                fi
                 echo "Building: ${'$'}PRO_FILE"
                 qmake6 ${'$'}PRO_FILE
                 make -j${'$'}(nproc)
@@ -243,22 +247,19 @@ object QMakeBuildWindows : BuildType({
         }
         
         script {
-            name = "Find .pro file"
+            name = "Find and Build with QMake"
             scriptContent = """
                 @echo off
-                for /f "delims=" %%i in ('dir /b /s *.pro ^| sort') do (
+                for /f "delims=" %%i in ('dir /b /s *.pro') do (
                     set PRO_FILE=%%i
                     goto :found
                 )
+                echo Error: No .pro file found
+                exit /b 1
                 :found
-                echo ##teamcity[setParameter name='env.PRO_FILE' value='%PRO_FILE%']
-            """.trimIndent()
-        }
-        
-        script {
-            name = "Build with QMake"
-            scriptContent = """
-                qmake %env.PRO_FILE%
+                echo Building: %PRO_FILE%
+                qmake %PRO_FILE%
+                if errorlevel 1 exit /b 1
                 nmake
             """.trimIndent()
         }
