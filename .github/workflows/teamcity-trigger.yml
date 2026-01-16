@@ -24,13 +24,13 @@ jobs:
       - name: Trigger TeamCity Build
         id: teamcity
         env:
-          TEAMCITY_URL: ${{ secrets.TEAMCITY_URL }}
-          TEAMCITY_TOKEN: ${{ secrets.TEAMCITY_TOKEN }}
-          TEAMCITY_BUILD_TYPE: ${{ secrets.TEAMCITY_BUILD_TYPE }}
+          TEAMCITY_URL: ${{ vars.TEAMCITY_URL }}
+          TEAMCITY_TOKEN: ${{ vars.TEAMCITY_TOKEN }}
+          TEAMCITY_BUILD_TYPE: ${{ vars.TEAMCITY_BUILD_TYPE }}
         run: |
           if [ -z "$TEAMCITY_URL" ] || [ -z "$TEAMCITY_TOKEN" ] || [ -z "$TEAMCITY_BUILD_TYPE" ]; then
-            echo "Error: TeamCity configuration not found in repository secrets"
-            echo "Please configure the following secrets:"
+            echo "Error: TeamCity configuration not found in repository variables"
+            echo "Please configure the following repository variables:"
             echo "  - TEAMCITY_URL: Your TeamCity server URL (e.g., https://teamcity.example.com)"
             echo "  - TEAMCITY_TOKEN: TeamCity access token with build trigger permissions"
             echo "  - TEAMCITY_BUILD_TYPE: TeamCity build configuration ID (e.g., Acf_Build)"
@@ -68,8 +68,8 @@ jobs:
       - name: Wait for TeamCity Build
         if: steps.teamcity.outputs.build_id
         env:
-          TEAMCITY_URL: ${{ secrets.TEAMCITY_URL }}
-          TEAMCITY_TOKEN: ${{ secrets.TEAMCITY_TOKEN }}
+          TEAMCITY_URL: ${{ vars.TEAMCITY_URL }}
+          TEAMCITY_TOKEN: ${{ vars.TEAMCITY_TOKEN }}
           BUILD_ID: ${{ steps.teamcity.outputs.build_id }}
         run: |
           echo "Waiting for TeamCity build $BUILD_ID to complete..."

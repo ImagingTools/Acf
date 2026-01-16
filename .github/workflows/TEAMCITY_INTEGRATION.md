@@ -16,11 +16,11 @@ The `teamcity-trigger.yml` workflow:
 1. A TeamCity server with a configured build configuration for this project
 2. A TeamCity access token with permissions to trigger builds and query build status
 
-### Required GitHub Secrets
+### Required GitHub Repository Variables
 
-Configure the following secrets in your GitHub repository settings (Settings → Secrets and variables → Actions):
+Configure the following variables in your GitHub repository settings (Settings → Secrets and variables → Actions → Variables tab):
 
-| Secret Name | Description | Example |
+| Variable Name | Description | Example |
 |------------|-------------|---------|
 | `TEAMCITY_URL` | Your TeamCity server URL (without trailing slash) | `https://teamcity.example.com` |
 | `TEAMCITY_TOKEN` | TeamCity access token with build trigger permissions | `eyJ0eXAiOiJKV1Q...` |
@@ -46,12 +46,13 @@ Your TeamCity server base URL, for example: `https://teamcity.example.com`
 3. Format is usually: `ProjectId_BuildConfigurationId`
 4. Example: `Acf_CMakeBuild` or `ImagingTools_Acf_Build`
 
-## Setting Up GitHub Secrets
+## Setting Up GitHub Repository Variables
 
 1. Go to your repository on GitHub
 2. Click **Settings** → **Secrets and variables** → **Actions**
-3. Click **New repository secret**
-4. Add each of the three secrets listed above
+3. Click on the **Variables** tab
+4. Click **New repository variable**
+5. Add each of the three variables listed above
 
 ## Workflow Triggers
 
@@ -75,8 +76,8 @@ You can adjust this by modifying the `MAX_WAIT` variable in the workflow file.
 
 ## Troubleshooting
 
-### "TeamCity configuration not found in repository secrets"
-- Ensure all three required secrets (TEAMCITY_URL, TEAMCITY_TOKEN, TEAMCITY_BUILD_TYPE) are configured in your repository settings
+### "TeamCity configuration not found in repository variables"
+- Ensure all three required variables (TEAMCITY_URL, TEAMCITY_TOKEN, TEAMCITY_BUILD_TYPE) are configured in your repository settings under the Variables tab
 
 ### "Failed to trigger TeamCity build"
 - Verify the TeamCity URL is correct and accessible
@@ -103,7 +104,8 @@ Your TeamCity build configuration should:
 
 ## Security Notes
 
-- Store your TeamCity token securely in GitHub Secrets (never commit it to the repository)
+- Store your TeamCity token securely in GitHub repository variables
+- Consider using GitHub Secrets instead of Variables if you need additional security for the token (the workflow supports both)
 - Use a dedicated service account or token with minimal required permissions
 - Consider using TeamCity's token expiration features
 - Regularly rotate access tokens
@@ -113,4 +115,4 @@ Your TeamCity build configuration should:
 For issues with:
 - **GitHub Actions workflow**: Check the Actions tab in GitHub for detailed logs
 - **TeamCity build**: Check the TeamCity web interface for build logs and configuration
-- **Integration**: Ensure secrets are correctly configured and TeamCity REST API is accessible
+- **Integration**: Ensure variables are correctly configured and TeamCity REST API is accessible
