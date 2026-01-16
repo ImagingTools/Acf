@@ -55,6 +55,11 @@ public:
 				const QByteArray& transformationId = QByteArray()) const override;
 	virtual IColorSpecification::ConstColorSpecPtr GetSpecification() const override;
 
+	// reimplemented (istd::IChangeable)
+	virtual int GetSupportedOperations() const override;
+	virtual bool CopyFrom(const istd::IChangeable& object, CompatibilityMode mode = CM_WITHOUT_REFS) override;
+	virtual istd::IChangeableUniquePtr CloneMe(CompatibilityMode mode = CM_WITHOUT_REFS) const override;
+
 private:
 	CTristimulusSpecification m_spec;
 };

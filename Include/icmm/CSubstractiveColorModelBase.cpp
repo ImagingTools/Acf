@@ -2,6 +2,7 @@
 
 
 // ACF includes
+#include <istd/CChangeNotifier.h>
 #include <imath/CGeneralUnitInfo.h>
 #include <iser/CPrimitiveTypesSerializer.h>
 
@@ -97,6 +98,30 @@ bool CSubstractiveColorModelBase::GetColorantVisualInfo(const ColorantId& colora
 {
 	if (m_colorantPreviewMap.contains(colorantId)){
 		return preview.Initialize(m_colorantPreviewMap[colorantId], m_previewSpec);
+	}
+
+	return false;
+}
+
+
+// reimplemented (istd::IChangeable)
+
+int CSubstractiveColorModelBase::GetSupportedOperations() const
+{
+	return SO_CLONE | SO_COMPARE | SO_COPY;
+}
+
+
+bool CSubstractiveColorModelBase::CopyFrom(const IChangeable& object, CompatibilityMode /*mode*/)
+{
+	const CSubstractiveColorModelBase* objectPtr = dynamic_cast<const CSubstractiveColorModelBase*>(&object);
+	if (objectPtr != nullptr){
+		istd::CChangeNotifier notifier(this);
+
+		m_previewSpec = objectPtr->m_previewSpec;
+		m_colorantPreviewMap = objectPtr->m_colorantPreviewMap;
+
+		return true;
 	}
 
 	return false;

@@ -2,6 +2,7 @@
 
 
 // ACF includes
+#include <istd/CChangeNotifier.h>
 #include <icmm/CSpectrumInfo.h>
 
 
@@ -82,6 +83,43 @@ const icmm::IColorTransformation* CSpectralColorModel::CreateColorTranformation(
 IColorSpecification::ConstColorSpecPtr CSpectralColorModel::GetSpecification() const
 {
 	return m_spec;
+}
+
+
+// reimplemented (istd::IChangeable)
+
+int CSpectralColorModel::GetSupportedOperations() const
+{
+	return SO_CLONE | SO_COMPARE | SO_COPY;
+}
+
+
+bool CSpectralColorModel::CopyFrom(const IChangeable& object, CompatibilityMode mode)
+{
+	const CSpectralColorModel* objectPtr = dynamic_cast<const CSpectralColorModel*>(&object);
+	if (objectPtr != nullptr){
+		istd::CChangeNotifier notifier(this);
+
+		// Only copy external resources if mode is CM_WITH_REFS
+		if (mode == CM_WITH_REFS){
+			m_spec = objectPtr->m_spec;
+		}
+
+		return true;
+	}
+
+	return false;
+}
+
+
+istd::IChangeableUniquePtr CSpectralColorModel::CloneMe(CompatibilityMode mode) const
+{
+	istd::IChangeableUniquePtr clonePtr(new CSpectralColorModel());
+	if (clonePtr->CopyFrom(*this, mode)){
+		return clonePtr;
+	}
+
+	return istd::IChangeableUniquePtr();
 }
 
 

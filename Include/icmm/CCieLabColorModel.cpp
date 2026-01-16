@@ -101,6 +101,40 @@ IColorSpecification::ConstColorSpecPtr CCieLabColorModel::GetSpecification() con
 }
 
 
+// reimplemented (istd::IChangeable)
+
+int CCieLabColorModel::GetSupportedOperations() const
+{
+	return SO_CLONE | SO_COMPARE | SO_COPY;
+}
+
+
+bool CCieLabColorModel::CopyFrom(const IChangeable& object, CompatibilityMode mode)
+{
+	const CCieLabColorModel* objectPtr = dynamic_cast<const CCieLabColorModel*>(&object);
+	if (objectPtr != nullptr){
+		istd::CChangeNotifier notifier(this);
+
+		m_spec.CopyFrom(objectPtr->m_spec, mode);
+
+		return true;
+	}
+
+	return false;
+}
+
+
+istd::IChangeableUniquePtr CCieLabColorModel::CloneMe(CompatibilityMode mode) const
+{
+	istd::IChangeableUniquePtr clonePtr(new CCieLabColorModel());
+	if (clonePtr->CopyFrom(*this, mode)){
+		return clonePtr;
+	}
+
+	return istd::IChangeableUniquePtr();
+}
+
+
 } // namespace icmm
 
 
