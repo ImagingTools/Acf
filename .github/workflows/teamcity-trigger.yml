@@ -82,30 +82,35 @@ jobs:
             RESPONSE=$(curl -s -w "\n%{http_code}" \
               -H "Authorization: Bearer $TEAMCITY_TOKEN" \
               -H "Accept: application/json" \
-              "$TEAMCITY_URL/app/rest/builds/id:$BUILD_ID")
+              "$TEAMCITY_URL/app/rest/builds/id:$BUILD_ID?fields=id,state,status,statusText,webUrl")
             
             HTTP_CODE=$(echo "$RESPONSE" | tail -n1)
             BODY=$(echo "$RESPONSE" | sed '$d')
             
             if [ "$HTTP_CODE" -ne 200 ]; then
               echo "Failed to get build status. HTTP Status: $HTTP_CODE"
+              echo "Response body: $BODY"
               exit 1
             fi
             
-            STATE=$(echo "$BODY" | jq -r '.state // "unknown"')
-            STATUS=$(echo "$BODY" | jq -r '.status // "unknown"')
+            # Extract state and status, trim whitespace
+            STATE=$(echo "$BODY" | jq -r '.state // "unknown"' | tr -d '[:space:]')
+            STATUS=$(echo "$BODY" | jq -r '.status // "unknown"' | tr -d '[:space:]')
+            STATUS_TEXT=$(echo "$BODY" | jq -r '.statusText // ""')
             
             echo "Build state: $STATE, status: $STATUS"
+            if [ -n "$STATUS_TEXT" ]; then
+              echo "Status text: $STATUS_TEXT"
+            fi
             
             if [ "$STATE" = "finished" ]; then
+              BUILD_URL=$(echo "$BODY" | jq -r '.webUrl // "N/A"')
               if [ "$STATUS" = "SUCCESS" ]; then
                 echo "✅ TeamCity build completed successfully!"
-                BUILD_URL=$(echo "$BODY" | jq -r '.webUrl // "N/A"')
                 echo "Build URL: $BUILD_URL"
                 exit 0
               else
                 echo "❌ TeamCity build failed with status: $STATUS"
-                BUILD_URL=$(echo "$BODY" | jq -r '.webUrl // "N/A"')
                 echo "Build URL: $BUILD_URL"
                 exit 1
               fi
