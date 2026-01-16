@@ -61,6 +61,12 @@ public:
 	static bool SerializeDate(iser::IArchive& archive, QDate& date);
 
 	/**
+		Serialize a generic range object.
+	*/
+	template <typename ValueType>
+	static bool SerializeRange(iser::IArchive& archive, istd::TRange<ValueType>& range);
+
+	/**
 		Serialize a generic index object.
 	*/
 	template <int Dimensions>
@@ -167,6 +173,25 @@ public:
 };
 
 // public template methods
+
+template <typename ValueType>
+bool CPrimitiveTypesSerializer::SerializeRange(iser::IArchive& archive, istd::TRange<ValueType>& range)
+{
+	static iser::CArchiveTag minValueTag("MinValue", "Minimal range value", iser::CArchiveTag::TT_LEAF);
+	static iser::CArchiveTag maxValueTag("MaxValue", "Maximal range value", iser::CArchiveTag::TT_LEAF);
+
+	bool retVal = true;
+
+	retVal = retVal && archive.BeginTag(minValueTag);
+	retVal = retVal && archive.Process(range.GetMinValueRef());
+	retVal = retVal && archive.EndTag(minValueTag);
+
+	retVal = retVal && archive.BeginTag(maxValueTag);
+	retVal = retVal && archive.Process(range.GetMaxValueRef());
+	retVal = retVal && archive.EndTag(maxValueTag);
+
+	return retVal;
+}
 
 template <int Dimensions>
 bool CPrimitiveTypesSerializer::SerializeIndex(iser::IArchive& archive, istd::TIndex<Dimensions>& index)
