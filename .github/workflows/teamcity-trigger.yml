@@ -51,7 +51,12 @@ jobs:
           
           if [ "$HTTP_CODE" -ge 200 ] && [ "$HTTP_CODE" -lt 300 ]; then
             echo "TeamCity build triggered successfully"
-            BUILD_ID=$(echo "$BODY" | jq -r '.id')
+            BUILD_ID=$(echo "$BODY" | jq -r '.id // empty')
+            if [ -z "$BUILD_ID" ]; then
+              echo "Error: Failed to extract build ID from TeamCity response"
+              echo "Response: $BODY"
+              exit 1
+            fi
             echo "build_id=$BUILD_ID" >> $GITHUB_OUTPUT
             echo "Build ID: $BUILD_ID"
           else
@@ -87,20 +92,20 @@ jobs:
               exit 1
             fi
             
-            STATE=$(echo "$BODY" | jq -r '.state')
-            STATUS=$(echo "$BODY" | jq -r '.status')
+            STATE=$(echo "$BODY" | jq -r '.state // "unknown"')
+            STATUS=$(echo "$BODY" | jq -r '.status // "unknown"')
             
             echo "Build state: $STATE, status: $STATUS"
             
             if [ "$STATE" = "finished" ]; then
               if [ "$STATUS" = "SUCCESS" ]; then
                 echo "✅ TeamCity build completed successfully!"
-                BUILD_URL=$(echo "$BODY" | jq -r '.webUrl')
+                BUILD_URL=$(echo "$BODY" | jq -r '.webUrl // "N/A"')
                 echo "Build URL: $BUILD_URL"
                 exit 0
               else
                 echo "❌ TeamCity build failed with status: $STATUS"
-                BUILD_URL=$(echo "$BODY" | jq -r '.webUrl')
+                BUILD_URL=$(echo "$BODY" | jq -r '.webUrl // "N/A"')
                 echo "Build URL: $BUILD_URL"
                 exit 1
               fi
