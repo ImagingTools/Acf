@@ -5,7 +5,7 @@ include(${ACFDIR}/Config/CMake/WindeployQt.cmake)
 
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core Test)
 
-target_link_libraries(${PROJECT_NAME} icmm itest idoc imod  iser istd iprm ibase imath)
+target_link_libraries(${PROJECT_NAME} itest icmm imath istd iser imod ibase iprm idoc)
 target_link_libraries(${PROJECT_NAME} Qt${QT_VERSION_MAJOR}::Test Qt${QT_VERSION_MAJOR}::Core)
 
 # acf_use_qt_graphics_modules()
