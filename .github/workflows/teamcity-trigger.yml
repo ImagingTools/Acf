@@ -93,9 +93,9 @@ jobs:
               exit 1
             fi
             
-            # Extract state and status, trim whitespace
-            STATE=$(echo "$BODY" | jq -r '.state // "unknown"' | tr -d '[:space:]')
-            STATUS=$(echo "$BODY" | jq -r '.status // "unknown"' | tr -d '[:space:]')
+            # Extract state and status, trim leading/trailing whitespace
+            STATE=$(echo "$BODY" | jq -r '.state // "unknown"' | xargs)
+            STATUS=$(echo "$BODY" | jq -r '.status // "unknown"' | xargs)
             STATUS_TEXT=$(echo "$BODY" | jq -r '.statusText // ""')
             
             echo "Build state: $STATE, status: $STATUS"
