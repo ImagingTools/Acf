@@ -40,7 +40,7 @@ const icmm::CRgb& CRgbColor::GetRgb() const
 
 IColorSpecification::ConstColorSpecPtr CRgbColor::GetSpecification() const
 {
-	return m_modelPtr->GetSpecification();
+	return m_modelPtr ? m_modelPtr->GetSpecification() : nullptr;
 }
 
 
