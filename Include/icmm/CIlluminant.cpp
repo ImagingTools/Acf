@@ -91,6 +91,29 @@ void CIlluminant::SetIlluminantType(const StandardIlluminant& illuminantType)
 
 // reimplemented (istd::IChangeable)
 
+int CIlluminant::GetSupportedOperations() const
+{
+	return SO_CLONE | SO_COMPARE | SO_COPY;
+}
+
+
+bool CIlluminant::CopyFrom(const IChangeable& object, CompatibilityMode /*mode*/)
+{
+	const CIlluminant* objectPtr = dynamic_cast<const CIlluminant*>(&object);
+	if (objectPtr != nullptr){
+		istd::CChangeNotifier notifier(this);
+
+		m_illuminantType = objectPtr->m_illuminantType;
+		m_illuminantName = objectPtr->m_illuminantName;
+		m_whitePoint = objectPtr->m_whitePoint;
+
+		return true;
+	}
+
+	return false;
+}
+
+
 bool CIlluminant::IsEqual(const IChangeable& other) const
 {
 	const IIlluminant* objectPtr = dynamic_cast<const IIlluminant*>(&other);
@@ -103,6 +126,17 @@ bool CIlluminant::IsEqual(const IChangeable& other) const
 				m_illuminantType == objectPtr->GetIlluminantType() &&
 				m_illuminantName == objectPtr->GetIlluminantName() &&
 				m_whitePoint == objectPtr->GetWhitePoint();
+}
+
+
+istd::IChangeableUniquePtr CIlluminant::CloneMe(CompatibilityMode mode) const
+{
+	istd::IChangeableUniquePtr clonePtr(new CIlluminant());
+	if (clonePtr->CopyFrom(*this, mode)){
+		return clonePtr;
+	}
+
+	return istd::IChangeableUniquePtr();
 }
 
 
