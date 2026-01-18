@@ -89,10 +89,10 @@ January 2026
 **Purpose**: Automated security scanning and vulnerability detection
 
 **Key Features**:
-- CodeQL static analysis for C++
 - Dependency review for pull requests
 - SBOM validation
 - Vulnerability scanning with Trivy
+- Note: C++ code analysis is performed via TeamCity CI integration
 - Weekly scheduled scans
 - Security audit summary
 
