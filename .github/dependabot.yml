@@ -18,10 +18,7 @@ updates:
     commit-message:
       prefix: "ci"
       include: "scope"
-    reviewers:
-      - "ImagingTools/maintainers"
-    assignees:
-      - "ImagingTools/maintainers"
+    # Note: reviewers and assignees should be configured once team/user names are confirmed
 
   # Monitor CMake dependencies (if using CMake package manager integration)
   # Note: Dependabot has limited support for C++ dependencies

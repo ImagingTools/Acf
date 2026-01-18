@@ -11,10 +11,6 @@ security:
     enabled: true
 
 contact:
-  - type: email
-    email: security@example.com
-    preferred: false
-  
   - type: web
     url: https://github.com/ImagingTools/Acf/security/advisories
     preferred: true

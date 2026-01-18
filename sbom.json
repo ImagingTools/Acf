@@ -17,7 +17,7 @@
       "bom-ref": "pkg:github/ImagingTools/Acf",
       "name": "ACF",
       "description": "Application Component Framework - A flexible and extensible framework for building component-based applications",
-      "version": "latest",
+      "version": "1.0.0-dev",
       "licenses": [
         {
           "license": {
@@ -50,10 +50,10 @@
   "components": [
     {
       "type": "library",
-      "bom-ref": "pkg:generic/qt@5.x",
+      "bom-ref": "pkg:generic/qt@5.15",
       "name": "Qt",
-      "version": "5.x or later",
-      "description": "Cross-platform application framework",
+      "version": "5.15",
+      "description": "Cross-platform application framework (minimum version 5.15, also compatible with 6.x)",
       "licenses": [
         {
           "license": {
@@ -117,12 +117,12 @@
     {
       "ref": "pkg:github/ImagingTools/Acf",
       "dependsOn": [
-        "pkg:generic/qt@5.x",
+        "pkg:generic/qt@5.15",
         "pkg:generic/stdcpp"
       ]
     },
     {
-      "ref": "pkg:generic/qt@5.x",
+      "ref": "pkg:generic/qt@5.15",
       "dependsOn": []
     },
     {

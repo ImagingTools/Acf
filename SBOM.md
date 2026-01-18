@@ -22,10 +22,18 @@ A basic SBOM for ACF is provided in [`sbom.json`](sbom.json) in CycloneDX format
 - License information
 - Project metadata
 
-**Note**: This SBOM should be updated when:
-- Dependencies are added or removed
-- Version numbers change
-- License information is updated
+**Important Notes**:
+- The version in `sbom.json` uses `1.0.0-dev` as a placeholder
+- **Maintainers should update this file with each release** to reflect:
+  - Current ACF version number
+  - Specific Qt version used in testing
+  - Any dependency changes
+- The SBOM should be regenerated or updated before each release
+
+**Update Schedule**:
+- Per Release: Update version numbers and dependency information
+- As Needed: When dependencies are added, removed, or updated
+- Quarterly: Verify all information is current
 
 ## SBOM Standards
 
