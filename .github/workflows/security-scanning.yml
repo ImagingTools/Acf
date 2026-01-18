@@ -37,7 +37,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v6
       
-      - name: Validate SBOM JSON format
+      - name: Validate CycloneDX SBOM
         run: |
           # Validate JSON syntax
           if ! jq empty sbom.json 2>/dev/null; then
@@ -66,14 +66,46 @@ jobs:
             exit 1
           fi
           
-          echo "✓ SBOM JSON is valid and has required CycloneDX structure"
+          echo "✓ CycloneDX SBOM is valid and has required structure"
+      
+      - name: Validate SPDX SBOM
+        run: |
+          # Validate JSON syntax
+          if ! jq empty sbom.spdx.json 2>/dev/null; then
+            echo "Error: sbom.spdx.json is not valid JSON"
+            exit 1
+          fi
+          
+          # Validate basic SPDX structure
+          if ! jq -e '.spdxVersion == "SPDX-2.3"' sbom.spdx.json >/dev/null; then
+            echo "Error: spdxVersion must be 'SPDX-2.3'"
+            exit 1
+          fi
+          
+          if ! jq -e '.dataLicense' sbom.spdx.json >/dev/null; then
+            echo "Error: dataLicense is required"
+            exit 1
+          fi
+          
+          if ! jq -e '.creationInfo' sbom.spdx.json >/dev/null; then
+            echo "Error: creationInfo is required"
+            exit 1
+          fi
+          
+          if ! jq -e '.packages' sbom.spdx.json >/dev/null; then
+            echo "Error: packages array is required"
+            exit 1
+          fi
+          
+          echo "✓ SPDX SBOM is valid and has required structure"
       
       - name: Generate SBOM report
         if: always()
         run: |
           echo "SBOM validation completed"
-          echo "SBOM file: sbom.json"
-          echo "Format: CycloneDX 1.5"
+          echo "SBOM files:"
+          echo "  - sbom.json (CycloneDX 1.5)"
+          echo "  - sbom.spdx.json (SPDX 2.3)"
 
   vulnerability-scan:
     name: Vulnerability Scanning
