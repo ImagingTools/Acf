@@ -69,6 +69,19 @@ January 2026
 **Location**: `/sbom.json`
 **Format**: CycloneDX 1.5 JSON
 
+#### sbom.spdx.json
+**Purpose**: Pre-generated SBOM for ACF in SPDX 2.3 format
+
+**Key Contents**:
+- ACF project metadata
+- License information using SPDX identifiers
+- Dependencies (Qt Framework, C++ Standard Library)
+- Package relationships and references
+- SPDX standard compliance
+
+**Location**: `/sbom.spdx.json`
+**Format**: SPDX 2.3 JSON
+
 #### CONTRIBUTING.md
 **Purpose**: Contributor guidelines with security focus
 
@@ -200,7 +213,7 @@ January 2026
 - Known limitations documented
 
 ✅ **SBOM**
-- Pre-generated SBOM (sbom.json)
+- Pre-generated SBOMs in CycloneDX (sbom.json) and SPDX (sbom.spdx.json) formats
 - SBOM generation guide (SBOM.md)
 - Dependencies documented
 
@@ -278,7 +291,7 @@ January 2026
 ### Documentation Updates
 
 - Review CRA_COMPLIANCE.md every 6 months
-- Update SBOM when dependencies change
+- Update both SBOM files (sbom.json and sbom.spdx.json) when dependencies change
 - Keep SECURITY.md current with process changes
 - Update README.md when adding security features
 
@@ -286,7 +299,7 @@ January 2026
 
 All changes have been verified:
 
-✅ SBOM JSON is valid CycloneDX 1.5 format
+✅ SBOM files are valid in CycloneDX 1.5 and SPDX 2.3 formats
 ✅ GitHub Actions workflow syntax is valid
 ✅ All documentation is cross-referenced correctly
 ✅ Links to external resources are functional

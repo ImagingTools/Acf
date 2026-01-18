@@ -15,20 +15,31 @@ A Software Bill of Materials (SBOM) is a comprehensive inventory of all componen
 
 ## Pre-Generated SBOM
 
-A basic SBOM for ACF is provided in [`sbom.json`](sbom.json) in CycloneDX format. This includes:
+ACF provides pre-generated SBOMs in both major formats:
+
+### CycloneDX Format
+A basic SBOM for ACF is provided in [`sbom.json`](sbom.json) in CycloneDX 1.5 format. This includes:
 
 - ACF framework information
 - Main runtime dependencies (Qt Framework)
 - License information
 - Project metadata
 
+### SPDX Format
+An SPDX 2.3 format SBOM is provided in [`sbom.spdx.json`](sbom.spdx.json). This includes:
+
+- ACF framework information
+- Main runtime dependencies (Qt Framework)
+- License information (using SPDX license identifiers)
+- Package relationships
+
 **Important Notes**:
-- The version in `sbom.json` uses `1.0.0-dev` as a placeholder
-- **Maintainers should update this file with each release** to reflect:
+- The version in both SBOM files uses `1.0.0-dev` as a placeholder
+- **Maintainers should update both files with each release** to reflect:
   - Current ACF version number
   - Specific Qt version used in testing
   - Any dependency changes
-- The SBOM should be regenerated or updated before each release
+- Both SBOMs should be regenerated or updated before each release
 
 **Update Schedule**:
 - Per Release: Update version numbers and dependency information
@@ -249,6 +260,8 @@ Update your SBOM when:
 
 ### Basic JSON Validation
 
+#### CycloneDX Format (sbom.json)
+
 ```bash
 # Validate JSON syntax
 jq empty sbom.json
@@ -258,6 +271,19 @@ jq -e '.bomFormat == "CycloneDX"' sbom.json
 jq -e '.specVersion' sbom.json
 jq -e '.metadata' sbom.json
 jq -e '.components' sbom.json
+```
+
+#### SPDX Format (sbom.spdx.json)
+
+```bash
+# Validate JSON syntax
+jq empty sbom.spdx.json
+
+# Validate SPDX structure
+jq -e '.spdxVersion == "SPDX-2.3"' sbom.spdx.json
+jq -e '.dataLicense' sbom.spdx.json
+jq -e '.creationInfo' sbom.spdx.json
+jq -e '.packages' sbom.spdx.json
 ```
 
 ### CycloneDX Validation (Optional)
@@ -341,7 +367,7 @@ See [CRA_COMPLIANCE.md](CRA_COMPLIANCE.md) for complete CRA compliance informati
 
 ## Example SBOMs
 
-### Minimal Application Using ACF
+### Minimal Application Using ACF (CycloneDX Format)
 
 ```json
 {
@@ -367,6 +393,68 @@ See [CRA_COMPLIANCE.md](CRA_COMPLIANCE.md) for complete CRA compliance informati
       "name": "Qt",
       "version": "6.8",
       "licenses": [{"expression": "LGPL-3.0-only OR GPL-2.0-only"}]
+    }
+  ]
+}
+```
+
+### Minimal Application Using ACF (SPDX Format)
+
+```json
+{
+  "spdxVersion": "SPDX-2.3",
+  "dataLicense": "CC0-1.0",
+  "SPDXID": "SPDXRef-DOCUMENT",
+  "name": "MyApp-1.0.0",
+  "documentNamespace": "https://example.com/myapp/spdxdocs/sbom-1.0.0",
+  "creationInfo": {
+    "created": "2026-01-18T10:00:00Z",
+    "creators": ["Tool: MyApp SBOM Generator"]
+  },
+  "packages": [
+    {
+      "SPDXID": "SPDXRef-Package-MyApp",
+      "name": "MyApp",
+      "versionInfo": "1.0.0",
+      "downloadLocation": "NOASSERTION",
+      "filesAnalyzed": false,
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION"
+    },
+    {
+      "SPDXID": "SPDXRef-Package-ACF",
+      "name": "ACF",
+      "versionInfo": "1.0.0",
+      "downloadLocation": "https://github.com/ImagingTools/Acf",
+      "filesAnalyzed": false,
+      "licenseConcluded": "LGPL-2.1-or-later",
+      "licenseDeclared": "LGPL-2.1-or-later"
+    },
+    {
+      "SPDXID": "SPDXRef-Package-Qt",
+      "name": "Qt",
+      "versionInfo": "6.8",
+      "downloadLocation": "https://www.qt.io/",
+      "filesAnalyzed": false,
+      "licenseConcluded": "(LGPL-3.0-only OR GPL-2.0-only)",
+      "licenseDeclared": "(LGPL-3.0-only OR GPL-2.0-only)"
+    }
+  ],
+  "relationships": [
+    {
+      "spdxElementId": "SPDXRef-DOCUMENT",
+      "relationshipType": "DESCRIBES",
+      "relatedSpdxElement": "SPDXRef-Package-MyApp"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-MyApp",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-Package-ACF"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-MyApp",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-Package-Qt"
     }
   ]
 }
