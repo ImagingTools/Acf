@@ -36,7 +36,7 @@ Initial Release from Git
 
 ## Removed Entries (22 total)
 
-### Unit Tests (10 entries removed)
+### Unit Tests (9 entries removed)
 - Add unit tests for IsCmyk() function in icmm library (#7)
 - Add unit tests for iprm::IParamsManager interface (#4)
 - Expand unit test coverage for iprm::CIdParam (#5)
@@ -47,7 +47,7 @@ Initial Release from Git
 - Eliminate duplicated test main.cpp files with shared macro (#13)
 - Add missing unit tests for the iprm library (#17)
 
-### Infrastructure Changes (10 entries removed)
+### Infrastructure Changes (9 entries removed)
 - Add GitHub Actions workflow for Doxygen documentation deployment (#24)
 - Add CI workflows for CMake and QMake builds on Linux and Windows with Qt 6.8.3 (#30)
 - Integrate GitHub Actions with external TeamCity build server (#37)
