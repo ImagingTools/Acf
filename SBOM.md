@@ -436,8 +436,9 @@ See [CRA_COMPLIANCE.md](CRA_COMPLIANCE.md) for complete CRA compliance informati
       "versionInfo": "6.8",
       "downloadLocation": "https://www.qt.io/",
       "filesAnalyzed": false,
-      "licenseConcluded": "(LGPL-3.0-only OR GPL-2.0-only)",
-      "licenseDeclared": "(LGPL-3.0-only OR GPL-2.0-only)"
+      "licenseConcluded": "(LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only OR LicenseRef-Qt-Commercial)",
+      "licenseDeclared": "(LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only OR LicenseRef-Qt-Commercial)",
+      "comment": "Qt is available under multiple licenses including open source (LGPL/GPL) and commercial options"
     }
   ],
   "relationships": [
