@@ -1,0 +1,42 @@
+# Dependabot configuration for security updates
+# See: https://docs.github.com/en/code-security/dependabot
+
+version: 2
+
+updates:
+  # Monitor GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "06:00"
+    open-pull-requests-limit: 10
+    labels:
+      - "dependencies"
+      - "security"
+    commit-message:
+      prefix: "ci"
+      include: "scope"
+    reviewers:
+      - "ImagingTools/maintainers"
+    assignees:
+      - "ImagingTools/maintainers"
+
+  # Monitor CMake dependencies (if using CMake package manager integration)
+  # Note: Dependabot has limited support for C++ dependencies
+  # Consider using additional tools for C++ dependency scanning
+  
+  # For any npm packages used in documentation or tooling
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5
+    labels:
+      - "dependencies"
+      - "security"
+    ignore:
+      # Ignore major version updates for now (can be reviewed manually)
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]

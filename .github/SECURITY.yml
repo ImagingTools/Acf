@@ -1,0 +1,35 @@
+# Security Policy
+
+security:
+  advisories:
+    enabled: true
+  
+  vulnerability-alerts:
+    enabled: true
+  
+  automated-security-fixes:
+    enabled: true
+
+contact:
+  - type: email
+    email: security@example.com
+    preferred: false
+  
+  - type: web
+    url: https://github.com/ImagingTools/Acf/security/advisories
+    preferred: true
+
+policy:
+  - See SECURITY.md for our complete security policy
+  - Report vulnerabilities privately through GitHub Security Advisories
+  - Do not disclose security issues publicly
+
+support:
+  - Current release: Full support including security updates
+  - Previous release: Security updates for critical issues
+  - Older releases: No official support
+
+updates:
+  - Security updates are released as needed
+  - Critical vulnerabilities are prioritized
+  - Users are notified through GitHub releases and advisories
