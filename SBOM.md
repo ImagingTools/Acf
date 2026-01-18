@@ -388,7 +388,10 @@ See [CRA_COMPLIANCE.md](CRA_COMPLIANCE.md) for complete CRA compliance informati
       "name": "ACF",
       "version": "1.0.0",
       "purl": "pkg:github/ImagingTools/Acf@1.0.0",
-      "licenses": [{"license": {"id": "LGPL-2.1-or-later"}}]
+      "licenses": [
+        {"license": {"id": "LGPL-2.1-or-later"}},
+        {"expression": "LGPL-2.1-or-later OR GPL-2.0-or-later OR GPL-3.0-or-later OR Commercial"}
+      ]
     },
     {
       "type": "library",
@@ -419,6 +422,12 @@ See [CRA_COMPLIANCE.md](CRA_COMPLIANCE.md) for complete CRA compliance informati
       "extractedText": "Qt is available under commercial license agreements",
       "name": "Qt Commercial License",
       "seeAlsos": ["https://www.qt.io/licensing/"]
+    },
+    {
+      "licenseId": "LicenseRef-ACF-Commercial",
+      "extractedText": "ACF is available under commercial license agreements",
+      "name": "ACF Commercial License",
+      "seeAlsos": ["https://github.com/ImagingTools/Acf"]
     }
   ],
   "packages": [
@@ -437,8 +446,8 @@ See [CRA_COMPLIANCE.md](CRA_COMPLIANCE.md) for complete CRA compliance informati
       "versionInfo": "1.0.0",
       "downloadLocation": "https://github.com/ImagingTools/Acf",
       "filesAnalyzed": false,
-      "licenseConcluded": "LGPL-2.1-or-later",
-      "licenseDeclared": "LGPL-2.1-or-later"
+      "licenseConcluded": "(LGPL-2.1-or-later OR GPL-2.0-or-later OR GPL-3.0-or-later OR LicenseRef-ACF-Commercial)",
+      "licenseDeclared": "(LGPL-2.1-or-later OR GPL-2.0-or-later OR GPL-3.0-or-later OR LicenseRef-ACF-Commercial)"
     },
     {
       "SPDXID": "SPDXRef-Package-Qt",

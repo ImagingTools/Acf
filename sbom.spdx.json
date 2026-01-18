@@ -21,6 +21,14 @@
       "seeAlsos": [
         "https://www.qt.io/licensing/"
       ]
+    },
+    {
+      "licenseId": "LicenseRef-ACF-Commercial",
+      "extractedText": "ACF is available under commercial license agreements, similar to Qt, for those who wish to develop proprietary applications without the obligations of open source licenses.",
+      "name": "ACF Commercial License",
+      "seeAlsos": [
+        "https://github.com/ImagingTools/Acf"
+      ]
     }
   ],
   "packages": [
@@ -30,9 +38,10 @@
       "versionInfo": "1.0.0-dev",
       "downloadLocation": "https://github.com/ImagingTools/Acf",
       "filesAnalyzed": false,
-      "licenseConcluded": "LGPL-2.1-or-later",
-      "licenseDeclared": "LGPL-2.1-or-later",
+      "licenseConcluded": "(LGPL-2.1-or-later OR GPL-2.0-or-later OR GPL-3.0-or-later OR LicenseRef-ACF-Commercial)",
+      "licenseDeclared": "(LGPL-2.1-or-later OR GPL-2.0-or-later OR GPL-3.0-or-later OR LicenseRef-ACF-Commercial)",
       "copyrightText": "NOASSERTION",
+      "comment": "ACF is available under multiple licenses including open source (LGPL/GPL) and commercial options, similar to Qt",
       "description": "Application Component Framework - A flexible and extensible framework for building component-based applications",
       "homepage": "https://imagingtools.github.io/Acf/",
       "externalRefs": [

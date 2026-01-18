@@ -25,6 +25,9 @@
             "name": "GNU Lesser General Public License v2.1 or later",
             "url": "https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html"
           }
+        },
+        {
+          "expression": "LGPL-2.1-or-later OR GPL-2.0-or-later OR GPL-3.0-or-later OR Commercial"
         }
       ],
       "externalReferences": [
