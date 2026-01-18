@@ -70,17 +70,36 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
       
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-      
-      - name: Install CycloneDX CLI
-        run: npm install -g @cyclonedx/cyclonedx-cli
-      
-      - name: Validate SBOM
+      - name: Validate SBOM JSON format
         run: |
-          cyclonedx-cli validate --input-file sbom.json --input-format json
+          # Validate JSON syntax
+          if ! jq empty sbom.json 2>/dev/null; then
+            echo "Error: sbom.json is not valid JSON"
+            exit 1
+          fi
+          
+          # Validate basic CycloneDX structure
+          if ! jq -e '.bomFormat == "CycloneDX"' sbom.json >/dev/null; then
+            echo "Error: bomFormat must be 'CycloneDX'"
+            exit 1
+          fi
+          
+          if ! jq -e '.specVersion' sbom.json >/dev/null; then
+            echo "Error: specVersion is required"
+            exit 1
+          fi
+          
+          if ! jq -e '.metadata' sbom.json >/dev/null; then
+            echo "Error: metadata is required"
+            exit 1
+          fi
+          
+          if ! jq -e '.components' sbom.json >/dev/null; then
+            echo "Error: components array is required"
+            exit 1
+          fi
+          
+          echo "✓ SBOM JSON is valid and has required CycloneDX structure"
       
       - name: Generate SBOM report
         if: always()

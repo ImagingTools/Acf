@@ -247,14 +247,30 @@ Update your SBOM when:
 
 ## Validating SBOM
 
-### CycloneDX Validation
+### Basic JSON Validation
 
 ```bash
-# Install the CLI tool
-npm install -g @cyclonedx/cyclonedx-cli
+# Validate JSON syntax
+jq empty sbom.json
 
-# Validate SBOM
-cyclonedx-cli validate --input-file sbom.json
+# Validate CycloneDX structure
+jq -e '.bomFormat == "CycloneDX"' sbom.json
+jq -e '.specVersion' sbom.json
+jq -e '.metadata' sbom.json
+jq -e '.components' sbom.json
+```
+
+### CycloneDX Validation (Optional)
+
+Note: The `@cyclonedx/cyclonedx-cli` npm package is not currently available. For full schema validation, you can use alternative tools:
+
+```bash
+# Using Python cyclonedx-lib (if installed)
+pip install cyclonedx-bom
+# Then validate with custom script
+
+# Or use online validators
+# Visit: https://cyclonedx.org/
 ```
 
 ### SPDX Validation
