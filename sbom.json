@@ -7,7 +7,7 @@
     "timestamp": "2026-01-18T10:00:00Z",
     "tools": [
       {
-        "vendor": "ImagingTools",
+        "vendor": "ImagingTools GmbH",
         "name": "ACF SBOM Generator",
         "version": "1.0.0"
       }

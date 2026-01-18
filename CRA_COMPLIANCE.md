@@ -9,7 +9,7 @@ This document describes how the ACF (Application Component Framework) project co
 **Product Name**: ACF - Application Component Framework  
 **Product Type**: Software library/framework (open-source)  
 **License**: GNU Lesser General Public License v2.1 (LGPL-2.1)  
-**Manufacturer**: ImagingTools Project  
+**Manufacturer**: ImagingTools GmbH  
 **Product Category**: Software development framework
 
 ## CRA Requirements Compliance
