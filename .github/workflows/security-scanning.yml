@@ -1,0 +1,121 @@
+name: Security Scanning
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  schedule:
+    # Run weekly on Monday at 00:00 UTC
+    - cron: '0 0 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  security-events: write
+  actions: read
+
+jobs:
+  dependency-review:
+    name: Dependency Review
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Dependency Review
+        uses: actions/dependency-review-action@v4
+        with:
+          fail-on-severity: moderate
+
+  sbom-validation:
+    name: SBOM Validation
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Validate SBOM JSON format
+        run: |
+          # Validate JSON syntax
+          if ! jq empty sbom.json 2>/dev/null; then
+            echo "Error: sbom.json is not valid JSON"
+            exit 1
+          fi
+          
+          # Validate basic CycloneDX structure
+          if ! jq -e '.bomFormat == "CycloneDX"' sbom.json >/dev/null; then
+            echo "Error: bomFormat must be 'CycloneDX'"
+            exit 1
+          fi
+          
+          if ! jq -e '.specVersion' sbom.json >/dev/null; then
+            echo "Error: specVersion is required"
+            exit 1
+          fi
+          
+          if ! jq -e '.metadata' sbom.json >/dev/null; then
+            echo "Error: metadata is required"
+            exit 1
+          fi
+          
+          if ! jq -e '.components' sbom.json >/dev/null; then
+            echo "Error: components array is required"
+            exit 1
+          fi
+          
+          echo "✓ SBOM JSON is valid and has required CycloneDX structure"
+      
+      - name: Generate SBOM report
+        if: always()
+        run: |
+          echo "SBOM validation completed"
+          echo "SBOM file: sbom.json"
+          echo "Format: CycloneDX 1.5"
+
+  vulnerability-scan:
+    name: Vulnerability Scanning
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@0.24.0
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+          severity: 'CRITICAL,HIGH,MEDIUM'
+      
+      - name: Upload Trivy results to GitHub Security
+        uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+          sarif_file: 'trivy-results.sarif'
+          category: 'trivy'
+
+  security-audit:
+    name: Security Audit Summary
+    runs-on: ubuntu-latest
+    needs: [sbom-validation, vulnerability-scan]
+    if: always()
+    
+    steps:
+      - name: Security Audit Summary
+        run: |
+          echo "## Security Audit Complete"
+          echo ""
+          echo "The following security checks have been performed:"
+          echo "- Dependency review (on pull requests)"
+          echo "- SBOM validation"
+          echo "- Vulnerability scanning"
+          echo ""
+          echo "Note: C++ code analysis is performed via TeamCity CI integration."
+          echo "Review the Security tab for detailed results."
+          echo "For security issues, see SECURITY.md for reporting procedures."
+
