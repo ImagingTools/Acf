@@ -31,9 +31,8 @@ protected:
 	CSpectralColorSpecificationBase(const ISpectrumInfo& spectrumInfo);
 	CSpectralColorSpecificationBase(istd::CIntRange range, int step);
 
+protected:
 	SpectrumType m_spectrumType;
-
-private:
 	CSpectrumInfo m_info;
 };
 

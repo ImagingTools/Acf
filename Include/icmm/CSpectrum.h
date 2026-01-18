@@ -232,6 +232,9 @@ public:
 	CSpectrum(int startWavelength, int endWavelength, int step);
 	CSpectrum(const istd::CIntRange& wavelengthRange, int step);
 
+	// reimplemented (icmm::ISpectrum)
+	virtual std::vector<double> GetSamples() const override;
+
 	// reimplemented (icmm::ISpectrumInfoProvider)
 	virtual const ISpectrumInfo* GetSpectrumInfo() const override;
 
@@ -249,7 +252,6 @@ public:
 	virtual bool IsEqual(const IChangeable& object) const override;
 	virtual istd::IChangeableUniquePtr CloneMe(CompatibilityMode mode = CM_WITHOUT_REFS) const override;
 	virtual bool ResetData(CompatibilityMode mode = CM_WITHOUT_REFS) override;
-
 };
 
 
