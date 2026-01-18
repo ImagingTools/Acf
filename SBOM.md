@@ -130,7 +130,7 @@ Example structure:
     {
       "type": "library",
       "name": "Qt",
-      "version": "5.15.2"
+      "version": "6.8"
     }
   ]
 }
@@ -142,9 +142,9 @@ Example structure:
 
 **Qt Framework (Required)**
 - Component: Qt
-- Version: 5.x or later (6.x recommended)
+- Version: 6.8
 - License: LGPL-3.0 / GPL-2.0 / GPL-3.0 / Commercial
-- PURL: pkg:generic/qt@5.15.2 (example)
+- PURL: pkg:generic/qt@6.8 (example)
 - Website: https://www.qt.io/
 - Purpose: Cross-platform application framework
 
@@ -349,7 +349,7 @@ See [CRA_COMPLIANCE.md](CRA_COMPLIANCE.md) for complete CRA compliance informati
     {
       "type": "library",
       "name": "Qt",
-      "version": "5.15.2",
+      "version": "6.8",
       "licenses": [{"expression": "LGPL-3.0-only OR GPL-2.0-only"}]
     }
   ]

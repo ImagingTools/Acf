@@ -83,7 +83,7 @@ ACF follows secure development practices:
 ACF's main dependencies:
 
 **Runtime Dependencies:**
-- Qt Framework (minimum version 5.15, also compatible with Qt 6.x) - Qt Project (LGPL/GPL)
+- Qt Framework (version 6.8) - Qt Project (LGPL/GPL)
 - Standard C++ library (implementation-dependent)
 
 **Build Dependencies:**

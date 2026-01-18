@@ -50,10 +50,10 @@
   "components": [
     {
       "type": "library",
-      "bom-ref": "pkg:generic/qt@5.15",
+      "bom-ref": "pkg:generic/qt@6.8",
       "name": "Qt",
-      "version": "5.15",
-      "description": "Cross-platform application framework (minimum version 5.15, also compatible with 6.x)",
+      "version": "6.8",
+      "description": "Cross-platform application framework",
       "licenses": [
         {
           "license": {
@@ -117,12 +117,12 @@
     {
       "ref": "pkg:github/ImagingTools/Acf",
       "dependsOn": [
-        "pkg:generic/qt@5.15",
+        "pkg:generic/qt@6.8",
         "pkg:generic/stdcpp"
       ]
     },
     {
-      "ref": "pkg:generic/qt@5.15",
+      "ref": "pkg:generic/qt@6.8",
       "dependsOn": []
     },
     {
