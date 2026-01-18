@@ -65,7 +65,7 @@ ACF is built using CMake, QMake, and Qbs build systems. Users should:
 
 ACF depends on:
 
-- Qt Framework (version 5.x or later)
+- Qt Framework (minimum version 5.15, also compatible with Qt 6.x)
 - Standard C++ libraries
 
 Users are responsible for:
