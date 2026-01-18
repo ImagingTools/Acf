@@ -37,12 +37,14 @@ An SPDX 2.3 format SBOM is provided in [`sbom.spdx.json`](sbom.spdx.json). This 
 - The version in both SBOM files uses `1.0.0-dev` as a placeholder
 - **Maintainers should update both files with each release** to reflect:
   - Current ACF version number
+  - Creation timestamps (especially in SPDX format)
+  - Document namespace UUID for SPDX (generate a new UUID for each release)
   - Specific Qt version used in testing
   - Any dependency changes
 - Both SBOMs should be regenerated or updated before each release
 
 **Update Schedule**:
-- Per Release: Update version numbers and dependency information
+- Per Release: Update version numbers, timestamps, UUIDs, and dependency information
 - As Needed: When dependencies are added, removed, or updated
 - Quarterly: Verify all information is current
 
@@ -406,11 +408,19 @@ See [CRA_COMPLIANCE.md](CRA_COMPLIANCE.md) for complete CRA compliance informati
   "dataLicense": "CC0-1.0",
   "SPDXID": "SPDXRef-DOCUMENT",
   "name": "MyApp-1.0.0",
-  "documentNamespace": "https://example.com/myapp/spdxdocs/sbom-1.0.0",
+  "documentNamespace": "https://example.com/myapp/spdxdocs/sbom-1.0.0-550e8400-e29b-41d4-a716-446655440000",
   "creationInfo": {
     "created": "2026-01-18T10:00:00Z",
     "creators": ["Tool: MyApp SBOM Generator"]
   },
+  "hasExtractedLicensingInfos": [
+    {
+      "licenseId": "LicenseRef-Qt-Commercial",
+      "extractedText": "Qt is available under commercial license agreements",
+      "name": "Qt Commercial License",
+      "seeAlsos": ["https://www.qt.io/licensing/"]
+    }
+  ],
   "packages": [
     {
       "SPDXID": "SPDXRef-Package-MyApp",

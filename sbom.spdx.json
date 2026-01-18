@@ -10,8 +10,19 @@
       "Tool: ACF SBOM Generator-1.0.0",
       "Organization: ImagingTools GmbH"
     ],
-    "licenseListVersion": "3.23"
+    "licenseListVersion": "3.23",
+    "comment": "This SBOM should be regenerated with updated timestamps and version numbers for each release"
   },
+  "hasExtractedLicensingInfos": [
+    {
+      "licenseId": "LicenseRef-Qt-Commercial",
+      "extractedText": "Qt is available under commercial license agreements for those who wish to develop proprietary applications without the obligations of open source licenses.",
+      "name": "Qt Commercial License",
+      "seeAlsos": [
+        "https://www.qt.io/licensing/"
+      ]
+    }
+  ],
   "packages": [
     {
       "SPDXID": "SPDXRef-Package-ACF",
