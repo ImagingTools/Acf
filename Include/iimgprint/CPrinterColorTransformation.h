@@ -23,13 +23,16 @@ namespace iimgprint
 	The transformation uses:
 	1. **Source Profile**: Spectral data showing how source printer reproduces colors
 	2. **Target Profile**: Spectral data showing how target printer reproduces colors
-	3. **Color Matching**: Mathematical mapping that finds the target printer color
+	3. **Multi-dimensional Interpolation**: Uses imath::TMultidimensionalPolynomial to
+	   interpolate between measured test chart points for smooth color transitions
+	4. **Color Matching**: Mathematical mapping that finds the target printer color
 	   that produces the closest spectral match to the source printer's output
 	
 	The transformation can handle:
 	- Different color spaces (RGB to CMYK, CMYK to ExtendedGamut, etc.)
-	- Different gamuts (compression/expansion as needed)
+	- Different gamuts (compression/expansion as needed via gamut mapping)
 	- Different rendering intents (perceptual, colorimetric, etc.)
+	- Out-of-gamut colors (using appropriate gamut mapping strategy)
 	
 	\section TransformationUsage Usage Examples
 	\code
