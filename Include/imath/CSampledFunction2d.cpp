@@ -118,7 +118,7 @@ std::vector<double> CSampledFunction2d::GetSamples() const
 	std::vector<double> retVal;
 	retVal.reserve(GetTotalSamplesCount());
 
-	for (SamplesContainer::ConstIterator index = m_samplesContainer.Begin();
+	for (SamplesContainer::Iterator index = m_samplesContainer.Begin();
 			index != m_samplesContainer.End();
 			++index)
 	{
