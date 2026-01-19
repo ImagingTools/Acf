@@ -67,6 +67,12 @@ public:
 	virtual istd::CRange GetResultValueRange(int dimensionIndex, int resultDimension = -1) const = 0;
 
 	/**
+		Get all samples as a vector.
+		\return vector containing all sample values
+	*/
+	virtual std::vector<double> GetSamples() const = 0;
+
+	/**
 		Get the number of argument components.
 	*/
 	virtual int GetArgumentDimensionality() const;

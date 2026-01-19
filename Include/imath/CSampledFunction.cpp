@@ -129,6 +129,12 @@ istd::CRange CSampledFunction::GetResultValueRange(int /*dimensionIndex*/, int /
 }
 
 
+std::vector<double> CSampledFunction::GetSamples() const
+{
+	return m_samplesContainer;
+}
+
+
 // reimplemented (TIMathFunction)
 
 bool CSampledFunction::GetValueAt(const ArgumentType& argument, ResultType& result) const
