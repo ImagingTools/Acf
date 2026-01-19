@@ -1,0 +1,73 @@
+name: Update Release 2.0.0 Notes
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm:
+        description: 'Type "update" to confirm release notes update'
+        required: true
+        default: ''
+
+permissions:
+  contents: write
+
+jobs:
+  update-release:
+    runs-on: ubuntu-latest
+    if: github.event.inputs.confirm == 'update'
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.ref }}
+      
+      - name: Verify reduced release notes file exists
+        run: |
+          if [ ! -f "RELEASE_NOTES_2.0.0.md" ]; then
+            echo "Error: RELEASE_NOTES_2.0.0.md not found"
+            exit 1
+          fi
+          echo "✓ Release notes file found"
+      
+      - name: Extract release body
+        id: extract
+        run: |
+          # Extract the main release body (skip the explanation parts)
+          awk '/^Initial Release from Git/,/^\*\*Full Changelog\*\*/ {print}' RELEASE_NOTES_2.0.0.md > /tmp/release_body.txt
+          
+          # Verify entry count
+          ENTRY_COUNT=$(grep -c "^*" /tmp/release_body.txt || true)
+          echo "Entry count: $ENTRY_COUNT"
+          
+          if [ "$ENTRY_COUNT" -gt 25 ]; then
+            echo "Error: Release has $ENTRY_COUNT entries, exceeding the 25 limit"
+            exit 1
+          fi
+          
+          echo "✓ Release has $ENTRY_COUNT entries (within 25 limit)"
+          echo "entry_count=$ENTRY_COUNT" >> $GITHUB_OUTPUT
+      
+      - name: Update GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          # Extract the release body for the update
+          RELEASE_BODY=$(awk '/^Initial Release from Git/,/^\*\*Full Changelog\*\*/ {print}' RELEASE_NOTES_2.0.0.md | sed ':a;N;$!ba;s/\n/\\n/g')
+          
+          # Update the release using GitHub CLI
+          gh release edit 2.0.0 \
+            --repo ImagingTools/Acf \
+            --notes-file <(awk '/^Initial Release from Git/,/^\*\*Full Changelog\*\*/ {print}' RELEASE_NOTES_2.0.0.md)
+          
+          echo "✓ Release 2.0.0 has been updated with ${{ steps.extract.outputs.entry_count }} entries"
+      
+      - name: Summary
+        run: |
+          echo "## Release Update Complete ✓" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Release 2.0.0 has been updated with reduced release notes." >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- **Entries**: ${{ steps.extract.outputs.entry_count }} (max 25)" >> $GITHUB_STEP_SUMMARY
+          echo "- **Status**: ✓ Successfully updated" >> $GITHUB_STEP_SUMMARY
+          echo "- **View**: https://github.com/ImagingTools/Acf/releases/tag/2.0.0" >> $GITHUB_STEP_SUMMARY

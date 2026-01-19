@@ -89,6 +89,28 @@ The documentation is automatically generated from the source code using Doxygen 
 
 See the documentation for detailed build instructions.
 
+## Security
+
+ACF takes security seriously. If you discover a security vulnerability, please follow our responsible disclosure process outlined in [SECURITY.md](SECURITY.md).
+
+For security-related information:
+- **Security Policy**: [SECURITY.md](SECURITY.md)
+- **Vulnerability Reporting**: See SECURITY.md for reporting procedures
+- **Security Advisories**: [GitHub Security Advisories](https://github.com/ImagingTools/Acf/security/advisories)
+
+## Compliance
+
+### EU Cyber Resilience Act (CRA)
+
+ACF is designed to support EU Cyber Resilience Act compliance:
+
+- **CRA Compliance Documentation**: [CRA_COMPLIANCE.md](CRA_COMPLIANCE.md)
+- **Software Bill of Materials (SBOM)**: [SBOM.md](SBOM.md) and [sbom.json](sbom.json)
+- **Security Updates**: Regular security patches for supported versions
+- **Vulnerability Management**: Documented process for handling security issues
+
+See [CRA_COMPLIANCE.md](CRA_COMPLIANCE.md) for complete information about how ACF supports CRA requirements.
+
 ## License
 
-See the LGPL directory for license information.
+This project is licensed under the GNU Lesser General Public License v2.1 (LGPL-2.1). See the [LICENSE](LICENSE) file for details.
