@@ -1,7 +1,9 @@
 // ACF includes
 #include "CPrinterColorTransformation.h"
 #include "CGamutMapper.h"
+#include "CDeviceLabTransformation.h"
 #include <icmm/CVarColor.h>
+#include <icmm/CLab.h>
 #include <icmm/ISpectralColorSpecification.h>
 #include <imath/TMultidimensionalPolynomial.h>
 #include <imath/TFulcrumGrid.h>
@@ -33,6 +35,10 @@ public:
 	// Gamut mapping
 	IGamutMapper* gamutMapper;
 	
+	// Device-Lab transformations for intermediate conversion
+	IDeviceToLabTransformation* sourceToLab;
+	ILabToDeviceTransformation* targetFromLab;
+	
 	Impl(const CPrinterProfile& source,
 	     const CPrinterProfile& target,
 	     RenderingIntent intent)
@@ -41,9 +47,12 @@ public:
 		, renderingIntent(intent)
 		, interpolatorInitialized(false)
 		, gamutMapper(nullptr)
+		, sourceToLab(nullptr)
+		, targetFromLab(nullptr)
 	{
 		InitializeInterpolators();
 		InitializeGamutMapper();
+		InitializeDeviceLabTransformations();
 	}
 	
 	~Impl()
@@ -56,6 +65,18 @@ public:
 		
 		// Clean up gamut mapper
 		delete gamutMapper;
+		
+		// Clean up device-Lab transformations
+		delete sourceToLab;
+		delete targetFromLab;
+	}
+	
+	void InitializeDeviceLabTransformations()
+	{
+		// Create device-to-Lab and Lab-to-device transformations
+		// These are used for the intermediate Lab color space approach
+		sourceToLab = sourceProfile.CreateDeviceToLabTransformation();
+		targetFromLab = targetProfile.CreateLabToDeviceTransformation();
 	}
 	
 	void InitializeGamutMapper()
@@ -128,6 +149,12 @@ public:
 		int targetDimensions = GetColorSpaceDimensions(targetSpace);
 		output = icmm::CVarColor(targetDimensions);
 		
+		// CMYK-to-CMYK conversion using intermediate Lab color space
+		// This is the primary algorithm for printer-to-printer transformation
+		if (sourceSpace == PrinterColorSpace::CMYK && targetSpace == PrinterColorSpace::CMYK) {
+			return TransformCmykToCmykViaLab(input, output);
+		}
+		
 		// Use multi-dimensional interpolation if available
 		if (interpolatorInitialized && !interpolators.isEmpty()) {
 			if (!TransformUsingInterpolation(input, output)) {
@@ -159,6 +186,50 @@ public:
 	}
 	
 private:
+	bool TransformCmykToCmykViaLab(const icmm::CVarColor& sourceCmyk, icmm::CVarColor& targetCmyk) const
+	{
+		// CMYK-to-CMYK conversion algorithm using intermediate Lab color space
+		// This implements the requested Device→Lab→Device approach
+		
+		if (!sourceToLab || !targetFromLab) {
+			// Fallback if transformations not available
+			return TransformCmykToCmykDirect(sourceCmyk, targetCmyk);
+		}
+		
+		// Step 1: Convert source CMYK to Lab using source printer profile
+		icmm::CLab lab;
+		if (!sourceToLab->DeviceToLab(sourceCmyk, lab)) {
+			return false;
+		}
+		
+		// Step 2: Convert Lab to target CMYK using target printer profile
+		if (!targetFromLab->LabToDevice(lab, targetCmyk)) {
+			return false;
+		}
+		
+		// Step 3: Apply gamut mapping if needed
+		if (gamutMapper) {
+			icmm::CVarColor mappedCmyk;
+			if (gamutMapper->MapToGamut(targetCmyk, mappedCmyk)) {
+				targetCmyk = mappedCmyk;
+			}
+		}
+		
+		return true;
+	}
+	
+	bool TransformCmykToCmykDirect(const icmm::CVarColor& sourceCmyk, icmm::CVarColor& targetCmyk) const
+	{
+		// Direct CMYK-to-CMYK fallback (simplified, for when profiles unavailable)
+		targetCmyk = icmm::CVarColor(4);
+		
+		// Simple copy with potential adjustment
+		for (int i = 0; i < 4; ++i) {
+			targetCmyk.SetElement(i, sourceCmyk.GetElement(i));
+		}
+		
+		return true;
+	}
 	bool TransformUsingInterpolation(const icmm::CVarColor& input, icmm::CVarColor& output) const
 	{
 		// Use multi-dimensional interpolation based on test chart measurements

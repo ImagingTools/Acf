@@ -14,6 +14,11 @@
 namespace iimgprint
 {
 
+// Forward declarations
+class IDeviceToLabTransformation;
+class ILabToDeviceTransformation;
+
+
 
 /**
 	Represents a printer's color characteristics based on spectral measurements.
@@ -212,6 +217,28 @@ public:
 		\return True if loaded successfully
 	*/
 	bool LoadFromFile(const QString& filePath);
+	
+	/**
+		Gets the device-to-Lab transformation for this printer.
+		
+		Creates a transformation that converts device colors (CMYK, RGB) to
+		device-independent Lab colors based on the printer's spectral profile.
+		
+		\return Pointer to device-to-Lab transformation, or nullptr if unavailable.
+		        Caller owns the returned pointer and must delete it when done.
+	*/
+	IDeviceToLabTransformation* CreateDeviceToLabTransformation() const;
+	
+	/**
+		Gets the Lab-to-device transformation for this printer.
+		
+		Creates a transformation that converts Lab colors to device colors
+		(CMYK, RGB) based on the printer's spectral profile and gamut.
+		
+		\return Pointer to Lab-to-device transformation, or nullptr if unavailable.
+		        Caller owns the returned pointer and must delete it when done.
+	*/
+	ILabToDeviceTransformation* CreateLabToDeviceTransformation() const;
 
 private:
 	class Impl;

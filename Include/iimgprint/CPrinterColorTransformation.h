@@ -25,8 +25,26 @@ namespace iimgprint
 	2. **Target Profile**: Spectral data showing how target printer reproduces colors
 	3. **Multi-dimensional Interpolation**: Uses imath::TMultidimensionalPolynomial to
 	   interpolate between measured test chart points for smooth color transitions
-	4. **Color Matching**: Mathematical mapping that finds the target printer color
+	4. **Intermediate Lab Color Space**: For CMYK-to-CMYK conversion, uses device-independent
+	   Lab as intermediate: Source CMYK → Lab → Target CMYK
+	5. **Color Matching**: Mathematical mapping that finds the target printer color
 	   that produces the closest spectral match to the source printer's output
+	
+	\section CMYKtoCMYK CMYK-to-CMYK Conversion Algorithm
+	The primary use case for printer color transformation is CMYK-to-CMYK conversion.
+	This uses a three-step process:
+	
+	1. **Device to Lab**: Convert source CMYK to Lab using source printer's profile
+	   - Uses spectral measurements to determine Lab values for given CMYK inputs
+	   - Multi-dimensional interpolation over test chart data points
+	
+	2. **Lab (intermediate)**: Device-independent color representation
+	   - Perceptually uniform color space
+	   - Enables accurate gamut mapping and color matching
+	
+	3. **Lab to Device**: Convert Lab to target CMYK using target printer's profile
+	   - Inverse lookup: find CMYK values that produce desired Lab color
+	   - Applies gamut mapping for out-of-gamut colors
 	
 	The transformation can handle:
 	- Different color spaces (RGB to CMYK, CMYK to ExtendedGamut, etc.)
@@ -62,11 +80,46 @@ namespace iimgprint
 		
 		icmm::CVarColor targetColor;
 		if (transform.Calculate(sourceColor, targetColor)) {
-			qDebug() << "Transformed color for printer 2";
+			qDebug() << "Transformed CMYK color for printer 2";
+			// Internally uses: Source CMYK → Lab → Target CMYK
 		}
 	}
 	
-	// Example 2: Transform entire image
+	// Example 2: CMYK-to-CMYK conversion with spectral profiles
+	void ConvertCmykBetweenPrinters()
+	{
+		// Load printer profiles with spectral test chart data
+		iimgprint::CPrinterProfile canonProfile, epsonProfile;
+		canonProfile.LoadFromFile("canon_cmyk_profile.xml");
+		epsonProfile.LoadFromFile("epson_cmyk_profile.xml");
+		
+		// Create CMYK-to-CMYK transformation
+		iimgprint::CPrinterColorTransformation transform(
+			canonProfile,
+			epsonProfile,
+			iimgprint::RenderingIntent::Perceptual
+		);
+		
+		// Convert CMYK color
+		icmm::CVarColor canonCmyk(4);
+		canonCmyk.SetElement(0, 0.6);  // C
+		canonCmyk.SetElement(1, 0.4);  // M
+		canonCmyk.SetElement(2, 0.8);  // Y
+		canonCmyk.SetElement(3, 0.2);  // K
+		
+		icmm::CVarColor epsonCmyk;
+		if (transform.Calculate(canonCmyk, epsonCmyk)) {
+			// epsonCmyk now contains CMYK values that will produce
+			// on the Epson printer the same visual appearance as
+			// canonCmyk would produce on the Canon printer
+			qDebug() << "Epson CMYK: C=" << epsonCmyk.GetElement(0)
+			         << " M=" << epsonCmyk.GetElement(1)
+			         << " Y=" << epsonCmyk.GetElement(2)
+			         << " K=" << epsonCmyk.GetElement(3);
+		}
+	}
+	
+	// Example 3: Transform entire image
 	void TransformImage(const QString& inputPath, const QString& outputPath)
 	{
 		// Load profiles

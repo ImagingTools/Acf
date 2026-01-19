@@ -1,5 +1,6 @@
 // ACF includes
 #include "CPrinterProfile.h"
+#include "CDeviceLabTransformation.h"
 #include <icmm/ISpectralColorSpecification.h>
 
 // Qt includes
@@ -202,6 +203,26 @@ bool CPrinterProfile::LoadFromFile(const QString& filePath)
 	
 	file.close();
 	return true;
+}
+
+
+IDeviceToLabTransformation* CPrinterProfile::CreateDeviceToLabTransformation() const
+{
+	if (!IsValid()) {
+		return nullptr;
+	}
+	
+	return new CDeviceToLabTransformation(*this);
+}
+
+
+ILabToDeviceTransformation* CPrinterProfile::CreateLabToDeviceTransformation() const
+{
+	if (!IsValid()) {
+		return nullptr;
+	}
+	
+	return new CLabToDeviceTransformation(*this);
 }
 
 

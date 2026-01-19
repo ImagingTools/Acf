@@ -20,11 +20,14 @@
 	
 	\section PrinterConversionArchitecture Architecture
 	
-	The library consists of three main components:
+	The library consists of four main components:
 	
 	1. **CPrinterProfile**: Stores color characteristics of a printer based on spectral measurements
-	2. **CPrinterColorTransformation**: Converts colors from one printer space to another
-	3. **IPrinterColorTransformation**: Interface for printer transformations
+	2. **Device-Lab Transformations**: Convert between device colors and Lab color space
+	   - **IDeviceToLabTransformation**: Device (CMYK/RGB) → Lab
+	   - **ILabToDeviceTransformation**: Lab → Device (CMYK/RGB)
+	3. **CPrinterColorTransformation**: Converts colors from one printer space to another
+	4. **IGamutMapper**: Handles out-of-gamut colors with multiple strategies
 	
 	\section PrinterConversionWorkflow Typical Workflow
 	
@@ -56,7 +59,7 @@
 	printer2Profile.SaveToFile("epson_p800.xml");
 	\endcode
 	
-	\subsection Step3 3. Create Color Transformation
+	\subsection Step3 3. Create Color Transformation (CMYK-to-CMYK)
 	\code
 	// Load profiles
 	iimgprint::CPrinterProfile sourceProfile, targetProfile;
@@ -64,6 +67,7 @@
 	targetProfile.LoadFromFile("epson_p800.xml");
 	
 	// Create transformation with desired rendering intent
+	// This uses the Device→Lab→Device approach internally
 	iimgprint::CPrinterColorTransformation transform(
 		sourceProfile,
 		targetProfile,
@@ -71,20 +75,42 @@
 	);
 	\endcode
 	
-	\subsection Step4 4. Transform Colors
+	\subsection Step4 4. Transform CMYK Colors
 	\code
-	// Transform a single color
-	icmm::CVarColor sourceColor(4);  // CMYK
-	sourceColor.SetElement(0, 0.5);  // C
-	sourceColor.SetElement(1, 0.3);  // M
-	sourceColor.SetElement(2, 0.7);  // Y
-	sourceColor.SetElement(3, 0.1);  // K
+	// Transform a CMYK color from printer 1 to printer 2
+	icmm::CVarColor sourceCmyk(4);
+	sourceCmyk.SetElement(0, 0.5);  // C
+	sourceCmyk.SetElement(1, 0.3);  // M
+	sourceCmyk.SetElement(2, 0.7);  // Y
+	sourceCmyk.SetElement(3, 0.1);  // K
 	
-	icmm::CVarColor targetColor;
-	if (transform.Calculate(sourceColor, targetColor)) {
-		// Use targetColor for printing on second printer
+	icmm::CVarColor targetCmyk;
+	if (transform.Calculate(sourceCmyk, targetCmyk)) {
+		// targetCmyk now contains CMYK values for printer 2
+		// that will produce the same visual appearance
+		// Internally: Source CMYK → Lab → Target CMYK
 	}
 	\endcode
+	
+	\section PrinterConversionAlgorithm CMYK-to-CMYK Conversion Algorithm
+	
+	The core algorithm for printer color transformation uses intermediate Lab color space:
+	
+	**Step 1: Source Device to Lab**
+	- Convert source CMYK to Lab using source printer profile
+	- Uses multi-dimensional interpolation over spectral test chart data
+	- Result: Device-independent Lab color representing the appearance
+	
+	**Step 2: Lab to Target Device**
+	- Convert Lab to target CMYK using target printer profile
+	- Inverse lookup with multi-dimensional interpolation
+	- Applies gamut mapping for out-of-gamut colors
+	
+	**Benefits of Lab intermediate:**
+	- Device-independent color representation
+	- Perceptually uniform (equal distances = equal perceived differences)
+	- Natural for gamut mapping and color matching
+	- Separates color appearance from device characteristics
 	
 	\section PrinterConversionDependencies Dependencies
 	
