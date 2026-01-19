@@ -232,9 +232,6 @@ public:
 	CSpectrum(int startWavelength, int endWavelength, int step);
 	CSpectrum(const istd::CIntRange& wavelengthRange, int step);
 
-	// reimplemented (icmm::ISpectrum)
-	virtual std::vector<double> GetSamples() const override;
-
 	// reimplemented (icmm::ISpectrumInfoProvider)
 	virtual const ISpectrumInfo* GetSpectrumInfo() const override;
 

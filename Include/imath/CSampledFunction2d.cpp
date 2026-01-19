@@ -113,6 +113,22 @@ istd::CRange CSampledFunction2d::GetResultValueRange(int /*dimensionIndex*/, int
 }
 
 
+std::vector<double> CSampledFunction2d::GetSamples() const
+{
+	std::vector<double> retVal;
+	retVal.reserve(GetTotalSamplesCount());
+
+	for (SamplesContainer::Iterator index = m_samplesContainer.Begin();
+			index != m_samplesContainer.End();
+			++index)
+	{
+		retVal.push_back(*index);
+	}
+
+	return retVal;
+}
+
+
 // reimplemented (TIMathFunction)
 
 bool CSampledFunction2d::GetValueAt(const ArgumentType& argument, ResultType& result) const

@@ -149,8 +149,6 @@ class ISpectrum:
 			virtual public ISpectrumInfoProvider,
 			virtual public iser::ISerializable
 {
-public:
-	virtual std::vector<double> GetSamples() const = 0;
 };
 
 

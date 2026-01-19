@@ -71,19 +71,6 @@ CSpectrum::CSpectrum(const istd::CIntRange& wavelengthRange, int step)
 }
 
 
-std::vector<double> CSpectrum::GetSamples() const
-{
-	std::vector<double> retVal;
-
-	int count = GetSamplesCount();
-	for (int i = 0; i < count; i++){
-		retVal.push_back(GetSampleAt(SampleIndex(i)));
-	}
-
-	return retVal;
-}
-
-
 // reimplemented (icmm::ISpectrumInfoProvider)
 
 const ISpectrumInfo* CSpectrum::GetSpectrumInfo() const
