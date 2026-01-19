@@ -44,6 +44,7 @@ add_subdirectory("${INCLUDE_DIR}/iattr/CMake" "${AUX_INCLUDE_DIR}/iattr")
 add_subdirectory("${INCLUDE_DIR}/iimg/CMake" "${AUX_INCLUDE_DIR}/iimg")
 add_subdirectory("${INCLUDE_DIR}/imath/CMake" "${AUX_INCLUDE_DIR}/imath")
 add_subdirectory("${INCLUDE_DIR}/icmm/CMake" "${AUX_INCLUDE_DIR}/icmm")
+add_subdirectory("${INCLUDE_DIR}/iimgprint/CMake" "${AUX_INCLUDE_DIR}/iimgprint")
 add_subdirectory("${INCLUDE_DIR}/imod/CMake" "${AUX_INCLUDE_DIR}/imod")
 add_subdirectory("${INCLUDE_DIR}/icomp/CMake" "${AUX_INCLUDE_DIR}/icomp")
 

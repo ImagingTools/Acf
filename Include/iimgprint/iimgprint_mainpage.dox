@@ -1,0 +1,142 @@
+/**
+	\defgroup PrinterColorConversion Printer Color Conversion
+	
+	\brief Library for converting images between different printer color spaces using spectral measurements.
+	
+	\section PrinterConversionOverview Overview
+	
+	The iimgprint library provides functionality for accurate color transformation between
+	different printer systems. It enables consistent printing results when moving documents
+	from one printer to another by using spectral-based color conversion.
+	
+	\section PrinterConversionKey Key Features
+	
+	- **Spectral-Based Transformation**: Uses spectral reflectance measurements from test charts
+	  for high-accuracy color conversion
+	- **Multiple Rendering Intents**: Supports Perceptual, Relative/Absolute Colorimetric, and Saturation
+	- **Printer Profiles**: Manages color characteristics of different printers
+	- **Gamut Mapping**: Handles colors outside target printer's reproducible range
+	- **Multiple Color Spaces**: Supports RGB, CMYK, and extended gamut color spaces
+	
+	\section PrinterConversionArchitecture Architecture
+	
+	The library consists of three main components:
+	
+	1. **CPrinterProfile**: Stores color characteristics of a printer based on spectral measurements
+	2. **CPrinterColorTransformation**: Converts colors from one printer space to another
+	3. **IPrinterColorTransformation**: Interface for printer transformations
+	
+	\section PrinterConversionWorkflow Typical Workflow
+	
+	\subsection Step1 1. Measure Test Charts
+	Print a standardized test chart (e.g., IT8.7/4) on both printers and measure
+	the spectral reflectance of each patch using a spectrophotometer.
+	
+	\subsection Step2 2. Create Printer Profiles
+	\code
+	// Load spectral measurements
+	auto sourceData = LoadSpectralMeasurements("printer1_chart.cxf");
+	auto targetData = LoadSpectralMeasurements("printer2_chart.cxf");
+	
+	// Create printer profiles
+	iimgprint::CPrinterProfile printer1Profile(
+		sourceData,
+		iimgprint::PrinterColorSpace::CMYK,
+		"Canon PRO-1000"
+	);
+	
+	iimgprint::CPrinterProfile printer2Profile(
+		targetData,
+		iimgprint::PrinterColorSpace::CMYK,
+		"Epson P800"
+	);
+	
+	// Save profiles for later use
+	printer1Profile.SaveToFile("canon_pro1000.xml");
+	printer2Profile.SaveToFile("epson_p800.xml");
+	\endcode
+	
+	\subsection Step3 3. Create Color Transformation
+	\code
+	// Load profiles
+	iimgprint::CPrinterProfile sourceProfile, targetProfile;
+	sourceProfile.LoadFromFile("canon_pro1000.xml");
+	targetProfile.LoadFromFile("epson_p800.xml");
+	
+	// Create transformation with desired rendering intent
+	iimgprint::CPrinterColorTransformation transform(
+		sourceProfile,
+		targetProfile,
+		iimgprint::RenderingIntent::Perceptual
+	);
+	\endcode
+	
+	\subsection Step4 4. Transform Colors
+	\code
+	// Transform a single color
+	icmm::CVarColor sourceColor(4);  // CMYK
+	sourceColor.SetElement(0, 0.5);  // C
+	sourceColor.SetElement(1, 0.3);  // M
+	sourceColor.SetElement(2, 0.7);  // Y
+	sourceColor.SetElement(3, 0.1);  // K
+	
+	icmm::CVarColor targetColor;
+	if (transform.Calculate(sourceColor, targetColor)) {
+		// Use targetColor for printing on second printer
+	}
+	\endcode
+	
+	\section PrinterConversionDependencies Dependencies
+	
+	The iimgprint library depends on:
+	- **icmm**: Color management (color models, transformations, spectral data)
+	- **iimg**: Image handling (bitmap operations)
+	- **imath**: Mathematical utilities
+	- **iser**: Serialization
+	- **istd**: Standard utilities
+	
+	\section PrinterConversionRenderingIntents Rendering Intents
+	
+	Different rendering intents optimize for different use cases:
+	
+	- **Perceptual**: Best for photographs - maintains visual relationships between colors,
+	  compresses gamut smoothly. Use when overall appearance matters more than precise color matching.
+	  
+	- **RelativeColorimetric**: Best for solid colors and logos - maintains color accuracy
+	  within gamut, clips out-of-gamut colors. Use for business graphics and branding.
+	  
+	- **Saturation**: Best for charts and graphics - maximizes color saturation. Use for
+	  presentations and vivid graphics where impact matters more than accuracy.
+	  
+	- **AbsoluteColorimetric**: Best for proofing - maintains absolute color values including
+	  white point. Use when simulating output from another device.
+	
+	\section PrinterConversionBestPractices Best Practices
+	
+	1. **Regular Calibration**: Update printer profiles monthly in production environments
+	2. **Consistent Conditions**: Measure test charts under same illumination as viewing
+	3. **Proper Test Charts**: Use industry-standard charts (IT8.7/4, ECI2002) with wide gamut coverage
+	4. **Profile Storage**: Maintain separate profiles for different paper types and settings
+	5. **Validation**: Print and measure validation targets to verify transformation accuracy
+	6. **Metadata**: Include measurement date, substrate, and conditions with profiles
+	
+	\section PrinterConversionExamples Example Applications
+	
+	- **Print Shop Workflows**: Ensure consistent output across multiple printers
+	- **Color Proofing**: Match proof printer output to production press
+	- **Device Migration**: Move existing content to new printer models
+	- **Quality Control**: Verify color consistency across printer fleet
+	- **Cross-Media Publishing**: Adapt content for different output devices
+	
+	\sa iimgprint::CPrinterProfile, iimgprint::CPrinterColorTransformation,
+	    iimgprint::IPrinterColorTransformation, iimgprint::RenderingIntent
+*/
+
+/**
+	\namespace iimgprint
+	\brief Printer color transformation for image printing consistency.
+	
+	This namespace contains classes for converting colors between different printer
+	systems using spectral-based measurements, ensuring consistent visual appearance
+	across different printing devices.
+*/

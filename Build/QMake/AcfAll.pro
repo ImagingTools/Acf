@@ -32,6 +32,9 @@ imath.file = ../../Include/imath/QMake/imath.pro
 SUBDIRS += icmm
 icmm.file = ../../Include/icmm/QMake/icmm.pro
 
+SUBDIRS += iimgprint
+iimgprint.file = ../../Include/iimgprint/QMake/iimgprint.pro
+
 SUBDIRS += imod
 imod.file = ../../Include/imod/QMake/imod.pro
 

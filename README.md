@@ -51,6 +51,7 @@ The documentation is automatically generated from the source code using Doxygen 
 - **i2d**: 2D graphics utilities (geometric primitives, transformations, calibration)
 - **i3d**: 3D graphics utilities (3D geometric primitives and transformations)
 - **icmm**: Color management (color models and conversions)
+- **iimgprint**: Printer color transformation (spectral-based color conversion between printers)
 
 ### Document and View Framework
 
