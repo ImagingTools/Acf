@@ -1,6 +1,9 @@
 #pragma once
 
 
+// STL includes
+#include <vector>
+
 // ACF includes
 #include <istd/IChangeable.h>
 #include <istd/TIndex.h>
