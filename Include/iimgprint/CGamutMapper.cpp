@@ -203,15 +203,22 @@ public:
 		// Colors beyond knee point are smoothly compressed
 		
 		if (value >= 0.0 && value <= compressionKnee) {
-			// Within knee - minimal compression
-			return value * (compressionKnee / compressionKnee); // Linear in this region
+			// Within knee - minimal compression (linear pass-through)
+			return value;
 		}
 		else if (value > compressionKnee && value <= 1.0) {
 			// Between knee and gamut boundary - smooth compression
-			double normalized = (value - compressionKnee) / (1.0 - compressionKnee);
+			// Protect against division by zero when compressionKnee is 1.0
+			double denominator = 1.0 - compressionKnee;
+			if (denominator < 0.001) {
+				// Knee is at or very close to boundary, no compression needed
+				return value;
+			}
+			
+			double normalized = (value - compressionKnee) / denominator;
 			// Apply ease-out curve
 			double compressed = 1.0 - qPow(1.0 - normalized, 2.0);
-			return compressionKnee + compressed * (1.0 - compressionKnee) * 0.95;
+			return compressionKnee + compressed * denominator * 0.95;
 		}
 		else if (value > 1.0) {
 			// Out of gamut - strong compression to fit within

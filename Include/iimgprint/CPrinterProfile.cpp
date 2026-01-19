@@ -11,6 +11,11 @@
 namespace iimgprint
 {
 
+// Constants for gamut coverage estimation
+namespace {
+	const double DEFAULT_GAMUT_COVERAGE = 0.85; // Placeholder for estimated gamut coverage
+}
+
 
 class CPrinterProfile::Impl
 {
@@ -47,7 +52,7 @@ CPrinterProfile::CPrinterProfile(
 	// Calculate gamut coverage based on spectral data
 	// This is a simplified estimation
 	if (spectralData) {
-		m_impl->gamutCoverage = 0.85; // Placeholder - would calculate from spectral range
+		m_impl->gamutCoverage = DEFAULT_GAMUT_COVERAGE; // Placeholder - would calculate from spectral range
 	}
 }
 
@@ -115,7 +120,7 @@ void CPrinterProfile::SetSpectralSpecification(icmm::ISpectralColorSpecification
 	
 	// Recalculate gamut coverage
 	if (spectralData) {
-		m_impl->gamutCoverage = 0.85; // Placeholder
+		m_impl->gamutCoverage = DEFAULT_GAMUT_COVERAGE; // Placeholder
 	}
 }
 

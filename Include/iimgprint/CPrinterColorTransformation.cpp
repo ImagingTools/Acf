@@ -11,6 +11,11 @@
 namespace iimgprint
 {
 
+// Constants for color space conversion
+namespace {
+	const double DIVISION_SAFETY_EPSILON = 0.001; // Small value to prevent division by zero
+}
+
 
 class CPrinterColorTransformation::Impl
 {
@@ -222,9 +227,9 @@ private:
 			double b = input.GetElement(2);
 			
 			double k = 1.0 - qMax(qMax(r, g), b);
-			double c = (1.0 - r - k) / (1.0 - k + 0.001);
-			double m = (1.0 - g - k) / (1.0 - k + 0.001);
-			double y = (1.0 - b - k) / (1.0 - k + 0.001);
+			double c = (1.0 - r - k) / (1.0 - k + DIVISION_SAFETY_EPSILON);
+			double m = (1.0 - g - k) / (1.0 - k + DIVISION_SAFETY_EPSILON);
+			double y = (1.0 - b - k) / (1.0 - k + DIVISION_SAFETY_EPSILON);
 			
 			result.SetElement(0, c);
 			result.SetElement(1, m);
