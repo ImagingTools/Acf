@@ -1,5 +1,6 @@
 // ACF includes
 #include "CDeviceLabTransformation.h"
+#include <iimgprint/iimgprint.h>
 #include <icmm/CLab.h>
 #include <icmm/CVarColor.h>
 #include <imath/TMultidimensionalPolynomial.h>
