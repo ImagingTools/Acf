@@ -1,12 +1,12 @@
-// Qt includes
-#include <QFile>
-#include <QXmlStreamWriter>
-#include <QXmlStreamReader>
-
 // ACF includes
 #include "CPrinterProfile.h"
 #include "CDeviceLabTransformation.h"
 #include <icmm/ISpectralColorSpecification.h>
+
+// Qt includes
+#include <QFile>
+#include <QXmlStreamWriter>
+#include <QXmlStreamReader>
 
 
 namespace iimgprint

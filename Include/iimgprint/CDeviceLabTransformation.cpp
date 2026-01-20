@@ -1,6 +1,3 @@
-// Qt includes
-#include <QFile>
-
 // ACF includes
 #include "CDeviceLabTransformation.h"
 #include <iimgprint/iimgprint.h>
@@ -8,6 +5,9 @@
 #include <icmm/CVarColor.h>
 #include <imath/TMultidimensionalPolynomial.h>
 #include <imath/TVector.h>
+
+// Qt includes
+#include <QFile>
 
 
 namespace iimgprint

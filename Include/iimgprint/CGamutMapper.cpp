@@ -1,10 +1,10 @@
-// Qt includes
-#include <QtCore/qmath.h>
-
 // ACF includes
 #include "CGamutMapper.h"
 #include <icmm/CVarColor.h>
 #include <imath/imath.h>
+
+// Qt includes
+#include <QtCore/qmath.h>
 
 
 namespace iimgprint

@@ -1,6 +1,3 @@
-// Qt includes
-#include <QtCore/QVector>
-
 // ACF includes
 #include "CPrinterColorTransformation.h"
 #include "CGamutMapper.h"
@@ -11,6 +8,9 @@
 #include <imath/TMultidimensionalPolynomial.h>
 #include <imath/TFulcrumGrid.h>
 #include <imath/TSplineGridFunctionBase.h>
+
+// Qt includes
+#include <QtCore/QVector>
 
 
 namespace iimgprint
