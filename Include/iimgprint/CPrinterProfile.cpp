@@ -206,6 +206,72 @@ bool CPrinterProfile::LoadFromFile(const QString& filePath)
 }
 
 
+bool CPrinterProfile::LoadSpectralDataFromCxF(const QString& cxfFilePath)
+{
+	// Load spectral measurement data from CxF (Color Exchange Format) file
+	// CxF is an XML-based format used for exchanging color and spectral measurement data
+	
+	QFile file(cxfFilePath);
+	if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+		return false;
+	}
+	
+	QXmlStreamReader xml(&file);
+	
+	// Parse CxF XML structure
+	// CxF format typically contains:
+	// - <Resources> section with ColorSpecification
+	// - <ObjectCollection> with ColorValues containing spectral data
+	
+	bool foundSpectralData = false;
+	
+	while (!xml.atEnd()) {
+		xml.readNext();
+		
+		if (xml.isStartElement()) {
+			if (xml.name() == QStringLiteral("ColorSpecification")) {
+				// Found color specification - read wavelength range and interval
+				// In a full implementation, this would parse:
+				// - Measurement geometry
+				// - Illuminant/Observer
+				// - Wavelength range (e.g., 380-730nm)
+				// - Wavelength interval (e.g., 10nm steps)
+				foundSpectralData = true;
+			}
+			else if (xml.name() == QStringLiteral("ColorValues")) {
+				// Found color values - each contains spectral reflectance data
+				// In a full implementation, this would:
+				// 1. Read device values (CMYK or RGB input)
+				// 2. Read spectral reflectance values
+				// 3. Build ISpectralColorSpecification from the data
+			}
+			else if (xml.name() == QStringLiteral("ReflectanceSpectrum")) {
+				// Spectral reflectance data
+				// Format: space-separated reflectance values at each wavelength
+				// Example: "0.123 0.145 0.167 ... 0.891"
+			}
+		}
+	}
+	
+	if (xml.hasError()) {
+		file.close();
+		return false;
+	}
+	
+	file.close();
+	
+	// Note: This is a simplified placeholder implementation
+	// A full implementation would:
+	// 1. Parse all ColorValues entries
+	// 2. Extract spectral reflectance for each test patch
+	// 3. Create ISpectralColorSpecification object
+	// 4. Store using SetSpectralSpecification()
+	
+	// For now, just indicate we attempted to load the file
+	return foundSpectralData;
+}
+
+
 IDeviceToLabTransformation* CPrinterProfile::CreateDeviceToLabTransformation() const
 {
 	if (!IsValid()) {

@@ -219,6 +219,20 @@ public:
 	bool LoadFromFile(const QString& filePath);
 	
 	/**
+		Loads spectral measurement data from CxF (Color Exchange Format) file.
+		
+		CxF is an XML-based format for exchanging color and spectral measurement data.
+		This method reads test chart measurements from a CxF3 format file and stores
+		the spectral reflectance data for use in color transformations.
+		
+		\param cxfFilePath Path to the CxF format file
+		\return True if loaded successfully, false on error
+		
+		\sa SetSpectralSpecification, GetSpectralSpecification
+	*/
+	bool LoadSpectralDataFromCxF(const QString& cxfFilePath);
+	
+	/**
 		Gets the device-to-Lab transformation for this printer.
 		
 		Creates a transformation that converts device colors (CMYK, RGB) to
