@@ -1,12 +1,12 @@
-// ACF includes
-#include "CPrinterProfile.h"
-#include "CDeviceLabTransformation.h"
-#include <icmm/ISpectralColorSpecification.h>
-
 // Qt includes
 #include <QFile>
 #include <QXmlStreamWriter>
 #include <QXmlStreamReader>
+
+// ACF includes
+#include "CPrinterProfile.h"
+#include "CDeviceLabTransformation.h"
+#include <icmm/ISpectralColorSpecification.h>
 
 
 namespace iimgprint
@@ -21,14 +21,14 @@ namespace {
 class CPrinterProfile::Impl
 {
 public:
-	PrinterColorSpace colorSpace;
-	QString printerName;
-	icmm::ISpectralColorSpecification::ConstColorSpecPtr spectralData;
-	double gamutCoverage;
+	PrinterColorSpace m_colorSpace;
+	QString m_printerName;
+	icmm::ISpectralColorSpecification::ConstColorSpecPtr m_spectralData;
+	double m_gamutCoverage;
 	
 	Impl()
-		: colorSpace(PrinterColorSpace::RGB)
-		, gamutCoverage(1.0)
+		: m_colorSpace(PrinterColorSpace::RGB)
+		, m_gamutCoverage(1.0)
 	{
 	}
 };
@@ -46,14 +46,14 @@ CPrinterProfile::CPrinterProfile(
 	const QString& printerName)
 	: m_impl(new Impl())
 {
-	m_impl->spectralData = spectralData;
-	m_impl->colorSpace = colorSpace;
-	m_impl->printerName = printerName;
+	m_impl->m_spectralData = spectralData;
+	m_impl->m_colorSpace = colorSpace;
+	m_impl->m_printerName = printerName;
 	
 	// Calculate gamut coverage based on spectral data
 	// This is a simplified estimation
 	if (spectralData) {
-		m_impl->gamutCoverage = DEFAULT_GAMUT_COVERAGE; // Placeholder - would calculate from spectral range
+		m_impl->m_gamutCoverage = DEFAULT_GAMUT_COVERAGE; // Placeholder - would calculate from spectral range
 	}
 }
 
@@ -81,60 +81,60 @@ CPrinterProfile::~CPrinterProfile()
 
 PrinterColorSpace CPrinterProfile::GetColorSpace() const
 {
-	return m_impl->colorSpace;
+	return m_impl->m_colorSpace;
 }
 
 
 void CPrinterProfile::SetColorSpace(PrinterColorSpace colorSpace)
 {
-	m_impl->colorSpace = colorSpace;
+	m_impl->m_colorSpace = colorSpace;
 }
 
 
 QString CPrinterProfile::GetPrinterName() const
 {
-	return m_impl->printerName;
+	return m_impl->m_printerName;
 }
 
 
 void CPrinterProfile::SetPrinterName(const QString& name)
 {
-	m_impl->printerName = name;
+	m_impl->m_printerName = name;
 }
 
 
 bool CPrinterProfile::HasSpectralData() const
 {
-	return m_impl->spectralData != nullptr;
+	return m_impl->m_spectralData != nullptr;
 }
 
 
 icmm::ISpectralColorSpecification::ConstColorSpecPtr CPrinterProfile::GetSpectralSpecification() const
 {
-	return m_impl->spectralData;
+	return m_impl->m_spectralData;
 }
 
 
 void CPrinterProfile::SetSpectralSpecification(icmm::ISpectralColorSpecification::ConstColorSpecPtr spectralData)
 {
-	m_impl->spectralData = spectralData;
+	m_impl->m_spectralData = spectralData;
 	
 	// Recalculate gamut coverage
 	if (spectralData) {
-		m_impl->gamutCoverage = DEFAULT_GAMUT_COVERAGE; // Placeholder
+		m_impl->m_gamutCoverage = DEFAULT_GAMUT_COVERAGE; // Placeholder
 	}
 }
 
 
 double CPrinterProfile::GetGamutCoverage() const
 {
-	return m_impl->gamutCoverage;
+	return m_impl->m_gamutCoverage;
 }
 
 
 bool CPrinterProfile::IsValid() const
 {
-	return m_impl->spectralData != nullptr;
+	return m_impl->m_spectralData != nullptr;
 }
 
 
@@ -152,14 +152,14 @@ bool CPrinterProfile::SaveToFile(const QString& filePath) const
 	xml.writeStartElement("PrinterProfile");
 	xml.writeAttribute("version", "1.0");
 	
-	xml.writeTextElement("PrinterName", m_impl->printerName);
-	xml.writeTextElement("ColorSpace", QString::number(static_cast<int>(m_impl->colorSpace)));
-	xml.writeTextElement("GamutCoverage", QString::number(m_impl->gamutCoverage));
+	xml.writeTextElement("PrinterName", m_impl->m_printerName);
+	xml.writeTextElement("ColorSpace", QString::number(static_cast<int>(m_impl->m_colorSpace)));
+	xml.writeTextElement("GamutCoverage", QString::number(m_impl->m_gamutCoverage));
 	
 	// Note: Spectral data serialization would require more complex handling
 	// This is a simplified version
 	xml.writeStartElement("SpectralData");
-	xml.writeAttribute("hasData", m_impl->spectralData ? "true" : "false");
+	xml.writeAttribute("hasData", m_impl->m_spectralData ? "true" : "false");
 	xml.writeEndElement(); // SpectralData
 	
 	xml.writeEndElement(); // PrinterProfile
@@ -184,14 +184,14 @@ bool CPrinterProfile::LoadFromFile(const QString& filePath)
 		
 		if (xml.isStartElement()) {
 			if (xml.name() == QStringLiteral("PrinterName")) {
-				m_impl->printerName = xml.readElementText();
+				m_impl->m_printerName = xml.readElementText();
 			}
 			else if (xml.name() == QStringLiteral("ColorSpace")) {
 				int value = xml.readElementText().toInt();
-				m_impl->colorSpace = static_cast<PrinterColorSpace>(value);
+				m_impl->m_colorSpace = static_cast<PrinterColorSpace>(value);
 			}
 			else if (xml.name() == QStringLiteral("GamutCoverage")) {
-				m_impl->gamutCoverage = xml.readElementText().toDouble();
+				m_impl->m_gamutCoverage = xml.readElementText().toDouble();
 			}
 		}
 	}

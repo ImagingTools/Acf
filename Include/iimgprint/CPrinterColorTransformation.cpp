@@ -1,3 +1,6 @@
+// Qt includes
+#include <QtCore/QVector>
+
 // ACF includes
 #include "CPrinterColorTransformation.h"
 #include "CGamutMapper.h"
@@ -22,33 +25,33 @@ namespace {
 class CPrinterColorTransformation::Impl
 {
 public:
-	CPrinterProfile sourceProfile;
-	CPrinterProfile targetProfile;
-	RenderingIntent renderingIntent;
+	CPrinterProfile m_sourceProfile;
+	CPrinterProfile m_targetProfile;
+	RenderingIntent m_renderingIntent;
 	
 	// Multi-dimensional interpolation function for color transformation
 	// Maps from source printer color space to target printer color space
 	typedef imath::TMultidimensionalPolynomial<4, double> ColorInterpolator;
-	QVector<ColorInterpolator*> interpolators; // One per output channel
-	bool interpolatorInitialized;
+	QVector<ColorInterpolator*> m_interpolators; // One per output channel
+	bool m_interpolatorInitialized;
 	
 	// Gamut mapping
-	IGamutMapper* gamutMapper;
+	IGamutMapper* m_gamutMapper;
 	
 	// Device-Lab transformations for intermediate conversion
-	IDeviceToLabTransformation* sourceToLab;
-	ILabToDeviceTransformation* targetFromLab;
+	IDeviceToLabTransformation* m_sourceToLab;
+	ILabToDeviceTransformation* m_targetFromLab;
 	
 	Impl(const CPrinterProfile& source,
 	     const CPrinterProfile& target,
 	     RenderingIntent intent)
-		: sourceProfile(source)
-		, targetProfile(target)
-		, renderingIntent(intent)
-		, interpolatorInitialized(false)
-		, gamutMapper(nullptr)
-		, sourceToLab(nullptr)
-		, targetFromLab(nullptr)
+		: m_sourceProfile(source)
+		, m_targetProfile(target)
+		, m_renderingIntent(intent)
+		, m_interpolatorInitialized(false)
+		, m_gamutMapper(nullptr)
+		, m_sourceToLab(nullptr)
+		, m_targetFromLab(nullptr)
 	{
 		InitializeInterpolators();
 		InitializeGamutMapper();
@@ -58,49 +61,49 @@ public:
 	~Impl()
 	{
 		// Clean up interpolators
-		for (ColorInterpolator* interp : interpolators) {
+		for (ColorInterpolator* interp : m_interpolators) {
 			delete interp;
 		}
-		interpolators.clear();
+		m_interpolators.clear();
 		
 		// Clean up gamut mapper
-		delete gamutMapper;
+		delete m_gamutMapper;
 		
 		// Clean up device-Lab transformations
-		delete sourceToLab;
-		delete targetFromLab;
+		delete m_sourceToLab;
+		delete m_targetFromLab;
 	}
 	
 	void InitializeDeviceLabTransformations()
 	{
 		// Create device-to-Lab and Lab-to-device transformations
 		// These are used for the intermediate Lab color space approach
-		sourceToLab = sourceProfile.CreateDeviceToLabTransformation();
-		targetFromLab = targetProfile.CreateLabToDeviceTransformation();
+		m_sourceToLab = m_sourceProfile.CreateDeviceToLabTransformation();
+		m_targetFromLab = m_targetProfile.CreateLabToDeviceTransformation();
 	}
 	
 	void InitializeGamutMapper()
 	{
 		// Create appropriate gamut mapper based on rendering intent
-		switch (renderingIntent) {
+		switch (m_renderingIntent) {
 			case RenderingIntent::Perceptual:
 				// Perceptual intent uses smooth compression
-				gamutMapper = new CPerceptualGamutMapper(targetProfile, 0.8);
+				m_gamutMapper = new CPerceptualGamutMapper(m_targetProfile, 0.8);
 				break;
 				
 			case RenderingIntent::Saturation:
 				// Saturation also uses compression but more aggressive
-				gamutMapper = new CPerceptualGamutMapper(targetProfile, 0.7);
+				m_gamutMapper = new CPerceptualGamutMapper(m_targetProfile, 0.7);
 				break;
 				
 			case RenderingIntent::RelativeColorimetric:
 			case RenderingIntent::AbsoluteColorimetric:
 				// Colorimetric intents use clipping
-				gamutMapper = new CClippingGamutMapper(targetProfile);
+				m_gamutMapper = new CClippingGamutMapper(m_targetProfile);
 				break;
 				
 			default:
-				gamutMapper = new CClippingGamutMapper(targetProfile);
+				m_gamutMapper = new CClippingGamutMapper(m_targetProfile);
 				break;
 		}
 	}
@@ -113,25 +116,25 @@ public:
 		// 2. Create lookup tables mapping source colors to target colors
 		// 3. Build interpolation functions for smooth color mapping
 		
-		if (!sourceProfile.HasSpectralData() || !targetProfile.HasSpectralData()) {
+		if (!m_sourceProfile.HasSpectralData() || !m_targetProfile.HasSpectralData()) {
 			// Cannot build spectral-based interpolation without data
-			interpolatorInitialized = false;
+			m_interpolatorInitialized = false;
 			return;
 		}
 		
 		// Get color space dimensions
-		int sourceDim = GetColorSpaceDimensions(sourceProfile.GetColorSpace());
-		int targetDim = GetColorSpaceDimensions(targetProfile.GetColorSpace());
+		int sourceDim = GetColorSpaceDimensions(m_sourceProfile.GetColorSpace());
+		int targetDim = GetColorSpaceDimensions(m_targetProfile.GetColorSpace());
 		
 		// Create one interpolator per output channel
 		for (int i = 0; i < targetDim; ++i) {
 			// The interpolators would be initialized here with actual measurement data
 			// For now, create placeholder interpolators
 			ColorInterpolator* interp = new ColorInterpolator();
-			interpolators.append(interp);
+			m_interpolators.append(interp);
 		}
 		
-		interpolatorInitialized = true;
+		m_interpolatorInitialized = true;
 	}
 	
 	bool TransformColor(const icmm::CVarColor& input, icmm::CVarColor& output) const
@@ -142,8 +145,8 @@ public:
 		}
 		
 		// Get source and target color spaces
-		PrinterColorSpace sourceSpace = sourceProfile.GetColorSpace();
-		PrinterColorSpace targetSpace = targetProfile.GetColorSpace();
+		PrinterColorSpace sourceSpace = m_sourceProfile.GetColorSpace();
+		PrinterColorSpace targetSpace = m_targetProfile.GetColorSpace();
 		
 		// Initialize output with expected dimensionality for target space
 		int targetDimensions = GetColorSpaceDimensions(targetSpace);
@@ -156,7 +159,7 @@ public:
 		}
 		
 		// Use multi-dimensional interpolation if available
-		if (interpolatorInitialized && !interpolators.isEmpty()) {
+		if (m_interpolatorInitialized && !m_interpolators.isEmpty()) {
 			if (!TransformUsingInterpolation(input, output)) {
 				return false;
 			}
@@ -175,9 +178,9 @@ public:
 		}
 		
 		// Apply gamut mapping to ensure color is reproducible
-		if (gamutMapper) {
+		if (m_gamutMapper) {
 			icmm::CVarColor mappedOutput;
-			if (gamutMapper->MapToGamut(output, mappedOutput)) {
+			if (m_gamutMapper->MapToGamut(output, mappedOutput)) {
 				output = mappedOutput;
 			}
 		}
@@ -191,26 +194,26 @@ private:
 		// CMYK-to-CMYK conversion algorithm using intermediate Lab color space
 		// This implements the requested Device→Lab→Device approach
 		
-		if (!sourceToLab || !targetFromLab) {
+		if (!m_sourceToLab || !m_targetFromLab) {
 			// Fallback if transformations not available
 			return TransformCmykToCmykDirect(sourceCmyk, targetCmyk);
 		}
 		
 		// Step 1: Convert source CMYK to Lab using source printer profile
 		icmm::CLab lab;
-		if (!sourceToLab->DeviceToLab(sourceCmyk, lab)) {
+		if (!m_sourceToLab->DeviceToLab(sourceCmyk, lab)) {
 			return false;
 		}
 		
 		// Step 2: Convert Lab to target CMYK using target printer profile
-		if (!targetFromLab->LabToDevice(lab, targetCmyk)) {
+		if (!m_targetFromLab->LabToDevice(lab, targetCmyk)) {
 			return false;
 		}
 		
 		// Step 3: Apply gamut mapping if needed
-		if (gamutMapper) {
+		if (m_gamutMapper) {
 			icmm::CVarColor mappedCmyk;
-			if (gamutMapper->MapToGamut(targetCmyk, mappedCmyk)) {
+			if (m_gamutMapper->MapToGamut(targetCmyk, mappedCmyk)) {
 				targetCmyk = mappedCmyk;
 			}
 		}
@@ -278,8 +281,8 @@ private:
 		// This is where the actual spectral-based transformation would occur
 		// For now, this is a simplified placeholder that performs basic color space conversion
 		
-		PrinterColorSpace sourceSpace = sourceProfile.GetColorSpace();
-		PrinterColorSpace targetSpace = targetProfile.GetColorSpace();
+		PrinterColorSpace sourceSpace = m_sourceProfile.GetColorSpace();
+		PrinterColorSpace targetSpace = m_targetProfile.GetColorSpace();
 		
 		int targetDim = GetColorSpaceDimensions(targetSpace);
 		icmm::CVarColor result(targetDim);
@@ -352,26 +355,26 @@ CPrinterColorTransformation::~CPrinterColorTransformation()
 
 RenderingIntent CPrinterColorTransformation::GetRenderingIntent() const
 {
-	return m_impl->renderingIntent;
+	return m_impl->m_renderingIntent;
 }
 
 
 PrinterColorSpace CPrinterColorTransformation::GetSourceColorSpace() const
 {
-	return m_impl->sourceProfile.GetColorSpace();
+	return m_impl->m_sourceProfile.GetColorSpace();
 }
 
 
 PrinterColorSpace CPrinterColorTransformation::GetTargetColorSpace() const
 {
-	return m_impl->targetProfile.GetColorSpace();
+	return m_impl->m_targetProfile.GetColorSpace();
 }
 
 
 bool CPrinterColorTransformation::HandlesOutOfGamut() const
 {
 	// Out-of-gamut handling depends on rendering intent
-	RenderingIntent intent = m_impl->renderingIntent;
+	RenderingIntent intent = m_impl->m_renderingIntent;
 	return (intent == RenderingIntent::Perceptual || 
 	        intent == RenderingIntent::Saturation);
 }

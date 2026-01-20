@@ -1,10 +1,10 @@
+// Qt includes
+#include <QtCore/qmath.h>
+
 // ACF includes
 #include "CGamutMapper.h"
 #include <icmm/CVarColor.h>
 #include <imath/imath.h>
-
-// Qt includes
-#include <QtCore/qmath.h>
 
 
 namespace iimgprint
@@ -19,18 +19,18 @@ namespace iimgprint
 class CClippingGamutMapper::Impl
 {
 public:
-	CPrinterProfile targetProfile;
-	double gamutVolume;
-	double gamutCoverage;
+	CPrinterProfile m_targetProfile;
+	double m_gamutVolume;
+	double m_gamutCoverage;
 	
 	explicit Impl(const CPrinterProfile& profile)
-		: targetProfile(profile)
-		, gamutVolume(1.0)
-		, gamutCoverage(1.0)
+		: m_targetProfile(profile)
+		, m_gamutVolume(1.0)
+		, m_gamutCoverage(1.0)
 	{
 		// Initialize gamut metrics from profile
-		gamutCoverage = profile.GetGamutCoverage();
-		gamutVolume = gamutCoverage; // Simplified - would calculate actual volume
+		m_gamutCoverage = profile.GetGamutCoverage();
+		m_gamutVolume = m_gamutCoverage; // Simplified - would calculate actual volume
 	}
 	
 	bool IsColorInGamut(const icmm::CVarColor& color) const
@@ -126,13 +126,13 @@ bool CClippingGamutMapper::MapToGamut(const icmm::CVarColor& sourceColor,
 
 double CClippingGamutMapper::GetGamutVolume() const
 {
-	return m_impl->gamutVolume;
+	return m_impl->m_gamutVolume;
 }
 
 
 double CClippingGamutMapper::GetGamutCoverage() const
 {
-	return m_impl->gamutCoverage;
+	return m_impl->m_gamutCoverage;
 }
 
 
@@ -150,20 +150,20 @@ double CClippingGamutMapper::GetDistanceToGamutBoundary(const icmm::CVarColor& c
 class CPerceptualGamutMapper::Impl
 {
 public:
-	CPrinterProfile targetProfile;
-	double compressionKnee;
-	double gamutVolume;
-	double gamutCoverage;
+	CPrinterProfile m_targetProfile;
+	double m_compressionKnee;
+	double m_gamutVolume;
+	double m_gamutCoverage;
 	
 	Impl(const CPrinterProfile& profile, double knee)
-		: targetProfile(profile)
-		, compressionKnee(knee)
-		, gamutVolume(1.0)
-		, gamutCoverage(1.0)
+		: m_targetProfile(profile)
+		, m_compressionKnee(knee)
+		, m_gamutVolume(1.0)
+		, m_gamutCoverage(1.0)
 	{
 		// Initialize gamut metrics
-		gamutCoverage = profile.GetGamutCoverage();
-		gamutVolume = gamutCoverage;
+		m_gamutCoverage = profile.GetGamutCoverage();
+		m_gamutVolume = m_gamutCoverage;
 	}
 	
 	bool IsColorInGamut(const icmm::CVarColor& color) const
@@ -202,30 +202,30 @@ public:
 		// Colors within knee point are minimally affected
 		// Colors beyond knee point are smoothly compressed
 		
-		if (value >= 0.0 && value <= compressionKnee) {
+		if (value >= 0.0 && value <= m_compressionKnee) {
 			// Within knee - minimal compression (linear pass-through)
 			return value;
 		}
-		else if (value > compressionKnee && value <= 1.0) {
+		else if (value > m_compressionKnee && value <= 1.0) {
 			// Between knee and gamut boundary - smooth compression
-			// Protect against division by zero when compressionKnee is 1.0
-			double denominator = 1.0 - compressionKnee;
+			// Protect against division by zero when m_compressionKnee is 1.0
+			double denominator = 1.0 - m_compressionKnee;
 			if (denominator < 0.001) {
 				// Knee is at or very close to boundary, no compression needed
 				return value;
 			}
 			
-			double normalized = (value - compressionKnee) / denominator;
+			double normalized = (value - m_compressionKnee) / denominator;
 			// Apply ease-out curve
 			double compressed = 1.0 - qPow(1.0 - normalized, 2.0);
-			return compressionKnee + compressed * denominator * 0.95;
+			return m_compressionKnee + compressed * denominator * 0.95;
 		}
 		else if (value > 1.0) {
 			// Out of gamut - strong compression to fit within
 			double excess = value - 1.0;
 			// Compress excess using asymptotic function
 			double compressedExcess = excess / (1.0 + excess);
-			return 1.0 - (1.0 - compressionKnee) * 0.05 + compressedExcess * (1.0 - compressionKnee) * 0.05;
+			return 1.0 - (1.0 - m_compressionKnee) * 0.05 + compressedExcess * (1.0 - m_compressionKnee) * 0.05;
 		}
 		else {
 			// Below 0 - compress symmetrically
@@ -246,10 +246,10 @@ public:
 			
 			// Distance considering compression knee
 			double dist;
-			if (value >= 0.0 && value <= compressionKnee) {
+			if (value >= 0.0 && value <= m_compressionKnee) {
 				// Well within gamut
-				dist = qMin(value, compressionKnee - value);
-			} else if (value > compressionKnee && value <= 1.0) {
+				dist = qMin(value, m_compressionKnee - value);
+			} else if (value > m_compressionKnee && value <= 1.0) {
 				// Near boundary
 				dist = 1.0 - value;
 			} else {
@@ -281,13 +281,13 @@ CPerceptualGamutMapper::~CPerceptualGamutMapper()
 
 void CPerceptualGamutMapper::SetCompressionKnee(double knee)
 {
-	m_impl->compressionKnee = qMax(0.0, qMin(1.0, knee));
+	m_impl->m_compressionKnee = qMax(0.0, qMin(1.0, knee));
 }
 
 
 double CPerceptualGamutMapper::GetCompressionKnee() const
 {
-	return m_impl->compressionKnee;
+	return m_impl->m_compressionKnee;
 }
 
 
@@ -306,13 +306,13 @@ bool CPerceptualGamutMapper::MapToGamut(const icmm::CVarColor& sourceColor,
 
 double CPerceptualGamutMapper::GetGamutVolume() const
 {
-	return m_impl->gamutVolume;
+	return m_impl->m_gamutVolume;
 }
 
 
 double CPerceptualGamutMapper::GetGamutCoverage() const
 {
-	return m_impl->gamutCoverage;
+	return m_impl->m_gamutCoverage;
 }
 
 

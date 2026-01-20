@@ -1,3 +1,6 @@
+// Qt includes
+#include <QFile>
+
 // ACF includes
 #include "CDeviceLabTransformation.h"
 #include <iimgprint/iimgprint.h>
@@ -19,30 +22,30 @@ namespace iimgprint
 class CDeviceToLabTransformation::Impl
 {
 public:
-	CPrinterProfile profile;
+	CPrinterProfile m_profile;
 	
 	// Multi-dimensional interpolators for Lab components
 	typedef imath::TMultidimensionalPolynomial<4, double> Interpolator;
-	Interpolator* lInterpolator;  // L* component
-	Interpolator* aInterpolator;  // a* component
-	Interpolator* bInterpolator;  // b* component
-	bool initialized;
+	Interpolator* m_lInterpolator;  // L* component
+	Interpolator* m_aInterpolator;  // a* component
+	Interpolator* m_bInterpolator;  // b* component
+	bool m_initialized;
 	
 	explicit Impl(const CPrinterProfile& prof)
-		: profile(prof)
-		, lInterpolator(nullptr)
-		, aInterpolator(nullptr)
-		, bInterpolator(nullptr)
-		, initialized(false)
+		: m_profile(prof)
+		, m_lInterpolator(nullptr)
+		, m_aInterpolator(nullptr)
+		, m_bInterpolator(nullptr)
+		, m_initialized(false)
 	{
 		Initialize();
 	}
 	
 	~Impl()
 	{
-		delete lInterpolator;
-		delete aInterpolator;
-		delete bInterpolator;
+		delete m_lInterpolator;
+		delete m_aInterpolator;
+		delete m_bInterpolator;
 	}
 	
 	void Initialize()
@@ -53,22 +56,22 @@ public:
 		// 2. For each patch: device values (CMYK) → spectral → XYZ → Lab
 		// 3. Build interpolation functions: CMYK → L*, CMYK → a*, CMYK → b*
 		
-		if (!profile.HasSpectralData()) {
-			initialized = false;
+		if (!m_profile.HasSpectralData()) {
+			m_initialized = false;
 			return;
 		}
 		
 		// Create interpolators (would be initialized with actual measurement data)
-		lInterpolator = new Interpolator();
-		aInterpolator = new Interpolator();
-		bInterpolator = new Interpolator();
+		m_lInterpolator = new Interpolator();
+		m_aInterpolator = new Interpolator();
+		m_bInterpolator = new Interpolator();
 		
-		initialized = true;
+		m_initialized = true;
 	}
 	
 	bool ConvertToLab(const icmm::CVarColor& device, icmm::CLab& lab) const
 	{
-		if (!initialized || device.GetElementsCount() == 0) {
+		if (!m_initialized || device.GetElementsCount() == 0) {
 			return false;
 		}
 		
@@ -86,7 +89,7 @@ public:
 		// Interpolate Lab components
 		double L = 50.0, a = 0.0, b = 0.0;  // Default to mid-gray
 		
-		if (lInterpolator && lInterpolator->GetValueAt(inputVector, L)) {
+		if (m_lInterpolator && m_lInterpolator->GetValueAt(inputVector, L)) {
 			// Got L value
 		} else {
 			// Fallback: estimate based on K value (for CMYK)
@@ -96,11 +99,11 @@ public:
 			}
 		}
 		
-		if (aInterpolator) {
-			aInterpolator->GetValueAt(inputVector, a);
+		if (m_aInterpolator) {
+			m_aInterpolator->GetValueAt(inputVector, a);
 		}
-		if (bInterpolator) {
-			bInterpolator->GetValueAt(inputVector, b);
+		if (m_bInterpolator) {
+			m_bInterpolator->GetValueAt(inputVector, b);
 		}
 		
 		// Set Lab color
@@ -139,28 +142,28 @@ bool CDeviceToLabTransformation::DeviceToLab(const icmm::CVarColor& deviceColor,
 class CLabToDeviceTransformation::Impl
 {
 public:
-	CPrinterProfile profile;
+	CPrinterProfile m_profile;
 	
 	// Multi-dimensional interpolators for device components
 	typedef imath::TMultidimensionalPolynomial<3, double> Interpolator;
-	QVector<Interpolator*> interpolators;  // One per device channel
-	bool initialized;
-	int deviceChannels;
+	QVector<Interpolator*> m_interpolators;  // One per device channel
+	bool m_initialized;
+	int m_deviceChannels;
 	
 	explicit Impl(const CPrinterProfile& prof)
-		: profile(prof)
-		, initialized(false)
-		, deviceChannels(4)  // Default to CMYK
+		: m_profile(prof)
+		, m_initialized(false)
+		, m_deviceChannels(4)  // Default to CMYK
 	{
 		Initialize();
 	}
 	
 	~Impl()
 	{
-		for (Interpolator* interp : interpolators) {
+		for (Interpolator* interp : m_interpolators) {
 			delete interp;
 		}
-		interpolators.clear();
+		m_interpolators.clear();
 	}
 	
 	void Initialize()
@@ -171,43 +174,43 @@ public:
 		// 2. For each patch: spectral → XYZ → Lab, and device values (CMYK)
 		// 3. Build interpolation functions: Lab → CMYK (inverse lookup)
 		
-		if (!profile.HasSpectralData()) {
-			initialized = false;
+		if (!m_profile.HasSpectralData()) {
+			m_initialized = false;
 			return;
 		}
 		
 		// Determine device channel count from color space
-		PrinterColorSpace space = profile.GetColorSpace();
+		PrinterColorSpace space = m_profile.GetColorSpace();
 		switch (space) {
 			case PrinterColorSpace::RGB:
-				deviceChannels = 3;
+				m_deviceChannels = 3;
 				break;
 			case PrinterColorSpace::CMYK:
-				deviceChannels = 4;
+				m_deviceChannels = 4;
 				break;
 			case PrinterColorSpace::ExtendedGamut:
-				deviceChannels = 7;
+				m_deviceChannels = 7;
 				break;
 			default:
-				deviceChannels = 4;
+				m_deviceChannels = 4;
 				break;
 		}
 		
 		// Create interpolators (would be initialized with actual measurement data)
-		for (int i = 0; i < deviceChannels; ++i) {
-			interpolators.append(new Interpolator());
+		for (int i = 0; i < m_deviceChannels; ++i) {
+			m_interpolators.append(new Interpolator());
 		}
 		
-		initialized = true;
+		m_initialized = true;
 	}
 	
 	bool ConvertToDevice(const icmm::CLab& lab, icmm::CVarColor& device) const
 	{
-		if (!initialized) {
+		if (!m_initialized) {
 			return false;
 		}
 		
-		device = icmm::CVarColor(deviceChannels);
+		device = icmm::CVarColor(m_deviceChannels);
 		
 		// Prepare input vector for interpolation (Lab)
 		imath::TVector<3> labVector;
@@ -216,13 +219,13 @@ public:
 		labVector[2] = lab.GetB();
 		
 		// Interpolate device components
-		for (int i = 0; i < qMin(deviceChannels, interpolators.size()); ++i) {
+		for (int i = 0; i < qMin(m_deviceChannels, m_interpolators.size()); ++i) {
 			double deviceValue = 0.0;
-			if (interpolators[i] && interpolators[i]->GetValueAt(labVector, deviceValue)) {
+			if (m_interpolators[i] && m_interpolators[i]->GetValueAt(labVector, deviceValue)) {
 				device.SetElement(i, qMax(0.0, qMin(1.0, deviceValue)));
 			} else {
 				// Fallback: simplified Lab to CMYK conversion
-				if (i == 3 && deviceChannels == 4) {
+				if (i == 3 && m_deviceChannels == 4) {
 					// K channel - based on L*
 					device.SetElement(i, 1.0 - lab.GetL() / 100.0);
 				} else {
