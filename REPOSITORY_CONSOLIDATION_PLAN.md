@@ -80,12 +80,13 @@ Acf/ (Unified Repository)
 ├── Platform/          # Platform-specific (2 libs) - Layer 1
 ├── Data/              # Data management (2 libs) - Layer 1/2
 ├── ImageProcessing/   # Core image processing (5 libs) - Layer 2
-├── ComputerVision/    # CV and recognition (7 libs) - Layer 2
-├── Calibration/       # Measurement (6 libs) - Layer 2
-├── Acquisition/       # Hardware I/O (6 libs) - Layer 2
+├── ComputerVision/    # CV, calibration, cameras (11 libs) - Layer 2
+├── Measurement/       # Measurement and viz (4 libs) - Layer 2
+├── Acquisition/       # Hardware I/O (4 libs) - Layer 2
 ├── ProcessingEngine/  # Processing infrastructure (1 lib) - Layer 2
 ├── DocumentView/      # Document framework (8 libs) - Layer 2
-├── DevelopmentTools/  # Dev tools and editors (5 libs) - Layer 2
+├── DevelopmentTools/  # Design and scripting (3 libs) - Layer 2
+├── DeviceManagement/  # Device management (2 libs) - Layer 2
 ├── UI/                # Core UI infrastructure (20+ libs) - Layer 2
 ├── API/               # APIs and communication (12 libs) - Layer 2
 ├── Production/        # Manufacturing (6 libs) - Layer 3
@@ -108,12 +109,13 @@ Acf/ (Unified Repository)
 
 **Layer 2 - Domain Libraries (70+ libraries)**
 - ImageProcessing: iproc, iprocgui, iblob, iblobgui, iocv (with integrated UI)
-- ComputerVision: iipr, iqtipr, iedge, iedgegui, ibarcode, iimg, imtimg (with integrated UI)
-- Calibration: icalib, icalibgui, imeas, iqtmeas, iqwt, iqwt3d (with integrated UI)
-- Acquisition: icam, iqtcam, idc1394, icbox, icomm, ilibav (with integrated UI)
+- ComputerVision: iipr, iqtipr, iedge, iedgegui, ibarcode, iimg, imtimg, icalib, icalibgui, icam, iqtcam (CV, calibration, cameras with integrated UI)
+- Measurement: imeas, iqtmeas, iqwt, iqwt3d (measurement and visualization with integrated UI)
+- Acquisition: idc1394, icbox, icomm, ilibav (hardware I/O)
 - ProcessingEngine: iinsp (pull-based processing engine)
 - DocumentView: idoc, iview, imod, ifile, imm, iphonon, imtapp, imtcol
-- DevelopmentTools: icmpstr (Compositor visual editor), imtdev, imtdevgui, imtpy, imtej
+- DevelopmentTools: icmpstr (Compositor visual editor), imtpy, imtej
+- DeviceManagement: imtdev, imtdevgui (device management framework and UI)
 - UI: 20+ core UI libraries (Qt widgets, QML, theming, wizards)
 - API: GraphQL APIs, HTTP/REST (imtrest to be split), email, communication
 - Depends on Core and Foundation

@@ -93,12 +93,14 @@ Acf/  (Unified Repository)
 │   ├── ialgo/                     # General algorithms
 │   └── isig/                      # Signal processing
 │
-├── DevelopmentTools/              # Development and Design Tools (Layer 2)
+├── DevelopmentTools/              # Design and Scripting Tools (Layer 2)
 │   ├── icmpstr/                   # Compositor - visual editor for component diagrams
-│   ├── imtdev/                    # Development environment and plugin system
-│   ├── imtdevgui/                 # Developer tools UI
 │   ├── imtpy/                     # Python integration and bindings
 │   └── imtej/                     # Export and JSON format utilities
+│
+├── DeviceManagement/              # Device Management Infrastructure (Layer 2)
+│   ├── imtdev/                    # Device management framework
+│   └── imtdevgui/                 # Device management UI
 │
 ├── Geometry/                      # Spatial and Visual Data (Layer 1)
 │   ├── i2d/                       # 2D geometry
@@ -120,19 +122,19 @@ Acf/  (Unified Repository)
 │   ├── iedgegui/                  # Edge detection UI
 │   ├── ibarcode/                  # Barcode recognition
 │   ├── iimg/                      # Image data structures
-│   └── imtimg/                    # ImtCore image processing
-│
-├── Calibration/                   # Measurement and Calibration (Layer 2)
+│   ├── imtimg/                    # ImtCore image processing
 │   ├── icalib/                    # Calibration algorithms
 │   ├── icalibgui/                 # Calibration UI
+│   ├── icam/                      # Camera abstraction
+│   └── iqtcam/                    # Camera UI
+│
+├── Measurement/                   # Measurement and Visualization (Layer 2)
 │   ├── imeas/                     # Measurement tools
 │   ├── iqtmeas/                   # Measurement UI
-│   ├── iqwt/                      # Qwt plotting (for calibration visualization)
+│   ├── iqwt/                      # Qwt plotting (for visualization)
 │   └── iqwt3d/                    # Qwt 3D plotting
 │
 ├── Acquisition/                   # Data Acquisition and Hardware (Layer 2)
-│   ├── icam/                      # Camera abstraction
-│   ├── iqtcam/                    # Camera UI
 │   ├── idc1394/                   # Firewire cameras
 │   ├── icbox/                     # Hardware control boxes
 │   ├── icomm/                     # Communication protocols
@@ -270,27 +272,27 @@ The structure follows a layered architecture to minimize circular dependencies:
 **Libraries**: iproc, iprocgui, iblob, iblobgui, iocv
 **Key Features**: Image filtering, blob analysis, OpenCV integration, with integrated UI
 
-### 5. ComputerVision (7 libraries)
-**Purpose**: Advanced computer vision and recognition
-**Libraries**: iipr, iqtipr, iedge, iedgegui, ibarcode, iimg, imtimg
-**Key Features**: Advanced image processing, edge detection, barcode recognition, image data structures, with integrated UI
+### 5. ComputerVision (11 libraries)
+**Purpose**: Advanced computer vision, recognition, calibration, and camera management
+**Libraries**: iipr, iqtipr, iedge, iedgegui, ibarcode, iimg, imtimg, icalib, icalibgui, icam, iqtcam
+**Key Features**: Advanced image processing, edge detection, barcode recognition, image data structures, calibration algorithms, camera abstraction, with integrated UI
 
-### 6. Calibration (6 libraries)
-**Purpose**: Camera calibration and measurement
-**Libraries**: icalib, icalibgui, imeas, iqtmeas, iqwt, iqwt3d
-**Key Features**: Calibration algorithms, measurement tools, plotting, with integrated UI
+### 6. Measurement (4 libraries)
+**Purpose**: Measurement tools and visualization
+**Libraries**: imeas, iqtmeas, iqwt, iqwt3d
+**Key Features**: Measurement tools, plotting and visualization, with integrated UI
 
-### 7. Acquisition (6 libraries)
+### 7. Acquisition (4 libraries)
 **Purpose**: Hardware interfacing and data capture
-**Libraries**: icam, iqtcam, idc1394, icbox, icomm, ilibav
-**Key Features**: Camera APIs, hardware control, video I/O, with integrated UI
+**Libraries**: idc1394, icbox, icomm, ilibav
+**Key Features**: Firewire cameras, hardware control, communication protocols, video I/O
 
 ### 8. ProcessingEngine (1 library)
 **Purpose**: Processing infrastructure and engines
 **Libraries**: iinsp
 **Key Features**: Pull-based inspection/processing engine for workflow automation
 
-### 9. Production (5 libraries)
+### 9. Production (6 libraries)
 **Purpose**: Manufacturing and quality control workflows
 **Libraries**: iprod, iqtinsp, ihotf, ihotfgui, ifileproc, idocproc
 **Key Features**: Production management, inspection UI, hotfolder monitoring, automated file/document processing
@@ -300,33 +302,38 @@ The structure follows a layered architecture to minimize circular dependencies:
 **Libraries**: idoc, iview, imod, ifile, imm, iphonon, imtapp, imtcol
 **Key Features**: Document management, view synchronization, media, application framework, collections
 
-### 11. DevelopmentTools (5 libraries)
-**Purpose**: Development tools and visual editors
-**Libraries**: icmpstr, imtdev, imtdevgui, imtpy, imtej
-**Key Features**: Compositor (visual component diagram editor), development environment, Python integration, export utilities
+### 11. DevelopmentTools (3 libraries)
+**Purpose**: Design tools and scripting
+**Libraries**: icmpstr, imtpy, imtej
+**Key Features**: Compositor (visual component diagram editor), Python integration, export utilities
 
-### 12. UI (20+ core libraries)
+### 12. DeviceManagement (2 libraries)
+**Purpose**: Device management infrastructure
+**Libraries**: imtdev, imtdevgui
+**Key Features**: Device management framework and UI
+
+### 13. UI (20+ core libraries)
 **Purpose**: Core user interface infrastructure (domain-specific UIs are co-located with their domains)
 **Libraries**: iqt, iqtgui, iqtprm, iqt2d, iqtdoc, iwidgets, iqsci, iwiz, iwizgui, ifilegui, iloggui, imtgui, imtwidgets, imtstyle, imtqml, imtqml2d, imtstylecontrolsqml, imtdesign, iqtmm, iqtsig, iqaxmm
 **Key Features**: Qt widgets, QML framework, theming, wizards, file/log UI, media UI
 
-### 13. API (12 libraries)
+### 14. API (12 libraries)
 **Purpose**: API and communication infrastructure  
 **Libraries**: imtgql, imtclientgql, imtservergql, imtguigql, imtgqltest, imthttp, imtrest (to be split), imtmail, icomm
 **Key Features**: GraphQL APIs, HTTP/REST protocols, email, low-level communication
 **Note**: imtrest should be split into imthttp (basic HTTP protocol) and imtrestapi (REST API patterns)
 
-### 14. Platform (2 libraries)
+### 15. Platform (2 libraries)
 **Purpose**: Platform-specific implementations
 **Libraries**: iwin, inat
 **Key Features**: Windows APIs, native platform abstractions
 
-### 15. Services (6 libraries)
+### 16. Services (6 libraries)
 **Purpose**: Application-level services
 **Libraries**: iauth, iqtauth, iweb, iservice, imtservice, imtauth
 **Key Features**: Authentication, authorization, web services, service infrastructure
 
-### 16. Data (2 libraries)
+### 17. Data (2 libraries)
 **Purpose**: Data management and persistence
 **Libraries**: imtdb, imtfile
 **Key Features**: Database access, extended file handling
