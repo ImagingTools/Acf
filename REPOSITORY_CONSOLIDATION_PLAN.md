@@ -6,7 +6,7 @@ This document proposes consolidating three separate ACF repositories (Acf, AcfSl
 
 ## Current State
 
-### Three Separate Repositories
+### Four Separate Repositories
 
 1. **Acf** (Core Framework)
    - **Purpose**: Foundation framework and infrastructure
@@ -26,15 +26,21 @@ This document proposes consolidating three separate ACF repositories (Acf, AcfSl
    - **Focus**: OpenCV, Qwt, QScintilla, Phonon, platform-specific
    - **Status**: Active, integration-focused
 
-**Total**: 71 libraries across 3 repositories
+4. **ImtCore** (Enterprise Application Core)
+   - **Purpose**: Enterprise application infrastructure
+   - **Libraries**: 7+ libraries
+   - **Focus**: Database, authentication, services, application framework
+   - **Status**: Active, enterprise-focused
+
+**Total**: 78+ libraries across 4 repositories
 
 ## Problems with Current Structure
 
 ### 1. Repository Fragmentation
-- Related functionality scattered across repositories
+- Related functionality scattered across four repositories
 - Difficult to understand overall framework capabilities
 - Complex dependency management between repositories
-- Three separate build systems to maintain
+- Four separate build systems to maintain
 
 ### 2. Poor Discoverability
 - Users don't know which repository contains needed functionality
@@ -43,7 +49,7 @@ This document proposes consolidating three separate ACF repositories (Acf, AcfSl
 - Documentation fragmented across repositories
 
 ### 3. Maintenance Overhead
-- Three separate release cycles
+- Four separate release cycles
 - Duplicate infrastructure (CI/CD, docs, issues)
 - Inconsistent versioning across repos
 - Complex cross-repository changes
@@ -68,10 +74,11 @@ This document proposes consolidating three separate ACF repositories (Acf, AcfSl
 
 ```
 Acf/ (Unified Repository)
-├── Core/              # Foundation (9 libs) - Layer 0
+├── Core/              # Foundation (10 libs) - Layer 0
 ├── Math/              # Mathematics (4 libs) - Layer 1
 ├── Geometry/          # Spatial data (4 libs) - Layer 1
 ├── Platform/          # Platform-specific (2 libs) - Layer 1
+├── Data/              # Data management (2 libs) - Layer 1/2
 ├── ImageProcessing/   # Image analysis (6 libs) - Layer 2
 ├── Calibration/       # Measurement (4 libs) - Layer 2
 ├── Acquisition/       # Hardware I/O (5 libs) - Layer 2
@@ -81,33 +88,35 @@ Acf/ (Unified Repository)
 │   ├── Domain/        # Domain UIs (15 libs)
 │   └── Integration/   # UI integration (2 libs)
 ├── Production/        # Manufacturing (5 libs) - Layer 3
-└── Services/          # Application services (4 libs) - Layer 3
+└── Services/          # Application services (11 libs) - Layer 3
 ```
 
 ### Domain Descriptions
 
-**Layer 0 - Core (9 libraries)**
-- istd, icomp, iser, iprm, iattr, ibase, ipackage, ilog, itest
+**Layer 0 - Core (10 libraries)**
+- istd, icomp, iser, iprm, iattr, ibase, ipackage, ilog, itest, imtbase
 - No dependencies on other ACF libraries
 - Foundation for everything else
 
-**Layer 1 - Foundation (10 libraries)**
+**Layer 1 - Foundation (12 libraries)**
 - Math: imath, ialgo, icmpstr, isig
 - Geometry: i2d, i3d, icmm, iimg
 - Platform: iwin, inat
+- Data: imtdb, imtfile
 - Depends only on Core
 
-**Layer 2 - Domain Libraries (48 libraries)**
+**Layer 2 - Domain Libraries (50 libraries)**
 - ImageProcessing: iproc, iipr, iblob, iedge, ibarcode, iocv
 - Calibration: icalib, imeas, iqwt, iqwt3d
 - Acquisition: icam, idc1394, icbox, icomm, ilibav
 - DocumentView: idoc, iview, imod, ifile, imm, iphonon
+- Application: imtapp, imtcol
 - UI: 27 libraries (core UI + domain-specific UIs)
 - Depends on Core and Foundation
 
-**Layer 3 - Applications (9 libraries)**
+**Layer 3 - Applications (16 libraries)**
 - Production: iprod, iinsp, ihotf, ifileproc, idocproc
-- Services: iauth, iqtauth, iweb, iservice
+- Services: iauth, iqtauth, iweb, iservice, imtservice, imtauth
 - Depends on Core, Foundation, and Domain layers
 
 ## Benefits of Unified Structure
@@ -156,8 +165,9 @@ Acf/ (Unified Repository)
 - Update CMake configuration
 - Test foundation builds
 
-**Week 3: Application Domains**
+**Week 3: Application Domains & ImtCore**
 - Migrate ImageProcessing, Calibration, Acquisition
+- Migrate ImtCore libraries (imtbase, imtapp, imtdb, imtfile, imtservice, imtauth, imtcol)
 - Test domain interactions
 - Validate dependencies
 
@@ -184,11 +194,12 @@ Acf/ (Unified Repository)
 ```cpp
 #include <iproc/ImageProcessor.h>  // Still works
 #include <icalib/Calibration.h>    // Still works
+#include <imtbase/ImtBase.h>       // Still works
 ```
 
 **CMake Targets Unchanged**
 ```cmake
-target_link_libraries(MyApp PRIVATE iproc icalib icam)  # Still works
+target_link_libraries(MyApp PRIVATE iproc icalib icam imtbase)  # Still works
 ```
 
 **API Compatibility**
@@ -347,7 +358,7 @@ Acf/
 
 ## Conclusion
 
-Consolidating the three ACF repositories into a unified, domain-oriented structure will significantly improve the framework's usability, maintainability, and scalability. The benefits far outweigh the migration effort, and the comprehensive migration plan ensures a smooth transition with minimal risk.
+Consolidating the four ACF repositories (Acf, AcfSln, IAcf, ImtCore) into a unified, domain-oriented structure will significantly improve the framework's usability, maintainability, and scalability. The benefits far outweigh the migration effort, and the comprehensive migration plan ensures a smooth transition with minimal risk.
 
 The new structure positions ACF for future growth while maintaining full backward compatibility with existing code.
 

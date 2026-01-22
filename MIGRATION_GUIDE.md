@@ -2,7 +2,7 @@
 
 ## Overview
 
-This guide provides step-by-step instructions for migrating from the three-repository structure (Acf, AcfSln, IAcf) to the unified domain-oriented repository structure.
+This guide provides step-by-step instructions for migrating from the four-repository structure (Acf, AcfSln, IAcf, ImtCore) to the unified domain-oriented repository structure.
 
 ## Prerequisites
 
@@ -14,33 +14,34 @@ This guide provides step-by-step instructions for migrating from the three-repos
 - Bash or PowerShell
 
 ### Required Access
-- Read access to all three source repositories
+- Read access to all four source repositories
 - Write access to the unified Acf repository
 - Administrative access (for repository settings)
 
 ## Migration Timeline
 
-**Estimated Duration**: 4-6 weeks
+**Estimated Duration**: 6-8 weeks
 
 - Week 1: Repository setup and Core domain
-- Week 2: Foundation domains (Math, Geometry, Platform)
-- Week 3: Application domains (ImageProcessing, Calibration, Acquisition)
-- Week 4: UI domain and services
-- Week 5: Testing and validation
-- Week 6: Documentation and cleanup
+- Week 2: Foundation domains (Math, Geometry, Platform, Data)
+- Week 3-4: Application domains and ImtCore (ImageProcessing, Calibration, Acquisition)
+- Week 5: UI domain and services
+- Week 6: Testing and validation
+- Week 7-8: Documentation and cleanup
 
 ## Phase 1: Preparation (Week 1, Days 1-2)
 
 ### 1.1 Backup Existing Repositories
 
 ```bash
-# Clone all three repositories
+# Clone all four repositories
 git clone https://github.com/ImagingTools/Acf.git Acf-backup
 git clone https://github.com/ImagingTools/AcfSln.git AcfSln-backup
 git clone https://github.com/ImagingTools/IAcf.git IAcf-backup
+git clone https://github.com/ImagingTools/ImtCore.git ImtCore-backup
 
 # Create archive
-tar -czf acf-repositories-backup-$(date +%Y%m%d).tar.gz Acf-backup AcfSln-backup IAcf-backup
+tar -czf acf-repositories-backup-$(date +%Y%m%d).tar.gz Acf-backup AcfSln-backup IAcf-backup ImtCore-backup
 ```
 
 ### 1.2 Create Migration Branch

@@ -2,7 +2,7 @@
 
 ## Executive Summary
 
-This document proposes a domain-oriented reorganization of the three ACF repositories (Acf, AcfSln, IAcf) into a single unified repository. The new structure groups libraries by functional domain rather than by technical layer, improving discoverability, maintainability, and logical organization.
+This document proposes a domain-oriented reorganization of the four ACF repositories (Acf, AcfSln, IAcf, ImtCore) into a single unified repository. The new structure groups libraries by functional domain rather than by technical layer, improving discoverability, maintainability, and logical organization.
 
 ## Current State Analysis
 
@@ -21,7 +21,38 @@ Third-party library integrations and platform-specific implementations.
 
 **Libraries**: iocv, iqwt, iqwt3d, iqsci, iphonon, iwin, inat, idc1394, icbox, ilibav, iqaxmm
 
-**Total**: 71 libraries across 3 repositories
+### Repository 4: **ImtCore** (Enterprise Application Core - 61 libraries)
+Enterprise application infrastructure including database, authentication, services, GraphQL APIs, 3D visualization, and comprehensive UI framework.
+
+**Core Infrastructure (7 libraries)**: imtbase, imtcore, imtcom, imtcol, imttest, imtfile, imtzip
+
+**Authentication & Authorization (4 libraries)**: imtauth, imtauthdb, imtauthgql, imtauthgui
+
+**Database & Persistence (5 libraries)**: imtdb, imtdbgql, imtdbgui, imtmdbx, imtmongo
+
+**Licensing System (4 libraries)**: imtlic, imtlicdb, imtlicgql, imtlicgui
+
+**GraphQL APIs (5 core libraries)**: imtgql, imtclientgql, imtservergql, imtguigql, imtgqltest
+
+**User Interface (10 core libraries)**: imtgui, imtwidgets, imtstyle, imtqml, imtqml2d, imtstylecontrolsqml, imtdesign, imt3dgui, imthypegui, imtauthgui
+
+**3D & Visualization (6 libraries)**: imt3d, imt3dgui, imt3dview, imthype, imthypegui, imtgeo
+
+**Content & Media (3 libraries)**: imtimg, imtdoc, imtrepo
+
+**Communication & Integration (4 libraries)**: imthttp, imtrest, imtmail, imtservice
+
+**Security (1 library)**: imtcrypt
+
+**Code Generation & SDL (5 libraries)**: imtsdl, imtsdlgencpp, imtsdlgenqml, imtddl, imtoas
+
+**Development Tools (4 libraries)**: imtdev, imtdevgui, imtpy, imtej
+
+**Reporting & Logging (4 libraries)**: imtlog, imtloggui, imtreport, imtreportgui
+
+**Application Frameworks (3 libraries)**: imtapp, imtserverapp, imtupdate
+
+**Total**: 139 libraries across 4 repositories
 
 ## Problems with Current Structure
 
@@ -29,7 +60,7 @@ Third-party library integrations and platform-specific implementations.
 2. **Technical Layering**: Organized by implementation detail rather than domain
 3. **Discovery Challenges**: Difficult to find which library provides specific functionality
 4. **Dependency Complexity**: Cross-repository dependencies complicate builds
-5. **Maintenance Overhead**: Three separate repositories to manage
+5. **Maintenance Overhead**: Four separate repositories to manage
 
 ## Proposed Domain-Oriented Structure
 
@@ -54,7 +85,8 @@ Acf/  (Unified Repository)
 │   ├── ibase/                     # Base components
 │   ├── ipackage/                  # Package management
 │   ├── ilog/                      # Logging
-│   └── itest/                     # Testing framework
+│   ├── itest/                     # Testing framework
+│   └── imtbase/                   # ImtCore base functionality
 │
 ├── Math/                          # Mathematics and Algorithms (Layer 1)
 │   ├── imath/                     # Mathematical utilities
@@ -102,7 +134,13 @@ Acf/  (Unified Repository)
 │   ├── imod/                      # Model-observer pattern
 │   ├── ifile/                     # File handling
 │   ├── imm/                       # Media management
-│   └── iphonon/                   # Media playback
+│   ├── iphonon/                   # Media playback
+│   ├── imtapp/                    # ImtCore application framework
+│   └── imtcol/                    # ImtCore collections/collaboration
+│
+├── Data/                          # Data Management (Layer 1/2)
+│   ├── imtdb/                     # Database access and management
+│   └── imtfile/                   # Extended file handling
 │
 ├── UI/                            # User Interface Components (Layer 2)
 │   ├── Core/
@@ -143,7 +181,9 @@ Acf/  (Unified Repository)
 │   ├── iauth/                     # Authorization
 │   ├── iqtauth/                   # Authorization UI
 │   ├── iweb/                      # Web services
-│   └── iservice/                  # Service infrastructure
+│   ├── iservice/                  # Service infrastructure
+│   ├── imtservice/                # ImtCore service infrastructure
+│   └── imtauth/                   # ImtCore authentication
 │
 ├── Build/                         # Build system (unchanged)
 ├── Config/                        # Configuration (unchanged)
@@ -164,10 +204,10 @@ The structure follows a layered architecture to minimize circular dependencies:
 
 ## Domain Descriptions
 
-### 1. Core (9 libraries)
+### 1. Core (10 libraries)
 **Purpose**: Foundation infrastructure used by all other domains
-**Libraries**: istd, icomp, iser, iprm, iattr, ibase, ipackage, ilog, itest
-**Key Features**: Component model, serialization, parameters, logging, testing
+**Libraries**: istd, icomp, iser, iprm, iattr, ibase, ipackage, ilog, itest, imtbase
+**Key Features**: Component model, serialization, parameters, logging, testing, ImtCore base functionality
 
 ### 2. Math (4 libraries)
 **Purpose**: Mathematical algorithms and numerical processing
@@ -199,10 +239,10 @@ The structure follows a layered architecture to minimize circular dependencies:
 **Libraries**: iprod, iinsp, ihotf, ifileproc, idocproc
 **Key Features**: Production management, inspection, automated processing
 
-### 8. DocumentView (6 libraries)
+### 8. DocumentView (8 libraries)
 **Purpose**: Document-based application framework
-**Libraries**: idoc, iview, imod, ifile, imm, iphonon
-**Key Features**: Document management, view synchronization, media
+**Libraries**: idoc, iview, imod, ifile, imm, iphonon, imtapp, imtcol
+**Key Features**: Document management, view synchronization, media, application framework, collections
 
 ### 9. UI (27 libraries)
 **Purpose**: User interface components and widgets
@@ -214,10 +254,15 @@ The structure follows a layered architecture to minimize circular dependencies:
 **Libraries**: iwin, inat
 **Key Features**: Windows APIs, native platform abstractions
 
-### 11. Services (4 libraries)
+### 11. Services (6 libraries)
 **Purpose**: Application-level services
-**Libraries**: iauth, iqtauth, iweb, iservice
-**Key Features**: Authentication, web services, service infrastructure
+**Libraries**: iauth, iqtauth, iweb, iservice, imtservice, imtauth
+**Key Features**: Authentication, authorization, web services, service infrastructure
+
+### 12. Data (2 libraries)
+**Purpose**: Data management and persistence
+**Libraries**: imtdb, imtfile
+**Key Features**: Database access, extended file handling
 
 ## Implementation Benefits
 
@@ -279,12 +324,13 @@ Maintain backward compatibility with:
 ```cpp
 #include <iproc/...>        // Works in both old and new structure
 #include <icalib/...>       // Works in both old and new structure
+#include <imtbase/...>      // Works in both old and new structure
 ```
 
 ### CMake Targets
 Preserve existing target names:
 ```cmake
-target_link_libraries(MyApp PRIVATE iproc icalib icam)
+target_link_libraries(MyApp PRIVATE iproc icalib icam imtbase imtdb)
 ```
 
 ### Build Configurations
@@ -305,4 +351,4 @@ Support both monolithic and modular builds:
 
 This domain-oriented structure provides a more intuitive and maintainable organization for the unified ACF framework. By grouping libraries by functional domain rather than technical implementation, we improve discoverability, reduce complexity, and create a more scalable architecture for future development.
 
-The migration from three repositories to this unified structure will require careful planning but will yield significant long-term benefits in maintainability, usability, and developer productivity.
+The migration from four repositories (Acf, AcfSln, IAcf, ImtCore) to this unified structure will require careful planning but will yield significant long-term benefits in maintainability, usability, and developer productivity.
