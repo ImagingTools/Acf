@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: LGPL-2.1-only
 #include <ibase/CSize.h>
 
 #include <iser/IArchive.h>

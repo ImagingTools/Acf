@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: LGPL-2.1-only
 #include <i3d/CBox3d.h>
 
 

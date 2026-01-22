@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: LGPL-2.1-only
 // Qt includes
 #include <QtCore/QString>
 #include <QtCore/QTextStream>

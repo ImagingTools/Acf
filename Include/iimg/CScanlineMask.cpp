@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: LGPL-2.1-only
 #include <iimg/CScanlineMask.h>
 #include <i2d/CAnnulusSegment.h>
 

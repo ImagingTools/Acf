@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: LGPL-2.1-only
 // ACF includes
 #include <ifile/CFileReadArchive.h>
 

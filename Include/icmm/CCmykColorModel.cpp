@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: LGPL-2.1-only
 #include <icmm/CCmykColorModel.h>
 #include <icmm/CSubstractiveColorModel.h>
 #include <imod/TModelWrap.h>

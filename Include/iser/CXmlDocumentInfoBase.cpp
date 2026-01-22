@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: LGPL-2.1-only
 #include <iser/CXmlDocumentInfoBase.h>
 
 #ifdef Q_OS_WIN

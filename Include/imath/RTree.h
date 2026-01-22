@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: LGPL-2.1-only
 #ifndef RTREE_H
 #define RTREE_H
 

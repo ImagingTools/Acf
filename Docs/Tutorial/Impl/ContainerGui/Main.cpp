@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: LGPL-2.1-only
 // Qt includes
 #include <QtCore/QtGlobal>
 #if QT_VERSION >= 0x050000
