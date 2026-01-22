@@ -91,40 +91,61 @@ Acf/  (Unified Repository)
 ├── Math/                          # Mathematics and Algorithms (Layer 1)
 │   ├── imath/                     # Mathematical utilities
 │   ├── ialgo/                     # General algorithms
-│   ├── icmpstr/                   # Computational structures
 │   └── isig/                      # Signal processing
+│
+├── DevelopmentTools/              # Development and Design Tools (Layer 2)
+│   ├── icmpstr/                   # Compositor - visual editor for component diagrams
+│   ├── imtdev/                    # Development environment and plugin system
+│   ├── imtdevgui/                 # Developer tools UI
+│   ├── imtpy/                     # Python integration and bindings
+│   └── imtej/                     # Export and JSON format utilities
 │
 ├── Geometry/                      # Spatial and Visual Data (Layer 1)
 │   ├── i2d/                       # 2D geometry
 │   ├── i3d/                       # 3D geometry
 │   ├── icmm/                      # Color management
-│   └── iimg/                      # Image data structures
+│   └── imtgeo/                    # Geographic/geospatial data
 │
 ├── ImageProcessing/               # Image Analysis and Processing (Layer 2)
 │   ├── iproc/                     # Core image processing
-│   ├── iipr/                      # Advanced image processing
+│   ├── iprocgui/                  # Image processing UI
 │   ├── iblob/                     # Blob analysis
-│   ├── iedge/                     # Edge detection
-│   ├── ibarcode/                  # Barcode recognition
+│   ├── iblobgui/                  # Blob analysis UI
 │   └── iocv/                      # OpenCV integration
+│
+├── ComputerVision/                # Computer Vision and Recognition (Layer 2)
+│   ├── iipr/                      # Advanced image processing and CV
+│   ├── iqtipr/                    # Advanced processing UI
+│   ├── iedge/                     # Edge detection
+│   ├── iedgegui/                  # Edge detection UI
+│   ├── ibarcode/                  # Barcode recognition
+│   ├── iimg/                      # Image data structures
+│   └── imtimg/                    # ImtCore image processing
 │
 ├── Calibration/                   # Measurement and Calibration (Layer 2)
 │   ├── icalib/                    # Calibration algorithms
+│   ├── icalibgui/                 # Calibration UI
 │   ├── imeas/                     # Measurement tools
-│   └── iqwt/                      # Qwt plotting (for calibration visualization)
+│   ├── iqtmeas/                   # Measurement UI
+│   ├── iqwt/                      # Qwt plotting (for calibration visualization)
 │   └── iqwt3d/                    # Qwt 3D plotting
 │
 ├── Acquisition/                   # Data Acquisition and Hardware (Layer 2)
 │   ├── icam/                      # Camera abstraction
+│   ├── iqtcam/                    # Camera UI
 │   ├── idc1394/                   # Firewire cameras
 │   ├── icbox/                     # Hardware control boxes
 │   ├── icomm/                     # Communication protocols
 │   └── ilibav/                    # Video I/O (FFmpeg)
 │
+├── ProcessingEngine/              # Processing Infrastructure (Layer 2)
+│   └── iinsp/                     # Pull-based inspection/processing engine
+│
 ├── Production/                    # Manufacturing and Quality Control (Layer 3)
 │   ├── iprod/                     # Production management
-│   ├── iinsp/                     # Inspection systems
+│   ├── iqtinsp/                   # Inspection UI
 │   ├── ihotf/                     # Hotfolder monitoring
+│   ├── ihotfgui/                  # Hotfolder UI
 │   ├── ifileproc/                 # File processing
 │   └── idocproc/                  # Document processing
 │
@@ -142,8 +163,8 @@ Acf/  (Unified Repository)
 │   ├── imtdb/                     # Database access and management
 │   └── imtfile/                   # Extended file handling
 │
-├── UI/                            # User Interface Components (Layer 2)
-│   ├── Core/
+├── UI/                            # Core User Interface Infrastructure (Layer 2)
+│   ├── Qt Widgets/
 │   │   ├── iqt/                   # Qt utilities
 │   │   ├── iqtgui/                # Qt GUI base
 │   │   ├── iqtprm/                # Qt parameter widgets
@@ -151,31 +172,56 @@ Acf/  (Unified Repository)
 │   │   ├── iqtdoc/                # Qt document handling
 │   │   ├── iwidgets/              # Custom widgets
 │   │   ├── iqsci/                 # QScintilla code editor
-│   │   └── iwiz/                  # Wizard framework
-│   │
-│   ├── Domain/
-│   │   ├── iprocgui/              # Image processing UI
-│   │   ├── iqtipr/                # Advanced processing UI
-│   │   ├── icalibgui/             # Calibration UI
-│   │   ├── iqtmeas/               # Measurement UI
-│   │   ├── iqtcam/                # Camera UI
-│   │   ├── iqtinsp/               # Inspection UI
-│   │   ├── iblobgui/              # Blob analysis UI
-│   │   ├── iedgegui/              # Edge detection UI
-│   │   ├── ihotfgui/              # Hotfolder UI
+│   │   ├── iwiz/                  # Wizard framework
 │   │   ├── iwizgui/               # Wizard UI
-│   │   ├── iqtmm/                 # Media management UI
-│   │   ├── iqtsig/                # Signal processing UI
 │   │   ├── ifilegui/              # File UI
 │   │   └── iloggui/               # Logging UI
 │   │
+│   ├── ImtCore UI/
+│   │   ├── imtgui/                # ImtCore Qt GUI widgets and layouts
+│   │   ├── imtwidgets/            # Extended widget library
+│   │   ├── imtstyle/              # Theme and style management
+│   │   ├── imtqml/                # Core QML utilities and components
+│   │   ├── imtqml2d/              # 2D graphics and drawing in QML
+│   │   ├── imtstylecontrolsqml/   # QML style controls and themes
+│   │   └── imtdesign/             # Design tokens and system components
+│   │
+│   ├── Media UI/
+│   │   ├── iqtmm/                 # Media management UI
+│   │   └── iqtsig/                # Signal processing UI
+│   │
 │   └── Integration/
-│       ├── iqaxmm/                # ActiveX multimedia
-│       └── iqtex/                 # Qt extensions
+│       └── iqaxmm/                # ActiveX multimedia
+│
+│   # Note: Domain-specific UI modules are now co-located with their domains:
+│   # iprocgui, iqtipr → ImageProcessing/ComputerVision domains
+│   # icalibgui, iqtmeas → Calibration domain
+│   # iqtcam → Acquisition domain
+│   # iblobgui, iedgegui → ImageProcessing/ComputerVision domains
+│   # iqtinsp, ihotfgui → Production domain
+│   # imtauthgui, imtdbgui, imtlicgui, etc. → Their respective ImtCore domains
 │
 ├── Platform/                      # Platform-Specific Libraries (Layer 1)
 │   ├── iwin/                      # Windows platform
 │   └── inat/                      # Native platform abstractions
+│
+├── API/                           # API and Communication Infrastructure (Layer 2)
+│   ├── GraphQL/
+│   │   ├── imtgql/                # Core GraphQL request/response handling
+│   │   ├── imtclientgql/          # Client-side GraphQL operations and caching
+│   │   ├── imtservergql/          # Server-side GraphQL schema and resolvers
+│   │   ├── imtguigql/             # UI integration with GraphQL
+│   │   └── imtgqltest/            # GraphQL testing framework
+│   │
+│   ├── HTTP/
+│   │   ├── imthttp/               # HTTP client and server (base protocol)
+│   │   └── imtrest/               # REST API framework (to be split)
+│   │       # TODO: Split into imthttp (basic HTTP protocol) 
+│   │       # and imtrestapi (REST API conventions/patterns)
+│   │
+│   └── Communication/
+│       ├── imtmail/               # SMTP email client and message handling
+│       └── icomm/                 # Low-level communication protocols
 │
 ├── Services/                      # Application Services (Layer 3)
 │   ├── iauth/                     # Authorization
@@ -209,57 +255,78 @@ The structure follows a layered architecture to minimize circular dependencies:
 **Libraries**: istd, icomp, iser, iprm, iattr, ibase, ipackage, ilog, itest, imtbase
 **Key Features**: Component model, serialization, parameters, logging, testing, ImtCore base functionality
 
-### 2. Math (4 libraries)
+### 2. Math (3 libraries)
 **Purpose**: Mathematical algorithms and numerical processing
-**Libraries**: imath, ialgo, icmpstr, isig
+**Libraries**: imath, ialgo, isig
 **Key Features**: Interpolation, algorithms, signal processing
 
 ### 3. Geometry (4 libraries)
 **Purpose**: Spatial data structures and transformations
-**Libraries**: i2d, i3d, icmm, iimg
-**Key Features**: 2D/3D geometry, color management, image structures
+**Libraries**: i2d, i3d, icmm, imtgeo
+**Key Features**: 2D/3D geometry, color management, geospatial data
 
-### 4. ImageProcessing (6 libraries)
-**Purpose**: Image analysis and computer vision
-**Libraries**: iproc, iipr, iblob, iedge, ibarcode, iocv
-**Key Features**: Filtering, blob analysis, edge detection, barcode reading, OpenCV
+### 4. ImageProcessing (5 libraries)
+**Purpose**: Core image analysis and processing
+**Libraries**: iproc, iprocgui, iblob, iblobgui, iocv
+**Key Features**: Image filtering, blob analysis, OpenCV integration, with integrated UI
 
-### 5. Calibration (4 libraries)
+### 5. ComputerVision (7 libraries)
+**Purpose**: Advanced computer vision and recognition
+**Libraries**: iipr, iqtipr, iedge, iedgegui, ibarcode, iimg, imtimg
+**Key Features**: Advanced image processing, edge detection, barcode recognition, image data structures, with integrated UI
+
+### 6. Calibration (6 libraries)
 **Purpose**: Camera calibration and measurement
-**Libraries**: icalib, imeas, iqwt, iqwt3d
-**Key Features**: Calibration algorithms, measurement tools, plotting
+**Libraries**: icalib, icalibgui, imeas, iqtmeas, iqwt, iqwt3d
+**Key Features**: Calibration algorithms, measurement tools, plotting, with integrated UI
 
-### 6. Acquisition (5 libraries)
+### 7. Acquisition (6 libraries)
 **Purpose**: Hardware interfacing and data capture
-**Libraries**: icam, idc1394, icbox, icomm, ilibav
-**Key Features**: Camera APIs, hardware control, video I/O
+**Libraries**: icam, iqtcam, idc1394, icbox, icomm, ilibav
+**Key Features**: Camera APIs, hardware control, video I/O, with integrated UI
 
-### 7. Production (5 libraries)
+### 8. ProcessingEngine (1 library)
+**Purpose**: Processing infrastructure and engines
+**Libraries**: iinsp
+**Key Features**: Pull-based inspection/processing engine for workflow automation
+
+### 9. Production (5 libraries)
 **Purpose**: Manufacturing and quality control workflows
-**Libraries**: iprod, iinsp, ihotf, ifileproc, idocproc
-**Key Features**: Production management, inspection, automated processing
+**Libraries**: iprod, iqtinsp, ihotf, ihotfgui, ifileproc, idocproc
+**Key Features**: Production management, inspection UI, hotfolder monitoring, automated file/document processing
 
-### 8. DocumentView (8 libraries)
+### 10. DocumentView (8 libraries)
 **Purpose**: Document-based application framework
 **Libraries**: idoc, iview, imod, ifile, imm, iphonon, imtapp, imtcol
 **Key Features**: Document management, view synchronization, media, application framework, collections
 
-### 9. UI (27 libraries)
-**Purpose**: User interface components and widgets
-**Subdomains**: Core UI (10), Domain UI (15), Integration (2)
-**Key Features**: Qt widgets, parameter editors, domain-specific UIs
+### 11. DevelopmentTools (5 libraries)
+**Purpose**: Development tools and visual editors
+**Libraries**: icmpstr, imtdev, imtdevgui, imtpy, imtej
+**Key Features**: Compositor (visual component diagram editor), development environment, Python integration, export utilities
 
-### 10. Platform (2 libraries)
+### 12. UI (20+ core libraries)
+**Purpose**: Core user interface infrastructure (domain-specific UIs are co-located with their domains)
+**Libraries**: iqt, iqtgui, iqtprm, iqt2d, iqtdoc, iwidgets, iqsci, iwiz, iwizgui, ifilegui, iloggui, imtgui, imtwidgets, imtstyle, imtqml, imtqml2d, imtstylecontrolsqml, imtdesign, iqtmm, iqtsig, iqaxmm
+**Key Features**: Qt widgets, QML framework, theming, wizards, file/log UI, media UI
+
+### 13. API (12 libraries)
+**Purpose**: API and communication infrastructure  
+**Libraries**: imtgql, imtclientgql, imtservergql, imtguigql, imtgqltest, imthttp, imtrest (to be split), imtmail, icomm
+**Key Features**: GraphQL APIs, HTTP/REST protocols, email, low-level communication
+**Note**: imtrest should be split into imthttp (basic HTTP protocol) and imtrestapi (REST API patterns)
+
+### 14. Platform (2 libraries)
 **Purpose**: Platform-specific implementations
 **Libraries**: iwin, inat
 **Key Features**: Windows APIs, native platform abstractions
 
-### 11. Services (6 libraries)
+### 15. Services (6 libraries)
 **Purpose**: Application-level services
 **Libraries**: iauth, iqtauth, iweb, iservice, imtservice, imtauth
 **Key Features**: Authentication, authorization, web services, service infrastructure
 
-### 12. Data (2 libraries)
+### 16. Data (2 libraries)
 **Purpose**: Data management and persistence
 **Libraries**: imtdb, imtfile
 **Key Features**: Database access, extended file handling

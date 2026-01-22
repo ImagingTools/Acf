@@ -75,20 +75,21 @@ This document proposes consolidating three separate ACF repositories (Acf, AcfSl
 ```
 Acf/ (Unified Repository)
 ├── Core/              # Foundation (10 libs) - Layer 0
-├── Math/              # Mathematics (4 libs) - Layer 1
+├── Math/              # Mathematics (3 libs) - Layer 1
 ├── Geometry/          # Spatial data (4 libs) - Layer 1
 ├── Platform/          # Platform-specific (2 libs) - Layer 1
 ├── Data/              # Data management (2 libs) - Layer 1/2
-├── ImageProcessing/   # Image analysis (6 libs) - Layer 2
-├── Calibration/       # Measurement (4 libs) - Layer 2
-├── Acquisition/       # Hardware I/O (5 libs) - Layer 2
-├── DocumentView/      # Document framework (6 libs) - Layer 2
-├── UI/                # User interface (27 libs) - Layer 2
-│   ├── Core/          # Base UI (10 libs)
-│   ├── Domain/        # Domain UIs (15 libs)
-│   └── Integration/   # UI integration (2 libs)
-├── Production/        # Manufacturing (5 libs) - Layer 3
-└── Services/          # Application services (11 libs) - Layer 3
+├── ImageProcessing/   # Core image processing (5 libs) - Layer 2
+├── ComputerVision/    # CV and recognition (7 libs) - Layer 2
+├── Calibration/       # Measurement (6 libs) - Layer 2
+├── Acquisition/       # Hardware I/O (6 libs) - Layer 2
+├── ProcessingEngine/  # Processing infrastructure (1 lib) - Layer 2
+├── DocumentView/      # Document framework (8 libs) - Layer 2
+├── DevelopmentTools/  # Dev tools and editors (5 libs) - Layer 2
+├── UI/                # Core UI infrastructure (20+ libs) - Layer 2
+├── API/               # APIs and communication (12 libs) - Layer 2
+├── Production/        # Manufacturing (6 libs) - Layer 3
+└── Services/          # Application services (6 libs) - Layer 3
 ```
 
 ### Domain Descriptions
@@ -98,24 +99,27 @@ Acf/ (Unified Repository)
 - No dependencies on other ACF libraries
 - Foundation for everything else
 
-**Layer 1 - Foundation (12 libraries)**
-- Math: imath, ialgo, icmpstr, isig
-- Geometry: i2d, i3d, icmm, iimg
+**Layer 1 - Foundation (11 libraries)**
+- Math: imath, ialgo, isig
+- Geometry: i2d, i3d, icmm, imtgeo
 - Platform: iwin, inat
 - Data: imtdb, imtfile
 - Depends only on Core
 
-**Layer 2 - Domain Libraries (50 libraries)**
-- ImageProcessing: iproc, iipr, iblob, iedge, ibarcode, iocv
-- Calibration: icalib, imeas, iqwt, iqwt3d
-- Acquisition: icam, idc1394, icbox, icomm, ilibav
-- DocumentView: idoc, iview, imod, ifile, imm, iphonon
-- Application: imtapp, imtcol
-- UI: 27 libraries (core UI + domain-specific UIs)
+**Layer 2 - Domain Libraries (70+ libraries)**
+- ImageProcessing: iproc, iprocgui, iblob, iblobgui, iocv (with integrated UI)
+- ComputerVision: iipr, iqtipr, iedge, iedgegui, ibarcode, iimg, imtimg (with integrated UI)
+- Calibration: icalib, icalibgui, imeas, iqtmeas, iqwt, iqwt3d (with integrated UI)
+- Acquisition: icam, iqtcam, idc1394, icbox, icomm, ilibav (with integrated UI)
+- ProcessingEngine: iinsp (pull-based processing engine)
+- DocumentView: idoc, iview, imod, ifile, imm, iphonon, imtapp, imtcol
+- DevelopmentTools: icmpstr (Compositor visual editor), imtdev, imtdevgui, imtpy, imtej
+- UI: 20+ core UI libraries (Qt widgets, QML, theming, wizards)
+- API: GraphQL APIs, HTTP/REST (imtrest to be split), email, communication
 - Depends on Core and Foundation
 
-**Layer 3 - Applications (16 libraries)**
-- Production: iprod, iinsp, ihotf, ifileproc, idocproc
+**Layer 3 - Applications (12 libraries)**
+- Production: iprod, iqtinsp, ihotf, ihotfgui, ifileproc, idocproc (with integrated UI)
 - Services: iauth, iqtauth, iweb, iservice, imtservice, imtauth
 - Depends on Core, Foundation, and Domain layers
 
