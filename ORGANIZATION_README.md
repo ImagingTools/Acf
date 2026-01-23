@@ -1,10 +1,13 @@
-# ImagingTools
+# ImagingTools GmbH
 
-Welcome to ImagingTools - an organization dedicated to developing high-quality, open-source tools and frameworks for imaging applications and component-based software development.
+Welcome to ImagingTools GmbH - a company dedicated to developing high-quality, open-source tools and frameworks for imaging applications and component-based software development.
+
+**ImagingTools GmbH**  
+Stockdorf, Germany
 
 ## 🎯 Mission
 
-ImagingTools provides robust, extensible frameworks and libraries that enable developers to build sophisticated imaging applications, component-based systems, and document management solutions with a focus on security, reliability, and maintainability.
+ImagingTools GmbH provides robust, extensible frameworks and libraries that enable developers to build sophisticated imaging applications, component-based systems, and document management solutions with a focus on security, reliability, and maintainability.
 
 ## 🚀 Featured Projects
 
@@ -23,7 +26,7 @@ ImagingTools provides robust, extensible frameworks and libraries that enable de
 
 ## 🔐 Security & Compliance
 
-Security is a top priority for ImagingTools:
+Security is a top priority for ImagingTools GmbH:
 
 - **Responsible Disclosure**: We follow industry best practices for vulnerability reporting
 - **EU Cyber Resilience Act**: Our projects are designed with CRA compliance in mind
@@ -79,6 +82,9 @@ See the [LICENSE](https://github.com/ImagingTools/Acf/blob/main/LICENSE) file in
 - **Share** your projects built with our tools
 
 ## 📧 Contact
+
+**ImagingTools GmbH**  
+Stockdorf, Germany
 
 - **Issues & Bugs**: Use GitHub Issues in the relevant repository
 - **Security Vulnerabilities**: Follow our responsible disclosure process in [SECURITY.md](https://github.com/ImagingTools/Acf/blob/main/SECURITY.md)
