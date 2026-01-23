@@ -85,11 +85,12 @@ Acf/ (Unified Repository)
 ├── Acquisition/       # Hardware I/O (4 libs) - Layer 2
 ├── ProcessingEngine/  # Processing infrastructure (1 lib) - Layer 2
 ├── DocumentView/      # Document framework (8 libs) - Layer 2
+├── Multimedia/        # Media management (3 libs) - Layer 2
 ├── DevelopmentTools/  # Design and scripting (3 libs) - Layer 2
 ├── DeviceManagement/  # Device management (2 libs) - Layer 2
-├── UI/                # Core UI infrastructure (20+ libs) - Layer 2
+├── UI/                # Core UI infrastructure (18+ libs) - Layer 2
 ├── API/               # APIs and communication (12 libs) - Layer 2
-├── Production/        # Manufacturing (6 libs) - Layer 3
+├── Production/        # Manufacturing (5 libs) - Layer 3
 └── Services/          # Application services (6 libs) - Layer 3
 ```
 
@@ -113,15 +114,16 @@ Acf/ (Unified Repository)
 - Measurement: imeas, iqtmeas, iqwt, iqwt3d (measurement and visualization with integrated UI)
 - Acquisition: idc1394, icbox, icomm, ilibav (hardware I/O)
 - ProcessingEngine: iinsp (pull-based processing engine)
-- DocumentView: idoc, iview, imod, ifile, imm, iphonon, imtapp, imtcol
+- DocumentView: idoc, iview, imod, ifile, idocproc, imtapp, imtcol
+- Multimedia: imm, iqtmm, iphonon (media management and playback with integrated UI)
 - DevelopmentTools: icmpstr (Compositor visual editor), imtpy, imtej
 - DeviceManagement: imtdev, imtdevgui (device management framework and UI)
-- UI: 20+ core UI libraries (Qt widgets, QML, theming, wizards)
+- UI: 18+ core UI libraries (Qt widgets, QML, theming, wizards)
 - API: GraphQL APIs, HTTP/REST (imtrest to be split), email, communication
 - Depends on Core and Foundation
 
-**Layer 3 - Applications (12 libraries)**
-- Production: iprod, iqtinsp, ihotf, ihotfgui, ifileproc, idocproc (with integrated UI)
+**Layer 3 - Applications (11 libraries)**
+- Production: iprod, iqtinsp, ihotf, ihotfgui, ifileproc (manufacturing with integrated UI)
 - Services: iauth, iqtauth, iweb, iservice, imtservice, imtauth
 - Depends on Core, Foundation, and Domain layers
 

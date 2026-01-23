@@ -148,18 +148,21 @@ Acf/  (Unified Repository)
 │   ├── iqtinsp/                   # Inspection UI
 │   ├── ihotf/                     # Hotfolder monitoring
 │   ├── ihotfgui/                  # Hotfolder UI
-│   ├── ifileproc/                 # File processing
-│   └── idocproc/                  # Document processing
+│   └── ifileproc/                 # File processing
 │
 ├── DocumentView/                  # Document-View Framework (Layer 2)
 │   ├── idoc/                      # Document framework
 │   ├── iview/                     # View framework
 │   ├── imod/                      # Model-observer pattern
 │   ├── ifile/                     # File handling
-│   ├── imm/                       # Media management
-│   ├── iphonon/                   # Media playback
+│   ├── idocproc/                  # Document processing
 │   ├── imtapp/                    # ImtCore application framework
 │   └── imtcol/                    # ImtCore collections/collaboration
+│
+├── Multimedia/                    # Multimedia and Media Management (Layer 2)
+│   ├── imm/                       # Media management
+│   ├── iqtmm/                     # Media management UI
+│   └── iphonon/                   # Media playback
 │
 ├── Data/                          # Data Management (Layer 1/2)
 │   ├── imtdb/                     # Database access and management
@@ -188,8 +191,7 @@ Acf/  (Unified Repository)
 │   │   ├── imtstylecontrolsqml/   # QML style controls and themes
 │   │   └── imtdesign/             # Design tokens and system components
 │   │
-│   ├── Media UI/
-│   │   ├── iqtmm/                 # Media management UI
+│   ├── Signal Processing UI/
 │   │   └── iqtsig/                # Signal processing UI
 │   │
 │   └── Integration/
@@ -197,7 +199,12 @@ Acf/  (Unified Repository)
 │
 │   # Note: Domain-specific UI modules are now co-located with their domains:
 │   # iprocgui, iqtipr → ImageProcessing/ComputerVision domains
-│   # icalibgui, iqtmeas → Calibration domain
+│   # icalibgui, iqtmeas → ComputerVision/Measurement domains
+│   # iqtcam → ComputerVision domain
+│   # iblobgui, iedgegui → ImageProcessing/ComputerVision domains
+│   # iqtinsp, ihotfgui → Production domain
+│   # iqtmm → Multimedia domain
+│   # imtauthgui, imtdbgui, imtlicgui, etc. → Their respective ImtCore domains
 │   # iqtcam → Acquisition domain
 │   # iblobgui, iedgegui → ImageProcessing/ComputerVision domains
 │   # iqtinsp, ihotfgui → Production domain
@@ -292,48 +299,53 @@ The structure follows a layered architecture to minimize circular dependencies:
 **Libraries**: iinsp
 **Key Features**: Pull-based inspection/processing engine for workflow automation
 
-### 9. Production (6 libraries)
+### 9. Production (5 libraries)
 **Purpose**: Manufacturing and quality control workflows
-**Libraries**: iprod, iqtinsp, ihotf, ihotfgui, ifileproc, idocproc
-**Key Features**: Production management, inspection UI, hotfolder monitoring, automated file/document processing
+**Libraries**: iprod, iqtinsp, ihotf, ihotfgui, ifileproc
+**Key Features**: Production management, inspection UI, hotfolder monitoring, automated file processing
 
 ### 10. DocumentView (8 libraries)
 **Purpose**: Document-based application framework
-**Libraries**: idoc, iview, imod, ifile, imm, iphonon, imtapp, imtcol
-**Key Features**: Document management, view synchronization, media, application framework, collections
+**Libraries**: idoc, iview, imod, ifile, idocproc, imtapp, imtcol
+**Key Features**: Document management, view synchronization, document processing, application framework, collections
 
-### 11. DevelopmentTools (3 libraries)
+### 11. Multimedia (3 libraries)
+**Purpose**: Multimedia and media management
+**Libraries**: imm, iqtmm, iphonon
+**Key Features**: Media management, media UI, media playback (audio/video)
+
+### 12. DevelopmentTools (3 libraries)
 **Purpose**: Design tools and scripting
 **Libraries**: icmpstr, imtpy, imtej
 **Key Features**: Compositor (visual component diagram editor), Python integration, export utilities
 
-### 12. DeviceManagement (2 libraries)
+### 13. DeviceManagement (2 libraries)
 **Purpose**: Device management infrastructure
 **Libraries**: imtdev, imtdevgui
 **Key Features**: Device management framework and UI
 
-### 13. UI (20+ core libraries)
+### 14. UI (18+ core libraries)
 **Purpose**: Core user interface infrastructure (domain-specific UIs are co-located with their domains)
-**Libraries**: iqt, iqtgui, iqtprm, iqt2d, iqtdoc, iwidgets, iqsci, iwiz, iwizgui, ifilegui, iloggui, imtgui, imtwidgets, imtstyle, imtqml, imtqml2d, imtstylecontrolsqml, imtdesign, iqtmm, iqtsig, iqaxmm
-**Key Features**: Qt widgets, QML framework, theming, wizards, file/log UI, media UI
+**Libraries**: iqt, iqtgui, iqtprm, iqt2d, iqtdoc, iwidgets, iqsci, iwiz, iwizgui, ifilegui, iloggui, imtgui, imtwidgets, imtstyle, imtqml, imtqml2d, imtstylecontrolsqml, imtdesign, iqtsig, iqaxmm
+**Key Features**: Qt widgets, QML framework, theming, wizards, file/log UI, signal processing UI
 
-### 14. API (12 libraries)
+### 15. API (12 libraries)
 **Purpose**: API and communication infrastructure  
 **Libraries**: imtgql, imtclientgql, imtservergql, imtguigql, imtgqltest, imthttp, imtrest (to be split), imtmail, icomm
 **Key Features**: GraphQL APIs, HTTP/REST protocols, email, low-level communication
 **Note**: imtrest should be split into imthttp (basic HTTP protocol) and imtrestapi (REST API patterns)
 
-### 15. Platform (2 libraries)
+### 16. Platform (2 libraries)
 **Purpose**: Platform-specific implementations
 **Libraries**: iwin, inat
 **Key Features**: Windows APIs, native platform abstractions
 
-### 16. Services (6 libraries)
+### 17. Services (6 libraries)
 **Purpose**: Application-level services
 **Libraries**: iauth, iqtauth, iweb, iservice, imtservice, imtauth
 **Key Features**: Authentication, authorization, web services, service infrastructure
 
-### 17. Data (2 libraries)
+### 18. Data (2 libraries)
 **Purpose**: Data management and persistence
 **Libraries**: imtdb, imtfile
 **Key Features**: Database access, extended file handling
