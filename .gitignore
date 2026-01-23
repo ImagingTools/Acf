@@ -1,6 +1,9 @@
 _codeql_detected_source_root
 # Build artifacts
 build/
+AuxInclude/*
+Bin/*
+Lib/*
 CMakeFiles/
 CMakeCache.txt
 cmake_install.cmake
