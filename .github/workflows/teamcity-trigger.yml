@@ -37,6 +37,15 @@ jobs:
             exit 1
           fi
           
+          # Determine the correct branch name
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            BRANCH_NAME="${{ github.head_ref }}"
+          else
+            BRANCH_NAME="${{ github.ref_name }}"
+          fi
+          
+          echo "Building branch: $BRANCH_NAME"
+          
           # Trigger TeamCity build
           echo "Triggering Windows build: $TEAMCITY_BUILD_TYPE"
           RESPONSE=$(curl -s -w "\n%{http_code}" \
@@ -44,7 +53,7 @@ jobs:
             -H "Authorization: Bearer $TEAMCITY_TOKEN" \
             -H "Content-Type: application/xml" \
             -H "Accept: application/json" \
-            --data "<build><buildType id=\"$TEAMCITY_BUILD_TYPE\"/><properties><property name=\"env.GIT_BRANCH\" value=\"$GITHUB_REF\"/><property name=\"env.GIT_COMMIT\" value=\"$GITHUB_SHA\"/></properties></build>" \
+            --data "<build><buildType id=\"$TEAMCITY_BUILD_TYPE\"/><properties><property name=\"env.GIT_BRANCH\" value=\"$BRANCH_NAME\"/><property name=\"env.GIT_COMMIT\" value=\"$GITHUB_SHA\"/></properties></build>" \
             "$TEAMCITY_URL/app/rest/buildQueue")
           
           HTTP_CODE=$(echo "$RESPONSE" | tail -n1)
@@ -132,7 +141,7 @@ jobs:
           else
             echo "❌ TeamCity Windows build integration failed"
           fi
-
+  
   trigger-teamcity-linux:
     name: Trigger TeamCity Build (Linux)
     runs-on: ubuntu-latest
@@ -157,6 +166,15 @@ jobs:
             exit 1
           fi
           
+          # Determine the correct branch name
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            BRANCH_NAME="${{ github.head_ref }}"
+          else
+            BRANCH_NAME="${{ github.ref_name }}"
+          fi
+          
+          echo "Building branch: $BRANCH_NAME"
+          
           # Trigger TeamCity build
           echo "Triggering Linux build: $TEAMCITY_BUILD_TYPE"
           RESPONSE=$(curl -s -w "\n%{http_code}" \
@@ -164,7 +182,7 @@ jobs:
             -H "Authorization: Bearer $TEAMCITY_TOKEN" \
             -H "Content-Type: application/xml" \
             -H "Accept: application/json" \
-            --data "<build><buildType id=\"$TEAMCITY_BUILD_TYPE\"/><properties><property name=\"env.GIT_BRANCH\" value=\"$GITHUB_REF\"/><property name=\"env.GIT_COMMIT\" value=\"$GITHUB_SHA\"/></properties></build>" \
+            --data "<build><buildType id=\"$TEAMCITY_BUILD_TYPE\"/><properties><property name=\"env.GIT_BRANCH\" value=\"$BRANCH_NAME\"/><property name=\"env.GIT_COMMIT\" value=\"$GITHUB_SHA\"/></properties></build>" \
             "$TEAMCITY_URL/app/rest/buildQueue")
           
           HTTP_CODE=$(echo "$RESPONSE" | tail -n1)
