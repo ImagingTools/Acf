@@ -74,6 +74,17 @@ jobs:
         run: |
           set -euo pipefail
 
+          # Validate required configuration
+          if [ -z "${TEAMCITY_URL:-}" ] || [ -z "${TEAMCITY_TOKEN:-}" ] || [ -z "${TEAMCITY_BUILD_TYPE:-}" ]; then
+            echo "❌ Error: TeamCity configuration not found in repository variables"
+            echo "Please configure the following repository variables:"
+            echo "  - TEAMCITY_URL: Your TeamCity server URL (e.g., https://teamcity.example.com)"
+            echo "  - TEAMCITY_TOKEN: TeamCity access token with build trigger permissions"
+            echo "  - TEAMCITY_BUILD_TYPE_WINDOWS: TeamCity build configuration ID for Windows (e.g., Acf_Build_Windows)"
+            echo "  - TEAMCITY_BUILD_TYPE_LINUX: TeamCity build configuration ID for Linux (e.g., Acf_Build_Linux)"
+            exit 1
+          fi
+
           echo "Triggering TeamCity ${{ matrix.platform }} build: $TEAMCITY_BUILD_TYPE"
           echo "TeamCity branchName: $TEAMCITY_BRANCH"
           echo "Commit: $COMMIT_SHA"
@@ -142,6 +153,8 @@ jobs:
 
           QUEUED_ELAPSED=0
           RUNNING_ELAPSED=0
+          UNEXPECTED_STATE_COUNT=0
+          MAX_UNEXPECTED_STATES=3
 
           while true; do
             RESPONSE=$(curl --fail-with-body -sS \
@@ -161,17 +174,19 @@ jobs:
             fi
 
             if [ "$STATE" = "queued" ]; then
-              QUEUED_ELAPSED=$((QUEUED_ELAPSED + SLEEP_SECONDS))
               if [ "$QUEUED_ELAPSED" -ge "$MAX_QUEUED_SECONDS" ]; then
                 echo "❌ Timed out: build stayed queued for ${QUEUED_ELAPSED}s"
                 exit 1
               fi
+              sleep "$SLEEP_SECONDS"
+              QUEUED_ELAPSED=$((QUEUED_ELAPSED + SLEEP_SECONDS))
             elif [ "$STATE" = "running" ]; then
-              RUNNING_ELAPSED=$((RUNNING_ELAPSED + SLEEP_SECONDS))
               if [ "$RUNNING_ELAPSED" -ge "$MAX_RUNNING_SECONDS" ]; then
                 echo "❌ Timed out: build stayed running for ${RUNNING_ELAPSED}s"
                 exit 1
               fi
+              sleep "$SLEEP_SECONDS"
+              RUNNING_ELAPSED=$((RUNNING_ELAPSED + SLEEP_SECONDS))
             elif [ "$STATE" = "finished" ]; then
               if [ "$STATUS" = "SUCCESS" ]; then
                 echo "✅ Build SUCCESS"
@@ -183,7 +198,11 @@ jobs:
             else
               echo "⚠️ Unexpected TeamCity state: '${STATE}'. Full response:"
               echo "$RESPONSE"
+              UNEXPECTED_STATE_COUNT=$((UNEXPECTED_STATE_COUNT + 1))
+              if [ "$UNEXPECTED_STATE_COUNT" -ge "$MAX_UNEXPECTED_STATES" ]; then
+                echo "❌ Encountered unexpected state $UNEXPECTED_STATE_COUNT times. Exiting."
+                exit 1
+              fi
+              sleep "$SLEEP_SECONDS"
             fi
-
-            sleep "$SLEEP_SECONDS"
           done

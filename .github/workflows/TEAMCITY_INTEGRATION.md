@@ -6,7 +6,7 @@ This GitHub Actions workflow integrates with an external TeamCity build server t
 
 The `teamcity-trigger.yml` workflow:
 1. Triggers TeamCity builds (Windows and Linux) in parallel using a matrix strategy when pull requests are created/updated or commits are pushed to main/master
-2. Waits for both TeamCity builds to complete with separate timeouts for queued and running states
+2. Waits for both TeamCity builds to complete with per-state timeouts (30min queued, 60min running) within an overall 90-minute job timeout
 3. Reports the build status back to GitHub (success/failure)
 
 ## Key Features
@@ -15,7 +15,7 @@ The `teamcity-trigger.yml` workflow:
 - **JSON API**: Uses JSON format with `jq` for safe payload construction instead of XML
 - **Branch Handling**: Proper `branchName` parameter and ref checkout for accurate PR builds
 - **Retry Logic**: Automatic retry on network errors with `curl --fail-with-body --retry`
-- **Separate Timeouts**: Different limits for queued (30min) vs running (60min) build states
+- **Separate Timeouts**: Per-state maximum durations (30min queued, 60min running) within an overall 90-minute job timeout
 - **Better Debugging**: Enhanced error messages and build URL tracking
 
 ## Configuration
@@ -92,14 +92,15 @@ For pull requests, the workflow checks out the actual PR head SHA (not the merge
 
 ## Timeout
 
-The workflow has intelligent timeout handling:
-- **Queued State**: Maximum 30 minutes (1800 seconds) - if the build stays queued longer, the workflow fails
-- **Running State**: Maximum 60 minutes (3600 seconds) - if the build runs longer, the workflow fails
-- **Overall**: 90 minutes timeout at the GitHub Actions job level
+The workflow has intelligent timeout handling with multiple layers:
+- **Per-State Timeouts**: 
+  - Queued State: Maximum 30 minutes (1800 seconds) - if the build stays queued longer, the workflow fails
+  - Running State: Maximum 60 minutes (3600 seconds) - if the build runs longer, the workflow fails
+- **Job-Level Timeout**: Overall 90 minutes at the GitHub Actions level (covers both queued and running time plus overhead)
 
-These separate timeouts help identify whether builds are stuck in queue or taking too long to execute.
+These per-state timeouts help identify whether builds are stuck in queue or taking too long to execute. The total time a build can spend across all states is capped by the 90-minute job-level timeout.
 
-You can adjust these by modifying the `MAX_QUEUED_SECONDS` and `MAX_RUNNING_SECONDS` variables in the workflow file.
+You can adjust these by modifying the `MAX_QUEUED_SECONDS`, `MAX_RUNNING_SECONDS`, and `timeout-minutes` values in the workflow file.
 
 ## Troubleshooting
 
