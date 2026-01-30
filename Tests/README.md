@@ -105,6 +105,12 @@ Unit tests for each library are located in `Include/[library]/Test/` directories
 - **CCompactXmlArchive** - Compact XML serialization
 - **CJsonArchive** - JSON serialization
 
+#### ibase (Base Components) - Include/ibase/Test/
+- **CCumulatedProgressManagerBase** - Progress management with subtask support
+- **TContainer** - Template container class with Qt List backend, supporting push/pop, insert/remove operations, iterators, and standard container interface
+- **TSerializableContainer** - Template container with serialization support for items
+- **TFactorisableContainer** - Template container with factory-based element creation and automatic memory management
+
 #### iprm (Parameters) - Include/iprm/Test/
 - **CIdParam** - ID parameter with get/set, serialization, copy/clone, and comparison operations
 - **CNameParam** - Name parameter with get/set, serialization, copy/clone, and comparison operations
