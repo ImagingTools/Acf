@@ -15,6 +15,7 @@ Tests are organized by location:
   - **MultiThreadingComponentTest/** - Tests for multi-threading components
   - **SelectionParamIntegrationTest/** - Integration tests for selection parameters
   - **SelectionParamComponentTest/** - Component tests for CSelectionParamComp with various configurations
+  - **AutoPersistenceTest/** - Tests for CAutoPersistenceComp with various attribute configurations
 
 - **Include/[library]/Test/** - Unit tests for each library
   - **Include/istd/Test/** - Tests for standard utilities (CRandomNumber, CIndex2d, CBitManip, CCrcCalculator, etc.)
@@ -225,6 +226,36 @@ Tests are organized by library to maintain clear separation of concerns and enab
 - `testSerializationWithSubselection()` - Tests serialization with subselection
 
 
+## Component Tests
+
+### AutoPersistenceTest
+
+The AutoPersistenceTest validates the CAutoPersistenceComp component with multiple configuration variants using a single comprehensive Partitura file (AutoPersistenceTest.acc). The file defines six AutoPersistence component instances, each testing different combinations of component attributes:
+
+1. **AutoPersistenceRestoreStoreEnd** - Tests RestoreOnBegin and StoreOnEnd attributes
+   - Validates that objects are restored when component initializes
+   - Validates that objects are saved when component is destroyed
+   
+2. **AutoPersistenceStoreOnChange** - Tests StoreOnChange attribute
+   - Validates immediate persistence on every data change
+   
+3. **AutoPersistenceStoreOnBegin** - Tests StoreOnBegin attribute
+   - Validates that objects are saved on initialization if file doesn't exist
+   
+4. **AutoPersistenceStoreInterval** - Tests StoreInterval attribute
+   - Validates timer-based automatic persistence
+   
+5. **AutoPersistenceAutoReload** - Tests AutoReload attribute
+   - Validates file watching and automatic reload on external changes
+   
+6. **AutoPersistenceLocking** - Tests lock file handling
+   - Validates StaleLockTime, TryLockTimeout, and EnableLockForRead attributes
+
+Each test scenario uses a dedicated SelectionParam object as the persistent data and verifies:
+- Proper initialization and cleanup
+- Correct file creation and deletion
+- Data integrity across save/restore cycles
+- Timing behavior for interval-based persistence
 
 ## Contributing
 
