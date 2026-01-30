@@ -2,7 +2,7 @@
 <LoadSettings>
     <Partitura>
         <Classes>
-            <Class ClassName="CAutoPersistenceTest" Flags="1"/>
+            <Class ClassName="CAutoPersistenceTestRunner" Flags="1"/>
         </Classes>
     </Partitura>
 </LoadSettings>

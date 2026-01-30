@@ -6,22 +6,19 @@
 #include <QtCore/QThread>
 #include <QtCore/QCoreApplication>
 #include <QtCore/QDir>
-#include <QtCore/QFileInfo>
 
 // ACF includes
 #include <iprm/ISelectionParam.h>
-#include <iser/CMemoryReadArchive.h>
-#include <iser/CMemoryWriteArchive.h>
 
 
 // private slots
 
-void CAutoPersistenceTest::initTestCase()
+void CAutoPersistenceTestRunner::initTestCase()
 {
 }
 
 
-QString CAutoPersistenceTest::CreateTestFilePath(const QString& testName)
+QString CAutoPersistenceTestRunner::CreateTestFilePath(const QString& testName)
 {
 	QString tempDir = QDir::tempPath();
 	QString filePath = tempDir + "/" + testName + "_test.xml";
@@ -35,7 +32,7 @@ QString CAutoPersistenceTest::CreateTestFilePath(const QString& testName)
 }
 
 
-void CAutoPersistenceTest::CleanupTestFile(const QString& filePath)
+void CAutoPersistenceTestRunner::CleanupTestFile(const QString& filePath)
 {
 	if (QFile::exists(filePath)){
 		QFile::remove(filePath);
@@ -49,20 +46,20 @@ void CAutoPersistenceTest::CleanupTestFile(const QString& filePath)
 }
 
 
-void CAutoPersistenceTest::RestoreOnBeginStoreOnEndTest()
+void CAutoPersistenceTestRunner::RestoreOnBeginStoreOnEndTest()
 {
 	QString filePath = CreateTestFilePath("RestoreOnBeginStoreOnEnd");
 	
 	// First run: Create object, modify it, and let it store on end
 	{
-		CAutoPersistenceTestRestoreStoreEnd test;
+		CAutoPersistenceTest test;
 		test.EnsureAutoInitComponentsCreated();
 		
-		ifile::IFileNameParam* filePathPtr = test.GetInterface<ifile::IFileNameParam>("FilePath");
+		ifile::IFileNameParam* filePathPtr = test.GetInterface<ifile::IFileNameParam>("FilePathRestoreStoreEnd");
 		QVERIFY(filePathPtr != nullptr);
 		filePathPtr->SetPath(filePath);
 		
-		iprm::ISelectionParam* selectionPtr = test.GetInterface<iprm::ISelectionParam>("Selection");
+		iprm::ISelectionParam* selectionPtr = test.GetInterface<iprm::ISelectionParam>("SelectionRestoreStoreEnd");
 		QVERIFY(selectionPtr != nullptr);
 		
 		// Set initial value
@@ -82,10 +79,10 @@ void CAutoPersistenceTest::RestoreOnBeginStoreOnEndTest()
 	
 	// Second run: Restore from file
 	{
-		CAutoPersistenceTestRestoreStoreEnd test;
+		CAutoPersistenceTest test;
 		test.EnsureAutoInitComponentsCreated();
 		
-		ifile::IFileNameParam* filePathPtr = test.GetInterface<ifile::IFileNameParam>("FilePath");
+		ifile::IFileNameParam* filePathPtr = test.GetInterface<ifile::IFileNameParam>("FilePathRestoreStoreEnd");
 		QVERIFY(filePathPtr != nullptr);
 		filePathPtr->SetPath(filePath);
 		
@@ -93,7 +90,7 @@ void CAutoPersistenceTest::RestoreOnBeginStoreOnEndTest()
 		QThread::msleep(100);
 		QCoreApplication::processEvents();
 		
-		iprm::ISelectionParam* selectionPtr = test.GetInterface<iprm::ISelectionParam>("Selection");
+		iprm::ISelectionParam* selectionPtr = test.GetInterface<iprm::ISelectionParam>("SelectionRestoreStoreEnd");
 		QVERIFY(selectionPtr != nullptr);
 		
 		// Verify value was restored
@@ -104,18 +101,18 @@ void CAutoPersistenceTest::RestoreOnBeginStoreOnEndTest()
 }
 
 
-void CAutoPersistenceTest::StoreOnChangeTest()
+void CAutoPersistenceTestRunner::StoreOnChangeTest()
 {
 	QString filePath = CreateTestFilePath("StoreOnChange");
 	
-	CAutoPersistenceTestStoreOnChange test;
+	CAutoPersistenceTest test;
 	test.EnsureAutoInitComponentsCreated();
 	
-	ifile::IFileNameParam* filePathPtr = test.GetInterface<ifile::IFileNameParam>("FilePath");
+	ifile::IFileNameParam* filePathPtr = test.GetInterface<ifile::IFileNameParam>("FilePathStoreOnChange");
 	QVERIFY(filePathPtr != nullptr);
 	filePathPtr->SetPath(filePath);
 	
-	iprm::ISelectionParam* selectionPtr = test.GetInterface<iprm::ISelectionParam>("Selection");
+	iprm::ISelectionParam* selectionPtr = test.GetInterface<iprm::ISelectionParam>("SelectionStoreOnChange");
 	QVERIFY(selectionPtr != nullptr);
 	
 	// Set initial value - should trigger immediate save
@@ -138,19 +135,22 @@ void CAutoPersistenceTest::StoreOnChangeTest()
 }
 
 
-void CAutoPersistenceTest::StoreOnBeginTest()
+void CAutoPersistenceTestRunner::StoreOnBeginTest()
 {
 	QString filePath = CreateTestFilePath("StoreOnBegin");
 	
 	// Ensure file doesn't exist
 	CleanupTestFile(filePath);
 	
-	CAutoPersistenceTestStoreOnBegin test;
-	test.EnsureAutoInitComponentsCreated();
+	CAutoPersistenceTest test;
 	
-	ifile::IFileNameParam* filePathPtr = test.GetInterface<ifile::IFileNameParam>("FilePath");
+	// Set file path BEFORE initialization
+	ifile::IFileNameParam* filePathPtr = test.GetInterface<ifile::IFileNameParam>("FilePathStoreOnBegin");
 	QVERIFY(filePathPtr != nullptr);
 	filePathPtr->SetPath(filePath);
+	
+	// Now initialize components - StoreOnBegin should trigger now
+	test.EnsureAutoInitComponentsCreated();
 	
 	// Wait for store operation to complete
 	QThread::msleep(200);
@@ -163,18 +163,18 @@ void CAutoPersistenceTest::StoreOnBeginTest()
 }
 
 
-void CAutoPersistenceTest::StoreIntervalTest()
+void CAutoPersistenceTestRunner::StoreIntervalTest()
 {
 	QString filePath = CreateTestFilePath("StoreInterval");
 	
-	CAutoPersistenceTestStoreInterval test;
+	CAutoPersistenceTest test;
 	test.EnsureAutoInitComponentsCreated();
 	
-	ifile::IFileNameParam* filePathPtr = test.GetInterface<ifile::IFileNameParam>("FilePath");
+	ifile::IFileNameParam* filePathPtr = test.GetInterface<ifile::IFileNameParam>("FilePathStoreInterval");
 	QVERIFY(filePathPtr != nullptr);
 	filePathPtr->SetPath(filePath);
 	
-	iprm::ISelectionParam* selectionPtr = test.GetInterface<iprm::ISelectionParam>("Selection");
+	iprm::ISelectionParam* selectionPtr = test.GetInterface<iprm::ISelectionParam>("SelectionStoreInterval");
 	QVERIFY(selectionPtr != nullptr);
 	
 	// Set a value - with StoreInterval, it should not save immediately
@@ -198,20 +198,20 @@ void CAutoPersistenceTest::StoreIntervalTest()
 }
 
 
-void CAutoPersistenceTest::AutoReloadTest()
+void CAutoPersistenceTestRunner::AutoReloadTest()
 {
 	QString filePath = CreateTestFilePath("AutoReload");
 	
 	// First, create a file with some data
 	{
-		CAutoPersistenceTestAutoReload test;
+		CAutoPersistenceTest test;
 		test.EnsureAutoInitComponentsCreated();
 		
-		ifile::IFileNameParam* filePathPtr = test.GetInterface<ifile::IFileNameParam>("FilePath");
+		ifile::IFileNameParam* filePathPtr = test.GetInterface<ifile::IFileNameParam>("FilePathAutoReload");
 		QVERIFY(filePathPtr != nullptr);
 		filePathPtr->SetPath(filePath);
 		
-		iprm::ISelectionParam* selectionPtr = test.GetInterface<iprm::ISelectionParam>("Selection");
+		iprm::ISelectionParam* selectionPtr = test.GetInterface<iprm::ISelectionParam>("SelectionAutoReload");
 		QVERIFY(selectionPtr != nullptr);
 		
 		selectionPtr->SetIndex(2);
@@ -225,17 +225,17 @@ void CAutoPersistenceTest::AutoReloadTest()
 	
 	// Create another instance with AutoReload enabled
 	{
-		CAutoPersistenceTestAutoReload test;
+		CAutoPersistenceTest test;
 		test.EnsureAutoInitComponentsCreated();
 		
-		ifile::IFileNameParam* filePathPtr = test.GetInterface<ifile::IFileNameParam>("FilePath");
+		ifile::IFileNameParam* filePathPtr = test.GetInterface<ifile::IFileNameParam>("FilePathAutoReload");
 		QVERIFY(filePathPtr != nullptr);
 		filePathPtr->SetPath(filePath);
 		
 		QThread::msleep(200);
 		QCoreApplication::processEvents();
 		
-		iprm::ISelectionParam* selectionPtr = test.GetInterface<iprm::ISelectionParam>("Selection");
+		iprm::ISelectionParam* selectionPtr = test.GetInterface<iprm::ISelectionParam>("SelectionAutoReload");
 		QVERIFY(selectionPtr != nullptr);
 		
 		// Verify it was loaded
@@ -250,19 +250,19 @@ void CAutoPersistenceTest::AutoReloadTest()
 }
 
 
-void CAutoPersistenceTest::LockingTest()
+void CAutoPersistenceTestRunner::LockingTest()
 {
 	QString filePath = CreateTestFilePath("Locking");
 	
 	// Test with lock file attributes enabled
-	CAutoPersistenceTestLocking test;
+	CAutoPersistenceTest test;
 	test.EnsureAutoInitComponentsCreated();
 	
-	ifile::IFileNameParam* filePathPtr = test.GetInterface<ifile::IFileNameParam>("FilePath");
+	ifile::IFileNameParam* filePathPtr = test.GetInterface<ifile::IFileNameParam>("FilePathLocking");
 	QVERIFY(filePathPtr != nullptr);
 	filePathPtr->SetPath(filePath);
 	
-	iprm::ISelectionParam* selectionPtr = test.GetInterface<iprm::ISelectionParam>("Selection");
+	iprm::ISelectionParam* selectionPtr = test.GetInterface<iprm::ISelectionParam>("SelectionLocking");
 	QVERIFY(selectionPtr != nullptr);
 	
 	// Set value and trigger save
@@ -278,9 +278,9 @@ void CAutoPersistenceTest::LockingTest()
 }
 
 
-void CAutoPersistenceTest::cleanupTestCase()
+void CAutoPersistenceTestRunner::cleanupTestCase()
 {
 }
 
 
-I_ADD_TEST(CAutoPersistenceTest);
+I_ADD_TEST(CAutoPersistenceTestRunner);

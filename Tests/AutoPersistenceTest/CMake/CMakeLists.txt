@@ -2,14 +2,7 @@ project(AutoPersistenceTest LANGUAGES CXX)
 
 
 set(ARXC_CONFIG "${CMAKE_CURRENT_LIST_DIR}/../../../Config/AcfTestConfig.awc")
-set(ARXC_FILES 
-    "${PROJECT_SOURCE_DIR}/../AutoPersistenceTestRestoreStoreEnd.acc"
-    "${PROJECT_SOURCE_DIR}/../AutoPersistenceTestStoreOnChange.acc"
-    "${PROJECT_SOURCE_DIR}/../AutoPersistenceTestStoreOnBegin.acc"
-    "${PROJECT_SOURCE_DIR}/../AutoPersistenceTestStoreInterval.acc"
-    "${PROJECT_SOURCE_DIR}/../AutoPersistenceTestAutoReload.acc"
-    "${PROJECT_SOURCE_DIR}/../AutoPersistenceTestLocking.acc"
-)
+set(ARXC_FILES "${PROJECT_SOURCE_DIR}/../${PROJECT_NAME}.acc")
 set(ARX_ENABLE_GENERATE_DEPENDENCIES_LIST OFF)
 include(${ACFDIR}/Config/CMake/CustomBuild.cmake)
 

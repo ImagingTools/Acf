@@ -5,21 +5,15 @@
 // Qt includes
 #include <QtCore/QObject>
 #include <QtCore/QFile>
-#include <QtCore/QTemporaryFile>
 #include <QtTest/QtTest>
 
 // ACF includes
 #include <iprm/ISelectionParam.h>
 #include <ifile/IFileNameParam.h>
 #include <itest/CStandardTestExecutor.h>
-#include <GeneratedFiles/AutoPersistenceTest/CAutoPersistenceTestRestoreStoreEnd.h>
-#include <GeneratedFiles/AutoPersistenceTest/CAutoPersistenceTestStoreOnChange.h>
-#include <GeneratedFiles/AutoPersistenceTest/CAutoPersistenceTestStoreOnBegin.h>
-#include <GeneratedFiles/AutoPersistenceTest/CAutoPersistenceTestStoreInterval.h>
-#include <GeneratedFiles/AutoPersistenceTest/CAutoPersistenceTestAutoReload.h>
-#include <GeneratedFiles/AutoPersistenceTest/CAutoPersistenceTestLocking.h>
+#include <GeneratedFiles/AutoPersistenceTest/CAutoPersistenceTest.h>
 
-class CAutoPersistenceTest: public QObject
+class CAutoPersistenceTestRunner: public QObject
 {
 	Q_OBJECT
 private slots:
