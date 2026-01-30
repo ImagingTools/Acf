@@ -89,7 +89,6 @@ ACF's main dependencies:
 **Build Dependencies:**
 - CMake 3.x or later (BSD License)
 - QMake (part of Qt)
-- Qbs (LGPL)
 - Doxygen (GPL) - for documentation generation
 
 SBOM can be generated using standard tools:
