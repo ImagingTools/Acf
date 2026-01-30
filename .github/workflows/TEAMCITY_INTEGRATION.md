@@ -7,7 +7,8 @@ This GitHub Actions workflow integrates with an external TeamCity build server t
 The `teamcity-trigger.yml` workflow:
 1. Triggers TeamCity builds (Windows and Linux) in parallel using a matrix strategy when pull requests are created/updated or commits are pushed to main/master
 2. Waits for both TeamCity builds to complete with per-state timeouts (30min queued, 60min running) within an overall 90-minute job timeout
-3. Reports the build status back to GitHub (success/failure)
+3. Fetches and displays build logs from TeamCity for easy debugging
+4. Reports the build status back to GitHub (success/failure/warning) without blocking PR merges
 
 ## Key Features
 
@@ -16,7 +17,32 @@ The `teamcity-trigger.yml` workflow:
 - **Branch Handling**: Proper `branchName` parameter and ref checkout for accurate PR builds
 - **Retry Logic**: Automatic retry on network errors with `curl --fail-with-body --retry`
 - **Separate Timeouts**: Per-state maximum durations (30min queued, 60min running) within an overall 90-minute job timeout
-- **Better Debugging**: Enhanced error messages and build URL tracking
+- **Build Log Access**: Automatically fetches and displays the last 100 lines of build logs, build problems, and test failures
+- **Non-Blocking**: Uses `continue-on-error` to prevent "action_required" status that blocks PR merges while still reporting build failures as warnings
+- **Better Debugging**: Enhanced error messages, build URL tracking, and automatic log retrieval
+
+## Build Log Access
+
+The workflow automatically fetches and displays build logs from TeamCity when a build completes:
+
+### What Gets Displayed
+- **Last 100 lines** of the build log
+- **Build problems**: Compilation errors, warnings, and other build issues
+- **Test failures**: Failed test cases with details
+- **Build summary**: Build ID, status, platform, and direct links to full logs
+
+### Accessing Logs
+1. **In GitHub Actions**: Go to the Actions tab, select the workflow run, and view the "Fetch Build Logs" step
+2. **Direct TeamCity URL**: Look for "Build log URL" or "Full logs" in the workflow output
+3. **Build summary**: Check the "Report Build Status" step for a quick overview
+
+### Non-Blocking Behavior
+The workflow uses `continue-on-error: true` to prevent build failures from setting the status to "action_required", which would block PR merges. Instead:
+- ✅ Successful builds show as green
+- ⚠️ Failed builds show as warnings (not blocking)
+- Build failures are still clearly reported in the logs and as GitHub notifications
+
+This allows developers to see build results without preventing PR merges for known issues or work-in-progress changes.
 
 ## Configuration
 
@@ -123,9 +149,16 @@ You can adjust these by modifying the `MAX_QUEUED_SECONDS`, `MAX_RUNNING_SECONDS
 - **Job-level timeout (90min)**: Increase the `timeout-minutes` in the workflow file
 
 ### "TeamCity build failed"
-- The build failed in TeamCity
-- Click on the "Build URL" link in the GitHub Actions log to view detailed build logs in TeamCity
-- Fix the build issues in TeamCity and retry
+- The build failed in TeamCity but the workflow completed successfully (non-blocking)
+- Check the "Fetch Build Logs" step in GitHub Actions for detailed error information
+- Look for build problems and test failures in the workflow output
+- Click on the "Build URL" link to view complete build logs in TeamCity
+- Fix the build issues and push changes to retry
+
+### "Action required" status
+- This should no longer occur with the updated workflow (uses `continue-on-error`)
+- If you still see this status, verify the workflow file is up to date
+- Check that the workflow has proper `continue-on-error: true` flags on build steps
 
 ## Example TeamCity Build Configurations
 

@@ -132,6 +132,8 @@ jobs:
 
       - name: Wait for TeamCity Build
         if: steps.teamcity.outputs.build_id
+        continue-on-error: true
+        id: wait_build
         timeout-minutes: 90
         env:
           TEAMCITY_URL: ${{ vars.TEAMCITY_URL }}
@@ -188,6 +190,8 @@ jobs:
               sleep "$SLEEP_SECONDS"
               RUNNING_ELAPSED=$((RUNNING_ELAPSED + SLEEP_SECONDS))
             elif [ "$STATE" = "finished" ]; then
+              echo "build_status=$STATUS" >> "$GITHUB_OUTPUT"
+              echo "build_url=$WEB_URL" >> "$GITHUB_OUTPUT"
               if [ "$STATUS" = "SUCCESS" ]; then
                 echo "✅ Build SUCCESS"
                 exit 0
@@ -206,3 +210,84 @@ jobs:
               sleep "$SLEEP_SECONDS"
             fi
           done
+
+      - name: Fetch Build Logs
+        if: always() && steps.teamcity.outputs.build_id
+        continue-on-error: true
+        env:
+          TEAMCITY_URL: ${{ vars.TEAMCITY_URL }}
+          TEAMCITY_TOKEN: ${{ vars.TEAMCITY_TOKEN }}
+          BUILD_ID: ${{ steps.teamcity.outputs.build_id }}
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          echo "📋 Fetching build log information for build $BUILD_ID..."
+          
+          # Get build log download URL
+          LOG_URL="$TEAMCITY_URL/app/rest/builds/id:$BUILD_ID/log"
+          echo "Build log URL: $LOG_URL"
+          
+          # Get last 100 lines of the build log
+          echo ""
+          echo "📄 Last 100 lines of build log:"
+          echo "================================"
+          curl -sS \
+            -H "Authorization: Bearer $TEAMCITY_TOKEN" \
+            -H "Accept: text/plain" \
+            "$LOG_URL" | tail -n 100
+          echo "================================"
+          echo ""
+          
+          # Get build problems/errors if any
+          echo "🔍 Checking for build problems..."
+          PROBLEMS=$(curl -sS \
+            -H "Authorization: Bearer $TEAMCITY_TOKEN" \
+            -H "Accept: application/json" \
+            "$TEAMCITY_URL/app/rest/builds/id:$BUILD_ID/problemOccurrences" || echo '{}')
+          
+          PROBLEM_COUNT=$(echo "$PROBLEMS" | jq -r '.count // 0')
+          if [ "$PROBLEM_COUNT" -gt 0 ]; then
+            echo "⚠️ Found $PROBLEM_COUNT build problem(s):"
+            echo "$PROBLEMS" | jq -r '.problemOccurrence[]? | "- \(.details)"'
+          else
+            echo "✓ No build problems found"
+          fi
+          
+          # Get test failures if any
+          echo ""
+          echo "🧪 Checking for test failures..."
+          TESTS=$(curl -sS \
+            -H "Authorization: Bearer $TEAMCITY_TOKEN" \
+            -H "Accept: application/json" \
+            "$TEAMCITY_URL/app/rest/builds/id:$BUILD_ID/testOccurrences?status=FAILURE" || echo '{}')
+          
+          TEST_COUNT=$(echo "$TESTS" | jq -r '.count // 0')
+          if [ "$TEST_COUNT" -gt 0 ]; then
+            echo "❌ Found $TEST_COUNT failed test(s):"
+            echo "$TESTS" | jq -r '.testOccurrence[]? | "- \(.name): \(.details // "No details")"'
+          else
+            echo "✓ No test failures found"
+          fi
+          
+          echo ""
+          echo "📊 Build Summary:"
+          echo "- Build ID: $BUILD_ID"
+          echo "- Build URL: ${{ steps.wait_build.outputs.build_url || steps.teamcity.outputs.web_url }}"
+          echo "- Status: ${{ steps.wait_build.outputs.build_status || 'Unknown' }}"
+          echo "- Platform: ${{ matrix.platform }}"
+          echo "- Full logs: $LOG_URL"
+
+      - name: Report Build Status
+        if: always() && steps.teamcity.outputs.build_id
+        shell: bash
+        run: |
+          BUILD_STATUS="${{ steps.wait_build.outputs.build_status || 'Unknown' }}"
+          BUILD_URL="${{ steps.wait_build.outputs.build_url || steps.teamcity.outputs.web_url }}"
+          PLATFORM="${{ matrix.platform }}"
+          
+          echo "::notice title=TeamCity Build ($PLATFORM)::Status: $BUILD_STATUS - View logs: $BUILD_URL"
+          
+          if [ "$BUILD_STATUS" != "SUCCESS" ] && [ "$BUILD_STATUS" != "Unknown" ]; then
+            echo "::warning title=TeamCity Build Failed ($PLATFORM)::Build failed with status: $BUILD_STATUS. Check logs at: $BUILD_URL"
+          fi
