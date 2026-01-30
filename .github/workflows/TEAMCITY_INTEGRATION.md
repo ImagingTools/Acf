@@ -5,9 +5,18 @@ This GitHub Actions workflow integrates with an external TeamCity build server t
 ## Overview
 
 The `teamcity-trigger.yml` workflow:
-1. Triggers TeamCity builds (Windows and Linux) in parallel when pull requests are created/updated or commits are pushed to main/master
-2. Waits for both TeamCity builds to complete
+1. Triggers TeamCity builds (Windows and Linux) in parallel using a matrix strategy when pull requests are created/updated or commits are pushed to main/master
+2. Waits for both TeamCity builds to complete with per-state timeouts (30min queued, 60min running) within an overall 90-minute job timeout
 3. Reports the build status back to GitHub (success/failure)
+
+## Key Features
+
+- **Matrix Strategy**: Single job with platform matrix (windows/linux) instead of duplicate jobs for better maintainability
+- **JSON API**: Uses JSON format with `jq` for safe payload construction instead of XML
+- **Branch Handling**: Proper `branchName` parameter and ref checkout for accurate PR builds
+- **Retry Logic**: Automatic retry on network errors with `curl --fail-with-body --retry`
+- **Separate Timeouts**: Per-state maximum durations (30min queued, 60min running) within an overall 90-minute job timeout
+- **Better Debugging**: Enhanced error messages and build URL tracking
 
 ## Configuration
 
@@ -70,21 +79,28 @@ The workflow triggers on:
 - **Pull Requests**: Any pull request event (opened, synchronized, reopened)
 - **Push to main/master**: Direct commits to main or master branches
 
-Both Windows and Linux builds are triggered in parallel for each event.
+Both Windows and Linux builds are triggered in parallel using a matrix strategy for each event.
 
 ## Build Information Passed to TeamCity
 
 The workflow passes the following information to TeamCity:
-- `env.GIT_BRANCH`: The Git branch reference (e.g., `refs/heads/main` or `refs/pull/123/merge`)
+- `branchName`: The Git branch name (e.g., `main`, `feature-branch`) - used by TeamCity for proper branch association
+- `env.GIT_BRANCH`: The Git branch reference for backward compatibility
 - `env.GIT_COMMIT`: The Git commit SHA
 
-You can access these in your TeamCity build configuration if needed.
+For pull requests, the workflow checks out the actual PR head SHA (not the merge commit) to ensure TeamCity builds exactly what was pushed to the PR branch.
 
 ## Timeout
 
-The workflow will wait up to 1 hour (3600 seconds) for the TeamCity build to complete. If the build takes longer, the workflow will timeout and fail.
+The workflow has intelligent timeout handling with multiple layers:
+- **Per-State Timeouts**: 
+  - Queued State: Maximum 30 minutes (1800 seconds) - if the build stays queued longer, the workflow fails
+  - Running State: Maximum 60 minutes (3600 seconds) - if the build runs longer, the workflow fails
+- **Job-Level Timeout**: Overall 90 minutes at the GitHub Actions level (covers both queued and running time plus overhead)
 
-You can adjust this by modifying the `MAX_WAIT` variable in the workflow file.
+These per-state timeouts help identify whether builds are stuck in queue or taking too long to execute. The total time a build can spend across all states is capped by the 90-minute job-level timeout.
+
+You can adjust these by modifying the `MAX_QUEUED_SECONDS`, `MAX_RUNNING_SECONDS`, and `timeout-minutes` values in the workflow file.
 
 ## Troubleshooting
 
@@ -98,9 +114,13 @@ You can adjust this by modifying the `MAX_WAIT` variable in the workflow file.
 - Ensure the TeamCity server accepts REST API requests from GitHub Actions runners
 
 ### "Timeout waiting for TeamCity build to complete"
-- The build is taking longer than 1 hour
-- Increase the `MAX_WAIT` value in the workflow file
-- Or optimize your TeamCity build to complete faster
+- **"Timed out: build stayed queued for Xs"**: The build waited in queue for more than 30 minutes
+  - Check TeamCity agent availability
+  - Ensure agents compatible with your build are running
+- **"Timed out: build stayed running for Xs"**: The build ran for more than 60 minutes
+  - Optimize your TeamCity build to complete faster
+  - Or increase the `MAX_RUNNING_SECONDS` value in the workflow file
+- **Job-level timeout (90min)**: Increase the `timeout-minutes` in the workflow file
 
 ### "TeamCity build failed"
 - The build failed in TeamCity
@@ -127,6 +147,7 @@ Both configurations:
 1. Must be configured to build from the same Git repository
 2. Should have the necessary build steps (CMake, QMake, etc.)
 3. Can rely solely on GitHub Actions to trigger builds (no VCS triggers needed)
+4. Should be configured to recognize branch names passed via the `branchName` parameter
 
 ## Security Notes
 
@@ -136,9 +157,32 @@ Both configurations:
 - Consider using TeamCity's token expiration features
 - Regularly rotate access tokens
 
+## Technical Implementation Details
+
+### JSON API Usage
+The workflow uses TeamCity's JSON API instead of XML for better maintainability:
+- Payloads are constructed using `jq` for safe JSON generation
+- Avoids shell escaping issues common with XML
+- Better error messages from TeamCity
+
+### Error Handling
+- Uses `curl --fail-with-body` to get response bodies even on HTTP errors
+- Automatic retry with `--retry 5 --retry-delay 2 --retry-all-errors` for status checks
+- Strict error handling with `set -euo pipefail` in all bash steps
+
+### Matrix Strategy
+Instead of duplicate jobs, the workflow uses a single job with a matrix:
+```yaml
+strategy:
+  fail-fast: false
+  matrix:
+    platform: [windows, linux]
+```
+This reduces code duplication and makes the workflow easier to maintain.
+
 ## Support
 
 For issues with:
 - **GitHub Actions workflow**: Check the Actions tab in GitHub for detailed logs
-- **TeamCity build**: Check the TeamCity web interface for build logs and configuration
+- **TeamCity build**: Check the TeamCity web interface for build logs and configuration (URL shown in workflow logs)
 - **Integration**: Ensure variables are correctly configured and TeamCity REST API is accessible
