@@ -35,6 +35,13 @@
             </Data>
         </Element>
         
+        <!-- Options manager for testing with preset options -->
+        <Element Id="OptionsConstraintsPreset" PackageId="BasePck" ComponentId="OptionsManager">
+            <Data IsEnabled="true" Flags="0">
+                <AttributeInfoMap/>
+            </Data>
+        </Element>
+        
         <!-- Selection parameter with constraints -->
         <Element Id="SelectionWithConstraints" PackageId="BasePck" ComponentId="SelectionParam">
             <Data IsEnabled="true" Flags="0">
@@ -51,7 +58,7 @@
             <Data IsEnabled="true" Flags="0">
                 <AttributeInfoMap>
                     <AttributeInfo Id="Constraints" Type="Reference" ExportId="">
-                        <Data IsEnabled="true" Value="OptionsConstraints"/>
+                        <Data IsEnabled="true" Value="OptionsConstraintsPreset"/>
                     </AttributeInfo>
                     <AttributeInfo Id="DefaultIndex" Type="Integer" ExportId="">
                         <Data IsEnabled="true" Value="2"/>
@@ -65,7 +72,7 @@
             <Data IsEnabled="true" Flags="0">
                 <AttributeInfoMap>
                     <AttributeInfo Id="Constraints" Type="Reference" ExportId="">
-                        <Data IsEnabled="true" Value="OptionsConstraints"/>
+                        <Data IsEnabled="true" Value="OptionsConstraintsPreset"/>
                     </AttributeInfo>
                     <AttributeInfo Id="DefaultIndex" Type="Integer" ExportId="">
                         <Data IsEnabled="true" Value="100"/>
@@ -79,7 +86,7 @@
             <Data IsEnabled="true" Flags="0">
                 <AttributeInfoMap>
                     <AttributeInfo Id="Constraints" Type="Reference" ExportId="">
-                        <Data IsEnabled="true" Value="OptionsConstraints"/>
+                        <Data IsEnabled="true" Value="OptionsConstraintsPreset"/>
                     </AttributeInfo>
                     <AttributeInfo Id="DefaultIndex" Type="Integer" ExportId="">
                         <Data IsEnabled="true" Value="1"/>
@@ -108,6 +115,7 @@
         <Component ExportedId="SelectionNoConstraints" ComponentId="SelectionNoConstraints"/>
         <Component ExportedId="SelectionWithDefaultIndex" ComponentId="SelectionWithDefaultIndex"/>
         <Component ExportedId="OptionsConstraints" ComponentId="OptionsConstraints"/>
+        <Component ExportedId="OptionsConstraintsPreset" ComponentId="OptionsConstraintsPreset"/>
         <Component ExportedId="SelectionWithConstraints" ComponentId="SelectionWithConstraints"/>
         <Component ExportedId="SelectionWithConstraintsAndDefault" ComponentId="SelectionWithConstraintsAndDefault"/>
         <Component ExportedId="SelectionWithInvalidDefault" ComponentId="SelectionWithInvalidDefault"/>

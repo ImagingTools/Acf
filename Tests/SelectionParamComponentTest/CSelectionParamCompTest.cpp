@@ -17,6 +17,7 @@ void CSelectionParamCompTest::initTestCase()
 	m_selectionNoConstraintsPtr = m_testPartituraInstanceCompPtr->GetInterface<iprm::ISelectionParam>("SelectionNoConstraints");
 	m_selectionWithDefaultIndexPtr = m_testPartituraInstanceCompPtr->GetInterface<iprm::ISelectionParam>("SelectionWithDefaultIndex");
 	m_optionsConstraintsPtr = m_testPartituraInstanceCompPtr->GetInterface<iprm::IOptionsManager>("OptionsConstraints");
+	m_optionsConstraintsPresetPtr = m_testPartituraInstanceCompPtr->GetInterface<iprm::IOptionsManager>("OptionsConstraintsPreset");
 	m_selectionWithConstraintsPtr = m_testPartituraInstanceCompPtr->GetInterface<iprm::ISelectionParam>("SelectionWithConstraints");
 	m_selectionWithConstraintsAndDefaultPtr = m_testPartituraInstanceCompPtr->GetInterface<iprm::ISelectionParam>("SelectionWithConstraintsAndDefault");
 	m_selectionWithInvalidDefaultPtr = m_testPartituraInstanceCompPtr->GetInterface<iprm::ISelectionParam>("SelectionWithInvalidDefault");
@@ -26,11 +27,18 @@ void CSelectionParamCompTest::initTestCase()
 	QVERIFY(m_selectionNoConstraintsPtr != nullptr);
 	QVERIFY(m_selectionWithDefaultIndexPtr != nullptr);
 	QVERIFY(m_optionsConstraintsPtr != nullptr);
+	QVERIFY(m_optionsConstraintsPresetPtr != nullptr);
 	QVERIFY(m_selectionWithConstraintsPtr != nullptr);
 	QVERIFY(m_selectionWithConstraintsAndDefaultPtr != nullptr);
 	QVERIFY(m_selectionWithInvalidDefaultPtr != nullptr);
 	QVERIFY(m_subselectionPtr != nullptr);
 	QVERIFY(m_selectionWithSubselectionPtr != nullptr);
+	
+	// Initialize the preset options manager with some options
+	// This ensures consistent test state for all tests using OptionsConstraintsPreset
+	m_optionsConstraintsPresetPtr->InsertOption(0, "Option1");
+	m_optionsConstraintsPresetPtr->InsertOption(1, "Option2");
+	m_optionsConstraintsPresetPtr->InsertOption(2, "Option3");
 }
 
 
@@ -148,10 +156,8 @@ void CSelectionParamCompTest::testCreationWithConstraints()
 
 void CSelectionParamCompTest::testDefaultIndexWithConstraints()
 {
-	// Add some options to the constraints
-	m_optionsConstraintsPtr->InsertOption(0, "Option1");
-	m_optionsConstraintsPtr->InsertOption(1, "Option2");
-	m_optionsConstraintsPtr->InsertOption(2, "Option3");
+	// The preset options manager already has 3 options initialized in initTestCase
+	QVERIFY(m_optionsConstraintsPresetPtr->GetOptionsCount() == 3);
 	
 	// Verify the selection parameter with default index has the correct value
 	QVERIFY(m_selectionWithConstraintsAndDefaultPtr->GetSelectedOptionIndex() == 2);
@@ -168,13 +174,20 @@ void CSelectionParamCompTest::testDefaultIndexWithConstraints()
 void CSelectionParamCompTest::testInvalidDefaultIndexWithConstraints()
 {
 	// This component was configured with a default index of 100, which is invalid
-	// The component should have reset it to -1 during creation
+	// The component should have reset it to -1 during creation because
+	// OptionsConstraintsPreset only has 3 options (indices 0, 1, 2)
 	QVERIFY(m_selectionWithInvalidDefaultPtr->GetSelectedOptionIndex() == -1);
 }
 
 
 void CSelectionParamCompTest::testSerializationWithConstraints()
 {
+	// Add options to the constraints manager used by this selection parameter
+	// This ensures the test is independent and doesn't rely on other tests
+	m_optionsConstraintsPtr->InsertOption(0, "SerialOption1");
+	m_optionsConstraintsPtr->InsertOption(1, "SerialOption2");
+	m_optionsConstraintsPtr->InsertOption(2, "SerialOption3");
+	
 	// Set a specific value
 	QVERIFY(m_selectionWithConstraintsPtr->SetSelectedOptionIndex(1));
 	
@@ -197,6 +210,11 @@ void CSelectionParamCompTest::testSerializationWithConstraints()
 
 void CSelectionParamCompTest::testCopyWithConstraints()
 {
+	// Ensure options exist in the constraints for this test
+	if (m_optionsConstraintsPtr->GetOptionsCount() < 1) {
+		m_optionsConstraintsPtr->InsertOption(0, "CopyOption1");
+	}
+	
 	// Set a specific value
 	QVERIFY(m_selectionWithConstraintsPtr->SetSelectedOptionIndex(0));
 	
@@ -214,6 +232,14 @@ void CSelectionParamCompTest::testCopyWithConstraints()
 
 void CSelectionParamCompTest::testCloneWithConstraints()
 {
+	// Ensure options exist in the constraints for this test
+	if (m_optionsConstraintsPtr->GetOptionsCount() < 3) {
+		int currentCount = m_optionsConstraintsPtr->GetOptionsCount();
+		for (int i = currentCount; i < 3; ++i) {
+			m_optionsConstraintsPtr->InsertOption(i, QString("CloneOption%1").arg(i).toStdString().c_str());
+		}
+	}
+	
 	// Set a specific value
 	QVERIFY(m_selectionWithConstraintsPtr->SetSelectedOptionIndex(2));
 	

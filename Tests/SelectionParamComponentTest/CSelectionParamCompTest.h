@@ -46,6 +46,7 @@ private:
 	iprm::ISelectionParam* m_selectionNoConstraintsPtr = nullptr;
 	iprm::ISelectionParam* m_selectionWithDefaultIndexPtr = nullptr;
 	iprm::IOptionsManager* m_optionsConstraintsPtr = nullptr;
+	iprm::IOptionsManager* m_optionsConstraintsPresetPtr = nullptr;
 	iprm::ISelectionParam* m_selectionWithConstraintsPtr = nullptr;
 	iprm::ISelectionParam* m_selectionWithConstraintsAndDefaultPtr = nullptr;
 	iprm::ISelectionParam* m_selectionWithInvalidDefaultPtr = nullptr;
