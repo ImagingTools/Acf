@@ -5,7 +5,8 @@
 // ACF includes
 #include <ibase/TFactorisableContainer.h>
 #include <istd/TIFactory.h>
-#include <iser/CMemoryArchive.h>
+#include <iser/CMemoryReadArchive.h>
+#include <iser/CMemoryWriteArchive.h>
 
 
 // Test interface
@@ -183,21 +184,16 @@ void TFactorisableContainerTest::testSerialize()
 	elem3->SetValue(30);
 	
 	// Serialize to memory
-	QByteArray data;
-	{
-		iser::CMemoryArchive archive(data, iser::IArchive::AM_STORE);
-		bool result = container1.Serialize(archive);
-		QVERIFY(result);
-	}
+	iser::CMemoryWriteArchive writeArchive;
+	bool result = container1.Serialize(writeArchive);
+	QVERIFY(result);
 	
 	// Deserialize from memory
 	ibase::TFactorisableContainer<ITestElement> container2;
 	container2.RegisterItemFactory(&factory);
-	{
-		iser::CMemoryArchive archive(data, iser::IArchive::AM_LOAD);
-		bool result = container2.Serialize(archive);
-		QVERIFY(result);
-	}
+	iser::CMemoryReadArchive readArchive(writeArchive);
+	result = container2.Serialize(readArchive);
+	QVERIFY(result);
 	
 	// Verify contents
 	QCOMPARE(container2.GetItemsCount(), 3);
@@ -217,21 +213,16 @@ void TFactorisableContainerTest::testSerializeEmpty()
 	container1.RegisterItemFactory(&factory);
 	
 	// Serialize empty container to memory
-	QByteArray data;
-	{
-		iser::CMemoryArchive archive(data, iser::IArchive::AM_STORE);
-		bool result = container1.Serialize(archive);
-		QVERIFY(result);
-	}
+	iser::CMemoryWriteArchive writeArchive;
+	bool result = container1.Serialize(writeArchive);
+	QVERIFY(result);
 	
 	// Deserialize from memory
 	ibase::TFactorisableContainer<ITestElement> container2;
 	container2.RegisterItemFactory(&factory);
-	{
-		iser::CMemoryArchive archive(data, iser::IArchive::AM_LOAD);
-		bool result = container2.Serialize(archive);
-		QVERIFY(result);
-	}
+	iser::CMemoryReadArchive readArchive(writeArchive);
+	result = container2.Serialize(readArchive);
+	QVERIFY(result);
 	
 	// Verify empty container
 	QCOMPARE(container2.GetItemsCount(), 0);

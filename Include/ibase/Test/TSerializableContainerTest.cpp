@@ -4,7 +4,8 @@
 
 // ACF includes
 #include <ibase/TSerializableContainer.h>
-#include <iser/CMemoryArchive.h>
+#include <iser/CMemoryReadArchive.h>
+#include <iser/CMemoryWriteArchive.h>
 
 
 // Test container implementation for int
@@ -51,20 +52,15 @@ void TSerializableContainerTest::testSerializeInt()
 	container1.PushBack(30);
 	
 	// Serialize to memory
-	QByteArray data;
-	{
-		iser::CMemoryArchive archive(data, iser::IArchive::AM_STORE);
-		bool result = container1.Serialize(archive);
-		QVERIFY(result);
-	}
+	iser::CMemoryWriteArchive writeArchive;
+	bool result = container1.Serialize(writeArchive);
+	QVERIFY(result);
 	
 	// Deserialize from memory
 	CIntSerializableContainer container2;
-	{
-		iser::CMemoryArchive archive(data, iser::IArchive::AM_LOAD);
-		bool result = container2.Serialize(archive);
-		QVERIFY(result);
-	}
+	iser::CMemoryReadArchive readArchive(writeArchive);
+	result = container2.Serialize(readArchive);
+	QVERIFY(result);
 	
 	// Verify contents
 	QCOMPARE(container2.GetItemsCount(), 3);
@@ -82,20 +78,15 @@ void TSerializableContainerTest::testSerializeString()
 	container1.PushBack("Third");
 	
 	// Serialize to memory
-	QByteArray data;
-	{
-		iser::CMemoryArchive archive(data, iser::IArchive::AM_STORE);
-		bool result = container1.Serialize(archive);
-		QVERIFY(result);
-	}
+	iser::CMemoryWriteArchive writeArchive;
+	bool result = container1.Serialize(writeArchive);
+	QVERIFY(result);
 	
 	// Deserialize from memory
 	CStringSerializableContainer container2;
-	{
-		iser::CMemoryArchive archive(data, iser::IArchive::AM_LOAD);
-		bool result = container2.Serialize(archive);
-		QVERIFY(result);
-	}
+	iser::CMemoryReadArchive readArchive(writeArchive);
+	result = container2.Serialize(readArchive);
+	QVERIFY(result);
 	
 	// Verify contents
 	QCOMPARE(container2.GetItemsCount(), 3);
@@ -110,20 +101,15 @@ void TSerializableContainerTest::testSerializeEmpty()
 	CIntSerializableContainer container1;
 	
 	// Serialize empty container to memory
-	QByteArray data;
-	{
-		iser::CMemoryArchive archive(data, iser::IArchive::AM_STORE);
-		bool result = container1.Serialize(archive);
-		QVERIFY(result);
-	}
+	iser::CMemoryWriteArchive writeArchive;
+	bool result = container1.Serialize(writeArchive);
+	QVERIFY(result);
 	
 	// Deserialize from memory
 	CIntSerializableContainer container2;
-	{
-		iser::CMemoryArchive archive(data, iser::IArchive::AM_LOAD);
-		bool result = container2.Serialize(archive);
-		QVERIFY(result);
-	}
+	iser::CMemoryReadArchive readArchive(writeArchive);
+	result = container2.Serialize(readArchive);
+	QVERIFY(result);
 	
 	// Verify empty container
 	QCOMPARE(container2.GetItemsCount(), 0);
