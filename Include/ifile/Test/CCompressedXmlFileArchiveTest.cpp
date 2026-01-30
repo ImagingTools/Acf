@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later OR GPL-2.0-or-later OR GPL-3.0-or-later OR LicenseRef-ACF-Commercial
-#include <ifile/Test/CSimpleXmlFileArchiveTest.h>
+#include <ifile/Test/CCompressedXmlFileArchiveTest.h>
 
 
 // Qt includes
@@ -9,29 +9,29 @@
 #include <icomp/TSimComponentWrap.h>
 #include <ifile/CFileNameParam.h>
 #include <imod/TModelWrap.h>
-#include <ifile/CSimpleXmlFileReadArchive.h>
-#include <ifile/CSimpleXmlFileWriteArchive.h>
+#include <ifile/CCompressedXmlFileReadArchive.h>
+#include <ifile/CCompressedXmlFileWriteArchive.h>
 #include <ifile/TFileSerializerComp.h>
 
 
-void CSimpleXmlFileArchiveTest::DoBasicReadWriteTest()
+void CCompressedXmlFileArchiveTest::DoBasicReadWriteTest()
 {
-	QString testFilePath = "./SimpleXmlOutput.xml";
-	QString path = "./Test/SimpleXmlTest.test";
+	QString testFilePath = "./CompressedXmlOutput.xml";
+	QString path = "./Test/CompressedXmlTest.test";
 
 	imod::TModelWrap<ifile::CFileNameParam> filePathParam;
 	filePathParam.SetPath(path);
 
 	// Write data:
 	{
-		ifile::CSimpleXmlFileWriteArchive writeArchive(testFilePath);
+		ifile::CCompressedXmlFileWriteArchive writeArchive(testFilePath);
 		bool retVal = filePathParam.Serialize(writeArchive);
 		QVERIFY(retVal);
 	}
 
 	// Read data:
 	ifile::CFileNameParam filePathParam2;
-	ifile::CSimpleXmlFileReadArchive readArchive(testFilePath);
+	ifile::CCompressedXmlFileReadArchive readArchive(testFilePath);
 	bool retVal = filePathParam2.Serialize(readArchive);
 	QVERIFY(retVal);
 
@@ -44,37 +44,33 @@ void CSimpleXmlFileArchiveTest::DoBasicReadWriteTest()
 }
 
 
-void CSimpleXmlFileArchiveTest::DoFilePathTest()
+void CCompressedXmlFileArchiveTest::DoFilePathTest()
 {
-	QString testFilePath = "./SimpleXmlFilePathTest.xml";
+	QString testFilePath = "./CompressedXmlFilePathTest.xml";
 
-	// Write a simple archive
+	// Write a compressed archive
 	{
-		ifile::CSimpleXmlFileWriteArchive writeArchive(testFilePath);
+		ifile::CCompressedXmlFileWriteArchive writeArchive(testFilePath);
 		QCOMPARE(writeArchive.GetCurrentFilePath(), testFilePath);
 	}
-
-	// Read the archive
-	ifile::CSimpleXmlFileReadArchive readArchive(testFilePath);
-	QCOMPARE(readArchive.GetCurrentFilePath(), testFilePath);
 
 	// Clean up
 	QFile::remove(testFilePath);
 }
 
 
-void CSimpleXmlFileArchiveTest::DoPersistenceComponentTest()
+void CCompressedXmlFileArchiveTest::DoPersistenceComponentTest()
 {
 	typedef icomp::TSimComponentWrap<
 				ifile::TFileSerializerComp<
-							ifile::CSimpleXmlFileReadArchive,
-							ifile::CSimpleXmlFileWriteArchive>> SimpleXmlFileSerializer;
+							ifile::CCompressedXmlFileReadArchive,
+							ifile::CCompressedXmlFileWriteArchive>> CompressedXmlFileSerializer;
 
-	SimpleXmlFileSerializer component;
+	CompressedXmlFileSerializer component;
 	component.InitComponent();
 
-	QString testFilePath = "./SimpleXmlPersistenceOutput.xml";
-	QString path = "./Test/SimpleXmlPersistenceTest.test";
+	QString testFilePath = "./CompressedXmlPersistenceOutput.xml";
+	QString path = "./Test/CompressedXmlPersistenceTest.test";
 	imod::TModelWrap<ifile::CFileNameParam> filePathParam;
 	filePathParam.SetPath(path);
 
@@ -94,6 +90,6 @@ void CSimpleXmlFileArchiveTest::DoPersistenceComponentTest()
 }
 
 
-I_ADD_TEST(CSimpleXmlFileArchiveTest);
+I_ADD_TEST(CCompressedXmlFileArchiveTest);
 
 

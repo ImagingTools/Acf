@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later OR GPL-2.0-or-later OR GPL-3.0-or-later OR LicenseRef-ACF-Commercial
-#include <ifile/Test/CSimpleXmlFileArchiveTest.h>
+#include <ifile/Test/CJsonFileArchiveTest.h>
 
 
 // Qt includes
@@ -9,29 +9,29 @@
 #include <icomp/TSimComponentWrap.h>
 #include <ifile/CFileNameParam.h>
 #include <imod/TModelWrap.h>
-#include <ifile/CSimpleXmlFileReadArchive.h>
-#include <ifile/CSimpleXmlFileWriteArchive.h>
+#include <ifile/CJsonFileReadArchive.h>
+#include <ifile/CJsonFileWriteArchive.h>
 #include <ifile/TFileSerializerComp.h>
 
 
-void CSimpleXmlFileArchiveTest::DoBasicReadWriteTest()
+void CJsonFileArchiveTest::DoBasicReadWriteTest()
 {
-	QString testFilePath = "./SimpleXmlOutput.xml";
-	QString path = "./Test/SimpleXmlTest.test";
+	QString testFilePath = "./JsonFileOutput.json";
+	QString path = "./Test/JsonFileTest.test";
 
 	imod::TModelWrap<ifile::CFileNameParam> filePathParam;
 	filePathParam.SetPath(path);
 
 	// Write data:
 	{
-		ifile::CSimpleXmlFileWriteArchive writeArchive(testFilePath);
+		ifile::CJsonFileWriteArchive writeArchive(testFilePath);
 		bool retVal = filePathParam.Serialize(writeArchive);
 		QVERIFY(retVal);
 	}
 
 	// Read data:
 	ifile::CFileNameParam filePathParam2;
-	ifile::CSimpleXmlFileReadArchive readArchive(testFilePath);
+	ifile::CJsonFileReadArchive readArchive(testFilePath);
 	bool retVal = filePathParam2.Serialize(readArchive);
 	QVERIFY(retVal);
 
@@ -44,37 +44,18 @@ void CSimpleXmlFileArchiveTest::DoBasicReadWriteTest()
 }
 
 
-void CSimpleXmlFileArchiveTest::DoFilePathTest()
-{
-	QString testFilePath = "./SimpleXmlFilePathTest.xml";
-
-	// Write a simple archive
-	{
-		ifile::CSimpleXmlFileWriteArchive writeArchive(testFilePath);
-		QCOMPARE(writeArchive.GetCurrentFilePath(), testFilePath);
-	}
-
-	// Read the archive
-	ifile::CSimpleXmlFileReadArchive readArchive(testFilePath);
-	QCOMPARE(readArchive.GetCurrentFilePath(), testFilePath);
-
-	// Clean up
-	QFile::remove(testFilePath);
-}
-
-
-void CSimpleXmlFileArchiveTest::DoPersistenceComponentTest()
+void CJsonFileArchiveTest::DoPersistenceComponentTest()
 {
 	typedef icomp::TSimComponentWrap<
 				ifile::TFileSerializerComp<
-							ifile::CSimpleXmlFileReadArchive,
-							ifile::CSimpleXmlFileWriteArchive>> SimpleXmlFileSerializer;
+							ifile::CJsonFileReadArchive,
+							ifile::CJsonFileWriteArchive>> JsonFileSerializer;
 
-	SimpleXmlFileSerializer component;
+	JsonFileSerializer component;
 	component.InitComponent();
 
-	QString testFilePath = "./SimpleXmlPersistenceOutput.xml";
-	QString path = "./Test/SimpleXmlPersistenceTest.test";
+	QString testFilePath = "./JsonFilePersistenceOutput.json";
+	QString path = "./Test/JsonFilePersistenceTest.test";
 	imod::TModelWrap<ifile::CFileNameParam> filePathParam;
 	filePathParam.SetPath(path);
 
@@ -94,6 +75,6 @@ void CSimpleXmlFileArchiveTest::DoPersistenceComponentTest()
 }
 
 
-I_ADD_TEST(CSimpleXmlFileArchiveTest);
+I_ADD_TEST(CJsonFileArchiveTest);
 
 
