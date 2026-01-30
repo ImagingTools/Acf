@@ -19,12 +19,21 @@ namespace istd
 
 
 /**
+	\brief Base template for polymorphic interface pointers.
+
 	Specialized polymorphic pointer that manages the allocated root object
 	(m_rootPtr) and simultaneously provides a pointer to the actual interface implementation (m_interfacePtr).
 	The interface instance is "derived" from the root object using the provided
 	extractor (ExtractInterfaceFunc) or an alternative extraction mechanism.
 	Ownership and lifetime are tied to m_rootPtr; m_interfacePtr is a non-owning
 	view into the interface and may point to a different (sub)object than m_rootPtr.
+
+	\tparam InterfaceType The interface type to expose.
+	\tparam PolymorphicPointerImpl The underlying smart pointer type (std::unique_ptr or std::shared_ptr).
+
+	\note This class is not meant to be used directly. Use TUniqueInterfacePtr or TSharedInterfacePtr instead.
+
+	\ingroup Main
 */
 template <class InterfaceType, class PolymorphicPointerImpl>
 class TInterfacePtr
@@ -210,6 +219,40 @@ protected:
 };
 
 
+/**
+	\brief Unique ownership smart pointer for interface types.
+
+	TUniqueInterfacePtr provides exclusive ownership of an object with automatic memory management.
+	It is similar to std::unique_ptr but specialized for ACF's interface-based architecture where
+	the root object and interface pointer may differ.
+
+	Key characteristics:
+	- **Unique ownership**: Only one TUniqueInterfacePtr can own an object at a time.
+	- **Move semantics**: Ownership can be transferred via move operations.
+	- **No copying**: Copy constructor and copy assignment are deleted.
+	- **Automatic cleanup**: The object is automatically deleted when the pointer goes out of scope.
+	- **Interface separation**: Supports separate root object and interface pointers for polymorphic designs.
+
+	\tparam InterfaceType The interface type to expose.
+	\tparam RootIntefaceType The root type that owns the object (default: istd::IPolymorphic).
+
+	\note RootIntefaceType must derive from istd::IPolymorphic and have a virtual destructor.
+
+	\sa TSharedInterfacePtr, TOptInterfacePtr
+
+	Example:
+	\code{.cpp}
+	// Create a unique pointer
+	istd::TUniqueInterfacePtr<IMyInterface> ptr = CreateMyObject();
+	ptr->DoSomething();
+
+	// Transfer ownership via move
+	istd::TUniqueInterfacePtr<IMyInterface> ptr2 = std::move(ptr);
+	// ptr is now invalid, ptr2 owns the object
+	\endcode
+
+	\ingroup Main
+*/
 template <class InterfaceType, class RootIntefaceType = istd::IPolymorphic>
 class TUniqueInterfacePtr : public TInterfacePtr<InterfaceType, std::unique_ptr<RootIntefaceType>>
 {
@@ -330,6 +373,41 @@ public:
 };
 
 
+/**
+	\brief Shared ownership smart pointer for interface types.
+
+	TSharedInterfacePtr provides shared ownership of an object with reference counting and automatic memory management.
+	It is similar to std::shared_ptr but specialized for ACF's interface-based architecture where
+	the root object and interface pointer may differ.
+
+	Key characteristics:
+	- **Shared ownership**: Multiple TSharedInterfacePtr instances can own the same object.
+	- **Reference counting**: The object is deleted when the last owner is destroyed.
+	- **Copy and move**: Supports both copy and move semantics.
+	- **Thread-safe counting**: Reference counting is thread-safe (but the object itself may not be).
+	- **Interface separation**: Supports separate root object and interface pointers for polymorphic designs.
+
+	\tparam InterfaceType The interface type to expose.
+	\tparam RootIntefaceType The root type that owns the object (default: istd::IPolymorphic).
+
+	\note RootIntefaceType must derive from istd::IPolymorphic and have a virtual destructor.
+
+	\sa TUniqueInterfacePtr, TOptInterfacePtr
+
+	Example:
+	\code{.cpp}
+	// Create a shared pointer
+	istd::TSharedInterfacePtr<IMyInterface> ptr1 = CreateMyObject();
+	ptr1->DoSomething();
+
+	// Share ownership via copy
+	istd::TSharedInterfacePtr<IMyInterface> ptr2 = ptr1;
+	// Both ptr1 and ptr2 now own the object
+	// Object will be deleted when both go out of scope
+	\endcode
+
+	\ingroup Main
+*/
 template <class InterfaceType, class RootIntefaceType = istd::IPolymorphic>
 class TSharedInterfacePtr : public TInterfacePtr<InterfaceType, std::shared_ptr<RootIntefaceType>>
 {
