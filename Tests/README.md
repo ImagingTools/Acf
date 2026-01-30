@@ -14,6 +14,7 @@ Tests are organized by location:
   - **ParamsManagerTest/** - Tests for IParamsManager interface
   - **MultiThreadingComponentTest/** - Tests for multi-threading components
   - **SelectionParamIntegrationTest/** - Integration tests for selection parameters
+  - **SelectionParamComponentTest/** - Component tests for CSelectionParamComp with various configurations
 
 - **Include/[library]/Test/** - Unit tests for each library
   - **Include/istd/Test/** - Tests for standard utilities (CRandomNumber, CIndex2d, CBitManip, CCrcCalculator, etc.)
@@ -169,6 +170,61 @@ Each library's test suite provides comprehensive coverage for:
 - Serialization (where applicable)
 
 Tests are organized by library to maintain clear separation of concerns and enable independent testing of each component.
+
+## Component Test Details
+
+### SelectionParamComponentTest
+
+**Purpose**: Component-level tests for `iprm::CSelectionParamComp` class with various configurations.
+
+**Test Coverage**:
+- **Selection Parameter Without Constraints**:
+  - Component creation and initialization
+  - Default index attribute handling
+  - Serialization/deserialization
+  - Get/Set operations
+  - Copy and clone operations
+  
+- **Selection Parameter With Constraints**:
+  - Component creation with constraints reference
+  - Default index validation against constraints
+  - Handling of invalid default index (should be reset to -1 if >= options count)
+  - Serialization/deserialization with constraints
+  - Copy and clone operations preserving constraints
+  
+- **Selection Parameter With Subselection**:
+  - Subselection reference configuration
+  - GetSubselection() method behavior
+  - Serialization with subselection
+
+**Configuration Files**:
+- `SelectionParamComponentTest.acc` - Contains 8 different component configurations:
+  1. `SelectionNoConstraints` - Basic selection parameter without constraints
+  2. `SelectionWithDefaultIndex` - Selection with default index (5)
+  3. `OptionsConstraints` - Options manager for constraints
+  4. `SelectionWithConstraints` - Selection with constraints reference
+  5. `SelectionWithConstraintsAndDefault` - Selection with constraints and default index (2)
+  6. `SelectionWithInvalidDefault` - Selection with invalid default index (100, should be reset to -1)
+  7. `Subselection` - Subselection parameter with constraints and default index (1)
+  8. `SelectionWithSubselection` - Selection with subselection reference and default index (3)
+
+**Test Methods**:
+- `testCreationNoConstraints()` - Verifies component creation without constraints
+- `testDefaultIndexNoConstraints()` - Tests default index attribute handling
+- `testSerializationNoConstraints()` - Tests serialization/deserialization cycle
+- `testCopyNoConstraints()` - Tests copying to another selection parameter
+- `testCloneNoConstraints()` - Tests cloning the component
+- `testCreationWithConstraints()` - Verifies component creation with constraints
+- `testDefaultIndexWithConstraints()` - Tests default index with constraint validation
+- `testInvalidDefaultIndexWithConstraints()` - Tests handling of invalid default index
+- `testSerializationWithConstraints()` - Tests serialization with constraints
+- `testCopyWithConstraints()` - Tests copying with constraints preservation
+- `testCloneWithConstraints()` - Tests cloning with constraints preservation
+- `testCreationWithSubselection()` - Verifies component creation with subselection
+- `testGetSubselection()` - Tests GetSubselection() method behavior
+- `testSerializationWithSubselection()` - Tests serialization with subselection
+
+
 
 ## Contributing
 
