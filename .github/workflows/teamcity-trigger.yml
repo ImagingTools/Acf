@@ -132,7 +132,6 @@ jobs:
 
       - name: Wait for TeamCity Build
         if: steps.teamcity.outputs.build_id
-        continue-on-error: true
         id: wait_build
         timeout-minutes: 90
         env:
@@ -197,6 +196,7 @@ jobs:
                 exit 0
               else
                 echo "❌ Build FAILED (status=$STATUS)"
+                echo "::error title=TeamCity Build Failed (${{ matrix.platform }})::Build failed with status: $STATUS. Check logs below or at: $WEB_URL"
                 exit 1
               fi
             else
