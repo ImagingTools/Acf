@@ -51,7 +51,7 @@
                 <AttributeInfoMap/>
             </Data>
         </Element>
-        <Element Id="FilePath" PackageId="BasePck" ComponentId="FileNameParam">
+        <Element Id="FilePath" PackageId="FilePck" ComponentId="FileNameParam">
             <Data IsEnabled="true" Flags="0">
                 <AttributeInfoMap/>
             </Data>
