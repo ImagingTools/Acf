@@ -48,24 +48,13 @@ void CCompressedXmlFileArchiveTest::DoFilePathTest()
 {
 	QString testFilePath = "./CompressedXmlFilePathTest.xml";
 
-	// Write a compressed archive
+	// Write a compressed archive and verify GetCurrentFilePath
+	// Note: CCompressedXmlFileWriteArchive inherits from CFileArchiveInfo,
+	// but CCompressedXmlFileReadArchive does not, so we can only test the write archive
 	{
 		ifile::CCompressedXmlFileWriteArchive writeArchive(testFilePath);
 		QCOMPARE(writeArchive.GetCurrentFilePath(), testFilePath);
 	}
-
-	// Read the archive (requires a valid file to exist)
-	// We need to create a minimal valid file first
-	QString path = "./Test/TempPath.test";
-	imod::TModelWrap<ifile::CFileNameParam> filePathParam;
-	filePathParam.SetPath(path);
-	{
-		ifile::CCompressedXmlFileWriteArchive writeArchive(testFilePath);
-		filePathParam.Serialize(writeArchive);
-	}
-
-	ifile::CCompressedXmlFileReadArchive readArchive(testFilePath);
-	QCOMPARE(readArchive.GetCurrentFilePath(), testFilePath);
 
 	// Clean up
 	QFile::remove(testFilePath);
