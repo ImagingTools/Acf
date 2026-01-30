@@ -14,6 +14,7 @@ Tests are organized by location:
   - **ParamsManagerTest/** - Tests for IParamsManager interface
   - **MultiThreadingComponentTest/** - Tests for multi-threading components
   - **SelectionParamIntegrationTest/** - Integration tests for selection parameters
+  - **AutoPersistenceTest/** - Tests for CAutoPersistenceComp with various attribute configurations
 
 - **Include/[library]/Test/** - Unit tests for each library
   - **Include/istd/Test/** - Tests for standard utilities (CRandomNumber, CIndex2d, CBitManip, CCrcCalculator, etc.)
@@ -169,6 +170,37 @@ Each library's test suite provides comprehensive coverage for:
 - Serialization (where applicable)
 
 Tests are organized by library to maintain clear separation of concerns and enable independent testing of each component.
+
+## Component Tests
+
+### AutoPersistenceTest
+
+The AutoPersistenceTest validates the CAutoPersistenceComp component with multiple configuration variants using Partitura (.acc) files. Each variant tests different combinations of component attributes:
+
+1. **AutoPersistenceTestRestoreStoreEnd.acc** - Tests RestoreOnBegin and StoreOnEnd attributes
+   - Validates that objects are restored when component initializes
+   - Validates that objects are saved when component is destroyed
+   
+2. **AutoPersistenceTestStoreOnChange.acc** - Tests StoreOnChange attribute
+   - Validates immediate persistence on every data change
+   
+3. **AutoPersistenceTestStoreOnBegin.acc** - Tests StoreOnBegin attribute
+   - Validates that objects are saved on initialization if file doesn't exist
+   
+4. **AutoPersistenceTestStoreInterval.acc** - Tests StoreInterval attribute
+   - Validates timer-based automatic persistence
+   
+5. **AutoPersistenceTestAutoReload.acc** - Tests AutoReload attribute
+   - Validates file watching and automatic reload on external changes
+   
+6. **AutoPersistenceTestLocking.acc** - Tests lock file handling
+   - Validates StaleLockTime, TryLockTimeout, and EnableLockForRead attributes
+
+Each test scenario uses a SelectionParam object as the persistent data and verifies:
+- Proper initialization and cleanup
+- Correct file creation and deletion
+- Data integrity across save/restore cycles
+- Timing behavior for interval-based persistence
 
 ## Contributing
 
