@@ -45,8 +45,26 @@ class CTestElementFactory : public istd::TIFactory<ITestElement>
 public:
 	CTestElementFactory()
 	{
-		RegisterClass("TestElement", []() -> ITestElement* { return new CTestElement(); });
+		m_keys.push_back("TestElement");
 	}
+	
+	// reimplemented (istd::TIFactory)
+	virtual ITestElement* CreateInstance(const QByteArray& keyId = "") const override
+	{
+		if (keyId == "TestElement") {
+			return new CTestElement();
+		}
+		return nullptr;
+	}
+	
+	// reimplemented (istd::IFactoryInfo)
+	virtual KeyList GetFactoryKeys() const override
+	{
+		return m_keys;
+	}
+	
+private:
+	KeyList m_keys;
 };
 
 
