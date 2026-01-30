@@ -175,28 +175,28 @@ Tests are organized by library to maintain clear separation of concerns and enab
 
 ### AutoPersistenceTest
 
-The AutoPersistenceTest validates the CAutoPersistenceComp component with multiple configuration variants using Partitura (.acc) files. Each variant tests different combinations of component attributes:
+The AutoPersistenceTest validates the CAutoPersistenceComp component with multiple configuration variants using a single comprehensive Partitura file (AutoPersistenceTest.acc). The file defines six AutoPersistence component instances, each testing different combinations of component attributes:
 
-1. **AutoPersistenceTestRestoreStoreEnd.acc** - Tests RestoreOnBegin and StoreOnEnd attributes
+1. **AutoPersistenceRestoreStoreEnd** - Tests RestoreOnBegin and StoreOnEnd attributes
    - Validates that objects are restored when component initializes
    - Validates that objects are saved when component is destroyed
    
-2. **AutoPersistenceTestStoreOnChange.acc** - Tests StoreOnChange attribute
+2. **AutoPersistenceStoreOnChange** - Tests StoreOnChange attribute
    - Validates immediate persistence on every data change
    
-3. **AutoPersistenceTestStoreOnBegin.acc** - Tests StoreOnBegin attribute
+3. **AutoPersistenceStoreOnBegin** - Tests StoreOnBegin attribute
    - Validates that objects are saved on initialization if file doesn't exist
    
-4. **AutoPersistenceTestStoreInterval.acc** - Tests StoreInterval attribute
+4. **AutoPersistenceStoreInterval** - Tests StoreInterval attribute
    - Validates timer-based automatic persistence
    
-5. **AutoPersistenceTestAutoReload.acc** - Tests AutoReload attribute
+5. **AutoPersistenceAutoReload** - Tests AutoReload attribute
    - Validates file watching and automatic reload on external changes
    
-6. **AutoPersistenceTestLocking.acc** - Tests lock file handling
+6. **AutoPersistenceLocking** - Tests lock file handling
    - Validates StaleLockTime, TryLockTimeout, and EnableLockForRead attributes
 
-Each test scenario uses a SelectionParam object as the persistent data and verifies:
+Each test scenario uses a dedicated SelectionParam object as the persistent data and verifies:
 - Proper initialization and cleanup
 - Correct file creation and deletion
 - Data integrity across save/restore cycles

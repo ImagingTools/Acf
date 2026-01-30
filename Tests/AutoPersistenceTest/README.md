@@ -8,37 +8,37 @@ This test suite validates the CAutoPersistenceComp component, which provides aut
 
 ## Test Configurations
 
-The test includes six different Partitura (.acc) configurations, each testing different combinations of component attributes:
+The test uses a single comprehensive Partitura configuration file (`AutoPersistenceTest.acc`) that defines six different AutoPersistence component instances, each configured to test different attribute combinations:
 
-### 1. AutoPersistenceTestRestoreStoreEnd.acc
+### 1. AutoPersistenceRestoreStoreEnd
 - **RestoreOnBegin**: true
 - **StoreOnEnd**: true
 - **Purpose**: Tests basic save/restore functionality
 - **Validates**: Object restoration on component initialization and storage on destruction
 
-### 2. AutoPersistenceTestStoreOnChange.acc
+### 2. AutoPersistenceStoreOnChange
 - **StoreOnChange**: true
 - **Purpose**: Tests immediate persistence on data changes
 - **Validates**: File is updated immediately whenever the object's data changes
 
-### 3. AutoPersistenceTestStoreOnBegin.acc
+### 3. AutoPersistenceStoreOnBegin
 - **StoreOnBegin**: true
 - **Purpose**: Tests initial file creation
 - **Validates**: File is created on component initialization if it doesn't exist
 
-### 4. AutoPersistenceTestStoreInterval.acc
+### 4. AutoPersistenceStoreInterval
 - **StoreInterval**: 1 second
 - **Purpose**: Tests timer-based automatic persistence
 - **Validates**: Object is saved at regular intervals (when changed)
 
-### 5. AutoPersistenceTestAutoReload.acc
+### 5. AutoPersistenceAutoReload
 - **AutoReload**: true
 - **RestoreOnBegin**: true
 - **StoreOnEnd**: true
 - **Purpose**: Tests file watching and automatic reload
 - **Validates**: Component can detect and reload external file changes
 
-### 6. AutoPersistenceTestLocking.acc
+### 6. AutoPersistenceLocking
 - **StoreOnChange**: true
 - **StaleLockTime**: 30 seconds
 - **TryLockTimeout**: 5 seconds
@@ -48,10 +48,17 @@ The test includes six different Partitura (.acc) configurations, each testing di
 
 ## Test Object
 
-All tests use a `SelectionParam` component as the persistent object. This provides a simple integer value that can be:
+All tests use a `SelectionParam` component as the persistent object. Each test configuration has its own SelectionParam and FileNameParam instances. This provides a simple integer value that can be:
 - Set and retrieved easily
 - Serialized and deserialized
 - Used to verify data integrity across save/restore cycles
+
+## Architecture
+
+The test suite uses:
+- **Test Runner Class**: `CAutoPersistenceTestRunner` - Contains the test methods
+- **Partitura Class**: `CAutoPersistenceTest` - Generated from AutoPersistenceTest.acc, provides access to all configured components
+- **Single .acc File**: All six test configurations are defined in one file for proper build system integration
 
 ## Building
 
@@ -70,7 +77,7 @@ make AutoPersistenceTest
 
 Run specific test:
 ```bash
-./AutoPersistenceTest CAutoPersistenceTest::RestoreOnBeginStoreOnEndTest
+./AutoPersistenceTest CAutoPersistenceTestRunner::RestoreOnBeginStoreOnEndTest
 ```
 
 ## Test Coverage
