@@ -63,8 +63,8 @@ void CAutoPersistenceTestRunner::RestoreOnBeginStoreOnEndTest()
 		QVERIFY(selectionPtr != nullptr);
 		
 		// Set initial value
-		selectionPtr->SetIndex(5);
-		QCOMPARE(selectionPtr->GetIndex(), 5);
+		selectionPtr->SetSelectedOptionIndex(5);
+		QCOMPARE(selectionPtr->GetSelectedOptionIndex(), 5);
 		
 		// File should not exist yet (StoreOnEnd is enabled but component hasn't destroyed)
 	}
@@ -94,7 +94,7 @@ void CAutoPersistenceTestRunner::RestoreOnBeginStoreOnEndTest()
 		QVERIFY(selectionPtr != nullptr);
 		
 		// Verify value was restored
-		QCOMPARE(selectionPtr->GetIndex(), 5);
+		QCOMPARE(selectionPtr->GetSelectedOptionIndex(), 5);
 	}
 	
 	CleanupTestFile(filePath);
@@ -116,7 +116,7 @@ void CAutoPersistenceTestRunner::StoreOnChangeTest()
 	QVERIFY(selectionPtr != nullptr);
 	
 	// Set initial value - should trigger immediate save
-	selectionPtr->SetIndex(3);
+	selectionPtr->SetSelectedOptionIndex(3);
 	
 	// Wait for save operation to complete
 	QThread::msleep(200);
@@ -126,7 +126,7 @@ void CAutoPersistenceTestRunner::StoreOnChangeTest()
 	QVERIFY(QFile::exists(filePath));
 	
 	// Modify value again - should trigger another save
-	selectionPtr->SetIndex(7);
+	selectionPtr->SetSelectedOptionIndex(7);
 	
 	QThread::msleep(200);
 	QCoreApplication::processEvents();
@@ -178,7 +178,7 @@ void CAutoPersistenceTestRunner::StoreIntervalTest()
 	QVERIFY(selectionPtr != nullptr);
 	
 	// Set a value - with StoreInterval, it should not save immediately
-	selectionPtr->SetIndex(4);
+	selectionPtr->SetSelectedOptionIndex(4);
 	
 	// Wait less than the interval
 	QThread::msleep(500);
@@ -214,7 +214,7 @@ void CAutoPersistenceTestRunner::AutoReloadTest()
 		iprm::ISelectionParam* selectionPtr = test.GetInterface<iprm::ISelectionParam>("SelectionAutoReload");
 		QVERIFY(selectionPtr != nullptr);
 		
-		selectionPtr->SetIndex(2);
+		selectionPtr->SetSelectedOptionIndex(2);
 		
 		// Wait for store
 		QThread::msleep(200);
@@ -239,7 +239,7 @@ void CAutoPersistenceTestRunner::AutoReloadTest()
 		QVERIFY(selectionPtr != nullptr);
 		
 		// Verify it was loaded
-		QCOMPARE(selectionPtr->GetIndex(), 2);
+		QCOMPARE(selectionPtr->GetSelectedOptionIndex(), 2);
 		
 		// Note: Actually testing auto-reload would require modifying the file externally
 		// which is complex in a unit test. This test mainly verifies the component
@@ -266,7 +266,7 @@ void CAutoPersistenceTestRunner::LockingTest()
 	QVERIFY(selectionPtr != nullptr);
 	
 	// Set value and trigger save
-	selectionPtr->SetIndex(8);
+	selectionPtr->SetSelectedOptionIndex(8);
 	
 	QThread::msleep(200);
 	QCoreApplication::processEvents();
