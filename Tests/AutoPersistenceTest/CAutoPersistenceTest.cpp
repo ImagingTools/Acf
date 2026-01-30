@@ -14,7 +14,7 @@
 #include <iser/CMemoryWriteArchive.h>
 
 
-// protected slots
+// private slots
 
 void CAutoPersistenceTest::initTestCase()
 {
