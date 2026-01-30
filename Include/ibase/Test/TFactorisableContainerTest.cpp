@@ -45,7 +45,7 @@ class CTestElementFactory : public istd::TIFactory<ITestElement>
 public:
 	CTestElementFactory()
 	{
-		m_keys.push_back("TestElement");
+		m_keys.insert("TestElement");
 	}
 	
 	// reimplemented (istd::TIFactory)
