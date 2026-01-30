@@ -44,6 +44,36 @@ void CJsonFileArchiveTest::DoBasicReadWriteTest()
 }
 
 
+void CJsonFileArchiveTest::DoFilePathTest()
+{
+	QString testFilePath = "./JsonFilePathTest.json";
+
+	// Create a minimal valid JSON file using write archive
+	QString path = "./Test/TempPath.test";
+	imod::TModelWrap<ifile::CFileNameParam> filePathParam;
+	filePathParam.SetPath(path);
+	
+	{
+		ifile::CJsonFileWriteArchive writeArchive(testFilePath);
+		bool result = filePathParam.Serialize(writeArchive);
+		QVERIFY(result);
+	}
+
+	// Verify the file was created and can be read
+	QVERIFY(QFile::exists(testFilePath));
+	
+	{
+		ifile::CJsonFileReadArchive readArchive(testFilePath);
+		ifile::CFileNameParam filePathParam2;
+		bool result = filePathParam2.Serialize(readArchive);
+		QVERIFY(result);
+	}
+
+	// Clean up
+	QFile::remove(testFilePath);
+}
+
+
 void CJsonFileArchiveTest::DoPersistenceComponentTest()
 {
 	typedef icomp::TSimComponentWrap<
