@@ -36,9 +36,9 @@ void CSelectionParamCompTest::initTestCase()
 	
 	// Initialize the preset options manager with some options
 	// This ensures consistent test state for all tests using OptionsConstraintsPreset
-	m_optionsConstraintsPresetPtr->InsertOption(0, "Option1");
-	m_optionsConstraintsPresetPtr->InsertOption(1, "Option2");
-	m_optionsConstraintsPresetPtr->InsertOption(2, "Option3");
+	m_optionsConstraintsPresetPtr->InsertOption("Option1", QByteArray(), QString(), 0);
+	m_optionsConstraintsPresetPtr->InsertOption("Option2", QByteArray(), QString(), 1);
+	m_optionsConstraintsPresetPtr->InsertOption("Option3", QByteArray(), QString(), 2);
 }
 
 
@@ -184,9 +184,9 @@ void CSelectionParamCompTest::testSerializationWithConstraints()
 {
 	// Add options to the constraints manager used by this selection parameter
 	// This ensures the test is independent and doesn't rely on other tests
-	m_optionsConstraintsPtr->InsertOption(0, "SerialOption1");
-	m_optionsConstraintsPtr->InsertOption(1, "SerialOption2");
-	m_optionsConstraintsPtr->InsertOption(2, "SerialOption3");
+	m_optionsConstraintsPtr->InsertOption("SerialOption1", QByteArray(), QString(), 0);
+	m_optionsConstraintsPtr->InsertOption("SerialOption2", QByteArray(), QString(), 1);
+	m_optionsConstraintsPtr->InsertOption("SerialOption3", QByteArray(), QString(), 2);
 	
 	// Set a specific value
 	QVERIFY(m_selectionWithConstraintsPtr->SetSelectedOptionIndex(1));
@@ -212,7 +212,7 @@ void CSelectionParamCompTest::testCopyWithConstraints()
 {
 	// Ensure options exist in the constraints for this test
 	if (m_optionsConstraintsPtr->GetOptionsCount() < 1) {
-		m_optionsConstraintsPtr->InsertOption(0, "CopyOption1");
+		m_optionsConstraintsPtr->InsertOption("CopyOption1", QByteArray(), QString(), 0);
 	}
 	
 	// Set a specific value
@@ -236,7 +236,7 @@ void CSelectionParamCompTest::testCloneWithConstraints()
 	if (m_optionsConstraintsPtr->GetOptionsCount() < 3) {
 		int currentCount = m_optionsConstraintsPtr->GetOptionsCount();
 		for (int i = currentCount; i < 3; ++i) {
-			m_optionsConstraintsPtr->InsertOption(i, QString("CloneOption%1").arg(i).toStdString().c_str());
+			m_optionsConstraintsPtr->InsertOption(QString("CloneOption%1").arg(i), QByteArray(), QString(), i);
 		}
 	}
 	
