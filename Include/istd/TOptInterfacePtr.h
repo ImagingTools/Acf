@@ -11,12 +11,55 @@ namespace istd
 
 
 /**
-	@brief A wrapper for managed and unmanaged memory.
-	
-	The TOptInterfacePtr class allows you to store either:
-	- A managed pointer (std::shared_ptr<T>) that controls the lifetime of the object.
+	\brief A wrapper for managed and unmanaged interface pointers.
+
+	TOptInterfacePtr is a versatile smart pointer that can hold either:
+	- A managed pointer (TSharedInterfacePtr) that controls the lifetime of the object.
 	- An unmanaged raw pointer (T*) that is non-owning and must be managed externally.
-	@tparam InterfaceType Type of the object being wrapped.
+
+	This is useful in scenarios where:
+	- You need to store pointers that may or may not own the object.
+	- APIs need to accept both owned and borrowed references.
+	- Different code paths require different ownership semantics.
+
+	Key characteristics:
+	- **Dual mode**: Can store either a managed (owned) or unmanaged (borrowed) pointer.
+	- **Safe conversion**: Provides safe conversion from TUniqueInterfacePtr.
+	- **Query ownership**: Can check if the pointer is managed or unmanaged.
+	- **Copy support**: Can be copied (unmanaged) or shared (managed).
+
+	\tparam InterfaceType The interface type to expose.
+
+	\sa TUniqueInterfacePtr, TSharedInterfacePtr
+
+	Example:
+	\code{.cpp}
+	class MyClass
+	{
+		istd::TOptInterfacePtr<IMyInterface> m_ptr;
+
+	public:
+		// Accept owned pointer
+		void SetOwned(istd::TSharedInterfacePtr<IMyInterface> ptr)
+		{
+			m_ptr.SetManagedPtr(ptr);
+		}
+
+		// Accept borrowed pointer
+		void SetBorrowed(IMyInterface* ptr)
+		{
+			m_ptr.SetUnmanagedPtr(ptr);
+		}
+
+		// Check ownership
+		bool IsOwner() const
+		{
+			return m_ptr.IsManaged();
+		}
+	};
+	\endcode
+
+	\ingroup Main
 */
 template<class InterfaceType>
 class TOptInterfacePtr
