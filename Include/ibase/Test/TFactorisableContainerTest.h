@@ -7,7 +7,7 @@
 #include <QtTest/QtTest>
 
 // ACF includes
-#include <ibase/TFactorisableContainer.h>
+#include <itest/CStandardTestExecutor.h>
 
 
 /**
@@ -17,7 +17,7 @@ class TFactorisableContainerTest : public QObject
 {
 	Q_OBJECT
 
-private slots:
+private Q_SLOTS:
 	void initTestCase();
 	
 	// Element management tests

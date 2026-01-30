@@ -4,10 +4,11 @@
 
 // Qt includes
 #include <QtCore/QObject>
+#include <QtCore/QString>
 #include <QtTest/QtTest>
 
 // ACF includes
-#include <ibase/TSerializableContainer.h>
+#include <itest/CStandardTestExecutor.h>
 
 
 /**
@@ -17,7 +18,7 @@ class TSerializableContainerTest : public QObject
 {
 	Q_OBJECT
 
-private slots:
+private Q_SLOTS:
 	void initTestCase();
 	
 	// Serialization tests
