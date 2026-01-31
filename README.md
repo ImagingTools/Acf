@@ -89,6 +89,21 @@ The documentation is automatically generated from the source code using Doxygen 
 
 See the documentation for detailed build instructions.
 
+## Continuous Integration
+
+ACF uses automated CI/CD with the following features:
+
+- **TeamCity Integration**: Automated builds for Windows and Linux platforms
+- **Security Scanning**: Automated vulnerability scanning and SBOM validation
+- **Auto-Fix on Build Failure**: When builds fail on pull requests, the system automatically:
+  - Analyzes common error patterns
+  - Applies fixes for missing component registrations
+  - Corrects package mismatches in configuration files
+  - Commits fixes back to the PR branch
+  - Provides guidance when manual intervention is needed
+
+For more information about the auto-fix feature, see [Auto-Fix Documentation](.github/workflows/AUTO_FIX_DOCUMENTATION.md).
+
 ## Security
 
 ACF takes security seriously. If you discover a security vulnerability, please follow our responsible disclosure process outlined in [SECURITY.md](SECURITY.md).
