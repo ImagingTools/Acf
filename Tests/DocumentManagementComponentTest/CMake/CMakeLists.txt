@@ -1,4 +1,4 @@
-project(IdocComponentTest LANGUAGES CXX)
+project(DocumentManagementComponentTest LANGUAGES CXX)
 
 
 set(ARXC_CONFIG "${CMAKE_CURRENT_LIST_DIR}/../../../Config/AcfTestConfig.awc")
