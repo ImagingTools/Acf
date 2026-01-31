@@ -27,6 +27,16 @@ public:
 		{
 		}
 
+	// reimplemented (ibase::CCumulatedProgressManagerBase)
+	virtual std::unique_ptr<IProgressLogger> StartProgressLogger(bool isCancelable = false, const QString& description = {}) override
+	{
+		// Report status as Running when logger is started
+		if (m_parentPtr != nullptr){
+			m_parentPtr->ReportTaskProgress(this, GetCumulatedProgress(), TaskStatus::Running);
+		}
+		return CCumulatedProgressManagerBase::StartProgressLogger(isCancelable, description);
+	}
+
 protected:
 	// reimplemented (ibase::CCumulatedProgressManagerBase)
 	virtual void OnProgressChanged(double cumulatedValue) override
@@ -48,16 +58,6 @@ protected:
 	virtual bool IsCanceled() const override
 	{
 		return m_isCanceled || (m_parentPtr && m_parentPtr->IsCanceled());
-	}
-
-	// reimplemented (ibase::CCumulatedProgressManagerBase)
-	virtual std::unique_ptr<IProgressLogger> StartProgressLogger(bool isCancelable = false, const QString& description = {}) override
-	{
-		// Report status as Running when logger is started
-		if (m_parentPtr != nullptr){
-			m_parentPtr->ReportTaskProgress(this, GetCumulatedProgress(), TaskStatus::Running);
-		}
-		return CCumulatedProgressManagerBase::StartProgressLogger(isCancelable, description);
 	}
 
 };
