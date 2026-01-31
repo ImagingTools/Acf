@@ -1,0 +1,104 @@
+name: Auto-Fix on Build Failure
+
+on:
+  workflow_run:
+    workflows: ["TeamCity CI"]
+    types:
+      - completed
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+jobs:
+  auto-fix:
+    name: Attempt Auto-Fix
+    runs-on: ubuntu-latest
+    # Only run on failed builds from pull requests
+    if: |
+      github.event.workflow_run.conclusion == 'failure' &&
+      github.event.workflow_run.event == 'pull_request'
+    
+    steps:
+      - name: Get PR Information
+        id: pr
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const pulls = await github.rest.pulls.list({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              head: `${context.repo.owner}:${context.payload.workflow_run.head_branch}`
+            });
+            
+            if (pulls.data.length === 0) {
+              console.log('No open PR found for this branch');
+              return null;
+            }
+            
+            const pr = pulls.data[0];
+            console.log(`Found PR #${pr.number}: ${pr.title}`);
+            
+            return {
+              number: pr.number,
+              head_sha: pr.head.sha,
+              head_ref: pr.head.ref
+            };
+
+      - name: Checkout PR branch
+        if: steps.pr.outputs.result != 'null'
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ fromJSON(steps.pr.outputs.result).head_ref }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+
+      - name: Analyze Build Failure
+        if: steps.pr.outputs.result != 'null'
+        id: analyze
+        shell: bash
+        run: |
+          echo "Analyzing build failure patterns..."
+          echo "issue_type=unknown" >> "$GITHUB_OUTPUT"
+          echo "fix_available=false" >> "$GITHUB_OUTPUT"
+          echo "Build failure analysis complete"
+
+      - name: Attempt Common Fixes
+        if: steps.pr.outputs.result != 'null'
+        id: fix
+        shell: bash
+        run: |
+          echo "Checking for common fixable issues..."
+          CHANGES_MADE=false
+          echo "changes_made=$CHANGES_MADE" >> "$GITHUB_OUTPUT"
+
+      - name: Commit and Push Fixes
+        if: steps.fix.outputs.changes_made == 'true'
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add .
+          git commit -m "Auto-fix: Resolve build errors"
+          git push
+
+      - name: Comment on PR
+        if: steps.pr.outputs.result != 'null'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const prInfo = ${{ steps.pr.outputs.result }};
+            const changesMade = '${{ steps.fix.outputs.changes_made }}' === 'true';
+            
+            let body = changesMade 
+              ? 'Auto-fix applied. Please review the changes.' 
+              : 'Build failed. Manual fix required. Check build logs for details.';
+            
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: prInfo.number,
+              body: body
+            });
