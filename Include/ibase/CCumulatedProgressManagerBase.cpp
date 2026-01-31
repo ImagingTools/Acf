@@ -50,10 +50,7 @@ protected:
 	{
 		if (m_parentPtr != nullptr){
 			if (GetProcessedTasks().size() == 0){
-				auto parentPtr = m_parentPtr;
-				m_parentPtr = nullptr; // Prevent double-close in destructor
-				parentPtr->ReportTaskProgress(static_cast<CCumulatedProgressManagerBase::TaskBase*>(this), GetCumulatedProgress(), TaskStatus::Finished);
-				parentPtr->CloseTask(static_cast<CCumulatedProgressManagerBase::TaskBase*>(this));
+				m_parentPtr->ReportTaskProgress(static_cast<CCumulatedProgressManagerBase::TaskBase*>(this), GetCumulatedProgress(), TaskStatus::Finished);
 			}
 		}
 	}
