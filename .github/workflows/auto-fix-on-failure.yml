@@ -88,9 +88,6 @@ jobs:
             # Extract TeamCity build IDs from job steps
             echo "Extracting TeamCity build IDs from workflow jobs..."
             
-            # Look for build IDs in the "Trigger TeamCity Build" step outputs
-            BUILD_IDS_JSON=$(echo "$JOBS_RESPONSE" | jq -r '.jobs[] | select(.conclusion == "failure") | .steps[] | select(.name | contains("Trigger TeamCity")) | .number' || echo "")
-            
             # Fetch job logs to extract build IDs if available
             JOB_IDS=$(echo "$JOBS_RESPONSE" | jq -r '.jobs[] | select(.conclusion == "failure") | .id')
             
@@ -102,7 +99,10 @@ jobs:
                 -H "Accept: application/vnd.github+json" \
                 "https://api.github.com/repos/${{ github.repository }}/actions/jobs/$JOB_ID/logs" 2>/dev/null || echo "")
               
-              # Extract build IDs from logs (format: "Build queued. ID=12345")
+              # Extract build IDs from logs
+              # NOTE: This pattern matches the output format from teamcity-trigger.yml line 130:
+              # "✅ Build queued. ID=$BUILD_ID"
+              # If the log format in teamcity-trigger.yml changes, update this pattern accordingly
               EXTRACTED_IDS=$(echo "$JOB_LOGS" | grep -oP "Build queued\. ID=\K\d+" || echo "")
               if [ -n "$EXTRACTED_IDS" ]; then
                 TEAMCITY_BUILD_IDS="$TEAMCITY_BUILD_IDS $EXTRACTED_IDS"
@@ -274,14 +274,6 @@ jobs:
                   
                   console.log(`✅ Created issue #${issue.data.number}: ${title}`);
                   createdIssues.push(issue.data.number);
-                  
-                  // Add a comment to the PR linking to the created issue
-                  await github.rest.issues.createComment({
-                    owner: context.repo.owner,
-                    repo: context.repo.repo,
-                    issue_number: prInfo.number,
-                    body: `🤖 Created task for Copilot: #${issue.data.number}\n**Problem:** ${problemType} - ${problemIdentity}`
-                  });
                 } catch (error) {
                   console.error(`Failed to create issue for problem: ${error.message}`);
                 }
@@ -327,13 +319,6 @@ jobs:
                 
                 console.log(`✅ Created generic issue #${issue.data.number}`);
                 createdIssues.push(issue.data.number);
-                
-                await github.rest.issues.createComment({
-                  owner: context.repo.owner,
-                  repo: context.repo.repo,
-                  issue_number: prInfo.number,
-                  body: `🤖 Created task for Copilot: #${issue.data.number}`
-                });
                 
                 core.setOutput('created_issues', createdIssues.join(','));
                 core.setOutput('issues_count', createdIssues.length);
