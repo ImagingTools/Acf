@@ -1,0 +1,187 @@
+name: Auto-Fix on Build Failure
+
+on:
+  workflow_run:
+    workflows: ["TeamCity CI"]
+    types:
+      - completed
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+jobs:
+  auto-fix:
+    name: Attempt Auto-Fix
+    runs-on: ubuntu-latest
+    # Only run on failed builds from pull requests
+    if: |
+      github.event.workflow_run.conclusion == 'failure' &&
+      github.event.workflow_run.event == 'pull_request'
+    
+    steps:
+      - name: Get PR Information
+        id: pr
+        uses: actions/github-script@v7
+        with:
+          script: |
+            // Get the pull request associated with this workflow run
+            const pulls = await github.rest.pulls.list({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              head: `${context.repo.owner}:${context.payload.workflow_run.head_branch}`
+            });
+            
+            if (pulls.data.length === 0) {
+              console.log('No open PR found for this branch');
+              return null;
+            }
+            
+            const pr = pulls.data[0];
+            console.log(`Found PR #${pr.number}: ${pr.title}`);
+            
+            return {
+              number: pr.number,
+              head_sha: pr.head.sha,
+              head_ref: pr.head.ref
+            };
+
+      - name: Checkout PR branch
+        if: steps.pr.outputs.result != 'null'
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ fromJSON(steps.pr.outputs.result).head_ref }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+
+      - name: Analyze Build Failure
+        if: steps.pr.outputs.result != 'null'
+        id: analyze
+        shell: bash
+        run: |
+          echo "Analyzing build failure patterns..."
+          
+          # Get the workflow run logs
+          WORKFLOW_RUN_ID="${{ github.event.workflow_run.id }}"
+          
+          # Check for common error patterns
+          # Pattern 1: Missing component registration (e.g., 'BasePck::SomeComponent' has not been declared)
+          # Pattern 2: Package mismatch errors
+          # Pattern 3: Missing includes
+          
+          echo "issue_type=unknown" >> "$GITHUB_OUTPUT"
+          echo "fix_available=false" >> "$GITHUB_OUTPUT"
+          
+          # Note: In a real implementation, we would fetch and parse the actual build logs
+          # For now, we'll document the approach
+          
+          echo "Build failure analysis complete"
+
+      - name: Attempt Common Fixes
+        if: steps.pr.outputs.result != 'null'
+        id: fix
+        shell: bash
+        run: |
+          echo "Checking for common fixable issues..."
+          
+          CHANGES_MADE=false
+          
+          # Check for files that might need fixes
+          # This is a placeholder for actual fix logic
+          
+          if [ -d "Tests" ]; then
+            echo "Found Tests directory"
+            # Look for .acc files that might have package issues
+            find Tests -name "*.acc" -type f | while read acc_file; do
+              echo "Checking $acc_file"
+              # Add fix logic here
+            done
+          fi
+          
+          echo "changes_made=$CHANGES_MADE" >> "$GITHUB_OUTPUT"
+
+      - name: Commit and Push Fixes
+        if: steps.fix.outputs.changes_made == 'true'
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          
+          git add .
+          git commit -m "🤖 Auto-fix: Resolve build errors
+          
+          This commit was automatically generated to fix common build issues.
+          
+          Co-authored-by: github-actions[bot] <github-actions[bot]@users.noreply.github.com>"
+          
+          git push
+
+      - name: Comment on PR
+        if: steps.pr.outputs.result != 'null'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const prInfo = ${{ steps.pr.outputs.result }};
+            const changesMade = '${{ steps.fix.outputs.changes_made }}' === 'true';
+            
+            let body;
+            if (changesMade) {
+              body = `🤖 **Auto-Fix Applied**
+              
+The build failed, but I've attempted to automatically fix the issues. Please review the changes and re-run the build.
+
+**What was fixed:**
+- Common build configuration issues
+- Component registration problems
+
+**Next steps:**
+1. Review the auto-fix commit
+2. The build will automatically re-run
+3. If issues persist, manual intervention may be required`;
+            } else {
+              body = `⚠️ **Build Failed - Manual Fix Required**
+              
+The build failed, but I couldn't automatically fix the issues. Manual intervention is required.
+
+**Common issues to check:**
+1. Component registration in package files (BasePck.h, BasePck.cpp)
+2. Package ID mismatches in .acc files
+3. Missing includes for component headers
+
+**How to fix:**
+1. Review the build logs in the TeamCity CI workflow
+2. Check for error messages about missing declarations
+3. Ensure components are properly registered with typedefs and I_EXPORT_COMPONENT
+4. Verify PackageId in .acc files matches the package where components are registered`;
+            }
+            
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: prInfo.number,
+              body: body
+            });
+
+      - name: Update Check Status
+        if: always() && steps.pr.outputs.result != 'null'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const changesMade = '${{ steps.fix.outputs.changes_made }}' === 'true';
+            
+            await github.rest.checks.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              name: 'Auto-Fix Attempt',
+              head_sha: '${{ fromJSON(steps.pr.outputs.result).head_sha }}',
+              status: 'completed',
+              conclusion: changesMade ? 'success' : 'neutral',
+              output: {
+                title: changesMade ? 'Auto-fix applied' : 'No auto-fix available',
+                summary: changesMade 
+                  ? 'Automatically fixed common build issues. Please review the changes.' 
+                  : 'Build failed but no automatic fixes were available. Manual intervention required.'
+              }
+            });
