@@ -41,7 +41,7 @@ private slots:
 	void cleanupTestCase();
 
 private:
-	std::shared_ptr<CIdocComponentTest> m_testPartituraInstanceCompPtr;
+	std::shared_ptr<CIdocComponentTest> m_testInstanceCompPtr;
 
 	idoc::ITextDocument* m_textDocumentPtr = nullptr;
 	idoc::ITextDocument* m_textDocumentWithDefaultPtr = nullptr;

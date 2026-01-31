@@ -15,13 +15,13 @@
 
 void CIdocCompTest::initTestCase()
 {
-	m_testPartituraInstanceCompPtr.reset(new CIdocComponentTest);
+	m_testInstanceCompPtr.reset(new CIdocComponentTest);
 
-	m_textDocumentPtr = m_testPartituraInstanceCompPtr->GetInterface<idoc::ITextDocument>("TextDocument");
-	m_textDocumentWithDefaultPtr = m_testPartituraInstanceCompPtr->GetInterface<idoc::ITextDocument>("TextDocumentWithDefault");
-	m_undoManagerPtr = m_testPartituraInstanceCompPtr->GetInterface<idoc::IUndoManager>("UndoManager");
-	m_undoManagerSmallBufferPtr = m_testPartituraInstanceCompPtr->GetInterface<idoc::IUndoManager>("UndoManagerSmallBuffer");
-	m_documentTemplatePtr = m_testPartituraInstanceCompPtr->GetInterface<idoc::IDocumentTemplate>("DocumentTemplate");
+	m_textDocumentPtr = m_testInstanceCompPtr->GetInterface<idoc::ITextDocument>("TextDocument");
+	m_textDocumentWithDefaultPtr = m_testInstanceCompPtr->GetInterface<idoc::ITextDocument>("TextDocumentWithDefault");
+	m_undoManagerPtr = m_testInstanceCompPtr->GetInterface<idoc::IUndoManager>("UndoManager");
+	m_undoManagerSmallBufferPtr = m_testInstanceCompPtr->GetInterface<idoc::IUndoManager>("UndoManagerSmallBuffer");
+	m_documentTemplatePtr = m_testInstanceCompPtr->GetInterface<idoc::IDocumentTemplate>("DocumentTemplate");
 
 	QVERIFY(m_textDocumentPtr != nullptr);
 	QVERIFY(m_textDocumentWithDefaultPtr != nullptr);
@@ -315,7 +315,7 @@ void CIdocCompTest::testDocumentTemplateAttributes()
 
 void CIdocCompTest::cleanupTestCase()
 {
-	m_testPartituraInstanceCompPtr.reset();
+	m_testInstanceCompPtr.reset();
 }
 
 
