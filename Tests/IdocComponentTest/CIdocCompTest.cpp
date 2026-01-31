@@ -6,6 +6,9 @@
 #include <iser/CMemoryReadArchive.h>
 #include <iser/CMemoryWriteArchive.h>
 #include <istd/IChangeable.h>
+#include <imod/IModel.h>
+#include <imod/IObserver.h>
+#include <idoc/IDocumentStateComparator.h>
 
 
 // protected slots
