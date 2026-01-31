@@ -12,9 +12,9 @@
 #include <ilog/ITracingConfiguration.h>
 #include <ilog/CMessage.h>
 #include <itest/CStandardTestExecutor.h>
-#include <GeneratedFiles/IlogComponentTest/CIlogComponentTest.h>
+#include <GeneratedFiles/LogTest/CLogTest.h>
 
-class CIlogComponentTest: public QObject
+class CLogTest: public QObject
 {
 	Q_OBJECT
 private slots:
@@ -35,7 +35,7 @@ private slots:
 	void cleanupTestCase();
 
 private:
-	std::shared_ptr<CIlogComponentTest> m_testPartituraInstanceCompPtr;
+	std::shared_ptr<CLogTest> m_testPartituraInstanceCompPtr;
 };
 
 

@@ -234,7 +234,7 @@ Tests are organized by library to maintain clear separation of concerns and enab
 
 ## Component Tests
 
-### IlogComponentTest
+### LogTest
 
 **Purpose**: Component-level tests for the `ilog` library logging components with various configurations.
 
@@ -268,7 +268,7 @@ Tests are organized by library to maintain clear separation of concerns and enab
   - Message formatting with timestamps and categories
 
 **Configuration File**:
-- `IlogComponentTest.acc` - Contains 6 different logging component configurations:
+- `LogTest.acc` - Contains 6 different logging component configurations:
   1. `ConsoleLog` - Basic console logger with category and code display
   2. `LogComp` - Log component with message storage (max 100 messages) and slave consumer
   3. `ErrorLog` - Log component for error storage (max 50 messages)

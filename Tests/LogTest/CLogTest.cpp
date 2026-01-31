@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later OR GPL-2.0-or-later OR GPL-3.0-or-later OR LicenseRef-ACF-Commercial
-#include "CIlogComponentTest.h"
+#include "CLogTest.h"
 
 
 // ACF includes
@@ -9,14 +9,14 @@
 
 // protected slots
 
-void CIlogComponentTest::initTestCase()
+void CLogTest::initTestCase()
 {
-	m_testPartituraInstanceCompPtr.reset(new CIlogComponentTest());
+	m_testPartituraInstanceCompPtr.reset(new CLogTest());
 	m_testPartituraInstanceCompPtr->EnsureAutoInitComponentsCreated();
 }
 
 
-void CIlogComponentTest::testConsoleLogCreation()
+void CLogTest::testConsoleLogCreation()
 {
 	// Test that ConsoleLog component was created successfully
 	ilog::IMessageConsumer* consoleLogPtr = m_testPartituraInstanceCompPtr->GetInterface<ilog::IMessageConsumer>("ConsoleLog");
@@ -24,7 +24,7 @@ void CIlogComponentTest::testConsoleLogCreation()
 }
 
 
-void CIlogComponentTest::testConsoleLogMessageHandling()
+void CLogTest::testConsoleLogMessageHandling()
 {
 	// Get ConsoleLog component
 	ilog::IMessageConsumer* consoleLogPtr = m_testPartituraInstanceCompPtr->GetInterface<ilog::IMessageConsumer>("ConsoleLog");
@@ -51,7 +51,7 @@ void CIlogComponentTest::testConsoleLogMessageHandling()
 }
 
 
-void CIlogComponentTest::testLogCompCreation()
+void CLogTest::testLogCompCreation()
 {
 	// Test that LogComp component was created successfully
 	ilog::IMessageContainer* logCompPtr = m_testPartituraInstanceCompPtr->GetInterface<ilog::IMessageContainer>("LogComp");
@@ -63,7 +63,7 @@ void CIlogComponentTest::testLogCompCreation()
 }
 
 
-void CIlogComponentTest::testLogCompMessageStorage()
+void CLogTest::testLogCompMessageStorage()
 {
 	// Get LogComp component
 	ilog::IMessageContainer* logCompPtr = m_testPartituraInstanceCompPtr->GetInterface<ilog::IMessageContainer>("LogComp");
@@ -102,7 +102,7 @@ void CIlogComponentTest::testLogCompMessageStorage()
 }
 
 
-void CIlogComponentTest::testLogCompMaxMessageCount()
+void CLogTest::testLogCompMaxMessageCount()
 {
 	// Get LogComp component (MaxMessageCount=100)
 	ilog::IMessageContainer* logCompPtr = m_testPartituraInstanceCompPtr->GetInterface<ilog::IMessageContainer>("LogComp");
@@ -139,7 +139,7 @@ void CIlogComponentTest::testLogCompMaxMessageCount()
 }
 
 
-void CIlogComponentTest::testLogRouterCreation()
+void CLogTest::testLogRouterCreation()
 {
 	// Test that LogRouter component was created successfully
 	// Note: LogRouter doesn't have a specific interface, but should exist as a component
@@ -148,7 +148,7 @@ void CIlogComponentTest::testLogRouterCreation()
 }
 
 
-void CIlogComponentTest::testLogRouterMessageRouting()
+void CLogTest::testLogRouterMessageRouting()
 {
 	// Get LogComp (source) and ErrorLog (destination)
 	ilog::IMessageContainer* logCompPtr = m_testPartituraInstanceCompPtr->GetInterface<ilog::IMessageContainer>("LogComp");
@@ -211,7 +211,7 @@ void CIlogComponentTest::testLogRouterMessageRouting()
 }
 
 
-void CIlogComponentTest::testTracingConfigCreation()
+void CLogTest::testTracingConfigCreation()
 {
 	// Test that TracingConfig component was created successfully
 	ilog::ITracingConfiguration* tracingPtr = m_testPartituraInstanceCompPtr->GetInterface<ilog::ITracingConfiguration>("TracingConfig");
@@ -219,7 +219,7 @@ void CIlogComponentTest::testTracingConfigCreation()
 }
 
 
-void CIlogComponentTest::testTracingConfigLevel()
+void CLogTest::testTracingConfigLevel()
 {
 	// Get TracingConfig component
 	ilog::ITracingConfiguration* tracingPtr = m_testPartituraInstanceCompPtr->GetInterface<ilog::ITracingConfiguration>("TracingConfig");
@@ -238,7 +238,7 @@ void CIlogComponentTest::testTracingConfigLevel()
 }
 
 
-void CIlogComponentTest::testStreamLogFiltering()
+void CLogTest::testStreamLogFiltering()
 {
 	// Get StreamLog component (MinCategory=2 = IC_WARNING)
 	ilog::IMessageConsumer* streamLogPtr = m_testPartituraInstanceCompPtr->GetInterface<ilog::IMessageConsumer>("StreamLog");
@@ -254,7 +254,7 @@ void CIlogComponentTest::testStreamLogFiltering()
 }
 
 
-void CIlogComponentTest::testMessageSerialization()
+void CLogTest::testMessageSerialization()
 {
 	// Get LogComp for message storage
 	ilog::IMessageContainer* logCompPtr = m_testPartituraInstanceCompPtr->GetInterface<ilog::IMessageContainer>("LogComp");
@@ -296,12 +296,12 @@ void CIlogComponentTest::testMessageSerialization()
 }
 
 
-void CIlogComponentTest::cleanupTestCase()
+void CLogTest::cleanupTestCase()
 {
 	m_testPartituraInstanceCompPtr.reset();
 }
 
 
-I_ADD_TEST(CIlogComponentTest);
+I_ADD_TEST(CLogTest);
 
 
