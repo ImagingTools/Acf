@@ -76,7 +76,7 @@
         <Element Id="TracingConfig" PackageId="BasePck" ComponentId="TracingConfiguration">
             <Data IsEnabled="true" Flags="0">
                 <AttributeInfoMap>
-                    <AttributeInfo Id="DefaulTracingtLevel" Type="Integer" ExportId="">
+                    <AttributeInfo Id="DefaultTracingLevel" Type="Integer" ExportId="">
                         <Data IsEnabled="true" Value="1"/>
                     </AttributeInfo>
                 </AttributeInfoMap>

@@ -89,8 +89,8 @@ void CIlogComponentTest::testLogCompMessageStorage()
 	consumerPtr->AddMessage(warningMsg);
 	consumerPtr->AddMessage(errorMsg);
 
-	// Give time for asynchronous message processing
-	QTest::qWait(100);
+	// Wait for asynchronous message processing with timeout
+	QTRY_COMPARE_WITH_TIMEOUT(logCompPtr->GetMessages().size(), 3, 1000);
 
 	// Verify messages are stored
 	ilog::IMessageContainer::Messages messages = logCompPtr->GetMessages();
@@ -121,8 +121,17 @@ void CIlogComponentTest::testLogCompMaxMessageCount()
 		consumerPtr->AddMessage(msg);
 	}
 
-	// Give time for asynchronous message processing
-	QTest::qWait(200);
+	// Wait for asynchronous message processing with timeout
+	// The message count should stabilize at or below MaxMessageCount (100)
+	QTest::qWait(100); // Give initial time for processing
+	int messageCount = logCompPtr->GetMessages().size();
+	
+	// Give additional time if still processing
+	int maxWait = 5;
+	while (messageCount != logCompPtr->GetMessages().size() && maxWait-- > 0) {
+		QTest::qWait(50);
+		messageCount = logCompPtr->GetMessages().size();
+	}
 
 	// Verify message count is limited to MaxMessageCount
 	ilog::IMessageContainer::Messages messages = logCompPtr->GetMessages();
@@ -173,8 +182,9 @@ void CIlogComponentTest::testLogRouterMessageRouting()
 	logCompConsumerPtr->AddMessage(errorMsg);
 	logCompConsumerPtr->AddMessage(criticalMsg);
 
-	// Give time for asynchronous message processing and routing
-	QTest::qWait(200);
+	// Wait for asynchronous message processing and routing with timeout
+	QTRY_COMPARE_WITH_TIMEOUT(logCompPtr->GetMessages().size(), 4, 1000);
+	QTRY_COMPARE_WITH_TIMEOUT(errorLogPtr->GetMessages().size(), 2, 1000);
 
 	// Verify all messages are in LogComp
 	ilog::IMessageContainer::Messages allMessages = logCompPtr->GetMessages();
@@ -265,8 +275,8 @@ void CIlogComponentTest::testMessageSerialization()
 	consumerPtr->AddMessage(msg1);
 	consumerPtr->AddMessage(msg2);
 
-	// Give time for asynchronous message processing
-	QTest::qWait(100);
+	// Wait for asynchronous message processing with timeout
+	QTRY_COMPARE_WITH_TIMEOUT(logCompPtr->GetMessages().size(), 2, 1000);
 
 	// Verify messages are stored
 	ilog::IMessageContainer::Messages messages = logCompPtr->GetMessages();
