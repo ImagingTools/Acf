@@ -28,7 +28,8 @@ Implemented a GitHub Actions workflow that automatically:
 
 ### Trigger
 - Event: `workflow_run` (when TeamCity CI completes)
-- Condition: failure on pull request
+- Condition: failure on pull request from the same repository (not forks)
+- **Automatic Execution**: Runs automatically without requiring approval for non-fork PRs
 
 ### Steps:
 1. **Get PR Information** - Identifies the PR associated with failed build
@@ -88,10 +89,11 @@ Implemented a GitHub Actions workflow that automatically:
 ## Safety Features
 
 1. **PR-Only Execution**: Never runs on main/master branches
-2. **Clear Attribution**: Commits marked as auto-generated
-3. **Transparency**: PR comments explain all actions
-4. **Easy Revert**: Standard git operations can undo changes
-5. **Check Runs**: Track auto-fix attempts and results
+2. **Same Repository Only**: Only runs for PRs from the same repository, not forks (prevents approval requirement)
+3. **Clear Attribution**: Commits marked as auto-generated
+4. **Transparency**: PR comments explain all actions
+5. **Easy Revert**: Standard git operations can undo changes
+6. **Check Runs**: Track auto-fix attempts and results
 
 ## Testing
 
