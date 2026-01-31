@@ -9,14 +9,14 @@
 
 // protected slots
 
-void CLogTest::initTestCase()
+void CLogTestRunner::initTestCase()
 {
 	m_testPartituraInstanceCompPtr.reset(new CLogTest());
 	m_testPartituraInstanceCompPtr->EnsureAutoInitComponentsCreated();
 }
 
 
-void CLogTest::testConsoleLogCreation()
+void CLogTestRunner::testConsoleLogCreation()
 {
 	// Test that ConsoleLog component was created successfully
 	ilog::IMessageConsumer* consoleLogPtr = m_testPartituraInstanceCompPtr->GetInterface<ilog::IMessageConsumer>("ConsoleLog");
@@ -24,7 +24,7 @@ void CLogTest::testConsoleLogCreation()
 }
 
 
-void CLogTest::testConsoleLogMessageHandling()
+void CLogTestRunner::testConsoleLogMessageHandling()
 {
 	// Get ConsoleLog component
 	ilog::IMessageConsumer* consoleLogPtr = m_testPartituraInstanceCompPtr->GetInterface<ilog::IMessageConsumer>("ConsoleLog");
@@ -51,7 +51,7 @@ void CLogTest::testConsoleLogMessageHandling()
 }
 
 
-void CLogTest::testLogCompCreation()
+void CLogTestRunner::testLogCompCreation()
 {
 	// Test that LogComp component was created successfully
 	ilog::IMessageContainer* logCompPtr = m_testPartituraInstanceCompPtr->GetInterface<ilog::IMessageContainer>("LogComp");
@@ -63,7 +63,7 @@ void CLogTest::testLogCompCreation()
 }
 
 
-void CLogTest::testLogCompMessageStorage()
+void CLogTestRunner::testLogCompMessageStorage()
 {
 	// Get LogComp component
 	ilog::IMessageContainer* logCompPtr = m_testPartituraInstanceCompPtr->GetInterface<ilog::IMessageContainer>("LogComp");
@@ -102,7 +102,7 @@ void CLogTest::testLogCompMessageStorage()
 }
 
 
-void CLogTest::testLogCompMaxMessageCount()
+void CLogTestRunner::testLogCompMaxMessageCount()
 {
 	// Get LogComp component (MaxMessageCount=100)
 	ilog::IMessageContainer* logCompPtr = m_testPartituraInstanceCompPtr->GetInterface<ilog::IMessageContainer>("LogComp");
@@ -139,7 +139,7 @@ void CLogTest::testLogCompMaxMessageCount()
 }
 
 
-void CLogTest::testLogRouterCreation()
+void CLogTestRunner::testLogRouterCreation()
 {
 	// Test that LogRouter component was created successfully
 	// Note: LogRouter doesn't have a specific interface, but should exist as a component
@@ -148,7 +148,7 @@ void CLogTest::testLogRouterCreation()
 }
 
 
-void CLogTest::testLogRouterMessageRouting()
+void CLogTestRunner::testLogRouterMessageRouting()
 {
 	// Get LogComp (source) and ErrorLog (destination)
 	ilog::IMessageContainer* logCompPtr = m_testPartituraInstanceCompPtr->GetInterface<ilog::IMessageContainer>("LogComp");
@@ -211,7 +211,7 @@ void CLogTest::testLogRouterMessageRouting()
 }
 
 
-void CLogTest::testTracingConfigCreation()
+void CLogTestRunner::testTracingConfigCreation()
 {
 	// Test that TracingConfig component was created successfully
 	ilog::ITracingConfiguration* tracingPtr = m_testPartituraInstanceCompPtr->GetInterface<ilog::ITracingConfiguration>("TracingConfig");
@@ -219,7 +219,7 @@ void CLogTest::testTracingConfigCreation()
 }
 
 
-void CLogTest::testTracingConfigLevel()
+void CLogTestRunner::testTracingConfigLevel()
 {
 	// Get TracingConfig component
 	ilog::ITracingConfiguration* tracingPtr = m_testPartituraInstanceCompPtr->GetInterface<ilog::ITracingConfiguration>("TracingConfig");
@@ -238,7 +238,7 @@ void CLogTest::testTracingConfigLevel()
 }
 
 
-void CLogTest::testStreamLogFiltering()
+void CLogTestRunner::testStreamLogFiltering()
 {
 	// Get StreamLog component (MinCategory=2 = IC_WARNING)
 	ilog::IMessageConsumer* streamLogPtr = m_testPartituraInstanceCompPtr->GetInterface<ilog::IMessageConsumer>("StreamLog");
@@ -254,7 +254,7 @@ void CLogTest::testStreamLogFiltering()
 }
 
 
-void CLogTest::testMessageSerialization()
+void CLogTestRunner::testMessageSerialization()
 {
 	// Get LogComp for message storage
 	ilog::IMessageContainer* logCompPtr = m_testPartituraInstanceCompPtr->GetInterface<ilog::IMessageContainer>("LogComp");
@@ -296,12 +296,12 @@ void CLogTest::testMessageSerialization()
 }
 
 
-void CLogTest::cleanupTestCase()
+void CLogTestRunner::cleanupTestCase()
 {
 	m_testPartituraInstanceCompPtr.reset();
 }
 
 
-I_ADD_TEST(CLogTest);
+I_ADD_TEST(CLogTestRunner);
 
 

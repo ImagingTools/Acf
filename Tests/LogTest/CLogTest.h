@@ -14,7 +14,7 @@
 #include <itest/CStandardTestExecutor.h>
 #include <GeneratedFiles/LogTest/CLogTest.h>
 
-class CLogTest: public QObject
+class CLogTestRunner: public QObject
 {
 	Q_OBJECT
 private slots:
