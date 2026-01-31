@@ -89,14 +89,14 @@ jobs:
             echo "Checking for TeamCity build problems in workflow run logs..."
             
             # Extract build problem information from the jobs
-            BUILD_PROBLEMS=$(echo "$JOBS_RESPONSE" | jq -r '.jobs[]? | select(.conclusion == "failure") | .name' || echo "")
+            FAILED_JOBS=$(echo "$JOBS_RESPONSE" | jq -r '.jobs[]? | select(.conclusion == "failure") | .name' || echo "")
             
-            if [ -n "$BUILD_PROBLEMS" ]; then
-              echo "Found failed jobs: $BUILD_PROBLEMS"
-              build_problems="$BUILD_PROBLEMS"
+            if [ -n "$FAILED_JOBS" ]; then
+              echo "Found failed jobs: $FAILED_JOBS"
+              build_problems="$FAILED_JOBS"
               
               # Check for common patterns in job names or available information
-              if echo "$BUILD_PROBLEMS" | grep -qi "linux\|windows"; then
+              if echo "$FAILED_JOBS" | grep -qi "linux\|windows"; then
                 echo "Detected platform-specific build failure"
                 issue_type="build_failure"
               fi
@@ -124,7 +124,7 @@ jobs:
           BUILD_PROBLEMS="${{ steps.analyze.outputs.BUILD_PROBLEMS }}"
           ISSUE_TYPE="${{ steps.analyze.outputs.issue_type }}"
           
-          if [ -n "$BUILD_PROBLEMS" ] && [ "$BUILD_PROBLEMS" != "" ]; then
+          if [ -n "$BUILD_PROBLEMS" ]; then
             echo "Build problems detected:"
             echo "$BUILD_PROBLEMS"
             echo ""
@@ -157,8 +157,10 @@ jobs:
           script: |
             const prInfo = JSON.parse('${{ steps.pr.outputs.result }}');
             const changesMade = '${{ steps.fix.outputs.changes_made }}' === 'true';
-            const buildProblems = `${{ steps.analyze.outputs.BUILD_PROBLEMS }}`;
             const issueType = '${{ steps.analyze.outputs.issue_type }}';
+            // Safely handle build problems - use toJSON for proper escaping
+            const buildProblemsRaw = '${{ steps.analyze.outputs.BUILD_PROBLEMS }}';
+            const buildProblems = buildProblemsRaw.replace(/[\u0000-\u001F\u007F-\u009F]/g, '').trim();
 
             let body;
             if (changesMade) {
@@ -166,7 +168,7 @@ jobs:
             } else {
               body = '⚠️ Build failed. Auto-fix workflow has analyzed the failure.\n\n';
               
-              if (buildProblems && buildProblems.trim()) {
+              if (buildProblems) {
                 body += '**Detected Issues:**\n';
                 body += '```\n' + buildProblems + '\n```\n\n';
                 body += `**Issue Type:** ${issueType}\n\n`;
