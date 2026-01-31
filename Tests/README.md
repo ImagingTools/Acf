@@ -16,6 +16,7 @@ Tests are organized by location:
   - **SelectionParamIntegrationTest/** - Integration tests for selection parameters
   - **SelectionParamComponentTest/** - Component tests for CSelectionParamComp with various configurations
   - **AutoPersistenceTest/** - Tests for CAutoPersistenceComp with various attribute configurations
+  - **IdocComponentTest/** - Component tests for idoc library (CTextDocumentComp, CSerializedUndoManagerComp, CSingleDocumentTemplateComp)
 
 - **Include/[library]/Test/** - Unit tests for each library
   - **Include/istd/Test/** - Tests for standard utilities (CRandomNumber, CIndex2d, CBitManip, CCrcCalculator, etc.)
@@ -317,6 +318,56 @@ Each test scenario uses a dedicated SelectionParam object as the persistent data
 - Correct file creation and deletion
 - Data integrity across save/restore cycles
 - Timing behavior for interval-based persistence
+
+### IdocComponentTest
+
+**Purpose**: Component-level tests for the `idoc` library document framework components with various configurations.
+
+**Test Coverage**:
+- **CTextDocumentComp**:
+  - Component creation and initialization
+  - Get/Set text operations
+  - Default text attribute handling
+  - Serialization/deserialization of document content
+  
+- **CSerializedUndoManagerComp**:
+  - Component creation and initialization
+  - Undo/redo functionality with single and multiple steps
+  - Integration with document model via observer pattern
+  - MaxBufferSize attribute configuration
+  - Reset undo history
+  - Document state comparison and storage
+  
+- **CSingleDocumentTemplateComp**:
+  - Component creation with document type configuration
+  - Document creation via template
+  - Document type attributes (ID, name, IsNewSupported, IsEditSupported)
+  - Integration with document factory and file loader
+
+**Configuration File**:
+- `IdocComponentTest.acc` - Contains 7 different component configurations:
+  1. `TextDocument` - Basic text document without custom settings
+  2. `TextDocumentWithDefault` - Text document with custom default text
+  3. `UndoManager` - Undo manager with default buffer size (100 MB)
+  4. `UndoManagerSmallBuffer` - Undo manager with small buffer (1 MB) for testing
+  5. `TemplateDocumentFactory` - Document factory for template with default text
+  6. `TemplateFileLoader` - File loader component for template
+  7. `DocumentTemplate` - Complete document template with all attributes
+
+**Test Methods**:
+- `testTextDocumentCreation()` - Verifies text document component creation
+- `testTextDocumentGetSet()` - Tests get/set text operations
+- `testTextDocumentDefaultText()` - Tests default text attribute
+- `testTextDocumentSerialization()` - Tests document content serialization
+- `testUndoManagerCreation()` - Verifies undo manager component creation
+- `testUndoManagerUndoRedo()` - Tests basic undo/redo functionality
+- `testUndoManagerMultipleSteps()` - Tests multiple undo/redo steps
+- `testUndoManagerMaxBufferSize()` - Tests buffer size configuration
+- `testUndoManagerReset()` - Tests undo history reset
+- `testUndoManagerStateComparison()` - Tests document state comparison
+- `testDocumentTemplateCreation()` - Verifies document template creation
+- `testDocumentTemplateCreateDocument()` - Tests document creation via template
+- `testDocumentTemplateAttributes()` - Tests template attributes
 
 ## Contributing
 
