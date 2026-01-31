@@ -15,7 +15,7 @@
 
 void CIdocCompTest::initTestCase()
 {
-	m_testInstanceCompPtr.reset(new CIdocComponentTest);
+	m_testInstanceCompPtr.reset(new CDocumentManagementComponentTest);
 
 	m_textDocumentPtr = m_testInstanceCompPtr->GetInterface<idoc::ITextDocument>("TextDocument");
 	m_textDocumentWithDefaultPtr = m_testInstanceCompPtr->GetInterface<idoc::ITextDocument>("TextDocumentWithDefault");

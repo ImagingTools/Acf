@@ -11,7 +11,7 @@
 #include <idoc/IUndoManager.h>
 #include <idoc/IDocumentTemplate.h>
 #include <itest/CStandardTestExecutor.h>
-#include <GeneratedFiles/IdocComponentTest/CIdocComponentTest.h>
+#include <GeneratedFiles/DocumentManagementComponentTest/CDocumentManagementComponentTest.h>
 
 class CIdocCompTest: public QObject
 {
@@ -41,7 +41,7 @@ private slots:
 	void cleanupTestCase();
 
 private:
-	std::shared_ptr<CIdocComponentTest> m_testInstanceCompPtr;
+	std::shared_ptr<CDocumentManagementComponentTest> m_testInstanceCompPtr;
 
 	idoc::ITextDocument* m_textDocumentPtr = nullptr;
 	idoc::ITextDocument* m_textDocumentWithDefaultPtr = nullptr;
