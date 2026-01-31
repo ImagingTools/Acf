@@ -32,7 +32,7 @@ public:
 	{
 		// Report status as Running when logger is started
 		if (m_parentPtr != nullptr){
-			m_parentPtr->ReportTaskProgress(this, GetCumulatedProgress(), TaskStatus::Running);
+			m_parentPtr->ReportTaskProgress(static_cast<TaskBase*>(this), GetCumulatedProgress(), TaskStatus::Running);
 		}
 		return CCumulatedProgressManagerBase::StartProgressLogger(isCancelable, description);
 	}
@@ -42,7 +42,7 @@ protected:
 	virtual void OnProgressChanged(double cumulatedValue) override
 	{
 		if (m_parentPtr != nullptr){
-			m_parentPtr->ReportTaskProgress(this, cumulatedValue, TaskStatus::Running);
+			m_parentPtr->ReportTaskProgress(static_cast<TaskBase*>(this), cumulatedValue, TaskStatus::Running);
 		}
 	}
 
@@ -52,8 +52,8 @@ protected:
 			if (GetProcessedTasks().size() == 0){
 				auto parentPtr = m_parentPtr;
 				m_parentPtr = nullptr; // Prevent double-close in destructor
-				parentPtr->ReportTaskProgress(this, GetCumulatedProgress(), TaskStatus::Finished);
-				parentPtr->CloseTask(this);
+				parentPtr->ReportTaskProgress(static_cast<TaskBase*>(this), GetCumulatedProgress(), TaskStatus::Finished);
+				parentPtr->CloseTask(static_cast<TaskBase*>(this));
 			}
 		}
 	}
