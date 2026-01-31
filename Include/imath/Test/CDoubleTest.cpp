@@ -13,7 +13,7 @@ void CDoubleTest::ConstructorTest()
 {
 	// Test default constructor
 	imath::CDouble value1;
-	QVERIFY(value1 == 0.0);
+	QVERIFY(value1 == imath::CDouble(0.0));
 	
 	// Test constructor with value
 	imath::CDouble value2(3.14);
@@ -70,33 +70,33 @@ void CDoubleTest::ArithmeticOperatorsTest()
 	
 	// Test addition
 	imath::CDouble sum = value1 + value2;
-	QVERIFY(sum == 15.0);
+	QVERIFY(sum == imath::CDouble(15.0));
 	
 	// Test subtraction
 	imath::CDouble diff = value1 - value2;
-	QVERIFY(diff == 5.0);
+	QVERIFY(diff == imath::CDouble(5.0));
 	
 	// Test multiplication
 	imath::CDouble prod = value1 * value2;
-	QVERIFY(prod == 50.0);
+	QVERIFY(prod == imath::CDouble(50.0));
 	
 	// Test division
 	imath::CDouble quot = value1 / value2;
-	QVERIFY(quot == 2.0);
+	QVERIFY(quot == imath::CDouble(2.0));
 	
 	// Test compound assignment operators
 	imath::CDouble value3(10.0);
 	value3 += value2;
-	QVERIFY(value3 == 15.0);
+	QVERIFY(value3 == imath::CDouble(15.0));
 	
 	value3 -= value2;
-	QVERIFY(value3 == 10.0);
+	QVERIFY(value3 == imath::CDouble(10.0));
 	
 	value3 *= value2;
-	QVERIFY(value3 == 50.0);
+	QVERIFY(value3 == imath::CDouble(50.0));
 	
 	value3 /= value2;
-	QVERIFY(value3 == 10.0);
+	QVERIFY(value3 == imath::CDouble(10.0));
 }
 
 
