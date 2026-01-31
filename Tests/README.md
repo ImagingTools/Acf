@@ -234,6 +234,61 @@ Tests are organized by library to maintain clear separation of concerns and enab
 
 ## Component Tests
 
+### IlogComponentTest
+
+**Purpose**: Component-level tests for the `ilog` library logging components with various configurations.
+
+**Test Coverage**:
+- **ConsoleLog Component**:
+  - Component creation and initialization
+  - Message handling for different severity levels (Info, Warning, Error, Critical)
+  - Message formatting configuration (category, code, timestamp)
+  
+- **LogComp Component**:
+  - Component creation with message storage
+  - Message addition and retrieval via IMessageContainer interface
+  - MaxMessageCount attribute handling and automatic message pruning
+  - Worst category tracking
+  - Serialization support
+  
+- **LogRouter Component**:
+  - Component creation for message routing
+  - Message filtering by severity level (MinimalCategory)
+  - Routing messages from source container to destination consumer
+  - Verification that only messages meeting severity threshold are routed
+  
+- **TracingConfiguration Component**:
+  - Component creation and initialization
+  - Tracing level get/set operations
+  - Default tracing level configuration
+  
+- **StreamLog Component**:
+  - Stream-based logging with filtering
+  - MinCategory attribute for message filtering
+  - Message formatting with timestamps and categories
+
+**Configuration File**:
+- `IlogComponentTest.acc` - Contains 6 different logging component configurations:
+  1. `ConsoleLog` - Basic console logger with category and code display
+  2. `LogComp` - Log component with message storage (max 100 messages) and slave consumer
+  3. `ErrorLog` - Log component for error storage (max 50 messages)
+  4. `LogRouter` - Router component to forward errors (MinimalCategory=3) from LogComp to ErrorLog
+  5. `TracingConfig` - Tracing configuration with default level 1
+  6. `StreamLog` - Console log with filtering (MinCategory=2), timestamps, and dot display
+
+**Test Methods**:
+- `testConsoleLogCreation()` - Verifies ConsoleLog component creation
+- `testConsoleLogMessageHandling()` - Tests message support and handling for different categories
+- `testLogCompCreation()` - Verifies LogComp component creation and interfaces
+- `testLogCompMessageStorage()` - Tests message storage, retrieval, and worst category tracking
+- `testLogCompMaxMessageCount()` - Tests MaxMessageCount limit and message pruning
+- `testLogRouterCreation()` - Verifies LogRouter component creation
+- `testLogRouterMessageRouting()` - Tests message routing based on severity filtering
+- `testTracingConfigCreation()` - Verifies TracingConfiguration component creation
+- `testTracingConfigLevel()` - Tests tracing level operations
+- `testStreamLogFiltering()` - Tests stream log message filtering
+- `testMessageSerialization()` - Tests message container serialization
+
 ### AutoPersistenceTest
 
 The AutoPersistenceTest validates the CAutoPersistenceComp component with multiple configuration variants using a single comprehensive Partitura file (AutoPersistenceTest.acc). The file defines six AutoPersistence component instances, each testing different combinations of component attributes:
