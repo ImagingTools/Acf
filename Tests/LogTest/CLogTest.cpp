@@ -38,7 +38,7 @@ void CLogTestRunner::testConsoleLogMessageHandling()
 	QVERIFY(consoleLogPtr->IsMessageSupported(istd::IInformationProvider::IC_CRITICAL));
 
 	// Create and add a test message
-	istd::TSharedInterfacePtr<ilog::CMessage> testMessage(
+	ilog::IMessageConsumer::MessagePtr testMessage(
 		new ilog::CMessage(
 			istd::IInformationProvider::IC_INFO,
 			1001,
@@ -76,13 +76,13 @@ void CLogTestRunner::testLogCompMessageStorage()
 	logCompPtr->ClearMessages();
 
 	// Add test messages with different categories
-	istd::TSharedInterfacePtr<ilog::CMessage> infoMsg(
+	ilog::IMessageConsumer::MessagePtr infoMsg(
 		new ilog::CMessage(istd::IInformationProvider::IC_INFO, 2001, "Info message", "TestSource")
 	);
-	istd::TSharedInterfacePtr<ilog::CMessage> warningMsg(
+	ilog::IMessageConsumer::MessagePtr warningMsg(
 		new ilog::CMessage(istd::IInformationProvider::IC_WARNING, 2002, "Warning message", "TestSource")
 	);
-	istd::TSharedInterfacePtr<ilog::CMessage> errorMsg(
+	ilog::IMessageConsumer::MessagePtr errorMsg(
 		new ilog::CMessage(istd::IInformationProvider::IC_ERROR, 2003, "Error message", "TestSource")
 	);
 
@@ -116,7 +116,7 @@ void CLogTestRunner::testLogCompMaxMessageCount()
 
 	// Add more messages than the maximum (100)
 	for (int i = 0; i < 110; ++i) {
-		istd::TSharedInterfacePtr<ilog::CMessage> msg(
+		ilog::IMessageConsumer::MessagePtr msg(
 			new ilog::CMessage(istd::IInformationProvider::IC_INFO, 3000 + i, QString("Message %1").arg(i), "TestSource")
 		);
 		consumerPtr->AddMessage(msg);
@@ -165,16 +165,16 @@ void CLogTestRunner::testLogRouterMessageRouting()
 	errorLogPtr->ClearMessages();
 
 	// Add messages of different categories to LogComp
-	istd::TSharedInterfacePtr<ilog::CMessage> infoMsg(
+	ilog::IMessageConsumer::MessagePtr infoMsg(
 		new ilog::CMessage(istd::IInformationProvider::IC_INFO, 4001, "Info message", "TestSource")
 	);
-	istd::TSharedInterfacePtr<ilog::CMessage> warningMsg(
+	ilog::IMessageConsumer::MessagePtr warningMsg(
 		new ilog::CMessage(istd::IInformationProvider::IC_WARNING, 4002, "Warning message", "TestSource")
 	);
-	istd::TSharedInterfacePtr<ilog::CMessage> errorMsg(
+	ilog::IMessageConsumer::MessagePtr errorMsg(
 		new ilog::CMessage(istd::IInformationProvider::IC_ERROR, 4003, "Error message", "TestSource")
 	);
-	istd::TSharedInterfacePtr<ilog::CMessage> criticalMsg(
+	ilog::IMessageConsumer::MessagePtr criticalMsg(
 		new ilog::CMessage(istd::IInformationProvider::IC_CRITICAL, 4004, "Critical message", "TestSource")
 	);
 
@@ -266,10 +266,10 @@ void CLogTestRunner::testMessageSerialization()
 	// Clear messages and add test messages
 	logCompPtr->ClearMessages();
 
-	istd::TSharedInterfacePtr<ilog::CMessage> msg1(
+	ilog::IMessageConsumer::MessagePtr msg1(
 		new ilog::CMessage(istd::IInformationProvider::IC_INFO, 5001, "Serialization test message 1", "SerTest")
 	);
-	istd::TSharedInterfacePtr<ilog::CMessage> msg2(
+	ilog::IMessageConsumer::MessagePtr msg2(
 		new ilog::CMessage(istd::IInformationProvider::IC_ERROR, 5002, "Serialization test message 2", "SerTest")
 	);
 
