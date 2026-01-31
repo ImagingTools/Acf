@@ -244,12 +244,17 @@ jobs:
           PROBLEMS=$(curl -sS \
             -H "Authorization: Bearer $TEAMCITY_TOKEN" \
             -H "Accept: application/json" \
-            "$TEAMCITY_URL/app/rest/builds/id:$BUILD_ID/problemOccurrences" || echo '{}')
+            "$TEAMCITY_URL/app/rest/builds/id:$BUILD_ID/problemOccurrences?fields=problemOccurrence(id,type,identity,details)" || echo '{}')
           
           PROBLEM_COUNT=$(echo "$PROBLEMS" | jq -r '.count // 0')
           if [ "$PROBLEM_COUNT" -gt 0 ]; then
             echo "⚠️ Found $PROBLEM_COUNT build problem(s):"
-            echo "$PROBLEMS" | jq -r '.problemOccurrence[]? | "- \(.details)"'
+            echo "$PROBLEMS" | jq -r '.problemOccurrence[]? | "- Type: \(.type // "Unknown"), Details: \(.details // .identity // "No details available")"'
+            
+            # Export build problems for potential use by auto-fix workflow
+            echo "BUILD_PROBLEMS<<EOF" >> "$GITHUB_OUTPUT"
+            echo "$PROBLEMS" >> "$GITHUB_OUTPUT"
+            echo "EOF" >> "$GITHUB_OUTPUT"
           else
             echo "✓ No build problems found"
           fi

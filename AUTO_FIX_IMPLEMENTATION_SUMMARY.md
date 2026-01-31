@@ -55,13 +55,16 @@ Implemented a GitHub Actions workflow that automatically:
 ✅ Check status updates
 ✅ Documentation
 ✅ Safety guards (PR-only, clear commit messages)
+✅ Build error recognition from GitHub Actions workflow runs
+✅ TeamCity build problem fetching with proper field selection
+✅ Enhanced PR comments showing detected issues
 
-### To Be Implemented (Placeholders):
-⏳ Actual error pattern detection
+### To Be Implemented:
 ⏳ Specific fix logic for common errors
-⏳ Build log parsing and analysis
+⏳ Deep build log parsing from TeamCity
 ⏳ Component registration auto-fixes
 ⏳ Package mismatch corrections
+⏳ Integration with TeamCity build problem details
 
 ## Supported Auto-Fixes (Planned)
 
@@ -159,8 +162,14 @@ Edit `.github/workflows/auto-fix-on-failure.yml`:
 ## Version History
 
 - **v1.0** (2026-01-31): Initial implementation with workflow infrastructure
+- **v1.1** (2026-01-31): Added build error recognition
+  - Auto-fix workflow now fetches and analyzes failed workflow runs
+  - TeamCity CI workflow properly requests build problem details (type, identity, details fields)
+  - PR comments now display detected build errors and issue types
+  - Workflow successfully recognizes when build errors occur
+  - Foundation laid for future auto-fix implementations
 
 ---
 
-**Status**: Infrastructure Complete, Implementation Pending
+**Status**: Build Error Recognition Implemented, Auto-Fix Logic Pending
 **Last Updated**: January 31, 2026
