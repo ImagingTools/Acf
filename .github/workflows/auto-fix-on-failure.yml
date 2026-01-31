@@ -67,6 +67,7 @@ jobs:
           issue_type="unknown"
           fix_available="false"
           build_problems=""
+          build_ids=""
           
           # Check if TeamCity configuration is available
           if [ -z "${TEAMCITY_URL:-}" ] || [ -z "${TEAMCITY_TOKEN:-}" ]; then
@@ -84,29 +85,82 @@ jobs:
               -H "Accept: application/vnd.github+json" \
               "https://api.github.com/repos/${{ github.repository }}/actions/runs/$WORKFLOW_RUN_ID/jobs")
             
-            # Extract TeamCity build IDs from job logs or outputs
-            # Look for build IDs in the "Fetch Build Logs" step outputs
-            echo "Checking for TeamCity build problems in workflow run logs..."
+            # Extract TeamCity build IDs from job steps
+            echo "Extracting TeamCity build IDs from workflow jobs..."
             
-            # Extract build problem information from the jobs
-            FAILED_JOBS=$(echo "$JOBS_RESPONSE" | jq -r '.jobs[]? | select(.conclusion == "failure") | .name' || echo "")
+            # Look for build IDs in the "Trigger TeamCity Build" step outputs
+            BUILD_IDS_JSON=$(echo "$JOBS_RESPONSE" | jq -r '.jobs[] | select(.conclusion == "failure") | .steps[] | select(.name | contains("Trigger TeamCity")) | .number' || echo "")
             
-            if [ -n "$FAILED_JOBS" ]; then
-              echo "Found failed jobs: $FAILED_JOBS"
-              build_problems="$FAILED_JOBS"
+            # Fetch job logs to extract build IDs if available
+            JOB_IDS=$(echo "$JOBS_RESPONSE" | jq -r '.jobs[] | select(.conclusion == "failure") | .id')
+            
+            TEAMCITY_BUILD_IDS=""
+            for JOB_ID in $JOB_IDS; do
+              echo "Checking job $JOB_ID for TeamCity build IDs..."
+              JOB_LOGS=$(curl -sS \
+                -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+                -H "Accept: application/vnd.github+json" \
+                "https://api.github.com/repos/${{ github.repository }}/actions/jobs/$JOB_ID/logs" 2>/dev/null || echo "")
               
-              # Check for common patterns in job names or available information
-              if echo "$FAILED_JOBS" | grep -qi "linux\|windows"; then
-                echo "Detected platform-specific build failure"
-                issue_type="build_failure"
+              # Extract build IDs from logs (format: "Build queued. ID=12345")
+              EXTRACTED_IDS=$(echo "$JOB_LOGS" | grep -oP "Build queued\. ID=\K\d+" || echo "")
+              if [ -n "$EXTRACTED_IDS" ]; then
+                TEAMCITY_BUILD_IDS="$TEAMCITY_BUILD_IDS $EXTRACTED_IDS"
               fi
+            done
+            
+            TEAMCITY_BUILD_IDS=$(echo "$TEAMCITY_BUILD_IDS" | xargs)
+            echo "Found TeamCity build IDs: $TEAMCITY_BUILD_IDS"
+            build_ids="$TEAMCITY_BUILD_IDS"
+            
+            # Fetch detailed build problems from TeamCity for each build ID
+            ALL_PROBLEMS_JSON="[]"
+            if [ -n "$TEAMCITY_BUILD_IDS" ]; then
+              for BUILD_ID in $TEAMCITY_BUILD_IDS; do
+                echo "Fetching problems for TeamCity build $BUILD_ID..."
+                
+                PROBLEMS_RESPONSE=$(curl -sS \
+                  -H "Authorization: Bearer $TEAMCITY_TOKEN" \
+                  -H "Accept: application/json" \
+                  "$TEAMCITY_URL/app/rest/builds/id:$BUILD_ID/problemOccurrences?fields=problemOccurrence(id,type,identity,details,additionalData,build(id,buildTypeId,webUrl,branchName))" 2>/dev/null || echo '{}')
+                
+                PROBLEM_COUNT=$(echo "$PROBLEMS_RESPONSE" | jq -r '.count // 0')
+                echo "Found $PROBLEM_COUNT problem(s) for build $BUILD_ID"
+                
+                if [ "$PROBLEM_COUNT" -gt 0 ]; then
+                  # Add build problems to collection
+                  PROBLEMS_ARRAY=$(echo "$PROBLEMS_RESPONSE" | jq -r '.problemOccurrence // []')
+                  ALL_PROBLEMS_JSON=$(echo "$ALL_PROBLEMS_JSON" | jq --argjson new "$PROBLEMS_ARRAY" '. + $new')
+                  issue_type="build_failure"
+                fi
+              done
             else
-              echo "No specific build problems extracted from workflow"
+              echo "No TeamCity build IDs found - falling back to job name analysis"
+              # Extract build problem information from the jobs as fallback
+              FAILED_JOBS=$(echo "$JOBS_RESPONSE" | jq -r '.jobs[]? | select(.conclusion == "failure") | .name' || echo "")
+              
+              if [ -n "$FAILED_JOBS" ]; then
+                echo "Found failed jobs: $FAILED_JOBS"
+                build_problems="$FAILED_JOBS"
+                
+                # Check for common patterns in job names
+                if echo "$FAILED_JOBS" | grep -qi "linux\|windows"; then
+                  echo "Detected platform-specific build failure"
+                  issue_type="build_failure"
+                fi
+              fi
+            fi
+            
+            # Save all problems as JSON for the next step
+            if [ "$(echo "$ALL_PROBLEMS_JSON" | jq '. | length')" -gt 0 ]; then
+              echo "Total problems collected: $(echo "$ALL_PROBLEMS_JSON" | jq '. | length')"
+              build_problems="$ALL_PROBLEMS_JSON"
             fi
           fi
           
           echo "issue_type=$issue_type" >> "$GITHUB_OUTPUT"
           echo "fix_available=$fix_available" >> "$GITHUB_OUTPUT"
+          echo "build_ids=$build_ids" >> "$GITHUB_OUTPUT"
           echo "BUILD_PROBLEMS<<EOF" >> "$GITHUB_OUTPUT"
           echo "$build_problems" >> "$GITHUB_OUTPUT"
           echo "EOF" >> "$GITHUB_OUTPUT"
@@ -140,6 +194,158 @@ jobs:
           
           echo "changes_made=$CHANGES_MADE" >> "$GITHUB_OUTPUT"
 
+      - name: Create Copilot Tasks for Build Problems
+        if: steps.pr.outputs.result != 'null' && steps.analyze.outputs.issue_type != 'unknown'
+        id: create_tasks
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const prInfo = JSON.parse('${{ steps.pr.outputs.result }}');
+            const buildProblemsRaw = `${{ steps.analyze.outputs.BUILD_PROBLEMS }}`;
+            const buildIds = '${{ steps.analyze.outputs.build_ids }}';
+            const issueType = '${{ steps.analyze.outputs.issue_type }}';
+            
+            let createdIssues = [];
+            
+            // Try to parse build problems as JSON (from TeamCity)
+            let buildProblems = [];
+            try {
+              const parsed = JSON.parse(buildProblemsRaw);
+              if (Array.isArray(parsed) && parsed.length > 0) {
+                buildProblems = parsed;
+                console.log(`Parsed ${buildProblems.length} build problem(s) from TeamCity`);
+              }
+            } catch (e) {
+              console.log('Build problems is not JSON array, treating as plain text');
+            }
+            
+            if (buildProblems.length > 0) {
+              // Create issues for TeamCity build problems
+              for (const problem of buildProblems) {
+                const problemType = problem.type || 'Unknown';
+                const problemIdentity = problem.identity || 'Unknown issue';
+                const problemDetails = problem.details || 'No details available';
+                const buildInfo = problem.build || {};
+                const buildUrl = buildInfo.webUrl || '';
+                const buildId = buildInfo.id || '';
+                const branchName = buildInfo.branchName || prInfo.head_ref;
+                
+                // Create a descriptive title
+                let title = `[Auto-Fix] ${problemType}: ${problemIdentity}`;
+                if (title.length > 100) {
+                  title = title.substring(0, 97) + '...';
+                }
+                
+                // Create detailed issue body
+                let body = `## Build Problem Detected\n\n`;
+                body += `**Type:** ${problemType}\n`;
+                body += `**Identity:** ${problemIdentity}\n`;
+                body += `**Branch:** ${branchName}\n`;
+                body += `**PR:** #${prInfo.number}\n\n`;
+                
+                if (buildUrl) {
+                  body += `**TeamCity Build:** [Build ${buildId}](${buildUrl})\n\n`;
+                }
+                
+                body += `### Problem Details\n\`\`\`\n${problemDetails}\n\`\`\`\n\n`;
+                
+                body += `### Context\n`;
+                body += `This issue was automatically created by the auto-fix workflow after detecting a build failure.\n\n`;
+                
+                body += `### Task for Copilot\n`;
+                body += `Please analyze the build problem and:\n`;
+                body += `1. Identify the root cause of the issue\n`;
+                body += `2. Implement a fix for the problem\n`;
+                body += `3. Ensure the fix doesn't break existing functionality\n`;
+                body += `4. Test the changes to verify the build passes\n\n`;
+                
+                body += `**Workflow Run:** ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}\n`;
+                body += `**Original Build Failure:** ${{ github.event.workflow_run.html_url }}`;
+                
+                try {
+                  const issue = await github.rest.issues.create({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    title: title,
+                    body: body,
+                    labels: ['auto-fix', 'build-failure', 'copilot-task'],
+                    assignees: []  // Copilot will be assigned via labels
+                  });
+                  
+                  console.log(`✅ Created issue #${issue.data.number}: ${title}`);
+                  createdIssues.push(issue.data.number);
+                  
+                  // Add a comment to the PR linking to the created issue
+                  await github.rest.issues.createComment({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    issue_number: prInfo.number,
+                    body: `🤖 Created task for Copilot: #${issue.data.number}\n**Problem:** ${problemType} - ${problemIdentity}`
+                  });
+                } catch (error) {
+                  console.error(`Failed to create issue for problem: ${error.message}`);
+                }
+              }
+              
+              core.setOutput('created_issues', createdIssues.join(','));
+              core.setOutput('issues_count', createdIssues.length);
+              console.log(`\n📋 Created ${createdIssues.length} issue(s) for Copilot: ${createdIssues.join(', ')}`);
+            } else if (buildProblemsRaw && buildProblemsRaw.trim() !== '') {
+              // Fallback: create a single generic issue for text-based problems
+              console.log('Creating generic issue from text-based build problems');
+              
+              const title = `[Auto-Fix] Build Failure on ${prInfo.head_ref}`;
+              let body = `## Build Failure Detected\n\n`;
+              body += `**Branch:** ${prInfo.head_ref}\n`;
+              body += `**PR:** #${prInfo.number}\n`;
+              body += `**Issue Type:** ${issueType}\n\n`;
+              
+              body += `### Build Problems\n\`\`\`\n${buildProblemsRaw}\n\`\`\`\n\n`;
+              
+              body += `### Context\n`;
+              body += `This issue was automatically created by the auto-fix workflow after detecting a build failure.\n\n`;
+              
+              body += `### Task for Copilot\n`;
+              body += `Please analyze the build failure and:\n`;
+              body += `1. Review the build logs and error messages\n`;
+              body += `2. Identify the root cause of the failure\n`;
+              body += `3. Implement a fix for the problem\n`;
+              body += `4. Test the changes to verify the build passes\n\n`;
+              
+              body += `**Workflow Run:** ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}\n`;
+              body += `**Original Build Failure:** ${{ github.event.workflow_run.html_url }}`;
+              
+              try {
+                const issue = await github.rest.issues.create({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  title: title,
+                  body: body,
+                  labels: ['auto-fix', 'build-failure', 'copilot-task'],
+                  assignees: []
+                });
+                
+                console.log(`✅ Created generic issue #${issue.data.number}`);
+                createdIssues.push(issue.data.number);
+                
+                await github.rest.issues.createComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: prInfo.number,
+                  body: `🤖 Created task for Copilot: #${issue.data.number}`
+                });
+                
+                core.setOutput('created_issues', createdIssues.join(','));
+                core.setOutput('issues_count', createdIssues.length);
+              } catch (error) {
+                console.error(`Failed to create generic issue: ${error.message}`);
+              }
+            } else {
+              console.log('No build problems to create issues for');
+              core.setOutput('created_issues', '');
+              core.setOutput('issues_count', 0);
+            }
+
       - name: Commit and Push Fixes
         if: steps.fix.outputs.changes_made == 'true'
         shell: bash
@@ -158,6 +364,8 @@ jobs:
             const prInfo = JSON.parse('${{ steps.pr.outputs.result }}');
             const changesMade = '${{ steps.fix.outputs.changes_made }}' === 'true';
             const issueType = '${{ steps.analyze.outputs.issue_type }}';
+            const createdIssues = '${{ steps.create_tasks.outputs.created_issues }}';
+            const issuesCount = '${{ steps.create_tasks.outputs.issues_count }}' || '0';
             // Safely handle build problems - use toJSON for proper escaping
             const buildProblemsRaw = '${{ steps.analyze.outputs.BUILD_PROBLEMS }}';
             const buildProblems = buildProblemsRaw.replace(/[\u0000-\u001F\u007F-\u009F]/g, '').trim();
@@ -174,8 +382,23 @@ jobs:
                 body += `**Issue Type:** ${issueType}\n\n`;
               }
               
+              // Add information about created Copilot tasks
+              if (issuesCount && parseInt(issuesCount) > 0) {
+                body += `### 🤖 Copilot Tasks Created\n`;
+                body += `Created ${issuesCount} task(s) for Copilot to fix the detected problems.\n`;
+                if (createdIssues) {
+                  const issueNumbers = createdIssues.split(',').map(n => `#${n.trim()}`).join(', ');
+                  body += `**Issues:** ${issueNumbers}\n\n`;
+                }
+                body += `Copilot will analyze the build failures and create fixes for these issues.\n\n`;
+              }
+              
               body += '**Status:** Build errors were recognized by the auto-fix workflow.\n';
-              body += '**Action Required:** Manual fix needed. Auto-fix logic for these errors is not yet implemented.\n\n';
+              if (issuesCount && parseInt(issuesCount) > 0) {
+                body += '**Action:** Copilot tasks have been created. You can also fix manually if needed.\n\n';
+              } else {
+                body += '**Action Required:** Manual fix needed. Auto-fix logic for these errors is not yet implemented.\n\n';
+              }
               body += 'Check the [workflow run](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) and [build logs](${{ github.event.workflow_run.html_url }}) for details.';
             }
 
