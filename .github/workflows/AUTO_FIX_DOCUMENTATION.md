@@ -6,9 +6,11 @@ This GitHub Actions workflow automatically attempts to fix common build errors w
 
 When a TeamCity CI build fails for a pull request, the auto-fix workflow:
 1. Analyzes the build failure
-2. Attempts to apply common fixes
-3. Commits and pushes changes if fixes are available
-4. Comments on the PR with results
+2. Fetches detailed problem information from TeamCity
+3. Creates GitHub issues as tasks for Copilot to fix
+4. Attempts to apply common fixes (where implemented)
+5. Commits and pushes changes if fixes are available
+6. Comments on the PR with results and links to Copilot tasks
 
 ## Supported Auto-Fixes
 
@@ -40,16 +42,88 @@ The workflow is triggered by the `workflow_run` event when the "TeamCity CI" wor
 ### Process
 1. **Get PR Information**: Identifies the pull request associated with the failed build
 2. **Checkout**: Checks out the PR branch with write permissions
-3. **Analyze**: Examines the build failure patterns and logs
-4. **Fix**: Applies appropriate fixes based on the error type
-5. **Commit**: Creates a commit with fixes (if any were applied)
-6. **Comment**: Posts a comment on the PR explaining what was done
+3. **Analyze**: Examines the build failure patterns and fetches detailed problems from TeamCity
+4. **Create Copilot Tasks**: Creates GitHub issues for detected problems with comprehensive context
+5. **Fix**: Applies appropriate fixes based on the error type (where implemented)
+6. **Commit**: Creates a commit with fixes (if any were applied)
+7. **Comment**: Posts a comment on the PR explaining what was done and linking to Copilot tasks
 
 ### Safety
 - Only runs on pull requests (not main/master branches)
 - Creates clear commit messages indicating auto-fix
 - Comments on PR so reviewers can see what was changed
 - Creates a check run with results
+
+## Copilot Task Creation
+
+### Overview
+The auto-fix workflow automatically creates GitHub issues as tasks for Copilot when build problems are detected. This enables automated issue tracking and allows Copilot to work on fixing the detected problems.
+
+### When Tasks Are Created
+Tasks are created when:
+- A TeamCity build fails with specific build problems
+- The auto-fix workflow successfully analyzes the failure
+- Detailed problem information is available from TeamCity
+
+### Task Format
+Each created issue includes:
+
+**Title**: `[Auto-Fix] {ProblemType}: {ProblemIdentity}`
+
+**Labels**:
+- `auto-fix` - Indicates automatic creation
+- `build-failure` - Marks as a build failure issue  
+- `copilot-task` - Designates for Copilot to work on
+
+**Content**:
+- Problem type and identity
+- Branch and PR reference
+- Link to TeamCity build logs
+- Detailed problem description
+- Clear instructions for Copilot on what needs to be fixed
+- Links to workflow runs
+
+### Workflow
+1. Build fails in TeamCity
+2. Auto-fix workflow analyzes the failure
+3. For each detected problem, a GitHub issue is created
+4. Issue is labeled as a Copilot task
+5. PR receives a comment with links to the created issues
+6. Copilot can then work on fixing the issues
+
+### Benefits
+- **Automatic tracking**: No manual issue creation needed
+- **Comprehensive context**: All debugging information included
+- **Copilot ready**: Issues formatted for Copilot to work on
+- **Visibility**: Team can see all build issues
+- **Traceability**: Links between PRs, builds, and issues
+
+### Example Issue
+```markdown
+## Build Problem Detected
+
+**Type:** TC_COMPILATION_ERROR
+**Identity:** Error in Impl/ilog/CLogRouter.cpp:42
+**Branch:** feature/new-logging
+**PR:** #123
+
+**TeamCity Build:** [Build 45678](https://teamcity.example.com/...)
+
+### Problem Details
+```
+error: 'ILogger' was not declared in this scope
+```
+
+### Context
+This issue was automatically created by the auto-fix workflow after detecting a build failure.
+
+### Task for Copilot
+Please analyze the build problem and:
+1. Identify the root cause of the issue
+2. Implement a fix for the problem
+3. Ensure the fix doesn't break existing functionality
+4. Test the changes to verify the build passes
+```
 
 ## Configuration
 

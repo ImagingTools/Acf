@@ -34,11 +34,12 @@ Implemented a GitHub Actions workflow that automatically:
 ### Steps:
 1. **Get PR Information** - Identifies the PR associated with failed build
 2. **Checkout PR branch** - Checks out the branch with write permissions  
-3. **Analyze Build Failure** - Examines error patterns (placeholder for actual logic)
+3. **Analyze Build Failure** - Examines error patterns and fetches detailed TeamCity build problems
 4. **Attempt Common Fixes** - Applies fixes if patterns recognized (placeholder)
-5. **Commit and Push Fixes** - Creates and pushes auto-generated commit
-6. **Comment on PR** - Notifies about fix or provides guidance
-7. **Update Check Status** - Creates check run with results
+5. **Create Copilot Tasks** - Creates GitHub issues for detected problems, assigned to Copilot for fixing
+6. **Commit and Push Fixes** - Creates and pushes auto-generated commit (if fixes applied)
+7. **Comment on PR** - Notifies about fixes, created Copilot tasks, or provides guidance
+8. **Update Check Status** - Creates check run with results
 
 ### Permissions Required:
 - `contents: write` - To push commits
@@ -58,13 +59,15 @@ Implemented a GitHub Actions workflow that automatically:
 ✅ Build error recognition from GitHub Actions workflow runs
 ✅ TeamCity build problem fetching with proper field selection
 ✅ Enhanced PR comments showing detected issues
+✅ **Automatic Copilot task creation for detected build problems**
+✅ **Detailed TeamCity build analysis with problem extraction**
+✅ **GitHub issue creation with comprehensive problem context**
+✅ **Automatic labeling and categorization of build issues**
 
 ### To Be Implemented:
-⏳ Specific fix logic for common errors
-⏳ Deep build log parsing from TeamCity
-⏳ Component registration auto-fixes
-⏳ Package mismatch corrections
-⏳ Integration with TeamCity build problem details
+⏳ Specific fix logic for common errors (component registration, package mismatches, etc.)
+⏳ Deep build log parsing from TeamCity for non-structured errors
+⏳ Automatic application of fixes for recognized patterns
 
 ## Supported Auto-Fixes (Planned)
 
@@ -115,6 +118,44 @@ To test the workflow:
 4. **Interactive Mode**: Ask for confirmation before fixing
 5. **Multi-File Refactorings**: Support complex fixes
 6. **Historical Learning**: Learn from past successful fixes
+
+## Copilot Task Creation
+
+### Overview
+When the auto-fix workflow detects build problems, it automatically creates GitHub issues as tasks for Copilot to fix. This enables automated problem tracking and allows Copilot to work on fixing the issues.
+
+### How It Works
+
+1. **Detection**: The workflow analyzes failed TeamCity builds and extracts detailed problem information
+2. **Issue Creation**: For each detected problem, a GitHub issue is created with:
+   - Descriptive title including problem type and identity
+   - Detailed problem description with TeamCity build context
+   - Links to build logs and workflow runs
+   - Clear instructions for Copilot on what needs to be fixed
+3. **Labeling**: Issues are automatically labeled with:
+   - `auto-fix` - Indicates the issue was created by the auto-fix workflow
+   - `build-failure` - Indicates this is a build failure issue
+   - `copilot-task` - Marks the issue as a task for Copilot
+4. **PR Integration**: Comments are added to the originating PR linking to the created Copilot tasks
+
+### Issue Format
+
+Each created issue includes:
+- **Type**: The type of build problem (e.g., compilation error, test failure)
+- **Identity**: Specific identifier of the problem
+- **Branch**: The branch where the problem occurred
+- **PR Reference**: Link to the originating pull request
+- **TeamCity Build**: Link to the full build logs in TeamCity
+- **Problem Details**: Detailed error messages and context
+- **Task Instructions**: Clear steps for Copilot to analyze and fix the issue
+
+### Benefits
+
+1. **Automatic Problem Tracking**: No need to manually create issues for build failures
+2. **Comprehensive Context**: Each issue contains all necessary information for debugging
+3. **Copilot Integration**: Issues are ready for Copilot to work on
+4. **Visibility**: Team can see all open build issues and their status
+5. **Traceability**: Issues link back to PRs, builds, and workflow runs
 
 ## Benefits
 
@@ -168,8 +209,15 @@ Edit `.github/workflows/auto-fix-on-failure.yml`:
   - PR comments now display detected build errors and issue types
   - Workflow successfully recognizes when build errors occur
   - Foundation laid for future auto-fix implementations
+- **v1.2** (2026-01-31): Added Copilot task creation
+  - Enhanced TeamCity build problem analysis with detailed problem extraction
+  - Automatic GitHub issue creation for each detected build problem
+  - Issues include comprehensive context (type, details, build links, instructions)
+  - Automatic labeling with `auto-fix`, `build-failure`, and `copilot-task` labels
+  - PR comments now show created Copilot tasks
+  - Full integration with TeamCity build problem API
 
 ---
 
-**Status**: Build Error Recognition Implemented, Auto-Fix Logic Pending
+**Status**: Copilot Task Creation Implemented, Auto-Fix Logic Pending
 **Last Updated**: January 31, 2026
