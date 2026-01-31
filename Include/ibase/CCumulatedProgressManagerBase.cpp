@@ -51,6 +51,8 @@ protected:
 		if (m_parentPtr != nullptr){
 			if (GetProcessedTasks().size() == 0){
 				m_parentPtr->ReportTaskProgress(this, GetCumulatedProgress(), TaskStatus::Finished);
+				m_parentPtr->CloseTask(this);
+				m_parentPtr = nullptr; // Prevent double-close in destructor
 			}
 		}
 	}
