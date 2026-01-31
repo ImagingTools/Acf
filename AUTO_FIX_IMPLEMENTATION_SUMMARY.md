@@ -65,10 +65,9 @@ Implemented a GitHub Actions workflow that automatically:
 ✅ **Automatic labeling and categorization of build issues**
 
 ### To Be Implemented:
-⏳ Specific fix logic for common errors
-⏳ Deep build log parsing from TeamCity
-⏳ Component registration auto-fixes
-⏳ Package mismatch corrections
+⏳ Specific fix logic for common errors (component registration, package mismatches, etc.)
+⏳ Deep build log parsing from TeamCity for non-structured errors
+⏳ Automatic application of fixes for recognized patterns
 
 ## Supported Auto-Fixes (Planned)
 
