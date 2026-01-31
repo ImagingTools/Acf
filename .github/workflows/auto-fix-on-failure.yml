@@ -15,10 +15,12 @@ jobs:
   auto-fix:
     name: Attempt Auto-Fix
     runs-on: ubuntu-latest
-    # Only run on failed builds from pull requests
+    # Only run on failed builds from pull requests in the same repository (not forks)
+    # This allows the workflow to run automatically without requiring approval
     if: |
       github.event.workflow_run.conclusion == 'failure' &&
-      github.event.workflow_run.event == 'pull_request'
+      github.event.workflow_run.event == 'pull_request' &&
+      github.event.workflow_run.head_repository.full_name == github.repository
     steps:
       - name: Get PR Information
         id: pr
