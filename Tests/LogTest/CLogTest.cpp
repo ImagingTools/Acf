@@ -4,6 +4,7 @@
 
 // ACF includes
 #include <ilog/CMessage.h>
+#include <iser/CMemoryWriteArchive.h>
 #include <istd/IInformationProvider.h>
 
 
