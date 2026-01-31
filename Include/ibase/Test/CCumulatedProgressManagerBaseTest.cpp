@@ -219,10 +219,12 @@ void CCumulatedProgressManagerBaseTest::TestTaskStatusTransitions()
 	QCOMPARE(tasks[0].status, ibase::CCumulatedProgressManagerBase::TaskStatus::Running);
 	QCOMPARE(tasks[0].progress, 1.0);
 
-	// Close logger - task should be finished and removed
+	// Close logger - task should be finished but remain in list until destroyed
 	loggerPtr.reset();
 	tasks = progress.GetProcessedTasks();
-	QCOMPARE(tasks.size(), size_t(0));
+	QCOMPARE(tasks.size(), size_t(1));
+	QCOMPARE(tasks[0].status, ibase::CCumulatedProgressManagerBase::TaskStatus::Finished);
+	QCOMPARE(tasks[0].progress, 1.0);
 }
 
 
