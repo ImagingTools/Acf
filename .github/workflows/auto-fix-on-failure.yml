@@ -85,7 +85,7 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
-            const prInfo = ${{ fromJSON(steps.pr.outputs.result) }};
+            const prInfo = JSON.parse('${{ steps.pr.outputs.result }}');
             const changesMade = '${{ steps.fix.outputs.changes_made }}' === 'true';
 
             let body = changesMade
