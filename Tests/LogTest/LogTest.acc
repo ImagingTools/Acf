@@ -56,7 +56,7 @@
         </Element>
         
         <!-- Log Router to forward errors only -->
-        <Element Id="LogRouter" PackageId="LogPck" ComponentId="LogRouter">
+        <Element Id="LogRouter" PackageId="BasePck" ComponentId="LogRouter">
             <Data IsEnabled="true" Flags="0">
                 <AttributeInfoMap>
                     <AttributeInfo Id="InputMessageContainer" Type="Reference" ExportId="">

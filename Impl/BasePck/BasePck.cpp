@@ -25,6 +25,11 @@ I_EXPORT_COMPONENT(
 			IM_TAG("Log"));
 
 I_EXPORT_COMPONENT(
+			LogRouter,
+			"Routes messages from one log container to another with filtering",
+			"Message Routing Filter Observer" IM_CATEGORY(I_SERVICE) IM_TAG("Log"));
+
+I_EXPORT_COMPONENT(
 			StandardStreamBridge,
 			"Bridge between STL-streams and message consumer",
 			IM_TAG("Log"));
