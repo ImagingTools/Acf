@@ -124,7 +124,7 @@ void CIdocCompTest::testUndoManagerUndoRedo()
 	// Attach undo manager to document
 	imod::IModel* model = dynamic_cast<imod::IModel*>(m_textDocumentPtr);
 	QVERIFY(model != nullptr);
-	observer->AttachModel(model);
+	model->AttachObserver(observer);
 	
 	// Set initial text
 	m_textDocumentPtr->SetText("Initial text");
@@ -148,7 +148,7 @@ void CIdocCompTest::testUndoManagerUndoRedo()
 	QCOMPARE(m_textDocumentPtr->GetText(), QString("Modified text"));
 	
 	// Clean up
-	observer->DetachModel(model);
+	model->DetachObserver(observer);
 	m_undoManagerPtr->ResetUndo();
 }
 
@@ -166,7 +166,7 @@ void CIdocCompTest::testUndoManagerMultipleSteps()
 	// Attach undo manager to document
 	imod::IModel* model = dynamic_cast<imod::IModel*>(m_textDocumentPtr);
 	QVERIFY(model != nullptr);
-	observer->AttachModel(model);
+	model->AttachObserver(observer);
 	
 	// Reset undo to start fresh
 	m_undoManagerPtr->ResetUndo();
@@ -189,7 +189,7 @@ void CIdocCompTest::testUndoManagerMultipleSteps()
 	QVERIFY(m_undoManagerPtr->GetAvailableRedoSteps() >= 2);
 	
 	// Clean up
-	observer->DetachModel(model);
+	model->DetachObserver(observer);
 	m_undoManagerPtr->ResetUndo();
 }
 
@@ -218,7 +218,7 @@ void CIdocCompTest::testUndoManagerReset()
 	// Attach undo manager to document
 	imod::IModel* model = dynamic_cast<imod::IModel*>(m_textDocumentPtr);
 	QVERIFY(model != nullptr);
-	observer->AttachModel(model);
+	model->AttachObserver(observer);
 	
 	// Reset to start fresh
 	m_undoManagerPtr->ResetUndo();
@@ -238,7 +238,7 @@ void CIdocCompTest::testUndoManagerReset()
 	QCOMPARE(m_undoManagerPtr->GetAvailableRedoSteps(), 0);
 	
 	// Clean up
-	observer->DetachModel(model);
+	model->DetachObserver(observer);
 }
 
 
@@ -272,22 +272,22 @@ void CIdocCompTest::testDocumentTemplateCreation()
 	QVERIFY(m_documentTemplatePtr != nullptr);
 	
 	// Check that template provides basic information
-	QVERIFY(m_documentTemplatePtr->GetDocumentTypeId().size() > 0);
+	QVERIFY(m_documentTemplatePtr->GetDocumentTypeIds().size() > 0);
 }
 
 
 void CIdocCompTest::testDocumentTemplateCreateDocument()
 {
 	// Get the document type ID
-	QByteArray docTypeId = m_documentTemplatePtr->GetDocumentTypeId();
+	QByteArray docTypeId = m_documentTemplatePtr->GetDocumentTypeIds().value(0);
 	QVERIFY(!docTypeId.isEmpty());
 	
 	// Create a new document using the template
 	istd::IChangeableUniquePtr documentPtr = m_documentTemplatePtr->CreateDocument(docTypeId);
-	QVERIFY(documentPtr.get() != nullptr);
+	QVERIFY(documentPtr.GetPtr() != nullptr);
 	
 	// Verify the document implements ITextDocument
-	idoc::ITextDocument* textDoc = dynamic_cast<idoc::ITextDocument*>(documentPtr.get());
+	idoc::ITextDocument* textDoc = dynamic_cast<idoc::ITextDocument*>(documentPtr.GetPtr());
 	QVERIFY(textDoc != nullptr);
 	
 	// Verify the document has the default text
@@ -298,14 +298,14 @@ void CIdocCompTest::testDocumentTemplateCreateDocument()
 void CIdocCompTest::testDocumentTemplateAttributes()
 {
 	// Verify document type ID
-	QByteArray docTypeId = m_documentTemplatePtr->GetDocumentTypeId();
+	QByteArray docTypeId = m_documentTemplatePtr->GetDocumentTypeIds().value(0);
 	QCOMPARE(docTypeId, QByteArray("TestDocType"));
 	
 	// Check if new operation is supported
-	QVERIFY(m_documentTemplatePtr->IsNewSupported(docTypeId));
+	QVERIFY(m_documentTemplatePtr->IsFeatureSupported(idoc::IDocumentTypesInfo::SF_NEW_DOCUMENT, docTypeId));
 	
 	// Check if edit operation is supported
-	QVERIFY(m_documentTemplatePtr->IsEditSupported(docTypeId));
+	QVERIFY(m_documentTemplatePtr->IsFeatureSupported(idoc::IDocumentTypesInfo::SF_EDIT_DOCUMENT, docTypeId));
 	
 	// Get document type name
 	QString docTypeName = m_documentTemplatePtr->GetDocumentTypeName(docTypeId);
