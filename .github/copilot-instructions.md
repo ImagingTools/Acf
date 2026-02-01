@@ -89,7 +89,7 @@ ICOMP_DEFINE_FACTORY(CMyComponent)
 
 ## Security Considerations
 
-ACF is designed with EU Cyber Resilience Act (CRA) compliance in mind:
+ACF follows practices aligned with the EU Cyber Resilience Act (CRA) requirements. See [CRA_COMPLIANCE.md](CRA_COMPLIANCE.md) for detailed compliance information.
 
 ### Secure Coding Practices
 - **Input Validation**: Always validate external inputs
@@ -230,7 +230,8 @@ Refer to project-specific build documentation for detailed build instructions. T
 General workflow:
 ```bash
 # Set ACFDIR environment variable (required)
-export ACFDIR=/path/to/Acf
+# Point this to your ACF repository root directory
+export ACFDIR=/path/to/your/Acf
 
 # Build main project with CMake
 cd Build/CMake
