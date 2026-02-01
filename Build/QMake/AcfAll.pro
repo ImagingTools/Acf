@@ -151,6 +151,12 @@ ifileTest.file = ../../Include/ifile/Test/QMake/ifileTest.pro
 SUBDIRS += icmmTest
 icmmTest.file = ../../Include/icmm/Test/QMake/icmmTest.pro
 
+SUBDIRS += i3dTest
+i3dTest.file = ../../Include/i3d/Test/QMake/i3dTest.pro
+
+SUBDIRS += imathTest
+imathTest.file = ../../Include/imath/Test/QMake/imathTest.pro
+
 SUBDIRS += SelectionParamIntegrationTest
 SelectionParamIntegrationTest.file = ../../Tests/SelectionParamIntegrationTest/QMake/SelectionParamIntegrationTest.pro
 SelectionParamIntegrationTest.depends = Arxc iprm iser itest
@@ -159,4 +165,30 @@ SUBDIRS += MultiThreadingComponentTest
 MultiThreadingComponentTest.file = ../../Tests/MultiThreadingComponentTest/QMake/MultiThreadingComponentTest.pro
 MultiThreadingComponentTest.depends = Arxc iprm iser itest
 
+SUBDIRS += ParamsManagerTest
+ParamsManagerTest.file = ../../Tests/ParamsManagerTest/QMake/ParamsManagerTest.pro
+ParamsManagerTest.depends = Arxc iprm iser itest
+
+SUBDIRS += SelectionParamComponentTest
+SelectionParamComponentTest.file = ../../Tests/SelectionParamComponentTest/QMake/SelectionParamComponentTest.pro
+SelectionParamComponentTest.depends = Arxc iprm iser itest
+
+SUBDIRS += AutoPersistenceTest
+AutoPersistenceTest.file = ../../Tests/AutoPersistenceTest/QMake/AutoPersistenceTest.pro
+AutoPersistenceTest.depends = Arxc iprm ifile iser itest
+
+SUBDIRS += LogTest
+LogTest.file = ../../Tests/LogTest/QMake/LogTest.pro
+LogTest.depends = Arxc ilog iser itest
+
+SUBDIRS += DocumentManagementComponentTest
+DocumentManagementComponentTest.file = ../../Tests/DocumentManagementComponentTest/QMake/DocumentManagementComponentTest.pro
+DocumentManagementComponentTest.depends = Arxc idoc iser itest
+
+# Impl Tests
+!macx-ios*{
+	SUBDIRS += ComposedGuiTest
+	ComposedGuiTest.file = ../../Impl/Tests/ComposedGuiTest/QMake/ComposedGuiTest.pro
+	ComposedGuiTest.depends = Acf
+}
 
