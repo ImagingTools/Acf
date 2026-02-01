@@ -194,8 +194,6 @@ jobs:
           
           echo "changes_made=$CHANGES_MADE" >> "$GITHUB_OUTPUT"
 
-      # This step is removed - we now post errors as comments instead of creating issues
-
       - name: Commit and Push Fixes
         if: steps.fix.outputs.changes_made == 'true'
         shell: bash
