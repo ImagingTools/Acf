@@ -68,7 +68,7 @@
         <Element Id="DocumentTemplate" PackageId="BasePck" ComponentId="SingleDocumentTemplate">
             <Data IsEnabled="true" Flags="0">
                 <AttributeInfoMap>
-                    <AttributeInfo Id="DocumentTypeId" Type="ByteArray" ExportId="">
+                    <AttributeInfo Id="DocumentTypeId" Type="Id" ExportId="">
                         <Data IsEnabled="true" Value="TestDocType"/>
                     </AttributeInfo>
                     <AttributeInfo Id="DocumentTypeName" Type="Text" ExportId="">
