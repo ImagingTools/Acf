@@ -67,24 +67,54 @@ Docs/            # Documentation
 ## Component Framework
 
 Key concepts when working with components:
-- Components are registered with the framework using `ICOMP_DEFINE_FACTORY`
-- Components must be exported from packages
-- Use `IComponentRef` for component references
-- Follow the factory pattern for component creation
-- Components should be properly registered in Config files
+- Components inherit from `CComponentBase`
+- Component structure is defined using `I_BEGIN_COMPONENT` / `I_END_COMPONENT` macros
+- Components are exported from packages using `I_EXPORT_COMPONENT`
+- Interfaces are registered with `I_REGISTER_INTERFACE`
+- Attributes are declared with `I_ATTR` and assigned with `I_ASSIGN`
+- Component references use `I_REF` macro
+- Component factories use `I_FACT` or `I_MULTIFACT` macros
 
-### Common Component Patterns
+### Common Component Pattern
 ```cpp
-// Component definition
-class CMyComponent : public CComponentBase
+// Component header (.h file)
+class CMyComponent : public icomp::CComponentBase
 {
-    ICOMP_OBJECT(CMyComponent)
 public:
-    // Component implementation
+    typedef icomp::CComponentBase BaseClass;
+    
+    // Define component structure
+    I_BEGIN_COMPONENT(CMyComponent);
+        I_REGISTER_INTERFACE(IMyInterface);
+        I_ASSIGN(m_enabled, "Enabled", "Enable feature", true, true);
+    I_END_COMPONENT;
+    
+    CMyComponent();
+    
+protected:
+    virtual void OnComponentCreated() override;
+    
+private:
+    I_ATTR(bool, m_enabled);
 };
 
-// Registration
-ICOMP_DEFINE_FACTORY(CMyComponent)
+// Package registration (in package .cpp file)
+#include <icomp/export.h>
+
+namespace MyPck
+{
+    typedef CMyComponent MyComponent;
+    
+    I_EXPORT_PACKAGE(
+        "MyCompany/MyPck",
+        "My package description",
+        IM_PROJECT("MyProject"));
+    
+    I_EXPORT_COMPONENT(
+        MyComponent,
+        "My component description",
+        IM_TAG("MyTag"));
+}
 ```
 
 ## Security Considerations
