@@ -3,7 +3,7 @@ project(ParamsManagerTest LANGUAGES CXX)
 
 set(ARXC_CONFIG "${CMAKE_CURRENT_LIST_DIR}/../../../Config/AcfTestConfig.awc")
 set(ARXC_FILES "${PROJECT_SOURCE_DIR}/../${PROJECT_NAME}.acc")
-set(ARX_ENABLE_GENERATE_DEPENDENCIES_LIST ON)
+set(ARX_ENABLE_GENERATE_DEPENDENCIES_LIST OFF)
 include(${ACFDIR}/Config/CMake/CustomBuild.cmake)
 
 include(${ACFDIR}/Config/CMake/ApplicationConfig.cmake)
