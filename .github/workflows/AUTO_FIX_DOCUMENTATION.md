@@ -1,16 +1,16 @@
 # Auto-Fix on Build Failure
 
-This GitHub Actions workflow automatically attempts to fix common build errors when CI builds fail.
+This GitHub Actions workflow automatically posts build errors to PR discussions when CI builds fail.
 
 ## Overview
 
 When a TeamCity CI build fails for a pull request, the auto-fix workflow:
 1. Analyzes the build failure
 2. Fetches detailed problem information from TeamCity
-3. Creates GitHub issues as tasks for Copilot to fix
-4. Attempts to apply common fixes (where implemented)
-5. Commits and pushes changes if fixes are available
-6. Comments on the PR with results and links to Copilot tasks
+3. Posts build errors as comments in the PR discussion
+4. Includes links to TeamCity builds and workflow runs
+5. Attempts to apply common fixes (where implemented)
+6. Commits and pushes changes if fixes are available
 
 ## Supported Auto-Fixes
 
@@ -43,10 +43,13 @@ The workflow is triggered by the `workflow_run` event when the "TeamCity CI" wor
 1. **Get PR Information**: Identifies the pull request associated with the failed build
 2. **Checkout**: Checks out the PR branch with write permissions
 3. **Analyze**: Examines the build failure patterns and fetches detailed problems from TeamCity
-4. **Create Copilot Tasks**: Creates GitHub issues for detected problems with comprehensive context
-5. **Fix**: Applies appropriate fixes based on the error type (where implemented)
+4. **Fix**: Applies appropriate fixes based on the error type (where implemented)
+5. **Comment**: Posts build errors as comments in the PR discussion with:
+   - Error type and identity
+   - Detailed error messages in code blocks
+   - Links to TeamCity builds
+   - Links to workflow runs
 6. **Commit**: Creates a commit with fixes (if any were applied)
-7. **Comment**: Posts a comment on the PR explaining what was done and linking to Copilot tasks
 
 ### Safety
 - Only runs on pull requests (not main/master branches)
@@ -54,49 +57,46 @@ The workflow is triggered by the `workflow_run` event when the "TeamCity CI" wor
 - Comments on PR so reviewers can see what was changed
 - Creates a check run with results
 
-## Copilot Task Creation
+## Build Error Commenting
 
 ### Overview
-The auto-fix workflow automatically creates GitHub issues as tasks for Copilot when build problems are detected. This enables automated issue tracking and allows Copilot to work on fixing the detected problems.
+The auto-fix workflow automatically posts build errors to the PR discussion when build failures are detected. This automates the manual process where reviewers copy-paste compiler errors from TeamCity logs into the PR discussion.
 
-### When Tasks Are Created
-Tasks are created when:
+### When Comments Are Posted
+Comments are posted when:
 - A TeamCity build fails with specific build problems
 - The auto-fix workflow successfully analyzes the failure
 - Detailed problem information is available from TeamCity
 
-### Task Format
-Each created issue includes:
+### Comment Format
+Each comment includes:
 
-**Title**: `[Auto-Fix] {ProblemType}: {ProblemIdentity}`
+**Header**: `## ❌ Build Failed`
 
-**Labels**:
-- `auto-fix` - Indicates automatic creation
-- `build-failure` - Marks as a build failure issue  
-- `copilot-task` - Designates for Copilot to work on
-
-**Content**:
-- Problem type and identity
-- Branch and PR reference
+**For Each Error**:
+- Error number and type (e.g., "Error 1: TC_COMPILATION_ERROR")
+- Problem identity/description
 - Link to TeamCity build logs
-- Detailed problem description
-- Clear instructions for Copilot on what needs to be fixed
-- Links to workflow runs
+- Detailed error message in a code block
+
+**Footer**:
+- Link to the workflow run
+- Link to the original build failure
+- TeamCity build IDs
 
 ### Workflow
 1. Build fails in TeamCity
 2. Auto-fix workflow analyzes the failure
-3. For each detected problem, a GitHub issue is created
-4. Issue is labeled as a Copilot task
-5. PR receives a comment with links to the created issues
-6. Copilot can then work on fixing the issues
+3. Build errors are extracted from TeamCity API
+4. A comment is posted to the PR with all errors formatted
+5. Developers can see the errors directly in the PR discussion
 
 ### Benefits
-- **Automatic tracking**: No manual issue creation needed
-- **Comprehensive context**: All debugging information included
-- **Copilot ready**: Issues formatted for Copilot to work on
-- **Visibility**: Team can see all build issues
-- **Traceability**: Links between PRs, builds, and issues
+- **Automated feedback**: Build errors appear immediately in PR
+- **Matches manual process**: Replicates what reviewers do manually
+- **Comprehensive context**: Includes links to full build logs
+- **No separate issues**: Keeps discussion in the PR
+- **Easy to fix**: Developers see errors without leaving GitHub
 
 ### Example Issue
 ```markdown
