@@ -19,12 +19,12 @@ The project supports two build systems:
 Build configurations are located in:
 - `Build/CMake/` - CMake configuration
 - `Build/QMake/` - QMake configuration
-- `Build/VC*_64/` - Visual Studio configurations
+- `Build/VC*_64/` - Scripts for generating native Visual Studio projects from CMake or QMake projects
 
 ## Code Organization
 
 ```
-Include/          # Public header files (.h)
+Include/          # Source code for static libraries/modules (headers and implementations)
 ├── icomp/       # Component framework
 ├── iprm/        # Parameter management
 ├── iser/        # Serialization
@@ -32,9 +32,10 @@ Include/          # Public header files (.h)
 ├── iqtgui/      # Qt GUI utilities
 └── ...          # Other libraries
 
-Impl/            # Implementation files (.cpp)
-├── ComponentPck/
-├── ParamPck/
+Impl/            # Component packages (binaries - DLLs/shared libraries) and applications
+├── BasePck/     # Component packages
+├── FilePck/
+├── AcfExe/      # Applications
 └── ...
 
 Tests/           # Unit tests (Qt Test framework)
@@ -152,8 +153,8 @@ ACF follows practices aligned with the EU Cyber Resilience Act (CRA) requirement
 Tests/MyTest/
 ├── CMake/CMakeLists.txt
 ├── QMake/MyTest.pro
-├── Src/
-│   └── MyTest.cpp
+├── MyTest.cpp
+├── MyTest.h
 └── Data/  (if needed)
 ```
 
@@ -162,18 +163,19 @@ Tests/MyTest/
 ### Adding a New Component
 1. Create header in `Include/<library>/`
 2. Create implementation in `Impl/<package>/`
-3. Register component with `ICOMP_DEFINE_FACTORY`
-4. Export from package
+3. Use `I_BEGIN_COMPONENT` / `I_END_COMPONENT` to define component structure
+4. Export from package using `I_EXPORT_COMPONENT`
 5. Add to Config file if needed
 6. Update documentation
 
 ### Adding a New Library
-1. Create directory structure in `Include/` and `Impl/`
-2. Add CMake configuration in `Build/CMake/`
-3. Add QMake configuration in `Build/QMake/`
-4. Update relevant package files
-5. Add tests in `Tests/`
-6. Update documentation
+1. Create directory in `Include/<library>/` with source and header files
+2. Create package directory in `Impl/<package>/` for component packages
+3. Add CMake configuration in `Build/CMake/`
+4. Add QMake configuration in `Build/QMake/`
+5. Update relevant package files
+6. Add tests in `Tests/`
+7. Update documentation
 
 ### Fixing Build Issues
 - Check component registration and exports
@@ -194,12 +196,12 @@ Tests/MyTest/
 ### Doxygen Comments
 ```cpp
 /**
- * @brief Brief description of the class/method
- * 
- * Detailed description goes here.
- * 
- * @param paramName Description of parameter
- * @return Description of return value
+ \brief Brief description of the class/method
+ 
+ Detailed description goes here.
+ 
+ \param paramName Description of parameter
+ \return Description of return value
  */
 ```
 
