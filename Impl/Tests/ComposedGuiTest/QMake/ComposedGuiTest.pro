@@ -20,4 +20,3 @@ include(../../../../Config/QMake/AcfQt.pri)
 include(../../../../Config/QMake/AcfStdGui.pri)
 include(../../../../Config/QMake/AcfStd.pri)
 include(../../../../Config/QMake/CustomBuild.pri)
-
