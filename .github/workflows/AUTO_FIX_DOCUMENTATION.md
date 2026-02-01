@@ -98,31 +98,34 @@ Each comment includes:
 - **No separate issues**: Keeps discussion in the PR
 - **Easy to fix**: Developers see errors without leaving GitHub
 
-### Example Issue
+### Example Comment
 ```markdown
-## Build Problem Detected
+## ❌ Build Failed
 
-**Type:** TC_COMPILATION_ERROR
-**Identity:** Error in Impl/ilog/CLogRouter.cpp:42
-**Branch:** feature/new-logging
-**PR:** #123
+The TeamCity CI build has failed. Below are the build errors extracted from the build logs:
+
+### Build Errors (1 problem detected)
+
+#### Error 1: TC_COMPILATION_ERROR
+
+**Issue:** Error in Impl/ilog/CLogRouter.cpp:42
 
 **TeamCity Build:** [Build 45678](https://teamcity.example.com/...)
 
-### Problem Details
+**Details:**
 ```
 error: 'ILogger' was not declared in this scope
 ```
 
-### Context
-This issue was automatically created by the auto-fix workflow after detecting a build failure.
+---
 
-### Task for Copilot
-Please analyze the build problem and:
-1. Identify the root cause of the issue
-2. Implement a fix for the problem
-3. Ensure the fix doesn't break existing functionality
-4. Test the changes to verify the build passes
+### Additional Information
+
+- **Workflow Run:** [View Details](https://github.com/ImagingTools/Acf/actions/runs/123456)
+- **Original Build Failure:** [View Build](https://github.com/ImagingTools/Acf/actions/runs/123455)
+- **TeamCity Build IDs:** 45678
+
+**Please review the errors above and fix them in this PR.**
 ```
 
 ## Configuration
