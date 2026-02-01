@@ -221,21 +221,21 @@ Tests/MyTest/
 ## Helpful Commands
 
 ```bash
-# Build with CMake
+# Build with CMake (project root)
 cd Build/CMake
 cmake ../..
 make
 
-# Build with QMake
+# Build with QMake (project root)
 cd Build/QMake
 qmake
 make
 
-# Run tests
+# Run tests (from test directory)
 cd Tests/<TestName>/CMake
-cmake ..
+cmake .
 make
-./TestName
+./<TestName>
 ```
 
 ## Avoid
