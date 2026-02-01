@@ -1,8 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<LoadSettings>
-    <Partitura>
-        <Classes>
-            <Class ClassName="CAutoPersistenceTestRunner" Flags="1"/>
-        </Classes>
-    </Partitura>
-</LoadSettings>
+<Acf>
+    <AcfHeader>
+        <VersionInfos>
+            <Version Id="0" Number="5454" Description="ACF"/>
+            <Version Id="1" Number="2256" Description="ACF-Solutions"/>
+            <Version Id="1023" Number="395266" Description="Qt Framework"/>
+        </VersionInfos>
+    </AcfHeader>
+    <PositionMap>
+        <Element ComponentName="AutoPersistenceAutoReload" X="925" Y="375" Note=""/>
+        <Element ComponentName="AutoPersistenceLocking" X="675" Y="175" Note=""/>
+        <Element ComponentName="AutoPersistenceRestoreStoreEnd" X="800" Y="175" Note=""/>
+        <Element ComponentName="AutoPersistenceStoreInterval" X="650" Y="300" Note=""/>
+        <Element ComponentName="AutoPersistenceStoreOnBegin" X="575" Y="150" Note=""/>
+        <Element ComponentName="AutoPersistenceStoreOnChange" X="300" Y="125" Note=""/>
+        <Element ComponentName="ConsoleLog" X="525" Y="375" Note=""/>
+        <Element ComponentName="FilePathAutoReload" X="350" Y="475" Note=""/>
+        <Element ComponentName="FilePathLocking" X="325" Y="175" Note=""/>
+        <Element ComponentName="FilePathRestoreStoreEnd" X="400" Y="325" Note=""/>
+        <Element ComponentName="FilePathStoreInterval" X="500" Y="400" Note=""/>
+        <Element ComponentName="FilePathStoreOnBegin" X="625" Y="275" Note=""/>
+        <Element ComponentName="FilePathStoreOnChange" X="475" Y="150" Note=""/>
+        <Element ComponentName="SelectionAutoReload" X="400" Y="175" Note=""/>
+        <Element ComponentName="SelectionLocking" X="900" Y="450" Note=""/>
+        <Element ComponentName="SelectionRestoreStoreEnd" X="625" Y="575" Note=""/>
+        <Element ComponentName="SelectionStoreInterval" X="575" Y="150" Note=""/>
+        <Element ComponentName="SelectionStoreOnBegin" X="650" Y="500" Note=""/>
+        <Element ComponentName="SelectionStoreOnChange" X="350" Y="75" Note=""/>
+        <Element ComponentName="XmlFileSerializer" X="475" Y="300" Note=""/>
+    </PositionMap>
+    <EmbeddedRegistries/>
+</Acf>
