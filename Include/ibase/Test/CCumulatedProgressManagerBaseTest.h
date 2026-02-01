@@ -16,6 +16,15 @@ class CCumulatedProgressManagerBaseTest : public QObject
 
 private Q_SLOTS:
 	void DoOverflowTest1();
+	void TestBasicProgressLogger();
+	void TestMultipleSubtasks();
+	void TestCancellation();
+	void TestGetProcessedTasksSorted();
+	void TestGetProcessedTasksMaxCount();
+	void TestResetProgressManager();
+	void TestTaskStatusTransitions();
+	void TestNestedSubtasks();
+	void TestDefaultTaskInfo();
 };
 
 

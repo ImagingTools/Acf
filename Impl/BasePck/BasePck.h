@@ -6,6 +6,7 @@
 
 #include <ilog/CConsoleLogComp.h>
 #include <ilog/CLogComp.h>
+#include <ilog/CLogRouterComp.h>
 #include <ilog/CStandardStreamBridgeComp.h>
 #include <ilog/CTracingConfigurationComp.h>
 
@@ -79,6 +80,7 @@ namespace BasePck
 
 typedef ilog::CConsoleLogComp ConsoleLog;
 typedef icomp::TModelCompWrap<ilog::CLogComp> Log;
+typedef ilog::CLogRouterComp LogRouter;
 typedef ilog::CStandardStreamBridgeComp StandardStreamBridge;
 typedef ilog::CTracingConfigurationComp TracingConfiguration;
 

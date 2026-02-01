@@ -157,6 +157,28 @@ When updating dependencies:
 - Security scans are performed automatically
 - Review and address any CI failures
 
+### Auto-Fix on Build Failure
+
+When a build fails on a pull request, our auto-fix system may automatically attempt to resolve common issues:
+
+- **Missing Component Registration**: Automatically adds component typedefs and exports
+- **Package Mismatches**: Updates PackageId in configuration files to match actual registrations
+- **Common Configuration Issues**: Fixes obvious build configuration problems
+
+**How it works:**
+1. When a TeamCity CI build fails, the auto-fix workflow analyzes the error
+2. If a common fixable pattern is detected, it applies the fix
+3. A commit is automatically created and pushed to your PR branch
+4. A comment is added to the PR explaining what was fixed
+5. The build automatically re-runs
+
+**What to do:**
+- Review the auto-fix commit to ensure correctness
+- If the fix is incorrect, you can revert it or make additional changes
+- If build still fails, check the PR comment for manual fix suggestions
+
+For more details, see [Auto-Fix Documentation](.github/workflows/AUTO_FIX_DOCUMENTATION.md).
+
 ## Recognition
 
 Contributors are recognized in:

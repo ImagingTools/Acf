@@ -8,7 +8,6 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core Test)
 target_link_libraries(${PROJECT_NAME} itest icomp ifile ilog iser imod istd)
 target_link_libraries(${PROJECT_NAME} Qt${QT_VERSION_MAJOR}::Test Qt${QT_VERSION_MAJOR}::Core)
 
-
 if(WIN32)
 	set(listFiles \"${AUX_INCLUDE_DIR}/../../../Bin/${CMAKE_BUILD_TYPE}_${TARGETNAME}/${PROJECT_NAME}.exe\")
 

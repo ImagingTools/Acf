@@ -14,6 +14,9 @@ Tests are organized by location:
   - **ParamsManagerTest/** - Tests for IParamsManager interface
   - **MultiThreadingComponentTest/** - Tests for multi-threading components
   - **SelectionParamIntegrationTest/** - Integration tests for selection parameters
+  - **SelectionParamComponentTest/** - Component tests for CSelectionParamComp with various configurations
+  - **AutoPersistenceTest/** - Tests for CAutoPersistenceComp with various attribute configurations
+  - **IdocComponentTest/** - Component tests for idoc library (CTextDocumentComp, CSerializedUndoManagerComp, CSingleDocumentTemplateComp)
 
 - **Include/[library]/Test/** - Unit tests for each library
   - **Include/istd/Test/** - Tests for standard utilities (CRandomNumber, CIndex2d, CBitManip, CCrcCalculator, etc.)
@@ -104,6 +107,12 @@ Unit tests for each library are located in `Include/[library]/Test/` directories
 - **CCompactXmlArchive** - Compact XML serialization
 - **CJsonArchive** - JSON serialization
 
+#### ibase (Base Components) - Include/ibase/Test/
+- **CCumulatedProgressManagerBase** - Progress management with subtask support
+- **TContainer** - Template container class with Qt List backend, supporting push/pop, insert/remove operations, iterators, and standard container interface
+- **TSerializableContainer** - Template container with serialization support for items
+- **TFactorisableContainer** - Template container with factory-based element creation and automatic memory management
+
 #### iprm (Parameters) - Include/iprm/Test/
 - **CIdParam** - ID parameter with get/set, serialization, copy/clone, and comparison operations
 - **CNameParam** - Name parameter with get/set, serialization, copy/clone, and comparison operations
@@ -169,6 +178,196 @@ Each library's test suite provides comprehensive coverage for:
 - Serialization (where applicable)
 
 Tests are organized by library to maintain clear separation of concerns and enable independent testing of each component.
+
+## Component Test Details
+
+### SelectionParamComponentTest
+
+**Purpose**: Component-level tests for `iprm::CSelectionParamComp` class with various configurations.
+
+**Test Coverage**:
+- **Selection Parameter Without Constraints**:
+  - Component creation and initialization
+  - Default index attribute handling
+  - Serialization/deserialization
+  - Get/Set operations
+  - Copy and clone operations
+  
+- **Selection Parameter With Constraints**:
+  - Component creation with constraints reference
+  - Default index validation against constraints
+  - Handling of invalid default index (should be reset to -1 if >= options count)
+  - Serialization/deserialization with constraints
+  - Copy and clone operations preserving constraints
+  
+- **Selection Parameter With Subselection**:
+  - Subselection reference configuration
+  - GetSubselection() method behavior
+  - Serialization with subselection
+
+**Configuration Files**:
+- `SelectionParamComponentTest.acc` - Contains 8 different component configurations:
+  1. `SelectionNoConstraints` - Basic selection parameter without constraints
+  2. `SelectionWithDefaultIndex` - Selection with default index (5)
+  3. `OptionsConstraints` - Options manager for constraints
+  4. `SelectionWithConstraints` - Selection with constraints reference
+  5. `SelectionWithConstraintsAndDefault` - Selection with constraints and default index (2)
+  6. `SelectionWithInvalidDefault` - Selection with invalid default index (100, should be reset to -1)
+  7. `Subselection` - Subselection parameter with constraints and default index (1)
+  8. `SelectionWithSubselection` - Selection with subselection reference and default index (3)
+
+**Test Methods**:
+- `testCreationNoConstraints()` - Verifies component creation without constraints
+- `testDefaultIndexNoConstraints()` - Tests default index attribute handling
+- `testSerializationNoConstraints()` - Tests serialization/deserialization cycle
+- `testCopyNoConstraints()` - Tests copying to another selection parameter
+- `testCloneNoConstraints()` - Tests cloning the component
+- `testCreationWithConstraints()` - Verifies component creation with constraints
+- `testDefaultIndexWithConstraints()` - Tests default index with constraint validation
+- `testInvalidDefaultIndexWithConstraints()` - Tests handling of invalid default index
+- `testSerializationWithConstraints()` - Tests serialization with constraints
+- `testCopyWithConstraints()` - Tests copying with constraints preservation
+- `testCloneWithConstraints()` - Tests cloning with constraints preservation
+- `testCreationWithSubselection()` - Verifies component creation with subselection
+- `testGetSubselection()` - Tests GetSubselection() method behavior
+- `testSerializationWithSubselection()` - Tests serialization with subselection
+
+
+## Component Tests
+
+### LogTest
+
+**Purpose**: Component-level tests for the `ilog` library logging components with various configurations.
+
+**Test Coverage**:
+- **ConsoleLog Component**:
+  - Component creation and initialization
+  - Message handling for different severity levels (Info, Warning, Error, Critical)
+  - Message formatting configuration (category, code, timestamp)
+  
+- **LogComp Component**:
+  - Component creation with message storage
+  - Message addition and retrieval via IMessageContainer interface
+  - MaxMessageCount attribute handling and automatic message pruning
+  - Worst category tracking
+  - Serialization support
+  
+- **LogRouter Component**:
+  - Component creation for message routing
+  - Message filtering by severity level (MinimalCategory)
+  - Routing messages from source container to destination consumer
+  - Verification that only messages meeting severity threshold are routed
+  
+- **TracingConfiguration Component**:
+  - Component creation and initialization
+  - Tracing level get/set operations
+  - Default tracing level configuration
+  
+- **StreamLog Component**:
+  - Stream-based logging with filtering
+  - MinCategory attribute for message filtering
+  - Message formatting with timestamps and categories
+
+**Configuration File**:
+- `LogTest.acc` - Contains 6 different logging component configurations:
+  1. `ConsoleLog` - Basic console logger with category and code display
+  2. `LogComp` - Log component with message storage (max 100 messages) and slave consumer
+  3. `ErrorLog` - Log component for error storage (max 50 messages)
+  4. `LogRouter` - Router component to forward errors (MinimalCategory=3) from LogComp to ErrorLog
+  5. `TracingConfig` - Tracing configuration with default level 1
+  6. `StreamLog` - Console log with filtering (MinCategory=2), timestamps, and dot display
+
+**Test Methods**:
+- `testConsoleLogCreation()` - Verifies ConsoleLog component creation
+- `testConsoleLogMessageHandling()` - Tests message support and handling for different categories
+- `testLogCompCreation()` - Verifies LogComp component creation and interfaces
+- `testLogCompMessageStorage()` - Tests message storage, retrieval, and worst category tracking
+- `testLogCompMaxMessageCount()` - Tests MaxMessageCount limit and message pruning
+- `testLogRouterCreation()` - Verifies LogRouter component creation
+- `testLogRouterMessageRouting()` - Tests message routing based on severity filtering
+- `testTracingConfigCreation()` - Verifies TracingConfiguration component creation
+- `testTracingConfigLevel()` - Tests tracing level operations
+- `testStreamLogFiltering()` - Tests stream log message filtering
+- `testMessageSerialization()` - Tests message container serialization
+
+### AutoPersistenceTest
+
+The AutoPersistenceTest validates the CAutoPersistenceComp component with multiple configuration variants using a single comprehensive Partitura file (AutoPersistenceTest.acc). The file defines six AutoPersistence component instances, each testing different combinations of component attributes:
+
+1. **AutoPersistenceRestoreStoreEnd** - Tests RestoreOnBegin and StoreOnEnd attributes
+   - Validates that objects are restored when component initializes
+   - Validates that objects are saved when component is destroyed
+   
+2. **AutoPersistenceStoreOnChange** - Tests StoreOnChange attribute
+   - Validates immediate persistence on every data change
+   
+3. **AutoPersistenceStoreOnBegin** - Tests StoreOnBegin attribute
+   - Validates that objects are saved on initialization if file doesn't exist
+   
+4. **AutoPersistenceStoreInterval** - Tests StoreInterval attribute
+   - Validates timer-based automatic persistence
+   
+5. **AutoPersistenceAutoReload** - Tests AutoReload attribute
+   - Validates file watching and automatic reload on external changes
+   
+6. **AutoPersistenceLocking** - Tests lock file handling
+   - Validates StaleLockTime, TryLockTimeout, and EnableLockForRead attributes
+
+Each test scenario uses a dedicated SelectionParam object as the persistent data and verifies:
+- Proper initialization and cleanup
+- Correct file creation and deletion
+- Data integrity across save/restore cycles
+- Timing behavior for interval-based persistence
+
+### IdocComponentTest
+
+**Purpose**: Component-level tests for the `idoc` library document framework components with various configurations.
+
+**Test Coverage**:
+- **CTextDocumentComp**:
+  - Component creation and initialization
+  - Get/Set text operations
+  - Default text attribute handling
+  - Serialization/deserialization of document content
+  
+- **CSerializedUndoManagerComp**:
+  - Component creation and initialization
+  - Undo/redo functionality with single and multiple steps
+  - Integration with document model via observer pattern
+  - MaxBufferSize attribute configuration
+  - Reset undo history
+  - Document state comparison and storage
+  
+- **CSingleDocumentTemplateComp**:
+  - Component creation with document type configuration
+  - Document creation via template
+  - Document type attributes (ID, name, IsNewSupported, IsEditSupported)
+  - Integration with document factory and file loader
+
+**Configuration File**:
+- `IdocComponentTest.acc` - Contains 7 different component configurations:
+  1. `TextDocument` - Basic text document without custom settings
+  2. `TextDocumentWithDefault` - Text document with custom default text
+  3. `UndoManager` - Undo manager with default buffer size (100 MB)
+  4. `UndoManagerSmallBuffer` - Undo manager with small buffer (1 MB) for testing
+  5. `TemplateDocumentFactory` - Document factory for template with default text
+  6. `TemplateFileLoader` - File loader component for template
+  7. `DocumentTemplate` - Complete document template with all attributes
+
+**Test Methods**:
+- `testTextDocumentCreation()` - Verifies text document component creation
+- `testTextDocumentGetSet()` - Tests get/set text operations
+- `testTextDocumentDefaultText()` - Tests default text attribute
+- `testTextDocumentSerialization()` - Tests document content serialization
+- `testUndoManagerCreation()` - Verifies undo manager component creation
+- `testUndoManagerUndoRedo()` - Tests basic undo/redo functionality
+- `testUndoManagerMultipleSteps()` - Tests multiple undo/redo steps
+- `testUndoManagerMaxBufferSize()` - Tests buffer size configuration
+- `testUndoManagerReset()` - Tests undo history reset
+- `testUndoManagerStateComparison()` - Tests document state comparison
+- `testDocumentTemplateCreation()` - Verifies document template creation
+- `testDocumentTemplateCreateDocument()` - Tests document creation via template
+- `testDocumentTemplateAttributes()` - Tests template attributes
 
 ## Contributing
 
