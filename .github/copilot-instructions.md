@@ -196,13 +196,13 @@ Tests/MyTest/
 ### Doxygen Comments
 ```cpp
 /**
- \brief Brief description of the class/method
- 
- Detailed description goes here.
- 
- \param paramName Description of parameter
- \return Description of return value
- */
+	\brief Brief description of the class/method
+	
+	Detailed description goes here.
+	
+	\param paramName Description of parameter
+	\return Description of return value
+*/
 ```
 
 ## Continuous Integration
