@@ -48,9 +48,9 @@ Docs/            # Documentation
 ### C++ Style
 - Use modern C++ practices (C++11/14/17 features)
 - Prefer RAII and smart pointers for resource management
-- Follow Qt naming conventions for Qt-related code
+- Follow ACF code conventions (consistent with the existing codebase)
 - Use consistent indentation (existing code style)
-- Add Doxygen comments for public APIs
+- Add Doxygen comments for both public and private APIs
 
 ### Naming Conventions
 - Classes: PascalCase with prefixes
@@ -68,7 +68,7 @@ Docs/            # Documentation
 ## Component Framework
 
 Key concepts when working with components:
-- Components inherit from `CComponentBase`
+- Components inherit from `CComponentBase` (or indirectly, e.g., from `ilog::CLoggerComponentBase` for logging/diagnostics)
 - Component structure is defined using `I_BEGIN_COMPONENT` / `I_END_COMPONENT` macros
 - Components are exported from packages using `I_EXPORT_COMPONENT`
 - Interfaces are registered with `I_REGISTER_INTERFACE`
@@ -116,6 +116,50 @@ namespace MyPck
         "My component description",
         IM_TAG("MyTag"));
 }
+```
+
+## Data Model Implementation
+
+When implementing data models in ACF, follow these guidelines:
+
+### Base Classes
+- Derive from `istd::IChangeable` for changeable data models
+- Derive from `iser::ISerializable` when persistence is needed (ISerializable inherits from IChangeable)
+
+### Required Method Implementations
+
+#### Essential Methods
+- **`GetSupportedOperations()`** - Return flags indicating which operations the data model supports
+- **`CloneMe()`** - Create a copy of the object
+- **`CopyFrom()`** - Copy data from another object of the same type
+- **`ResetData()`** - Reset data to its default state
+
+#### Optional Methods
+- **`IsEqual()`** - Compare with another object (implement only if not too expensive performance-wise)
+- **`Serialize()`** - Required when deriving from `iser::ISerializable` for persistence
+
+### Example Data Model
+```cpp
+class CMyDataModel : public iser::ISerializable
+{
+public:
+	// IChangeable interface
+	virtual int GetSupportedOperations() const override;
+	virtual istd::TUniqueInterfacePtr<istd::IChangeable> CloneMe(
+		CompatibilityMode mode = CM_WITHOUT_REFS) const override;
+	virtual bool CopyFrom(const IChangeable& object, 
+		CompatibilityMode mode = CM_WITHOUT_REFS) override;
+	virtual bool ResetData(CompatibilityMode mode = CM_WITHOUT_REFS) override;
+	virtual bool IsEqual(const IChangeable& object) const override;
+	
+	// ISerializable interface
+	virtual bool Serialize(IArchive& archive) override;
+	
+private:
+	// Data members
+	QString m_data;
+	int m_value;
+};
 ```
 
 ## Security Considerations
