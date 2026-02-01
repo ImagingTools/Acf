@@ -220,20 +220,31 @@ Tests/MyTest/
 
 ## Helpful Commands
 
+The project uses CMake and QMake build systems. Build configurations are located in:
+- `Build/CMake/` - CMake configuration
+- `Build/QMake/` - QMake configuration  
+- `Tests/<TestName>/CMake/` - Individual test CMake files
+
+Refer to project-specific build documentation for detailed build instructions. The build process may vary depending on your environment and configuration.
+
+General workflow:
 ```bash
-# Build with CMake (project root)
+# Set ACFDIR environment variable (required)
+export ACFDIR=/path/to/Acf
+
+# Build main project with CMake
 cd Build/CMake
-cmake ../..
+cmake [options] <source-dir>
 make
 
-# Build with QMake (project root)
+# Build main project with QMake
 cd Build/QMake
 qmake
 make
 
-# Run tests (from test directory)
+# Build individual tests
 cd Tests/<TestName>/CMake
-cmake .
+cmake [options] .
 make
 ./<TestName>
 ```
