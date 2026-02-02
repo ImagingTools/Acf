@@ -183,14 +183,7 @@ void CAutoPersistenceTestRunner::StoreIntervalTest()
 	// Wait less than the interval
 	QThread::msleep(500);
 	QCoreApplication::processEvents();
-	
-	// File may or may not exist yet depending on interval timing
-	// The main test is that the component doesn't crash
-	
-	// Wait for the interval to trigger (configured as 1 second)
-	QThread::msleep(1500);
-	QCoreApplication::processEvents();
-	
+
 	// Now file should exist
 	QVERIFY(QFile::exists(filePath));
 	
