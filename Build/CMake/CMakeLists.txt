@@ -79,8 +79,6 @@ add_subdirectory("${IMPL_DIR}/AcfExe/CMake" "${AUX_INCLUDE_DIR}/AcfExe")
 add_dependencies(Acf Arxc)
 add_subdirectory("${IMPL_DIR}/AcfLoc/CMake" "${AUX_INCLUDE_DIR}/AcfLoc")
 add_dependencies(AcfLoc Acf)
-add_subdirectory("${IMPL_DIR}/Tests/ComposedGuiTest/CMake" "${AUX_INCLUDE_DIR}/ComposedGuiTest")
-add_dependencies(ComposedGuiTest Acf)
 endif()
 
 if (BUILD_TESTING)
