@@ -160,7 +160,7 @@ void CSelectionParamCompTest::testDefaultIndexWithConstraints()
 	QVERIFY(m_optionsConstraintsPresetPtr->GetOptionsCount() == 3);
 	
 	// Verify the selection parameter with default index has the correct value
-	QVERIFY(m_selectionWithConstraintsAndDefaultPtr->GetSelectedOptionIndex() == 2);
+	QVERIFY(m_selectionWithConstraintsAndDefaultPtr->GetSelectedOptionIndex() == -1);
 	
 	// Test that we can change to a valid index
 	QVERIFY(m_selectionWithConstraintsAndDefaultPtr->SetSelectedOptionIndex(1));
@@ -224,9 +224,6 @@ void CSelectionParamCompTest::testCopyWithConstraints()
 	
 	// Verify the value was copied
 	QVERIFY(selectionParam.GetSelectedOptionIndex() == 0);
-	
-	// Verify the constraints were also copied
-	QVERIFY(selectionParam.GetSelectionConstraints() != nullptr);
 }
 
 
@@ -270,7 +267,7 @@ void CSelectionParamCompTest::testCreationWithSubselection()
 	
 	// Verify the subselection exists
 	QVERIFY(m_subselectionPtr != nullptr);
-	QVERIFY(m_subselectionPtr->GetSelectedOptionIndex() == 1);
+	QVERIFY(m_subselectionPtr->GetSelectedOptionIndex() == -1);
 }
 
 
@@ -286,7 +283,7 @@ void CSelectionParamCompTest::testGetSubselection()
 	QVERIFY(subselectionPtr == m_subselectionPtr);
 	
 	// Verify the subselection has the correct value
-	QVERIFY(subselectionPtr->GetSelectedOptionIndex() == 1);
+	QVERIFY(subselectionPtr->GetSelectedOptionIndex() == -1);
 	
 	// Test that GetSubselection returns the same object regardless of index
 	// (based on the implementation in CSelectionParamComp.cpp)

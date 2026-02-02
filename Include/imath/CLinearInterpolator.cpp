@@ -54,81 +54,87 @@ bool CLinearInterpolator::InitFromFunction(const ISampledFunction& function)
 
 bool CLinearInterpolator::GetValueAt(const double& argument, double& result) const
 {
+	if (m_nodes.isEmpty()){
+		return false;
+	}
+
+	// Single node: constant function (both with and without extrapolation)
+	if (m_nodes.count() == 1){
+		result = m_nodes.constBegin().value();
+		return true;
+	}
+
 	Nodes::ConstIterator nextIter = m_nodes.lowerBound(argument);
-	const bool additionalCondition = m_isExtrapolationEnabled ? (m_nodes.count() == 1) : true;
 
-	if (nextIter != m_nodes.constEnd()){
-		double nextPosition = nextIter.key();
-		Q_ASSERT(nextPosition >= argument);
-		double nextValue = nextIter.value();
+	// argument is <= first key
+	if (nextIter == m_nodes.constBegin()){
+		const double x1 = nextIter.key();
+		const double y1 = nextIter.value();
 
-		if ((nextPosition == argument) || ((nextIter == m_nodes.constBegin()) && additionalCondition)){
-			result = nextValue;
-
+		if (!m_isExtrapolationEnabled || x1 == argument){
+			// clamp (or exact hit)
+			result = y1;
 			return true;
 		}
 
-		if (m_isExtrapolationEnabled && (nextIter == m_nodes.constBegin())){
-			//extrapolate x < x_first
-			Nodes::ConstIterator nextNextIter = std::next(nextIter);
-			double nextNextPosition = nextNextIter.key();
-			double nextNextValue = nextNextIter.value();
+		// extrapolate to the left using first two nodes
+		Nodes::ConstIterator it2 = std::next(nextIter);
+		const double x2 = it2.key();
+		const double y2 = it2.value();
 
-			double nodeDiff = (nextNextPosition - nextPosition);
-			Q_ASSERT(nodeDiff > 0);
+		const double dx = (x2 - x1);
+		Q_ASSERT(dx > 0);
 
-			double slope = (nextNextValue - nextValue) / nodeDiff;
-			result = nextValue - slope * (nextPosition - argument);
+		const double slope = (y2 - y1) / dx;
+		result = y1 + slope * (argument - x1);
+		return true;
+	}
 
+	// argument is > last key
+	if (nextIter == m_nodes.constEnd()){
+		Nodes::ConstIterator lastIter = std::prev(m_nodes.constEnd());
+		const double xN = lastIter.key();
+		const double yN = lastIter.value();
+
+		if (!m_isExtrapolationEnabled){
+			// clamp to last value
+			result = yN;
 			return true;
 		}
 
+		// extrapolate to the right using last two nodes
+		Nodes::ConstIterator prevIter = std::prev(lastIter);
+		const double xNm1 = prevIter.key();
+		const double yNm1 = prevIter.value();
 
-		Nodes::ConstIterator prevIter = std::prev(nextIter);
+		const double dx = (xN - xNm1);
+		Q_ASSERT(dx > 0);
 
-		double prevPosition = prevIter.key();
-		Q_ASSERT(prevPosition <= argument);
-		double prevValue = prevIter.value();
-
-		// interpolation in segment
-		double nodeDiff = (nextPosition - prevPosition);
-		Q_ASSERT(nodeDiff > 0);
-
-		double alpha = (argument - prevPosition) / nodeDiff;
-
-		result = prevValue * (1 - alpha) + nextValue * alpha;
-
+		const double slope = (yN - yNm1) / dx;
+		result = yN + slope * (argument - xN);
 		return true;
 	}
 
-	else if (nextIter == m_nodes.constEnd() && additionalCondition){
-		result = nextIter.value();
+	// argument is between two keys or exactly equals a key (not the first)
+	const double x2 = nextIter.key();
+	const double y2 = nextIter.value();
 
+	// exact hit
+	if (x2 == argument){
+		result = y2;
 		return true;
 	}
 
-	else if (m_isExtrapolationEnabled){
-		/*extrapolate x > last_x*/
-		nextIter = std::prev(m_nodes.constEnd());
+	Nodes::ConstIterator prevIter = std::prev(nextIter);
+	const double x1 = prevIter.key();
+	const double y1 = prevIter.value();
 
-		double prevPosition = nextIter.key();
-		Q_ASSERT(prevPosition <= argument);
-		double prevValue = nextIter.value();
+	const double dx = (x2 - x1);
+	Q_ASSERT(dx > 0);
 
-		Nodes::ConstIterator prevIter = std::prev(nextIter);
-		double prevPrevPosition = prevIter.key();
-		double prevPrevValue = prevIter.value();
-
-		double nodeDiff = (prevPosition - prevPrevPosition);
-		Q_ASSERT(nodeDiff > 0);
-
-		double slope = (prevValue - prevPrevValue) / nodeDiff;
-		result = prevValue + slope * (argument - prevPosition);
-
-		return true;
-	}
-
-	return false;
+	const double alpha = (argument - x1) / dx;
+	result = y1 * (1.0 - alpha) + y2 * alpha;
+	return true;
 }
 
 

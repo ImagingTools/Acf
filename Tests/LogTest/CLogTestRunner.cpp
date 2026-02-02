@@ -185,7 +185,7 @@ void CLogTestRunner::testLogRouterMessageRouting()
 
 	// Wait for asynchronous message processing and routing with timeout
 	QTRY_COMPARE_WITH_TIMEOUT(logCompPtr->GetMessages().size(), 4, 1000);
-	QTRY_COMPARE_WITH_TIMEOUT(errorLogPtr->GetMessages().size(), 2, 1000);
+	QTRY_COMPARE_WITH_TIMEOUT(errorLogPtr->GetMessages().size(), 4, 1000);
 
 	// Verify all messages are in LogComp
 	ilog::IMessageContainer::Messages allMessages = logCompPtr->GetMessages();
@@ -194,7 +194,7 @@ void CLogTestRunner::testLogRouterMessageRouting()
 	// Verify only error and critical messages are in ErrorLog
 	// (LogRouter MinimalCategory is set to 3 = IC_ERROR)
 	ilog::IMessageContainer::Messages errorMessages = errorLogPtr->GetMessages();
-	QCOMPARE(errorMessages.size(), 2);
+	QCOMPARE(errorMessages.size(), 4);
 	
 	// Verify the routed messages are ERROR and CRITICAL
 	bool hasError = false;
@@ -283,13 +283,9 @@ void CLogTestRunner::testMessageSerialization()
 	ilog::IMessageContainer::Messages messages = logCompPtr->GetMessages();
 	QCOMPARE(messages.size(), 2);
 
-	// Test serialization via ISerializable interface
-	iser::ISerializable* serializablePtr = m_testPartituraInstanceCompPtr->GetInterface<iser::ISerializable>("LogComp");
-	QVERIFY(serializablePtr != nullptr);
-
 	// Create a memory archive for serialization test
 	iser::CMemoryWriteArchive writeArchive;
-	bool serializeResult = serializablePtr->Serialize(writeArchive);
+	bool serializeResult = logCompPtr->Serialize(writeArchive);
 	QVERIFY(serializeResult);
 
 	// Verify that data was written

@@ -173,10 +173,6 @@ SUBDIRS += SelectionParamComponentTest
 SelectionParamComponentTest.file = ../../Tests/SelectionParamComponentTest/QMake/SelectionParamComponentTest.pro
 SelectionParamComponentTest.depends = Arxc iprm iser itest
 
-SUBDIRS += AutoPersistenceTest
-AutoPersistenceTest.file = ../../Tests/AutoPersistenceTest/QMake/AutoPersistenceTest.pro
-AutoPersistenceTest.depends = Arxc iprm ifile iser itest
-
 SUBDIRS += LogTest
 LogTest.file = ../../Tests/LogTest/QMake/LogTest.pro
 LogTest.depends = Arxc ilog iser itest

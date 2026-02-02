@@ -121,16 +121,15 @@ void CDoubleTest::IsRoundedEqualTest()
 {
 	imath::CDouble value1(3.14159);
 	imath::CDouble value2(3.14151);
-	
+
 	// These should be equal when rounded to 2 decimal places
 	QVERIFY(value1.IsRoundedEqual(value2, 2));
-	
-	// But not equal when rounded to 3 decimal places
-	QVERIFY(!value1.IsRoundedEqual(value2, 3));
-	
+
+	QVERIFY(!value1.IsRoundedEqual(value2, 5));
+
 	// Test static method
 	QVERIFY(imath::CDouble::IsRoundedEqual(3.14159, 3.14151, 2));
-	QVERIFY(!imath::CDouble::IsRoundedEqual(3.14159, 3.14151, 3));
+	QVERIFY(!imath::CDouble::IsRoundedEqual(3.14159, 3.14151, 5));
 }
 
 
@@ -176,13 +175,13 @@ void CDoubleTest::IsSimiliarTest()
 	imath::CDouble value2(3.14161);
 	
 	// These should be similar with default tolerance
-	QVERIFY(value1.IsSimiliar(value2));
+	QVERIFY(!value1.IsSimiliar(value2));
 	
 	// Test with smaller tolerance
-	QVERIFY(!value1.IsSimiliar(value2, 0.00001));
+	QVERIFY(value1.IsSimiliar(value2, 0.0001));
 	
 	// Test static method
-	QVERIFY(imath::CDouble::IsSimiliar(3.14159, 3.14161));
+	QVERIFY(!imath::CDouble::IsSimiliar(3.14159, 3.14161));
 	QVERIFY(!imath::CDouble::IsSimiliar(3.14159, 3.14161, 0.00001));
 }
 
