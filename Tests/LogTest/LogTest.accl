@@ -1,1 +1,19 @@
-LogTest
+<?xml version="1.0" encoding="UTF-8"?>
+<Acf>
+    <AcfHeader>
+        <VersionInfos>
+            <Version Id="0" Number="5715" Description="ACF"/>
+            <Version Id="1" Number="2274" Description="ACF-Solutions"/>
+            <Version Id="1023" Number="395264" Description="Qt Framework"/>
+        </VersionInfos>
+    </AcfHeader>
+    <PositionMap>
+        <Element ComponentName="ConsoleLog" X="450" Y="650" Note=""/>
+        <Element ComponentName="ErrorLog" X="200" Y="475" Note=""/>
+        <Element ComponentName="LogComp" X="450" Y="475" Note=""/>
+        <Element ComponentName="LogRouter" X="450" Y="325" Note=""/>
+        <Element ComponentName="StreamLog" X="700" Y="175" Note=""/>
+        <Element ComponentName="TracingConfig" X="725" Y="475" Note=""/>
+    </PositionMap>
+    <EmbeddedRegistries/>
+</Acf>

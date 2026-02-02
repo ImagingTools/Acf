@@ -2,15 +2,14 @@
 <Acf>
     <AcfHeader>
         <VersionInfos>
-            <Version Id="0" Number="5431" Description="ACF"/>
-            <Version Id="1" Number="2254" Description="ACF-Solutions"/>
-            <Version Id="1023" Number="395266" Description="Qt Framework"/>
+            <Version Id="0" Number="5715" Description="ACF"/>
+            <Version Id="1" Number="2274" Description="ACF-Solutions"/>
+            <Version Id="1023" Number="395264" Description="Qt Framework"/>
         </VersionInfos>
     </AcfHeader>
     <Description>Component tests for ilog library</Description>
     <Keywords>ilog logging test component message console</Keywords>
     <ElementsList>
-        <!-- Console Log Component for testing basic logging -->
         <Element Id="ConsoleLog" PackageId="BasePck" ComponentId="ConsoleLog">
             <Data IsEnabled="true" Flags="0">
                 <AttributeInfoMap>
@@ -29,22 +28,6 @@
                 </AttributeInfoMap>
             </Data>
         </Element>
-        
-        <!-- Log Component with message storage -->
-        <Element Id="LogComp" PackageId="BasePck" ComponentId="Log">
-            <Data IsEnabled="true" Flags="0">
-                <AttributeInfoMap>
-                    <AttributeInfo Id="MaxMessageCount" Type="Integer" ExportId="">
-                        <Data IsEnabled="true" Value="100"/>
-                    </AttributeInfo>
-                    <AttributeInfo Id="SlaveMessageConsumer" Type="Reference" ExportId="">
-                        <Data IsEnabled="true" Value="ConsoleLog"/>
-                    </AttributeInfo>
-                </AttributeInfoMap>
-            </Data>
-        </Element>
-        
-        <!-- Error-only Log for testing routing -->
         <Element Id="ErrorLog" PackageId="BasePck" ComponentId="Log">
             <Data IsEnabled="true" Flags="0">
                 <AttributeInfoMap>
@@ -54,8 +37,18 @@
                 </AttributeInfoMap>
             </Data>
         </Element>
-        
-        <!-- Log Router to forward errors only -->
+        <Element Id="LogComp" PackageId="BasePck" ComponentId="Log">
+            <Data IsEnabled="true" Flags="0">
+                <AttributeInfoMap>
+                    <AttributeInfo Id="MaxMessageCount" Type="Integer" ExportId="">
+                        <Data IsEnabled="true" Value="100"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="SlaveMessageConsumer" Type="Reference" ExportId="">
+                        <Data IsEnabled="true" Value="ErrorLog"/>
+                    </AttributeInfo>
+                </AttributeInfoMap>
+            </Data>
+        </Element>
         <Element Id="LogRouter" PackageId="BasePck" ComponentId="LogRouter">
             <Data IsEnabled="true" Flags="0">
                 <AttributeInfoMap>
@@ -65,25 +58,9 @@
                     <AttributeInfo Id="MinimalCategory" Type="Integer" ExportId="">
                         <Data IsEnabled="true" Value="3"/>
                     </AttributeInfo>
-                    <AttributeInfo Id="OutputMessageConsumer" Type="Reference" ExportId="">
-                        <Data IsEnabled="true" Value="ErrorLog"/>
-                    </AttributeInfo>
                 </AttributeInfoMap>
             </Data>
         </Element>
-        
-        <!-- Tracing Configuration Component -->
-        <Element Id="TracingConfig" PackageId="BasePck" ComponentId="TracingConfiguration">
-            <Data IsEnabled="true" Flags="0">
-                <AttributeInfoMap>
-                    <AttributeInfo Id="DefaultTracingLevel" Type="Integer" ExportId="">
-                        <Data IsEnabled="true" Value="1"/>
-                    </AttributeInfo>
-                </AttributeInfoMap>
-            </Data>
-        </Element>
-        
-        <!-- Stream Log Component for formatted output -->
         <Element Id="StreamLog" PackageId="BasePck" ComponentId="ConsoleLog">
             <Data IsEnabled="true" Flags="0">
                 <AttributeInfoMap>
@@ -92,9 +69,6 @@
                     </AttributeInfo>
                     <AttributeInfo Id="ShowDots" Type="Boolean" ExportId="">
                         <Data IsEnabled="true" Value="true"/>
-                    </AttributeInfo>
-                    <AttributeInfo Id="TimeFormat" Type="String" ExportId="">
-                        <Data IsEnabled="true" Value="hh:mm:ss"/>
                     </AttributeInfo>
                     <AttributeInfo Id="UseCategory" Type="Boolean" ExportId="">
                         <Data IsEnabled="true" Value="true"/>
@@ -105,12 +79,18 @@
                 </AttributeInfoMap>
             </Data>
         </Element>
+        <Element Id="TracingConfig" PackageId="BasePck" ComponentId="TracingConfiguration">
+            <Data IsEnabled="true" Flags="0">
+                <AttributeInfoMap>
+                    <AttributeInfo Id="DefaulTracingtLevel" Type="Integer" ExportId="">
+                        <Data IsEnabled="true" Value="1"/>
+                    </AttributeInfo>
+                </AttributeInfoMap>
+            </Data>
+        </Element>
     </ElementsList>
     <EmbeddedRegistriesList/>
     <ExportedInterfaces>
-        <Interface InterfaceId="ilog::IMessageConsumer" ComponentId="ConsoleLog"/>
-        <Interface InterfaceId="ilog::IMessageConsumer" ComponentId="LogComp"/>
-        <Interface InterfaceId="ilog::IMessageContainer" ComponentId="LogComp"/>
         <Interface InterfaceId="ilog::IMessageConsumer" ComponentId="ErrorLog"/>
         <Interface InterfaceId="ilog::IMessageContainer" ComponentId="ErrorLog"/>
         <Interface InterfaceId="ilog::ITracingConfiguration" ComponentId="TracingConfig"/>
