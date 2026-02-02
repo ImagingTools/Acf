@@ -2,47 +2,29 @@
 <Acf>
     <AcfHeader>
         <VersionInfos>
-            <Version Id="0" Number="5442" Description="ACF"/>
-            <Version Id="1" Number="2256" Description="ACF-Solutions"/>
-            <Version Id="1023" Number="395266" Description="Qt Framework"/>
+            <Version Id="0" Number="5715" Description="ACF"/>
+            <Version Id="1" Number="2274" Description="ACF-Solutions"/>
+            <Version Id="1023" Number="395264" Description="Qt Framework"/>
         </VersionInfos>
     </AcfHeader>
     <Description>Component tests for CSelectionParamComp with various configurations</Description>
     <Keywords></Keywords>
     <ElementsList>
-        <!-- Selection parameter without constraints and without default index -->
-        <Element Id="SelectionNoConstraints" PackageId="BasePck" ComponentId="SelectionParam">
-            <Data IsEnabled="true" Flags="0">
-                <AttributeInfoMap/>
-            </Data>
-        </Element>
-        
-        <!-- Selection parameter with default index but no constraints -->
-        <Element Id="SelectionWithDefaultIndex" PackageId="BasePck" ComponentId="SelectionParam">
-            <Data IsEnabled="true" Flags="0">
-                <AttributeInfoMap>
-                    <AttributeInfo Id="DefaultIndex" Type="Integer" ExportId="">
-                        <Data IsEnabled="true" Value="5"/>
-                    </AttributeInfo>
-                </AttributeInfoMap>
-            </Data>
-        </Element>
-        
-        <!-- Options manager for constraints -->
         <Element Id="OptionsConstraints" PackageId="BasePck" ComponentId="OptionsManager">
             <Data IsEnabled="true" Flags="0">
                 <AttributeInfoMap/>
             </Data>
         </Element>
-        
-        <!-- Options manager for testing with preset options -->
         <Element Id="OptionsConstraintsPreset" PackageId="BasePck" ComponentId="OptionsManager">
             <Data IsEnabled="true" Flags="0">
                 <AttributeInfoMap/>
             </Data>
         </Element>
-        
-        <!-- Selection parameter with constraints -->
+        <Element Id="SelectionNoConstraints" PackageId="BasePck" ComponentId="SelectionParam">
+            <Data IsEnabled="true" Flags="0">
+                <AttributeInfoMap/>
+            </Data>
+        </Element>
         <Element Id="SelectionWithConstraints" PackageId="BasePck" ComponentId="SelectionParam">
             <Data IsEnabled="true" Flags="0">
                 <AttributeInfoMap>
@@ -52,8 +34,6 @@
                 </AttributeInfoMap>
             </Data>
         </Element>
-        
-        <!-- Selection parameter with constraints and default index -->
         <Element Id="SelectionWithConstraintsAndDefault" PackageId="BasePck" ComponentId="SelectionParam">
             <Data IsEnabled="true" Flags="0">
                 <AttributeInfoMap>
@@ -66,8 +46,15 @@
                 </AttributeInfoMap>
             </Data>
         </Element>
-        
-        <!-- Selection parameter with constraints and invalid default index (should be reset to -1) -->
+        <Element Id="SelectionWithDefaultIndex" PackageId="BasePck" ComponentId="SelectionParam">
+            <Data IsEnabled="true" Flags="0">
+                <AttributeInfoMap>
+                    <AttributeInfo Id="DefaultIndex" Type="Integer" ExportId="">
+                        <Data IsEnabled="true" Value="5"/>
+                    </AttributeInfo>
+                </AttributeInfoMap>
+            </Data>
+        </Element>
         <Element Id="SelectionWithInvalidDefault" PackageId="BasePck" ComponentId="SelectionParam">
             <Data IsEnabled="true" Flags="0">
                 <AttributeInfoMap>
@@ -80,8 +67,18 @@
                 </AttributeInfoMap>
             </Data>
         </Element>
-        
-        <!-- Subselection parameter -->
+        <Element Id="SelectionWithSubselection" PackageId="BasePck" ComponentId="SelectionParam">
+            <Data IsEnabled="true" Flags="0">
+                <AttributeInfoMap>
+                    <AttributeInfo Id="DefaultIndex" Type="Integer" ExportId="">
+                        <Data IsEnabled="true" Value="3"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="Subselection" Type="Reference" ExportId="">
+                        <Data IsEnabled="true" Value="Subselection"/>
+                    </AttributeInfo>
+                </AttributeInfoMap>
+            </Data>
+        </Element>
         <Element Id="Subselection" PackageId="BasePck" ComponentId="SelectionParam">
             <Data IsEnabled="true" Flags="0">
                 <AttributeInfoMap>
@@ -94,32 +91,18 @@
                 </AttributeInfoMap>
             </Data>
         </Element>
-        
-        <!-- Selection parameter with subselection -->
-        <Element Id="SelectionWithSubselection" PackageId="BasePck" ComponentId="SelectionParam">
-            <Data IsEnabled="true" Flags="0">
-                <AttributeInfoMap>
-                    <AttributeInfo Id="Subselection" Type="Reference" ExportId="">
-                        <Data IsEnabled="true" Value="Subselection"/>
-                    </AttributeInfo>
-                    <AttributeInfo Id="DefaultIndex" Type="Integer" ExportId="">
-                        <Data IsEnabled="true" Value="3"/>
-                    </AttributeInfo>
-                </AttributeInfoMap>
-            </Data>
-        </Element>
     </ElementsList>
     <EmbeddedRegistriesList/>
     <ExportedInterfaces/>
     <ExportedComponents>
-        <Component ExportedId="SelectionNoConstraints" ComponentId="SelectionNoConstraints"/>
-        <Component ExportedId="SelectionWithDefaultIndex" ComponentId="SelectionWithDefaultIndex"/>
         <Component ExportedId="OptionsConstraints" ComponentId="OptionsConstraints"/>
         <Component ExportedId="OptionsConstraintsPreset" ComponentId="OptionsConstraintsPreset"/>
+        <Component ExportedId="SelectionNoConstraints" ComponentId="SelectionNoConstraints"/>
         <Component ExportedId="SelectionWithConstraints" ComponentId="SelectionWithConstraints"/>
         <Component ExportedId="SelectionWithConstraintsAndDefault" ComponentId="SelectionWithConstraintsAndDefault"/>
+        <Component ExportedId="SelectionWithDefaultIndex" ComponentId="SelectionWithDefaultIndex"/>
         <Component ExportedId="SelectionWithInvalidDefault" ComponentId="SelectionWithInvalidDefault"/>
-        <Component ExportedId="Subselection" ComponentId="Subselection"/>
         <Component ExportedId="SelectionWithSubselection" ComponentId="SelectionWithSubselection"/>
+        <Component ExportedId="Subselection" ComponentId="Subselection"/>
     </ExportedComponents>
 </Acf>

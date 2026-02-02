@@ -2,22 +2,57 @@
 <Acf>
     <AcfHeader>
         <VersionInfos>
-            <Version Id="0" Number="5442" Description="ACF"/>
-            <Version Id="1" Number="2256" Description="ACF-Solutions"/>
-            <Version Id="1023" Number="395266" Description="Qt Framework"/>
+            <Version Id="0" Number="5715" Description="ACF"/>
+            <Version Id="1" Number="2274" Description="ACF-Solutions"/>
+            <Version Id="1023" Number="395264" Description="Qt Framework"/>
         </VersionInfos>
     </AcfHeader>
     <Description>Component tests for idoc library components</Description>
     <Keywords></Keywords>
     <ElementsList>
-        <!-- Text document with default configuration -->
+        <Element Id="DocumentTemplate" PackageId="BasePck" ComponentId="SingleDocumentTemplate">
+            <Data IsEnabled="true" Flags="0">
+                <AttributeInfoMap>
+                    <AttributeInfo Id="DocumentFactory" Type="Factory" ExportId="">
+                        <Data IsEnabled="true" Value="TemplateDocumentFactory"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="DocumentLoader" Type="Reference" ExportId="">
+                        <Data IsEnabled="true" Value="TemplateFileLoader"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="DocumentTypeId" Type="Id" ExportId="">
+                        <Data IsEnabled="true" Value="TestDocType"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="DocumentTypeName" Type="Text" ExportId="">
+                        <Data IsEnabled="true" Value="Test Document Type"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="IsEditSupported" Type="Boolean" ExportId="">
+                        <Data IsEnabled="true" Value="true"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="IsNewSupported" Type="Boolean" ExportId="">
+                        <Data IsEnabled="true" Value="true"/>
+                    </AttributeInfo>
+                </AttributeInfoMap>
+            </Data>
+        </Element>
+        <Element Id="TemplateDocumentFactory" PackageId="BasePck" ComponentId="TextDocument">
+            <Data IsEnabled="true" Flags="2">
+                <AttributeInfoMap>
+                    <AttributeInfo Id="DefaultText" Type="Text" ExportId="">
+                        <Data IsEnabled="true" Value="Template Default Text"/>
+                    </AttributeInfo>
+                </AttributeInfoMap>
+            </Data>
+        </Element>
+        <Element Id="TemplateFileLoader" PackageId="BasePck" ComponentId="TextFileLoader">
+            <Data IsEnabled="true" Flags="0">
+                <AttributeInfoMap/>
+            </Data>
+        </Element>
         <Element Id="TextDocument" PackageId="BasePck" ComponentId="TextDocument">
             <Data IsEnabled="true" Flags="0">
                 <AttributeInfoMap/>
             </Data>
         </Element>
-        
-        <!-- Text document with custom default text -->
         <Element Id="TextDocumentWithDefault" PackageId="BasePck" ComponentId="TextDocument">
             <Data IsEnabled="true" Flags="0">
                 <AttributeInfoMap>
@@ -27,15 +62,11 @@
                 </AttributeInfoMap>
             </Data>
         </Element>
-        
-        <!-- Serialized undo manager with default buffer size (100 MB) -->
         <Element Id="UndoManager" PackageId="BasePck" ComponentId="SerializedUndoManager">
             <Data IsEnabled="true" Flags="0">
                 <AttributeInfoMap/>
             </Data>
         </Element>
-        
-        <!-- Serialized undo manager with small buffer size for testing -->
         <Element Id="UndoManagerSmallBuffer" PackageId="BasePck" ComponentId="SerializedUndoManager">
             <Data IsEnabled="true" Flags="0">
                 <AttributeInfoMap>
@@ -45,58 +76,14 @@
                 </AttributeInfoMap>
             </Data>
         </Element>
-        
-        <!-- Text document factory for template -->
-        <Element Id="TemplateDocumentFactory" PackageId="BasePck" ComponentId="TextDocument">
-            <Data IsEnabled="true" Flags="0">
-                <AttributeInfoMap>
-                    <AttributeInfo Id="DefaultText" Type="Text" ExportId="">
-                        <Data IsEnabled="true" Value="Template Default Text"/>
-                    </AttributeInfo>
-                </AttributeInfoMap>
-            </Data>
-        </Element>
-        
-        <!-- Text file loader for template -->
-        <Element Id="TemplateFileLoader" PackageId="BasePck" ComponentId="TextFileLoader">
-            <Data IsEnabled="true" Flags="0">
-                <AttributeInfoMap/>
-            </Data>
-        </Element>
-        
-        <!-- Single document template -->
-        <Element Id="DocumentTemplate" PackageId="BasePck" ComponentId="SingleDocumentTemplate">
-            <Data IsEnabled="true" Flags="0">
-                <AttributeInfoMap>
-                    <AttributeInfo Id="DocumentTypeId" Type="Id" ExportId="">
-                        <Data IsEnabled="true" Value="TestDocType"/>
-                    </AttributeInfo>
-                    <AttributeInfo Id="DocumentTypeName" Type="Text" ExportId="">
-                        <Data IsEnabled="true" Value="Test Document Type"/>
-                    </AttributeInfo>
-                    <AttributeInfo Id="IsNewSupported" Type="Boolean" ExportId="">
-                        <Data IsEnabled="true" Value="true"/>
-                    </AttributeInfo>
-                    <AttributeInfo Id="IsEditSupported" Type="Boolean" ExportId="">
-                        <Data IsEnabled="true" Value="true"/>
-                    </AttributeInfo>
-                    <AttributeInfo Id="DocumentFactory" Type="Reference" ExportId="">
-                        <Data IsEnabled="true" Value="TemplateDocumentFactory"/>
-                    </AttributeInfo>
-                    <AttributeInfo Id="DocumentLoader" Type="Reference" ExportId="">
-                        <Data IsEnabled="true" Value="TemplateFileLoader"/>
-                    </AttributeInfo>
-                </AttributeInfoMap>
-            </Data>
-        </Element>
     </ElementsList>
     <EmbeddedRegistriesList/>
     <ExportedInterfaces/>
     <ExportedComponents>
+        <Component ExportedId="DocumentTemplate" ComponentId="DocumentTemplate"/>
         <Component ExportedId="TextDocument" ComponentId="TextDocument"/>
         <Component ExportedId="TextDocumentWithDefault" ComponentId="TextDocumentWithDefault"/>
         <Component ExportedId="UndoManager" ComponentId="UndoManager"/>
         <Component ExportedId="UndoManagerSmallBuffer" ComponentId="UndoManagerSmallBuffer"/>
-        <Component ExportedId="DocumentTemplate" ComponentId="DocumentTemplate"/>
     </ExportedComponents>
 </Acf>

@@ -29,9 +29,8 @@ void CParamsManagerTestRunner::GetIndexOperationFlagsTest()
 	// Test flags for first fixed parameter set
 	int firstSetFlags = m_paramsManagerPtr->GetIndexOperationFlags(0);
 	QVERIFY(firstSetFlags >= 0);
-	
-	// Fixed sets should have MF_COUNT_FIXED flag
-	QVERIFY((firstSetFlags & iprm::IParamsManager::MF_COUNT_FIXED) != 0);
+
+	QVERIFY((firstSetFlags & iprm::IParamsManager::MF_SUPPORT_EDIT) != 0);
 }
 
 
@@ -153,8 +152,8 @@ void CParamsManagerTestRunner::SwapParamsSetTest()
 	QVERIFY(m_paramsManagerPtr->GetParamsSetName(index2) == name1);
 	
 	// Clean up
-	m_paramsManagerPtr->RemoveParamsSet(index1);
 	m_paramsManagerPtr->RemoveParamsSet(index2);
+	m_paramsManagerPtr->RemoveParamsSet(index1);
 }
 
 
@@ -165,7 +164,7 @@ void CParamsManagerTestRunner::GetParamsSetTest()
 	QVERIFY(paramsSet != nullptr);
 	
 	// Test getting an invalid index
-	const iprm::IParamsSet* invalidSet = m_paramsManagerPtr->GetParamsSet(9999);
+	const iprm::IParamsSet* invalidSet = m_paramsManagerPtr->GetParamsSet(-1);
 	QVERIFY(invalidSet == nullptr);
 }
 

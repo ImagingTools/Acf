@@ -1,6 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<AcfLocalization>
-    <Signatures>
-        <Signature Type="Package" Id="BasePck" File="../../../Partitura/AcfVoce.arp/BasePck.accl"/>
-    </Signatures>
-</AcfLocalization>
+<Acf>
+    <AcfHeader>
+        <VersionInfos>
+            <Version Id="0" Number="5715" Description="ACF"/>
+            <Version Id="1" Number="2274" Description="ACF-Solutions"/>
+            <Version Id="1023" Number="395264" Description="Qt Framework"/>
+        </VersionInfos>
+    </AcfHeader>
+    <PositionMap>
+        <Element ComponentName="OptionsConstraints" X="900" Y="150" Note=""/>
+        <Element ComponentName="OptionsConstraintsPreset" X="300" Y="225" Note=""/>
+        <Element ComponentName="SelectionNoConstraints" X="900" Y="500" Note=""/>
+        <Element ComponentName="SelectionWithConstraints" X="875" Y="250" Note=""/>
+        <Element ComponentName="SelectionWithConstraintsAndDefault" X="300" Y="125" Note=""/>
+        <Element ComponentName="SelectionWithDefaultIndex" X="900" Y="625" Note=""/>
+        <Element ComponentName="SelectionWithInvalidDefault" X="225" Y="350" Note=""/>
+        <Element ComponentName="SelectionWithSubselection" X="475" Y="500" Note=""/>
+        <Element ComponentName="Subselection" X="475" Y="350" Note=""/>
+    </PositionMap>
+    <EmbeddedRegistries/>
+</Acf>

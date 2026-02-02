@@ -1,1 +1,20 @@
-BasePck
+<?xml version="1.0" encoding="UTF-8"?>
+<Acf>
+    <AcfHeader>
+        <VersionInfos>
+            <Version Id="0" Number="5715" Description="ACF"/>
+            <Version Id="1" Number="2274" Description="ACF-Solutions"/>
+            <Version Id="1023" Number="395264" Description="Qt Framework"/>
+        </VersionInfos>
+    </AcfHeader>
+    <PositionMap>
+        <Element ComponentName="DocumentTemplate" X="525" Y="325" Note=""/>
+        <Element ComponentName="TemplateDocumentFactory" X="875" Y="550" Note=""/>
+        <Element ComponentName="TemplateFileLoader" X="725" Y="150" Note=""/>
+        <Element ComponentName="TextDocument" X="225" Y="425" Note=""/>
+        <Element ComponentName="TextDocumentWithDefault" X="525" Y="550" Note=""/>
+        <Element ComponentName="UndoManager" X="225" Y="325" Note=""/>
+        <Element ComponentName="UndoManagerSmallBuffer" X="300" Y="175" Note=""/>
+    </PositionMap>
+    <EmbeddedRegistries/>
+</Acf>
