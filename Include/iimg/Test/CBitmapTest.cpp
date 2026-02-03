@@ -57,7 +57,7 @@ void CBitmapTest::QImageConstructorTest()
 	istd::CIndex2d size = bitmap.GetImageSize();
 	QCOMPARE(size.x, 200);
 	QCOMPARE(size.y, 100);
-	QVERIFY(bitmap.GetPixelFormat() == iimg::IBitmap::PF_RGB);
+	QCOMPARE(bitmap.GetPixelFormat(), iimg::IBitmap::PF_RGB);
 }
 
 
@@ -235,9 +235,11 @@ void CBitmapTest::GetLinesPtrTest()
 	void* linePtr = bitmap.GetLinePtr(10);
 	QVERIFY(linePtr != nullptr);
 	
-	// Test invalid line index (should return nullptr or handle gracefully)
+	// Test invalid line index - behavior is implementation-defined
+	// but should either return nullptr or be caught by bounds checking
 	const void* invalidPtr = bitmap.GetLinePtr(100);
-	// Note: behavior might be nullptr or assertion depending on implementation
+	// Don't assert on behavior since it's implementation-defined
+	Q_UNUSED(invalidPtr);
 }
 
 

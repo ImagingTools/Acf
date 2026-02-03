@@ -75,17 +75,16 @@ void CPixelFormatListTest::GetOptionDescriptionTest()
 	int count = m_formatListPtr->GetOptionsCount();
 	QVERIFY(count > 0);
 	
-	// Test first option
+	// Test first option - description might be empty
 	QString description = m_formatListPtr->GetOptionDescription(0);
-	// Description might be empty, so just verify it doesn't crash
-	// and returns a valid QString
-	QVERIFY(description.isNull() || !description.isNull());
+	// Just verify the call doesn't crash - description can be empty
+	Q_UNUSED(description);
 	
 	// Test another index
 	if (count > 2)
 	{
 		QString description2 = m_formatListPtr->GetOptionDescription(2);
-		QVERIFY(description2.isNull() || !description2.isNull());
+		Q_UNUSED(description2);
 	}
 }
 
@@ -141,9 +140,9 @@ void CPixelFormatListTest::GetActiveFormatsTest()
 	
 	iimg::CPixelFormatList::ActiveFormats formats = formatList.GetActiveFormats();
 	
-	// Initially should be empty or contain default formats
-	// Just verify the call works
-	QVERIFY(formats.isEmpty() || !formats.isEmpty());
+	// Initially should be empty
+	// Just verify the call works and returns a valid set
+	Q_UNUSED(formats);
 }
 
 
