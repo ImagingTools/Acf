@@ -177,13 +177,14 @@ void CSystemTest::GetEnrolledPathTest()
 	istd::CSystem::SetUserVariables("Release", "Qt6", "MSVC", "x64");
 	
 	// Test path with variable
-	QString path = "$(ApplicationDir)/test.txt";
-	QString enrolled = istd::CSystem::GetEnrolledPath(path);
+	QString path = "$(ApplicationDir)";
+	QString enrolled = QDir::toNativeSeparators(istd::CSystem::GetEnrolledPath(path));
+	QString applicationDirPath = QDir::toNativeSeparators(QCoreApplication::applicationDirPath());
 	
 	QVERIFY(!enrolled.isEmpty());
 	QVERIFY(!enrolled.contains("$("));
 	QVERIFY(!enrolled.contains(")"));
-	QVERIFY(enrolled.contains(QCoreApplication::applicationDirPath()));
+	QVERIFY(enrolled.contains(applicationDirPath));
 }
 
 
@@ -191,11 +192,13 @@ void CSystemTest::GetEnrolledPathMultipleVariablesTest()
 {
 	// Test path with multiple variables
 	QString path = "$(ApplicationDir)/$(CompileMode)/data";
-	QString enrolled = istd::CSystem::GetEnrolledPath(path);
+
+	QString enrolled = QDir::toNativeSeparators(istd::CSystem::GetEnrolledPath(path));
+	QString applicationDirPath = QDir::toNativeSeparators(QCoreApplication::applicationDirPath());
 	
 	QVERIFY(!enrolled.isEmpty());
 	QVERIFY(!enrolled.contains("$(CompileMode)"));
-	QVERIFY(enrolled.contains(QCoreApplication::applicationDirPath()));
+	QVERIFY(enrolled.contains(applicationDirPath));
 }
 
 
