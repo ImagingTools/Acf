@@ -85,6 +85,7 @@ Unit tests for each library are located in `Include/[library]/Test/` directories
 - **CInterfacePtr** - Smart pointer for interface management
 - **CRange** - Range operations for double values (min/max, intersection, union, translation, etc.)
 - **CRanges** - Set of ranges with set operations (union, intersection, morphological operations)
+- **CSystem** - System utilities including OS detection, file/directory operations, path manipulation, environment variables, and compiler information
 
 #### imath (Mathematics) - Include/imath/Test/
 - **CDouble** - Double wrapper with rounding and comparison operations
