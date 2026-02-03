@@ -497,8 +497,8 @@ void CSystemTest::GetCurrentUserNameTest()
 	
 	// User name may or may not be available depending on OS
 	// Just verify the function doesn't crash
-	// On Windows and Mac it should return a non-empty string
-#if defined(Q_OS_WIN) || defined(Q_OS_MAC)
+	// On Windows and macOS it should return a non-empty string
+#if defined(Q_OS_WIN) || defined(Q_OS_MACOS)
 	QVERIFY(!userName.isEmpty());
 #else
 	// On other platforms, it may be empty
@@ -530,13 +530,20 @@ void CSystemTest::GetCompilerVariableTest()
 {
 	// Test AcfQtVersion
 	QString qtVersion = istd::CSystem::GetCompilerVariable("AcfQtVersion");
-	// May or may not be set depending on build configuration
-	QVERIFY(true);
+	// May be empty or set depending on build configuration
+	// If set, it should be a valid Qt version format (e.g., "Qt5" or "Qt6")
+	if (!qtVersion.isEmpty())
+	{
+		QVERIFY(qtVersion.startsWith("Qt") || qtVersion.contains("."));
+	}
 	
 	// Test PlatformCode
 	QString platformCode = istd::CSystem::GetCompilerVariable("PlatformCode");
-	// May be empty or have value like "x64"
-	QVERIFY(true);
+	// May be empty for 32-bit or have value like "x64" for 64-bit
+	if (!platformCode.isEmpty())
+	{
+		QVERIFY(platformCode == "x64" || platformCode.contains("64") || platformCode.contains("32"));
+	}
 	
 	// Test CompileMode
 	QString compileMode = istd::CSystem::GetCompilerVariable("CompileMode");
