@@ -45,6 +45,16 @@ private slots:
 	void testSystemLocationCreation();
 	void testSystemLocationPath();
 	
+	// FileListProvider tests
+	void testFileListProviderCreation();
+	void testFileListProviderGetFileList();
+	void testFileListProviderStaticMethods();
+	
+	// ComposedFilePersistence tests
+	void testComposedPersistenceCreation();
+	void testComposedPersistenceExtensions();
+	void testComposedPersistenceDescription();
+	
 	void cleanupTestCase();
 	
 private:

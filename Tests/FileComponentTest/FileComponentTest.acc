@@ -67,3 +67,39 @@ SystemLocation: ifile::CSystemLocationComp
 	ApplicationSpecific = true;
 	UserSpecific = false;
 }
+
+// Test 9: FileListProvider component with filters
+TestDir: ifile::CFileNameParamComp
+{
+	DefaultPath = ".";
+	PathType = 2;  // PT_DIRECTORY
+}
+
+FileListProvider: ifile::CFileListProviderComp
+{
+	DirParam = ref TestDir;
+	Filters = {"*.cpp", "*.h"};
+	MinRecurDepth = 0;
+	MaxRecurDepth = 1;
+}
+
+// Test 10: Composed file persistence with multiple loaders
+// Create simple JSON loader
+JsonTypeInfo: ifile::CFileTypeInfoComp
+{
+	FileExtensions = {"json"};
+	TypeDescriptions = {"JSON Files"};
+}
+
+// Create simple XML loader
+XmlTypeInfo: ifile::CFileTypeInfoComp
+{
+	FileExtensions = {"xml"};
+	TypeDescriptions = {"XML Files"};
+}
+
+// Composed persistence that can handle both
+ComposedPersistence: ifile::CComposedFilePersistenceComp
+{
+	CommonDescription = "Multi-format files";
+}

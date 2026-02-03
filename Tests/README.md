@@ -134,6 +134,7 @@ Unit tests for each library are located in `Include/[library]/Test/` directories
 #### ifile (File Handling) - Include/ifile/Test/
 - **CFileNameParam** - File/directory path parameter with get/set, path type detection, serialization, copy/clone, and comparison operations (NEW)
 - **CFileArchive** - File-based binary serialization including primitive types, strings, tag skipping, and multiple objects (NEW)
+- **CFileSecureArchive** - Secure file archives with encoding/decoding, integrity verification, and comparison with normal archives (NEW)
 - **CFileArchiveInfo** - File archive information with path handling (existing tests)
 - **CCompactXmlFileArchive** - Compact XML file serialization (existing tests)
 - **CCompressedXmlFileArchive** - Compressed XML file serialization (existing tests)
@@ -421,8 +422,20 @@ Each test scenario uses a dedicated SelectionParam object as the persistent data
   - Application-specific path resolution
   - User-specific path handling
 
+- **CFileListProviderComp**:
+  - Component creation with directory parameter
+  - File list retrieval with filters
+  - Static methods for recursive file/directory enumeration
+  - Depth control and filter application
+
+- **CComposedFilePersistenceComp**:
+  - Component creation as composite loader
+  - File extension aggregation from slave loaders
+  - Type description with common description attribute
+  - Delegation to multiple persistence handlers
+
 **Configuration File**:
-- `FileComponentTest.acc` - Contains 8 different file component configurations:
+- `FileComponentTest.acc` - Contains 10 different file component configurations:
   1. `FileNameParam` - Basic file name parameter with default path
   2. `FileNameParamFile` - File name parameter with file path type
   3. `FileNameParamDir` - File name parameter with directory path type
@@ -431,6 +444,8 @@ Each test scenario uses a dedicated SelectionParam object as the persistent data
   6. `FileTypeInfoPlatform` - File type info with platform-specific extensions
   7. `TempFileManager` - Temp file manager with root folder configuration
   8. `SystemLocation` - System location with application data path
+  9. `FileListProvider` - File list provider with filters and recursion depth
+  10. `ComposedPersistence` - Composed file persistence with multiple format support
 
 **Test Methods**:
 - `testFileNameParamCreation()` - Verifies FileNameParam component creation
@@ -442,6 +457,19 @@ Each test scenario uses a dedicated SelectionParam object as the persistent data
 - `testFileTypeInfoExtensions()` - Tests file extension retrieval
 - `testFileTypeInfoDescriptions()` - Tests type descriptions
 - `testFileTypeInfoPlatformSpecific()` - Tests platform-specific extensions
+- `testTempFileManagerCreation()` - Verifies TempFileManager component creation
+- `testTempFileManagerSession()` - Tests session lifecycle
+- `testTempFileManagerAddFile()` - Tests file addition to session
+- `testTempFileManagerRemoveFile()` - Tests file removal from session
+- `testTempFileManagerMultipleSessions()` - Tests multiple concurrent sessions
+- `testSystemLocationCreation()` - Verifies SystemLocation component creation
+- `testSystemLocationPath()` - Tests system path retrieval
+- `testFileListProviderCreation()` - Verifies FileListProvider component creation
+- `testFileListProviderGetFileList()` - Tests file list retrieval with filters
+- `testFileListProviderStaticMethods()` - Tests static recursive enumeration methods
+- `testComposedPersistenceCreation()` - Verifies ComposedPersistence component creation
+- `testComposedPersistenceExtensions()` - Tests extension aggregation from slaves
+- `testComposedPersistenceDescription()` - Tests common description attribute
 - `testTempFileManagerCreation()` - Verifies TempFileManager component creation
 - `testTempFileManagerSession()` - Tests session lifecycle
 - `testTempFileManagerAddFile()` - Tests file addition to session

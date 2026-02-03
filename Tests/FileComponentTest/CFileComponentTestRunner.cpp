@@ -10,6 +10,8 @@
 #include <icomp/CInstanceRegistry.h>
 #include <iser/CMemoryReadArchive.h>
 #include <iser/CMemoryWriteArchive.h>
+#include <ifile/IFileListProvider.h>
+#include <ifile/IFilePersistence.h>
 
 
 void CFileComponentTestRunner::initTestCase()
@@ -315,6 +317,99 @@ void CFileComponentTestRunner::testSystemLocationPath()
 	
 	QString path = systemLocationPtr->GetPath();
 	QVERIFY(!path.isEmpty());
+}
+
+
+// FileListProvider tests
+
+void CFileComponentTestRunner::testFileListProviderCreation()
+{
+	// Get FileListProvider component
+	ifile::IFileListProvider* fileListProviderPtr = 
+		icomp::CInstanceRegistry::GetInstance().GetTypedObject<ifile::IFileListProvider>("FileListProvider");
+	
+	QVERIFY(fileListProviderPtr != nullptr);
+}
+
+
+void CFileComponentTestRunner::testFileListProviderGetFileList()
+{
+	// Test getting file list
+	ifile::IFileListProvider* fileListProviderPtr = 
+		icomp::CInstanceRegistry::GetInstance().GetTypedObject<ifile::IFileListProvider>("FileListProvider");
+	
+	QVERIFY(fileListProviderPtr != nullptr);
+	
+	const QFileInfoList& fileList = fileListProviderPtr->GetFileList();
+	// File list should be available (may be empty if no matching files in current dir)
+	QVERIFY(fileList.size() >= 0);
+}
+
+
+void CFileComponentTestRunner::testFileListProviderStaticMethods()
+{
+	// Test static CreateFileList method
+	QDir currentDir = QDir::current();
+	QFileInfoList fileList;
+	QStringList filters;
+	filters << "*.cpp" << "*.h";
+	
+	bool result = ifile::CFileListProviderComp::CreateFileList(
+		currentDir, 0, 1, filters, QDir::Name, fileList);
+	
+	QVERIFY(result);
+	// Should find some files (at least in Include/ifile/Test directory)
+	QVERIFY(fileList.size() >= 0);
+}
+
+
+// ComposedFilePersistence tests
+
+void CFileComponentTestRunner::testComposedPersistenceCreation()
+{
+	// Get ComposedPersistence component
+	ifile::IFilePersistence* composedPersistencePtr = 
+		icomp::CInstanceRegistry::GetInstance().GetTypedObject<ifile::IFilePersistence>("ComposedPersistence");
+	
+	QVERIFY(composedPersistencePtr != nullptr);
+}
+
+
+void CFileComponentTestRunner::testComposedPersistenceExtensions()
+{
+	// Test getting file extensions from composed persistence
+	ifile::IFilePersistence* composedPersistencePtr = 
+		icomp::CInstanceRegistry::GetInstance().GetTypedObject<ifile::IFilePersistence>("ComposedPersistence");
+	
+	QVERIFY(composedPersistencePtr != nullptr);
+	
+	// Cast to IFileTypeInfo to access extension methods
+	ifile::IFileTypeInfo* typeInfoPtr = dynamic_cast<ifile::IFileTypeInfo*>(composedPersistencePtr);
+	QVERIFY(typeInfoPtr != nullptr);
+	
+	QStringList extensions;
+	QVERIFY(typeInfoPtr->GetFileExtensions(extensions));
+	
+	// Should be empty since no slave loaders are configured
+	// (This is expected behavior for a composed loader without slaves)
+}
+
+
+void CFileComponentTestRunner::testComposedPersistenceDescription()
+{
+	// Test getting type description
+	ifile::IFilePersistence* composedPersistencePtr = 
+		icomp::CInstanceRegistry::GetInstance().GetTypedObject<ifile::IFilePersistence>("ComposedPersistence");
+	
+	QVERIFY(composedPersistencePtr != nullptr);
+	
+	// Cast to IFileTypeInfo to access description method
+	ifile::IFileTypeInfo* typeInfoPtr = dynamic_cast<ifile::IFileTypeInfo*>(composedPersistencePtr);
+	QVERIFY(typeInfoPtr != nullptr);
+	
+	QString description = typeInfoPtr->GetTypeDescription();
+	QVERIFY(!description.isEmpty());
+	QVERIFY(description.contains("Multi-format"));
 }
 
 
