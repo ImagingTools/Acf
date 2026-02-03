@@ -9,11 +9,15 @@ The repository statistics system provides both **quantity** and **quality** metr
 ### Quantity Metrics
 - **Total Lines of Code**: Overall codebase size
 - **Source Files**: Count of all C++ source and header files
+- **Code Lines**: Lines containing actual code (excluding comments and blank lines)
+- **Total Statements**: Count of executable statements/instructions in the code
 - **Libraries**: Number of static libraries in `Include/` directory
 - **Packages**: Number of component packages in `Impl/` directory
 - **Classes**: Total number of C++ classes
 - **Interfaces**: Count of interface classes (classes starting with `I`)
 - **Components**: ACF framework components using `I_BEGIN_COMPONENT` macro
+- **Functions/Methods**: Total count of functions and methods
+- **Namespaces**: Number of unique namespaces used
 - **Tests**: Number of test files
 - **Documentation**: Count of documentation files
 
@@ -28,21 +32,45 @@ The repository statistics system provides both **quantity** and **quality** metr
   - HACK count: Temporary workarounds needing refactoring
 - **Large Files**: Files exceeding 1000 lines (maintainability concern)
 
+### SOLID Principles Compliance
+- **SOLID Compliance Score**: Overall adherence to SOLID principles (0-100)
+- **Single Responsibility Principle (SRP)**:
+  - Large classes with >15 methods
+  - Average methods per class
+- **Open/Closed Principle (OCP)**:
+  - Inheritance depth tracking
+- **Liskov Substitution Principle (LSP)**:
+  - Classes with deep inheritance (>4 levels)
+- **Interface Segregation Principle (ISP)**:
+  - Large interfaces with >10 methods
+  - Average methods per interface
+- **Dependency Inversion Principle (DIP)**:
+  - Abstract vs concrete dependencies
+  - Abstraction ratio
+
+### Code Structure Metrics
+- **Include Dependencies**: Number of files with tracked dependencies
+- **File Size Distribution**: Histogram of file sizes
+- **Namespace Usage**: Distribution of namespace usage
+- **Export Macros**: Usage of ACF export macros
+
 ## Files
 
 ### Scripts
 
 - **`generate_stats.py`**: Python script that analyzes the repository and generates `stats.json`
   - Scans all C++ source files (`.h`, `.cpp`, `.c`, `.hpp`, `.cc`)
-  - Extracts classes, interfaces, and components
-  - Counts lines, comments, and blank lines
+  - Extracts classes, interfaces, components, functions, and namespaces
+  - Counts lines, comments, blank lines, and statements
   - Identifies technical debt markers
-  - Calculates quality metrics
+  - Calculates quality metrics and SOLID compliance
+  - Analyzes code structure and dependencies
 
 - **`stats_template.html`**: HTML template for displaying statistics
   - Interactive, responsive design
   - Visual charts and progress bars
   - Quality score gauge
+  - SOLID principles compliance section
   - Sortable libraries and packages lists
 
 ### Generated Files

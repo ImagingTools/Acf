@@ -524,6 +524,126 @@
             </div>
         </div>
 
+        <!-- New: Statement & Function Statistics -->
+        <div class="section">
+            <h2>⚡ Code Execution Metrics</h2>
+            <p class="section-description">Metrics related to executable code</p>
+            
+            <div class="metric-grid">
+                <div class="metric-item">
+                    <div class="value" id="total-statements">-</div>
+                    <div class="label">Total Statements</div>
+                </div>
+                <div class="metric-item">
+                    <div class="value" id="total-functions">-</div>
+                    <div class="label">Functions/Methods</div>
+                </div>
+                <div class="metric-item">
+                    <div class="value" id="total-namespaces">-</div>
+                    <div class="label">Unique Namespaces</div>
+                </div>
+                <div class="metric-item">
+                    <div class="value" id="statements-per-function">-</div>
+                    <div class="label">Avg Statements/Function</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- New: SOLID Principles Compliance -->
+        <div class="section">
+            <h2>🎯 SOLID Principles Compliance</h2>
+            <p class="section-description">Object-oriented design quality indicators</p>
+            
+            <div class="quality-score">
+                <div class="quality-gauge">
+                    <div class="quality-circle">
+                        <div class="quality-inner">
+                            <div class="quality-value" id="solid-score">-</div>
+                            <div class="quality-label">SOLID Score</div>
+                        </div>
+                    </div>
+                </div>
+                <p id="solid-message" class="quality-message">Loading...</p>
+            </div>
+
+            <div class="subsection">
+                <h3>📋 Single Responsibility Principle (SRP)</h3>
+                <p class="section-description small">Classes should have only one reason to change</p>
+                <div class="metric-grid">
+                    <div class="metric-item">
+                        <div class="value" id="large-classes-count">-</div>
+                        <div class="label">Large Classes (>15 methods)</div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="value" id="avg-methods-per-class">-</div>
+                        <div class="label">Avg Methods/Class</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>🔄 Liskov Substitution Principle (LSP)</h3>
+                <p class="section-description small">Derived classes must be substitutable for base classes</p>
+                <div class="metric-grid">
+                    <div class="metric-item">
+                        <div class="value" id="deep-inheritance-count">-</div>
+                        <div class="label">Deep Inheritance (>4 levels)</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>🔌 Interface Segregation Principle (ISP)</h3>
+                <p class="section-description small">Clients should not depend on interfaces they don't use</p>
+                <div class="metric-grid">
+                    <div class="metric-item">
+                        <div class="value" id="large-interfaces-count">-</div>
+                        <div class="label">Large Interfaces (>10 methods)</div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="value" id="avg-methods-per-interface">-</div>
+                        <div class="label">Avg Methods/Interface</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>↔️ Dependency Inversion Principle (DIP)</h3>
+                <p class="section-description small">Depend on abstractions, not concretions</p>
+                <div class="metric-grid">
+                    <div class="metric-item">
+                        <div class="value" id="abstract-deps">-</div>
+                        <div class="label">Abstract Dependencies</div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="value" id="concrete-deps">-</div>
+                        <div class="label">Concrete Dependencies</div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="value" id="abstraction-ratio">-</div>
+                        <div class="label">Abstraction Ratio</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- New: Code Structure -->
+        <div class="section">
+            <h2>🏗️ Code Structure</h2>
+            <p class="section-description">Architecture and organization metrics</p>
+            
+            <div class="metric-grid">
+                <div class="metric-item">
+                    <div class="value" id="include-deps">-</div>
+                    <div class="label">Include Dependencies</div>
+                </div>
+                <div class="metric-item">
+                    <div class="value" id="unique-namespaces-2">-</div>
+                    <div class="label">Unique Namespaces</div>
+                </div>
+            </div>
+        </div>
+
         <div class="section">
             <h2>📚 Libraries</h2>
             <p class="section-description small">Static libraries in the Include directory</p>
@@ -645,6 +765,75 @@
                 (stats.quality_metrics?.fixmes || 0).toLocaleString();
             document.getElementById('hack-count').textContent = 
                 (stats.quality_metrics?.hacks || 0).toLocaleString();
+
+            // Update new execution metrics
+            document.getElementById('total-statements').textContent = 
+                (summary.total_statements || 0).toLocaleString();
+            document.getElementById('total-functions').textContent = 
+                (summary.total_functions || 0).toLocaleString();
+            document.getElementById('total-namespaces').textContent = 
+                (summary.total_namespaces || 0).toLocaleString();
+            
+            const stmtsPerFunc = summary.total_functions > 0 
+                ? (summary.total_statements / summary.total_functions).toFixed(1)
+                : 0;
+            document.getElementById('statements-per-function').textContent = stmtsPerFunc;
+
+            // Update SOLID metrics
+            const solidScore = summary.solid_compliance_score || 0;
+            document.getElementById('solid-score').textContent = solidScore.toFixed(1);
+            
+            let solidMessage = '';
+            if (solidScore >= 90) {
+                solidMessage = '🎉 Excellent SOLID compliance!';
+            } else if (solidScore >= 75) {
+                solidMessage = '👍 Good SOLID compliance';
+            } else if (solidScore >= 60) {
+                solidMessage = '⚠️ Moderate SOLID compliance';
+            } else {
+                solidMessage = '⚠️ SOLID principles need attention';
+            }
+            document.getElementById('solid-message').textContent = solidMessage;
+
+            // Single Responsibility Principle
+            const largeClasses = stats.solid_metrics?.single_responsibility?.large_classes || [];
+            document.getElementById('large-classes-count').textContent = largeClasses.length.toLocaleString();
+            
+            const methodsPerClass = stats.solid_metrics?.single_responsibility?.methods_per_class || [];
+            const avgMethodsPerClass = methodsPerClass.length > 0
+                ? (methodsPerClass.reduce((sum, item) => sum + item.methods, 0) / methodsPerClass.length).toFixed(1)
+                : 0;
+            document.getElementById('avg-methods-per-class').textContent = avgMethodsPerClass;
+
+            // Liskov Substitution Principle
+            const deepInheritance = stats.solid_metrics?.liskov_substitution?.potential_violations || [];
+            document.getElementById('deep-inheritance-count').textContent = deepInheritance.length.toLocaleString();
+
+            // Interface Segregation Principle
+            const largeInterfaces = stats.solid_metrics?.interface_segregation?.large_interfaces || [];
+            document.getElementById('large-interfaces-count').textContent = largeInterfaces.length.toLocaleString();
+            
+            const methodsPerInterface = stats.solid_metrics?.interface_segregation?.methods_per_interface || [];
+            const avgMethodsPerInterface = methodsPerInterface.length > 0
+                ? (methodsPerInterface.reduce((sum, item) => sum + item.methods, 0) / methodsPerInterface.length).toFixed(1)
+                : 0;
+            document.getElementById('avg-methods-per-interface').textContent = avgMethodsPerInterface;
+
+            // Dependency Inversion Principle
+            const abstractDeps = stats.solid_metrics?.dependency_inversion?.abstract_dependencies || 0;
+            const concreteDeps = stats.solid_metrics?.dependency_inversion?.concrete_dependencies || 0;
+            const totalDeps = abstractDeps + concreteDeps;
+            const abstractionRatio = totalDeps > 0 ? (abstractDeps / totalDeps).toFixed(2) : 0;
+            
+            document.getElementById('abstract-deps').textContent = abstractDeps.toLocaleString();
+            document.getElementById('concrete-deps').textContent = concreteDeps.toLocaleString();
+            document.getElementById('abstraction-ratio').textContent = abstractionRatio;
+
+            // Code Structure
+            const includeDeps = Object.keys(stats.code_structure?.include_dependencies || {}).length;
+            document.getElementById('include-deps').textContent = includeDeps.toLocaleString();
+            document.getElementById('unique-namespaces-2').textContent = 
+                (summary.total_namespaces || 0).toLocaleString();
 
             // Display large files
             const largeFiles = stats.quality_metrics?.large_files || [];
