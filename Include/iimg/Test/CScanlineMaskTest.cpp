@@ -56,10 +56,10 @@ void CScanlineMaskTest::GetBoundingRectTest()
 	
 	i2d::CRect boundingRect = mask.GetBoundingRect();
 	QVERIFY(boundingRect.IsValid());
-	QCOMPARE(boundingRect.left, clipArea.left);
-	QCOMPARE(boundingRect.top, clipArea.top);
-	QCOMPARE(boundingRect.right, clipArea.right);
-	QCOMPARE(boundingRect.bottom, clipArea.bottom);
+	QCOMPARE(boundingRect.GetLeft(), clipArea.GetLeft());
+	QCOMPARE(boundingRect.GetTop(), clipArea.GetTop());
+	QCOMPARE(boundingRect.GetRight(), clipArea.GetRight());
+	QCOMPARE(boundingRect.GetBottom(), clipArea.GetBottom());
 }
 
 
@@ -75,10 +75,10 @@ void CScanlineMaskTest::CreateFilledTest()
 	
 	// Verify bounding rect matches clip area
 	i2d::CRect boundingRect = mask.GetBoundingRect();
-	QCOMPARE(boundingRect.left, clipArea.left);
-	QCOMPARE(boundingRect.top, clipArea.top);
-	QCOMPARE(boundingRect.right, clipArea.right);
-	QCOMPARE(boundingRect.bottom, clipArea.bottom);
+	QCOMPARE(boundingRect.GetLeft(), clipArea.GetLeft());
+	QCOMPARE(boundingRect.GetTop(), clipArea.GetTop());
+	QCOMPARE(boundingRect.GetRight(), clipArea.GetRight());
+	QCOMPARE(boundingRect.GetBottom(), clipArea.GetBottom());
 }
 
 
@@ -99,10 +99,10 @@ void CScanlineMaskTest::CreateFromCircleTest()
 	// Verify bounding rect is reasonable (within clip area)
 	i2d::CRect boundingRect = mask.GetBoundingRect();
 	QVERIFY(boundingRect.IsValid());
-	QVERIFY(boundingRect.left >= clipArea.left);
-	QVERIFY(boundingRect.top >= clipArea.top);
-	QVERIFY(boundingRect.right <= clipArea.right);
-	QVERIFY(boundingRect.bottom <= clipArea.bottom);
+	QVERIFY(boundingRect.GetLeft() >= clipArea.GetLeft());
+	QVERIFY(boundingRect.GetTop() >= clipArea.GetTop());
+	QVERIFY(boundingRect.GetRight() <= clipArea.GetRight());
+	QVERIFY(boundingRect.GetBottom() <= clipArea.GetBottom());
 }
 
 
@@ -191,10 +191,10 @@ void CScanlineMaskTest::GetUnionTest()
 	
 	// Bounding rect of union should contain both regions
 	i2d::CRect boundingRect = result.GetBoundingRect();
-	QVERIFY(boundingRect.left <= clipArea1.left);
-	QVERIFY(boundingRect.top <= clipArea1.top);
-	QVERIFY(boundingRect.right >= clipArea2.right);
-	QVERIFY(boundingRect.bottom >= clipArea2.bottom);
+	QVERIFY(boundingRect.GetLeft() <= clipArea1.GetLeft());
+	QVERIFY(boundingRect.GetTop() <= clipArea1.GetTop());
+	QVERIFY(boundingRect.GetRight() >= clipArea2.GetRight());
+	QVERIFY(boundingRect.GetBottom() >= clipArea2.GetBottom());
 }
 
 
@@ -216,10 +216,10 @@ void CScanlineMaskTest::GetIntersectionTest()
 	
 	// Bounding rect of intersection should be within both regions
 	i2d::CRect boundingRect = result.GetBoundingRect();
-	QVERIFY(boundingRect.left >= 25);
-	QVERIFY(boundingRect.top >= 25);
-	QVERIFY(boundingRect.right <= 50);
-	QVERIFY(boundingRect.bottom <= 50);
+	QVERIFY(boundingRect.GetLeft() >= 25);
+	QVERIFY(boundingRect.GetTop() >= 25);
+	QVERIFY(boundingRect.GetRight() <= 50);
+	QVERIFY(boundingRect.GetBottom() <= 50);
 }
 
 
@@ -239,10 +239,10 @@ void CScanlineMaskTest::TranslateTest()
 	i2d::CRect translatedBoundingRect = mask.GetBoundingRect();
 	
 	// Verify translation
-	QCOMPARE(translatedBoundingRect.left, originalBoundingRect.left + dx);
-	QCOMPARE(translatedBoundingRect.top, originalBoundingRect.top + dy);
-	QCOMPARE(translatedBoundingRect.right, originalBoundingRect.right + dx);
-	QCOMPARE(translatedBoundingRect.bottom, originalBoundingRect.bottom + dy);
+	QCOMPARE(translatedBoundingRect.GetLeft(), originalBoundingRect.GetLeft() + dx);
+	QCOMPARE(translatedBoundingRect.GetTop(), originalBoundingRect.GetTop() + dy);
+	QCOMPARE(translatedBoundingRect.GetRight(), originalBoundingRect.GetRight() + dx);
+	QCOMPARE(translatedBoundingRect.GetBottom(), originalBoundingRect.GetBottom() + dy);
 }
 
 
@@ -265,10 +265,10 @@ void CScanlineMaskTest::InvertTest()
 	
 	// Bounding rect should expand to clip area
 	i2d::CRect invertedBoundingRect = mask.GetBoundingRect();
-	QCOMPARE(invertedBoundingRect.left, clipArea.left);
-	QCOMPARE(invertedBoundingRect.top, clipArea.top);
-	QCOMPARE(invertedBoundingRect.right, clipArea.right);
-	QCOMPARE(invertedBoundingRect.bottom, clipArea.bottom);
+	QCOMPARE(invertedBoundingRect.GetLeft(), clipArea.GetLeft());
+	QCOMPARE(invertedBoundingRect.GetTop(), clipArea.GetTop());
+	QCOMPARE(invertedBoundingRect.GetRight(), clipArea.GetRight());
+	QCOMPARE(invertedBoundingRect.GetBottom(), clipArea.GetBottom());
 }
 
 
@@ -286,10 +286,10 @@ void CScanlineMaskTest::DilateTest()
 	i2d::CRect dilatedBoundingRect = mask.GetBoundingRect();
 	
 	// Bounding rect should expand
-	QVERIFY(dilatedBoundingRect.left <= originalBoundingRect.left);
-	QVERIFY(dilatedBoundingRect.top <= originalBoundingRect.top);
-	QVERIFY(dilatedBoundingRect.right >= originalBoundingRect.right);
-	QVERIFY(dilatedBoundingRect.bottom >= originalBoundingRect.bottom);
+	QVERIFY(dilatedBoundingRect.GetLeft() <= originalBoundingRect.GetLeft());
+	QVERIFY(dilatedBoundingRect.GetTop() <= originalBoundingRect.GetTop());
+	QVERIFY(dilatedBoundingRect.GetRight() >= originalBoundingRect.GetRight());
+	QVERIFY(dilatedBoundingRect.GetBottom() >= originalBoundingRect.GetBottom());
 }
 
 
@@ -309,10 +309,10 @@ void CScanlineMaskTest::ErodeTest()
 	// Bounding rect should shrink (or mask becomes empty if erosion is too large)
 	if (!mask.IsBitmapRegionEmpty())
 	{
-		QVERIFY(erodedBoundingRect.left >= originalBoundingRect.left);
-		QVERIFY(erodedBoundingRect.top >= originalBoundingRect.top);
-		QVERIFY(erodedBoundingRect.right <= originalBoundingRect.right);
-		QVERIFY(erodedBoundingRect.bottom <= originalBoundingRect.bottom);
+		QVERIFY(erodedBoundingRect.GetLeft() >= originalBoundingRect.GetLeft());
+		QVERIFY(erodedBoundingRect.GetTop() >= originalBoundingRect.GetTop());
+		QVERIFY(erodedBoundingRect.GetRight() <= originalBoundingRect.GetRight());
+		QVERIFY(erodedBoundingRect.GetBottom() <= originalBoundingRect.GetBottom());
 	}
 }
 
