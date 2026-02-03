@@ -850,14 +850,12 @@ void CVarIndexTestRunner::testQHash()
 	uint hash2 = qHash(index2);
 	QCOMPARE(hash1, hash2);
 	
-	// Different indices should likely have different hashes
+	// Different indices will likely have different hashes (but not guaranteed)
 	uint hash3 = qHash(index3);
-	// Note: Hash collision is possible but unlikely
-	QVERIFY(hash1 != hash3 || hash1 == hash3); // Just test it doesn't crash
+	Q_UNUSED(hash3); // Just verify qHash doesn't crash
 	
-	// Test with seed
+	// Test with seed - should return a value without crashing
 	uint hashWithSeed = qHash(index1, 42);
-	// Just verify it returns a value
 	Q_UNUSED(hashWithSeed);
 }
 
