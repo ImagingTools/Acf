@@ -17,8 +17,30 @@ class CComponentSimulationTest : public QObject
 
 private Q_SLOTS:
 	void initTestCase();
+	void cleanupTestCase();
 
-	void DoSimiulationTest();
+	// Component lifecycle tests
+	void testComponentCreation();
+	void testComponentInitialization();
+	void testComponentDestruction();
+	void testComponentParentRelationship();
+	void testComponentActive();
+
+	// Component interface tests
+	void testComponentInterfaceQuery();
+	void testComponentContext();
+
+	// Attribute management tests
+	void testSingleAttribute();
+	void testMultiAttribute();
+	void testAttributeTypes();
+
+	// Reference management tests
+	void testComponentReference();
+	void testMultiReference();
+
+	// Factory tests
+	void testComponentFactory();
 };
 
 
