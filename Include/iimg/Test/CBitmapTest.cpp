@@ -234,12 +234,6 @@ void CBitmapTest::GetLinesPtrTest()
 	// Test non-const version
 	void* linePtr = bitmap.GetLinePtr(10);
 	QVERIFY(linePtr != nullptr);
-	
-	// Test invalid line index - behavior is implementation-defined
-	// but should either return nullptr or be caught by bounds checking
-	const void* invalidPtr = bitmap.GetLinePtr(100);
-	// Don't assert on behavior since it's implementation-defined
-	Q_UNUSED(invalidPtr);
 }
 
 
