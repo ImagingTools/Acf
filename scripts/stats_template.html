@@ -308,6 +308,66 @@
             text-decoration: underline;
         }
 
+        .section h3 {
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .section p {
+            color: #666;
+        }
+
+        .section-description {
+            margin-bottom: 20px;
+            color: #666;
+        }
+
+        .section-description.small {
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+
+        .quality-message {
+            color: #666;
+            margin-top: 10px;
+        }
+
+        .subsection {
+            margin-top: 30px;
+        }
+
+        .metric-item .value.warning {
+            color: #ffc107;
+        }
+
+        .metric-item .value.danger {
+            color: #f5576c;
+        }
+
+        .metric-item .value.critical {
+            color: #dc3545;
+        }
+
+        .metrics-table {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .footer p {
+            margin: 0;
+        }
+
+        .footer p + p {
+            margin-top: 10px;
+        }
+
+        .more-items-text {
+            text-align: center;
+            color: #666;
+            margin-top: 10px;
+        }
+
         @media (max-width: 768px) {
             .header h1 {
                 font-size: 2em;
@@ -382,7 +442,7 @@
 
         <div class="section">
             <h2>📊 Code Composition</h2>
-            <p style="margin-bottom: 20px;">Distribution of code, comments, and blank lines</p>
+            <p class="section-description">Distribution of code, comments, and blank lines</p>
             
             <div>
                 <strong>Code Lines</strong>
@@ -417,7 +477,7 @@
                         </div>
                     </div>
                 </div>
-                <p id="quality-message" style="color: #666; margin-top: 10px;">Loading...</p>
+                <p id="quality-message" class="quality-message">Loading...</p>
             </div>
 
             <div class="metric-grid">
@@ -435,27 +495,27 @@
                 </div>
             </div>
 
-            <div style="margin-top: 30px;">
-                <h3 style="margin-bottom: 15px;">Technical Debt Indicators</h3>
+            <div class="subsection">
+                <h3>Technical Debt Indicators</h3>
                 <div class="metric-grid">
                     <div class="metric-item">
-                        <div class="value" id="todo-count" style="color: #ffc107;">-</div>
+                        <div class="value warning" id="todo-count">-</div>
                         <div class="label">TODOs</div>
                     </div>
                     <div class="metric-item">
-                        <div class="value" id="fixme-count" style="color: #f5576c;">-</div>
+                        <div class="value danger" id="fixme-count">-</div>
                         <div class="label">FIXMEs</div>
                     </div>
                     <div class="metric-item">
-                        <div class="value" id="hack-count" style="color: #dc3545;">-</div>
+                        <div class="value critical" id="hack-count">-</div>
                         <div class="label">HACKs</div>
                     </div>
                 </div>
             </div>
 
-            <div id="large-files-section" style="margin-top: 30px; display: none;">
-                <h3 style="margin-bottom: 10px;">Large Files (&gt;1000 lines)</h3>
-                <p style="color: #666; font-size: 0.9em; margin-bottom: 10px;">
+            <div id="large-files-section" class="subsection" style="display: none;">
+                <h3>Large Files (&gt;1000 lines)</h3>
+                <p class="section-description small">
                     Large files may benefit from refactoring into smaller, more maintainable modules.
                 </p>
                 <div class="large-files-list" id="large-files-list">
@@ -466,7 +526,7 @@
 
         <div class="section">
             <h2>📚 Libraries</h2>
-            <p style="margin-bottom: 10px;">Static libraries in the Include directory</p>
+            <p class="section-description small">Static libraries in the Include directory</p>
             <div class="library-list" id="library-list">
                 Loading...
             </div>
@@ -474,7 +534,7 @@
 
         <div class="section">
             <h2>📦 Packages</h2>
-            <p style="margin-bottom: 10px;">Component packages in the Impl directory</p>
+            <p class="section-description small">Component packages in the Impl directory</p>
             <div class="package-list" id="package-list">
                 Loading...
             </div>
@@ -482,7 +542,7 @@
 
         <div class="section">
             <h2>📈 Additional Metrics</h2>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+            <div class="metrics-table">
                 <div>
                     <strong>Test Files:</strong> <span id="test-files">-</span>
                 </div>
@@ -501,7 +561,7 @@
         <div class="footer">
             <p>Generated from the <a href="https://github.com/ImagingTools/Acf" target="_blank">ACF Repository</a></p>
             <p>Application Component Framework (ACF) - Licensed under LGPL-2.1</p>
-            <p style="margin-top: 10px;">
+            <p>
                 <a href="https://imagingtools.github.io/Acf/" target="_blank">API Documentation</a> | 
                 <a href="https://github.com/ImagingTools/Acf/blob/main/README.md" target="_blank">README</a>
             </p>
@@ -605,9 +665,7 @@
 
                 if (largeFiles.length > 10) {
                     const moreItem = document.createElement('p');
-                    moreItem.style.textAlign = 'center';
-                    moreItem.style.color = '#666';
-                    moreItem.style.marginTop = '10px';
+                    moreItem.className = 'more-items-text';
                     moreItem.textContent = `... and ${largeFiles.length - 10} more`;
                     largeFilesList.appendChild(moreItem);
                 }

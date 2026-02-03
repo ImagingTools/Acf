@@ -41,7 +41,7 @@ class RepositoryStats:
         }
         
     def count_lines(self, file_path):
-        """Count lines in a file, excluding empty lines and comments."""
+        """Count and categorize lines in a file as code, comments, or blank lines."""
         try:
             with open(file_path, 'r', encoding='utf-8', errors='ignore') as f:
                 lines = f.readlines()
@@ -123,7 +123,10 @@ class RepositoryStats:
         try:
             with open(file_path, 'r', encoding='utf-8', errors='ignore') as f:
                 content = f.read()
-                # Match class declarations
+                # Match class declarations with public inheritance
+                # Note: This pattern intentionally focuses on public inheritance 
+                # as it's the most common in ACF. Private/protected inheritance
+                # and complex multiple inheritance may not be captured.
                 class_pattern = r'class\s+(?:ACF_\w+_EXPORT\s+)?(\w+)(?:\s*:\s*public\s+(\w+))?'
                 matches = re.finditer(class_pattern, content)
                 for match in matches:
