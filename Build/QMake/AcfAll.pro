@@ -151,6 +151,9 @@ ifileTest.file = ../../Include/ifile/Test/QMake/ifileTest.pro
 SUBDIRS += icmmTest
 icmmTest.file = ../../Include/icmm/Test/QMake/icmmTest.pro
 
+SUBDIRS += iimgTest
+iimgTest.file = ../../Include/iimg/Test/QMake/iimgTest.pro
+
 SUBDIRS += i3dTest
 i3dTest.file = ../../Include/i3d/Test/QMake/i3dTest.pro
 
