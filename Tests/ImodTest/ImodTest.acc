@@ -12,5 +12,9 @@
 		<File Path="../TModelWrapTest.cpp"/>
 		<File Path="../CModelProxyTest.h"/>
 		<File Path="../CModelProxyTest.cpp"/>
+		<File Path="../CModelUpdateBridgeTest.h"/>
+		<File Path="../CModelUpdateBridgeTest.cpp"/>
+		<File Path="../CMultiModelDispatcherBaseTest.h"/>
+		<File Path="../CMultiModelDispatcherBaseTest.cpp"/>
 	</Sources>
 </Application>

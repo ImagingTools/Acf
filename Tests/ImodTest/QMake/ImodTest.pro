@@ -16,11 +16,15 @@ SOURCES += \
 	../CSingleModelObserverBaseTest.cpp \
 	../CMultiModelObserverBaseTest.cpp \
 	../TModelWrapTest.cpp \
-	../CModelProxyTest.cpp
+	../CModelProxyTest.cpp \
+	../CModelUpdateBridgeTest.cpp \
+	../CMultiModelDispatcherBaseTest.cpp
 
 HEADERS += \
 	../CModelBaseTest.h \
 	../CSingleModelObserverBaseTest.h \
 	../CMultiModelObserverBaseTest.h \
 	../TModelWrapTest.h \
-	../CModelProxyTest.h
+	../CModelProxyTest.h \
+	../CModelUpdateBridgeTest.h \
+	../CMultiModelDispatcherBaseTest.h
