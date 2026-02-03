@@ -60,7 +60,7 @@ class RepositoryStats:
                 for line in lines:
                     stripped = line.strip()
                     
-                    # Count technical debt markers
+                    # Count technical debt markers (before categorization)
                     line_upper = stripped.upper()
                     if 'TODO' in line_upper:
                         todos += 1
@@ -78,9 +78,14 @@ class RepositoryStats:
                     # Handle multi-line comments
                     if '/*' in stripped and not in_multiline_comment:
                         in_multiline_comment = True
-                        comment += 1
+                        # Check if it's a single-line block comment
                         if '*/' in stripped:
                             in_multiline_comment = False
+                        # If line starts with /*, count as comment, else as code with comment
+                        if stripped.startswith('/*'):
+                            comment += 1
+                        else:
+                            code += 1  # Code with trailing comment
                         continue
                     
                     if in_multiline_comment:
@@ -89,11 +94,12 @@ class RepositoryStats:
                             in_multiline_comment = False
                         continue
                     
-                    # Single line comments
-                    if stripped.startswith('//') or stripped.startswith('#'):
+                    # Single line C++ comments
+                    if stripped.startswith('//'):
                         comment += 1
                         continue
                     
+                    # Everything else is code (including preprocessor directives)
                     code += 1
                 
                 # Update quality metrics
