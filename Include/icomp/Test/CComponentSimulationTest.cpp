@@ -22,8 +22,6 @@ public:
 	virtual void SetTestValue(const QString& value) = 0;
 };
 
-I_DECLARE_CLASS_INFO(ITestInterface);
-
 
 // Simple test component implementation
 class CTestComponent : public icomp::CComponentBase
