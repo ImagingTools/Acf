@@ -7,6 +7,10 @@ This script collects various metrics about the codebase including:
 - Number of classes
 - Number of components
 - Library and package information
+- Function/method counts
+- Namespace usage
+- Include dependencies
+- File size distribution
 """
 
 import os
@@ -14,7 +18,7 @@ import re
 import json
 from pathlib import Path
 from datetime import datetime
-from collections import defaultdict
+from collections import defaultdict, Counter
 
 class RepositoryStats:
     def __init__(self, repo_path):
@@ -29,6 +33,8 @@ class RepositoryStats:
             'components': [],
             'classes': [],
             'interfaces': [],
+            'functions': [],
+            'namespaces': [],
             'test_files': 0,
             'documentation_files': 0,
             'quality_metrics': {
@@ -37,6 +43,12 @@ class RepositoryStats:
                 'fixmes': 0,
                 'hacks': 0,
                 'warnings': 0,
+            },
+            'code_structure': {
+                'include_dependencies': defaultdict(list),
+                'file_size_distribution': defaultdict(int),
+                'namespace_usage': defaultdict(int),
+                'export_macros': defaultdict(int),
             },
         }
         
@@ -185,6 +197,80 @@ class RepositoryStats:
             print(f"Error extracting interfaces from {file_path}: {e}")
         return interfaces
     
+    def extract_functions(self, file_path):
+        """Extract function/method declarations."""
+        functions = []
+        try:
+            with open(file_path, 'r', encoding='utf-8', errors='ignore') as f:
+                content = f.read()
+                # Match function declarations (simplified pattern)
+                # Matches patterns like: void MyFunction(...) or virtual int GetValue() const
+                function_pattern = r'(?:virtual\s+)?(?:static\s+)?(?:inline\s+)?(?:\w+(?:\s*\*|\s+&)?)\s+(\w+)\s*\([^)]*\)(?:\s+const)?(?:\s+override)?(?:\s*[;{])'
+                matches = re.finditer(function_pattern, content)
+                for match in matches:
+                    function_name = match.group(1)
+                    # Filter out common false positives (constructors, macros, etc.)
+                    if not function_name.isupper() and function_name not in ['if', 'while', 'for', 'switch']:
+                        functions.append({
+                            'name': function_name,
+                            'file': str(file_path.relative_to(self.repo_path))
+                        })
+        except Exception as e:
+            print(f"Error extracting functions from {file_path}: {e}")
+        return functions
+    
+    def extract_namespaces(self, file_path):
+        """Extract namespace declarations."""
+        namespaces = []
+        try:
+            with open(file_path, 'r', encoding='utf-8', errors='ignore') as f:
+                content = f.read()
+                # Match namespace declarations
+                namespace_pattern = r'namespace\s+(\w+)'
+                matches = re.finditer(namespace_pattern, content)
+                for match in matches:
+                    namespace_name = match.group(1)
+                    namespaces.append({
+                        'name': namespace_name,
+                        'file': str(file_path.relative_to(self.repo_path))
+                    })
+        except Exception as e:
+            print(f"Error extracting namespaces from {file_path}: {e}")
+        return namespaces
+    
+    def extract_includes(self, file_path):
+        """Extract #include directives."""
+        includes = []
+        try:
+            with open(file_path, 'r', encoding='utf-8', errors='ignore') as f:
+                content = f.read()
+                # Match #include directives
+                include_pattern = r'#include\s+[<"]([^>"]+)[>"]'
+                matches = re.finditer(include_pattern, content)
+                for match in matches:
+                    include_file = match.group(1)
+                    includes.append(include_file)
+        except Exception as e:
+            print(f"Error extracting includes from {file_path}: {e}")
+        return includes
+    
+    def extract_export_macros(self, file_path):
+        """Extract ACF export macro usage."""
+        export_macros = []
+        try:
+            with open(file_path, 'r', encoding='utf-8', errors='ignore') as f:
+                content = f.read()
+                # Match ACF export macros like ACF_ICOMP_EXPORT, ACF_IQTGUI_EXPORT, etc.
+                export_pattern = r'(ACF_\w+_EXPORT)'
+                matches = re.finditer(export_pattern, content)
+                for match in matches:
+                    macro_name = match.group(1)
+                    export_macros.append(macro_name)
+        except Exception as e:
+            print(f"Error extracting export macros from {file_path}: {e}")
+        return export_macros
+
+    
     def analyze_directory(self, directory, category):
         """Analyze a directory for source files."""
         dir_path = self.repo_path / directory
@@ -217,6 +303,10 @@ class RepositoryStats:
                         'lines': line_counts['total']
                     })
                 
+                # Update file size distribution
+                size_bucket = (line_counts['total'] // 100) * 100  # Bucket by hundreds
+                self.stats['code_structure']['file_size_distribution'][size_bucket] += 1
+                
                 # Extract classes from headers
                 if file_path.suffix == '.h':
                     classes = self.extract_classes(file_path)
@@ -227,6 +317,35 @@ class RepositoryStats:
                     
                     components = self.extract_components(file_path)
                     self.stats['components'].extend(components)
+                    
+                    functions = self.extract_functions(file_path)
+                    self.stats['functions'].extend(functions)
+                    
+                    namespaces = self.extract_namespaces(file_path)
+                    self.stats['namespaces'].extend(namespaces)
+                    
+                    # Update namespace usage counts
+                    for ns in namespaces:
+                        self.stats['code_structure']['namespace_usage'][ns['name']] += 1
+                    
+                    export_macros = self.extract_export_macros(file_path)
+                    for macro in export_macros:
+                        self.stats['code_structure']['export_macros'][macro] += 1
+                
+                # Extract includes from all source files
+                includes = self.extract_includes(file_path)
+                if includes:
+                    self.stats['code_structure']['include_dependencies'][rel_path] = includes
+                
+                # Extract functions from cpp files too
+                if file_path.suffix in ['.cpp', '.cc', '.c']:
+                    functions = self.extract_functions(file_path)
+                    self.stats['functions'].extend(functions)
+                    
+                    namespaces = self.extract_namespaces(file_path)
+                    self.stats['namespaces'].extend(namespaces)
+                    for ns in namespaces:
+                        self.stats['code_structure']['namespace_usage'][ns['name']] += 1
     
     def analyze_libraries(self):
         """Analyze library structure in Include directory."""
