@@ -23,13 +23,10 @@
                         <Data IsEnabled="true" Value="XmlFileSerializer"/>
                     </AttributeInfo>
                     <AttributeInfo Id="FilePath" Type="Reference" ExportId="">
-                        <Data IsEnabled="true" Value="FilePathAutoReload"/>
-                    </AttributeInfo>
-                    <AttributeInfo Id="Log" Type="Reference" ExportId="">
-                        <Data IsEnabled="true" Value="ConsoleLog"/>
+                        <Data IsEnabled="true" Value="FilePath"/>
                     </AttributeInfo>
                     <AttributeInfo Id="Object" Type="Reference" ExportId="">
-                        <Data IsEnabled="true" Value="SelectionAutoReload"/>
+                        <Data IsEnabled="true" Value="Object"/>
                     </AttributeInfo>
                     <AttributeInfo Id="RestoreOnBegin" Type="Boolean" ExportId="">
                         <Data IsEnabled="true" Value="true"/>
@@ -62,13 +59,10 @@
                         <Data IsEnabled="true" Value="XmlFileSerializer"/>
                     </AttributeInfo>
                     <AttributeInfo Id="FilePath" Type="Reference" ExportId="">
-                        <Data IsEnabled="true" Value="FilePathLocking"/>
-                    </AttributeInfo>
-                    <AttributeInfo Id="Log" Type="Reference" ExportId="">
-                        <Data IsEnabled="true" Value="ConsoleLog"/>
+                        <Data IsEnabled="true" Value="FilePath"/>
                     </AttributeInfo>
                     <AttributeInfo Id="Object" Type="Reference" ExportId="">
-                        <Data IsEnabled="true" Value="SelectionLocking"/>
+                        <Data IsEnabled="true" Value="Object"/>
                     </AttributeInfo>
                     <AttributeInfo Id="RestoreOnBegin" Type="Boolean" ExportId="">
                         <Data IsEnabled="true" Value="false"/>
@@ -104,13 +98,10 @@
                         <Data IsEnabled="true" Value="XmlFileSerializer"/>
                     </AttributeInfo>
                     <AttributeInfo Id="FilePath" Type="Reference" ExportId="">
-                        <Data IsEnabled="true" Value="FilePathRestoreStoreEnd"/>
-                    </AttributeInfo>
-                    <AttributeInfo Id="Log" Type="Reference" ExportId="">
-                        <Data IsEnabled="true" Value="ConsoleLog"/>
+                        <Data IsEnabled="true" Value="FilePath"/>
                     </AttributeInfo>
                     <AttributeInfo Id="Object" Type="Reference" ExportId="">
-                        <Data IsEnabled="true" Value="SelectionRestoreStoreEnd"/>
+                        <Data IsEnabled="true" Value="Object"/>
                     </AttributeInfo>
                     <AttributeInfo Id="RestoreOnBegin" Type="Boolean" ExportId="">
                         <Data IsEnabled="true" Value="true"/>
@@ -140,13 +131,10 @@
                         <Data IsEnabled="true" Value="XmlFileSerializer"/>
                     </AttributeInfo>
                     <AttributeInfo Id="FilePath" Type="Reference" ExportId="">
-                        <Data IsEnabled="true" Value="FilePathStoreInterval"/>
-                    </AttributeInfo>
-                    <AttributeInfo Id="Log" Type="Reference" ExportId="">
-                        <Data IsEnabled="true" Value="ConsoleLog"/>
+                        <Data IsEnabled="true" Value="FilePath"/>
                     </AttributeInfo>
                     <AttributeInfo Id="Object" Type="Reference" ExportId="">
-                        <Data IsEnabled="true" Value="SelectionStoreInterval"/>
+                        <Data IsEnabled="true" Value="Object"/>
                     </AttributeInfo>
                     <AttributeInfo Id="RestoreOnBegin" Type="Boolean" ExportId="">
                         <Data IsEnabled="true" Value="false"/>
@@ -179,13 +167,10 @@
                         <Data IsEnabled="true" Value="XmlFileSerializer"/>
                     </AttributeInfo>
                     <AttributeInfo Id="FilePath" Type="Reference" ExportId="">
-                        <Data IsEnabled="true" Value="FilePathStoreOnBegin"/>
-                    </AttributeInfo>
-                    <AttributeInfo Id="Log" Type="Reference" ExportId="">
-                        <Data IsEnabled="true" Value="ConsoleLog"/>
+                        <Data IsEnabled="true" Value="FilePath"/>
                     </AttributeInfo>
                     <AttributeInfo Id="Object" Type="Reference" ExportId="">
-                        <Data IsEnabled="true" Value="SelectionStoreOnBegin"/>
+                        <Data IsEnabled="true" Value="Object"/>
                     </AttributeInfo>
                     <AttributeInfo Id="RestoreOnBegin" Type="Boolean" ExportId="">
                         <Data IsEnabled="true" Value="false"/>
@@ -215,13 +200,10 @@
                         <Data IsEnabled="true" Value="XmlFileSerializer"/>
                     </AttributeInfo>
                     <AttributeInfo Id="FilePath" Type="Reference" ExportId="">
-                        <Data IsEnabled="true" Value="FilePathStoreOnChange"/>
-                    </AttributeInfo>
-                    <AttributeInfo Id="Log" Type="Reference" ExportId="">
-                        <Data IsEnabled="true" Value="ConsoleLog"/>
+                        <Data IsEnabled="true" Value="FilePath"/>
                     </AttributeInfo>
                     <AttributeInfo Id="Object" Type="Reference" ExportId="">
-                        <Data IsEnabled="true" Value="SelectionStoreOnChange"/>
+                        <Data IsEnabled="true" Value="Object"/>
                     </AttributeInfo>
                     <AttributeInfo Id="RestoreOnBegin" Type="Boolean" ExportId="">
                         <Data IsEnabled="true" Value="false"/>
@@ -238,87 +220,12 @@
                 </AttributeInfoMap>
             </Data>
         </Element>
-        <Element Id="ConsoleLog" PackageId="BasePck" ComponentId="ConsoleLog">
+        <Element Id="FilePath" PackageId="FilePck" ComponentId="FileNameParam">
             <Data IsEnabled="true" Flags="0">
                 <AttributeInfoMap/>
             </Data>
         </Element>
-        <Element Id="FilePathAutoReload" PackageId="FilePck" ComponentId="FileNameParam">
-            <Data IsEnabled="true" Flags="0">
-                <AttributeInfoMap/>
-            </Data>
-        </Element>
-        <Element Id="FilePathLocking" PackageId="FilePck" ComponentId="FileNameParam">
-            <Data IsEnabled="true" Flags="0">
-                <AttributeInfoMap/>
-            </Data>
-        </Element>
-        <Element Id="FilePathRestoreStoreEnd" PackageId="FilePck" ComponentId="FileNameParam">
-            <Data IsEnabled="true" Flags="0">
-                <AttributeInfoMap/>
-            </Data>
-        </Element>
-        <Element Id="FilePathStoreInterval" PackageId="FilePck" ComponentId="FileNameParam">
-            <Data IsEnabled="true" Flags="0">
-                <AttributeInfoMap/>
-            </Data>
-        </Element>
-        <Element Id="FilePathStoreOnBegin" PackageId="FilePck" ComponentId="FileNameParam">
-            <Data IsEnabled="true" Flags="0">
-                <AttributeInfoMap/>
-            </Data>
-        </Element>
-        <Element Id="FilePathStoreOnChange" PackageId="FilePck" ComponentId="FileNameParam">
-            <Data IsEnabled="true" Flags="0">
-                <AttributeInfoMap/>
-            </Data>
-        </Element>
-        <Element Id="SelectionAutoReload" PackageId="BasePck" ComponentId="SelectionParam">
-            <Data IsEnabled="true" Flags="0">
-                <AttributeInfoMap>
-                    <AttributeInfo Id="DefaultIndex" Type="Integer" ExportId="">
-                        <Data IsEnabled="true" Value="0"/>
-                    </AttributeInfo>
-                </AttributeInfoMap>
-            </Data>
-        </Element>
-        <Element Id="SelectionLocking" PackageId="BasePck" ComponentId="SelectionParam">
-            <Data IsEnabled="true" Flags="0">
-                <AttributeInfoMap>
-                    <AttributeInfo Id="DefaultIndex" Type="Integer" ExportId="">
-                        <Data IsEnabled="true" Value="0"/>
-                    </AttributeInfo>
-                </AttributeInfoMap>
-            </Data>
-        </Element>
-        <Element Id="SelectionRestoreStoreEnd" PackageId="BasePck" ComponentId="SelectionParam">
-            <Data IsEnabled="true" Flags="0">
-                <AttributeInfoMap>
-                    <AttributeInfo Id="DefaultIndex" Type="Integer" ExportId="">
-                        <Data IsEnabled="true" Value="0"/>
-                    </AttributeInfo>
-                </AttributeInfoMap>
-            </Data>
-        </Element>
-        <Element Id="SelectionStoreInterval" PackageId="BasePck" ComponentId="SelectionParam">
-            <Data IsEnabled="true" Flags="0">
-                <AttributeInfoMap>
-                    <AttributeInfo Id="DefaultIndex" Type="Integer" ExportId="">
-                        <Data IsEnabled="true" Value="0"/>
-                    </AttributeInfo>
-                </AttributeInfoMap>
-            </Data>
-        </Element>
-        <Element Id="SelectionStoreOnBegin" PackageId="BasePck" ComponentId="SelectionParam">
-            <Data IsEnabled="true" Flags="0">
-                <AttributeInfoMap>
-                    <AttributeInfo Id="DefaultIndex" Type="Integer" ExportId="">
-                        <Data IsEnabled="true" Value="0"/>
-                    </AttributeInfo>
-                </AttributeInfoMap>
-            </Data>
-        </Element>
-        <Element Id="SelectionStoreOnChange" PackageId="BasePck" ComponentId="SelectionParam">
+        <Element Id="Object" PackageId="BasePck" ComponentId="SelectionParam">
             <Data IsEnabled="true" Flags="0">
                 <AttributeInfoMap>
                     <AttributeInfo Id="DefaultIndex" Type="Integer" ExportId="">
@@ -340,17 +247,7 @@
     <EmbeddedRegistriesList/>
     <ExportedInterfaces/>
     <ExportedComponents>
-        <Component ExportedId="FilePathAutoReload" ComponentId="FilePathAutoReload"/>
-        <Component ExportedId="FilePathLocking" ComponentId="FilePathLocking"/>
-        <Component ExportedId="FilePathRestoreStoreEnd" ComponentId="FilePathRestoreStoreEnd"/>
-        <Component ExportedId="FilePathStoreInterval" ComponentId="FilePathStoreInterval"/>
-        <Component ExportedId="FilePathStoreOnBegin" ComponentId="FilePathStoreOnBegin"/>
-        <Component ExportedId="FilePathStoreOnChange" ComponentId="FilePathStoreOnChange"/>
-        <Component ExportedId="SelectionAutoReload" ComponentId="SelectionAutoReload"/>
-        <Component ExportedId="SelectionLocking" ComponentId="SelectionLocking"/>
-        <Component ExportedId="SelectionRestoreStoreEnd" ComponentId="SelectionRestoreStoreEnd"/>
-        <Component ExportedId="SelectionStoreInterval" ComponentId="SelectionStoreInterval"/>
-        <Component ExportedId="SelectionStoreOnBegin" ComponentId="SelectionStoreOnBegin"/>
-        <Component ExportedId="SelectionStoreOnChange" ComponentId="SelectionStoreOnChange"/>
+        <Component ExportedId="FilePath" ComponentId="FilePath"/>
+        <Component ExportedId="Object" ComponentId="Object"/>
     </ExportedComponents>
 </Acf>

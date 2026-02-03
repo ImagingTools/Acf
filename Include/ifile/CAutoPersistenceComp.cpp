@@ -5,6 +5,7 @@
 // Qt includes
 #include <QtCore/QtGlobal>
 #include <QtCore/QCoreApplication>
+#include <QtCore/QUuid>
 #if QT_VERSION >= 0x050000
 #include <QtConcurrent/QtConcurrent>
 #include <QtCore/QStandardPaths>
@@ -113,7 +114,8 @@ bool CAutoPersistenceComp::StoreObject(const istd::IChangeable& object)
 
 				QString tempFilePath;
 				if (!filePath.isEmpty()){
-					tempFilePath = QDir::tempPath() + "/" + QFileInfo(filePath).fileName();
+					QString uuid = QUuid::createUuid().toByteArray(QUuid::WithoutBraces);
+					tempFilePath = QDir::tempPath() + "/" + uuid + "_" + QFileInfo(filePath).fileName();
 				}
 
 				int operationState = m_fileLoaderCompPtr->SaveToFile(object, tempFilePath);
