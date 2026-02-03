@@ -187,8 +187,8 @@ AutoPersistenceTest.depends = Arxc iprm ifile iser itest
 
 # Impl Tests
 !macx-ios*{
-	SUBDIRS += ComposedGuiTest
-	ComposedGuiTest.file = ../../Impl/Tests/ComposedGuiTest/QMake/ComposedGuiTest.pro
-	ComposedGuiTest.depends = Acf
+	SUBDIRS += TestComposedGui
+	TestComposedGui.file = ../../Tests/TestComposedGui/QMake/TestComposedGui.pro
+	TestComposedGui.depends = Acf
 }
 
