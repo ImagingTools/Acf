@@ -29,58 +29,58 @@ void CPackageTest::cleanupTestCase()
 
 void CPackageTest::testComponentAccessorCreation()
 {
-	// Test creating a component accessor without loading packages
-	// This tests the basic construction
+	// Test creating a component accessor with invalid registry file
+	// NOTE: This is a placeholder test that validates the code path doesn't crash.
+	// TODO: Once the expected behavior for invalid registry files is clarified,
+	// this test should be updated to verify the specific behavior (exception vs. graceful handling).
 	
-	// Create a temporary empty registry file
+	// Create a temporary empty registry file (invalid format)
 	QTemporaryFile tempFile;
 	QVERIFY(tempFile.open());
 	
 	QString registryPath = tempFile.fileName();
 	
-	// Note: Component accessor with invalid registry file should either:
-	// 1. Throw an exception (graceful failure), or
-	// 2. Handle it internally without crashing
-	// TODO: Determine exact expected behavior and update test accordingly
-	bool exceptionCaught = false;
+	// Try to create accessor with invalid registry
+	// Current behavior: may throw exception or handle gracefully
 	try
 	{
 		ipackage::CComponentAccessor accessor(registryPath, QString(), false, false);
+		// If we get here, constructor handled invalid file gracefully
 	}
 	catch (...)
 	{
-		exceptionCaught = true;
+		// If we get here, constructor threw exception for invalid file
 	}
 	
-	// For now, we just verify construction doesn't crash
-	// This test validates the error handling path
-	QVERIFY(true); // Always passes - validates no crash occurred
+	// Test passes if no crash occurred - validates error handling exists
+	QVERIFY(true);
 }
 
 
 void CPackageTest::testComponentAccessorWithoutPackages()
 {
-	// Test component accessor behavior when no packages are loaded
-	// Using empty registry path should trigger default behavior
+	// Test component accessor with empty registry path (default behavior)
+	// NOTE: This is a placeholder test that validates the code path doesn't crash.
+	// TODO: Once the expected behavior for empty registry is clarified,
+	// this test should verify specific behavior (default components, empty registry, etc.).
 	
 	QString emptyRegistry = "";
 	
-	// TODO: Determine expected behavior for empty registry
-	// Should test actual functionality once behavior is clarified
-	bool constructionWorked = true;
+	// Try to create accessor with empty registry path
+	bool constructionSucceeded = false;
 	try
 	{
 		ipackage::CComponentAccessor accessor(emptyRegistry, QString(), false, false);
-		constructionWorked = true;
+		constructionSucceeded = true;
 	}
 	catch (...)
 	{
-		constructionWorked = false;
+		constructionSucceeded = false;
 	}
 	
-	// For now, verify construction doesn't crash
-	// This validates basic construction path
-	QVERIFY(true); // Always passes - validates no crash occurred
+	// For now, just verify construction doesn't crash
+	// The test validates that the constructor handles empty registry without crashing
+	QVERIFY(true);
 }
 
 
