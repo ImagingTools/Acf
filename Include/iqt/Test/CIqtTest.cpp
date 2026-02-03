@@ -148,9 +148,10 @@ void CIqtTest::TestQRectConversions()
 	i2d::CRect rect2 = iqt::GetCRect(qrect2);
 	QCOMPARE(rect2.GetLeft(), 5);
 	QCOMPARE(rect2.GetTop(), 15);
-	// Note: CRect uses right/bottom as exclusive bounds
-	QCOMPARE(rect2.GetRight(), 206);
-	QCOMPARE(rect2.GetBottom(), 116);
+	// Note: QRect.right() = left + width - 1, so right() = 5 + 200 - 1 = 204
+	// CRect uses right/bottom as exclusive bounds, so GetCRect adds 1
+	QCOMPARE(rect2.GetRight(), 205);  // 204 + 1
+	QCOMPARE(rect2.GetBottom(), 115); // 114 + 1
 
 	// Test round-trip conversion
 	i2d::CRect rect3(1, 2, 10, 10);
