@@ -161,8 +161,8 @@ void CBitmapBaseTest::CreateImageFromRegionTest()
 	
 	// Verify destination size
 	istd::CIndex2d destSize = destBitmap.GetImageSize();
-	QCOMPARE(destSize.x, region.GetWidth());
-	QCOMPARE(destSize.y, region.GetHeight());
+	QCOMPARE(destSize.GetX(), region.GetWidth());
+	QCOMPARE(destSize.GetY(), region.GetHeight());
 	QCOMPARE(destBitmap.GetPixelFormat(), sourceBitmap.GetPixelFormat());
 }
 

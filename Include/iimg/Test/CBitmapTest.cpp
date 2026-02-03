@@ -17,8 +17,8 @@ void CBitmapTest::ConstructorTest()
 	
 	// New bitmap should have zero size
 	istd::CIndex2d size = bitmap.GetImageSize();
-	QVERIFY(size.x == 0);
-	QVERIFY(size.y == 0);
+	QVERIFY(size.GetX() == 0);
+	QVERIFY(size.GetY() == 0);
 	
 	// Check pixel format is unknown for empty bitmap
 	QVERIFY(bitmap.GetPixelFormat() == iimg::IBitmap::PF_UNKNOWN);
@@ -38,8 +38,8 @@ void CBitmapTest::CopyConstructorTest()
 	
 	// Verify copy has same properties
 	istd::CIndex2d copySize = copy.GetImageSize();
-	QCOMPARE(copySize.x, size.x);
-	QCOMPARE(copySize.y, size.y);
+	QCOMPARE(copySize.GetX(), size.GetX());
+	QCOMPARE(copySize.GetY(), size.GetY());
 	QCOMPARE(copy.GetPixelFormat(), original.GetPixelFormat());
 }
 
@@ -55,8 +55,8 @@ void CBitmapTest::QImageConstructorTest()
 	
 	// Verify properties
 	istd::CIndex2d size = bitmap.GetImageSize();
-	QCOMPARE(size.x, 200);
-	QCOMPARE(size.y, 100);
+	QCOMPARE(size.GetX(), 200);
+	QCOMPARE(size.GetY(), 100);
 	QCOMPARE(bitmap.GetPixelFormat(), iimg::IBitmap::PF_RGB);
 }
 
@@ -71,8 +71,8 @@ void CBitmapTest::CreateBitmapTest()
 	
 	// Verify size
 	istd::CIndex2d actualSize = bitmap.GetImageSize();
-	QCOMPARE(actualSize.x, size.x);
-	QCOMPARE(actualSize.y, size.y);
+	QCOMPARE(actualSize.GetX(), size.GetX());
+	QCOMPARE(actualSize.GetY(), size.GetY());
 	
 	// Verify format
 	QCOMPARE(bitmap.GetPixelFormat(), iimg::IBitmap::PF_GRAY);
@@ -104,8 +104,8 @@ void CBitmapTest::CreateBitmapRGBTest()
 	QCOMPARE(bitmap.GetPixelFormat(), iimg::IBitmap::PF_RGB);
 	
 	istd::CIndex2d actualSize = bitmap.GetImageSize();
-	QCOMPARE(actualSize.x, size.x);
-	QCOMPARE(actualSize.y, size.y);
+	QCOMPARE(actualSize.GetX(), size.GetX());
+	QCOMPARE(actualSize.GetY(), size.GetY());
 }
 
 
@@ -119,8 +119,8 @@ void CBitmapTest::CreateBitmapRGBATest()
 	QCOMPARE(bitmap.GetPixelFormat(), iimg::IBitmap::PF_RGBA);
 	
 	istd::CIndex2d actualSize = bitmap.GetImageSize();
-	QCOMPARE(actualSize.x, size.x);
-	QCOMPARE(actualSize.y, size.y);
+	QCOMPARE(actualSize.GetX(), size.GetX());
+	QCOMPARE(actualSize.GetY(), size.GetY());
 }
 
 
@@ -159,15 +159,15 @@ void CBitmapTest::GetImageSizeTest()
 	
 	// Empty bitmap
 	istd::CIndex2d emptySize = bitmap.GetImageSize();
-	QVERIFY(emptySize.x == 0);
-	QVERIFY(emptySize.y == 0);
+	QVERIFY(emptySize.GetX() == 0);
+	QVERIFY(emptySize.GetY() == 0);
 	
 	// After creating bitmap
 	istd::CIndex2d size(320, 240);
 	bitmap.CreateBitmap(iimg::IBitmap::PF_GRAY, size);
 	istd::CIndex2d actualSize = bitmap.GetImageSize();
-	QCOMPARE(actualSize.x, size.x);
-	QCOMPARE(actualSize.y, size.y);
+	QCOMPARE(actualSize.GetX(), size.GetX());
+	QCOMPARE(actualSize.GetY(), size.GetY());
 }
 
 
@@ -179,16 +179,16 @@ void CBitmapTest::ResetImageTest()
 	
 	// Verify bitmap is not empty
 	istd::CIndex2d actualSize = bitmap.GetImageSize();
-	QVERIFY(actualSize.x > 0);
-	QVERIFY(actualSize.y > 0);
+	QVERIFY(actualSize.GetX() > 0);
+	QVERIFY(actualSize.GetY() > 0);
 	
 	// Reset the image
 	bitmap.ResetImage();
 	
 	// Verify bitmap is now empty
 	istd::CIndex2d emptySize = bitmap.GetImageSize();
-	QVERIFY(emptySize.x == 0);
-	QVERIFY(emptySize.y == 0);
+	QVERIFY(emptySize.GetX() == 0);
+	QVERIFY(emptySize.GetY() == 0);
 }
 
 
@@ -202,7 +202,7 @@ void CBitmapTest::ClearImageTest()
 	void* linePtr = bitmap.GetLinePtr(0);
 	if (linePtr)
 	{
-		memset(linePtr, 255, size.x);
+		memset(linePtr, 255, size.GetX());
 	}
 	
 	// Clear the image (should fill with zeros)
@@ -210,8 +210,8 @@ void CBitmapTest::ClearImageTest()
 	
 	// Verify image is still valid but cleared
 	istd::CIndex2d actualSize = bitmap.GetImageSize();
-	QCOMPARE(actualSize.x, size.x);
-	QCOMPARE(actualSize.y, size.y);
+	QCOMPARE(actualSize.GetX(), size.GetX());
+	QCOMPARE(actualSize.GetY(), size.GetY());
 	
 	// Check first pixel is zero
 	const void* constLinePtr = bitmap.GetLinePtr(0);
@@ -254,7 +254,7 @@ void CBitmapTest::GetLinesDifferenceTest()
 	QVERIFY(linesDiff >= 0);
 	
 	// For most formats, should be at least the width
-	QVERIFY(linesDiff >= size.x);
+	QVERIFY(linesDiff >= size.GetX());
 }
 
 
@@ -269,8 +269,8 @@ void CBitmapTest::CopyFromTest()
 	QVERIFY(result);
 	
 	// Verify properties match
-	QCOMPARE(destination.GetImageSize().x, source.GetImageSize().x);
-	QCOMPARE(destination.GetImageSize().y, source.GetImageSize().y);
+	QCOMPARE(destination.GetImageSize().GetX(), source.GetImageSize().GetX());
+	QCOMPARE(destination.GetImageSize().GetY(), source.GetImageSize().GetY());
 	QCOMPARE(destination.GetPixelFormat(), source.GetPixelFormat());
 }
 
@@ -289,8 +289,8 @@ void CBitmapTest::CloneMeTest()
 	QVERIFY(clonedBitmap != nullptr);
 	
 	// Verify properties match
-	QCOMPARE(clonedBitmap->GetImageSize().x, original.GetImageSize().x);
-	QCOMPARE(clonedBitmap->GetImageSize().y, original.GetImageSize().y);
+	QCOMPARE(clonedBitmap->GetImageSize().GetX(), original.GetImageSize().GetX());
+	QCOMPARE(clonedBitmap->GetImageSize().GetY(), original.GetImageSize().GetY());
 	QCOMPARE(clonedBitmap->GetPixelFormat(), original.GetPixelFormat());
 }
 
@@ -320,8 +320,8 @@ void CBitmapTest::CopyImageFromTest()
 	
 	// Verify size
 	istd::CIndex2d size = bitmap.GetImageSize();
-	QCOMPARE(size.x, image.width());
-	QCOMPARE(size.y, image.height());
+	QCOMPARE(size.GetX(), image.width());
+	QCOMPARE(size.GetY(), image.height());
 }
 
 
@@ -334,8 +334,8 @@ void CBitmapTest::GetQImageTest()
 	const QImage& image = bitmap.GetQImage();
 	
 	// Verify QImage properties
-	QCOMPARE(image.width(), size.x);
-	QCOMPARE(image.height(), size.y);
+	QCOMPARE(image.width(), size.GetX());
+	QCOMPARE(image.height(), size.GetY());
 	QVERIFY(!image.isNull());
 }
 
