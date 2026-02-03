@@ -17,6 +17,7 @@ Tests are organized by location:
   - **SelectionParamComponentTest/** - Component tests for CSelectionParamComp with various configurations
   - **AutoPersistenceTest/** - Tests for CAutoPersistenceComp with various attribute configurations
   - **IdocComponentTest/** - Component tests for idoc library (CTextDocumentComp, CSerializedUndoManagerComp, CSingleDocumentTemplateComp)
+  - **SerializationRegressionTest/** - Cross-library regression tests for data model serialization
 
 - **Include/[library]/Test/** - Unit tests for each library
   - **Include/istd/Test/** - Tests for standard utilities (CRandomNumber, CIndex2d, CBitManip, CCrcCalculator, etc.)
@@ -376,6 +377,51 @@ Each test scenario uses a dedicated SelectionParam object as the persistent data
 - `testDocumentTemplateCreation()` - Verifies document template creation
 - `testDocumentTemplateCreateDocument()` - Tests document creation via template
 - `testDocumentTemplateAttributes()` - Tests template attributes
+
+### SerializationRegressionTest
+
+**Purpose**: Cross-library regression tests for data model serialization. Validates that data models from different ACF libraries can be correctly serialized and deserialized.
+
+**Test Coverage**:
+- **i2d Library (2D Graphics)**:
+  - CVector2d, CPosition2d, CCircle, CRectangle, CLine2d serialization
+  
+- **i3d Library (3D Graphics)**:
+  - CVector3d, CBox3d, CSphere, CPlane3d serialization
+  
+- **icmm Library (Color Management)**:
+  - CVarColor (variable-length color), CSpectrumInfo serialization
+  
+- **imath Library (Mathematics)**:
+  - CVarVector (variable-length vector) serialization
+
+**Test Approach**:
+Each test:
+1. Creates an original object with specific test values
+2. Serializes the object to memory buffer using `CMemoryWriteArchive`
+3. Deserializes from buffer into new object using `CMemoryReadArchive`
+4. Verifies all data was correctly preserved by comparing fields
+
+**Test Methods**:
+- `testVector2dSerialization()` - Tests 2D vector serialization
+- `testPosition2dSerialization()` - Tests 2D position serialization
+- `testCircleSerialization()` - Tests circle (center + radius) serialization
+- `testRectangleSerialization()` - Tests rectangle bounds serialization
+- `testLine2dSerialization()` - Tests 2D line (begin + end points) serialization
+- `testVector3dSerialization()` - Tests 3D vector serialization
+- `testBox3dSerialization()` - Tests 3D bounding box serialization
+- `testSphereSerialization()` - Tests sphere (center + radius) serialization
+- `testPlane3dSerialization()` - Tests 3D plane (normal + distance) serialization
+- `testVarColorSerialization()` - Tests variable-length color serialization
+- `testSpectrumInfoSerialization()` - Tests spectrum info (range + step) serialization
+- `testVarVectorSerialization()` - Tests variable-length vector serialization
+
+**Regression Protection**:
+This test suite ensures that:
+- Future changes don't break serialization compatibility
+- Data models maintain their serialization contracts
+- Cross-library serialization remains functional
+- Serialization preserves all object data accurately
 
 ## Contributing
 
