@@ -87,8 +87,8 @@ void CScanlineMaskTest::CreateFromCircleTest()
 	iimg::CScanlineMask mask;
 	
 	// Create circle centered at (50, 50) with radius 20
-	i2d::CPosition2d center(50.0, 50.0);
-	i2d::CCircle circle(center, 20.0);
+	i2d::CVector2d center(50.0, 50.0);
+	i2d::CCircle circle(20.0, center);
 	
 	i2d::CRect clipArea(0, 0, 100, 100);
 	mask.CreateFromCircle(circle, &clipArea);
@@ -110,9 +110,8 @@ void CScanlineMaskTest::CreateFromRectangleTest()
 {
 	iimg::CScanlineMask mask;
 	
-	// Create rectangle
-	i2d::CPosition2d center(50.0, 50.0);
-	i2d::CRectangle rect(center, 40.0, 30.0, 0.0);
+	// Create rectangle - using left, top, width, height
+	i2d::CRectangle rect(30.0, 35.0, 40.0, 30.0);  // left=30, top=35, width=40, height=30
 	
 	i2d::CRect clipArea(0, 0, 100, 100);
 	mask.CreateFromRectangle(rect, &clipArea);
@@ -164,12 +163,13 @@ void CScanlineMaskTest::GetPixelRangesTest()
 	QVERIFY(ranges != nullptr);
 	
 	// For filled region, should have at least one range
-	QVERIFY(ranges->Count() > 0);
+	// Check if ranges is not empty
+	QVERIFY(!ranges->IsEmpty());
 	
 	// Get pixel ranges for a line outside the region
 	const istd::CIntRanges* outsideRanges = mask.GetPixelRanges(5);
 	// Should be nullptr or empty for line outside region
-	QVERIFY(outsideRanges == nullptr || outsideRanges->Count() == 0);
+	QVERIFY(outsideRanges == nullptr || outsideRanges->IsEmpty());
 }
 
 

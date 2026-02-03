@@ -282,10 +282,10 @@ void CBitmapTest::CloneMeTest()
 	original.CreateBitmap(iimg::IBitmap::PF_RGB, size);
 	
 	auto clone = original.CloneMe();
-	QVERIFY(clone.get() != nullptr);
+	QVERIFY(clone.GetPtr() != nullptr);
 	
 	// Verify clone is a bitmap
-	iimg::CBitmap* clonedBitmap = dynamic_cast<iimg::CBitmap*>(clone.get());
+	iimg::CBitmap* clonedBitmap = dynamic_cast<iimg::CBitmap*>(clone.GetPtr());
 	QVERIFY(clonedBitmap != nullptr);
 	
 	// Verify properties match
