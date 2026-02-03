@@ -245,6 +245,7 @@ void CIqtCompTest::testTranslationManagerCurrentLanguage()
 	int currentLanguage = m_translationManagerPtr->GetCurrentLanguageIndex();
 	
 	// Verify it's a valid index
+	// Note: -1 is a valid value indicating no language is currently selected
 	QVERIFY(currentLanguage >= -1);
 	QVERIFY(currentLanguage < 3);
 }
