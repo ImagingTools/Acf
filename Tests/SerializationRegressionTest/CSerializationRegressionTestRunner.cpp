@@ -21,6 +21,20 @@
 // ACF includes - imath library
 #include <imath/CVarVector.h>
 
+// ACF includes - iprm library
+#include <iprm/CIdParam.h>
+#include <iprm/CNameParam.h>
+#include <iprm/CTextParam.h>
+#include <iprm/CEnableableParam.h>
+#include <iprm/CSelectionParam.h>
+#include <iprm/COptionsManager.h>
+
+// ACF includes - ifile library
+#include <ifile/CFileNameParam.h>
+
+// ACF includes - iimg library
+#include <iimg/CScanlineMask.h>
+
 // ACF includes - serialization
 #include <iser/CMemoryReadArchive.h>
 #include <iser/CMemoryWriteArchive.h>
@@ -277,6 +291,137 @@ void CSerializationRegressionTestRunner::testVarVectorSerialization()
 	for (int i = 0; i < original.GetElementsCount(); ++i){
 		QCOMPARE(restored.GetElement(i), original.GetElement(i));
 	}
+}
+
+
+// iprm library tests
+
+void CSerializationRegressionTestRunner::testIdParamSerialization()
+{
+	// Create original ID parameter with specific value
+	iprm::CIdParam original;
+	original.SetId("test-object-id-12345");
+	
+	iprm::CIdParam restored;
+	
+	// Test serialization cycle
+	QVERIFY(TestSerializationCycle(original, restored));
+	
+	// Verify data integrity
+	QCOMPARE(restored.GetId(), original.GetId());
+}
+
+
+void CSerializationRegressionTestRunner::testNameParamSerialization()
+{
+	// Create original name parameter with specific value
+	iprm::CNameParam original;
+	original.SetName("TestObjectName");
+	
+	iprm::CNameParam restored;
+	
+	// Test serialization cycle
+	QVERIFY(TestSerializationCycle(original, restored));
+	
+	// Verify data integrity
+	QCOMPARE(restored.GetName(), original.GetName());
+}
+
+
+void CSerializationRegressionTestRunner::testTextParamSerialization()
+{
+	// Create original text parameter with specific value
+	iprm::CTextParam original;
+	original.SetText("This is a test text parameter with special characters: äöü ß €");
+	
+	iprm::CTextParam restored;
+	
+	// Test serialization cycle
+	QVERIFY(TestSerializationCycle(original, restored));
+	
+	// Verify data integrity
+	QCOMPARE(restored.GetText(), original.GetText());
+}
+
+
+void CSerializationRegressionTestRunner::testEnableableParamSerialization()
+{
+	// Create original enableable parameter (enabled)
+	iprm::CEnableableParam original(true);
+	
+	iprm::CEnableableParam restored(false);
+	
+	// Test serialization cycle
+	QVERIFY(TestSerializationCycle(original, restored));
+	
+	// Verify data integrity
+	QCOMPARE(restored.IsEnabled(), original.IsEnabled());
+	QVERIFY(restored.IsEnabled());
+}
+
+
+void CSerializationRegressionTestRunner::testSelectionParamSerialization()
+{
+	// Create options for selection
+	iprm::COptionsManager options;
+	options.AddOption("Option1", "First option");
+	options.AddOption("Option2", "Second option");
+	options.AddOption("Option3", "Third option");
+	
+	// Create original selection parameter with specific selection
+	iprm::CSelectionParam original;
+	original.SetSelectionConstraints(&options);
+	original.SetSelectedOptionIndex(1);  // Select "Option2"
+	
+	iprm::CSelectionParam restored;
+	restored.SetSelectionConstraints(&options);  // Must set constraints before deserializing
+	
+	// Test serialization cycle
+	QVERIFY(TestSerializationCycle(original, restored));
+	
+	// Verify data integrity
+	QCOMPARE(restored.GetSelectedOptionIndex(), original.GetSelectedOptionIndex());
+	QCOMPARE(restored.GetSelectedOptionIndex(), 1);
+}
+
+
+// ifile library tests
+
+void CSerializationRegressionTestRunner::testFileNameParamSerialization()
+{
+	// Create original filename parameter with specific path
+	ifile::CFileNameParam original;
+	original.SetPath("/path/to/test/file.txt");
+	
+	ifile::CFileNameParam restored;
+	
+	// Test serialization cycle
+	QVERIFY(TestSerializationCycle(original, restored));
+	
+	// Verify data integrity
+	QCOMPARE(restored.GetPath(), original.GetPath());
+}
+
+
+// iimg library tests
+
+void CSerializationRegressionTestRunner::testScanlineMaskSerialization()
+{
+	// Create original scanline mask with specific geometry
+	iimg::CScanlineMask original;
+	// Add a simple rectangle region to the mask
+	original.AddRectangle(i2d::CRectangle(10.0, 20.0, 100.0, 150.0));
+	
+	iimg::CScanlineMask restored;
+	
+	// Test serialization cycle
+	QVERIFY(TestSerializationCycle(original, restored));
+	
+	// Verify data integrity - compare bounding boxes
+	QCOMPARE(restored.GetBoundingBox().GetLeft(), original.GetBoundingBox().GetLeft());
+	QCOMPARE(restored.GetBoundingBox().GetTop(), original.GetBoundingBox().GetTop());
+	QCOMPARE(restored.GetBoundingBox().GetRight(), original.GetBoundingBox().GetRight());
+	QCOMPARE(restored.GetBoundingBox().GetBottom(), original.GetBoundingBox().GetBottom());
 }
 
 

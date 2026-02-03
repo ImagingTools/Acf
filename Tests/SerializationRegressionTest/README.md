@@ -28,6 +28,19 @@ This test validates serialization functionality for data models from the followi
 ### imath Library (Mathematics)
 - **CVarVector** - Variable-length vector
 
+### iprm Library (Parameters)
+- **CIdParam** - ID parameter with byte array
+- **CNameParam** - Name parameter with QString
+- **CTextParam** - Text parameter with QString
+- **CEnableableParam** - Enableable parameter with boolean state
+- **CSelectionParam** - Selection parameter with options
+
+### ifile Library (File Management)
+- **CFileNameParam** - File name parameter with path
+
+### iimg Library (Image Processing)
+- **CScanlineMask** - Scanline mask for 2D regions
+
 ## Test Structure
 
 Each test:

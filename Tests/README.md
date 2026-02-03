@@ -395,6 +395,15 @@ Each test scenario uses a dedicated SelectionParam object as the persistent data
 - **imath Library (Mathematics)**:
   - CVarVector (variable-length vector) serialization
 
+- **iprm Library (Parameters)**:
+  - CIdParam, CNameParam, CTextParam, CEnableableParam, CSelectionParam serialization
+  
+- **ifile Library (File Management)**:
+  - CFileNameParam serialization
+  
+- **iimg Library (Image Processing)**:
+  - CScanlineMask serialization
+
 **Test Approach**:
 Each test:
 1. Creates an original object with specific test values
@@ -415,6 +424,13 @@ Each test:
 - `testVarColorSerialization()` - Tests variable-length color serialization
 - `testSpectrumInfoSerialization()` - Tests spectrum info (range + step) serialization
 - `testVarVectorSerialization()` - Tests variable-length vector serialization
+- `testIdParamSerialization()` - Tests ID parameter serialization
+- `testNameParamSerialization()` - Tests name parameter serialization
+- `testTextParamSerialization()` - Tests text parameter serialization
+- `testEnableableParamSerialization()` - Tests enableable parameter serialization
+- `testSelectionParamSerialization()` - Tests selection parameter serialization
+- `testFileNameParamSerialization()` - Tests file name parameter serialization
+- `testScanlineMaskSerialization()` - Tests scanline mask serialization
 
 **Regression Protection**:
 This test suite ensures that:

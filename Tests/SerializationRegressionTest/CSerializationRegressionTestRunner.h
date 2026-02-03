@@ -16,7 +16,7 @@
 	Cross-library component tests for regression of data model serialization.
 	
 	This test suite validates serialization and deserialization functionality
-	for data models from different ACF libraries (i2d, i3d, icmm, imath).
+	for data models from different ACF libraries (i2d, i3d, icmm, imath, iprm, ifile, iimg).
 	It ensures that objects can be correctly saved to and restored from archives.
 */
 class CSerializationRegressionTestRunner: public QObject
@@ -45,6 +45,19 @@ private slots:
 
 	// imath library tests
 	void testVarVectorSerialization();
+
+	// iprm library tests
+	void testIdParamSerialization();
+	void testNameParamSerialization();
+	void testTextParamSerialization();
+	void testEnableableParamSerialization();
+	void testSelectionParamSerialization();
+
+	// ifile library tests
+	void testFileNameParamSerialization();
+
+	// iimg library tests
+	void testScanlineMaskSerialization();
 
 	void cleanupTestCase();
 
