@@ -102,6 +102,13 @@ Unit tests for each library are located in `Include/[library]/Test/` directories
 #### icmm (Color Management) - Include/icmm/Test/
 - **CHsv** - HSV color model with component-wise operations
 
+#### iimg (Imaging) - Include/iimg/Test/
+- **CBitmap** - Bitmap operations including creation, format support, pixel access, image manipulation (23 tests)
+- **CBitmapBase** - Base bitmap functionality including geometry, color access, region operations, serialization (12 tests)
+- **CScanlineMask** - Scanline mask operations for 2D regions including geometry creation, boolean operations, morphological operations (16 tests)
+- **CPixelFormatList** - Pixel format enumeration and management with options list support (9 tests)
+- **TPixelConversion** - Template-based pixel type conversions between grayscale and float formats (9 tests)
+
 #### iser (Serialization) - Include/iser/Test/
 - **CMemoryArchive** - Binary serialization to/from memory buffers
 - **CBitMemoryArchive** - Bit-level serialization
