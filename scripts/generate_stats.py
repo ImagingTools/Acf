@@ -53,7 +53,8 @@ class RepositoryStats:
         }
         
     def count_lines(self, file_path):
-        """Count and categorize lines in a file as code, comments, or blank lines."""
+        """Count and categorize lines in a file as code, comments, or blank lines.
+        Also count statements (instructions) in the code."""
         try:
             with open(file_path, 'r', encoding='utf-8', errors='ignore') as f:
                 lines = f.readlines()
@@ -61,6 +62,7 @@ class RepositoryStats:
                 code = 0
                 comment = 0
                 blank = 0
+                statements = 0
                 in_multiline_comment = False
                 
                 # Quality metrics
@@ -68,6 +70,9 @@ class RepositoryStats:
                 fixmes = 0
                 hacks = 0
                 warnings = 0
+                
+                # For statement counting, we need to track the content
+                code_lines = []
                 
                 for line in lines:
                     stripped = line.strip()
@@ -98,6 +103,7 @@ class RepositoryStats:
                             comment += 1
                         else:
                             code += 1  # Code with trailing comment
+                            code_lines.append(stripped)
                         continue
                     
                     if in_multiline_comment:
@@ -113,6 +119,10 @@ class RepositoryStats:
                     
                     # Everything else is code (including preprocessor directives)
                     code += 1
+                    code_lines.append(stripped)
+                
+                # Count statements in code lines
+                statements = self.count_statements(code_lines)
                 
                 # Update quality metrics
                 self.stats['quality_metrics']['todos'] += todos
@@ -125,6 +135,7 @@ class RepositoryStats:
                     'code': code,
                     'comment': comment,
                     'blank': blank,
+                    'statements': statements,
                     'todos': todos,
                     'fixmes': fixmes,
                     'hacks': hacks,
@@ -132,8 +143,52 @@ class RepositoryStats:
                 }
         except Exception as e:
             print(f"Error reading {file_path}: {e}")
-            return {'total': 0, 'code': 0, 'comment': 0, 'blank': 0, 
+            return {'total': 0, 'code': 0, 'comment': 0, 'blank': 0, 'statements': 0,
                    'todos': 0, 'fixmes': 0, 'hacks': 0, 'warnings': 0}
+    
+    def count_statements(self, code_lines):
+        """Count statements/instructions in code lines.
+        A statement is typically terminated by a semicolon, or is a control structure."""
+        if not code_lines:
+            return 0
+        
+        # Join all code lines to handle multi-line statements
+        code_text = ' '.join(code_lines)
+        
+        # Remove string literals to avoid counting semicolons in strings
+        code_text = re.sub(r'"[^"]*"', '""', code_text)
+        code_text = re.sub(r"'[^']*'", "''", code_text)
+        
+        statement_count = 0
+        
+        # Count semicolons (main statement terminator in C++)
+        statement_count += code_text.count(';')
+        
+        # Count control structures that don't always end with semicolons
+        # but represent executable statements
+        control_patterns = [
+            r'\bif\s*\(',      # if statements
+            r'\belse\b',       # else statements
+            r'\bfor\s*\(',     # for loops
+            r'\bwhile\s*\(',   # while loops
+            r'\bdo\b',         # do-while loops
+            r'\bswitch\s*\(',  # switch statements
+            r'\bcase\b',       # case labels
+            r'\breturn\b',     # return statements (sometimes without semicolon in lambdas)
+            r'\bcatch\s*\(',   # catch blocks
+            r'\btry\b',        # try blocks
+        ]
+        
+        for pattern in control_patterns:
+            matches = re.findall(pattern, code_text)
+            statement_count += len(matches)
+        
+        # Subtract some false positives:
+        # - for loop has typically 2 semicolons but represents 1 statement
+        for_loops = len(re.findall(r'\bfor\s*\([^)]*;[^)]*;[^)]*\)', code_text))
+        statement_count -= for_loops * 2  # Remove the 2 extra semicolons in for loops
+        
+        return max(0, statement_count)  # Ensure non-negative
     
     def extract_classes(self, file_path):
         """Extract class names from a C++ header file."""
@@ -436,6 +491,8 @@ class RepositoryStats:
             'total_classes': len(self.stats['classes']),
             'total_interfaces': len(self.stats['interfaces']),
             'total_components': len(self.stats['components']),
+            'total_functions': len(self.stats['functions']),
+            'total_namespaces': len(set(ns['name'] for ns in self.stats['namespaces'])),
             'test_files': self.stats['test_files'],
             'documentation_files': self.stats['documentation_files'],
         }
@@ -444,10 +501,12 @@ class RepositoryStats:
         total_code = sum(f['lines']['code'] for f in self.stats['source_files'].values())
         total_comment = sum(f['lines']['comment'] for f in self.stats['source_files'].values())
         total_blank = sum(f['lines']['blank'] for f in self.stats['source_files'].values())
+        total_statements = sum(f['lines']['statements'] for f in self.stats['source_files'].values())
         
         self.stats['summary']['code_lines'] = total_code
         self.stats['summary']['comment_lines'] = total_comment
         self.stats['summary']['blank_lines'] = total_blank
+        self.stats['summary']['total_statements'] = total_statements
         
         # Quality metrics calculations
         if total_code > 0:
