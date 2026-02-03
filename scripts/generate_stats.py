@@ -50,6 +50,28 @@ class RepositoryStats:
                 'namespace_usage': defaultdict(int),
                 'export_macros': defaultdict(int),
             },
+            'solid_metrics': {
+                'single_responsibility': {
+                    'large_classes': [],  # Classes with too many methods
+                    'methods_per_class': [],
+                },
+                'open_closed': {
+                    'virtual_methods': 0,
+                    'total_methods': 0,
+                    'inheritance_depth': {},
+                },
+                'liskov_substitution': {
+                    'potential_violations': [],
+                },
+                'interface_segregation': {
+                    'methods_per_interface': [],
+                    'large_interfaces': [],
+                },
+                'dependency_inversion': {
+                    'abstract_dependencies': 0,
+                    'concrete_dependencies': 0,
+                },
+            },
         }
         
     def count_lines(self, file_path):
@@ -205,14 +227,62 @@ class RepositoryStats:
                 for match in matches:
                     class_name = match.group(1)
                     base_class = match.group(2) if match.group(2) else None
+                    
+                    # Count methods in this class for SOLID metrics
+                    methods = self.count_class_methods(content, class_name)
+                    
                     classes.append({
                         'name': class_name,
                         'base': base_class,
-                        'file': str(file_path.relative_to(self.repo_path))
+                        'file': str(file_path.relative_to(self.repo_path)),
+                        'method_count': methods
                     })
         except Exception as e:
             print(f"Error extracting classes from {file_path}: {e}")
         return classes
+    
+    def count_class_methods(self, content, class_name):
+        """Count methods in a class definition."""
+        try:
+            # Find class definition
+            class_start = content.find(f'class {class_name}')
+            if class_start == -1:
+                return 0
+            
+            # Find matching closing brace (simplified - may not handle all nested cases)
+            brace_count = 0
+            class_content = ""
+            in_class = False
+            
+            for i in range(class_start, len(content)):
+                char = content[i]
+                if char == '{':
+                    brace_count += 1
+                    in_class = True
+                elif char == '}':
+                    brace_count -= 1
+                    if brace_count == 0 and in_class:
+                        class_content = content[class_start:i]
+                        break
+                
+                if in_class:
+                    class_content += char
+            
+            # Count method declarations (simplified)
+            method_count = 0
+            # Look for function-like declarations
+            method_pattern = r'(?:virtual\s+)?(?:static\s+)?(?:inline\s+)?(?:\w+(?:\s*\*|\s+&)?)\s+(\w+)\s*\([^)]*\)(?:\s+const)?(?:\s+override)?(?:\s*[;{=])'
+            matches = re.finditer(method_pattern, class_content)
+            
+            for match in matches:
+                method_name = match.group(1)
+                # Filter out keywords and constructors
+                if method_name not in ['if', 'while', 'for', 'switch', class_name]:
+                    method_count += 1
+                    
+            return method_count
+        except Exception:
+            return 0
     
     def extract_components(self, file_path):
         """Extract component information from source files."""
@@ -528,10 +598,149 @@ class RepositoryStats:
         # Sort large files by size
         self.stats['quality_metrics']['large_files'].sort(key=lambda x: x['lines'], reverse=True)
         
+        # Calculate SOLID metrics
+        self.calculate_solid_metrics()
+        
         # Add quality summary
         self.stats['summary']['quality_score'] = self.calculate_quality_score()
         
         return self.stats
+    
+    def calculate_solid_metrics(self):
+        """Calculate SOLID principle compliance indicators."""
+        
+        # Single Responsibility Principle (SRP)
+        # Indicator: Classes with too many methods likely have multiple responsibilities
+        method_threshold = 15  # Classes with more than 15 methods might violate SRP
+        
+        for cls in self.stats['classes']:
+            method_count = cls.get('method_count', 0)
+            if method_count > 0:
+                self.stats['solid_metrics']['single_responsibility']['methods_per_class'].append({
+                    'class': cls['name'],
+                    'methods': method_count,
+                    'file': cls['file']
+                })
+                
+                if method_count > method_threshold:
+                    self.stats['solid_metrics']['single_responsibility']['large_classes'].append({
+                        'class': cls['name'],
+                        'methods': method_count,
+                        'file': cls['file']
+                    })
+        
+        # Open/Closed Principle (OCP)
+        # Indicator: Count virtual methods (extensible) vs total methods
+        for cls in self.stats['classes']:
+            # This is a simplified metric - in real implementation we'd need to parse virtual methods
+            pass
+        
+        # Liskov Substitution Principle (LSP)
+        # Indicator: Deep inheritance hierarchies can indicate LSP violations
+        inheritance_depth = {}
+        for cls in self.stats['classes']:
+            if cls.get('base'):
+                depth = self.calculate_inheritance_depth(cls['name'], self.stats['classes'])
+                inheritance_depth[cls['name']] = depth
+                if depth > 4:  # Deep inheritance might indicate issues
+                    self.stats['solid_metrics']['liskov_substitution']['potential_violations'].append({
+                        'class': cls['name'],
+                        'depth': depth,
+                        'file': cls['file']
+                    })
+        
+        self.stats['solid_metrics']['open_closed']['inheritance_depth'] = inheritance_depth
+        
+        # Interface Segregation Principle (ISP)
+        # Indicator: Interfaces with too many methods
+        interface_method_threshold = 10
+        
+        for interface in self.stats['interfaces']:
+            # Find corresponding class info for method count
+            matching_class = next((c for c in self.stats['classes'] if c['name'] == interface['name']), None)
+            if matching_class:
+                method_count = matching_class.get('method_count', 0)
+                if method_count > 0:
+                    self.stats['solid_metrics']['interface_segregation']['methods_per_interface'].append({
+                        'interface': interface['name'],
+                        'methods': method_count,
+                        'file': interface['file']
+                    })
+                    
+                    if method_count > interface_method_threshold:
+                        self.stats['solid_metrics']['interface_segregation']['large_interfaces'].append({
+                            'interface': interface['name'],
+                            'methods': method_count,
+                            'file': interface['file']
+                        })
+        
+        # Dependency Inversion Principle (DIP)
+        # Indicator: Dependencies on interfaces (I*) vs concrete classes
+        for file_path, includes in self.stats['code_structure']['include_dependencies'].items():
+            for include in includes:
+                # Check if it's an interface (starts with 'I' and has uppercase second letter)
+                include_name = include.split('/')[-1].replace('.h', '')
+                if len(include_name) > 1 and include_name[0] == 'I' and include_name[1].isupper():
+                    self.stats['solid_metrics']['dependency_inversion']['abstract_dependencies'] += 1
+                else:
+                    self.stats['solid_metrics']['dependency_inversion']['concrete_dependencies'] += 1
+        
+        # Calculate SOLID compliance score
+        self.stats['summary']['solid_compliance_score'] = self.calculate_solid_score()
+    
+    def calculate_inheritance_depth(self, class_name, all_classes, depth=1, visited=None):
+        """Calculate inheritance depth for a class."""
+        if visited is None:
+            visited = set()
+        
+        if class_name in visited:
+            return depth  # Circular inheritance
+        
+        visited.add(class_name)
+        
+        cls = next((c for c in all_classes if c['name'] == class_name), None)
+        if not cls or not cls.get('base'):
+            return depth
+        
+        return self.calculate_inheritance_depth(cls['base'], all_classes, depth + 1, visited)
+    
+    def calculate_solid_score(self):
+        """Calculate SOLID compliance score (0-100)."""
+        score = 100.0
+        
+        # SRP: Deduct for large classes
+        large_classes = len(self.stats['solid_metrics']['single_responsibility']['large_classes'])
+        total_classes = len(self.stats['classes'])
+        if total_classes > 0:
+            srp_violation_ratio = large_classes / total_classes
+            score -= min(srp_violation_ratio * 20, 15)  # Max 15 points deduction
+        
+        # LSP: Deduct for deep inheritance
+        lsp_violations = len(self.stats['solid_metrics']['liskov_substitution']['potential_violations'])
+        if total_classes > 0:
+            lsp_violation_ratio = lsp_violations / total_classes
+            score -= min(lsp_violation_ratio * 25, 15)  # Max 15 points deduction
+        
+        # ISP: Deduct for large interfaces
+        large_interfaces = len(self.stats['solid_metrics']['interface_segregation']['large_interfaces'])
+        total_interfaces = len(self.stats['interfaces'])
+        if total_interfaces > 0:
+            isp_violation_ratio = large_interfaces / total_interfaces
+            score -= min(isp_violation_ratio * 20, 15)  # Max 15 points deduction
+        
+        # DIP: Bonus for high abstraction usage
+        abstract_deps = self.stats['solid_metrics']['dependency_inversion']['abstract_dependencies']
+        concrete_deps = self.stats['solid_metrics']['dependency_inversion']['concrete_dependencies']
+        total_deps = abstract_deps + concrete_deps
+        
+        if total_deps > 0:
+            abstraction_ratio = abstract_deps / total_deps
+            if abstraction_ratio > 0.3:  # Good abstraction usage
+                score += min(abstraction_ratio * 10, 5)  # Max 5 bonus
+            elif abstraction_ratio < 0.1:  # Poor abstraction usage
+                score -= 10
+        
+        return max(0, min(100, round(score, 1)))
     
     def calculate_quality_score(self):
         """Calculate a simple quality score based on various metrics."""
@@ -586,11 +795,14 @@ def main():
     print(f"Code Lines: {stats['summary']['code_lines']}")
     print(f"Comment Lines: {stats['summary']['comment_lines']}")
     print(f"Blank Lines: {stats['summary']['blank_lines']}")
+    print(f"Total Statements: {stats['summary']['total_statements']}")
     print(f"Libraries: {stats['summary']['total_libraries']}")
     print(f"Packages: {stats['summary']['total_packages']}")
     print(f"Classes: {stats['summary']['total_classes']}")
     print(f"Interfaces: {stats['summary']['total_interfaces']}")
     print(f"Components: {stats['summary']['total_components']}")
+    print(f"Functions: {stats['summary']['total_functions']}")
+    print(f"Namespaces: {stats['summary']['total_namespaces']}")
     print(f"Test Files: {stats['summary']['test_files']}")
     print(f"Documentation Files: {stats['summary']['documentation_files']}")
     
@@ -603,6 +815,19 @@ def main():
     print(f"FIXMEs: {stats['quality_metrics']['fixmes']}")
     print(f"HACKs: {stats['quality_metrics']['hacks']}")
     print(f"Large Files (>1000 lines): {len(stats['quality_metrics']['large_files'])}")
+    
+    print("\n=== SOLID Principles Compliance ===")
+    print(f"SOLID Compliance Score: {stats['summary']['solid_compliance_score']}/100")
+    print(f"Large Classes (SRP violations): {len(stats['solid_metrics']['single_responsibility']['large_classes'])}")
+    print(f"Deep Inheritance (LSP concerns): {len(stats['solid_metrics']['liskov_substitution']['potential_violations'])}")
+    print(f"Large Interfaces (ISP violations): {len(stats['solid_metrics']['interface_segregation']['large_interfaces'])}")
+    print(f"Abstract Dependencies: {stats['solid_metrics']['dependency_inversion']['abstract_dependencies']}")
+    print(f"Concrete Dependencies: {stats['solid_metrics']['dependency_inversion']['concrete_dependencies']}")
+    
+    print("\n=== Code Structure ===")
+    print(f"Total Include Dependencies: {len(stats['code_structure']['include_dependencies'])}")
+    print(f"Unique Namespaces: {len(stats['code_structure']['namespace_usage'])}")
+    print(f"Export Macros Used: {len(stats['code_structure']['export_macros'])}")
     
     stats_gen.save_json(output_path)
 
