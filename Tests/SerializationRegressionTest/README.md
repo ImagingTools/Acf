@@ -74,7 +74,7 @@ make
 
 The test uses several helper methods:
 
-### Basic Serialization Testing
+### Serialization Testing Methods
 - `TestSerializationCycle<T>()` - Performs in-memory serialization round-trip
   - Takes an original object and an empty restored object
   - Performs the serialization/deserialization cycle using `CMemoryWriteArchive` and `CMemoryReadArchive`
