@@ -17,6 +17,8 @@ Tests are organized by location:
   - **SelectionParamComponentTest/** - Component tests for CSelectionParamComp with various configurations
   - **AutoPersistenceTest/** - Tests for CAutoPersistenceComp with various attribute configurations
   - **IdocComponentTest/** - Component tests for idoc library (CTextDocumentComp, CSerializedUndoManagerComp, CSingleDocumentTemplateComp)
+  - **FileComponentTest/** - Component tests for ifile library (CFileNameParamComp, CFileTypeInfoComp, CTempFileManagerComp, CSystemLocationComp)
+  - **LogTest/** - Component tests for ilog library logging components
 
 - **Include/[library]/Test/** - Unit tests for each library
   - **Include/istd/Test/** - Tests for standard utilities (CRandomNumber, CIndex2d, CBitManip, CCrcCalculator, etc.)
@@ -128,6 +130,16 @@ Unit tests for each library are located in `Include/[library]/Test/` directories
 - **CEnableableParam** - Enableable parameter with enable/disable state management
 - **CSelectionParam** - Selection parameter for managing option selections
 - **IOptionsList** - Helper function FindOptionIndexById for finding options by ID
+
+#### ifile (File Handling) - Include/ifile/Test/
+- **CFileNameParam** - File/directory path parameter with get/set, path type detection, serialization, copy/clone, and comparison operations
+- **CFileArchive** - File-based binary serialization including primitive types, strings, tag skipping, and multiple objects
+- **CFileArchiveInfo** - File archive information with path handling
+- **CCompactXmlFileArchive** - Compact XML file serialization
+- **CCompressedXmlFileArchive** - Compressed XML file serialization
+- **CJsonFileArchive** - JSON file serialization
+- **CSimpleXmlFileArchive** - Simple XML file serialization
+- **CSimpleEncoder** - Simple encoding/decoding operations
 
 ## Building and Running Tests
 
@@ -376,6 +388,68 @@ Each test scenario uses a dedicated SelectionParam object as the persistent data
 - `testDocumentTemplateCreation()` - Verifies document template creation
 - `testDocumentTemplateCreateDocument()` - Tests document creation via template
 - `testDocumentTemplateAttributes()` - Tests template attributes
+
+### FileComponentTest
+
+**Purpose**: Component-level tests for the `ifile` library file handling components with various configurations.
+
+**Test Coverage**:
+- **CFileNameParamComp**:
+  - Component creation and initialization
+  - Path type configuration (file, directory, URL, unknown)
+  - Default path attribute handling with variable expansion ($(TempPath), $(AppName), etc.)
+  - Get/Set path operations
+  - Serialization/deserialization of file paths
+  
+- **CFileTypeInfoComp**:
+  - Component creation with extension lists
+  - File extension retrieval and validation
+  - Type descriptions for each extension
+  - Platform-specific extension handling (Windows, Unix, Mac)
+  - GetFileExtensions() method with filtering
+  
+- **CTempFileManagerComp**:
+  - Component creation with root folder configuration
+  - Session management (BeginSession/FinishSession)
+  - File item addition and removal
+  - Path retrieval for session files
+  - Multiple concurrent sessions
+  - Session isolation verification
+  
+- **CSystemLocationComp**:
+  - Component creation for system paths
+  - Application-specific path resolution
+  - User-specific path handling
+
+**Configuration File**:
+- `FileComponentTest.acc` - Contains 8 different file component configurations:
+  1. `FileNameParam` - Basic file name parameter with default path
+  2. `FileNameParamFile` - File name parameter with file path type
+  3. `FileNameParamDir` - File name parameter with directory path type
+  4. `FileNameParamVars` - File name parameter with path variable expansion
+  5. `FileTypeInfo` - File type info with basic extensions (txt, log, md)
+  6. `FileTypeInfoPlatform` - File type info with platform-specific extensions
+  7. `TempFileManager` - Temp file manager with root folder configuration
+  8. `SystemLocation` - System location with application data path
+
+**Test Methods**:
+- `testFileNameParamCreation()` - Verifies FileNameParam component creation
+- `testFileNameParamPathType()` - Tests path type configuration
+- `testFileNameParamDefaultPath()` - Tests default path attribute
+- `testFileNameParamGetSet()` - Tests get/set path operations
+- `testFileNameParamSerialization()` - Tests path serialization
+- `testFileTypeInfoCreation()` - Verifies FileTypeInfo component creation
+- `testFileTypeInfoExtensions()` - Tests file extension retrieval
+- `testFileTypeInfoDescriptions()` - Tests type descriptions
+- `testFileTypeInfoPlatformSpecific()` - Tests platform-specific extensions
+- `testTempFileManagerCreation()` - Verifies TempFileManager component creation
+- `testTempFileManagerSession()` - Tests session lifecycle
+- `testTempFileManagerAddFile()` - Tests file addition to session
+- `testTempFileManagerRemoveFile()` - Tests file removal from session
+- `testTempFileManagerMultipleSessions()` - Tests multiple concurrent sessions
+- `testSystemLocationCreation()` - Verifies SystemLocation component creation
+- `testSystemLocationPath()` - Tests system path retrieval
+
 
 ## Contributing
 
