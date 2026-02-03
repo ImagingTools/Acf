@@ -16,7 +16,7 @@
     </VersionInfos>
   </AcfHeader>
   <Description>
-    General composed components ComposedGuiTest package
+    General composed components TestComposedGui package
   </Description>
   <Keywords>
     Company='ImagingTools' Project='ACF' Author='"Vladimir Cherepanov"'

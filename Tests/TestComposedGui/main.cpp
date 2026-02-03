@@ -10,7 +10,7 @@
 // ACF includes
 #include <ibase/IApplication.h>
 
-#include <GeneratedFiles/ComposedGuiTest/CComposedGuiTest.h>
+#include <GeneratedFiles/TestComposedGui/CTestComposedGui.h>
 
 
 int main(int argc, char *argv[])
@@ -25,7 +25,7 @@ int main(int argc, char *argv[])
 #endif
 	QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
-	CComposedGuiTest instance(NULL, true);
+	CTestComposedGui instance(NULL, true);
 
 	ibase::IApplication* applicationPtr = instance.GetInterface<ibase::IApplication>();
 	if (applicationPtr != NULL){
