@@ -132,14 +132,14 @@ Unit tests for each library are located in `Include/[library]/Test/` directories
 - **IOptionsList** - Helper function FindOptionIndexById for finding options by ID
 
 #### ifile (File Handling) - Include/ifile/Test/
-- **CFileNameParam** - File/directory path parameter with get/set, path type detection, serialization, copy/clone, and comparison operations
-- **CFileArchive** - File-based binary serialization including primitive types, strings, tag skipping, and multiple objects
-- **CFileArchiveInfo** - File archive information with path handling
-- **CCompactXmlFileArchive** - Compact XML file serialization
-- **CCompressedXmlFileArchive** - Compressed XML file serialization
-- **CJsonFileArchive** - JSON file serialization
-- **CSimpleXmlFileArchive** - Simple XML file serialization
-- **CSimpleEncoder** - Simple encoding/decoding operations
+- **CFileNameParam** - File/directory path parameter with get/set, path type detection, serialization, copy/clone, and comparison operations (NEW)
+- **CFileArchive** - File-based binary serialization including primitive types, strings, tag skipping, and multiple objects (NEW)
+- **CFileArchiveInfo** - File archive information with path handling (existing tests)
+- **CCompactXmlFileArchive** - Compact XML file serialization (existing tests)
+- **CCompressedXmlFileArchive** - Compressed XML file serialization (existing tests)
+- **CJsonFileArchive** - JSON file serialization (existing tests)
+- **CSimpleXmlFileArchive** - Simple XML file serialization (existing tests)
+- **CSimpleEncoder** - Simple encoding/decoding operations (existing tests)
 
 ## Building and Running Tests
 
