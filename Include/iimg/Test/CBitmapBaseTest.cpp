@@ -17,8 +17,8 @@ void CBitmapBaseTest::GetCenterTest()
 	i2d::CVector2d center = bitmap.GetCenter();
 	
 	// Center should be at (width/2, height/2)
-	QVERIFY(qAbs(center.x - 50.0) < 0.1);
-	QVERIFY(qAbs(center.y - 40.0) < 0.1);
+	QVERIFY(qAbs(center.GetX() - 50.0) < 0.1);
+	QVERIFY(qAbs(center.GetY() - 40.0) < 0.1);
 }
 
 
@@ -180,8 +180,8 @@ void CBitmapBaseTest::GetColorAtTest()
 	istd::CIndex2d position(25, 25);
 	icmm::CVarColor color = bitmap.GetColorAt(position);
 	
-	// Color should be valid
-	QVERIFY(color.IsValid());
+	// Color should have elements
+	QVERIFY(color.GetElementsCount() > 0);
 }
 
 
@@ -196,7 +196,12 @@ void CBitmapBaseTest::SetColorAtTest()
 	
 	// Set color at position
 	istd::CIndex2d position(25, 25);
-	icmm::CVarColor color(128.0, 128.0, 128.0);
+	icmm::CVarColor color(3);  // 3 components for RGB/Gray
+	color.SetElement(0, 128.0 / 255.0);  // Normalize to [0,1]
+	if (color.GetElementsCount() >= 2)
+		color.SetElement(1, 128.0 / 255.0);
+	if (color.GetElementsCount() >= 3)
+		color.SetElement(2, 128.0 / 255.0);
 	bool result = bitmap.SetColorAt(position, color);
 	
 	// Typically should succeed for valid position and format
@@ -204,7 +209,7 @@ void CBitmapBaseTest::SetColorAtTest()
 	
 	// Verify we can read back the color
 	icmm::CVarColor readColor = bitmap.GetColorAt(position);
-	QVERIFY(readColor.IsValid());
+	QVERIFY(readColor.GetElementsCount() > 0);
 }
 
 
