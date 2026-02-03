@@ -12,10 +12,10 @@
 
 void CEnableableParamCompTest::initTestCase()
 {
-	m_testPartituraInstanceCompPtr.reset(new CEnableableParamComponentTest);
+	m_testInstancePtr.reset(new CEnableableParamComponentTest);
 
-	m_enabledByDefaultPtr = m_testPartituraInstanceCompPtr->GetInterface<iprm::IEnableableParam>("EnabledByDefault");
-	m_disabledByDefaultPtr = m_testPartituraInstanceCompPtr->GetInterface<iprm::IEnableableParam>("DisabledByDefault");
+	m_enabledByDefaultPtr = m_testInstancePtr->GetInterface<iprm::IEnableableParam>("EnabledByDefault");
+	m_disabledByDefaultPtr = m_testInstancePtr->GetInterface<iprm::IEnableableParam>("DisabledByDefault");
 
 	QVERIFY(m_enabledByDefaultPtr != nullptr);
 	QVERIFY(m_disabledByDefaultPtr != nullptr);
@@ -202,7 +202,7 @@ void CEnableableParamCompTest::cleanupTestCase()
 {
 	m_enabledByDefaultPtr = nullptr;
 	m_disabledByDefaultPtr = nullptr;
-	m_testPartituraInstanceCompPtr.reset();
+	m_testInstancePtr.reset();
 }
 
 

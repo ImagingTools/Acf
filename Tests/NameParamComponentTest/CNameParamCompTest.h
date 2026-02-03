@@ -36,7 +36,7 @@ private slots:
 	void cleanupTestCase();
 
 private:
-	std::shared_ptr<CNameParamComponentTest> m_testPartituraInstanceCompPtr;
+	std::shared_ptr<CNameParamComponentTest> m_testInstancePtr;
 
 	iprm::INameParam* m_nameWithDefaultPtr = nullptr;
 	iprm::INameParam* m_nameNoDefaultPtr = nullptr;

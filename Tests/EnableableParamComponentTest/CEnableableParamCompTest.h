@@ -34,7 +34,7 @@ private slots:
 	void cleanupTestCase();
 
 private:
-	std::shared_ptr<CEnableableParamComponentTest> m_testPartituraInstanceCompPtr;
+	std::shared_ptr<CEnableableParamComponentTest> m_testInstancePtr;
 
 	iprm::IEnableableParam* m_enabledByDefaultPtr = nullptr;
 	iprm::IEnableableParam* m_disabledByDefaultPtr = nullptr;

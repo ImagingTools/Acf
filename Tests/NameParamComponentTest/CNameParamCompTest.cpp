@@ -12,11 +12,11 @@
 
 void CNameParamCompTest::initTestCase()
 {
-	m_testPartituraInstanceCompPtr.reset(new CNameParamComponentTest);
+	m_testInstancePtr.reset(new CNameParamComponentTest);
 
-	m_nameWithDefaultPtr = m_testPartituraInstanceCompPtr->GetInterface<iprm::INameParam>("NameWithDefault");
-	m_nameNoDefaultPtr = m_testPartituraInstanceCompPtr->GetInterface<iprm::INameParam>("NameNoDefault");
-	m_nameFixedPtr = m_testPartituraInstanceCompPtr->GetInterface<iprm::INameParam>("NameFixed");
+	m_nameWithDefaultPtr = m_testInstancePtr->GetInterface<iprm::INameParam>("NameWithDefault");
+	m_nameNoDefaultPtr = m_testInstancePtr->GetInterface<iprm::INameParam>("NameNoDefault");
+	m_nameFixedPtr = m_testInstancePtr->GetInterface<iprm::INameParam>("NameFixed");
 
 	QVERIFY(m_nameWithDefaultPtr != nullptr);
 	QVERIFY(m_nameNoDefaultPtr != nullptr);
@@ -192,7 +192,7 @@ void CNameParamCompTest::cleanupTestCase()
 	m_nameWithDefaultPtr = nullptr;
 	m_nameNoDefaultPtr = nullptr;
 	m_nameFixedPtr = nullptr;
-	m_testPartituraInstanceCompPtr.reset();
+	m_testInstancePtr.reset();
 }
 
 

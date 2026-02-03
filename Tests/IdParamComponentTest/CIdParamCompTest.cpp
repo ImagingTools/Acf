@@ -12,10 +12,10 @@
 
 void CIdParamCompTest::initTestCase()
 {
-	m_testPartituraInstanceCompPtr.reset(new CIdParamComponentTest);
+	m_testInstancePtr.reset(new CIdParamComponentTest);
 
-	m_idWithDefaultPtr = m_testPartituraInstanceCompPtr->GetInterface<iprm::IIdParam>("IdWithDefault");
-	m_idNoDefaultPtr = m_testPartituraInstanceCompPtr->GetInterface<iprm::IIdParam>("IdNoDefault");
+	m_idWithDefaultPtr = m_testInstancePtr->GetInterface<iprm::IIdParam>("IdWithDefault");
+	m_idNoDefaultPtr = m_testInstancePtr->GetInterface<iprm::IIdParam>("IdNoDefault");
 
 	QVERIFY(m_idWithDefaultPtr != nullptr);
 	QVERIFY(m_idNoDefaultPtr != nullptr);
@@ -195,7 +195,7 @@ void CIdParamCompTest::cleanupTestCase()
 {
 	m_idWithDefaultPtr = nullptr;
 	m_idNoDefaultPtr = nullptr;
-	m_testPartituraInstanceCompPtr.reset();
+	m_testInstancePtr.reset();
 }
 
 

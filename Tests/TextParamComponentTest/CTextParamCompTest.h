@@ -41,7 +41,7 @@ private slots:
 	void cleanupTestCase();
 
 private:
-	std::shared_ptr<CTextParamComponentTest> m_testPartituraInstanceCompPtr;
+	std::shared_ptr<CTextParamComponentTest> m_testInstancePtr;
 
 	iprm::ITextParam* m_textWithDefaultPtr = nullptr;
 	iprm::ITextParam* m_textNoDefaultPtr = nullptr;

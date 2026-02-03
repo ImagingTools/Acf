@@ -12,12 +12,12 @@
 
 void CTextParamCompTest::initTestCase()
 {
-	m_testPartituraInstanceCompPtr.reset(new CTextParamComponentTest);
+	m_testInstancePtr.reset(new CTextParamComponentTest);
 
-	m_textWithDefaultPtr = m_testPartituraInstanceCompPtr->GetInterface<iprm::ITextParam>("TextWithDefault");
-	m_textNoDefaultPtr = m_testPartituraInstanceCompPtr->GetInterface<iprm::ITextParam>("TextNoDefault");
-	m_textReadOnlyPtr = m_testPartituraInstanceCompPtr->GetInterface<iprm::ITextParam>("TextReadOnly");
-	m_textNoSerializePtr = m_testPartituraInstanceCompPtr->GetInterface<iprm::ITextParam>("TextNoSerialize");
+	m_textWithDefaultPtr = m_testInstancePtr->GetInterface<iprm::ITextParam>("TextWithDefault");
+	m_textNoDefaultPtr = m_testInstancePtr->GetInterface<iprm::ITextParam>("TextNoDefault");
+	m_textReadOnlyPtr = m_testInstancePtr->GetInterface<iprm::ITextParam>("TextReadOnly");
+	m_textNoSerializePtr = m_testInstancePtr->GetInterface<iprm::ITextParam>("TextNoSerialize");
 
 	QVERIFY(m_textWithDefaultPtr != nullptr);
 	QVERIFY(m_textNoDefaultPtr != nullptr);
@@ -266,7 +266,7 @@ void CTextParamCompTest::cleanupTestCase()
 	m_textNoDefaultPtr = nullptr;
 	m_textReadOnlyPtr = nullptr;
 	m_textNoSerializePtr = nullptr;
-	m_testPartituraInstanceCompPtr.reset();
+	m_testInstancePtr.reset();
 }
 
 

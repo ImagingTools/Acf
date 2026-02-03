@@ -34,7 +34,7 @@ private slots:
 	void cleanupTestCase();
 
 private:
-	std::shared_ptr<CIdParamComponentTest> m_testPartituraInstanceCompPtr;
+	std::shared_ptr<CIdParamComponentTest> m_testInstancePtr;
 
 	iprm::IIdParam* m_idWithDefaultPtr = nullptr;
 	iprm::IIdParam* m_idNoDefaultPtr = nullptr;
