@@ -59,6 +59,16 @@ private slots:
 	// iimg library tests
 	void testScanlineMaskSerialization();
 
+	// Complex cross-library scenarios with dependency injection
+	void testComplexScenarioWithMultipleParams();
+	void testComplexScenarioWithGeometryAndColor();
+	void testComplexScenarioWithNestedSelections();
+
+	// Backward compatibility and versioning tests
+	void testBackwardCompatibilityVector2d();
+	void testBackwardCompatibilityCircle();
+	void testVersionManagement();
+
 	void cleanupTestCase();
 
 private:
@@ -71,5 +81,30 @@ private:
 	*/
 	template<typename T>
 	bool TestSerializationCycle(const T& original, T& restored);
+
+	/**
+		Helper to save reference data to file for backward compatibility testing.
+		
+		\param object The object to serialize
+		\param filename The filename to save to
+		\return true if save was successful
+	*/
+	template<typename T>
+	bool SaveReferenceData(const T& object, const QString& filename);
+
+	/**
+		Helper to load and verify reference data from file for backward compatibility testing.
+		
+		\param restored The object to deserialize into
+		\param filename The filename to load from
+		\return true if load was successful
+	*/
+	template<typename T>
+	bool LoadReferenceData(T& restored, const QString& filename);
+
+	/**
+		Get the path to the reference data directory.
+	*/
+	QString GetReferenceDataPath() const;
 };
 

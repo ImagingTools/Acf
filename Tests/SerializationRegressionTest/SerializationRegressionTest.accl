@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Acf>
+    <Libraries>
+        <Library Id="BasePck" Path="../../Bin/$(ConfigName)_$(TargetName)" Name="BasePck"/>
+        <Library Id="FilePck" Path="../../Bin/$(ConfigName)_$(TargetName)" Name="FilePck"/>
+    </Libraries>
+</Acf>

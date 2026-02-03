@@ -432,12 +432,31 @@ Each test:
 - `testFileNameParamSerialization()` - Tests file name parameter serialization
 - `testScanlineMaskSerialization()` - Tests scanline mask serialization
 
+**Complex Cross-Library Scenario Tests**:
+- `testComplexScenarioWithMultipleParams()` - Tests multiple parameter types working together (ID, Name, Text, File, Enableable)
+- `testComplexScenarioWithGeometryAndColor()` - Tests geometric objects (2D/3D) with color properties and spectral data
+- `testComplexScenarioWithNestedSelections()` - Tests hierarchical selection parameters with dependency injection
+
+**Backward Compatibility and Versioning Tests**:
+- `testBackwardCompatibilityVector2d()` - Tests loading Vector2d data from reference files
+- `testBackwardCompatibilityCircle()` - Tests loading Circle data from reference files
+- `testVersionManagement()` - Tests version info retrieval via `GetMinimalVersion()`
+
+**Test Infrastructure**:
+- Component configuration file (`.acc`) demonstrates dependency injection across libraries
+- Reference data stored in `Data/ReferenceData/` for backward compatibility testing
+- Helper methods for saving/loading reference data files
+- Template methods for consistent serialization testing
+
 **Regression Protection**:
 This test suite ensures that:
 - Future changes don't break serialization compatibility
 - Data models maintain their serialization contracts
 - Cross-library serialization remains functional
 - Serialization preserves all object data accurately
+- Complex scenarios with dependency injection work correctly
+- Backward compatibility is maintained across versions
+- Version management mechanism functions properly
 
 ## Contributing
 

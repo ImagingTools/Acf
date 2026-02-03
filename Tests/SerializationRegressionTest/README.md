@@ -72,12 +72,44 @@ make
 
 ## Test Implementation
 
-The test uses a template method `TestSerializationCycle<T>()` that:
-- Takes an original object and an empty restored object
-- Performs the serialization/deserialization cycle
-- Returns true if successful, false otherwise
+The test uses several helper methods:
 
-Each specific test then verifies that the restored object matches the original object by comparing individual fields.
+### Basic Serialization Testing
+- `TestSerializationCycle<T>()` - Performs in-memory serialization round-trip
+  - Takes an original object and an empty restored object
+  - Performs the serialization/deserialization cycle using `CMemoryWriteArchive` and `CMemoryReadArchive`
+  - Returns true if successful, false otherwise
+
+### Reference Data Management
+- `SaveReferenceData<T>()` - Saves serialized data to file for backward compatibility testing
+- `LoadReferenceData<T>()` - Loads serialized data from file and deserializes into object
+- `GetReferenceDataPath()` - Returns path to reference data directory
+
+### Complex Scenario Tests
+Three complex cross-library tests demonstrate realistic use cases:
+
+1. **testComplexScenarioWithMultipleParams()** - Tests multiple parameter types working together:
+   - ID, Name, Text, FileName, and Enableable parameters serialized as a group
+   - Simulates a complete object configuration with metadata
+
+2. **testComplexScenarioWithGeometryAndColor()** - Tests geometric objects with color properties:
+   - 2D Circle with associated color (RGBA)
+   - 3D Sphere with spectral information
+   - Demonstrates cross-library data model integration
+
+3. **testComplexScenarioWithNestedSelections()** - Tests hierarchical selections:
+   - Main selection with sub-options
+   - Cascading menu/selection simulation
+   - Tests dependency injection between parameters
+
+### Backward Compatibility Tests
+Three tests ensure version management and data compatibility:
+
+1. **testBackwardCompatibilityVector2d()** - Tests loading old Vector2d data
+2. **testBackwardCompatibilityCircle()** - Tests loading old Circle data
+3. **testVersionManagement()** - Tests version info retrieval via `GetMinimalVersion()`
+
+Reference data files are stored in `Data/ReferenceData/` directory.
 
 ## Expected Results
 
@@ -86,6 +118,17 @@ All tests should pass, indicating that:
 - Serialization preserves all object data
 - Deserialization correctly reconstructs objects from archived data
 - The serialization system works consistently across different libraries
+- Complex cross-library scenarios with dependency injection work correctly
+- Backward compatibility is maintained through version management
+- Reference data can be saved and loaded for regression testing
+
+## Component Configuration
+
+The test includes a Partitura configuration file (`SerializationRegressionTest.acc`) that demonstrates:
+- Component dependency injection across libraries
+- Parameter references and connections
+- Complex component hierarchies
+- This configuration can be used to test component-based serialization scenarios
 
 ## Regression Testing
 

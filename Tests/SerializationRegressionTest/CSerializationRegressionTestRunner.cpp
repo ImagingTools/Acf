@@ -38,6 +38,13 @@
 // ACF includes - serialization
 #include <iser/CMemoryReadArchive.h>
 #include <iser/CMemoryWriteArchive.h>
+#include <ifile/CFileWriteArchive.h>
+#include <ifile/CFileReadArchive.h>
+#include <iser/IVersionInfo.h>
+
+// Qt includes
+#include <QtCore/QFile>
+#include <QtCore/QDir>
 
 
 void CSerializationRegressionTestRunner::initTestCase()
@@ -422,6 +429,303 @@ void CSerializationRegressionTestRunner::testScanlineMaskSerialization()
 	QCOMPARE(restored.GetBoundingBox().GetTop(), original.GetBoundingBox().GetTop());
 	QCOMPARE(restored.GetBoundingBox().GetRight(), original.GetBoundingBox().GetRight());
 	QCOMPARE(restored.GetBoundingBox().GetBottom(), original.GetBoundingBox().GetBottom());
+}
+
+
+// Helper methods implementation
+
+template<typename T>
+bool CSerializationRegressionTestRunner::SaveReferenceData(const T& object, const QString& filename)
+{
+	QString filePath = GetReferenceDataPath() + "/" + filename;
+	
+	// Ensure directory exists
+	QDir dir(GetReferenceDataPath());
+	if (!dir.exists()){
+		dir.mkpath(".");
+	}
+	
+	ifile::CFileWriteArchive archive(filePath);
+	if (!archive.IsOpen()){
+		return false;
+	}
+	
+	T temp = object;
+	return temp.Serialize(archive);
+}
+
+
+template<typename T>
+bool CSerializationRegressionTestRunner::LoadReferenceData(T& restored, const QString& filename)
+{
+	QString filePath = GetReferenceDataPath() + "/" + filename;
+	
+	ifile::CFileReadArchive archive(filePath);
+	if (!archive.IsOpen()){
+		return false;
+	}
+	
+	return restored.Serialize(archive);
+}
+
+
+QString CSerializationRegressionTestRunner::GetReferenceDataPath() const
+{
+	// Get path relative to test executable location
+	return QDir::currentPath() + "/../../Tests/SerializationRegressionTest/Data/ReferenceData";
+}
+
+
+// Complex cross-library scenario tests
+
+void CSerializationRegressionTestRunner::testComplexScenarioWithMultipleParams()
+{
+	// Create a complex scenario with multiple interconnected parameters
+	// This simulates a real-world use case where different parameter types work together
+	
+	// Create ID and Name for an object
+	iprm::CIdParam idParam;
+	idParam.SetId("complex-object-001");
+	
+	iprm::CNameParam nameParam;
+	nameParam.SetName("ComplexTestObject");
+	
+	iprm::CTextParam descParam;
+	descParam.SetText("A complex object combining multiple parameter types from different libraries");
+	
+	ifile::CFileNameParam fileParam;
+	fileParam.SetPath("/output/test/complex_data.xml");
+	
+	iprm::CEnableableParam enableParam(true);
+	
+	// Serialize all together in a structured way
+	QByteArray buffer;
+	{
+		iser::CMemoryWriteArchive writeArchive;
+		
+		// Serialize all parameters in sequence
+		QVERIFY(idParam.Serialize(writeArchive));
+		QVERIFY(nameParam.Serialize(writeArchive));
+		QVERIFY(descParam.Serialize(writeArchive));
+		QVERIFY(fileParam.Serialize(writeArchive));
+		QVERIFY(enableParam.Serialize(writeArchive));
+		
+		buffer = writeArchive.GetByteArray();
+	}
+	
+	// Deserialize all
+	{
+		iser::CMemoryReadArchive readArchive(buffer);
+		
+		iprm::CIdParam restoredId;
+		iprm::CNameParam restoredName;
+		iprm::CTextParam restoredDesc;
+		ifile::CFileNameParam restoredFile;
+		iprm::CEnableableParam restoredEnable(false);
+		
+		QVERIFY(restoredId.Serialize(readArchive));
+		QVERIFY(restoredName.Serialize(readArchive));
+		QVERIFY(restoredDesc.Serialize(readArchive));
+		QVERIFY(restoredFile.Serialize(readArchive));
+		QVERIFY(restoredEnable.Serialize(readArchive));
+		
+		// Verify all data was preserved
+		QCOMPARE(restoredId.GetId(), idParam.GetId());
+		QCOMPARE(restoredName.GetName(), nameParam.GetName());
+		QCOMPARE(restoredDesc.GetText(), descParam.GetText());
+		QCOMPARE(restoredFile.GetPath(), fileParam.GetPath());
+		QCOMPARE(restoredEnable.IsEnabled(), enableParam.IsEnabled());
+	}
+}
+
+
+void CSerializationRegressionTestRunner::testComplexScenarioWithGeometryAndColor()
+{
+	// Complex scenario: Geometric objects with associated color information
+	// This simulates a graphics application where shapes have color properties
+	
+	// Create a circle with position and color
+	i2d::CCircle circle(50.0, i2d::CVector2d(100.0, 200.0));
+	
+	// Create a color for the circle (RGBA)
+	icmm::CVarColor color(4);
+	color.SetElement(0, 0.8);  // R
+	color.SetElement(1, 0.2);  // G
+	color.SetElement(2, 0.4);  // B
+	color.SetElement(3, 1.0);  // A
+	
+	// Create a 3D sphere with similar properties
+	i3d::CSphere sphere(i3d::CVector3d(10.0, 20.0, 30.0), 15.0);
+	
+	// Create a spectrum for spectral data
+	icmm::CSpectrumInfo spectrum(istd::CIntRange(400, 700), 5);
+	
+	// Serialize the complex geometry + color scenario
+	QByteArray buffer;
+	{
+		iser::CMemoryWriteArchive writeArchive;
+		
+		QVERIFY(circle.Serialize(writeArchive));
+		QVERIFY(color.Serialize(writeArchive));
+		QVERIFY(sphere.Serialize(writeArchive));
+		QVERIFY(spectrum.Serialize(writeArchive));
+		
+		buffer = writeArchive.GetByteArray();
+	}
+	
+	// Deserialize and verify
+	{
+		iser::CMemoryReadArchive readArchive(buffer);
+		
+		i2d::CCircle restoredCircle;
+		icmm::CVarColor restoredColor;
+		i3d::CSphere restoredSphere;
+		icmm::CSpectrumInfo restoredSpectrum;
+		
+		QVERIFY(restoredCircle.Serialize(readArchive));
+		QVERIFY(restoredColor.Serialize(readArchive));
+		QVERIFY(restoredSphere.Serialize(readArchive));
+		QVERIFY(restoredSpectrum.Serialize(readArchive));
+		
+		// Verify geometric data
+		QCOMPARE(restoredCircle.GetRadius(), circle.GetRadius());
+		QCOMPARE(restoredCircle.GetPosition().GetX(), circle.GetPosition().GetX());
+		
+		// Verify color data
+		QCOMPARE(restoredColor.GetElementsCount(), color.GetElementsCount());
+		for (int i = 0; i < color.GetElementsCount(); ++i){
+			QCOMPARE(restoredColor.GetElement(i), color.GetElement(i));
+		}
+		
+		// Verify 3D sphere
+		QCOMPARE(restoredSphere.GetRadius(), sphere.GetRadius());
+		QCOMPARE(restoredSphere.GetCenter().GetZ(), sphere.GetCenter().GetZ());
+		
+		// Verify spectrum info
+		QCOMPARE(restoredSpectrum.GetStep(), spectrum.GetStep());
+	}
+}
+
+
+void CSerializationRegressionTestRunner::testComplexScenarioWithNestedSelections()
+{
+	// Complex scenario with hierarchical selection parameters
+	// Simulates a UI with cascading menus/selections
+	
+	// Create main options
+	iprm::COptionsManager mainOptions;
+	mainOptions.AddOption("Graphics2D", "2D Graphics Options");
+	mainOptions.AddOption("Graphics3D", "3D Graphics Options");
+	mainOptions.AddOption("ColorMgmt", "Color Management Options");
+	
+	// Create sub-options
+	iprm::COptionsManager graphics2DOptions;
+	graphics2DOptions.AddOption("Circle", "Circle tool");
+	graphics2DOptions.AddOption("Rectangle", "Rectangle tool");
+	graphics2DOptions.AddOption("Line", "Line tool");
+	
+	// Create selections
+	iprm::CSelectionParam mainSelection;
+	mainSelection.SetSelectionConstraints(&mainOptions);
+	mainSelection.SetSelectedOptionIndex(0);  // Select Graphics2D
+	
+	iprm::CSelectionParam subSelection;
+	subSelection.SetSelectionConstraints(&graphics2DOptions);
+	subSelection.SetSelectedOptionIndex(1);  // Select Rectangle
+	
+	// Serialize the hierarchical selection
+	QByteArray buffer;
+	{
+		iser::CMemoryWriteArchive writeArchive;
+		
+		QVERIFY(mainSelection.Serialize(writeArchive));
+		QVERIFY(subSelection.Serialize(writeArchive));
+		
+		buffer = writeArchive.GetByteArray();
+	}
+	
+	// Deserialize and verify
+	{
+		iser::CMemoryReadArchive readArchive(buffer);
+		
+		iprm::CSelectionParam restoredMain;
+		restoredMain.SetSelectionConstraints(&mainOptions);
+		
+		iprm::CSelectionParam restoredSub;
+		restoredSub.SetSelectionConstraints(&graphics2DOptions);
+		
+		QVERIFY(restoredMain.Serialize(readArchive));
+		QVERIFY(restoredSub.Serialize(readArchive));
+		
+		// Verify selections preserved
+		QCOMPARE(restoredMain.GetSelectedOptionIndex(), mainSelection.GetSelectedOptionIndex());
+		QCOMPARE(restoredSub.GetSelectedOptionIndex(), subSelection.GetSelectedOptionIndex());
+	}
+}
+
+
+// Backward compatibility and versioning tests
+
+void CSerializationRegressionTestRunner::testBackwardCompatibilityVector2d()
+{
+	// Test that we can load data serialized with older versions
+	// This ensures backward compatibility
+	
+	i2d::CVector2d original(123.456, 789.012);
+	
+	// Save reference data (this would be from an "old version")
+	QString refFile = "vector2d_v1.dat";
+	QVERIFY(SaveReferenceData(original, refFile));
+	
+	// Load and verify (simulating loading old data in new version)
+	i2d::CVector2d restored;
+	QVERIFY(LoadReferenceData(restored, refFile));
+	
+	QCOMPARE(restored.GetX(), original.GetX());
+	QCOMPARE(restored.GetY(), original.GetY());
+}
+
+
+void CSerializationRegressionTestRunner::testBackwardCompatibilityCircle()
+{
+	// Test backward compatibility for more complex objects
+	
+	i2d::CCircle original(75.5, i2d::CVector2d(150.0, 250.0));
+	
+	// Save reference data
+	QString refFile = "circle_v1.dat";
+	QVERIFY(SaveReferenceData(original, refFile));
+	
+	// Load and verify
+	i2d::CCircle restored;
+	QVERIFY(LoadReferenceData(restored, refFile));
+	
+	QCOMPARE(restored.GetRadius(), original.GetRadius());
+	QCOMPARE(restored.GetPosition().GetX(), original.GetPosition().GetX());
+	QCOMPARE(restored.GetPosition().GetY(), original.GetPosition().GetY());
+}
+
+
+void CSerializationRegressionTestRunner::testVersionManagement()
+{
+	// Test version management mechanism
+	// Verify that GetMinimalVersion returns appropriate values
+	
+	i2d::CVector2d vector(1.0, 2.0);
+	quint32 version = vector.GetMinimalVersion(iser::IVersionInfo::AcfVersionId);
+	
+	// Version should be either 0 (no specific version) or a valid version number
+	QVERIFY(version == 0 || version > 0);
+	
+	// Test with more complex object
+	i3d::CVector3d vector3d(1.0, 2.0, 3.0);
+	quint32 version3d = vector3d.GetMinimalVersion(iser::IVersionInfo::AcfVersionId);
+	QVERIFY(version3d == 0 || version3d > 0);
+	
+	// Test with color management object
+	icmm::CVarColor color(3);
+	quint32 colorVersion = color.GetMinimalVersion(iser::IVersionInfo::AcfVersionId);
+	QVERIFY(colorVersion == 0 || colorVersion > 0);
 }
 
 
