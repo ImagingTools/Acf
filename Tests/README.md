@@ -17,6 +17,7 @@ Tests are organized by location:
   - **SelectionParamComponentTest/** - Component tests for CSelectionParamComp with various configurations
   - **AutoPersistenceTest/** - Tests for CAutoPersistenceComp with various attribute configurations
   - **IdocComponentTest/** - Component tests for idoc library (CTextDocumentComp, CSerializedUndoManagerComp, CSingleDocumentTemplateComp)
+  - **IqtComponentTest/** - Component tests for iqt library (CApplicationSettingsProviderComp, CIniSettingsProviderComp, CClipboardSerializerComp, CSettingsSerializerComp, CTranslationManagerComp)
 
 - **Include/[library]/Test/** - Unit tests for each library
   - **Include/istd/Test/** - Tests for standard utilities (CRandomNumber, CIndex2d, CBitManip, CCrcCalculator, etc.)
@@ -376,6 +377,71 @@ Each test scenario uses a dedicated SelectionParam object as the persistent data
 - `testDocumentTemplateCreation()` - Verifies document template creation
 - `testDocumentTemplateCreateDocument()` - Tests document creation via template
 - `testDocumentTemplateAttributes()` - Tests template attributes
+
+### IqtComponentTest
+
+**Purpose**: Component-level tests for the `iqt` library Qt integration components with various configurations.
+
+**Test Coverage**:
+- **CApplicationSettingsProviderComp**:
+  - Component creation and initialization
+  - Settings object retrieval via ISettingsProvider interface
+  - Organization and application name verification
+  - Read/write operations to application settings
+  
+- **CIniSettingsProviderComp**:
+  - Component creation and initialization
+  - Settings object retrieval with INI format
+  - Read/write operations to INI file settings
+  - INI file format verification
+  
+- **CClipboardSerializerComp**:
+  - Component creation and initialization
+  - IFilePersistence interface implementation
+  - Operation support verification
+  - File extension handling
+  
+- **CSettingsSerializerComp**:
+  - Component creation and initialization
+  - IFilePersistence interface implementation
+  - Operation support for serializable objects
+  - Settings-based persistence verification
+  
+- **CTranslationManagerComp**:
+  - Component creation and initialization
+  - Language list retrieval and verification
+  - Language switching functionality
+  - Current language index tracking
+  - Language IDs and names verification
+
+**Configuration File**:
+- `IqtComponentTest.acc` - Contains 8 different component configurations:
+  1. `ApplicationInfo` - Application information component with name and organization
+  2. `ApplicationSettingsProvider` - Provider for application-specific settings
+  3. `IniSettingsProvider` - Provider for INI file-based settings
+  4. `VersionInfo` - Version information component for serializers
+  5. `ClipboardSerializer` - Clipboard-based serialization component
+  6. `TestDataObject` - Selection parameter for testing serialization
+  7. `SettingsSerializer` - QSettings-based serialization component
+  8. `TranslationManager` - Translation manager with 3 languages (English, German, French)
+
+**Test Methods**:
+- `testApplicationSettingsProviderCreation()` - Verifies application settings provider creation
+- `testApplicationSettingsProviderGetSettings()` - Tests settings object retrieval and configuration
+- `testApplicationSettingsProviderReadWrite()` - Tests read/write operations
+- `testIniSettingsProviderCreation()` - Verifies INI settings provider creation
+- `testIniSettingsProviderGetSettings()` - Tests INI format settings object
+- `testIniSettingsProviderReadWrite()` - Tests INI file read/write operations
+- `testClipboardSerializerCreation()` - Verifies clipboard serializer creation
+- `testClipboardSerializerInterfaces()` - Tests IFilePersistence interface implementation
+- `testClipboardSerializerFileExtensions()` - Tests file extension handling
+- `testSettingsSerializerCreation()` - Verifies settings serializer creation
+- `testSettingsSerializerInterfaces()` - Tests IFilePersistence interface implementation
+- `testSettingsSerializerFileExtensions()` - Tests file extension handling
+- `testTranslationManagerCreation()` - Verifies translation manager creation
+- `testTranslationManagerLanguagesInfo()` - Tests language list retrieval
+- `testTranslationManagerSwitchLanguage()` - Tests language switching functionality
+- `testTranslationManagerCurrentLanguage()` - Tests current language tracking
 
 ## Contributing
 

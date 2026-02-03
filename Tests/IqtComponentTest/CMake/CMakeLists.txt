@@ -1,3 +1,13 @@
+cmake_minimum_required(VERSION 3.26)
+
+if(NOT DEFINED ACFDIR)
+	set(ACFDIR "$ENV{ACFDIR}")
+endif()
+
+# AcfEnv.cmake includes ProjectRoot.cmake and calls get_target_name(TARGETNAME)
+# which defines the TARGETNAME variable used later in this file
+include(${ACFDIR}/Config/CMake/AcfEnv.cmake)
+
 project(IqtComponentTest LANGUAGES CXX)
 
 
