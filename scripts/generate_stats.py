@@ -196,7 +196,6 @@ class RepositoryStats:
             r'\bdo\b',         # do-while loops
             r'\bswitch\s*\(',  # switch statements
             r'\bcase\b',       # case labels
-            r'\breturn\b',     # return statements (sometimes without semicolon in lambdas)
             r'\bcatch\s*\(',   # catch blocks
             r'\btry\b',        # try blocks
         ]
@@ -676,6 +675,8 @@ class RepositoryStats:
         
         # Dependency Inversion Principle (DIP)
         # Indicator: Dependencies on interfaces (I*) vs concrete classes
+        # Note: This heuristic assumes ACF naming convention where interfaces
+        # start with 'I' followed by uppercase letter (e.g., IComponent, ISerializable)
         for file_path, includes in self.stats['code_structure']['include_dependencies'].items():
             for include in includes:
                 # Check if it's an interface (starts with 'I' and has uppercase second letter)
@@ -708,37 +709,48 @@ class RepositoryStats:
         """Calculate SOLID compliance score (0-100)."""
         score = 100.0
         
+        # Thresholds for SOLID scoring
+        SRP_MAX_DEDUCTION = 15
+        LSP_MAX_DEDUCTION = 15
+        ISP_MAX_DEDUCTION = 15
+        DIP_GOOD_RATIO = 0.3  # >30% abstract dependencies is good
+        DIP_POOR_RATIO = 0.1  # <10% abstract dependencies is poor
+        DIP_MAX_BONUS = 5
+        DIP_POOR_PENALTY = 10
+        
         # SRP: Deduct for large classes
         large_classes = len(self.stats['solid_metrics']['single_responsibility']['large_classes'])
         total_classes = len(self.stats['classes'])
         if total_classes > 0:
             srp_violation_ratio = large_classes / total_classes
-            score -= min(srp_violation_ratio * 20, 15)  # Max 15 points deduction
+            score -= min(srp_violation_ratio * 20, SRP_MAX_DEDUCTION)
         
         # LSP: Deduct for deep inheritance
         lsp_violations = len(self.stats['solid_metrics']['liskov_substitution']['potential_violations'])
         if total_classes > 0:
             lsp_violation_ratio = lsp_violations / total_classes
-            score -= min(lsp_violation_ratio * 25, 15)  # Max 15 points deduction
+            score -= min(lsp_violation_ratio * 25, LSP_MAX_DEDUCTION)
         
         # ISP: Deduct for large interfaces
         large_interfaces = len(self.stats['solid_metrics']['interface_segregation']['large_interfaces'])
         total_interfaces = len(self.stats['interfaces'])
         if total_interfaces > 0:
             isp_violation_ratio = large_interfaces / total_interfaces
-            score -= min(isp_violation_ratio * 20, 15)  # Max 15 points deduction
+            score -= min(isp_violation_ratio * 20, ISP_MAX_DEDUCTION)
         
-        # DIP: Bonus for high abstraction usage
+        # DIP: Bonus for high abstraction usage, penalty for low
         abstract_deps = self.stats['solid_metrics']['dependency_inversion']['abstract_dependencies']
         concrete_deps = self.stats['solid_metrics']['dependency_inversion']['concrete_dependencies']
         total_deps = abstract_deps + concrete_deps
         
         if total_deps > 0:
             abstraction_ratio = abstract_deps / total_deps
-            if abstraction_ratio > 0.3:  # Good abstraction usage
-                score += min(abstraction_ratio * 10, 5)  # Max 5 bonus
-            elif abstraction_ratio < 0.1:  # Poor abstraction usage
-                score -= 10
+            if abstraction_ratio > DIP_GOOD_RATIO:
+                # Reward good abstraction usage
+                score += min(abstraction_ratio * 10, DIP_MAX_BONUS)
+            elif abstraction_ratio < DIP_POOR_RATIO:
+                # Penalize poor abstraction usage
+                score -= DIP_POOR_PENALTY
         
         return max(0, min(100, round(score, 1)))
     

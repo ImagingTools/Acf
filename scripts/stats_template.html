@@ -638,8 +638,8 @@
                     <div class="label">Include Dependencies</div>
                 </div>
                 <div class="metric-item">
-                    <div class="value" id="unique-namespaces-2">-</div>
-                    <div class="label">Unique Namespaces</div>
+                    <div class="value" id="unique-namespaces-struct">-</div>
+                    <div class="label">Namespace Count</div>
                 </div>
             </div>
         </div>
@@ -832,7 +832,7 @@
             // Code Structure
             const includeDeps = Object.keys(stats.code_structure?.include_dependencies || {}).length;
             document.getElementById('include-deps').textContent = includeDeps.toLocaleString();
-            document.getElementById('unique-namespaces-2').textContent = 
+            document.getElementById('unique-namespaces-struct').textContent = 
                 (summary.total_namespaces || 0).toLocaleString();
 
             // Display large files
