@@ -181,6 +181,10 @@ SUBDIRS += DocumentManagementComponentTest
 DocumentManagementComponentTest.file = ../../Tests/DocumentManagementComponentTest/QMake/DocumentManagementComponentTest.pro
 DocumentManagementComponentTest.depends = Arxc idoc iser itest
 
+SUBDIRS += AutoPersistenceTest
+AutoPersistenceTest.file = ../../Tests/AutoPersistenceTest/QMake/AutoPersistenceTest.pro
+AutoPersistenceTest.depends = Arxc iprm ifile iser itest
+
 # Impl Tests
 !macx-ios*{
 	SUBDIRS += ComposedGuiTest
