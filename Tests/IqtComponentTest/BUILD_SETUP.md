@@ -7,7 +7,7 @@ The IqtComponentTest is a Qt Test-based unit test for the Iqt component of the A
 ## Test Files
 
 - **CIqtCompTest.h**: Test class definition
-- **CIqtCompTest.cpp**: Test implementation (7373 bytes)
+- **CIqtCompTest.cpp**: Test implementation with 17 test methods
 - **IqtComponentTest.acc**: ACF component configuration file (requires Arxc processing)
 - **main.cpp**: Test entry point
 - **CMake/CMakeLists.txt**: CMake build configuration
