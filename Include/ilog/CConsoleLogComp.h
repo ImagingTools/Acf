@@ -81,7 +81,6 @@ namespace ilog
 class CConsoleLogComp: public CStreamLogCompBase
 {
 public:
-	/// Base class typedef
 	typedef CStreamLogCompBase BaseClass;
 
 	I_BEGIN_COMPONENT(CConsoleLogComp);

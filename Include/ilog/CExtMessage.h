@@ -82,7 +82,6 @@ namespace ilog
 class CExtMessage: public CMessage
 {
 public:
-	/// Base class typedef
 	typedef CMessage BaseClass;
 
 	/**
@@ -93,7 +92,7 @@ public:
 		\param	factoryPtr	Optional object factory for deserialization of attached objects
 	*/
 	explicit CExtMessage(const iser::IObjectFactory* factoryPtr = NULL);
-	
+
 	/**
 		Construct extended message with all properties.
 		

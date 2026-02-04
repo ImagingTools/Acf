@@ -123,6 +123,8 @@ protected:
 	*/
 	void SetStatusText(const QString& text);
 
+	void SetDefaultVisualStatus();
+
 	// reimplemented (ibase::TLocalizableWrap)
 	virtual void OnLanguageChanged() override;
 
