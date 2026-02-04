@@ -4,21 +4,25 @@
 
 // Qt includes
 #include <QtCore/QObject>
-#include <QtCore/QThread>
 #include <QtTest/QtTest>
 
 // ACF includes
 #include <itest/CStandardTestExecutor.h>
 
 
-class CComponentSimulationTest : public QObject
+class CPackageTest : public QObject
 {
 	Q_OBJECT
 
 private Q_SLOTS:
 	void initTestCase();
+	void cleanupTestCase();
 
-	void DoSimiulationTest();
+	// Component accessor tests
+	void testComponentAccessorCreation();
+	void testComponentAccessorWithoutPackages();
+
+	// Registries manager tests
+	void testRegistriesManagerCreation();
+	void testRegistriesManagerLoadEmptyConfig();
 };
-
-

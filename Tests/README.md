@@ -129,6 +129,33 @@ Unit tests for each library are located in `Include/[library]/Test/` directories
 - **CSelectionParam** - Selection parameter for managing option selections
 - **IOptionsList** - Helper function FindOptionIndexById for finding options by ID
 
+#### icomp (Component Framework) - Include/icomp/Test/
+- **CComponentSimulationTest** - Component framework core functionality tests (15 tests)
+  - Component creation and initialization
+  - Component lifecycle (OnComponentCreated/OnComponentDestroyed callbacks)
+  - Parent-child relationships and ownership
+  - Component active state management
+  - Interface querying and registration
+  - Component context operations
+  - Single and multi-attribute management
+  - Different attribute types (string, int, bool, double)
+  - Component references (single and multiple)
+  - Component factory operations
+- **CRegistryTest** - Registry management and operations (11 tests)
+  - Registry creation and element management
+  - Element insertion, retrieval, removal, and renaming
+  - Embedded registry operations (insertion, retrieval, removal)
+  - Exported interface management
+  - Registry serialization and deserialization
+  - Thread-safe concurrent access
+
+#### ipackage (Package Management) - Include/ipackage/Test/
+- **CPackageTest** - Package loading and management tests (4 tests)
+  - Component accessor creation and operations
+  - Component accessor behavior without packages
+  - Registries manager component creation
+  - Loading with empty configuration
+
 ## Building and Running Tests
 
 ### Prerequisites
@@ -149,6 +176,18 @@ mkdir build && cd build
 cmake ..
 make
 
+# For icomp tests (component framework)
+cd Include/icomp/Test/CMake
+mkdir build && cd build
+cmake ..
+make
+
+# For ipackage tests (package management)
+cd Include/ipackage/Test/CMake
+mkdir build && cd build
+cmake ..
+make
+
 # For imath tests
 cd Include/imath/Test/CMake
 mkdir build && cd build
@@ -163,6 +202,8 @@ make
 Execute the test binary for each library:
 ```bash
 ./istdTest
+./icompTest
+./ipackageTest
 ./imathTest
 ./i2dTest
 ./i3dTest
