@@ -34,7 +34,7 @@ class IParamsSet;
 	#include <ilog/CMessageConsumer.h>
 	
 	// Assuming validator is obtained from a component or factory
-	iprm::IParamsSetValidator* validator = /* ... */;
+	iprm::IParamsSetValidator* validator;
 	
 	// Get supported type IDs
 	iprm::IParamsSetValidator::Ids supportedTypes = validator->GetSupportedTypeIds();
@@ -46,7 +46,7 @@ class IParamsSet;
 	}
 	
 	// Validate a parameter set
-	iprm::IParamsSet* paramsSet = /* ... */;
+	iprm::IParamsSet* paramsSet;
 	QByteArray validationContext = "save_operation";
 	
 	// Create message consumer to collect validation messages

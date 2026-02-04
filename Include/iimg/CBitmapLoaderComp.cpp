@@ -138,7 +138,9 @@ ifile::IFilePersistence::OperationState CBitmapLoaderComp::SaveToFile(
 		return OS_OK;
 	}
 	else{
-		SendErrorMessage(MI_CANNOT_SAVE, QT_TR_NOOP(QString("Cannot save file %1").arg(filePath)));
+		if (!image.isNull()){
+			SendErrorMessage(MI_CANNOT_SAVE, QT_TR_NOOP(QString("Cannot save file %1").arg(filePath)));
+		}
 	}
 
 	return OS_FAILED;

@@ -2,6 +2,7 @@
 #include <iimg/CBitmap.h>
 
 
+// STL includes
 #include <cstring>// include std::memcpy
 
 // Qt includes
