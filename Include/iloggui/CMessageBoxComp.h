@@ -110,7 +110,6 @@ class CMessageBoxComp:
 	Q_OBJECT
 
 public:
-	/// Base class typedef
 	typedef icomp::CComponentBase BaseClass;
 
 	I_BEGIN_COMPONENT(CMessageBoxComp);
@@ -134,6 +133,7 @@ protected:
 
 	// reimplemented (icomp::CComponentBase)
 	virtual void OnComponentCreated() override;
+	virtual void OnComponentDestroyed() override;
 
 private:
 	void CreateMessageText(QString& messageText, QString& detailedText, QIcon& statusIcon) const;
@@ -145,7 +145,7 @@ Q_SIGNALS:
 	void EmitAddMessage();
 
 private:
-	QMessageBox m_messageBox;
+	QSharedPointer<QMessageBox> m_messageBox;
 	QMutex m_messageQueueMutex;
 
 	QVector<ilog::CMessage> m_messageQueue;
