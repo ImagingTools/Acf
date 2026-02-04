@@ -141,7 +141,7 @@ void CSimpleMainWindowGuiComp::SetupMainWindowComponents(QMainWindow& mainWindow
 	}
 
 	for (int componentIndex = 0; componentIndex < m_mainWindowComponentsCompPtr.GetCount(); componentIndex++){
-		iqtgui::IMainWindowComponent* mainWindowComponentPtr =  m_mainWindowComponentsCompPtr[componentIndex];
+		iqtgui::IMainWindowComponent* mainWindowComponentPtr = m_mainWindowComponentsCompPtr[componentIndex];
 		if (mainWindowComponentPtr != NULL){
 			AddMainComponent(componentIndex, mainWindowComponentPtr);
 		}
@@ -597,6 +597,14 @@ void CSimpleMainWindowGuiComp::OnGuiShown()
 #if !defined(Q_OS_MAC)
 	m_fullScreenCommand.setChecked(parentWidgetPtr->isFullScreen());
 #endif
+}
+
+
+void CSimpleMainWindowGuiComp::OnGuiDesignChanged()
+{
+	BaseClass::OnGuiDesignChanged();
+
+	m_settingsCommand.setIcon(GetIcon(":/Icons/Settings"));
 }
 
 

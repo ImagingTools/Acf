@@ -12,6 +12,7 @@
 #include <QtGui/QDesktopServices>
 #include <QtCore>
 #endif
+#include <QtCore/QTemporaryDir>
 
 // ACF includes
 #include <istd/CSystem.h>

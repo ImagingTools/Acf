@@ -6,7 +6,10 @@ ACF (Application Component Framework) is a flexible and extensible framework for
 
 The full API documentation is available at: [https://imagingtools.github.io/Acf/](https://imagingtools.github.io/Acf/)
 
-The documentation is automatically generated from the source code using Doxygen and deployed to GitHub Pages.
+**Repository Statistics**: [https://imagingtools.github.io/Acf/stats/](https://imagingtools.github.io/Acf/stats/)  
+View comprehensive code metrics including lines of code, number of classes and components, code quality indicators, and more.
+
+The documentation and statistics are automatically generated from the source code and deployed to GitHub Pages.
 
 ### Framework Documentation
 
