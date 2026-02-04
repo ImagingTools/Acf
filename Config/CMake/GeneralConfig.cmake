@@ -71,8 +71,8 @@ set(AUXINCLUDEPATH "${PROJECT_SOURCE_DIR}/../../../${AUXINCLUDEDIR}")
 
 include_directories("${PROJECT_SOURCE_DIR}/../../")
 
-include_directories("${INCLUDE_DIR}")
-include_directories("${IMPL_DIR}")
+include_directories("${ACFDIR}/Include")
+include_directories("${ACFDIR}/Impl")
 
 
 function(acf_create_moc outfiles)
