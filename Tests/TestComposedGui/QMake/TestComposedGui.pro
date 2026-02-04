@@ -3,8 +3,7 @@ TARGET = TestComposedGui
 include(../../../Config/QMake/ApplicationConfig.pri)
 include(../../../Config/QMake/QtBaseConfig.pri)
 
-LIBS += -L../../../Lib/$$COMPILER_DIR
-LIBS += -listd -liser -licomp -liwidgets -lAcfLoc
+LIBS += -L../../../Lib/$$COMPILER_DIR -lAcfLoc
 
 QT += core gui
 
@@ -17,5 +16,5 @@ ARXC_OUTDIR = $$OUT_PWD/$$AUXINCLUDEPATH/GeneratedFiles/$$TARGET
 INCLUDEPATH += $$OUT_PWD/$$AUXINCLUDEPATH
 
 include(../../../Config/QMake/AcfQt.pri)
-include(../../../Config/QMake/Acf.pri)
+include(../../../Config/QMake/AcfStd.pri)
 include(../../../Config/QMake/CustomBuild.pri)
