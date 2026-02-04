@@ -119,9 +119,13 @@ ifile::IFilePersistence::OperationState CSettingsSerializerComp::SaveToFile(
 
 // reimplemented (ifile::IFileTypeInfo)
 
-bool CSettingsSerializerComp::GetFileExtensions(QStringList& /*result*/, const istd::IChangeable* /*dataObjectPtr*/, int /*flags*/, bool /*doAppend*/) const
+bool CSettingsSerializerComp::GetFileExtensions(QStringList& result, const istd::IChangeable* /*dataObjectPtr*/, int /*flags*/, bool doAppend) const
 {
-	return false;
+	if (!doAppend) {
+		result.clear();
+	}
+
+	return true;
 }
 
 
