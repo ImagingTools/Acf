@@ -8,13 +8,9 @@
 
 // ACF includes
 #include <ipackage/CComponentAccessor.h>
+#include <ipackage/CRegistriesManagerComp.h>
 #include <icomp/TSimComponentWrap.h>
 
-
-// Import package components for testing
-#include <BasePck/BasePck.h>
-#include <FilePck/FilePck.h>
-#include <PackagePck/PackagePck.h>
 
 
 void CPackageTest::initTestCase()
@@ -87,9 +83,9 @@ void CPackageTest::testComponentAccessorWithoutPackages()
 void CPackageTest::testRegistriesManagerCreation()
 {
 	// Test creating a registries manager component
-	icomp::TSimSharedComponentPtr<PackagePck::RegistriesManager> registriesManager;
+	icomp::TSimSharedComponentPtr<ipackage::CRegistriesManagerComp> registriesManager;
 	
-	QVERIFY(registriesManager.GetPtr() != nullptr);
+	QVERIFY(registriesManager.get() != nullptr);
 	
 	// Set basic attributes
 	registriesManager->SetBoolAttr("AreRealPackagesIgnored", true);
@@ -99,14 +95,14 @@ void CPackageTest::testRegistriesManagerCreation()
 	registriesManager->InitComponent();
 	
 	// Component should be initialized
-	QVERIFY(registriesManager.GetPtr() != nullptr);
+	QVERIFY(registriesManager.get() != nullptr);
 }
 
 
 void CPackageTest::testRegistriesManagerLoadEmptyConfig()
 {
 	// Test loading an empty configuration
-	icomp::TSimSharedComponentPtr<PackagePck::RegistriesManager> registriesManager;
+	icomp::TSimSharedComponentPtr<ipackage::CRegistriesManagerComp> registriesManager;
 	registriesManager->SetBoolAttr("AreRealPackagesIgnored", true);
 	registriesManager->SetBoolAttr("EnableVerbose", false);
 	registriesManager->InitComponent();
@@ -116,7 +112,7 @@ void CPackageTest::testRegistriesManagerLoadEmptyConfig()
 	registriesManager->LoadPackages(QString());
 	
 	// Verify manager is still valid
-	QVERIFY(registriesManager.GetPtr() != nullptr);
+	QVERIFY(registriesManager.get() != nullptr);
 }
 
 

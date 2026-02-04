@@ -133,6 +133,9 @@ istdTest.file = ../../Include/istd/Test/QMake/istdTest.pro
 SUBDIRS += icompTest
 icompTest.file = ../../Include/icomp/Test/QMake/icompTest.pro
 
+SUBDIRS += ipackageTest
+ipackageTest.file = ../../Include/ipackage/Test/QMake/ipackageTest.pro
+
 SUBDIRS += iserTest
 iserTest.file = ../../Include/iser/Test/QMake/iserTest.pro
 

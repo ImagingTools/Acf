@@ -3,9 +3,6 @@ TARGET = ipackageTest
 include(../../../../Config/QMake/TestConfig.pri)
 include(../../../../Config/QMake/QtBaseConfig.pri)
 
-LIBS += -licomp -lipackage -lifile -lilog -liser -limod -listd
-LIBS += -lBasePck -lFilePck -lPackagePck
-
 
 # Set configuration of custom builds:
 # ARX Compiler:
