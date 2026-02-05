@@ -3,7 +3,7 @@
 
 
 // Qt includes
-#include <QtCore/QSignalSpy>
+#include <QtTest/QSignalSpy>
 
 
 // Test helper class
