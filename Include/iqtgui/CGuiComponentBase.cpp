@@ -214,6 +214,18 @@ void CGuiComponentBase::SetStatusText(const QString& text)
 }
 
 
+void CGuiComponentBase::SetDefaultVisualStatus()
+{
+	istd::CChangeNotifier notifier(&m_visualStatus);
+
+	if (m_defaultStatusIconPathAttrPtr.IsValid()) {
+		m_visualStatus.m_statusIcon = GetIcon(*m_defaultStatusIconPathAttrPtr);
+	}
+
+	m_visualStatus.m_statusText = *m_defaultStatusTextAttrPtr;
+}
+
+
 // reimplemented (ibase::TLocalizableWrap)
 
 void CGuiComponentBase::OnLanguageChanged()

@@ -15,7 +15,7 @@ CSimpleXmlFileWriteArchive::CSimpleXmlFileWriteArchive(
 	BaseClass2(filePath),
 	m_file(filePath)
 {
-	if (m_file.open(QIODevice::WriteOnly | QIODevice::Truncate | QIODevice::Text)){
+	if (m_file.open(QIODevice::WriteOnly | QIODevice::Truncate | QIODevice::Text | QIODevice::Unbuffered)){
 		m_stream.setDevice(&m_file);
 
 		WriteXmlHeader();

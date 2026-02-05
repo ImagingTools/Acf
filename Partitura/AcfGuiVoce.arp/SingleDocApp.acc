@@ -2,9 +2,9 @@
 <Acf>
     <AcfHeader>
         <VersionInfos>
-            <Version Id="0" Number="5131" Description="ACF"/>
-            <Version Id="1" Number="2198" Description="ACF-Solutions"/>
-            <Version Id="1023" Number="393732" Description="Qt Framework"/>
+            <Version Id="0" Number="5434" Description="ACF"/>
+            <Version Id="1" Number="2255" Description="ACF-Solutions"/>
+            <Version Id="1023" Number="395267" Description="Qt Framework"/>
         </VersionInfos>
     </AcfHeader>
     <Description>Framework for single document applications</Description>
@@ -256,6 +256,9 @@
         <Element Id="Workspace" PackageId="QtGuiPck" ComponentId="SingleDocWorkspaceGui">
             <Data IsEnabled="true" Flags="0">
                 <AttributeInfoMap>
+                    <AttributeInfo Id="DefaultDocumentTitle" Type="Text" ExportId="DefaultDocumentTitle">
+                        <Data IsEnabled="false"/>
+                    </AttributeInfo>
                     <AttributeInfo Id="DocumentTemplate" Type="Reference" ExportId="">
                         <Data IsEnabled="true" Value="DocumentTemplate"/>
                     </AttributeInfo>
