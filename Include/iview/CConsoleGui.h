@@ -18,6 +18,7 @@ class QHBoxLayout;
 class QScrollBar;
 class QStatusBar;
 class QLabel;
+class QToolButton;
 
 
 namespace iview
@@ -105,6 +106,7 @@ public Q_SLOTS:
 	void OnVScrollbarChanged(int newPos);
 	void UpdateView();
 	void OnStopFullScreen();
+	void OnBoundingBoxChangedSlot() { OnBoundingBoxChanged(); }
 
 Q_SIGNALS:
 	bool selectionChanged(const iview::IShapeView& view, const istd::CIndex2d& position, const iview::IInteractiveShape& shape, bool state);
@@ -153,12 +155,14 @@ protected:
 
 protected:
 	bool ConnectSignalSlots();
+	void CreateNavigator();
 
 	QVBoxLayout* m_mainLayoutPtr;
 	QGridLayout* m_centerLayoutPtr;
 
 	QScrollBar* m_verticalScrollbarPtr;
 	QScrollBar* m_horizontalScrollbarPtr;
+	QToolButton* m_navigatorPopupButtonPtr;
 
 	// commands
 	iqtgui::CHierarchicalCommand m_rootCommands;

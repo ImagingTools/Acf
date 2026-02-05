@@ -965,7 +965,7 @@ ISelectable::MousePointerMode CViewBase::CalcMousePointer(istd::CIndex2d positio
 				}
 				Q_ASSERT(shapePtr != NULL);
 
-				return result;
+				return shapePtr->UpdateMousePointer(result, touchState, position);
 			}
 
 			areSelected = areSelected || (layerPtr->GetSelectedShapesCount() > 0);

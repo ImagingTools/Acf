@@ -11,6 +11,7 @@
 #include <i2d/CRect.h>
 #include <iview/IVisualizable.h>
 #include <iview/ITouchable.h>
+#include <iview/ISelectable.h>
 
 
 namespace iview
@@ -61,6 +62,7 @@ public:
 		Get color schema from view or user defined.
 	*/
 	virtual const iview::IColorSchema* GetUserColorSchema() const = 0;
+
 	/**
 		Set color schema to draw shape.
 	*/
@@ -77,8 +79,13 @@ public:
 
 	virtual i2d::CVector2d GetLogPosition(const i2d::CVector2d& screenPosition) const = 0;
 
-	virtual bool IsAreaTouchAllowed() const { return false; }
-	virtual void SetAreaTouchAllowed(bool /*state*/ = true) { }
+	virtual bool IsAreaTouchAllowed() const						{ return false; }
+	virtual void SetAreaTouchAllowed(bool /*state*/ = true)		{}
+
+	virtual iview::ISelectable::MousePointerMode UpdateMousePointer(
+		iview::ISelectable::MousePointerMode defaultPointer,
+		ITouchable::TouchState /*lastTouchState*/,
+		const istd::CIndex2d& /*screenPosition*/) const 		{ return defaultPointer; }
 };
 
 

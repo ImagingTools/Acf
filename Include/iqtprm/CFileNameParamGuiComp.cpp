@@ -139,7 +139,7 @@ void CFileNameParamGuiComp::OnGuiCreated()
 		DirEdit->setStyleSheet(
 			"QComboBox::drop-down {border: none; background-color: transparent;} "
 			"QComboBox::down-arrow {image: none;}"
-			);
+		);
 	}
 
 	BaseClass::OnGuiCreated();
