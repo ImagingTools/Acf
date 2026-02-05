@@ -167,10 +167,10 @@ void CCommandBasedSelectionControllerComp::BuildCommands()
 
 			connect(commandPtr, SIGNAL(triggered()), this, SLOT(OnCommandActivated()));
 
-			commandPtr->setChecked(currentSelection == optionIndex);
 			commandPtr->setCheckable(true);
+			commandPtr->setChecked(currentSelection == optionIndex);
 
-			m_commandsList.InsertChild(commandPtr, true, optionIndex + indexOffset);				
+			m_commandsList.InsertChild(commandPtr, true, optionIndex + indexOffset);
 		}
 
 		if (m_actionIconsProviderCompPtr.IsValid()){

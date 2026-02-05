@@ -217,7 +217,7 @@ private:
 	/**
 		Flag indicating that object has been changed.
 	*/
-	bool m_isObjectChanged;
+	std::atomic<bool> m_isObjectChanged;
 
 	/**
 		Object state is synchronized with the file state.

@@ -172,7 +172,7 @@ void CDialogGuiComp::UpdateVisuals()
 		m_dialogPtr->setWindowIcon(icon);
 
 		if (m_dialogTitleAttrPtr.IsValid()){
-			m_dialogPtr->setWindowTitle((*m_dialogTitleAttrPtr));
+			m_dialogPtr->setWindowTitle(*m_dialogTitleAttrPtr);
 		}
 		else{
 			m_dialogPtr->setWindowTitle(QCoreApplication::applicationName());
@@ -223,6 +223,8 @@ void CDialogGuiComp::OnComponentCreated()
 
 void CDialogGuiComp::OnCommandActivated()
 {
+	UpdateVisuals();
+
 	ExecuteDialog(NULL);
 }
 

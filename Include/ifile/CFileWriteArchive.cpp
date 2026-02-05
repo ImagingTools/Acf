@@ -96,18 +96,29 @@ bool CFileWriteArchive::EndTag(const iser::CArchiveTag& tag)
 
 bool CFileWriteArchive::ProcessData(void* data, int size)
 {
-	if (size <= 0){
-		return true;
+	if (size <= 0) {
+		return true; // Nothing to write, not an error
 	}
 
-	if (data == NULL){
-		return false;
+	if (data == nullptr) {
+		return false; // Invalid data pointer
 	}
 
-	m_file.write((char*)data, size);
+	const char* buffer = static_cast<const char*>(data);
+	int totalWritten = 0;
+
+	while (totalWritten < size) {
+		qint64 bytesWritten = m_file.write(buffer + totalWritten, size - totalWritten);
+		if (bytesWritten <= 0) {
+			// Write failed
+			return false;
+		}
+		totalWritten += bytesWritten;
+	}
 
 	return m_file.error() == QFile::NoError;
 }
+
 
 
 } // namespace ifile

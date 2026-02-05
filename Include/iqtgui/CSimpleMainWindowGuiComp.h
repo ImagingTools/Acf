@@ -144,6 +144,7 @@ protected:
 	virtual void OnGuiDestroyed() override;
 	virtual void OnRetranslate() override;
 	virtual void OnGuiShown() override;
+	virtual void OnGuiDesignChanged() override;
 
 	// reimplemented (QObject)
 	virtual bool eventFilter(QObject* sourcePtr, QEvent* eventPtr) override;

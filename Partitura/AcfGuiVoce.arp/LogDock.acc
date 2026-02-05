@@ -40,7 +40,7 @@
                     <AttributeInfo Id="DefaultMode" Type="Integer" ExportId="DefaultMode">
                         <Data IsEnabled="false"/>
                     </AttributeInfo>
-                    <AttributeInfo Id="DefaultStatusIcon" Type="String" ExportId="">
+                    <AttributeInfo Id="DefaultStatusIcon" Type="String" ExportId="DefaultStatusIcon">
                         <Data IsEnabled="true" Value=":/Icons/Info"/>
                     </AttributeInfo>
                     <AttributeInfo Id="Exporter" Type="Reference" ExportId="Exporter">
@@ -64,7 +64,10 @@
                     <AttributeInfo Id="StyleSheet" Type="String" ExportId="StyleSheet">
                         <Data IsEnabled="false"/>
                     </AttributeInfo>
-                    <AttributeInfo Id="TimeFormat" Type="String" ExportId="TimeFormat">
+                    <AttributeInfo Id="TimeFormat" Type="Id" ExportId="TimeFormat">
+                        <Data IsEnabled="false"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="TranslationManager" Type="Reference" ExportId="TranslationManager">
                         <Data IsEnabled="false"/>
                     </AttributeInfo>
                 </AttributeInfoMap>
@@ -121,6 +124,7 @@
     </ElementsList>
     <EmbeddedRegistriesList/>
     <ExportedInterfaces>
+        <Interface InterfaceId="ibase::ICommandsProvider" ComponentId="LogGui"/>
         <Interface InterfaceId="ilog::IMessageConsumer" ComponentId="LogGui"/>
         <Interface InterfaceId="iqtgui::IGuiObject" ComponentId="LogGui"/>
         <Interface InterfaceId="iqtgui::IMainWindowComponent" ComponentId="LogDock"/>

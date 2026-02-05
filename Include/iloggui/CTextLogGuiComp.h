@@ -64,7 +64,6 @@ class CTextLogGuiComp:
 	Q_OBJECT
 
 public:
-	/// Base class typedef
 	typedef iqtgui::TDesignerGuiObserverCompBase<
 				Ui::CTextLogGuiComp, ilog::IMessageContainer> BaseClass;
 

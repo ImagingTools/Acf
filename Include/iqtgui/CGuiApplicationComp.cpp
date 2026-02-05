@@ -172,7 +172,7 @@ int CGuiApplicationComp::Execute(int argc, char** argv)
 
 			m_lastWidgetGeometry = m_mainWidgetPtr->geometry();
 
-			emit OnEventLoopStartedSignal();
+			Q_EMIT OnEventLoopStartedSignal();
 
 			// Start application loop:
 			retVal = QApplication::exec();
@@ -186,7 +186,7 @@ int CGuiApplicationComp::Execute(int argc, char** argv)
 		}
 		else{
 			if (m_trayIconPtr.IsValid()){
-				emit OnEventLoopStartedSignal();
+				Q_EMIT OnEventLoopStartedSignal();
 
 				// Start application loop:
 				retVal = QApplication::exec();
