@@ -6,21 +6,6 @@
 #include <QtTest/QSignalSpy>
 
 
-// Test helper class
-class TestObject : public QObject
-{
-	Q_OBJECT
-public:
-	explicit TestObject(QObject* parent = nullptr) : QObject(parent) {}
-
-signals:
-	void testSignal();
-
-public slots:
-	void emitTestSignal() { emit testSignal(); }
-};
-
-
 // protected slots
 
 void CSignalBlockerTest::initTestCase()
@@ -164,6 +149,3 @@ void CSignalBlockerTest::cleanupTestCase()
 
 
 I_ADD_TEST(CSignalBlockerTest);
-
-// Include the moc file for TestObject
-#include "CSignalBlockerTest.moc"
