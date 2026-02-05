@@ -1,12 +1,12 @@
 #pragma once
 
-#include <QWidget>
-#include <QEvent>
-#include <QAbstractSpinBox>
-#include <QSlider>
-#include <QDial>
-#include <QAbstractItemView>
-#include <QComboBox>
+#include <QtWidgets/QWidget>
+#include <QtCore/QEvent>
+#include <QtWidgets/QAbstractSpinBox>
+#include <QtWidgets/QSlider>
+#include <QtWidgets/QDial>
+#include <QtWidgets/QAbstractItemView>
+#include <QtWidgets/QComboBox>
 
 
 namespace iqtgui
