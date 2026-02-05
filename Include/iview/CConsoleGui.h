@@ -18,6 +18,7 @@ class QHBoxLayout;
 class QScrollBar;
 class QStatusBar;
 class QLabel;
+class QToolButton;
 
 
 namespace iview
