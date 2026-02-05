@@ -188,6 +188,14 @@ SUBDIRS += AutoPersistenceTest
 AutoPersistenceTest.file = ../../Tests/AutoPersistenceTest/QMake/AutoPersistenceTest.pro
 AutoPersistenceTest.depends = Arxc iprm ifile iser itest
 
+SUBDIRS += VarIndexTest
+VarIndexTest.file = ../../Tests/VarIndexTest/QMake/VarIndexTest.pro
+VarIndexTest.depends = istd itest
+
+SUBDIRS += SerializationRegressionTest
+SerializationRegressionTest.file = ../../Tests/SerializationRegressionTest/QMake/SerializationRegressionTest.pro
+SerializationRegressionTest.depends = Arxc i2d i3d icmm imath iser istd iprm ifile iimg ibase itest
+
 # Impl Tests
 !macx-ios*{
 	SUBDIRS += TestComposedGui
