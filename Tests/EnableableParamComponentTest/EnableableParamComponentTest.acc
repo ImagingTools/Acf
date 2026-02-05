@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Acf>
+    <AcfHeader>
+        <VersionInfos>
+            <Version Id="0" Number="5715" Description="ACF"/>
+            <Version Id="1" Number="2274" Description="ACF-Solutions"/>
+            <Version Id="1023" Number="395264" Description="Qt Framework"/>
+        </VersionInfos>
+    </AcfHeader>
+    <Description>Component tests for CEnableableParamComp with various configurations</Description>
+    <Keywords></Keywords>
+    <ElementsList>
+        <Element Id="EnabledByDefault" PackageId="BasePck" ComponentId="EnableableParam">
+            <Data IsEnabled="true" Flags="0">
+                <AttributeInfoMap>
+                    <AttributeInfo Id="DefaultEnabled" Type="Boolean" ExportId="">
+                        <Data IsEnabled="true" Value="true"/>
+                    </AttributeInfo>
+                </AttributeInfoMap>
+            </Data>
+        </Element>
+        <Element Id="DisabledByDefault" PackageId="BasePck" ComponentId="EnableableParam">
+            <Data IsEnabled="true" Flags="0">
+                <AttributeInfoMap>
+                    <AttributeInfo Id="DefaultEnabled" Type="Boolean" ExportId="">
+                        <Data IsEnabled="true" Value="false"/>
+                    </AttributeInfo>
+                </AttributeInfoMap>
+            </Data>
+        </Element>
+    </ElementsList>
+    <EmbeddedRegistriesList/>
+    <ExportedInterfaces/>
+    <ExportedComponents>
+        <Component ExportedId="EnabledByDefault" ComponentId="EnabledByDefault"/>
+        <Component ExportedId="DisabledByDefault" ComponentId="DisabledByDefault"/>
+    </ExportedComponents>
+</Acf>
