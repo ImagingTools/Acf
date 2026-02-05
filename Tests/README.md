@@ -130,6 +130,9 @@ Unit tests for each library are located in `Include/[library]/Test/` directories
 - **CSelectionParam** - Selection parameter for managing option selections
 - **IOptionsList** - Helper function FindOptionIndexById for finding options by ID
 
+#### iqt (Qt Utilities) - Include/iqt/Test/
+- **CSignalBlocker** - RAII helper for temporarily blocking Qt signals from QObjects (5 tests)
+- **iqt utility functions** - Qt/ACF type conversion functions including QSize, QPoint, QRect, QLine conversions (6 tests)
 #### icomp (Component Framework) - Include/icomp/Test/
 - **CComponentSimulationTest** - Component framework core functionality tests (15 tests)
   - Component creation and initialization
@@ -195,7 +198,7 @@ mkdir build && cd build
 cmake ..
 make
 
-# Similarly for other libraries: i2d, i3d, icmm, iser, iprm
+# Similarly for other libraries: i2d, i3d, icmm, iser, iprm, iqt
 ```
 
 ### Running Tests
@@ -209,6 +212,7 @@ Execute the test binary for each library:
 ./i2dTest
 ./i3dTest
 ./iprmTest
+./iqtTest
 ```
 
 Run specific test:
