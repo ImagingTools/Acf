@@ -37,7 +37,7 @@ bool CCompactXmlFileWriteArchive::OpenFile(const QString& filePath)
 {
 	m_file.setFileName(filePath);
 
-	if (m_file.open(QIODevice::WriteOnly | QIODevice::Text)){
+	if (m_file.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Unbuffered)){
 		return InitArchive(&m_file);
 	}
 

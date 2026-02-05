@@ -4,21 +4,24 @@
 
 // Qt includes
 #include <QtCore/QObject>
-#include <QtCore/QThread>
 #include <QtTest/QtTest>
 
 // ACF includes
+#include <iqt/CSignalBlocker.h>
 #include <itest/CStandardTestExecutor.h>
 
-
-class CComponentSimulationTest : public QObject
+class CSignalBlockerTest: public QObject
 {
 	Q_OBJECT
-
-private Q_SLOTS:
+private slots:
 	void initTestCase();
 
-	void DoSimiulationTest();
-};
+	void TestBlockSingleObject();
+	void TestBlockWithChildren();
+	void TestNullPointer();
+	void TestScopeBasedBlocking();
+	void TestNestedBlockers();
 
+	void cleanupTestCase();
+};
 

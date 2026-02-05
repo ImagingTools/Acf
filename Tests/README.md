@@ -18,6 +18,7 @@ Tests are organized by location:
   - **AutoPersistenceTest/** - Tests for CAutoPersistenceComp with various attribute configurations
   - **IdocComponentTest/** - Component tests for idoc library (CTextDocumentComp, CSerializedUndoManagerComp, CSingleDocumentTemplateComp)
   - **SerializationRegressionTest/** - Cross-library regression tests for data model serialization
+  - **IqtComponentTest/** - Component tests for iqt library (CApplicationSettingsProviderComp, CIniSettingsProviderComp, CClipboardSerializerComp, CSettingsSerializerComp, CTranslationManagerComp)
 
 - **Include/[library]/Test/** - Unit tests for each library
   - **Include/istd/Test/** - Tests for standard utilities (CRandomNumber, CIndex2d, CBitManip, CCrcCalculator, etc.)
@@ -130,6 +131,36 @@ Unit tests for each library are located in `Include/[library]/Test/` directories
 - **CSelectionParam** - Selection parameter for managing option selections
 - **IOptionsList** - Helper function FindOptionIndexById for finding options by ID
 
+#### iqt (Qt Utilities) - Include/iqt/Test/
+- **CSignalBlocker** - RAII helper for temporarily blocking Qt signals from QObjects (5 tests)
+- **iqt utility functions** - Qt/ACF type conversion functions including QSize, QPoint, QRect, QLine conversions (6 tests)
+#### icomp (Component Framework) - Include/icomp/Test/
+- **CComponentSimulationTest** - Component framework core functionality tests (15 tests)
+  - Component creation and initialization
+  - Component lifecycle (OnComponentCreated/OnComponentDestroyed callbacks)
+  - Parent-child relationships and ownership
+  - Component active state management
+  - Interface querying and registration
+  - Component context operations
+  - Single and multi-attribute management
+  - Different attribute types (string, int, bool, double)
+  - Component references (single and multiple)
+  - Component factory operations
+- **CRegistryTest** - Registry management and operations (11 tests)
+  - Registry creation and element management
+  - Element insertion, retrieval, removal, and renaming
+  - Embedded registry operations (insertion, retrieval, removal)
+  - Exported interface management
+  - Registry serialization and deserialization
+  - Thread-safe concurrent access
+
+#### ipackage (Package Management) - Include/ipackage/Test/
+- **CPackageTest** - Package loading and management tests (4 tests)
+  - Component accessor creation and operations
+  - Component accessor behavior without packages
+  - Registries manager component creation
+  - Loading with empty configuration
+
 ## Building and Running Tests
 
 ### Prerequisites
@@ -150,13 +181,25 @@ mkdir build && cd build
 cmake ..
 make
 
+# For icomp tests (component framework)
+cd Include/icomp/Test/CMake
+mkdir build && cd build
+cmake ..
+make
+
+# For ipackage tests (package management)
+cd Include/ipackage/Test/CMake
+mkdir build && cd build
+cmake ..
+make
+
 # For imath tests
 cd Include/imath/Test/CMake
 mkdir build && cd build
 cmake ..
 make
 
-# Similarly for other libraries: i2d, i3d, icmm, iser, iprm
+# Similarly for other libraries: i2d, i3d, icmm, iser, iprm, iqt
 ```
 
 ### Running Tests
@@ -164,10 +207,13 @@ make
 Execute the test binary for each library:
 ```bash
 ./istdTest
+./icompTest
+./ipackageTest
 ./imathTest
 ./i2dTest
 ./i3dTest
 ./iprmTest
+./iqtTest
 ```
 
 Run specific test:
@@ -457,6 +503,70 @@ This test suite ensures that:
 - Complex scenarios with dependency injection work correctly
 - Backward compatibility is maintained across versions
 - Version management mechanism functions properly
+### IqtComponentTest
+
+**Purpose**: Component-level tests for the `iqt` library Qt integration components with various configurations.
+
+**Test Coverage**:
+- **CApplicationSettingsProviderComp**:
+  - Component creation and initialization
+  - Settings object retrieval via ISettingsProvider interface
+  - Organization and application name verification
+  - Read/write operations to application settings
+  
+- **CIniSettingsProviderComp**:
+  - Component creation and initialization
+  - Settings object retrieval with INI format
+  - Read/write operations to INI file settings
+  - INI file format verification
+  
+- **CClipboardSerializerComp**:
+  - Component creation and initialization
+  - IFilePersistence interface implementation
+  - Operation support verification
+  - File extension handling
+  
+- **CSettingsSerializerComp**:
+  - Component creation and initialization
+  - IFilePersistence interface implementation
+  - Operation support for serializable objects
+  - Settings-based persistence verification
+  
+- **CTranslationManagerComp**:
+  - Component creation and initialization
+  - Language list retrieval and verification
+  - Language switching functionality
+  - Current language index tracking
+  - Language IDs and names verification
+
+**Configuration File**:
+- `IqtComponentTest.acc` - Contains 8 different component configurations:
+  1. `ApplicationInfo` - Application information component with name and organization
+  2. `ApplicationSettingsProvider` - Provider for application-specific settings
+  3. `IniSettingsProvider` - Provider for INI file-based settings
+  4. `VersionInfo` - Version information component for serializers
+  5. `ClipboardSerializer` - Clipboard-based serialization component
+  6. `TestDataObject` - Selection parameter for testing serialization
+  7. `SettingsSerializer` - QSettings-based serialization component
+  8. `TranslationManager` - Translation manager with 3 languages (English, German, French)
+
+**Test Methods**:
+- `testApplicationSettingsProviderCreation()` - Verifies application settings provider creation
+- `testApplicationSettingsProviderGetSettings()` - Tests settings object retrieval and configuration
+- `testApplicationSettingsProviderReadWrite()` - Tests read/write operations
+- `testIniSettingsProviderCreation()` - Verifies INI settings provider creation
+- `testIniSettingsProviderGetSettings()` - Tests INI format settings object
+- `testIniSettingsProviderReadWrite()` - Tests INI file read/write operations
+- `testClipboardSerializerCreation()` - Verifies clipboard serializer creation
+- `testClipboardSerializerInterfaces()` - Tests IFilePersistence interface implementation
+- `testClipboardSerializerFileExtensions()` - Tests file extension handling
+- `testSettingsSerializerCreation()` - Verifies settings serializer creation
+- `testSettingsSerializerInterfaces()` - Tests IFilePersistence interface implementation
+- `testSettingsSerializerFileExtensions()` - Tests file extension handling
+- `testTranslationManagerCreation()` - Verifies translation manager creation
+- `testTranslationManagerLanguagesInfo()` - Tests language list retrieval
+- `testTranslationManagerSwitchLanguage()` - Tests language switching functionality
+- `testTranslationManagerCurrentLanguage()` - Tests current language tracking
 
 ## Contributing
 
