@@ -164,6 +164,3 @@ void CSignalBlockerTest::cleanupTestCase()
 
 
 I_ADD_TEST(CSignalBlockerTest);
-
-// Include the moc file for TestObject
-#include "CSignalBlockerTest.moc"
