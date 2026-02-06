@@ -85,28 +85,122 @@ Based on previous testing, potential issues to watch for:
 ## Test Results
 
 ### TeamCity CI Run
-- **Run ID:** _To be filled after execution_
-- **Status:** _Pending_
-- **Conclusion:** _Pending_
-- **Build Failed:** _Pending_
+- **Run ID:** 21756798224
+- **Status:** completed
+- **Conclusion:** action_required (requires manual approval)
+- **Check Suite ID:** 56632357047
+- **Build Failed:** Pending approval to run
 
 ### Auto-Fix Workflow Run
-- **Run ID:** _To be filled after execution_
-- **Triggered By:** _Pending_
-- **Status:** _Pending_
-- **Comment Posted:** _Pending_
+- **Run ID:** 21756796599
+- **Triggered By:** push event (NOT check_suite!)
+- **Status:** completed
+- **Conclusion:** failure
+- **Jobs Run:** 0 (job skipped due to conditional)
+- **Comment Posted:** No
 
 ### Observations
-_To be filled during/after test execution_
+
+#### Critical Finding 1: Workflow Location Issue
+
+**Problem:** The auto-fix workflow did NOT trigger from the check_suite event as expected.
+
+**What Happened:**
+1. ✅ TeamCity CI workflow started (requires approval)
+2. ✅ Auto-fix workflow file triggered on `push` event
+3. ❌ Auto-fix workflow job did NOT run (conditional check failed)
+4. ❌ No check_suite event triggered the auto-fix workflow
+
+**Root Cause:**
+The auto-fix workflow is listening for `check_suite` events, but workflow files that respond to events like `check_suite`, `workflow_run`, etc. **MUST be on the default branch (main)** for the trigger to work.
+
+From GitHub documentation:
+> Workflows triggered by events like check_suite, workflow_run, etc. always execute from the default branch, regardless of which branch the event occurred on.
+
+**Impact:**
+- The workflow file on the PR branch can be triggered by `push` events
+- But it CANNOT be triggered by `check_suite` events from other workflows
+- The conditional `if: github.event.check_suite.conclusion == 'failure'` failed because the trigger was `push`, not `check_suite`
+
+**Evidence:**
+- Workflow run 21756796599 shows `event: push` not `event: check_suite`
+- Job count is 0, meaning the job's `if` condition evaluated to false
+- The workflow's trigger configuration expects `check_suite` events
+- The `if` condition checks `github.event.check_suite` which is undefined for push events
+
+#### Critical Finding 2: Workflow Syntax Error
+
+**Problem:** Invalid expression syntax at line 668 (now fixed)
+
+**Error Message:**
+```
+Invalid workflow file: .github/workflows/auto-fix-on-failure.yml#L1
+(Line: 528, Col: 19): Unexpected symbol: '"null"'. Located at position 38 within expression: 
+steps.teamcity_run.outputs.result || "null"
+```
+
+**Root Cause:**
+GitHub Actions expressions don't support quoted strings like `"null"` in the `||` operator within `${{ }}` expressions.
+
+**Fix Applied:**
+Changed from:
+```javascript
+const teamcityRunInfo = JSON.parse('${{ steps.teamcity_run.outputs.result || "null" }}');
+```
+
+To:
+```javascript
+const teamcityRunResult = '${{ steps.teamcity_run.outputs.result }}';
+const teamcityRunInfo = teamcityRunResult ? JSON.parse(teamcityRunResult) : null;
+```
+
+**Validation:**
+✅ YAML syntax validated successfully with `python3 -c "import yaml; yaml.safe_load(open('.github/workflows/auto-fix-on-failure.yml'))"`
 
 ## Next Steps After Test
 
-1. Document actual results vs expected results
-2. Identify any remaining issues
-3. Verify PR comment quality and usefulness
-4. Clean up test error if successful
-5. Update documentation with findings
-6. Finalize PR
+### Immediate Actions Required
+
+**The auto-fix workflow MUST be merged to the main branch to function!**
+
+1. **Merge to Main:** The workflow file needs to be on the main branch for `check_suite` events to trigger it
+2. **Test Again:** After merge, create a new test PR with a build error
+3. **Monitor:** Verify the workflow triggers correctly from the main branch
+
+### Why This is Critical
+
+The workflow architecture requires:
+- Trigger workflows (TeamCity CI) can be on PR branches
+- Responding workflows (auto-fix) must be on the default branch
+- This is a GitHub Actions security and design constraint
+
+### Testing Plan After Merge
+
+1. Clean up this test branch (remove test error)
+2. Merge workflow changes to main
+3. Create a fresh test PR with intentional error
+4. Verify auto-fix triggers from main branch
+5. Validate end-to-end functionality
+
+### Alternative: Test from Main Branch
+
+Instead of merging, we could:
+1. Manually copy the workflow file to main branch
+2. Test with a different PR
+3. If successful, then merge properly
+
+However, merging is the proper approach for production use.
+
+## Conclusion
+
+**Test Status:** ⚠️ BLOCKED - Workflow must be on main branch
+
+**Key Learning:** Workflows that respond to repository-wide events (`check_suite`, `workflow_run`, etc.) must be located on the default branch (main) to function correctly. PR branches can only trigger their workflows via direct events like `push` and `pull_request`.
+
+**Next Step:** Decision needed on how to proceed:
+- Option A: Merge this PR to main (if workflow is ready for production)
+- Option B: Create a test setup with workflow on main, separate PR for testing
+- Option C: Accept that full testing requires the workflow on main
 
 ---
 

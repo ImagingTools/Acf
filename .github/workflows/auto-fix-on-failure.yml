@@ -665,7 +665,8 @@ jobs:
               body += `- **Workflow Run:** [View Details](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})\n`;
               
               // Add TeamCity workflow run link if available
-              const teamcityRunInfo = JSON.parse('${{ steps.teamcity_run.outputs.result || "null" }}');
+              const teamcityRunResult = '${{ steps.teamcity_run.outputs.result }}';
+              const teamcityRunInfo = teamcityRunResult ? JSON.parse(teamcityRunResult) : null;
               if (teamcityRunInfo && teamcityRunInfo.html_url) {
                 body += `- **Triggering Workflow:** [TeamCity CI Run](${teamcityRunInfo.html_url})\n`;
               }
