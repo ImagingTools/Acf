@@ -294,12 +294,16 @@ jobs:
                 BUILD_LOG=$(curl -sS \
                   -H "Authorization: Bearer $TEAMCITY_TOKEN" \
                   -H "Accept: text/plain" \
-                  "$TEAMCITY_URL/app/rest/builds/id:$BUILD_ID/log" 2>/dev/null | tail -n 500 || echo "")
+                  "$TEAMCITY_URL/app/rest/builds/id:$BUILD_ID/log" 2>&1 | tail -n 500 || echo "")
                 
                 if [ -n "$BUILD_LOG" ]; then
-                  echo "Analyzing build log for errors..."
                   LOG_LINE_COUNT=$(echo "$BUILD_LOG" | wc -l)
-                  echo "Build log has $LOG_LINE_COUNT lines"
+                  echo "Analyzing build log for errors... (fetched $LOG_LINE_COUNT lines)"
+                  
+                  # Show a sample of the log for debugging
+                  echo "Log sample (first 5 lines):"
+                  echo "$BUILD_LOG" | head -n 5
+                  echo "---"
                   
                   # Extract compilation errors with improved patterns
                   # Pattern matches: "error:", "error ", "Error:", "ERROR:", "fatal error:", etc.
@@ -315,33 +319,33 @@ jobs:
                   MAKE_ERRORS=$(echo "$BUILD_LOG" | grep -E "make(\[[0-9]+\])?: \*\*\*|Error [0-9]+$" | head -n 20 || echo "")
                   
                   # Debug: show what we found
-                  COMPILE_COUNT=$(echo "$COMPILE_ERRORS" | grep -c . || echo "0")
-                  LINKER_COUNT=$(echo "$LINKER_ERRORS" | grep -c . || echo "0")
-                  CMAKE_COUNT=$(echo "$CMAKE_ERRORS" | grep -c . || echo "0")
-                  MAKE_COUNT=$(echo "$MAKE_ERRORS" | grep -c . || echo "0")
-                  echo "Found: $COMPILE_COUNT compilation errors, $LINKER_COUNT linker errors, $CMAKE_COUNT CMake errors, $MAKE_COUNT make errors"
+                  COMPILE_COUNT=$(echo "$COMPILE_ERRORS" | grep -c ^ || echo "0")
+                  LINKER_COUNT=$(echo "$LINKER_ERRORS" | grep -c ^ || echo "0")
+                  CMAKE_COUNT=$(echo "$CMAKE_ERRORS" | grep -c ^ || echo "0")
+                  MAKE_COUNT=$(echo "$MAKE_ERRORS" | grep -c ^ || echo "0")
+                  echo "Pattern matching results: $COMPILE_COUNT compilation, $LINKER_COUNT linker, $CMAKE_COUNT cmake, $MAKE_COUNT make errors"
                   
                   # Combine all extracted errors
                   LOG_ERRORS=""
-                  if [ -n "$COMPILE_ERRORS" ]; then
+                  if [ -n "$COMPILE_ERRORS" ] && [ "$COMPILE_COUNT" -gt 0 ]; then
                     LOG_ERRORS="${LOG_ERRORS}=== Compilation Errors ===
 ${COMPILE_ERRORS}
 
 "
                   fi
-                  if [ -n "$LINKER_ERRORS" ]; then
+                  if [ -n "$LINKER_ERRORS" ] && [ "$LINKER_COUNT" -gt 0 ]; then
                     LOG_ERRORS="${LOG_ERRORS}=== Linker Errors ===
 ${LINKER_ERRORS}
 
 "
                   fi
-                  if [ -n "$CMAKE_ERRORS" ]; then
+                  if [ -n "$CMAKE_ERRORS" ] && [ "$CMAKE_COUNT" -gt 0 ]; then
                     LOG_ERRORS="${LOG_ERRORS}=== CMake Errors ===
 ${CMAKE_ERRORS}
 
 "
                   fi
-                  if [ -n "$MAKE_ERRORS" ]; then
+                  if [ -n "$MAKE_ERRORS" ] && [ "$MAKE_COUNT" -gt 0 ]; then
                     LOG_ERRORS="${LOG_ERRORS}=== Make Errors ===
 ${MAKE_ERRORS}
 
@@ -354,8 +358,10 @@ ${MAKE_ERRORS}
 --- Build $BUILD_ID ---
 ${LOG_ERRORS}"
                     issue_type="build_failure"
+                    echo "Successfully extracted error patterns from build log"
                   else
                     echo "No specific error patterns found in build log"
+                    echo "Including last 200 lines as fallback..."
                     # Include last 200 lines as fallback to ensure we catch errors
                     FALLBACK_LOG=$(echo "$BUILD_LOG" | tail -n 200)
                     ALL_LOG_ERRORS="${ALL_LOG_ERRORS}
@@ -364,7 +370,7 @@ ${LOG_ERRORS}"
 ${FALLBACK_LOG}"
                   fi
                 else
-                  echo "Warning: BUILD_LOG is empty for build $BUILD_ID"
+                  echo "Warning: BUILD_LOG is empty for build $BUILD_ID (curl may have failed)"
                 fi
               done
             else
