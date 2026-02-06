@@ -35,6 +35,12 @@ CTristimulusSpecification::CTristimulusSpecification(const ITristimulusSpecifica
 }
 
 
+QByteArray CTristimulusSpecification::GetTypeId()
+{
+	return QByteArrayLiteral("icmm::CTristimulusSpecification");
+}
+
+
 // reimplemented (ITristimulusSpecification)
 
 std::shared_ptr<IIlluminant> icmm::CTristimulusSpecification::GetIlluminant() const
@@ -58,6 +64,14 @@ AstmTableType CTristimulusSpecification::GetMethod() const
 std::shared_ptr<ISpectralColorSpecification> CTristimulusSpecification::GetBaseSpecification() const
 {
 	return m_baseSpecPtr;
+}
+
+
+// reimplemented (istd::IObject)
+
+QByteArray CTristimulusSpecification::GetFactoryId() const
+{
+	return GetTypeId();
 }
 
 

@@ -14,8 +14,7 @@ namespace icmm
 
 class ISpectralColorSpecification:
 			virtual public IColorSpecification,
-			virtual public ISpectrumInfoProvider,
-			virtual public iser::ISerializable
+			virtual public ISpectrumInfoProvider
 {
 public:
 	typedef std::shared_ptr<const ISpectralColorSpecification> ConstSpectralColorSpecPtr;
@@ -33,7 +32,7 @@ public:
 
 protected:
 	// reimplemented (IColorSpecification)
-	virtual SpecType GetSpecificationType() const override;
+	virtual SpecType GetSpecificationType() const final;
 };
 
 
