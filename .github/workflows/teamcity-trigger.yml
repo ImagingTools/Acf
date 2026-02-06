@@ -240,8 +240,8 @@ jobs:
 
           echo "📋 Fetching build log information for build $BUILD_ID..."
 
-          # Get build log download URL
-          LOG_URL="$TEAMCITY_URL/app/rest/builds/id:$BUILD_ID/log"
+          # Get build log download URL (using downloadBuildLog.html endpoint)
+          LOG_URL="$TEAMCITY_URL/downloadBuildLog.html?buildId=$BUILD_ID"
           echo "Build log URL: $LOG_URL"
 
           # Get last 100 lines of the build log
@@ -297,7 +297,7 @@ jobs:
           echo "- Build URL: ${{ steps.wait_build.outputs.build_url || steps.teamcity.outputs.web_url }}"
           echo "- Status: ${{ steps.wait_build.outputs.build_status || 'Unknown' }}"
           echo "- Platform: ${{ matrix.platform }}"
-          echo "- Full logs: $LOG_URL"
+          echo "- Full logs: $TEAMCITY_URL/downloadBuildLog.html?buildId=$BUILD_ID"
 
       - name: Report Build Status
         if: always() && steps.teamcity.outputs.build_id
@@ -378,7 +378,7 @@ jobs:
             BUILD_LOG=$(curl -sS \
               -H "Authorization: Bearer $TEAMCITY_TOKEN" \
               -H "Accept: text/plain" \
-              "$TEAMCITY_URL/app/rest/builds/id:$BUILD_ID/log" 2>&1 | tail -n 500 || echo "")
+              "$TEAMCITY_URL/downloadBuildLog.html?buildId=$BUILD_ID" 2>&1 | tail -n 500 || echo "")
 
             if [ -n "$BUILD_LOG" ]; then
               echo "Analyzing build log for errors..."
