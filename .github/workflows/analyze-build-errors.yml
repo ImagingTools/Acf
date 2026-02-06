@@ -88,10 +88,11 @@ jobs:
             ls -la ./teamcity-artifacts/ || true
             
             # Find all build ID files
-            shopt -s nullglob  # Make glob return empty if no matches
+            # Expand to nothing if pattern has no matches (instead of literal pattern)
+            shopt -s nullglob
             for id_file in ./teamcity-artifacts/teamcity-build-id-*.txt; do
               if [ -f "$id_file" ]; then
-                BUILD_ID=$(cat "$id_file" | tr -d '[:space:]')
+                BUILD_ID=$(tr -d '[:space:]' < "$id_file")
                 if [ -n "$BUILD_ID" ]; then
                   echo "Found build ID: $BUILD_ID (from $(basename "$id_file"))"
                   BUILD_IDS="$BUILD_IDS $BUILD_ID"
@@ -100,7 +101,7 @@ jobs:
             done
             shopt -u nullglob  # Restore default behavior
             
-            # Trim leading/trailing spaces
+            # Trim leading/trailing spaces using xargs
             BUILD_IDS=$(echo "$BUILD_IDS" | xargs)
             
             if [ -z "$BUILD_IDS" ]; then
