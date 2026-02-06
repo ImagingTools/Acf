@@ -183,7 +183,7 @@ jobs:
               JOB_IDS=$(echo "$JOBS_RESPONSE" | jq -r '.jobs[].id')
             fi
             
-            TEAMCITY_BUILD_IDS=""
+              TEAMCITY_BUILD_IDS=""
             for JOB_ID in $JOB_IDS; do
               echo "Checking job $JOB_ID for TeamCity build IDs..."
               # Follow redirects with -L flag since GitHub Actions logs API returns a redirect
@@ -192,16 +192,25 @@ jobs:
                 "https://api.github.com/repos/${{ github.repository }}/actions/jobs/$JOB_ID/logs" 2>/dev/null || echo "")
               
               if [ -n "$JOB_LOGS" ]; then
-                echo "Successfully fetched logs for job $JOB_ID ($(echo "$JOB_LOGS" | wc -l) lines)"
+                LINE_COUNT=$(echo "$JOB_LOGS" | wc -l)
+                echo "Successfully fetched logs for job $JOB_ID ($LINE_COUNT lines)"
+                
+                # Show a sample of the logs for debugging (first occurrence of "Build queued" or "build_id=")
+                SAMPLE=$(echo "$JOB_LOGS" | grep -E "Build queued|build_id=" | head -n 2 || echo "(no matching lines found)")
+                echo "Sample log lines: $SAMPLE"
               else
                 echo "Warning: Empty logs for job $JOB_ID"
               fi
               
-              # Extract build IDs from logs
-              # NOTE: This pattern matches the output format from teamcity-trigger.yml line 125:
-              # "✅ Build queued. ID=$BUILD_ID"
-              # If the log format in teamcity-trigger.yml changes, update this pattern accordingly
-              EXTRACTED_IDS=$(echo "$JOB_LOGS" | grep -oP "Build queued\. ID=\K\d+" || echo "")
+              # Extract build IDs from logs using multiple patterns
+              # Pattern 1: "✅ Build queued. ID=$BUILD_ID" (from echo statement)
+              EXTRACTED_IDS=$(echo "$JOB_LOGS" | grep -oE "Build queued\. ID=[0-9]+" | grep -oE "[0-9]+" || echo "")
+              
+              # Pattern 2: "build_id=$BUILD_ID" (from GITHUB_OUTPUT) as fallback
+              if [ -z "$EXTRACTED_IDS" ]; then
+                EXTRACTED_IDS=$(echo "$JOB_LOGS" | grep -oE "build_id=[0-9]+" | grep -oE "[0-9]+" || echo "")
+              fi
+              
               if [ -n "$EXTRACTED_IDS" ]; then
                 echo "Found build ID(s): $EXTRACTED_IDS"
                 TEAMCITY_BUILD_IDS="$TEAMCITY_BUILD_IDS $EXTRACTED_IDS"
