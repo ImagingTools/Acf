@@ -61,3 +61,24 @@ bash .github/workflows/test-build-error-analysis.sh
 
 ## Conclusion
 The workflow is now free of YAML linting errors while maintaining 100% functionality. All test cases pass and the workflow continues to operate as expected.
+
+## Update: Automatic Build Analysis Integration
+
+Based on user feedback, added automatic build error analysis posting:
+
+### New Workflow: `post-build-analysis.yml`
+- Automatically triggers when TeamCity CI workflow fails
+- Extracts build IDs from TeamCity CI artifacts  
+- Fetches and analyzes build errors from TeamCity
+- Posts formatted error analysis to PR conversation automatically
+- Addresses @github-copilot for assistance
+
+### Key Features:
+- **Automatic trigger**: Uses `workflow_run` event to detect TeamCity CI failures
+- **Artifact-based**: Extracts build IDs from uploaded artifacts (teamcity-build-info-{platform})
+- **PR integration**: Posts directly to PR conversation when builds fail
+- **Manual fallback**: Original `analyze-build-errors.yml` remains available for manual triggering
+
+### Files:
+- `.github/workflows/post-build-analysis.yml` - Automatic analysis on TeamCity CI failure
+- `.github/workflows/analyze-build-errors.yml` - Manual analysis workflow (existing)
