@@ -155,9 +155,8 @@ void TIndexTest::ComparisonOperatorsTest()
 	QVERIFY(index1 != index3);
 	QVERIFY(!(index1 != index2));
 	
-	// Test less than (lexicographic comparison)
-	QVERIFY(index3 < index1);
-	QVERIFY(!(index1 < index2));
+	// Note: TIndex does not provide operator< for lexicographic comparison
+	// Only equality and inequality operators are supported
 }
 
 
