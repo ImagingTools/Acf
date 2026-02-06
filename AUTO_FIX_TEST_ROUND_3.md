@@ -134,16 +134,55 @@ PR Push → TeamCity CI Workflow → Build Fails → check_suite completed event
 
 ## Test Results
 
-_Will be updated as the test progresses..._
-
 ### TeamCity CI Run
-- **Status:** Pending...
+- **Run ID:** 21757048436
+- **Status:** completed
+- **Conclusion:** action_required (awaiting manual approval)
+- **Check Suite ID:** 56633187232
+- **Link:** https://github.com/ImagingTools/Acf/actions/runs/21757048436
+
+**Observation:** Workflow requires manual approval before it can run. This is expected for workflows triggered by `pull_request` events from certain contributors.
 
 ### Auto-Fix Workflow Run  
-- **Status:** Pending...
+- **Status:** Not triggered yet ⏳
+- **Reason:** Auto-fix workflow only triggers when check_suite.conclusion == 'failure'
+- **Current State:** TeamCity CI has conclusion == 'action_required', not 'failure'
+
+**Key Finding:** The auto-fix workflow will NOT trigger until:
+1. TeamCity CI workflow is manually approved
+2. TeamCity CI runs and completes
+3. Check suite gets a conclusion of 'failure' (due to compilation error)
+4. THEN the auto-fix workflow will trigger
 
 ### Observations
-_To be documented..._
+
+#### Finding 1: Auto-Fix Trigger Condition
+
+The auto-fix workflow has this condition (line 26):
+```yaml
+if: |
+  github.event.check_suite.conclusion == 'failure' &&
+  ...
+```
+
+This means it only triggers when a check suite has **failed**, not when it's awaiting approval.
+
+**Status:** ✅ WORKING AS DESIGNED
+
+The workflow correctly waits for actual failures, not approval requirements.
+
+#### Finding 2: Manual Approval Required
+
+TeamCity CI workflow requires manual approval. This is a GitHub Actions security feature.
+
+**Next Action Required:** Someone with appropriate permissions needs to approve the workflow run at:
+https://github.com/ImagingTools/Acf/actions/runs/21757048436
+
+After approval:
+1. TeamCity CI will run
+2. Build will fail (due to our test error)
+3. Check suite conclusion will become 'failure'
+4. Auto-fix workflow should trigger automatically
 
 ## Next Steps After Test
 
