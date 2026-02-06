@@ -67,35 +67,58 @@
 ## Test Results
 
 ### TeamCity CI Workflow
-**Status:** Pending execution  
-**Run Link:** (To be updated when available)
+**Status:** ✅ COMPLETED WITH FAILURE (as expected)
+**Run Link:** https://github.com/ImagingTools/Acf/actions/runs/21756359715
 
-**Expected Output:**
-- Trigger TeamCity Build (windows): Success with build ID
-- Trigger TeamCity Build (linux): Success with build ID
-- Overall conclusion: failure (because TeamCity builds will fail)
+**Actual Output:**
+- Event: `pull_request` ✅
+- Status: `completed` ✅
+- Conclusion: `failure` ✅ (due to our intentional compilation error)
+- Check Suite ID: 56631011096
+- Commit SHA: fa4e19e68718e79a8a720885ff85c2a139e31869
 
 ### Auto-Fix Workflow
-**Status:** Pending execution  
-**Run Link:** (To be updated when available)
+**Status:** ⚠️ DID NOT TRIGGER VIA check_suite EVENT
 
-**Expected Steps:**
-1. Filter for TeamCity CI: Should find TeamCity check runs
-2. Get PR Information: Should find PR details
-3. Wait for TeamCity Builds to Complete: Should poll and wait
-4. Get TeamCity Workflow Run: Should find workflow run ID
-5. Download TeamCity Build Artifacts: Should get build IDs
-6. Fetch TeamCity Build Logs: Should retrieve logs
-7. Analyze Build Failure: Should extract errors
-8. Comment on PR: Should post detailed comment
+**Observations:**
+- Auto-fix workflow ran once with event type `push` (from commit 51f5e90) but was skipped due to conditions
+- No auto-fix workflow runs with event type `check_suite` have been detected
+- TeamCity CI check suite completed with failure, which should have triggered the auto-fix workflow
+- No PR comments have been posted by auto-fix workflow
+
+**Investigation:**
+The workflow condition on main branch includes:
+```yaml
+github.event.check_suite.app.slug == 'github-actions'
+```
+
+This condition filters check suites to only those created by GitHub Actions app. However:
+- When TeamCity CI workflow completes, it may create a check suite with a different app
+- The check_suite event might be dispatched for the Security Scanning or other workflows first
+- Multiple check_suite events may be dispatched, and we need to filter for the right one
+
+**Root Cause Hypothesis:**
+The `app.slug == 'github-actions'` condition is correct - we want check suites from GitHub Actions workflows, not external apps. The issue might be:
+
+1. **Timing**: Check suite events may take longer to dispatch than expected
+2. **Multiple check suites**: There may be multiple check suites, and the auto-fix workflow needs to filter for the one containing TeamCity CI check runs
+3. **Workflow file location**: The workflow must be on the default branch (main) to receive check_suite events
+
+**Next Steps:**
+1. Wait longer to see if check_suite event eventually triggers (can take several minutes)
+2. Check workflow runs in GitHub Actions UI to see if any check_suite events were received but skipped
+3. If still not triggering after sufficient wait, investigate the workflow conditions and check suite structure
 
 ## Timeline
 
-- **15:38 UTC:** Test branch created, initial plan committed
-- **[Current time]:** Intentional error added and pushed
-- **[Pending]:** TeamCity CI triggers
-- **[Pending]:** Auto-Fix workflow triggers
-- **[Pending]:** Verification of results
+- **15:38 UTC:** Test branch created, initial plan committed (888bd65)
+- **15:40 UTC:** Intentional error added and pushed (fa4e19e)
+- **15:40 UTC:** TeamCity CI workflow triggered (run 21756359715)
+- **15:41 UTC:** Test execution log added (51f5e90)
+- **15:41 UTC:** Auto-fix workflow ran with `push` event but was skipped
+- **15:42 UTC:** TeamCity CI completed with failure ✅
+- **15:43+ UTC:** Waiting for check_suite event to trigger auto-fix... ⏳
+- **Current:** No check_suite event detected yet
 
 ## Success Criteria
 
