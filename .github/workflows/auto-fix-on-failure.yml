@@ -3,10 +3,27 @@ name: Auto-Fix on Build Failure
 # IMPORTANT: This workflow uses check_run trigger to respond to individual check run completions.
 # This allows it to respond to TeamCity CI build failures on pull requests.
 # The check_run event is dispatched when individual check runs complete, including from pull_request workflows.
+# 
+# The workflow can also be triggered manually via workflow_dispatch for testing or when automatic
+# triggering fails.
 on:
   check_run:
     types:
       - completed
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: 'Pull request number'
+        required: true
+        type: number
+      workflow_run_id:
+        description: 'TeamCity CI workflow run ID (optional - will be auto-detected if not provided)'
+        required: false
+        type: string
+      head_sha:
+        description: 'Commit SHA (optional - will be fetched from PR if not provided)'
+        required: false
+        type: string
 
 # These permissions are required for the auto-fix workflow to function
 permissions:
@@ -20,14 +37,40 @@ jobs:
   auto-fix:
     name: Attempt Auto-Fix
     runs-on: ubuntu-latest
-    # Only run on failed check runs from TeamCity CI workflow on pull requests
-    # Filter for TeamCity CI check runs and ensure they're from PRs
+    # For check_run events: Only run on failed check runs from TeamCity CI workflow on pull requests
+    # For workflow_dispatch: Always run (user is manually triggering)
     if: |
-      github.event.check_run.conclusion == 'failure' &&
-      contains(github.event.check_run.name, 'Trigger TeamCity Build') &&
-      github.event.check_run.pull_requests[0] != null
+      (github.event_name == 'workflow_dispatch') ||
+      (github.event_name == 'check_run' && 
+       github.event.check_run.conclusion == 'failure' &&
+       contains(github.event.check_run.name, 'Trigger TeamCity Build') &&
+       github.event.check_run.pull_requests[0] != null)
     steps:
+      - name: Determine Event Source
+        id: event_source
+        uses: actions/github-script@v8
+        with:
+          script: |
+            const eventName = context.eventName;
+            console.log(`Event type: ${eventName}`);
+            
+            if (eventName === 'workflow_dispatch') {
+              console.log('Workflow triggered manually');
+              return {
+                source: 'manual',
+                pr_number: ${{ github.event.inputs.pr_number || 'null' }},
+                workflow_run_id: '${{ github.event.inputs.workflow_run_id || '' }}',
+                head_sha: '${{ github.event.inputs.head_sha || '' }}'
+              };
+            } else {
+              console.log('Workflow triggered by check_run event');
+              return {
+                source: 'automatic'
+              };
+            }
+      
       - name: Confirm TeamCity CI Failure
+        if: github.event_name == 'check_run'
         id: check_teamcity
         uses: actions/github-script@v8
         with:
@@ -45,21 +88,51 @@ jobs:
         uses: actions/github-script@v8
         with:
           script: |
-            const checkRun = context.payload.check_run;
+            const eventSource = JSON.parse('${{ steps.event_source.outputs.result }}');
             
-            if (checkRun.pull_requests.length === 0) {
-              console.log('No pull requests associated with this check run');
-              return null;
+            if (eventSource.source === 'manual') {
+              console.log('Manual trigger - fetching PR information');
+              const prNumber = eventSource.pr_number;
+              
+              if (!prNumber) {
+                console.log('❌ Error: PR number is required for manual trigger');
+                return null;
+              }
+              
+              // Fetch PR details
+              const { data: pr } = await github.rest.pulls.get({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: prNumber
+              });
+              
+              console.log(`Found PR #${pr.number}: ${pr.title}`);
+              console.log(`  Head SHA: ${pr.head.sha}`);
+              console.log(`  Head ref: ${pr.head.ref}`);
+              
+              return {
+                number: pr.number,
+                head_sha: eventSource.head_sha || pr.head.sha,
+                head_ref: pr.head.ref
+              };
+            } else {
+              // Automatic trigger from check_run event
+              const checkRun = context.payload.check_run;
+              
+              if (checkRun.pull_requests.length === 0) {
+                console.log('No pull requests associated with this check run');
+                return null;
+              }
+              
+              const pr = checkRun.pull_requests[0];
+              console.log(`Found PR #${pr.number}`);
+              
+              return {
+                number: pr.number,
+                head_sha: checkRun.head_sha,
+                head_ref: pr.head.ref
+              };
             }
-            
-            const pr = checkRun.pull_requests[0];
-            console.log(`Found PR #${pr.number}`);
-            
-            return {
-              number: pr.number,
-              head_sha: checkRun.head_sha,
-              head_ref: pr.head.ref
-            };
 
       - name: Wait for TeamCity Builds to Complete
         if: steps.pr.outputs.result != 'null'
@@ -160,8 +233,36 @@ jobs:
         uses: actions/github-script@v8
         with:
           script: |
-            const headSha = context.payload.check_run.head_sha;
+            const eventSource = JSON.parse('${{ steps.event_source.outputs.result }}');
+            const prInfo = JSON.parse('${{ steps.pr.outputs.result }}');
             
+            // If manual trigger provided a workflow run ID, use it
+            if (eventSource.source === 'manual' && eventSource.workflow_run_id) {
+              const runId = parseInt(eventSource.workflow_run_id);
+              console.log(`Using manually provided workflow run ID: ${runId}`);
+              
+              try {
+                const { data: run } = await github.rest.actions.getWorkflowRun({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  run_id: runId
+                });
+                
+                console.log(`Found workflow run: ${run.name}`);
+                console.log(`  Status: ${run.status}, Conclusion: ${run.conclusion}`);
+                
+                return { 
+                  run_id: run.id,
+                  html_url: run.html_url
+                };
+              } catch (error) {
+                console.log(`⚠️ Error fetching workflow run ${runId}: ${error.message}`);
+                console.log('Will attempt to auto-detect...');
+              }
+            }
+            
+            // Auto-detect workflow run based on SHA
+            const headSha = prInfo.head_sha;
             console.log(`Finding TeamCity CI workflow run for SHA: ${headSha}`);
             
             // Get workflow runs for the TeamCity CI workflow
