@@ -4,7 +4,7 @@ include(../../../Config/QMake/ApplicationConfig.pri)
 include(../../../Config/QMake/QtBaseConfig.pri)
 
 LIBS += -L../../../Lib/$$COMPILER_DIR
-LIBS += -listd -liser -limath -li2d -li3d -licmm -liprm -lifile -liimg -libase -litest
+LIBS += -listd -liser -limath -li2d -li3d -licmm -liprm -lifile -liimg -libase -limod -litest
 
 QT += core testlib
 

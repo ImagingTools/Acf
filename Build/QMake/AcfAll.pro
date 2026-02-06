@@ -204,7 +204,7 @@ VarIndexTest.depends = istd itest
 
 SUBDIRS += SerializationRegressionTest
 SerializationRegressionTest.file = ../../Tests/SerializationRegressionTest/QMake/SerializationRegressionTest.pro
-SerializationRegressionTest.depends = Arxc i2d i3d icmm imath iser istd iprm ifile iimg ibase itest
+SerializationRegressionTest.depends = Arxc i2d i3d icmm imath iser istd iprm ifile iimg ibase imod itest
 
 # Impl Tests
 !macx-ios*{
