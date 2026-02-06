@@ -240,8 +240,8 @@ jobs:
 
           echo "📋 Fetching build log information for build $BUILD_ID..."
 
-          # Get build log download URL
-          LOG_URL="$TEAMCITY_URL/app/rest/builds/id:$BUILD_ID/log"
+          # Get build log download URL (using downloadBuildLog.html endpoint)
+          LOG_URL="$TEAMCITY_URL/downloadBuildLog.html?buildId=$BUILD_ID"
           echo "Build log URL: $LOG_URL"
 
           # Get last 100 lines of the build log
@@ -297,7 +297,7 @@ jobs:
           echo "- Build URL: ${{ steps.wait_build.outputs.build_url || steps.teamcity.outputs.web_url }}"
           echo "- Status: ${{ steps.wait_build.outputs.build_status || 'Unknown' }}"
           echo "- Platform: ${{ matrix.platform }}"
-          echo "- Full logs: $LOG_URL"
+          echo "- Full logs: $TEAMCITY_URL/downloadBuildLog.html?buildId=$BUILD_ID"
 
       - name: Report Build Status
         if: always() && steps.teamcity.outputs.build_id
@@ -378,7 +378,7 @@ jobs:
             BUILD_LOG=$(curl -sS \
               -H "Authorization: Bearer $TEAMCITY_TOKEN" \
               -H "Accept: text/plain" \
-              "$TEAMCITY_URL/app/rest/builds/id:$BUILD_ID/log" 2>&1 | tail -n 500 || echo "")
+              "$TEAMCITY_URL/downloadBuildLog.html?buildId=$BUILD_ID" 2>&1 | tail -n 500 || echo "")
 
             if [ -n "$BUILD_LOG" ]; then
               echo "Analyzing build log for errors..."
@@ -430,9 +430,8 @@ jobs:
             const prNumber = context.payload.pull_request.number;
 
             let body = '## 🔍 TeamCity Build Failed - Error Analysis\n\n';
-            body += '### @github-copilot\n\n';
             body += '**Status:** TeamCity CI build failed ❌\n\n';
-            body += 'Please analyze the following build errors and suggest specific fixes:\n\n';
+            body += '### Build Errors\n\n';
             body += '```\n' + errors.trim() + '\n```\n\n';
 
             // Add TeamCity build links
@@ -444,6 +443,11 @@ jobs:
               body += '\n';
             }
 
+            body += '---\n\n';
+            body += '### 💡 Next Steps\n\n';
+            body += 'To get help fixing these errors, mention **@copilot** in a new comment below and ask for assistance.\n\n';
+            body += 'Example comment to copy:\n';
+            body += '```\n@copilot please analyze the build errors above and suggest fixes\n```\n\n';
             body += '---\n\n';
             body += `*Posted automatically by [TeamCity CI Workflow](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})*`;
 
