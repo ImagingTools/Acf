@@ -63,7 +63,10 @@ bool CSpectralColorSpecificationBase::Serialize(iser::IArchive& archive)
 
 	iser::CArchiveTag spectrumTypeTag("SpectrumType", "Type if used spectrum", iser::CArchiveTag::TT_LEAF);
 	retVal = retVal && archive.BeginTag(spectrumTypeTag);
-	retVal = retVal && iser::CPrimitiveTypesSerializer::SerializeEnum(archive, m_spectrumType, &icmm::staticMetaObject);
+	retVal = retVal && iser::CPrimitiveTypesSerializer::SerializeEnum<
+		SpectrumType,
+		ISpectralColorSpecification::ToString,
+		ISpectralColorSpecification::FromString>(archive, m_spectrumType);
 	retVal = retVal && archive.EndTag(spectrumTypeTag);
 
 	iser::CArchiveTag spectrumInfoTag("SpectrumInfo", "Information about spectrum properties", iser::CArchiveTag::TT_LEAF);

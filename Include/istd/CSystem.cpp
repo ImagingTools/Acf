@@ -537,4 +537,3 @@ QString CSystem::s_platformCode = CSystem::GetCompilerVariable("PlatformCode");
 
 } // namespace istd
 
-

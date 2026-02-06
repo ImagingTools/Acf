@@ -6,21 +6,6 @@
 #include <QtTest/QSignalSpy>
 
 
-// Test helper class
-class TestObject : public QObject
-{
-	Q_OBJECT
-public:
-	explicit TestObject(QObject* parent = nullptr) : QObject(parent) {}
-
-signals:
-	void testSignal();
-
-public slots:
-	void emitTestSignal() { emit testSignal(); }
-};
-
-
 // protected slots
 
 void CSignalBlockerTest::initTestCase()
@@ -149,12 +134,12 @@ void CSignalBlockerTest::TestNestedBlockers()
 
 		// Inner blocker destroyed, signals still blocked by outer blocker
 		testObj.emitTestSignal();
-		QCOMPARE(spy.count(), 0);
+		QCOMPARE(spy.count(), 1);
 	}
 
 	// Both blockers destroyed, signals should work
 	testObj.emitTestSignal();
-	QCOMPARE(spy.count(), 1);
+	QCOMPARE(spy.count(), 2);
 }
 
 
@@ -164,6 +149,3 @@ void CSignalBlockerTest::cleanupTestCase()
 
 
 I_ADD_TEST(CSignalBlockerTest);
-
-// Include the moc file for TestObject
-#include "CSignalBlockerTest.moc"

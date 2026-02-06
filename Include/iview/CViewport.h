@@ -47,8 +47,6 @@ public:
 
 	void SetShowInfoText(bool on);
 
-	void SetDrawBorder(bool on);
-
 	void SetMousePointerCursor(int mode, const QCursor& cursor);
 
 	virtual void SetEditMode(int mode);
@@ -86,6 +84,8 @@ Q_SIGNALS:
 	*/
 	void ShapesChanged();
 
+	void BoundingBoxChanged();
+
 protected:
 	virtual void SetBackgroundBufferValid(bool state = true);
 	virtual void OnResize();
@@ -95,6 +95,7 @@ protected:
 	virtual void paintEvent(QPaintEvent* event) override;
 	virtual void resizeEvent (QResizeEvent* event) override;
 	virtual void keyPressEvent(QKeyEvent* event) override;
+	virtual void keyReleaseEvent(QKeyEvent* event) override;
 	virtual void mousePressEvent(QMouseEvent* event) override;
 	virtual void mouseReleaseEvent(QMouseEvent* event) override;
 	virtual void mouseMoveEvent(QMouseEvent* event) override;
@@ -119,7 +120,6 @@ private:
 	CConsoleBase* m_framePtr = nullptr;
 
 	bool m_showInfoText = false;
-	bool m_drawBorder = true;
 	QString m_infoText;
 
 	friend class CConsoleBase;

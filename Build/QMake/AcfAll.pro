@@ -163,6 +163,9 @@ i3dTest.file = ../../Include/i3d/Test/QMake/i3dTest.pro
 SUBDIRS += imathTest
 imathTest.file = ../../Include/imath/Test/QMake/imathTest.pro
 
+SUBDIRS += iqtTest
+iqtTest.file = ../../Include/iqt/Test/QMake/iqtTest.pro
+
 SUBDIRS += SelectionParamIntegrationTest
 SelectionParamIntegrationTest.file = ../../Tests/SelectionParamIntegrationTest/QMake/SelectionParamIntegrationTest.pro
 SelectionParamIntegrationTest.depends = Arxc iprm iser itest

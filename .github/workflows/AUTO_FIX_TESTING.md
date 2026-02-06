@@ -1,6 +1,6 @@
 # Auto-Fix Workflow Testing Guide
 
-This guide explains how to test the auto-fix workflow and Copilot task creation functionality.
+This guide explains how to test the auto-fix workflow and its new waiting mechanism.
 
 ## Prerequisites
 
@@ -8,6 +8,21 @@ Before testing, ensure:
 - TeamCity integration is configured (TEAMCITY_URL, TEAMCITY_TOKEN, etc.)
 - You have access to create pull requests in the repository
 - You understand basic GitHub Actions workflows
+
+## Unit Testing the Wait Logic
+
+A test script is provided to validate the wait-for-checks logic locally.
+
+**Run the test:**
+```bash
+node .github/workflows/test-wait-logic.js
+```
+
+This script tests various scenarios:
+1. All checks completed with TeamCity failure → Should proceed
+2. All checks completed with no TeamCity failure → Should skip
+3. Some checks still pending → Should continue waiting
+4. Multiple TeamCity builds failed → Should proceed
 
 ## Testing Scenarios
 
@@ -36,17 +51,28 @@ This is the most realistic test but requires a real build failure.
 
 4. Create a pull request from this branch
 
-5. Wait for TeamCity CI to run and fail
+5. Wait for ALL PR checks to run and complete:
+   - TeamCity CI (Windows and Linux)
+   - Security Scanning
+   - Any other required checks
 
-6. Verify the auto-fix workflow triggers:
+6. Verify the auto-fix workflow behavior:
    - Go to Actions tab
    - Look for "Auto-Fix on Build Failure" workflow run
-   - Check that it completed successfully
+   - Check the "Wait for All PR Checks to Complete" step:
+     - Should show polling attempts
+     - Should list pending checks (if any)
+     - Should detect TeamCity failure
+     - Should proceed with auto-fix
+   - Verify it only started AFTER all checks completed
 
-7. Verify Copilot tasks were created:
-   - Check the PR for comments about created issues
-   - Go to Issues tab
-   - Look for issues with labels: `auto-fix`, `build-failure`, `copilot-task`
+7. Verify build error comment was posted:
+   - Check the PR for a comment from github-actions bot
+   - Should contain:
+     - "❌ Build Failed" header
+     - "@github-copilot" mention
+     - Actual build errors from TeamCity logs
+     - Links to TeamCity builds
    - Verify issue contains:
      - Problem type and details
      - Link to TeamCity build
@@ -55,20 +81,79 @@ This is the most realistic test but requires a real build failure.
 
 8. Clean up:
    - Close the test PR
-   - Close or delete the test issues
    - Delete the test branch
 
-### Scenario 2: Test Workflow Logic with Mock Data
+### Scenario 2: Test with All Checks Passing
 
-To test the workflow logic without triggering a real build:
+Test that auto-fix correctly skips when no TeamCity builds fail.
 
 **Steps:**
-1. Go to the Actions tab in GitHub
-2. Select the "Auto-Fix on Build Failure" workflow
-3. Note: This workflow is triggered by `workflow_run` events, so manual dispatch is not available
-4. You can review the workflow code to verify the logic
+1. Create a PR with valid code changes (no build errors)
+2. Wait for all checks to complete successfully
+3. Verify the auto-fix workflow:
+   - Runs and completes
+   - The "Wait for All PR Checks to Complete" step shows all checks completed
+   - The "Skip Auto-Fix" step runs with message about no TeamCity failures
+   - No build error comment is posted to the PR
 
-### Scenario 3: Review Past Workflow Runs
+### Scenario 3: Test Timeout Behavior
+
+Test that auto-fix handles timeouts gracefully.
+
+**Note:** This is difficult to test in practice as it requires checks to run for >30 minutes.
+
+**Expected behavior:**
+- If checks don't complete within 30 minutes
+- The wait loop should timeout
+- The workflow should skip auto-fix with a timeout message
+- No errors should be thrown
+
+### Scenario 4: Test with One Platform Failing
+
+Test with Windows build failing but Linux build passing (or vice versa).
+
+**Steps:**
+1. Introduce a platform-specific build error
+2. Create a PR
+3. Wait for both platform builds to complete
+4. Verify auto-fix:
+   - Waits for both platforms to finish
+   - Detects the single platform failure
+   - Proceeds with auto-fix
+   - Comments with details about the failed platform
+
+## Verifying Workflow Logs
+
+When reviewing workflow runs, check these key indicators:
+
+### "Wait for All PR Checks to Complete" Step
+
+**Good indicators:**
+- Shows polling attempts: "Attempt X/60"
+- Lists found checks: "Found X check runs"
+- Shows which checks are pending (if any)
+- Eventually shows: "✅ All PR checks have completed"
+- Shows TeamCity check detection
+- Shows decision: "proceeding with auto-fix" or "skipping auto-fix"
+
+**Problem indicators:**
+- Times out before all checks complete
+- Doesn't detect TeamCity checks correctly
+- Doesn't filter out itself from check list
+
+### "Skip Auto-Fix" Step
+
+Should run when:
+- All checks passed (no TeamCity failures)
+- Timeout occurred
+- Shows clear reason for skipping
+
+### "Comment on PR" Step
+
+Should only run when proceeding with auto-fix.
+Should post detailed error information from TeamCity.
+
+## Reviewing Past Workflow Runs
 
 If there have been previous build failures:
 
