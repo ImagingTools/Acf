@@ -84,6 +84,7 @@ jobs:
             echo "Artifacts directory found, extracting build IDs..."
             
             # Find all build ID files
+            shopt -s nullglob  # Make glob return empty if no matches
             for id_file in ./teamcity-artifacts/teamcity-build-id-*.txt; do
               if [ -f "$id_file" ]; then
                 BUILD_ID=$(cat "$id_file" | tr -d '[:space:]')
@@ -93,9 +94,14 @@ jobs:
                 fi
               fi
             done
+            shopt -u nullglob  # Restore default behavior
             
             # Trim leading/trailing spaces
             BUILD_IDS=$(echo "$BUILD_IDS" | xargs)
+            
+            if [ -z "$BUILD_IDS" ]; then
+              echo "No build ID files found in artifacts directory"
+            fi
           else
             echo "No artifacts directory found"
           fi
