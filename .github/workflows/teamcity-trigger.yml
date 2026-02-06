@@ -430,9 +430,8 @@ jobs:
             const prNumber = context.payload.pull_request.number;
 
             let body = '## 🔍 TeamCity Build Failed - Error Analysis\n\n';
-            body += '@copilot\n\n';
             body += '**Status:** TeamCity CI build failed ❌\n\n';
-            body += 'Please analyze the following build errors and suggest specific fixes:\n\n';
+            body += '### Build Errors\n\n';
             body += '```\n' + errors.trim() + '\n```\n\n';
 
             // Add TeamCity build links
@@ -444,6 +443,10 @@ jobs:
               body += '\n';
             }
 
+            body += '---\n\n';
+            body += '### 💡 Next Steps\n\n';
+            body += 'To get help fixing these errors, mention @copilot in a comment and ask for assistance.\n\n';
+            body += 'Example: `@copilot please analyze the build errors above and suggest fixes`\n\n';
             body += '---\n\n';
             body += `*Posted automatically by [TeamCity CI Workflow](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})*`;
 
