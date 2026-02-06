@@ -1,10 +1,10 @@
 name: Auto-Fix on Build Failure
 
-# IMPORTANT: This workflow uses check_suite trigger which works for both push and pull_request events.
+# IMPORTANT: This workflow uses check_run trigger to respond to individual check run completions.
 # This allows it to respond to TeamCity CI build failures on pull requests.
-# The check_suite event is dispatched when a check suite completes, regardless of how it was triggered.
+# The check_run event is dispatched when individual check runs complete, including from pull_request workflows.
 on:
-  check_suite:
+  check_run:
     types:
       - completed
 
@@ -20,83 +20,45 @@ jobs:
   auto-fix:
     name: Attempt Auto-Fix
     runs-on: ubuntu-latest
-    # Only run on failed check suites from pull requests
-    # Check if there are pull requests associated with this check suite
-    # The workflow filters for TeamCity CI check runs in a subsequent step
+    # Only run on failed check runs from TeamCity CI workflow on pull requests
+    # Filter for TeamCity CI check runs and ensure they're from PRs
     if: |
-      github.event.check_suite.conclusion == 'failure' &&
-      github.event.check_suite.pull_requests[0] != null
+      github.event.check_run.conclusion == 'failure' &&
+      contains(github.event.check_run.name, 'Trigger TeamCity Build') &&
+      github.event.check_run.pull_requests[0] != null
     steps:
-      - name: Filter for TeamCity CI
+      - name: Confirm TeamCity CI Failure
         id: check_teamcity
         uses: actions/github-script@v8
         with:
           script: |
-            console.log('Checking if this check suite contains TeamCity CI check runs...');
+            console.log('TeamCity CI check run failed:');
+            console.log(`  Name: ${context.payload.check_run.name}`);
+            console.log(`  Conclusion: ${context.payload.check_run.conclusion}`);
+            console.log(`  Check Suite ID: ${context.payload.check_run.check_suite.id}`);
+            console.log(`  Pull Requests: ${context.payload.check_run.pull_requests.length}`);
             
-            // Get check runs in this suite
-            const checkRuns = await github.rest.checks.listForSuite({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              check_suite_id: context.payload.check_suite.id,
-              per_page: 100
-            });
-            
-            console.log(`Found ${checkRuns.data.total_count} check run(s) in this suite`);
-            
-            // Check if any are from TeamCity CI
-            const teamcityRuns = checkRuns.data.check_runs.filter(run =>
-              run.name.includes('Trigger TeamCity Build')
-            );
-            
-            console.log(`Found ${teamcityRuns.length} TeamCity CI check run(s)`);
-            
-            if (teamcityRuns.length > 0) {
-              console.log('TeamCity CI checks found:');
-              for (const run of teamcityRuns) {
-                console.log(`  - ${run.name}: ${run.conclusion}`);
-              }
-            }
-            
-            return teamcityRuns.length > 0;
-      
-      - name: Skip if not TeamCity CI
-        if: steps.check_teamcity.outputs.result != 'true'
-        run: |
-          echo "⚠️ Not a TeamCity CI failure, skipping auto-fix"
-          echo "This check suite does not contain TeamCity CI check runs"
-          exit 0
+            return true;
       
       - name: Get PR Information
-        if: steps.check_teamcity.outputs.result == 'true'
         id: pr
         uses: actions/github-script@v8
         with:
           script: |
-            const headBranch = context.payload.check_suite.head_branch;
-            const headSha = context.payload.check_suite.head_sha;
+            const checkRun = context.payload.check_run;
             
-            console.log(`Looking for PR with head branch: ${headBranch}`);
-            
-            const pulls = await github.rest.pulls.list({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              state: 'open',
-              head: `${context.repo.owner}:${headBranch}`
-            });
-            
-            if (pulls.data.length === 0) {
-              console.log('No open PR found for this branch');
+            if (checkRun.pull_requests.length === 0) {
+              console.log('No pull requests associated with this check run');
               return null;
             }
             
-            const pr = pulls.data[0];
-            console.log(`Found PR #${pr.number}: ${pr.title}`);
+            const pr = checkRun.pull_requests[0];
+            console.log(`Found PR #${pr.number}`);
             
             return {
               number: pr.number,
-              head_sha: headSha,
-              head_ref: headBranch
+              head_sha: checkRun.head_sha,
+              head_ref: pr.head.ref
             };
 
       - name: Wait for TeamCity Builds to Complete
@@ -198,7 +160,7 @@ jobs:
         uses: actions/github-script@v8
         with:
           script: |
-            const headSha = context.payload.check_suite.head_sha;
+            const headSha = context.payload.check_run.head_sha;
             
             console.log(`Finding TeamCity CI workflow run for SHA: ${headSha}`);
             
