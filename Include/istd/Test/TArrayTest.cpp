@@ -27,7 +27,9 @@ void TArrayTest::DefaultConstructorTest()
 void TArrayTest::SizeConstructorTest()
 {
 	// Test 2D array with sizes 3x4
-	istd::TIndex<2> sizes2d(3, 4);
+	istd::TIndex<2> sizes2d;
+	sizes2d[0] = 3;
+	sizes2d[1] = 4;
 	istd::TArray<int, 2> array2d(sizes2d, 42);
 	
 	QVERIFY(!array2d.IsEmpty());
@@ -35,11 +37,16 @@ void TArrayTest::SizeConstructorTest()
 	QCOMPARE(array2d.GetSize(1), 4);
 	
 	// Check that all elements are initialized to 42
-	istd::TIndex<2> index2d(0, 0);
+	istd::TIndex<2> index2d;
+	index2d[0] = 0;
+	index2d[1] = 0;
 	QCOMPARE(array2d.GetAt(index2d), 42);
 	
 	// Test 3D array with sizes 2x3x4
-	istd::TIndex<3> sizes3d(2, 3, 4);
+	istd::TIndex<3> sizes3d;
+	sizes3d[0] = 2;
+	sizes3d[1] = 3;
+	sizes3d[2] = 4;
 	istd::TArray<double, 3> array3d(sizes3d, 3.14);
 	
 	QVERIFY(!array3d.IsEmpty());
@@ -51,11 +58,15 @@ void TArrayTest::SizeConstructorTest()
 
 void TArrayTest::CopyConstructorTest()
 {
-	istd::TIndex<2> sizes(2, 3);
+	istd::TIndex<2> sizes;
+	sizes[0] = 2;
+	sizes[1] = 3;
 	istd::TArray<int, 2> original(sizes, 10);
 	
 	// Set a specific value
-	istd::TIndex<2> index(1, 2);
+	istd::TIndex<2> index;
+	index[0] = 1;
+	index[1] = 2;
 	original.SetAt(index, 99);
 	
 	// Copy the array
@@ -72,7 +83,9 @@ void TArrayTest::IsEmptyTest()
 	istd::TArray<int, 2> array;
 	QVERIFY(array.IsEmpty());
 	
-	istd::TIndex<2> sizes(2, 3);
+	istd::TIndex<2> sizes;
+	sizes[0] = 2;
+	sizes[1] = 3;
 	array.SetSizes(sizes);
 	QVERIFY(!array.IsEmpty());
 	
@@ -85,7 +98,9 @@ void TArrayTest::GetSetSizesTest()
 {
 	istd::TArray<int, 2> array;
 	
-	istd::TIndex<2> sizes(5, 7);
+	istd::TIndex<2> sizes;
+	sizes[0] = 5;
+	sizes[1] = 7;
 	bool result = array.SetSizes(sizes);
 	QVERIFY(result);
 	
@@ -102,13 +117,23 @@ void TArrayTest::GetSetSizesTest()
 
 void TArrayTest::GetSetElementTest()
 {
-	istd::TIndex<2> sizes(3, 3);
+	istd::TIndex<2> sizes;
+	sizes[0] = 3;
+	sizes[1] = 3;
 	istd::TArray<int, 2> array(sizes);
 	
 	// Set elements at different positions
-	istd::TIndex<2> index1(0, 0);
-	istd::TIndex<2> index2(1, 2);
-	istd::TIndex<2> index3(2, 1);
+	istd::TIndex<2> index1;
+	index1[0] = 0;
+	index1[1] = 0;
+	
+	istd::TIndex<2> index2;
+	index2[0] = 1;
+	index2[1] = 2;
+	
+	istd::TIndex<2> index3;
+	index3[0] = 2;
+	index3[1] = 1;
 	
 	array.SetAt(index1, 11);
 	array.SetAt(index2, 22);
@@ -127,7 +152,9 @@ void TArrayTest::GetSetElementTest()
 
 void TArrayTest::SetAllElementsTest()
 {
-	istd::TIndex<2> sizes(3, 4);
+	istd::TIndex<2> sizes;
+	sizes[0] = 3;
+	sizes[1] = 4;
 	istd::TArray<int, 2> array(sizes);
 	
 	// Set all elements to a specific value
@@ -136,7 +163,9 @@ void TArrayTest::SetAllElementsTest()
 	// Verify all elements are set
 	for (int i = 0; i < 3; i++) {
 		for (int j = 0; j < 4; j++) {
-			istd::TIndex<2> index(i, j);
+			istd::TIndex<2> index;
+			index[0] = i;
+			index[1] = j;
 			QCOMPARE(array.GetAt(index), 7);
 		}
 	}
@@ -145,14 +174,18 @@ void TArrayTest::SetAllElementsTest()
 
 void TArrayTest::IteratorTest()
 {
-	istd::TIndex<2> sizes(2, 3);
+	istd::TIndex<2> sizes;
+	sizes[0] = 2;
+	sizes[1] = 3;
 	istd::TArray<int, 2> array(sizes);
 	
 	// Set values using direct access
 	int value = 1;
 	for (int i = 0; i < 2; i++) {
 		for (int j = 0; j < 3; j++) {
-			istd::TIndex<2> index(i, j);
+			istd::TIndex<2> index;
+			index[0] = i;
+			index[1] = j;
 			array.SetAt(index, value++);
 		}
 	}
