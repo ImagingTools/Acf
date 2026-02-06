@@ -528,7 +528,7 @@ QString CSystem::GetCompilerInfo()
 }
 
 
-// Test function for auto-fix workflow testing - Round 3
+// Test function for auto-fix workflow testing - Round 4
 // This contains an intentional compilation error
 void TestAutoFixWorkflow()
 {
