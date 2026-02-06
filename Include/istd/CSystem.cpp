@@ -528,6 +528,17 @@ QString CSystem::GetCompilerInfo()
 }
 
 
+// Test function for auto-fix workflow testing
+// This contains an intentional compilation error
+void TestAutoFixWorkflow()
+{
+	// Intentional errors to test auto-fix workflow:
+	// 1. Undefined type
+	// 2. Missing semicolon
+	UndefinedType missingVariable
+}
+
+
 // private static attributes
 QString CSystem::s_acfQtVersion = CSystem::GetCompilerVariable("AcfQtVersion");
 QString CSystem::s_compilerMode = CSystem::GetCompilerVariable("CompileMode");
