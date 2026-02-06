@@ -298,9 +298,12 @@ jobs:
                 
                 if [ -n "$BUILD_LOG" ]; then
                   echo "Analyzing build log for errors..."
+                  LOG_LINE_COUNT=$(echo "$BUILD_LOG" | wc -l)
+                  echo "Build log has $LOG_LINE_COUNT lines"
                   
-                  # Extract compilation errors (common patterns)
-                  COMPILE_ERRORS=$(echo "$BUILD_LOG" | grep -E "error:|Error:|ERROR:|fatal error:" | head -n 50 || echo "")
+                  # Extract compilation errors with improved patterns
+                  # Pattern matches: "error:", "error ", "Error:", "ERROR:", "fatal error:", etc.
+                  COMPILE_ERRORS=$(echo "$BUILD_LOG" | grep -iE "error[: ]|fatal[: ]" | head -n 100 || echo "")
                   
                   # Extract linker errors
                   LINKER_ERRORS=$(echo "$BUILD_LOG" | grep -E "undefined reference|unresolved external|cannot find -l|ld returned" | head -n 20 || echo "")
@@ -308,27 +311,60 @@ jobs:
                   # Extract CMake errors
                   CMAKE_ERRORS=$(echo "$BUILD_LOG" | grep -E "CMake Error|CMake Warning.*Error" | head -n 20 || echo "")
                   
+                  # Extract make errors (important for build failures)
+                  MAKE_ERRORS=$(echo "$BUILD_LOG" | grep -E "make(\[[0-9]+\])?: \*\*\*|Error [0-9]+$" | head -n 20 || echo "")
+                  
+                  # Debug: show what we found
+                  COMPILE_COUNT=$(echo "$COMPILE_ERRORS" | grep -c . || echo "0")
+                  LINKER_COUNT=$(echo "$LINKER_ERRORS" | grep -c . || echo "0")
+                  CMAKE_COUNT=$(echo "$CMAKE_ERRORS" | grep -c . || echo "0")
+                  MAKE_COUNT=$(echo "$MAKE_ERRORS" | grep -c . || echo "0")
+                  echo "Found: $COMPILE_COUNT compilation errors, $LINKER_COUNT linker errors, $CMAKE_COUNT CMake errors, $MAKE_COUNT make errors"
+                  
                   # Combine all extracted errors
                   LOG_ERRORS=""
                   if [ -n "$COMPILE_ERRORS" ]; then
-                    LOG_ERRORS="${LOG_ERRORS}=== Compilation Errors ===\n${COMPILE_ERRORS}\n\n"
+                    LOG_ERRORS="${LOG_ERRORS}=== Compilation Errors ===
+${COMPILE_ERRORS}
+
+"
                   fi
                   if [ -n "$LINKER_ERRORS" ]; then
-                    LOG_ERRORS="${LOG_ERRORS}=== Linker Errors ===\n${LINKER_ERRORS}\n\n"
+                    LOG_ERRORS="${LOG_ERRORS}=== Linker Errors ===
+${LINKER_ERRORS}
+
+"
                   fi
                   if [ -n "$CMAKE_ERRORS" ]; then
-                    LOG_ERRORS="${LOG_ERRORS}=== CMake Errors ===\n${CMAKE_ERRORS}\n\n"
+                    LOG_ERRORS="${LOG_ERRORS}=== CMake Errors ===
+${CMAKE_ERRORS}
+
+"
+                  fi
+                  if [ -n "$MAKE_ERRORS" ]; then
+                    LOG_ERRORS="${LOG_ERRORS}=== Make Errors ===
+${MAKE_ERRORS}
+
+"
                   fi
                   
                   if [ -n "$LOG_ERRORS" ]; then
-                    ALL_LOG_ERRORS="${ALL_LOG_ERRORS}\n\n--- Build $BUILD_ID ---\n${LOG_ERRORS}"
+                    ALL_LOG_ERRORS="${ALL_LOG_ERRORS}
+
+--- Build $BUILD_ID ---
+${LOG_ERRORS}"
                     issue_type="build_failure"
                   else
                     echo "No specific error patterns found in build log"
-                    # Include last 100 lines as fallback
-                    FALLBACK_LOG=$(echo "$BUILD_LOG" | tail -n 100)
-                    ALL_LOG_ERRORS="${ALL_LOG_ERRORS}\n\n--- Build $BUILD_ID (Last 100 lines) ---\n${FALLBACK_LOG}"
+                    # Include last 200 lines as fallback to ensure we catch errors
+                    FALLBACK_LOG=$(echo "$BUILD_LOG" | tail -n 200)
+                    ALL_LOG_ERRORS="${ALL_LOG_ERRORS}
+
+--- Build $BUILD_ID (Last 200 lines) ---
+${FALLBACK_LOG}"
                   fi
+                else
+                  echo "Warning: BUILD_LOG is empty for build $BUILD_ID"
                 fi
               done
             else
@@ -354,10 +390,10 @@ jobs:
               build_problems="$ALL_PROBLEMS_JSON"
             fi
             
-            # Save log errors
+            # Save log errors (don't use echo -e, just assign directly)
             if [ -n "$ALL_LOG_ERRORS" ]; then
               echo "Build log errors extracted successfully"
-              build_log_summary=$(echo -e "$ALL_LOG_ERRORS")
+              build_log_summary="$ALL_LOG_ERRORS"
             fi
           fi
           
