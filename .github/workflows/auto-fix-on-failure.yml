@@ -415,35 +415,20 @@ jobs:
                   # Combine all extracted errors
                   LOG_ERRORS=""
                   if [ -n "$COMPILE_ERRORS" ] && [ "$COMPILE_COUNT" -gt 0 ]; then
-                    LOG_ERRORS="${LOG_ERRORS}=== Compilation Errors ===
-${COMPILE_ERRORS}
-
-"
+                    LOG_ERRORS="${LOG_ERRORS}=== Compilation Errors ==="${'\n'}"${COMPILE_ERRORS}"$'\n\n'
                   fi
                   if [ -n "$LINKER_ERRORS" ] && [ "$LINKER_COUNT" -gt 0 ]; then
-                    LOG_ERRORS="${LOG_ERRORS}=== Linker Errors ===
-${LINKER_ERRORS}
-
-"
+                    LOG_ERRORS="${LOG_ERRORS}=== Linker Errors ==="${'\n'}"${LINKER_ERRORS}"$'\n\n'
                   fi
                   if [ -n "$CMAKE_ERRORS" ] && [ "$CMAKE_COUNT" -gt 0 ]; then
-                    LOG_ERRORS="${LOG_ERRORS}=== CMake Errors ===
-${CMAKE_ERRORS}
-
-"
+                    LOG_ERRORS="${LOG_ERRORS}=== CMake Errors ==="${'\n'}"${CMAKE_ERRORS}"$'\n\n'
                   fi
                   if [ -n "$MAKE_ERRORS" ] && [ "$MAKE_COUNT" -gt 0 ]; then
-                    LOG_ERRORS="${LOG_ERRORS}=== Make Errors ===
-${MAKE_ERRORS}
-
-"
+                    LOG_ERRORS="${LOG_ERRORS}=== Make Errors ==="${'\n'}"${MAKE_ERRORS}"$'\n\n'
                   fi
                   
                   if [ -n "$LOG_ERRORS" ]; then
-                    ALL_LOG_ERRORS="${ALL_LOG_ERRORS}
-
---- Build $BUILD_ID ---
-${LOG_ERRORS}"
+                    ALL_LOG_ERRORS="${ALL_LOG_ERRORS}"$'\n\n'"--- Build $BUILD_ID ---"$'\n'"${LOG_ERRORS}"
                     issue_type="build_failure"
                     echo "Successfully extracted error patterns from build log"
                   else
@@ -451,10 +436,7 @@ ${LOG_ERRORS}"
                     echo "Including last 200 lines as fallback..."
                     # Include last 200 lines as fallback to ensure we catch errors
                     FALLBACK_LOG=$(echo "$BUILD_LOG" | tail -n 200)
-                    ALL_LOG_ERRORS="${ALL_LOG_ERRORS}
-
---- Build $BUILD_ID (Last 200 lines) ---
-${FALLBACK_LOG}"
+                    ALL_LOG_ERRORS="${ALL_LOG_ERRORS}"$'\n\n'"--- Build $BUILD_ID (Last 200 lines) ---"$'\n'"${FALLBACK_LOG}"
                   fi
                 else
                   echo "Warning: BUILD_LOG is empty for build $BUILD_ID (curl may have failed)"
