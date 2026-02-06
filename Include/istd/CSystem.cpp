@@ -537,4 +537,11 @@ QString CSystem::s_platformCode = CSystem::GetCompilerVariable("PlatformCode");
 
 } // namespace istd
 
+// TEST: Intentional build error to test auto-fix workflow
+// This error should trigger TeamCity CI failure and auto-fix workflow
+void TestAutoFixWorkflow()
+{
+	// Intentional syntax error: missing semicolon and undefined type
+	UndefinedType missingVariable
+}
 
