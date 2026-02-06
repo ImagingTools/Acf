@@ -1,54 +1,103 @@
 name: Auto-Fix on Build Failure
 
-# IMPORTANT: This workflow uses workflow_run trigger which runs in the default branch context.
-# This allows it to run automatically WITHOUT requiring manual approval, even for first-time contributors.
-# The workflow_run event is designed for exactly this use case - responding to other workflow completions.
+# IMPORTANT: This workflow uses check_suite trigger which works for both push and pull_request events.
+# This allows it to respond to TeamCity CI build failures on pull requests.
+# The check_suite event is dispatched when a check suite completes, regardless of how it was triggered.
 on:
-  workflow_run:
-    workflows: ["TeamCity CI"]
+  check_suite:
     types:
       - completed
 
-# These permissions are granted automatically because workflow_run runs in the default branch context
+# These permissions are required for the auto-fix workflow to function
 permissions:
   contents: write
   pull-requests: write
   issues: write
   actions: read
+  checks: read
 
 jobs:
   auto-fix:
     name: Attempt Auto-Fix
     runs-on: ubuntu-latest
-    # Only run on failed builds from pull requests in the same repository (not forks)
-    # This allows the workflow to run automatically without requiring approval
-    # The workflow_run event already provides protection by running in default branch context
+    # Only run on failed check suites from pull requests in the same repository (not forks)
+    # Skip if the branch is main or master (we only fix PR branches)
     if: |
-      github.event.workflow_run.conclusion == 'failure' &&
-      github.event.workflow_run.event == 'pull_request' &&
-      github.event.workflow_run.head_repository.full_name == github.repository
+      github.event.check_suite.conclusion == 'failure' &&
+      github.event.check_suite.head_branch != 'main' &&
+      github.event.check_suite.head_branch != 'master' &&
+      github.event.check_suite.app.slug == 'github-actions'
     steps:
+      - name: Filter for TeamCity CI
+        id: check_teamcity
+        uses: actions/github-script@v8
+        with:
+          script: |
+            console.log('Checking if this check suite contains TeamCity CI check runs...');
+            
+            // Get check runs in this suite
+            const checkRuns = await github.rest.checks.listForSuite({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              check_suite_id: context.payload.check_suite.id,
+              per_page: 100
+            });
+            
+            console.log(`Found ${checkRuns.data.total_count} check run(s) in this suite`);
+            
+            // Check if any are from TeamCity CI
+            const teamcityRuns = checkRuns.data.check_runs.filter(run =>
+              run.name.includes('Trigger TeamCity Build')
+            );
+            
+            console.log(`Found ${teamcityRuns.length} TeamCity CI check run(s)`);
+            
+            if (teamcityRuns.length > 0) {
+              console.log('TeamCity CI checks found:');
+              for (const run of teamcityRuns) {
+                console.log(`  - ${run.name}: ${run.conclusion}`);
+              }
+            }
+            
+            return teamcityRuns.length > 0;
+      
+      - name: Skip if not TeamCity CI
+        if: steps.check_teamcity.outputs.result != 'true'
+        run: |
+          echo "⚠️ Not a TeamCity CI failure, skipping auto-fix"
+          echo "This check suite does not contain TeamCity CI check runs"
+          exit 0
+      
       - name: Get PR Information
+        if: steps.check_teamcity.outputs.result == 'true'
         id: pr
         uses: actions/github-script@v8
         with:
           script: |
+            const headBranch = context.payload.check_suite.head_branch;
+            const headSha = context.payload.check_suite.head_sha;
+            
+            console.log(`Looking for PR with head branch: ${headBranch}`);
+            
             const pulls = await github.rest.pulls.list({
               owner: context.repo.owner,
               repo: context.repo.repo,
               state: 'open',
-              head: `${context.repo.owner}:${context.payload.workflow_run.head_branch}`
+              head: `${context.repo.owner}:${headBranch}`
             });
+            
             if (pulls.data.length === 0) {
               console.log('No open PR found for this branch');
               return null;
             }
+            
             const pr = pulls.data[0];
             console.log(`Found PR #${pr.number}: ${pr.title}`);
+            
             return {
               number: pr.number,
-              head_sha: pr.head.sha,
-              head_ref: pr.head.ref
+              head_sha: headSha,
+              head_ref: headBranch
             };
 
       - name: Wait for TeamCity Builds to Complete
@@ -144,8 +193,42 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           fetch-depth: 0
 
-      - name: Download TeamCity Build Info
+      - name: Get TeamCity Workflow Run
         if: steps.pr.outputs.result != 'null' && fromJSON(steps.wait_checks.outputs.result).proceed == true
+        id: teamcity_run
+        uses: actions/github-script@v8
+        with:
+          script: |
+            const headSha = context.payload.check_suite.head_sha;
+            
+            console.log(`Finding TeamCity CI workflow run for SHA: ${headSha}`);
+            
+            // Get workflow runs for the TeamCity CI workflow
+            const workflowRuns = await github.rest.actions.listWorkflowRunsForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: 'teamcity-trigger.yml',
+              head_sha: headSha,
+              per_page: 10
+            });
+            
+            if (workflowRuns.data.workflow_runs.length === 0) {
+              console.log('⚠️ No TeamCity CI workflow run found for this SHA');
+              return { run_id: null };
+            }
+            
+            // Get the most recent run
+            const run = workflowRuns.data.workflow_runs[0];
+            console.log(`Found TeamCity CI workflow run: ${run.id}`);
+            console.log(`  Status: ${run.status}, Conclusion: ${run.conclusion}`);
+            
+            return { 
+              run_id: run.id,
+              html_url: run.html_url
+            };
+
+      - name: Download TeamCity Build Info
+        if: steps.pr.outputs.result != 'null' && fromJSON(steps.wait_checks.outputs.result).proceed == true && fromJSON(steps.teamcity_run.outputs.result).run_id != null
         id: download_build_info
         uses: actions/download-artifact@v4
         continue-on-error: true
@@ -153,7 +236,7 @@ jobs:
           pattern: teamcity-build-info-*
           path: teamcity-build-info
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          run-id: ${{ github.event.workflow_run.id }}
+          run-id: ${{ fromJSON(steps.teamcity_run.outputs.result).run_id }}
 
       - name: Analyze Build Failure
         if: steps.pr.outputs.result != 'null' && fromJSON(steps.wait_checks.outputs.result).proceed == true
@@ -208,58 +291,62 @@ jobs:
             if [ -z "$TEAMCITY_BUILD_IDS" ]; then
               echo "No build IDs found in artifacts, falling back to job log parsing..."
               
-              # Get the workflow run that triggered this auto-fix
-              WORKFLOW_RUN_ID="${{ github.event.workflow_run.id }}"
+              # Get the workflow run ID from the teamcity_run step (or null if not found)
+              WORKFLOW_RUN_ID="${{ fromJSON(steps.teamcity_run.outputs.result).run_id || '' }}"
               
-              # Get jobs from the triggering workflow run
-              JOBS_RESPONSE=$(curl -sS \
-                -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-                -H "Accept: application/vnd.github+json" \
-                "https://api.github.com/repos/${{ github.repository }}/actions/runs/$WORKFLOW_RUN_ID/jobs")
-              
-              # Fetch job logs to extract build IDs from ALL jobs (not just failed ones)
-              # The build ID is logged when the build is queued, regardless of final job status
-              JOB_IDS=$(echo "$JOBS_RESPONSE" | jq -r '.jobs[] | select(.name | contains("Trigger TeamCity Build")) | .id')
-              
-              if [ -z "$JOB_IDS" ]; then
-                echo "No TeamCity trigger jobs found, checking all jobs as fallback..."
-                JOB_IDS=$(echo "$JOBS_RESPONSE" | jq -r '.jobs[].id')
-              fi
-              
-              for JOB_ID in $JOB_IDS; do
-                echo "Checking job $JOB_ID for TeamCity build IDs..."
-                # Follow redirects with -L flag since GitHub Actions logs API returns a redirect
-                JOB_LOGS=$(curl -sSL \
+              if [ -z "$WORKFLOW_RUN_ID" ] || [ "$WORKFLOW_RUN_ID" = "null" ]; then
+                echo "⚠️ No TeamCity workflow run ID available, cannot fetch job logs"
+              else
+                # Get jobs from the triggering workflow run
+                JOBS_RESPONSE=$(curl -sS \
                   -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-                  "https://api.github.com/repos/${{ github.repository }}/actions/jobs/$JOB_ID/logs" 2>/dev/null || echo "")
+                  -H "Accept: application/vnd.github+json" \
+                  "https://api.github.com/repos/${{ github.repository }}/actions/runs/$WORKFLOW_RUN_ID/jobs")
                 
-                if [ -n "$JOB_LOGS" ]; then
-                  LINE_COUNT=$(echo "$JOB_LOGS" | wc -l)
-                  echo "Successfully fetched logs for job $JOB_ID ($LINE_COUNT lines)"
+                # Fetch job logs to extract build IDs from ALL jobs (not just failed ones)
+                # The build ID is logged when the build is queued, regardless of final job status
+                JOB_IDS=$(echo "$JOBS_RESPONSE" | jq -r '.jobs[] | select(.name | contains("Trigger TeamCity Build")) | .id')
+                
+                if [ -z "$JOB_IDS" ]; then
+                  echo "No TeamCity trigger jobs found, checking all jobs as fallback..."
+                  JOB_IDS=$(echo "$JOBS_RESPONSE" | jq -r '.jobs[].id')
+                fi
+                
+                for JOB_ID in $JOB_IDS; do
+                  echo "Checking job $JOB_ID for TeamCity build IDs..."
+                  # Follow redirects with -L flag since GitHub Actions logs API returns a redirect
+                  JOB_LOGS=$(curl -sSL \
+                    -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+                    "https://api.github.com/repos/${{ github.repository }}/actions/jobs/$JOB_ID/logs" 2>/dev/null || echo "")
                   
-                  # Show a sample of the logs for debugging (first occurrence of "Build queued" or "build_id=")
-                  SAMPLE=$(echo "$JOB_LOGS" | grep -E "Build queued|build_id=" | head -n 2 || echo "(no matching lines found)")
-                  echo "Sample log lines: $SAMPLE"
-                else
-                  echo "Warning: Empty logs for job $JOB_ID"
-                fi
-                
-                # Extract build IDs from logs using multiple patterns
-                # Pattern 1: "✅ Build queued. ID=$BUILD_ID" (from echo statement)
-                EXTRACTED_IDS=$(echo "$JOB_LOGS" | grep -oE "Build queued\. ID=[0-9]+" | grep -oE "[0-9]+" || echo "")
-                
-                # Pattern 2: "build_id=$BUILD_ID" (from GITHUB_OUTPUT) as fallback
-                if [ -z "$EXTRACTED_IDS" ]; then
-                  EXTRACTED_IDS=$(echo "$JOB_LOGS" | grep -oE "build_id=[0-9]+" | grep -oE "[0-9]+" || echo "")
-                fi
-                
-                if [ -n "$EXTRACTED_IDS" ]; then
-                  echo "Found build ID(s) from logs: $EXTRACTED_IDS"
-                  TEAMCITY_BUILD_IDS="$TEAMCITY_BUILD_IDS $EXTRACTED_IDS"
-                else
-                  echo "No build IDs found in job $JOB_ID logs"
-                fi
-              done
+                  if [ -n "$JOB_LOGS" ]; then
+                    LINE_COUNT=$(echo "$JOB_LOGS" | wc -l)
+                    echo "Successfully fetched logs for job $JOB_ID ($LINE_COUNT lines)"
+                    
+                    # Show a sample of the logs for debugging (first occurrence of "Build queued" or "build_id=")
+                    SAMPLE=$(echo "$JOB_LOGS" | grep -E "Build queued|build_id=" | head -n 2 || echo "(no matching lines found)")
+                    echo "Sample log lines: $SAMPLE"
+                  else
+                    echo "Warning: Empty logs for job $JOB_ID"
+                  fi
+                  
+                  # Extract build IDs from logs using multiple patterns
+                  # Pattern 1: "✅ Build queued. ID=$BUILD_ID" (from echo statement)
+                  EXTRACTED_IDS=$(echo "$JOB_LOGS" | grep -oE "Build queued\. ID=[0-9]+" | grep -oE "[0-9]+" || echo "")
+                  
+                  # Pattern 2: "build_id=$BUILD_ID" (from GITHUB_OUTPUT) as fallback
+                  if [ -z "$EXTRACTED_IDS" ]; then
+                    EXTRACTED_IDS=$(echo "$JOB_LOGS" | grep -oE "build_id=[0-9]+" | grep -oE "[0-9]+" || echo "")
+                  fi
+                  
+                  if [ -n "$EXTRACTED_IDS" ]; then
+                    echo "Found build ID(s) from logs: $EXTRACTED_IDS"
+                    TEAMCITY_BUILD_IDS="$TEAMCITY_BUILD_IDS $EXTRACTED_IDS"
+                  else
+                    echo "No build IDs found in job $JOB_ID logs"
+                  fi
+                done
+              fi
             fi
             
             TEAMCITY_BUILD_IDS=$(echo "$TEAMCITY_BUILD_IDS" | xargs)
@@ -594,7 +681,12 @@ ${FALLBACK_LOG}"
               // Add links to logs and workflow
               body += '### Additional Information\n\n';
               body += `- **Workflow Run:** [View Details](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})\n`;
-              body += `- **Triggering Workflow:** [TeamCity CI Run](${{ github.event.workflow_run.html_url }})\n`;
+              
+              // Add TeamCity workflow run link if available
+              const teamcityRunInfo = JSON.parse('${{ steps.teamcity_run.outputs.result || "null" }}');
+              if (teamcityRunInfo && teamcityRunInfo.html_url) {
+                body += `- **Triggering Workflow:** [TeamCity CI Run](${teamcityRunInfo.html_url})\n`;
+              }
               
               if (buildIds) {
                 const buildIdArray = buildIds.split(' ').filter(id => id.trim() !== '');
