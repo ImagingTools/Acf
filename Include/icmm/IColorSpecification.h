@@ -5,7 +5,7 @@
 #include <memory>
 
 // ACF includes
-#include <istd/IChangeable.h>
+#include <iser/IObject.h>
 #include <icmm/icmm.h>
 
 
@@ -163,13 +163,13 @@ namespace icmm
 
 	\ingroup Color
 */
-class IColorSpecification: virtual public istd::IChangeable
+class IColorSpecification: virtual public iser::IObject
 {
 public:
 	typedef std::shared_ptr<const IColorSpecification> ConstColorSpecPtr;
 	typedef std::shared_ptr<IColorSpecification> ColorSpecPtr;
 
-	enum class SpecType
+	enum SpecType
 	{
 		/**
 			Tristimulus-based specification (e.g., RGB with primaries and white point).
@@ -181,6 +181,7 @@ public:
 		*/
 		Spectral
 	};
+	I_DECLARE_ENUM(SpecType, Tristimulus, Spectral);
 
 	/**
 		Gets the logical type of the specification.
