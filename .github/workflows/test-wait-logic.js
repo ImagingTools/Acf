@@ -1,42 +1,42 @@
 #!/usr/bin/env node
 
 /**
- * Test script to validate the wait-for-checks logic
- * This simulates the behavior of the "Wait for All PR Checks to Complete" step
+ * Test script to validate the wait-for-TeamCity-builds logic
+ * This simulates the behavior of the "Wait for TeamCity Builds to Complete" step
  */
 
 // Mock check runs data for testing
 const mockCheckRuns = {
   scenario1: {
-    name: "All checks completed, TeamCity failed",
+    name: "TeamCity builds completed, one failed",
     checks: [
       { name: "Attempt Auto-Fix", status: "in_progress", conclusion: null },
       { name: "Trigger TeamCity Build (windows)", status: "completed", conclusion: "failure" },
       { name: "Trigger TeamCity Build (linux)", status: "completed", conclusion: "success" },
-      { name: "Security Scanning / Dependency Review", status: "completed", conclusion: "success" },
-      { name: "Security Scanning / SBOM Validation", status: "completed", conclusion: "success" }
+      { name: "Security Scanning / Dependency Review", status: "in_progress", conclusion: null },
+      { name: "Security Scanning / SBOM Validation", status: "queued", conclusion: null }
     ],
-    expected: { proceed: true, reason: "All checks completed and at least one TeamCity build failed" }
+    expected: { proceed: true, reason: "TeamCity builds completed and at least one failed" }
   },
   scenario2: {
-    name: "All checks completed, all TeamCity passed",
+    name: "TeamCity builds completed, all passed",
     checks: [
       { name: "Attempt Auto-Fix", status: "in_progress", conclusion: null },
       { name: "Trigger TeamCity Build (windows)", status: "completed", conclusion: "success" },
       { name: "Trigger TeamCity Build (linux)", status: "completed", conclusion: "success" },
-      { name: "Security Scanning / Dependency Review", status: "completed", conclusion: "success" }
+      { name: "Security Scanning / Dependency Review", status: "in_progress", conclusion: null }
     ],
     expected: { proceed: false, reason: "No TeamCity builds failed" }
   },
   scenario3: {
-    name: "Some checks still pending",
+    name: "TeamCity builds still pending",
     checks: [
       { name: "Attempt Auto-Fix", status: "in_progress", conclusion: null },
       { name: "Trigger TeamCity Build (windows)", status: "completed", conclusion: "failure" },
       { name: "Trigger TeamCity Build (linux)", status: "in_progress", conclusion: null },
-      { name: "Security Scanning / Dependency Review", status: "queued", conclusion: null }
+      { name: "Security Scanning / Dependency Review", status: "completed", conclusion: "success" }
     ],
-    expected: { proceed: null, reason: "Should continue waiting" }
+    expected: { proceed: null, reason: "Should continue waiting for TeamCity builds" }
   },
   scenario4: {
     name: "Both TeamCity builds failed",
@@ -44,35 +44,34 @@ const mockCheckRuns = {
       { name: "Attempt Auto-Fix", status: "in_progress", conclusion: null },
       { name: "Trigger TeamCity Build (windows)", status: "completed", conclusion: "failure" },
       { name: "Trigger TeamCity Build (linux)", status: "completed", conclusion: "failure" },
-      { name: "Security Scanning / Dependency Review", status: "completed", conclusion: "success" }
+      { name: "Security Scanning / Dependency Review", status: "queued", conclusion: null }
     ],
-    expected: { proceed: true, reason: "All checks completed and multiple TeamCity builds failed" }
+    expected: { proceed: true, reason: "Multiple TeamCity builds failed" }
   }
 };
 
 function testWaitLogic(checkRuns) {
-  // Filter out this workflow's own check runs
-  const otherChecks = checkRuns.filter(check => 
-    check.name !== 'Attempt Auto-Fix'
+  // Filter to only TeamCity checks
+  const teamcityChecks = checkRuns.filter(check => 
+    check.name.includes('Trigger TeamCity Build')
   );
   
-  console.log(`  Monitoring ${otherChecks.length} checks (excluding this workflow)`);
+  console.log(`  Found ${teamcityChecks.length} TeamCity check(s)`);
   
-  // Check if all checks are completed
-  const pendingChecks = otherChecks.filter(check => 
+  if (teamcityChecks.length === 0) {
+    console.log('  ⚠️ No TeamCity checks found - skipping auto-fix');
+    return { proceed: false };
+  }
+  
+  // Check if all TeamCity builds are completed
+  const pendingTeamcityChecks = teamcityChecks.filter(check => 
     check.status !== 'completed'
   );
   
-  if (pendingChecks.length === 0) {
-    console.log('  ✅ All PR checks have completed');
+  if (pendingTeamcityChecks.length === 0) {
+    console.log('  ✅ All TeamCity builds have completed');
     
     // Check if any TeamCity build failed
-    const teamcityChecks = otherChecks.filter(check => 
-      check.name.includes('Trigger TeamCity Build')
-    );
-    
-    console.log(`  Found ${teamcityChecks.length} TeamCity check(s)`);
-    
     const failedTeamcityChecks = teamcityChecks.filter(check => 
       check.conclusion === 'failure'
     );
@@ -89,8 +88,8 @@ function testWaitLogic(checkRuns) {
     }
   }
   
-  console.log(`  ⏳ ${pendingChecks.length} check(s) still pending:`);
-  for (const check of pendingChecks) {
+  console.log(`  ⏳ ${pendingTeamcityChecks.length} TeamCity build(s) still pending:`);
+  for (const check of pendingTeamcityChecks) {
     console.log(`    - ${check.name}: ${check.status}`);
   }
   

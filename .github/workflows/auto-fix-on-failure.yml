@@ -45,7 +45,7 @@ jobs:
               head_ref: pr.head.ref
             };
 
-      - name: Wait for All PR Checks to Complete
+      - name: Wait for TeamCity Builds to Complete
         if: steps.pr.outputs.result != 'null'
         id: wait_checks
         uses: actions/github-script@v8
@@ -54,13 +54,13 @@ jobs:
             const prInfo = JSON.parse('${{ steps.pr.outputs.result }}');
             const headSha = prInfo.head_sha;
             
-            console.log(`Waiting for all PR checks to complete for SHA: ${headSha}`);
+            console.log(`Waiting for TeamCity builds to complete for SHA: ${headSha}`);
             
             const maxAttempts = 60; // 60 attempts * 30 seconds = 30 minutes max
             const delayMs = 30000; // 30 seconds between checks
             
             for (let attempt = 1; attempt <= maxAttempts; attempt++) {
-              console.log(`\nAttempt ${attempt}/${maxAttempts}: Checking status of all checks...`);
+              console.log(`\nAttempt ${attempt}/${maxAttempts}: Checking TeamCity build status...`);
               
               // Get all check runs for this commit
               const checkRuns = await github.rest.checks.listForRef({
@@ -72,28 +72,27 @@ jobs:
               
               console.log(`Found ${checkRuns.data.total_count} check runs`);
               
-              // Filter out this workflow's own check runs to avoid circular dependency
-              const otherChecks = checkRuns.data.check_runs.filter(check => 
-                check.name !== 'Attempt Auto-Fix'
+              // Filter to only TeamCity checks
+              const teamcityChecks = checkRuns.data.check_runs.filter(check => 
+                check.name.includes('Trigger TeamCity Build')
               );
               
-              console.log(`Monitoring ${otherChecks.length} checks (excluding this workflow)`);
+              console.log(`Found ${teamcityChecks.length} TeamCity check(s)`);
               
-              // Check if all checks are completed
-              const pendingChecks = otherChecks.filter(check => 
+              if (teamcityChecks.length === 0) {
+                console.log('⚠️ No TeamCity checks found - skipping auto-fix');
+                return { proceed: false };
+              }
+              
+              // Check if all TeamCity builds are completed
+              const pendingTeamcityChecks = teamcityChecks.filter(check => 
                 check.status !== 'completed'
               );
               
-              if (pendingChecks.length === 0) {
-                console.log('✅ All PR checks have completed');
+              if (pendingTeamcityChecks.length === 0) {
+                console.log('✅ All TeamCity builds have completed');
                 
                 // Check if any TeamCity build failed
-                const teamcityChecks = otherChecks.filter(check => 
-                  check.name.includes('Trigger TeamCity Build')
-                );
-                
-                console.log(`Found ${teamcityChecks.length} TeamCity check(s)`);
-                
                 const failedTeamcityChecks = teamcityChecks.filter(check => 
                   check.conclusion === 'failure'
                 );
@@ -110,8 +109,8 @@ jobs:
                 }
               }
               
-              console.log(`⏳ ${pendingChecks.length} check(s) still pending:`);
-              for (const check of pendingChecks) {
+              console.log(`⏳ ${pendingTeamcityChecks.length} TeamCity build(s) still pending:`);
+              for (const check of pendingTeamcityChecks) {
                 console.log(`  - ${check.name}: ${check.status}`);
               }
               
@@ -121,15 +120,15 @@ jobs:
               }
             }
             
-            console.log('❌ Timeout: Not all checks completed within 30 minutes');
+            console.log('❌ Timeout: Not all TeamCity builds completed within 30 minutes');
             return { proceed: false };
 
       - name: Skip Auto-Fix
         if: steps.pr.outputs.result != 'null' && fromJSON(steps.wait_checks.outputs.result).proceed == false
         run: |
           echo "⚠️ Skipping auto-fix workflow"
-          echo "Reason: Either not all PR checks completed, or no TeamCity builds failed"
-          echo "See 'Wait for All PR Checks to Complete' step for details"
+          echo "Reason: Either TeamCity builds not completed, or no TeamCity builds failed"
+          echo "See 'Wait for TeamCity Builds to Complete' step for details"
 
       - name: Checkout PR branch
         if: steps.pr.outputs.result != 'null' && fromJSON(steps.wait_checks.outputs.result).proceed == true

@@ -5,30 +5,30 @@ Execute auto-fix workflow automatically after the PR-checks are finished and if 
 
 ## Solution Overview
 
-The auto-fix workflow has been enhanced to wait for **all PR checks to complete** before attempting to analyze and fix build errors. This ensures the workflow has complete context about all check results before taking action.
+The auto-fix workflow has been enhanced to wait for **TeamCity builds to complete** before attempting to analyze and fix build errors. This ensures the workflow responds quickly to build failures without waiting for unrelated checks.
 
 ## Implementation Details
 
-### 1. New "Wait for All PR Checks to Complete" Step
+### 1. New "Wait for TeamCity Builds to Complete" Step
 
 **Location:** `.github/workflows/auto-fix-on-failure.yml`
 
 **Functionality:**
-- Polls the GitHub Checks API every 30 seconds to monitor check run status
+- Polls the GitHub Checks API every 30 seconds to monitor TeamCity build status
 - Maximum wait time: 30 minutes (60 attempts × 30 seconds)
-- Filters out its own check run ("Attempt Auto-Fix") to avoid circular dependency
-- Identifies TeamCity build checks by name pattern: "Trigger TeamCity Build"
+- Filters to only monitor TeamCity build checks by name pattern: "Trigger TeamCity Build"
+- Does not wait for other checks (Security Scanning, etc.)
 
 **Decision Logic:**
 ```javascript
-if (all checks completed) {
+if (all TeamCity builds completed) {
   if (any TeamCity build failed) {
     return { proceed: true };  // Run auto-fix
   } else {
     return { proceed: false }; // Skip - no TeamCity failures
   }
 } else {
-  // Continue waiting
+  // Continue waiting for TeamCity builds only
 }
 ```
 
@@ -50,13 +50,14 @@ if: steps.pr.outputs.result != 'null' && fromJSON(steps.wait_checks.outputs.resu
 **Purpose:** Provides clear visibility when auto-fix is skipped
 
 **Triggers when:**
-- All checks completed but no TeamCity builds failed
-- Timeout reached (30 minutes) before all checks completed
+- All TeamCity builds completed but none failed
+- Timeout reached (30 minutes) before TeamCity builds completed
+- No TeamCity build checks found
 
 ### 4. Enhanced Documentation
 
 **Files updated:**
-- `AUTO_FIX_DOCUMENTATION.md` - Added "Waiting for All PR Checks" section
+- `AUTO_FIX_DOCUMENTATION.md` - Added "Waiting for TeamCity Builds" section
 - `AUTO_FIX_TESTING.md` - Added comprehensive testing scenarios
 - Created `test-wait-logic.js` - Unit test script
 
@@ -68,9 +69,10 @@ if: steps.pr.outputs.result != 'null' && fromJSON(steps.wait_checks.outputs.resu
 - No visibility into whether all checks had finished
 
 ### After
-- Auto-fix waits for ALL PR checks to complete
+- Auto-fix waits only for TeamCity builds to complete
+- Does not wait for other checks (Security Scanning, etc.)
 - Only proceeds if at least one TeamCity build failed
-- Provides detailed logging of check status during wait
+- Provides detailed logging of TeamCity build status during wait
 - Gracefully handles timeouts and edge cases
 
 ## Testing
@@ -82,9 +84,9 @@ node .github/workflows/test-wait-logic.js
 ```
 
 **Scenarios tested:**
-1. ✅ All checks completed, TeamCity failed → Proceed
-2. ✅ All checks completed, no failures → Skip
-3. ✅ Some checks pending → Continue waiting
+1. ✅ TeamCity builds completed, one failed → Proceed
+2. ✅ TeamCity builds completed, all passed → Skip
+3. ✅ TeamCity builds still pending → Continue waiting
 4. ✅ Multiple TeamCity failures → Proceed
 
 All tests pass successfully.
@@ -94,11 +96,12 @@ See `AUTO_FIX_TESTING.md` for procedures to test with real PRs.
 
 ## Key Benefits
 
-1. **Complete Context:** Has full information about all check results before taking action
-2. **Reduced False Positives:** Only acts when there's a confirmed TeamCity failure
-3. **Better Resource Usage:** Doesn't run analysis when not needed
-4. **Clear Logging:** Detailed progress information for debugging
-5. **Robust Error Handling:** Gracefully handles timeouts and edge cases
+1. **Focused Waiting:** Only waits for TeamCity builds, not all checks
+2. **Faster Response:** Doesn't wait for unrelated checks like Security Scanning
+3. **Reduced False Positives:** Only acts when there's a confirmed TeamCity failure
+4. **Better Resource Usage:** Doesn't run analysis when not needed
+5. **Clear Logging:** Detailed progress information for debugging
+6. **Robust Error Handling:** Gracefully handles timeouts and edge cases
 
 ## Configuration
 
@@ -132,4 +135,4 @@ Potential improvements:
 
 ## Conclusion
 
-The implementation successfully addresses the requirement to execute auto-fix workflow automatically **after** all PR checks are finished and only when TeamCity builds have failed. The solution is robust, well-tested, and provides clear visibility into the workflow's decision-making process.
+The implementation successfully addresses the requirement to execute auto-fix workflow automatically **after TeamCity builds are finished** and only when at least one TeamCity build has failed. The solution is robust, well-tested, and provides clear visibility into the workflow's decision-making process. Other checks (Security Scanning, etc.) can continue running independently.

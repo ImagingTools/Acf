@@ -41,11 +41,12 @@ The workflow is triggered by the `workflow_run` event when the "TeamCity CI" wor
 
 ### Process
 1. **Get PR Information**: Identifies the pull request associated with the build
-2. **Wait for All Checks**: Waits for all PR checks to complete (up to 30 minutes)
-   - Monitors all check runs on the PR commit
-   - Verifies that all checks have reached a completed state
+2. **Wait for TeamCity Builds**: Waits for TeamCity builds to complete (up to 30 minutes)
+   - Monitors only TeamCity build check runs on the PR commit
+   - Verifies that all TeamCity builds have reached a completed state
    - Checks if any TeamCity builds failed
-   - Only proceeds if all checks are done AND at least one TeamCity build failed
+   - Only proceeds if all TeamCity builds are done AND at least one failed
+   - Other checks (Security Scanning, etc.) can still be running
 3. **Checkout**: Checks out the PR branch with write permissions (if proceeding)
 4. **Analyze**: Examines the build failure patterns and fetches detailed problems from TeamCity
 5. **Fix**: Applies appropriate fixes based on the error type (where implemented)
@@ -58,7 +59,8 @@ The workflow is triggered by the `workflow_run` event when the "TeamCity CI" wor
 
 ### Safety
 - Only runs on pull requests (not main/master branches)
-- Waits for all PR checks to complete before attempting fixes
+- Waits for TeamCity builds to complete before attempting fixes
+- Does not wait for other checks (Security Scanning, etc.)
 - Only runs if at least one TeamCity build failed
 - Creates clear commit messages indicating auto-fix
 - Comments on PR so reviewers can see what was changed
@@ -213,28 +215,28 @@ Compilation errors detected
 - **TeamCity Build 12345:** [https://teamcity.example.com/viewLog.html?buildId=12345](https://teamcity.example.com/viewLog.html?buildId=12345)
 ```
 
-## Waiting for All PR Checks
+## Waiting for TeamCity Builds
 
 ### Overview
-The auto-fix workflow now intelligently waits for all PR checks to complete before attempting to fix build errors. This ensures that:
-- All required checks (Security Scanning, TeamCity builds for all platforms, etc.) have finished
+The auto-fix workflow intelligently waits for TeamCity builds to complete before attempting to fix build errors. This ensures that:
+- All TeamCity builds (Windows, Linux, etc.) have finished
 - Auto-fix only runs when there's a confirmed TeamCity build failure
-- The workflow doesn't interfere with checks that are still running
+- Other checks (Security Scanning, etc.) can continue running independently
 
 ### How It Works
 1. **Initial Trigger**: The workflow starts when the TeamCity CI workflow completes (success or failure)
 2. **Check Monitoring**: The workflow queries the GitHub API to get all check runs for the PR's head commit
-3. **Wait Loop**: Every 30 seconds, it checks if all checks have completed
+3. **Wait Loop**: Every 30 seconds, it checks if TeamCity builds have completed
    - Maximum wait time: 30 minutes (60 attempts × 30 seconds)
-   - Excludes itself from the check list to avoid circular dependency
-4. **Decision Point**: Once all checks complete:
+   - Filters to only monitor TeamCity build checks (not Security Scanning or other checks)
+4. **Decision Point**: Once all TeamCity builds complete:
    - If any TeamCity build failed: Proceed with auto-fix analysis and commenting
    - If all TeamCity builds passed: Skip auto-fix (no action needed)
    - If timeout reached: Skip auto-fix and log timeout message
 
 ### Benefits
-- **No Premature Action**: Doesn't attempt fixes while other checks are still running
-- **Complete Context**: Has full information about all check results before acting
+- **Focused Waiting**: Only waits for TeamCity builds, not all checks
+- **Faster Response**: Doesn't wait for unrelated checks like Security Scanning
 - **Resource Efficient**: Only runs the fix logic when actually needed
 - **Clear Logging**: Provides detailed progress information in the workflow logs
 
@@ -283,24 +285,25 @@ If auto-fix makes incorrect changes:
 
 ### Auto-Fix Didn't Run
 Possible causes:
-- Not all PR checks completed within the 30-minute timeout
-- No TeamCity builds failed (all checks passed)
+- TeamCity builds didn't complete within the 30-minute timeout
+- No TeamCity builds failed (all passed)
 - The workflow file doesn't exist or has invalid YAML syntax
 - The "TeamCity CI" workflow name doesn't match exactly
 - The PR branch doesn't have necessary permissions
-- Check the "Wait for All PR Checks to Complete" step logs for details
+- Check the "Wait for TeamCity Builds to Complete" step logs for details
 
 ### Auto-Fix Skipped with "proceed: false"
 This is expected behavior when:
-- All PR checks completed but no TeamCity builds failed
-- The timeout was reached before all checks completed
+- All TeamCity builds completed but none failed
+- The timeout was reached before TeamCity builds completed
+- No TeamCity build checks were found
 - Check the workflow logs to see which condition triggered the skip
 
 ### Auto-Fix Timeout
-If the workflow times out waiting for checks:
-- Increase `maxAttempts` in the "Wait for All PR Checks" step
-- Check if any PR checks are stuck or taking too long
-- Review which checks are pending in the workflow logs
+If the workflow times out waiting for TeamCity builds:
+- Increase `maxAttempts` in the "Wait for TeamCity Builds to Complete" step
+- Check if TeamCity builds are stuck or taking too long
+- Review which TeamCity builds are pending in the workflow logs
 
 ### Auto-Fix Applied Wrong Changes
 - Review the logic in "Attempt Common Fixes" step
