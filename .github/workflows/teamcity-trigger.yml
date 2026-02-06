@@ -129,6 +129,20 @@ jobs:
 
           echo "build_id=$BUILD_ID" >> "$GITHUB_OUTPUT"
           echo "web_url=$WEB_URL" >> "$GITHUB_OUTPUT"
+          
+          # Save build ID to file for auto-fix workflow to access
+          echo "$BUILD_ID" > teamcity-build-id-${{ matrix.platform }}.txt
+          echo "$WEB_URL" > teamcity-build-url-${{ matrix.platform }}.txt
+
+      - name: Upload Build ID Artifact
+        if: steps.teamcity.outputs.build_id
+        uses: actions/upload-artifact@v4
+        with:
+          name: teamcity-build-info-${{ matrix.platform }}
+          path: |
+            teamcity-build-id-${{ matrix.platform }}.txt
+            teamcity-build-url-${{ matrix.platform }}.txt
+          retention-days: 1
 
       - name: Wait for TeamCity Build
         if: steps.teamcity.outputs.build_id

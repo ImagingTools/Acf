@@ -138,6 +138,17 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           fetch-depth: 0
 
+      - name: Download TeamCity Build Info
+        if: steps.pr.outputs.result != 'null' && fromJSON(steps.wait_checks.outputs.result).proceed == true
+        id: download_build_info
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          pattern: teamcity-build-info-*
+          path: teamcity-build-info
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: ${{ github.event.workflow_run.id }}
+
       - name: Analyze Build Failure
         if: steps.pr.outputs.result != 'null' && fromJSON(steps.wait_checks.outputs.result).proceed == true
         id: analyze
@@ -162,38 +173,88 @@ jobs:
           else
             echo "Fetching build problems and logs from TeamCity..."
             
-            # Get the workflow run that triggered this auto-fix
-            WORKFLOW_RUN_ID="${{ github.event.workflow_run.id }}"
-            
-            # Get jobs from the triggering workflow run
-            JOBS_RESPONSE=$(curl -sS \
-              -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-              -H "Accept: application/vnd.github+json" \
-              "https://api.github.com/repos/${{ github.repository }}/actions/runs/$WORKFLOW_RUN_ID/jobs")
-            
-            # Extract TeamCity build IDs from job steps
-            echo "Extracting TeamCity build IDs from workflow jobs..."
-            
-            # Fetch job logs to extract build IDs if available
-            JOB_IDS=$(echo "$JOBS_RESPONSE" | jq -r '.jobs[] | select(.conclusion == "failure") | .id')
-            
+            # First, try to get build IDs from downloaded artifacts (most reliable method)
             TEAMCITY_BUILD_IDS=""
-            for JOB_ID in $JOB_IDS; do
-              echo "Checking job $JOB_ID for TeamCity build IDs..."
-              JOB_LOGS=$(curl -sS \
+            if [ -d "teamcity-build-info" ]; then
+              echo "Extracting TeamCity build IDs from artifacts..."
+              for BUILD_ID_FILE in teamcity-build-info/*/teamcity-build-id-*.txt; do
+                if [ -f "$BUILD_ID_FILE" ]; then
+                  BUILD_ID=$(cat "$BUILD_ID_FILE" 2>/dev/null || echo "")
+                  PLATFORM=$(basename "$BUILD_ID_FILE" | sed 's/teamcity-build-id-//; s/\.txt//')
+                  if [ -n "$BUILD_ID" ]; then
+                    echo "Found TeamCity build ID for $PLATFORM: $BUILD_ID"
+                    TEAMCITY_BUILD_IDS="$TEAMCITY_BUILD_IDS $BUILD_ID"
+                    
+                    # Also get the URL if available
+                    URL_FILE="${BUILD_ID_FILE/build-id/build-url}"
+                    if [ -f "$URL_FILE" ]; then
+                      BUILD_URL=$(cat "$URL_FILE" 2>/dev/null || echo "")
+                      if [ -n "$BUILD_URL" ]; then
+                        echo "Build URL: $BUILD_URL"
+                      fi
+                    fi
+                  fi
+                fi
+              done
+            fi
+            
+            # If no build IDs found in artifacts, fall back to parsing job logs
+            if [ -z "$TEAMCITY_BUILD_IDS" ]; then
+              echo "No build IDs found in artifacts, falling back to job log parsing..."
+              
+              # Get the workflow run that triggered this auto-fix
+              WORKFLOW_RUN_ID="${{ github.event.workflow_run.id }}"
+              
+              # Get jobs from the triggering workflow run
+              JOBS_RESPONSE=$(curl -sS \
                 -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
                 -H "Accept: application/vnd.github+json" \
-                "https://api.github.com/repos/${{ github.repository }}/actions/jobs/$JOB_ID/logs" 2>/dev/null || echo "")
+                "https://api.github.com/repos/${{ github.repository }}/actions/runs/$WORKFLOW_RUN_ID/jobs")
               
-              # Extract build IDs from logs
-              # NOTE: This pattern matches the output format from teamcity-trigger.yml line 125:
-              # "✅ Build queued. ID=$BUILD_ID"
-              # If the log format in teamcity-trigger.yml changes, update this pattern accordingly
-              EXTRACTED_IDS=$(echo "$JOB_LOGS" | grep -oP "Build queued\. ID=\K\d+" || echo "")
-              if [ -n "$EXTRACTED_IDS" ]; then
-                TEAMCITY_BUILD_IDS="$TEAMCITY_BUILD_IDS $EXTRACTED_IDS"
+              # Fetch job logs to extract build IDs from ALL jobs (not just failed ones)
+              # The build ID is logged when the build is queued, regardless of final job status
+              JOB_IDS=$(echo "$JOBS_RESPONSE" | jq -r '.jobs[] | select(.name | contains("Trigger TeamCity Build")) | .id')
+              
+              if [ -z "$JOB_IDS" ]; then
+                echo "No TeamCity trigger jobs found, checking all jobs as fallback..."
+                JOB_IDS=$(echo "$JOBS_RESPONSE" | jq -r '.jobs[].id')
               fi
-            done
+              
+              for JOB_ID in $JOB_IDS; do
+                echo "Checking job $JOB_ID for TeamCity build IDs..."
+                # Follow redirects with -L flag since GitHub Actions logs API returns a redirect
+                JOB_LOGS=$(curl -sSL \
+                  -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+                  "https://api.github.com/repos/${{ github.repository }}/actions/jobs/$JOB_ID/logs" 2>/dev/null || echo "")
+                
+                if [ -n "$JOB_LOGS" ]; then
+                  LINE_COUNT=$(echo "$JOB_LOGS" | wc -l)
+                  echo "Successfully fetched logs for job $JOB_ID ($LINE_COUNT lines)"
+                  
+                  # Show a sample of the logs for debugging (first occurrence of "Build queued" or "build_id=")
+                  SAMPLE=$(echo "$JOB_LOGS" | grep -E "Build queued|build_id=" | head -n 2 || echo "(no matching lines found)")
+                  echo "Sample log lines: $SAMPLE"
+                else
+                  echo "Warning: Empty logs for job $JOB_ID"
+                fi
+                
+                # Extract build IDs from logs using multiple patterns
+                # Pattern 1: "✅ Build queued. ID=$BUILD_ID" (from echo statement)
+                EXTRACTED_IDS=$(echo "$JOB_LOGS" | grep -oE "Build queued\. ID=[0-9]+" | grep -oE "[0-9]+" || echo "")
+                
+                # Pattern 2: "build_id=$BUILD_ID" (from GITHUB_OUTPUT) as fallback
+                if [ -z "$EXTRACTED_IDS" ]; then
+                  EXTRACTED_IDS=$(echo "$JOB_LOGS" | grep -oE "build_id=[0-9]+" | grep -oE "[0-9]+" || echo "")
+                fi
+                
+                if [ -n "$EXTRACTED_IDS" ]; then
+                  echo "Found build ID(s) from logs: $EXTRACTED_IDS"
+                  TEAMCITY_BUILD_IDS="$TEAMCITY_BUILD_IDS $EXTRACTED_IDS"
+                else
+                  echo "No build IDs found in job $JOB_ID logs"
+                fi
+              done
+            fi
             
             TEAMCITY_BUILD_IDS=$(echo "$TEAMCITY_BUILD_IDS" | xargs)
             echo "Found TeamCity build IDs: $TEAMCITY_BUILD_IDS"
