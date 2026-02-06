@@ -27,6 +27,7 @@ public:
 		Transmissive,
 		TotalTransmissive
 	};
+	I_DECLARE_ENUM(SpectrumType, Reflective, Emissive, Emissive, TotalTransmissive);
 
 	virtual SpectrumType GetSpectrumType() const = 0;
 
