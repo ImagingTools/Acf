@@ -102,7 +102,7 @@ console.log("=".repeat(60));
 
 let allTestsPassed = true;
 
-for (const [scenarioId, scenario] of Object.entries(mockCheckRuns)) {
+for (const scenario of Object.values(mockCheckRuns)) {
   console.log(`\n${scenario.name}`);
   console.log("-".repeat(60));
   
