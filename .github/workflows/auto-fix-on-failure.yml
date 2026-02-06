@@ -22,11 +22,12 @@ jobs:
     runs-on: ubuntu-latest
     # Only run on failed check suites from pull requests in the same repository (not forks)
     # Skip if the branch is main or master (we only fix PR branches)
+    # Note: Removed app.slug filter as it was preventing PR check suites from triggering
+    # The workflow filters for TeamCity CI check runs in a subsequent step
     if: |
       github.event.check_suite.conclusion == 'failure' &&
       github.event.check_suite.head_branch != 'main' &&
-      github.event.check_suite.head_branch != 'master' &&
-      github.event.check_suite.app.slug == 'github-actions'
+      github.event.check_suite.head_branch != 'master'
     steps:
       - name: Filter for TeamCity CI
         id: check_teamcity
