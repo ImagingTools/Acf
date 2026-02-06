@@ -588,12 +588,15 @@ ${FALLBACK_LOG}"
               // Add links to logs and workflow
               body += '### Additional Information\n\n';
               body += `- **Workflow Run:** [View Details](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})\n`;
-              body += `- **Original Build Failure:** [View Build](${{ github.event.workflow_run.html_url }})\n`;
+              body += `- **Triggering Workflow:** [TeamCity CI Run](${{ github.event.workflow_run.html_url }})\n`;
               
               if (buildIds) {
                 const buildIdArray = buildIds.split(' ').filter(id => id.trim() !== '');
-                for (const buildId of buildIdArray) {
-                  body += `- **TeamCity Build ${buildId}:** [${{ vars.TEAMCITY_URL }}/viewLog.html?buildId=${buildId}](${{ vars.TEAMCITY_URL }}/viewLog.html?buildId=${buildId})\n`;
+                if (buildIdArray.length > 0) {
+                  body += '\n**TeamCity Builds:**\n';
+                  for (const buildId of buildIdArray) {
+                    body += `- **Build ${buildId}:** [${{ vars.TEAMCITY_URL }}/viewLog.html?buildId=${buildId}](${{ vars.TEAMCITY_URL }}/viewLog.html?buildId=${buildId})\n`;
+                  }
                 }
               }
             }
