@@ -155,11 +155,14 @@ jobs:
       - name: Post Comment with Errors
         if: steps.get_pr.outputs.result != 'null'
         uses: actions/github-script@v8
+        env:
+          BUILD_ERRORS: ${{ steps.analyze.outputs.ERRORS }}
+          BUILD_IDS: ${{ steps.extract_build_ids.outputs.build_ids }}
         with:
           script: |
             const prNumber = ${{ steps.get_pr.outputs.result }};
-            const errors = `${{ steps.analyze.outputs.ERRORS }}`;
-            const buildIdsStr = '${{ steps.extract_build_ids.outputs.build_ids }}';
+            const errors = process.env.BUILD_ERRORS || '';
+            const buildIdsStr = process.env.BUILD_IDS || '';
             const buildIds = buildIdsStr.trim().split(/\s+/).filter(id => id.length > 0);
             const workflowRunId = ${{ github.event.workflow_run.id }};
 
