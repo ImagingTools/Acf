@@ -174,8 +174,14 @@ jobs:
             # Extract TeamCity build IDs from job steps
             echo "Extracting TeamCity build IDs from workflow jobs..."
             
-            # Fetch job logs to extract build IDs if available
-            JOB_IDS=$(echo "$JOBS_RESPONSE" | jq -r '.jobs[] | select(.conclusion == "failure") | .id')
+            # Fetch job logs to extract build IDs from ALL jobs (not just failed ones)
+            # The build ID is logged when the build is queued, regardless of final job status
+            JOB_IDS=$(echo "$JOBS_RESPONSE" | jq -r '.jobs[] | select(.name | contains("Trigger TeamCity Build")) | .id')
+            
+            if [ -z "$JOB_IDS" ]; then
+              echo "No TeamCity trigger jobs found, checking all jobs as fallback..."
+              JOB_IDS=$(echo "$JOBS_RESPONSE" | jq -r '.jobs[].id')
+            fi
             
             TEAMCITY_BUILD_IDS=""
             for JOB_ID in $JOB_IDS; do
@@ -191,6 +197,7 @@ jobs:
               # If the log format in teamcity-trigger.yml changes, update this pattern accordingly
               EXTRACTED_IDS=$(echo "$JOB_LOGS" | grep -oP "Build queued\. ID=\K\d+" || echo "")
               if [ -n "$EXTRACTED_IDS" ]; then
+                echo "Found build ID(s): $EXTRACTED_IDS"
                 TEAMCITY_BUILD_IDS="$TEAMCITY_BUILD_IDS $EXTRACTED_IDS"
               fi
             done
