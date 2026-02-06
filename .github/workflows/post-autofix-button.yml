@@ -1,0 +1,121 @@
+name: Post Auto-Fix Button on CI Failure
+
+# This workflow monitors TeamCity CI failures and posts a comment with a button to trigger auto-fix
+on:
+  workflow_run:
+    workflows: ["TeamCity CI"]
+    types:
+      - completed
+
+permissions:
+  pull-requests: write
+  issues: write
+
+jobs:
+  post-autofix-button:
+    name: Post Auto-Fix Button
+    runs-on: ubuntu-latest
+    if: |
+      github.event.workflow_run.conclusion == 'failure' &&
+      github.event.workflow_run.event == 'pull_request'
+    steps:
+      - name: Get PR Information
+        id: pr
+        uses: actions/github-script@v8
+        with:
+          script: |
+            // Get the PR associated with this workflow run
+            const { data: pullRequests } = await github.rest.repos.listPullRequestsAssociatedWithCommit({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              commit_sha: context.payload.workflow_run.head_sha
+            });
+            
+            if (pullRequests.length === 0) {
+              console.log('No pull request found for this commit');
+              return null;
+            }
+            
+            const pr = pullRequests[0];
+            console.log(`Found PR #${pr.number}`);
+            
+            return {
+              number: pr.number,
+              head_sha: context.payload.workflow_run.head_sha
+            };
+
+      - name: Post Auto-Fix Button Comment
+        if: steps.pr.outputs.result != 'null'
+        uses: actions/github-script@v8
+        with:
+          script: |
+            const prInfo = JSON.parse('${{ steps.pr.outputs.result }}');
+            const prNumber = prInfo.number;
+            const headSha = prInfo.head_sha;
+            const workflowRunId = context.payload.workflow_run.id;
+            
+            // Create a URL that opens the workflow_dispatch form
+            const workflowDispatchUrl = `https://github.com/${context.repo.owner}/${context.repo.repo}/actions/workflows/auto-fix-on-failure.yml`;
+            
+            // Build the comment body
+            const commentBody = [
+              '## 🔧 Auto-Fix Available',
+              '',
+              'The TeamCity CI build has failed. You can run the auto-fix workflow to analyze the build errors.',
+              '',
+              '### Execute Auto-Fix',
+              '',
+              'Click the button below to trigger the auto-fix workflow:',
+              '',
+              `**[▶️ Execute Auto-Fix](${workflowDispatchUrl})**`,
+              '',
+              'When the workflow page opens:',
+              '1. Click "Run workflow"',
+              `2. Enter PR number: \`${prNumber}\``,
+              `3. (Optional) Enter workflow run ID: \`${workflowRunId}\``,
+              `4. (Optional) Enter commit SHA: \`${headSha}\``,
+              '5. Click the green "Run workflow" button',
+              '',
+              'The auto-fix workflow will analyze the build logs and post the results here.',
+              '',
+              '---',
+              '<details>',
+              '<summary>Quick reference values</summary>',
+              '',
+              `- **PR Number:** \`${prNumber}\``,
+              `- **Workflow Run ID:** \`${workflowRunId}\``,
+              `- **Commit SHA:** \`${headSha}\``,
+              '',
+              '</details>',
+              '',
+              '_Posted automatically when TeamCity CI fails._'
+            ].join('\n');
+
+            // Check if we already posted a similar comment for this workflow run
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: prNumber,
+              per_page: 100
+            });
+            
+            const existingComment = comments.find(comment => 
+              comment.body && 
+              comment.body.includes('🔧 Auto-Fix Available') &&
+              comment.body.includes(`${workflowRunId}`)
+            );
+            
+            if (existingComment) {
+              console.log(`Comment already exists for workflow run ${workflowRunId}`);
+              return;
+            }
+            
+            // Post the comment
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: prNumber,
+              body: commentBody
+            });
+            
+            console.log(`Posted auto-fix button comment to PR #${prNumber}`);
