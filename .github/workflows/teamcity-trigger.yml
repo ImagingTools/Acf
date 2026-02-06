@@ -430,7 +430,7 @@ jobs:
             const prNumber = context.payload.pull_request.number;
 
             let body = '## 🔍 TeamCity Build Failed - Error Analysis\n\n';
-            body += '### @github-copilot\n\n';
+            body += '@copilot\n\n';
             body += '**Status:** TeamCity CI build failed ❌\n\n';
             body += 'Please analyze the following build errors and suggest specific fixes:\n\n';
             body += '```\n' + errors.trim() + '\n```\n\n';
