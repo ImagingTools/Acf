@@ -528,12 +528,12 @@ QString CSystem::GetCompilerInfo()
 }
 
 
-// Test function for auto-fix workflow testing
+// Test function for auto-fix workflow testing - Round 2
 // This contains an intentional compilation error
 void TestAutoFixWorkflow()
 {
 	// Intentional errors to test auto-fix workflow:
-	// 1. Undefined type
+	// 1. Undefined type  
 	// 2. Missing semicolon
 	UndefinedType missingVariable
 }
