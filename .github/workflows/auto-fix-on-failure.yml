@@ -68,13 +68,14 @@ jobs:
           fix_available="false"
           build_problems=""
           build_ids=""
+          build_log_summary=""
           
           # Check if TeamCity configuration is available
           if [ -z "${TEAMCITY_URL:-}" ] || [ -z "${TEAMCITY_TOKEN:-}" ]; then
             echo "⚠️ TeamCity configuration not available - cannot fetch detailed build errors"
             echo "Will skip detailed analysis"
           else
-            echo "Fetching build problems from TeamCity..."
+            echo "Fetching build problems and logs from TeamCity..."
             
             # Get the workflow run that triggered this auto-fix
             WORKFLOW_RUN_ID="${{ github.event.workflow_run.id }}"
@@ -100,7 +101,7 @@ jobs:
                 "https://api.github.com/repos/${{ github.repository }}/actions/jobs/$JOB_ID/logs" 2>/dev/null || echo "")
               
               # Extract build IDs from logs
-              # NOTE: This pattern matches the output format from teamcity-trigger.yml line 130:
+              # NOTE: This pattern matches the output format from teamcity-trigger.yml line 125:
               # "✅ Build queued. ID=$BUILD_ID"
               # If the log format in teamcity-trigger.yml changes, update this pattern accordingly
               EXTRACTED_IDS=$(echo "$JOB_LOGS" | grep -oP "Build queued\. ID=\K\d+" || echo "")
@@ -113,25 +114,69 @@ jobs:
             echo "Found TeamCity build IDs: $TEAMCITY_BUILD_IDS"
             build_ids="$TEAMCITY_BUILD_IDS"
             
-            # Fetch detailed build problems from TeamCity for each build ID
+            # Fetch detailed build problems AND build logs from TeamCity for each build ID
             ALL_PROBLEMS_JSON="[]"
+            ALL_LOG_ERRORS=""
+            
             if [ -n "$TEAMCITY_BUILD_IDS" ]; then
               for BUILD_ID in $TEAMCITY_BUILD_IDS; do
-                echo "Fetching problems for TeamCity build $BUILD_ID..."
+                echo "Fetching problems and logs for TeamCity build $BUILD_ID..."
                 
+                # Get problemOccurrences (structured errors)
                 PROBLEMS_RESPONSE=$(curl -sS \
                   -H "Authorization: Bearer $TEAMCITY_TOKEN" \
                   -H "Accept: application/json" \
                   "$TEAMCITY_URL/app/rest/builds/id:$BUILD_ID/problemOccurrences?fields=problemOccurrence(id,type,identity,details,additionalData,build(id,buildTypeId,webUrl,branchName))" 2>/dev/null || echo '{}')
                 
                 PROBLEM_COUNT=$(echo "$PROBLEMS_RESPONSE" | jq -r '.count // 0')
-                echo "Found $PROBLEM_COUNT problem(s) for build $BUILD_ID"
+                echo "Found $PROBLEM_COUNT structured problem(s) for build $BUILD_ID"
                 
                 if [ "$PROBLEM_COUNT" -gt 0 ]; then
-                  # Add build problems to collection
                   PROBLEMS_ARRAY=$(echo "$PROBLEMS_RESPONSE" | jq -r '.problemOccurrence // []')
                   ALL_PROBLEMS_JSON=$(echo "$ALL_PROBLEMS_JSON" | jq --argjson new "$PROBLEMS_ARRAY" '. + $new')
                   issue_type="build_failure"
+                fi
+                
+                # Fetch actual build log (last 500 lines to capture errors)
+                echo "Fetching build log for build $BUILD_ID..."
+                BUILD_LOG=$(curl -sS \
+                  -H "Authorization: Bearer $TEAMCITY_TOKEN" \
+                  -H "Accept: text/plain" \
+                  "$TEAMCITY_URL/app/rest/builds/id:$BUILD_ID/log" 2>/dev/null | tail -n 500 || echo "")
+                
+                if [ -n "$BUILD_LOG" ]; then
+                  echo "Analyzing build log for errors..."
+                  
+                  # Extract compilation errors (common patterns)
+                  COMPILE_ERRORS=$(echo "$BUILD_LOG" | grep -E "error:|Error:|ERROR:|fatal error:" | head -n 50 || echo "")
+                  
+                  # Extract linker errors
+                  LINKER_ERRORS=$(echo "$BUILD_LOG" | grep -E "undefined reference|unresolved external|cannot find -l|ld returned" | head -n 20 || echo "")
+                  
+                  # Extract CMake errors
+                  CMAKE_ERRORS=$(echo "$BUILD_LOG" | grep -E "CMake Error|CMake Warning.*Error" | head -n 20 || echo "")
+                  
+                  # Combine all extracted errors
+                  LOG_ERRORS=""
+                  if [ -n "$COMPILE_ERRORS" ]; then
+                    LOG_ERRORS="${LOG_ERRORS}=== Compilation Errors ===\n${COMPILE_ERRORS}\n\n"
+                  fi
+                  if [ -n "$LINKER_ERRORS" ]; then
+                    LOG_ERRORS="${LOG_ERRORS}=== Linker Errors ===\n${LINKER_ERRORS}\n\n"
+                  fi
+                  if [ -n "$CMAKE_ERRORS" ]; then
+                    LOG_ERRORS="${LOG_ERRORS}=== CMake Errors ===\n${CMAKE_ERRORS}\n\n"
+                  fi
+                  
+                  if [ -n "$LOG_ERRORS" ]; then
+                    ALL_LOG_ERRORS="${ALL_LOG_ERRORS}\n\n--- Build $BUILD_ID ---\n${LOG_ERRORS}"
+                    issue_type="build_failure"
+                  else
+                    echo "No specific error patterns found in build log"
+                    # Include last 100 lines as fallback
+                    FALLBACK_LOG=$(echo "$BUILD_LOG" | tail -n 100)
+                    ALL_LOG_ERRORS="${ALL_LOG_ERRORS}\n\n--- Build $BUILD_ID (Last 100 lines) ---\n${FALLBACK_LOG}"
+                  fi
                 fi
               done
             else
@@ -153,8 +198,14 @@ jobs:
             
             # Save all problems as JSON for the next step
             if [ "$(echo "$ALL_PROBLEMS_JSON" | jq '. | length')" -gt 0 ]; then
-              echo "Total problems collected: $(echo "$ALL_PROBLEMS_JSON" | jq '. | length')"
+              echo "Total structured problems collected: $(echo "$ALL_PROBLEMS_JSON" | jq '. | length')"
               build_problems="$ALL_PROBLEMS_JSON"
+            fi
+            
+            # Save log errors
+            if [ -n "$ALL_LOG_ERRORS" ]; then
+              echo "Build log errors extracted successfully"
+              build_log_summary=$(echo -e "$ALL_LOG_ERRORS")
             fi
           fi
           
@@ -163,6 +214,9 @@ jobs:
           echo "build_ids=$build_ids" >> "$GITHUB_OUTPUT"
           echo "BUILD_PROBLEMS<<EOF" >> "$GITHUB_OUTPUT"
           echo "$build_problems" >> "$GITHUB_OUTPUT"
+          echo "EOF" >> "$GITHUB_OUTPUT"
+          echo "BUILD_LOG_SUMMARY<<EOF" >> "$GITHUB_OUTPUT"
+          echo "$build_log_summary" >> "$GITHUB_OUTPUT"
           echo "EOF" >> "$GITHUB_OUTPUT"
           echo "Build failure analysis complete"
 
@@ -214,14 +268,12 @@ jobs:
             const issueType = '${{ steps.analyze.outputs.issue_type }}';
             const buildIds = '${{ steps.analyze.outputs.build_ids }}';
             const buildProblemsRaw = `${{ steps.analyze.outputs.BUILD_PROBLEMS }}`;
+            const buildLogSummary = `${{ steps.analyze.outputs.BUILD_LOG_SUMMARY }}`;
 
             let body;
             if (changesMade) {
               body = '✅ Auto-fix applied. Please review the changes.';
             } else {
-              body = '## ❌ Build Failed\n\n';
-              body += 'The TeamCity CI build has failed. Below are the build errors extracted from the build logs:\n\n';
-              
               // Try to parse build problems as JSON (from TeamCity)
               let buildProblems = [];
               try {
@@ -234,9 +286,89 @@ jobs:
                 console.log('Build problems is not JSON array, treating as plain text');
               }
               
+              // Extract error summary from build logs
+              let logErrorSummary = '';
+              if (buildLogSummary && buildLogSummary.trim() !== '') {
+                console.log('Build log summary available');
+                // Extract first few lines of each error section for summary
+                const lines = buildLogSummary.split('\n');
+                let errorLines = [];
+                let inErrorSection = false;
+                let errorCount = 0;
+                
+                for (const line of lines) {
+                  if (line.includes('=== Compilation Errors ===') || 
+                      line.includes('=== Linker Errors ===') || 
+                      line.includes('=== CMake Errors ===')) {
+                    inErrorSection = true;
+                    continue;
+                  }
+                  if (line.includes('--- Build') && line.includes('---')) {
+                    inErrorSection = false;
+                    continue;
+                  }
+                  if (inErrorSection && line.trim() !== '' && errorCount < 10) {
+                    errorLines.push(line.trim());
+                    errorCount++;
+                  }
+                }
+                
+                if (errorLines.length > 0) {
+                  logErrorSummary = errorLines.join('\n');
+                }
+              }
+              
+              // Build summary for Copilot
+              let summary = '';
+              if (logErrorSummary) {
+                summary = `The TeamCity CI build has failed. Here are the key errors from the build log:\n\n`;
+                summary += '```\n' + logErrorSummary + '\n```\n';
+                if (buildLogSummary.split('\n').length > 15) {
+                  summary += '\n*(Additional errors shown in detailed section below)*\n';
+                }
+              } else if (buildProblems.length > 0) {
+                const errorCount = buildProblems.length;
+                summary = `The TeamCity CI build has failed with ${errorCount} error${errorCount > 1 ? 's' : ''}:\n`;
+                
+                // Create concise summary of issues
+                for (let i = 0; i < Math.min(buildProblems.length, 5); i++) {
+                  const problem = buildProblems[i];
+                  const problemIdentity = problem.identity || 'Unknown issue';
+                  summary += `${i + 1}. ${problemIdentity}\n`;
+                }
+                
+                if (buildProblems.length > 5) {
+                  summary += `... and ${buildProblems.length - 5} more error(s)\n`;
+                }
+              } else if (buildProblemsRaw && buildProblemsRaw.trim() !== '') {
+                summary = `The TeamCity CI build has failed. Error details are shown below.\n`;
+              } else {
+                summary = `The TeamCity CI build has failed but no specific error details were extracted from TeamCity.\n`;
+              }
+              
+              // Start with Copilot-addressed message
+              body = '## ❌ Build Failed\n\n';
+              body += '### @github-copilot\n\n';
+              body += '**Build Error Summary:**\n\n';
+              body += summary;
+              body += '\n';
+              body += '**Request:** Please analyze these build errors and suggest specific fixes for this PR. ';
+              body += 'Focus on the actual compilation/linker errors shown above.\n\n';
+              body += '---\n\n';
+              
+              // Add full build log errors if available
+              if (buildLogSummary && buildLogSummary.trim() !== '') {
+                body += '### Complete Build Log Errors\n\n';
+                body += '<details>\n<summary>Click to expand full build log errors</summary>\n\n';
+                body += '```\n' + buildLogSummary.replace(/[\u0000-\u001F\u007F-\u009F]/g, '').trim() + '\n```\n\n';
+                body += '</details>\n\n';
+              }
+              
+              // Add structured problem information if available
               if (buildProblems.length > 0) {
-                // Display each build problem as a formatted error
-                body += `### Build Errors (${buildProblems.length} problem${buildProblems.length > 1 ? 's' : ''} detected)\n\n`;
+                body += '### Structured Build Problems\n\n';
+                body += '<details>\n<summary>Click to expand TeamCity problem occurrences</summary>\n\n';
+                body += `Found ${buildProblems.length} problem${buildProblems.length > 1 ? 's' : ''} in the build:\n\n`;
                 
                 for (let i = 0; i < buildProblems.length; i++) {
                   const problem = buildProblems[i];
@@ -258,12 +390,11 @@ jobs:
                   body += '```\n' + problemDetails + '\n```\n\n';
                   body += '---\n\n';
                 }
-              } else if (buildProblemsRaw && buildProblemsRaw.trim() !== '') {
-                // Fallback for text-based problems
-                body += '### Build Errors\n\n';
+                body += '</details>\n\n';
+              } else if (buildProblemsRaw && buildProblemsRaw.trim() !== '' && !buildLogSummary) {
+                // Fallback for text-based problems only if no log summary
+                body += '### Build Information\n\n';
                 body += '```\n' + buildProblemsRaw.replace(/[\u0000-\u001F\u007F-\u009F]/g, '').trim() + '\n```\n\n';
-              } else {
-                body += '⚠️ Build failed but no specific error details were extracted from TeamCity.\n\n';
               }
               
               // Add links to logs and workflow
@@ -272,10 +403,11 @@ jobs:
               body += `- **Original Build Failure:** [View Build](${{ github.event.workflow_run.html_url }})\n`;
               
               if (buildIds) {
-                body += `- **TeamCity Build IDs:** ${buildIds}\n`;
+                const buildIdArray = buildIds.split(' ').filter(id => id.trim() !== '');
+                for (const buildId of buildIdArray) {
+                  body += `- **TeamCity Build ${buildId}:** [${{ vars.TEAMCITY_URL }}/viewLog.html?buildId=${buildId}](${{ vars.TEAMCITY_URL }}/viewLog.html?buildId=${buildId})\n`;
+                }
               }
-              
-              body += '\n**Please review the errors above and fix them in this PR.**\n';
             }
 
             await github.rest.issues.createComment({
