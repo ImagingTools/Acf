@@ -110,12 +110,14 @@ When a build fails, a comment is posted to the PR:
 
 Please analyze the following build errors and suggest specific fixes:
 
-===== Build 12345 - Compilation Errors ===
+```
+=== Build 12345 - Compilation Errors ===
 error: ILogger was not declared in this scope
 error: no matching function for call to Initialize
 
 === Build 67890 - Linker Errors ===
 ld: undefined reference to ilog::LogRouter::LogMessage
+```
 
 ### TeamCity Build Links
 
