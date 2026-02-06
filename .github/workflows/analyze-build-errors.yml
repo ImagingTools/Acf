@@ -83,13 +83,17 @@ jobs:
           if [ -d "./teamcity-artifacts" ]; then
             echo "Artifacts directory found, extracting build IDs..."
             
+            # List all files for debugging
+            echo "Files in artifacts directory:"
+            ls -la ./teamcity-artifacts/ || true
+            
             # Find all build ID files
             shopt -s nullglob  # Make glob return empty if no matches
             for id_file in ./teamcity-artifacts/teamcity-build-id-*.txt; do
               if [ -f "$id_file" ]; then
                 BUILD_ID=$(cat "$id_file" | tr -d '[:space:]')
                 if [ -n "$BUILD_ID" ]; then
-                  echo "Found build ID: $BUILD_ID (from $(basename $id_file))"
+                  echo "Found build ID: $BUILD_ID (from $(basename "$id_file"))"
                   BUILD_IDS="$BUILD_IDS $BUILD_ID"
                 fi
               fi
@@ -101,6 +105,7 @@ jobs:
             
             if [ -z "$BUILD_IDS" ]; then
               echo "No build ID files found in artifacts directory"
+              echo "Expected files: teamcity-build-id-windows.txt, teamcity-build-id-linux.txt"
             fi
           else
             echo "No artifacts directory found"
