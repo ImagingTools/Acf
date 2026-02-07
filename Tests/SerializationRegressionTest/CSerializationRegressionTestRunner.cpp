@@ -723,7 +723,7 @@ void CSerializationRegressionTestRunner::testVersionManagement()
 	
 	// Test with spectrum info (implements ISerializable)
 	icmm::CSpectrumInfo spectrumInfo;
-	spectrumInfo.SetSpectralRange(istd::CIntRange(400, 700));
+	spectrumInfo.SetRange(istd::CIntRange(400, 700));
 	spectrumInfo.SetStep(10);
 	quint32 spectrumVersion = spectrumInfo.GetMinimalVersion(iser::IVersionInfo::AcfVersionId);
 	QVERIFY(spectrumVersion == 0 || spectrumVersion > 0);
