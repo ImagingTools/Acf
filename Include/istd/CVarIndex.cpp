@@ -56,12 +56,12 @@ bool CVarIndex::IsValid() const
 bool CVarIndex::IsZero() const
 {
 	for (int i = 0; i < int(m_elements.size()); ++i){
-		if (m_elements[i] > 0){
+		if (m_elements[i] != 0){
 			return false;
 		}
 	}
 
-	return m_elements.isEmpty();
+	return true;
 }
 
 
