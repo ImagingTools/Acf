@@ -418,8 +418,8 @@ void CSerializationRegressionTestRunner::testScanlineMaskSerialization()
 {
 	// Create original scanline mask with specific geometry
 	iimg::CScanlineMask original;
-	// Add a simple rectangle region to the mask
-	original.AddRectangle(i2d::CRectangle(10.0, 20.0, 100.0, 150.0));
+	// Create mask from a simple rectangle region
+	original.CreateFromRectangle(i2d::CRectangle(10.0, 20.0, 100.0, 150.0));
 	
 	iimg::CScanlineMask restored;
 	
