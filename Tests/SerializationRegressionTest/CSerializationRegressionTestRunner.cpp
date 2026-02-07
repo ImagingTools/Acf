@@ -157,10 +157,10 @@ void CSerializationRegressionTestRunner::testLine2dSerialization()
 	QVERIFY(TestSerializationCycle(original, restored));
 	
 	// Verify data integrity
-	QCOMPARE(restored.GetBeginPoint().GetX(), original.GetBeginPoint().GetX());
-	QCOMPARE(restored.GetBeginPoint().GetY(), original.GetBeginPoint().GetY());
-	QCOMPARE(restored.GetEndPoint().GetX(), original.GetEndPoint().GetX());
-	QCOMPARE(restored.GetEndPoint().GetY(), original.GetEndPoint().GetY());
+	QCOMPARE(restored.GetPoint1().GetX(), original.GetPoint1().GetX());
+	QCOMPARE(restored.GetPoint1().GetY(), original.GetPoint1().GetY());
+	QCOMPARE(restored.GetPoint2().GetX(), original.GetPoint2().GetX());
+	QCOMPARE(restored.GetPoint2().GetY(), original.GetPoint2().GetY());
 }
 
 
