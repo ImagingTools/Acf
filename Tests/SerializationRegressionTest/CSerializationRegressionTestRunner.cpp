@@ -373,9 +373,9 @@ void CSerializationRegressionTestRunner::testSelectionParamSerialization()
 {
 	// Create options for selection
 	iprm::COptionsManager options;
-	options.AddOption("Option1", "First option");
-	options.AddOption("Option2", "Second option");
-	options.AddOption("Option3", "Third option");
+	options.InsertOption("Option1", "opt1", "First option", -1);
+	options.InsertOption("Option2", "opt2", "Second option", -1);
+	options.InsertOption("Option3", "opt3", "Third option", -1);
 	
 	// Create original selection parameter with specific selection
 	iprm::CSelectionParam original;
