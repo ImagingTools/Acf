@@ -65,12 +65,12 @@ bool CSerializationRegressionTestRunner::TestSerializationCycle(const T& origina
 		if (!temp.Serialize(writeArchive)){
 			return false;
 		}
-		buffer = writeArchive.GetByteArray();
+		buffer = QByteArray(static_cast<const char*>(writeArchive.GetBuffer()), writeArchive.GetBufferSize());
 	}
 	
 	// Deserialize into the restored object
 	{
-		iser::CMemoryReadArchive readArchive(buffer);
+		iser::CMemoryReadArchive readArchive(buffer.data(), buffer.size());
 		if (!restored.Serialize(readArchive)){
 			return false;
 		}
@@ -446,9 +446,7 @@ bool CSerializationRegressionTestRunner::SaveReferenceData(const T& object, cons
 	}
 	
 	ifile::CFileWriteArchive archive(filePath);
-	if (!archive.IsOpen()){
-		return false;
-	}
+	// File archives don't have IsOpen() method - they throw exceptions on failure
 	
 	T temp = object;
 	return temp.Serialize(archive);
@@ -461,9 +459,7 @@ bool CSerializationRegressionTestRunner::LoadReferenceData(T& restored, const QS
 	QString filePath = GetReferenceDataPath() + "/" + filename;
 	
 	ifile::CFileReadArchive archive(filePath);
-	if (!archive.IsOpen()){
-		return false;
-	}
+	// File archives don't have IsOpen() method - they throw exceptions on failure
 	
 	return restored.Serialize(archive);
 }
@@ -510,12 +506,12 @@ void CSerializationRegressionTestRunner::testComplexScenarioWithMultipleParams()
 		QVERIFY(fileParam.Serialize(writeArchive));
 		QVERIFY(enableParam.Serialize(writeArchive));
 		
-		buffer = writeArchive.GetByteArray();
+		buffer = QByteArray(static_cast<const char*>(writeArchive.GetBuffer()), writeArchive.GetBufferSize());
 	}
 	
 	// Deserialize all
 	{
-		iser::CMemoryReadArchive readArchive(buffer);
+		iser::CMemoryReadArchive readArchive(buffer.data(), buffer.size());
 		
 		iprm::CIdParam restoredId;
 		iprm::CNameParam restoredName;
@@ -554,8 +550,8 @@ void CSerializationRegressionTestRunner::testComplexScenarioWithGeometryAndColor
 	color.SetElement(2, 0.4);  // B
 	color.SetElement(3, 1.0);  // A
 	
-	// Create a 3D sphere with similar properties
-	i3d::CSphere sphere(i3d::CVector3d(10.0, 20.0, 30.0), 15.0);
+	// Create a 3D sphere with similar properties (radius first, then center)
+	i3d::CSphere sphere(15.0, i3d::CVector3d(10.0, 20.0, 30.0));
 	
 	// Create a spectrum for spectral data
 	icmm::CSpectrumInfo spectrum(istd::CIntRange(400, 700), 5);
@@ -570,12 +566,12 @@ void CSerializationRegressionTestRunner::testComplexScenarioWithGeometryAndColor
 		QVERIFY(sphere.Serialize(writeArchive));
 		QVERIFY(spectrum.Serialize(writeArchive));
 		
-		buffer = writeArchive.GetByteArray();
+		buffer = QByteArray(static_cast<const char*>(writeArchive.GetBuffer()), writeArchive.GetBufferSize());
 	}
 	
 	// Deserialize and verify
 	{
-		iser::CMemoryReadArchive readArchive(buffer);
+		iser::CMemoryReadArchive readArchive(buffer.data(), buffer.size());
 		
 		i2d::CCircle restoredCircle;
 		icmm::CVarColor restoredColor;
@@ -614,15 +610,15 @@ void CSerializationRegressionTestRunner::testComplexScenarioWithNestedSelections
 	
 	// Create main options
 	iprm::COptionsManager mainOptions;
-	mainOptions.AddOption("Graphics2D", "2D Graphics Options");
-	mainOptions.AddOption("Graphics3D", "3D Graphics Options");
-	mainOptions.AddOption("ColorMgmt", "Color Management Options");
+	mainOptions.InsertOption("Graphics2D", "graphics2d", "2D Graphics Options", -1);
+	mainOptions.InsertOption("Graphics3D", "graphics3d", "3D Graphics Options", -1);
+	mainOptions.InsertOption("ColorMgmt", "colormgmt", "Color Management Options", -1);
 	
 	// Create sub-options
 	iprm::COptionsManager graphics2DOptions;
-	graphics2DOptions.AddOption("Circle", "Circle tool");
-	graphics2DOptions.AddOption("Rectangle", "Rectangle tool");
-	graphics2DOptions.AddOption("Line", "Line tool");
+	graphics2DOptions.InsertOption("Circle", "circle", "Circle tool", -1);
+	graphics2DOptions.InsertOption("Rectangle", "rectangle", "Rectangle tool", -1);
+	graphics2DOptions.InsertOption("Line", "line", "Line tool", -1);
 	
 	// Create selections
 	iprm::CSelectionParam mainSelection;
@@ -641,12 +637,12 @@ void CSerializationRegressionTestRunner::testComplexScenarioWithNestedSelections
 		QVERIFY(mainSelection.Serialize(writeArchive));
 		QVERIFY(subSelection.Serialize(writeArchive));
 		
-		buffer = writeArchive.GetByteArray();
+		buffer = QByteArray(static_cast<const char*>(writeArchive.GetBuffer()), writeArchive.GetBufferSize());
 	}
 	
 	// Deserialize and verify
 	{
-		iser::CMemoryReadArchive readArchive(buffer);
+		iser::CMemoryReadArchive readArchive(buffer.data(), buffer.size());
 		
 		iprm::CSelectionParam restoredMain;
 		restoredMain.SetSelectionConstraints(&mainOptions);
