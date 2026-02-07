@@ -80,4 +80,7 @@
             </Data>
         </Element>
     </ElementsList>
+    <EmbeddedRegistriesList/>
+    <ExportedInterfaces/>
+    <ExportedComponents/>
 </Acf>
