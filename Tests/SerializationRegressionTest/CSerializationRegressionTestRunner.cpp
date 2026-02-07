@@ -203,8 +203,8 @@ void CSerializationRegressionTestRunner::testBox3dSerialization()
 
 void CSerializationRegressionTestRunner::testSphereSerialization()
 {
-	// Create original sphere with center and radius
-	i3d::CSphere original(i3d::CVector3d(5.0, 10.0, 15.0), 25.0);
+	// Create original sphere with radius and center
+	i3d::CSphere original(25.0, i3d::CVector3d(5.0, 10.0, 15.0));
 	i3d::CSphere restored;
 	
 	// Test serialization cycle
@@ -220,18 +220,20 @@ void CSerializationRegressionTestRunner::testSphereSerialization()
 
 void CSerializationRegressionTestRunner::testPlane3dSerialization()
 {
-	// Create original plane with normal and distance
-	i3d::CPlane3d original(i3d::CVector3d(0.0, 0.0, 1.0), 10.0);
+	// Create original plane with point and normal
+	i3d::CPlane3d original(i3d::CVector3d(0.0, 0.0, 10.0), i3d::CVector3d(0.0, 0.0, 1.0));
 	i3d::CPlane3d restored;
 	
 	// Test serialization cycle
 	QVERIFY(TestSerializationCycle(original, restored));
 	
 	// Verify data integrity
+	QCOMPARE(restored.GetPoint().GetX(), original.GetPoint().GetX());
+	QCOMPARE(restored.GetPoint().GetY(), original.GetPoint().GetY());
+	QCOMPARE(restored.GetPoint().GetZ(), original.GetPoint().GetZ());
 	QCOMPARE(restored.GetNormal().GetX(), original.GetNormal().GetX());
 	QCOMPARE(restored.GetNormal().GetY(), original.GetNormal().GetY());
 	QCOMPARE(restored.GetNormal().GetZ(), original.GetNormal().GetZ());
-	QCOMPARE(restored.GetDistance(), original.GetDistance());
 }
 
 
@@ -269,8 +271,8 @@ void CSerializationRegressionTestRunner::testSpectrumInfoSerialization()
 	QVERIFY(TestSerializationCycle(original, restored));
 	
 	// Verify data integrity
-	QCOMPARE(restored.GetSpectralRange().GetMin(), original.GetSpectralRange().GetMin());
-	QCOMPARE(restored.GetSpectralRange().GetMax(), original.GetSpectralRange().GetMax());
+	QCOMPARE(restored.GetSpectralRange().GetMinValue(), original.GetSpectralRange().GetMinValue());
+	QCOMPARE(restored.GetSpectralRange().GetMaxValue(), original.GetSpectralRange().GetMaxValue());
 	QCOMPARE(restored.GetStep(), original.GetStep());
 	QCOMPARE(restored.GetSamplesCount(), original.GetSamplesCount());
 }
