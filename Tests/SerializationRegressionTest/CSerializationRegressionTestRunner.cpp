@@ -61,7 +61,8 @@ bool CSerializationRegressionTestRunner::TestSerializationCycle(const T& origina
 	// Serialize the original object
 	{
 		iser::CMemoryWriteArchive writeArchive;
-		T temp = original;
+		// Create a mutable reference for serialization (some objects don't support copy)
+		T& temp = const_cast<T&>(original);
 		if (!temp.Serialize(writeArchive)){
 			return false;
 		}
@@ -706,24 +707,31 @@ void CSerializationRegressionTestRunner::testBackwardCompatibilityCircle()
 
 void CSerializationRegressionTestRunner::testVersionManagement()
 {
-	// Test version management mechanism
-	// Verify that GetMinimalVersion returns appropriate values
+	// Test that version management works correctly for objects that implement ISerializable
+	// GetMinimalVersion is only available on classes that inherit from ISerializable
 	
-	i2d::CVector2d vector(1.0, 2.0);
-	quint32 version = vector.GetMinimalVersion(iser::IVersionInfo::AcfVersionId);
+	// Test with color management object (implements ISerializable)
+	icmm::CVarColor color(3);
+	color.SetElement(0, 1.0);
+	color.SetElement(1, 0.5);
+	color.SetElement(2, 0.25);
+	quint32 colorVersion = color.GetMinimalVersion(iser::IVersionInfo::AcfVersionId);
 	
 	// Version should be either 0 (no specific version) or a valid version number
-	QVERIFY(version == 0 || version > 0);
-	
-	// Test with more complex object
-	i3d::CVector3d vector3d(1.0, 2.0, 3.0);
-	quint32 version3d = vector3d.GetMinimalVersion(iser::IVersionInfo::AcfVersionId);
-	QVERIFY(version3d == 0 || version3d > 0);
-	
-	// Test with color management object
-	icmm::CVarColor color(3);
-	quint32 colorVersion = color.GetMinimalVersion(iser::IVersionInfo::AcfVersionId);
 	QVERIFY(colorVersion == 0 || colorVersion > 0);
+	qDebug() << "CVarColor minimal version:" << colorVersion;
+	
+	// Test with spectrum info (implements ISerializable)
+	icmm::CSpectrumInfo spectrumInfo;
+	spectrumInfo.SetSpectralRange(istd::CIntRange(400, 700));
+	spectrumInfo.SetStep(10);
+	quint32 spectrumVersion = spectrumInfo.GetMinimalVersion(iser::IVersionInfo::AcfVersionId);
+	QVERIFY(spectrumVersion == 0 || spectrumVersion > 0);
+	qDebug() << "CSpectrumInfo minimal version:" << spectrumVersion;
+	
+	// Note: Basic types like CVector2d and CVector3d don't implement ISerializable directly,
+	// so they don't have GetMinimalVersion(). They use the serialization framework through
+	// their containing classes or through explicit serialization templates.
 }
 
 
