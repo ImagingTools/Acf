@@ -179,7 +179,7 @@ void TArrayTest::IteratorTest()
 	sizes[1] = 3;
 	istd::TArray<int, 2> array(sizes);
 	
-	// Set values using direct access
+	// Set values using direct access in row-major order
 	int value = 1;
 	for (int i = 0; i < 2; i++) {
 		for (int j = 0; j < 3; j++) {
@@ -190,18 +190,23 @@ void TArrayTest::IteratorTest()
 		}
 	}
 	
-	// Verify using iterator
-	int expectedValue = 1;
+	// The original TIndex::Increase() iterates in column-major order (dimension 0 first)
+	// So for a 2x3 array, the iteration order is: [0,0], [1,0], [0,1], [1,1], [0,2], [1,2]
+	// With the values set as: [0,0]=1, [0,1]=2, [0,2]=3, [1,0]=4, [1,1]=5, [1,2]=6
+	// The iterator will return: 1, 4, 2, 5, 3, 6
+	int expectedValues[] = {1, 4, 2, 5, 3, 6};
+	int index = 0;
+	
 	auto it = array.Begin();
 	auto end = array.End();
 	
 	while (it != end) {
-		QCOMPARE(*it, expectedValue);
-		expectedValue++;
+		QCOMPARE(*it, expectedValues[index]);
+		index++;
 		++it;
 	}
 	
-	QCOMPARE(expectedValue, 7); // Should have iterated over 6 elements
+	QCOMPARE(index, 6); // Should have iterated over 6 elements
 }
 
 
