@@ -1,0 +1,227 @@
+name: Analyze Build Errors
+
+# Simple manual workflow to analyze TeamCity build errors and post them as a comment
+on:
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: 'Pull request number'
+        required: true
+        type: number
+
+permissions:
+  pull-requests: write
+  issues: write
+  actions: read
+
+jobs:
+  analyze:
+    name: Analyze Build Errors
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get PR and TeamCity Workflow Information
+        id: get_info
+        uses: actions/github-script@v8
+        with:
+          script: |
+            const prNumber = ${{ github.event.inputs.pr_number }};
+
+            // Get PR details
+            const { data: pr } = await github.rest.pulls.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: prNumber
+            });
+
+            console.log(`PR #${pr.number}: ${pr.title}`);
+            console.log(`Head SHA: ${pr.head.sha}`);
+
+            // Find TeamCity CI workflow runs for this commit
+            const { data: workflowRuns } = await github.rest.actions.listWorkflowRunsForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: 'teamcity-trigger.yml',
+              head_sha: pr.head.sha,
+              per_page: 5
+            });
+
+            let workflowRunId = null;
+
+            if (workflowRuns.workflow_runs.length > 0) {
+              const latestRun = workflowRuns.workflow_runs[0];
+              workflowRunId = latestRun.id;
+              console.log(`Found TeamCity workflow run: ${latestRun.id}`);
+              console.log(`Status: ${latestRun.status}, Conclusion: ${latestRun.conclusion}`);
+            } else {
+              console.log('No TeamCity workflow runs found for this commit');
+            }
+
+            return {
+              pr_number: prNumber,
+              head_sha: pr.head.sha,
+              workflow_run_id: workflowRunId
+            };
+
+      - name: Download TeamCity Build Info Artifacts
+        if: fromJSON(steps.get_info.outputs.result).workflow_run_id != null
+        uses: actions/download-artifact@v7
+        continue-on-error: true
+        with:
+          pattern: teamcity-build-info-*
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: ${{ fromJSON(steps.get_info.outputs.result).workflow_run_id }}
+          merge-multiple: true
+          path: ./teamcity-artifacts
+
+      - name: Extract Build IDs from Artifacts
+        id: extract_build_ids
+        shell: bash
+        run: |
+          BUILD_IDS=""
+
+          # Check if artifacts were downloaded
+          if [ -d "./teamcity-artifacts" ]; then
+            echo "Artifacts directory found, extracting build IDs..."
+
+            # List all files for debugging
+            echo "Files in artifacts directory:"
+            ls -la ./teamcity-artifacts/ || true
+
+            # Find all build ID files
+            # Expand to nothing if pattern has no matches (instead of literal pattern)
+            shopt -s nullglob
+            for id_file in ./teamcity-artifacts/teamcity-build-id-*.txt; do
+              if [ -f "$id_file" ]; then
+                BUILD_ID=$(tr -d '[:space:]' < "$id_file")
+                if [ -n "$BUILD_ID" ]; then
+                  echo "Found build ID: $BUILD_ID (from $(basename "$id_file"))"
+                  BUILD_IDS="$BUILD_IDS $BUILD_ID"
+                fi
+              fi
+            done
+            shopt -u nullglob  # Restore default behavior
+
+            # Trim leading/trailing spaces using xargs
+            BUILD_IDS=$(echo "$BUILD_IDS" | xargs)
+
+            if [ -z "$BUILD_IDS" ]; then
+              echo "No build ID files found in artifacts directory"
+              echo "Expected files: teamcity-build-id-windows.txt, teamcity-build-id-linux.txt"
+            fi
+          else
+            echo "No artifacts directory found"
+          fi
+
+          # Save to output
+          echo "build_ids=$BUILD_IDS" >> "$GITHUB_OUTPUT"
+          echo "Build IDs to analyze: $BUILD_IDS"
+
+      - name: Fetch and Analyze Build Errors
+        id: analyze
+        env:
+          TEAMCITY_URL: ${{ vars.TEAMCITY_URL }}
+          TEAMCITY_TOKEN: ${{ vars.TEAMCITY_TOKEN }}
+        shell: bash
+        run: |
+          BUILD_IDS='${{ steps.extract_build_ids.outputs.build_ids }}'
+
+          echo "Analyzing TeamCity build IDs: $BUILD_IDS"
+
+          ALL_ERRORS=""
+
+          if [ -z "$BUILD_IDS" ]; then
+            echo "No TeamCity build IDs found"
+            echo "errors=No TeamCity build IDs found for this PR" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          # Fetch build logs from TeamCity
+          for BUILD_ID in $BUILD_IDS; do
+            echo "Fetching build log for build $BUILD_ID..."
+
+            BUILD_LOG=$(curl -sS \
+              -H "Authorization: Bearer $TEAMCITY_TOKEN" \
+              -H "Accept: text/plain" \
+              "$TEAMCITY_URL/app/rest/builds/id:$BUILD_ID/log" 2>&1 | tail -n 500 || echo "")
+
+            if [ -n "$BUILD_LOG" ]; then
+              echo "Analyzing build log for errors..."
+
+              # Extract compilation errors
+              COMPILE_ERRORS=$(echo "$BUILD_LOG" | grep -iE "error[: ]|fatal[: ]" | head -n 50 || echo "")
+
+              # Extract linker errors
+              LINKER_ERRORS=$(echo "$BUILD_LOG" | grep -E "undefined reference|unresolved external|cannot find -l" | head -n 20 || echo "")
+
+              # Extract CMake errors
+              CMAKE_ERRORS=$(echo "$BUILD_LOG" | grep -E "CMake Error" | head -n 20 || echo "")
+
+              # Combine errors
+              if [ -n "$COMPILE_ERRORS" ]; then
+                ALL_ERRORS="${ALL_ERRORS}"$'\n\n'"=== Build $BUILD_ID - Compilation Errors ==="$'\n'"${COMPILE_ERRORS}"
+              fi
+              if [ -n "$LINKER_ERRORS" ]; then
+                ALL_ERRORS="${ALL_ERRORS}"$'\n\n'"=== Build $BUILD_ID - Linker Errors ==="$'\n'"${LINKER_ERRORS}"
+              fi
+              if [ -n "$CMAKE_ERRORS" ]; then
+                ALL_ERRORS="${ALL_ERRORS}"$'\n\n'"=== Build $BUILD_ID - CMake Errors ==="$'\n'"${CMAKE_ERRORS}"
+              fi
+
+              # If no specific errors found, include last 100 lines
+              if [ -z "$COMPILE_ERRORS" ] && [ -z "$LINKER_ERRORS" ] && [ -z "$CMAKE_ERRORS" ]; then
+                FALLBACK=$(echo "$BUILD_LOG" | tail -n 100)
+                ALL_ERRORS="${ALL_ERRORS}"$'\n\n'"=== Build $BUILD_ID - Last 100 lines ==="$'\n'"${FALLBACK}"
+              fi
+            fi
+          done
+
+          # Save errors to output
+          echo "ERRORS<<EOF" >> "$GITHUB_OUTPUT"
+          echo "$ALL_ERRORS" >> "$GITHUB_OUTPUT"
+          echo "EOF" >> "$GITHUB_OUTPUT"
+
+      - name: Post Comment with Errors
+        uses: actions/github-script@v8
+        with:
+          script: |
+            const info = JSON.parse('${{ steps.get_info.outputs.result }}');
+            const errors = `${{ steps.analyze.outputs.ERRORS }}`;
+            const buildIdsStr = '${{ steps.extract_build_ids.outputs.build_ids }}';
+            const buildIds = buildIdsStr.trim().split(/\s+/).filter(id => id.length > 0);
+
+            let body = '## 🔍 Build Error Analysis\n\n';
+            body += '### @github-copilot\n\n';
+
+            if (!errors || errors.trim() === 'No TeamCity build IDs found for this PR') {
+              body += '**Status:** No TeamCity build errors found for this PR.\n\n';
+              body += 'This could mean:\n';
+              body += '- The builds have not run yet\n';
+              body += '- The builds passed successfully\n';
+              body += '- Build IDs could not be extracted from the workflow logs\n';
+            } else {
+              body += '**Build Errors Found:**\n\n';
+              body += 'Please analyze the following build errors and suggest specific fixes:\n\n';
+              body += '```\n' + errors.trim() + '\n```\n\n';
+
+              // Add TeamCity build links
+              if (buildIds.length > 0) {
+                body += '### TeamCity Build Links\n\n';
+                for (const buildId of buildIds) {
+                  body += `- [Build ${buildId}](${{ vars.TEAMCITY_URL }}/viewLog.html?buildId=${buildId})\n`;
+                }
+                body += '\n';
+              }
+            }
+
+            body += '---\n\n';
+            body += `*Generated by [Build Error Analysis Workflow](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})*`;
+
+            // Post comment
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: info.pr_number,
+              body: body
+            });
+
+            console.log(`Posted analysis comment to PR #${info.pr_number}`);

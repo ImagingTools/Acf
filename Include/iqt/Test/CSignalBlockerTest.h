@@ -10,6 +10,20 @@
 #include <iqt/CSignalBlocker.h>
 #include <itest/CStandardTestExecutor.h>
 
+// Test helper class
+class TestObject : public QObject
+{
+	Q_OBJECT
+public:
+	explicit TestObject(QObject* parent = nullptr) : QObject(parent) {}
+
+signals:
+	void testSignal();
+
+public slots:
+	void emitTestSignal() { emit testSignal(); }
+};
+
 class CSignalBlockerTest: public QObject
 {
 	Q_OBJECT

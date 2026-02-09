@@ -24,6 +24,9 @@ public:
 
 	explicit CImageShape(const icmm::IColorTransformation* colorTransformationPtr = NULL);
 
+	// read-only pixmap access
+	const QPixmap& GetPixmap() const { return m_pixmap; }	
+
 	// reimplemented (iview::IShape)
 	virtual void Draw(QPainter& drawContext) const override;
 

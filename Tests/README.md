@@ -17,6 +17,9 @@ Tests are organized by location:
   - **SelectionParamComponentTest/** - Component tests for CSelectionParamComp with various configurations
   - **AutoPersistenceTest/** - Tests for CAutoPersistenceComp with various attribute configurations
   - **IdocComponentTest/** - Component tests for idoc library (CTextDocumentComp, CSerializedUndoManagerComp, CSingleDocumentTemplateComp)
+  - **SerializationRegressionTest/** - Cross-library regression tests for data model serialization
+  - **FileComponentTest/** - Component tests for ifile library (CFileNameParamComp, CFileTypeInfoComp, CTempFileManagerComp, CSystemLocationComp)
+  - **LogTest/** - Component tests for ilog library logging components
   - **IqtComponentTest/** - Component tests for iqt library (CApplicationSettingsProviderComp, CIniSettingsProviderComp, CClipboardSerializerComp, CSettingsSerializerComp, CTranslationManagerComp)
 
 - **Include/[library]/Test/** - Unit tests for each library
@@ -130,6 +133,16 @@ Unit tests for each library are located in `Include/[library]/Test/` directories
 - **CSelectionParam** - Selection parameter for managing option selections
 - **IOptionsList** - Helper function FindOptionIndexById for finding options by ID
 
+#### ifile (File Handling) - Include/ifile/Test/
+- **CFileNameParam** - File/directory path parameter with get/set, path type detection, serialization, copy/clone, and comparison operations (NEW)
+- **CFileArchive** - File-based binary serialization including primitive types, strings, tag skipping, and multiple objects (NEW)
+- **CFileSecureArchive** - Secure file archives with encoding/decoding, integrity verification, and comparison with normal archives (NEW)
+- **CFileArchiveInfo** - File archive information with path handling (existing tests)
+- **CCompactXmlFileArchive** - Compact XML file serialization (existing tests)
+- **CCompressedXmlFileArchive** - Compressed XML file serialization (existing tests)
+- **CJsonFileArchive** - JSON file serialization (existing tests)
+- **CSimpleXmlFileArchive** - Simple XML file serialization (existing tests)
+- **CSimpleEncoder** - Simple encoding/decoding operations (existing tests)
 #### iqt (Qt Utilities) - Include/iqt/Test/
 - **CSignalBlocker** - RAII helper for temporarily blocking Qt signals from QObjects (5 tests)
 - **iqt utility functions** - Qt/ACF type conversion functions including QSize, QPoint, QRect, QLine conversions (6 tests)
@@ -422,6 +435,173 @@ Each test scenario uses a dedicated SelectionParam object as the persistent data
 - `testDocumentTemplateCreation()` - Verifies document template creation
 - `testDocumentTemplateCreateDocument()` - Tests document creation via template
 - `testDocumentTemplateAttributes()` - Tests template attributes
+
+### SerializationRegressionTest
+
+**Purpose**: Cross-library regression tests for data model serialization. Validates that data models from different ACF libraries can be correctly serialized and deserialized.
+
+**Test Coverage**:
+- **i2d Library (2D Graphics)**:
+  - CVector2d, CPosition2d, CCircle, CRectangle, CLine2d serialization
+  
+- **i3d Library (3D Graphics)**:
+  - CVector3d, CBox3d, CSphere, CPlane3d serialization
+  
+- **icmm Library (Color Management)**:
+  - CVarColor (variable-length color), CSpectrumInfo serialization
+  
+- **imath Library (Mathematics)**:
+  - CVarVector (variable-length vector) serialization
+
+- **iprm Library (Parameters)**:
+  - CIdParam, CNameParam, CTextParam, CEnableableParam, CSelectionParam serialization
+  
+- **ifile Library (File Management)**:
+  - CFileNameParam serialization
+  
+- **iimg Library (Image Processing)**:
+  - CScanlineMask serialization
+
+**Test Approach**:
+Each test:
+1. Creates an original object with specific test values
+2. Serializes the object to memory buffer using `CMemoryWriteArchive`
+3. Deserializes from buffer into new object using `CMemoryReadArchive`
+4. Verifies all data was correctly preserved by comparing fields
+
+**Test Methods**:
+- `testVector2dSerialization()` - Tests 2D vector serialization
+- `testPosition2dSerialization()` - Tests 2D position serialization
+- `testCircleSerialization()` - Tests circle (center + radius) serialization
+- `testRectangleSerialization()` - Tests rectangle bounds serialization
+- `testLine2dSerialization()` - Tests 2D line (begin + end points) serialization
+- `testVector3dSerialization()` - Tests 3D vector serialization
+- `testBox3dSerialization()` - Tests 3D bounding box serialization
+- `testSphereSerialization()` - Tests sphere (center + radius) serialization
+- `testPlane3dSerialization()` - Tests 3D plane (normal + distance) serialization
+- `testVarColorSerialization()` - Tests variable-length color serialization
+- `testSpectrumInfoSerialization()` - Tests spectrum info (range + step) serialization
+- `testVarVectorSerialization()` - Tests variable-length vector serialization
+- `testIdParamSerialization()` - Tests ID parameter serialization
+- `testNameParamSerialization()` - Tests name parameter serialization
+- `testTextParamSerialization()` - Tests text parameter serialization
+- `testEnableableParamSerialization()` - Tests enableable parameter serialization
+- `testSelectionParamSerialization()` - Tests selection parameter serialization
+- `testFileNameParamSerialization()` - Tests file name parameter serialization
+- `testScanlineMaskSerialization()` - Tests scanline mask serialization
+
+**Complex Cross-Library Scenario Tests**:
+- `testComplexScenarioWithMultipleParams()` - Tests multiple parameter types working together (ID, Name, Text, File, Enableable)
+- `testComplexScenarioWithGeometryAndColor()` - Tests geometric objects (2D/3D) with color properties and spectral data
+- `testComplexScenarioWithNestedSelections()` - Tests hierarchical selection parameters with dependency injection
+
+**Backward Compatibility and Versioning Tests**:
+- `testBackwardCompatibilityVector2d()` - Tests loading Vector2d data from reference files
+- `testBackwardCompatibilityCircle()` - Tests loading Circle data from reference files
+- `testVersionManagement()` - Tests version info retrieval via `GetMinimalVersion()`
+
+**Test Infrastructure**:
+- Component configuration file (`.acc`) demonstrates dependency injection across libraries
+- Reference data stored in `Data/ReferenceData/` for backward compatibility testing
+- Helper methods for saving/loading reference data files
+- Template methods for consistent serialization testing
+
+**Regression Protection**:
+This test suite ensures that:
+- Future changes don't break serialization compatibility
+- Data models maintain their serialization contracts
+- Cross-library serialization remains functional
+- Serialization preserves all object data accurately
+- Complex scenarios with dependency injection work correctly
+- Backward compatibility is maintained across versions
+- Version management mechanism functions properly
+### FileComponentTest
+
+**Purpose**: Component-level tests for the `ifile` library file handling components with various configurations.
+
+**Test Coverage**:
+- **CFileNameParamComp**:
+  - Component creation and initialization
+  - Path type configuration (file, directory, URL, unknown)
+  - Default path attribute handling with variable expansion ($(TempPath), $(AppName), etc.)
+  - Get/Set path operations
+  - Serialization/deserialization of file paths
+  
+- **CFileTypeInfoComp**:
+  - Component creation with extension lists
+  - File extension retrieval and validation
+  - Type descriptions for each extension
+  - Platform-specific extension handling (Windows, Unix, Mac)
+  - GetFileExtensions() method with filtering
+  
+- **CTempFileManagerComp**:
+  - Component creation with root folder configuration
+  - Session management (BeginSession/FinishSession)
+  - File item addition and removal
+  - Path retrieval for session files
+  - Multiple concurrent sessions
+  - Session isolation verification
+  
+- **CSystemLocationComp**:
+  - Component creation for system paths
+  - Application-specific path resolution
+  - User-specific path handling
+
+- **CFileListProviderComp**:
+  - Component creation with directory parameter
+  - File list retrieval with filters
+  - Static methods for recursive file/directory enumeration
+  - Depth control and filter application
+
+- **CComposedFilePersistenceComp**:
+  - Component creation as composite loader
+  - File extension aggregation from slave loaders
+  - Type description with common description attribute
+  - Delegation to multiple persistence handlers
+
+**Configuration File**:
+- `FileComponentTest.acc` - Contains 10 different file component configurations:
+  1. `FileNameParam` - Basic file name parameter with default path
+  2. `FileNameParamFile` - File name parameter with file path type
+  3. `FileNameParamDir` - File name parameter with directory path type
+  4. `FileNameParamVars` - File name parameter with path variable expansion
+  5. `FileTypeInfo` - File type info with basic extensions (txt, log, md)
+  6. `FileTypeInfoPlatform` - File type info with platform-specific extensions
+  7. `TempFileManager` - Temp file manager with root folder configuration
+  8. `SystemLocation` - System location with application data path
+  9. `FileListProvider` - File list provider with filters and recursion depth
+  10. `ComposedPersistence` - Composed file persistence with multiple format support
+
+**Test Methods**:
+- `testFileNameParamCreation()` - Verifies FileNameParam component creation
+- `testFileNameParamPathType()` - Tests path type configuration
+- `testFileNameParamDefaultPath()` - Tests default path attribute
+- `testFileNameParamGetSet()` - Tests get/set path operations
+- `testFileNameParamSerialization()` - Tests path serialization
+- `testFileTypeInfoCreation()` - Verifies FileTypeInfo component creation
+- `testFileTypeInfoExtensions()` - Tests file extension retrieval
+- `testFileTypeInfoDescriptions()` - Tests type descriptions
+- `testFileTypeInfoPlatformSpecific()` - Tests platform-specific extensions
+- `testTempFileManagerCreation()` - Verifies TempFileManager component creation
+- `testTempFileManagerSession()` - Tests session lifecycle
+- `testTempFileManagerAddFile()` - Tests file addition to session
+- `testTempFileManagerRemoveFile()` - Tests file removal from session
+- `testTempFileManagerMultipleSessions()` - Tests multiple concurrent sessions
+- `testSystemLocationCreation()` - Verifies SystemLocation component creation
+- `testSystemLocationPath()` - Tests system path retrieval
+- `testFileListProviderCreation()` - Verifies FileListProvider component creation
+- `testFileListProviderGetFileList()` - Tests file list retrieval with filters
+- `testFileListProviderStaticMethods()` - Tests static recursive enumeration methods
+- `testComposedPersistenceCreation()` - Verifies ComposedPersistence component creation
+- `testComposedPersistenceExtensions()` - Tests extension aggregation from slaves
+- `testComposedPersistenceDescription()` - Tests common description attribute
+- `testTempFileManagerCreation()` - Verifies TempFileManager component creation
+- `testTempFileManagerSession()` - Tests session lifecycle
+- `testTempFileManagerAddFile()` - Tests file addition to session
+- `testTempFileManagerRemoveFile()` - Tests file removal from session
+- `testTempFileManagerMultipleSessions()` - Tests multiple concurrent sessions
+- `testSystemLocationCreation()` - Verifies SystemLocation component creation
+- `testSystemLocationPath()` - Tests system path retrieval
 
 ### IqtComponentTest
 

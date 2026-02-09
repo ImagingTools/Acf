@@ -36,6 +36,7 @@ public:
 		MPM_HAND,
 		MPM_DRAG,
 		MPM_SCREEN_MOVE,
+		MPM_ADD,
 		MPM_LAST
 	};
 

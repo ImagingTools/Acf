@@ -163,6 +163,9 @@ i3dTest.file = ../../Include/i3d/Test/QMake/i3dTest.pro
 SUBDIRS += imathTest
 imathTest.file = ../../Include/imath/Test/QMake/imathTest.pro
 
+SUBDIRS += iqtTest
+iqtTest.file = ../../Include/iqt/Test/QMake/iqtTest.pro
+
 SUBDIRS += SelectionParamIntegrationTest
 SelectionParamIntegrationTest.file = ../../Tests/SelectionParamIntegrationTest/QMake/SelectionParamIntegrationTest.pro
 SelectionParamIntegrationTest.depends = Arxc iprm iser itest
@@ -194,6 +197,14 @@ IqtComponentTest.depends = Arxc iqt ifile iprm iser itest
 SUBDIRS += AutoPersistenceTest
 AutoPersistenceTest.file = ../../Tests/AutoPersistenceTest/QMake/AutoPersistenceTest.pro
 AutoPersistenceTest.depends = Arxc iprm ifile iser itest
+
+SUBDIRS += VarIndexTest
+VarIndexTest.file = ../../Tests/VarIndexTest/QMake/VarIndexTest.pro
+VarIndexTest.depends = istd itest
+
+SUBDIRS += SerializationRegressionTest
+SerializationRegressionTest.file = ../../Tests/SerializationRegressionTest/QMake/SerializationRegressionTest.pro
+SerializationRegressionTest.depends = Arxc i2d i3d icmm imath iser istd iprm ifile iimg ibase imod itest
 
 # Impl Tests
 !macx-ios*{

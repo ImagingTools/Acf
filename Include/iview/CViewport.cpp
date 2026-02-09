@@ -3,8 +3,10 @@
 
 
 // Qt includes
+#include <QtCore/QThread>
 #include <QtGui/QPaintEvent>
 #include <QtGui/QMouseEvent>
+#include <QtWidgets/QApplication>
 
 
 namespace iview
@@ -21,13 +23,14 @@ CViewport::CViewport(CConsoleBase* framePtr, QWidget* parent)
 {
 	m_mousePointerModes[MPM_NONE] = QCursor(Qt::ArrowCursor);
 	m_mousePointerModes[MPM_DEFAULT] = QCursor(Qt::ArrowCursor);
-	m_mousePointerModes[MPM_DESELECT] = QCursor(Qt::ArrowCursor);
+	m_mousePointerModes[MPM_DESELECT] = QCursor(Qt::UpArrowCursor);
 	m_mousePointerModes[MPM_POINTER] = QCursor(Qt::ArrowCursor);
 	m_mousePointerModes[MPM_WAIT] = QCursor(Qt::WaitCursor);
 	m_mousePointerModes[MPM_CROSS] = QCursor(Qt::CrossCursor);
 	m_mousePointerModes[MPM_HAND] = QCursor(Qt::PointingHandCursor);
 	m_mousePointerModes[MPM_DRAG] = QCursor(Qt::SizeAllCursor);
 	m_mousePointerModes[MPM_SCREEN_MOVE] = QCursor(Qt::PointingHandCursor);
+	m_mousePointerModes[MPM_ADD] = QCursor(Qt::DragCopyCursor);
 
 	setMouseTracking(true);
 
@@ -119,12 +122,6 @@ void CViewport::SetEditMode(int mode)
 void CViewport::SetShowInfoText(bool on)
 {
 	m_showInfoText = on;
-}
-
-
-void CViewport::SetDrawBorder(bool on)
-{
-	m_drawBorder = on;
 }
 
 
@@ -270,6 +267,7 @@ void CViewport::ConnectCalibrationShape(iview::IShape* shapePtr)
 void CViewport::SetBackgroundBufferValid(bool state)
 {
 	BaseClass::SetBackgroundBufferValid(state);
+
 	if (!state && (m_framePtr != NULL)){
 		int backgroundLayerIndex = GetBackgroundLayerIndex();
 		if (backgroundLayerIndex >= 0){
@@ -297,6 +295,7 @@ void CViewport::OnResize()
 	BaseClass::OnResize();
 
 	UpdateFitTransform();
+
 	if (m_framePtr != NULL){
 		m_framePtr->UpdateComponentsPosition();
 	}
@@ -321,19 +320,12 @@ void CViewport::paintEvent(QPaintEvent* eventPtr)
 
 	DrawBuffers(*this, iqt::GetCRect(eventPtr->rect()));
 
-	QPainter p(this);
-	p.setOpacity(0.85);
-	p.setPen(Qt::gray);
-	auto portRct = rect();
-
-	// draw borders
-	if (m_drawBorder){
-		p.drawRect(portRct.adjusted(0, 0, -1, -1));
-	}
-
 	// draw info text
-	if (m_showInfoText && m_infoText.size()) 
-	{
+	if (m_showInfoText && m_infoText.size()){
+		QPainter p(this);
+		p.setOpacity(0.85);
+		auto portRct = rect();
+
 		QFont f("verdana", 7);
 		auto fm = QFontMetricsF(f);
 		auto rct = fm.size(Qt::AlignCenter | Qt::AlignRight, m_infoText);
@@ -342,9 +334,9 @@ void CViewport::paintEvent(QPaintEvent* eventPtr)
 		QRect shareRect = textRect.adjusted(-25, -25, -5, -5);
 
 		p.setFont(f);
-		p.setBrush(QColor("#335777"));
+		p.setBrush(qApp->palette().color(QPalette::Button));
 		p.drawRoundedRect(shareRect, 4, 4);
-		p.setPen(Qt::white);
+		p.setPen(qApp->palette().color(QPalette::Text));
 		p.drawText(shareRect.adjusted(0,0,-10,0),
 			Qt::AlignCenter | Qt::AlignRight | Qt::TextWordWrap,
 			m_infoText);
@@ -361,6 +353,44 @@ void CViewport::resizeEvent(QResizeEvent* /*eventPtr*/)
 void CViewport::keyPressEvent(QKeyEvent* eventPtr)
 {
 	Q_ASSERT(eventPtr != NULL);
+
+	Qt::KeyboardModifiers modifiers = eventPtr->modifiers();
+
+	int retVal = GetKeysState();
+
+	if ((modifiers & Qt::ShiftModifier) != 0) {
+		retVal |= Qt::ShiftModifier;
+	}
+
+	if ((modifiers & Qt::ControlModifier) != 0) {
+		retVal |= Qt::ControlModifier;
+	}
+
+	SetKeysState(retVal);
+
+	UpdateMousePointer();
+}
+
+
+void CViewport::keyReleaseEvent(QKeyEvent* eventPtr)
+{
+	Q_ASSERT(eventPtr != NULL);
+
+	Qt::KeyboardModifiers modifiers = eventPtr->modifiers();
+
+	int retVal = GetKeysState();
+
+	if (!(modifiers & Qt::ShiftModifier)) {
+		retVal &= ~Qt::ShiftModifier;
+	}
+
+	if (!(modifiers & Qt::ControlModifier)) {
+		retVal &= ~Qt::ControlModifier;
+	}
+
+	SetKeysState(retVal);
+
+	UpdateMousePointer();
 }
 
 
@@ -429,7 +459,6 @@ void CViewport::leaveEvent(QEvent* eventPtr)
 }
 
 
-
 // reimplemented (iview::CViewBase)
 
 void CViewport::SetMousePointer(MousePointerMode mode)
@@ -461,7 +490,12 @@ void CViewport::UpdateRectArea(const i2d::CRect& rect)
 void CViewport::OnBoundingBoxChanged()
 {
 	if (m_framePtr != NULL){
-		m_framePtr->OnBoundingBoxChanged();
+		if (QThread::currentThread() == qApp->thread()) {
+			m_framePtr->OnBoundingBoxChanged();
+		}
+		else {
+			Q_EMIT BoundingBoxChanged();
+		}
 	}
 }
 

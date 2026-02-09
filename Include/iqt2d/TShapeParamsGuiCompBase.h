@@ -4,20 +4,17 @@
 
 // Qt includes
 #include <QtCore/QtGlobal>
-#if QT_VERSION >= 0x050000
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QToolButton>
+#include <QtWidgets/QComboBox>
 #include <QtWidgets/QToolBar>
-#else
-#include <QtGui/QMenu>
-#include <QtGui/QPushButton>
-#include <QtGui/QToolButton>
-#include <QtGui/QToolBar>
-#endif
+#include <QtWidgets/QAbstractItemView>
+#include <QtWidgets/QScrollArea>
 
 // ACF includes
 #include <i2d/ICalibration2d.h>
+#include <iqtgui/TWheelFocusEvent.h>
 #include <iqtgui/TDesignerGuiObserverCompBase.h>
 #include <iview/IColorSchema.h>
 #include <iview/IShapeFactory.h>
@@ -33,11 +30,14 @@ namespace iqt2d
 template <class Ui, class Shape, class ShapeModel>
 class TShapeParamsGuiCompBase:
 			public iqt2d::TViewExtenderCompBase<
-						iqtgui::TDesignerGuiObserverCompBase<Ui, ShapeModel> >,
+					iqtgui::TWheelFocusEvent<
+							iqtgui::TDesignerGuiObserverCompBase<Ui, ShapeModel> > >,
 			virtual public iview::IShapeFactory
 {
 public:
-	typedef iqt2d::TViewExtenderCompBase<iqtgui::TDesignerGuiObserverCompBase<Ui, ShapeModel> > BaseClass;
+	typedef iqt2d::TViewExtenderCompBase<
+		iqtgui::TWheelFocusEvent<
+			iqtgui::TDesignerGuiObserverCompBase<Ui, ShapeModel> > > BaseClass;
 
 	I_BEGIN_COMPONENT(TShapeParamsGuiCompBase);
 		I_REGISTER_INTERFACE(iview::IShapeFactory);
@@ -118,7 +118,6 @@ TShapeParamsGuiCompBase<Ui, Shape, ShapeModel>::TShapeParamsGuiCompBase()
 :	m_menuPtr(NULL),
 	m_menuButtonPtr(NULL)
 {
-
 }
 
 

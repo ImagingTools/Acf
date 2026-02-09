@@ -683,7 +683,7 @@ bool CBitmap::SetQImage(const QImage& image)
 void CBitmap::InitializeColorModel()
 {
 	m_colorModelPtr.Reset();
-	
+
 	if (!m_image.isNull()){
 		if (m_image.hasAlphaChannel()){
 			m_colorModelPtr.SetPtr(new icmm::CRgbaColorModel);
