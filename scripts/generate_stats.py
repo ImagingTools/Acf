@@ -566,7 +566,8 @@ class RepositoryStats:
                 
                 # Find test methods (Qt Test style: void testMethodName())
                 # Patterns: void testXxx(), void TestXxx(), private slots: ... testXxx()
-                test_method_pattern = r'void\s+(test\w+|Test\w+)\s*\('
+                # Pattern ensures 'test' prefix (case-insensitive) followed by uppercase letter
+                test_method_pattern = r'void\s+([Tt]est[A-Z]\w*)\s*\('
                 test_methods = re.findall(test_method_pattern, content)
                 
                 for method in test_methods:
@@ -575,23 +576,17 @@ class RepositoryStats:
                         'file': str(file_path.relative_to(self.repo_path))
                     })
                 
-                # Try to identify classes being tested by looking for includes
-                # Pattern: #include <library/ClassName.h>
-                include_pattern = r'#include\s+[<"](\w+)/([A-Z]\w+)\.h[>"]'
+                # Identify classes being tested by looking at includes
+                # Pattern: #include <library/ClassName.h> or #include "path/ClassName.h"
+                # This is the most reliable indicator of which classes are under test
+                include_pattern = r'#include\s+[<"](?:\w+/)?([A-Z]\w+)\.h[>"]'
                 includes = re.findall(include_pattern, content)
                 
-                for lib, class_name in includes:
-                    # Skip test infrastructure includes
-                    if not class_name.endswith('Test') and lib not in ['QtTest', 'QtCore', 'itest']:
-                        tested_classes.add(class_name)
-                
-                # Also look for explicit class instantiation or testing
-                # Pattern: TestClassName, ClassName*
-                class_ref_pattern = r'\b([A-Z]\w+(?:Comp|Component|Base|Manager|Provider))\b'
-                class_refs = re.findall(class_ref_pattern, content)
-                
-                for class_name in class_refs:
-                    if not class_name.endswith('Test'):
+                for class_name in includes:
+                    # Skip test classes and infrastructure
+                    if (not class_name.endswith('Test') and 
+                        class_name not in ['QtTest', 'QtCore', 'QObject', 'QString', 
+                                          'QTest', 'QByteArray', 'GeneratedFiles']):
                         tested_classes.add(class_name)
                 
         except Exception as e:
