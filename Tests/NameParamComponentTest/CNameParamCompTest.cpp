@@ -174,14 +174,11 @@ void CNameParamCompTest::testFixedNameBehavior()
 	// Verify the default name is set
 	QCOMPARE(m_nameFixedPtr->GetName(), QString("Fixed Name"));
 	
-	// Note: The component allows setting name even when fixed
-	// This is implementation behavior - the IsNameFixed() flag is informational
-	// for UI or other consumers to decide whether to allow editing
+	// When IsNameFixed() is true, SetName() should not change the name
+	// The CNameParamComp::SetName() implementation checks m_isNameFixedAttrPtr
+	// and only calls BaseClass2::SetName() if the flag is false
 	m_nameFixedPtr->SetName("Attempted Change");
-	QCOMPARE(m_nameFixedPtr->GetName(), QString("Attempted Change"));
-	
-	// Restore original value
-	m_nameFixedPtr->SetName("Fixed Name");
+	QCOMPARE(m_nameFixedPtr->GetName(), QString("Fixed Name"));
 }
 
 
