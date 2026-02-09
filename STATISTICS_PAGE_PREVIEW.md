@@ -21,6 +21,7 @@ The statistics page provides comprehensive insights into the ACF repository code
 6. **🏗️ Classes**: 2,327 classes
 7. **🔌 Interfaces**: 235 interfaces
 8. **⚙️ Components**: 203 components
+9. **✅ Test Coverage**: 7.8% coverage
 
 ### Code Quality Section
 
@@ -50,6 +51,45 @@ Three progress bars showing distribution:
 - **Code Lines**: 108,065 (53.9%) - Purple gradient
 - **Comment Lines**: 38,289 (19.1%) - Pink gradient
 - **Blank Lines**: 54,163 (27.0%) - Blue gradient
+
+### Test Coverage Section
+
+Displays comprehensive testing metrics:
+- **Test Coverage**: 7.0% (percentage of classes with tests)
+- **Total Test Cases**: 327 test methods
+- **Tested Classes**: 166 classes covered by tests
+- **Test Density**: 2.75 tests per 1000 lines of code
+
+The test coverage is calculated by:
+1. Analyzing test files in the Tests directory and Include/*/Test directories
+2. Identifying test methods (methods starting with 'test' or 'Test')
+3. Detecting which classes are being tested based on includes and references
+4. Computing the ratio of tested classes to total classes
+
+### Code Complexity Section
+
+Measures of code complexity and maintainability:
+- **Average Cyclomatic Complexity**: 0.2 (decision points per function)
+- **Max Cyclomatic Complexity**: 65 (highest complexity in codebase)
+- **High Complexity Functions (>10)**: 13 functions
+- **Average Cognitive Complexity**: 18.04 per file (human readability metric)
+
+Cyclomatic complexity counts decision points (if, for, while, case, etc.) and logical operators.
+Cognitive complexity measures how hard code is to understand, considering nesting and break-the-flow statements.
+
+### Code Quality Metrics Section
+
+Overall code quality indicators:
+- **Maintainability Index**: 100/100 (High) - Calculated score indicating ease of maintenance
+- **Documentation Coverage**: 30.6% - Percentage of classes/functions with Doxygen comments
+- **Code Duplication**: 0.76% - Percentage of duplicate code blocks
+- **Code Churn (6 months)**: 2,269 file changes - Modification frequency indicator
+
+The maintainability index is calculated based on:
+- Comment-to-code ratio (ideal: 0.2-0.5)
+- Average cyclomatic complexity
+- Average file size
+- Technical debt markers
 
 ### Libraries Section
 
