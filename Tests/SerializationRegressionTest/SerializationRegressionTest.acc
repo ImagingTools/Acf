@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Acf>
+    <AcfHeader>
+        <VersionInfos>
+            <Version Id="0" Number="5715" Description="ACF"/>
+            <Version Id="1023" Number="395264" Description="Qt Framework"/>
+        </VersionInfos>
+    </AcfHeader>
+    <Description>Complex component test scenarios for cross-library serialization with dependency injection</Description>
+    <Keywords>serialization, cross-library, dependency-injection, regression</Keywords>
+    <ElementsList>
+        <!-- iprm: Options for selection parameters -->
+        <Element Id="ColorOptions" PackageId="BasePck" ComponentId="OptionsManager">
+            <Data IsEnabled="true" Flags="0">
+                <AttributeInfoMap/>
+            </Data>
+        </Element>
+        
+        <!-- iprm: Selection parameter with constraints from ColorOptions -->
+        <Element Id="ColorSelection" PackageId="BasePck" ComponentId="SelectionParam">
+            <Data IsEnabled="true" Flags="0">
+                <AttributeInfoMap>
+                    <AttributeInfo Id="Constraints" Type="Reference" ExportId="">
+                        <Data IsEnabled="true" Value="ColorOptions"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="DefaultIndex" Type="Integer" ExportId="">
+                        <Data IsEnabled="true" Value="0"/>
+                    </AttributeInfo>
+                </AttributeInfoMap>
+            </Data>
+        </Element>
+        
+        <!-- iprm: Name parameter for object naming -->
+        <Element Id="ObjectName" PackageId="BasePck" ComponentId="NameParam">
+            <Data IsEnabled="true" Flags="0">
+                <AttributeInfoMap/>
+            </Data>
+        </Element>
+        
+        <!-- iprm: ID parameter for object identification -->
+        <Element Id="ObjectId" PackageId="BasePck" ComponentId="IdParam">
+            <Data IsEnabled="true" Flags="0">
+                <AttributeInfoMap/>
+            </Data>
+        </Element>
+        
+        <!-- ifile: File name parameter -->
+        <Element Id="OutputFile" PackageId="FilePck" ComponentId="FileNameParam">
+            <Data IsEnabled="true" Flags="0">
+                <AttributeInfoMap/>
+            </Data>
+        </Element>
+        
+        <!-- iprm: Text parameter for description -->
+        <Element Id="Description" PackageId="BasePck" ComponentId="TextParam">
+            <Data IsEnabled="true" Flags="0">
+                <AttributeInfoMap/>
+            </Data>
+        </Element>
+        
+        <!-- iprm: Enableable parameter for feature toggle -->
+        <Element Id="EnableProcessing" PackageId="BasePck" ComponentId="EnableableParam">
+            <Data IsEnabled="true" Flags="0">
+                <AttributeInfoMap>
+                    <AttributeInfo Id="Enabled" Type="Boolean" ExportId="">
+                        <Data IsEnabled="true" Value="true"/>
+                    </AttributeInfo>
+                </AttributeInfoMap>
+            </Data>
+        </Element>
+        
+        <!-- Complex scenario: Parameters manager with multiple connected components -->
+        <Element Id="ProcessingParams" PackageId="BasePck" ComponentId="ParamsManager">
+            <Data IsEnabled="true" Flags="0">
+                <AttributeInfoMap>
+                    <AttributeInfo Id="ParamsTypeConstraints" Type="Reference" ExportId="">
+                        <Data IsEnabled="true" Value=""/>
+                    </AttributeInfo>
+                </AttributeInfoMap>
+            </Data>
+        </Element>
+    </ElementsList>
+    <EmbeddedRegistriesList/>
+    <ExportedInterfaces/>
+    <ExportedComponents/>
+</Acf>

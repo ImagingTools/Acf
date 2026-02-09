@@ -17,11 +17,17 @@ class MockChangeableForGroup : public istd::IChangeable
 public:
 	int beginChangeGroupCount = 0;
 	int endChangeGroupCount = 0;
+	int endChangesCount = 0;
 	istd::IChangeable::ChangeSet lastBeginChangeSet;
 	istd::IChangeable::ChangeSet lastEndChangeSet;
+	istd::IChangeable::ChangeSet lastEndChangesSet;
 
 	virtual void OnBeginChanges() override {}
-	virtual void OnEndChanges(const ChangeSet&) override {}
+	virtual void OnEndChanges(const ChangeSet& changeSet) override
+	{
+		endChangesCount++;
+		lastEndChangesSet = changeSet;
+	}
 
 	virtual void BeginChangeGroup(const ChangeSet& changeSet) override
 	{

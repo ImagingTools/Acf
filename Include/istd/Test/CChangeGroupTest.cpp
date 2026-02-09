@@ -49,17 +49,17 @@ void CChangeGroupTest::ResetTest()
 	
 	istd::CChangeGroup group(&mock);
 	QVERIFY(group.IsValid());
-	QCOMPARE(mock.endChangeGroupCount, 0);
+	QCOMPARE(mock.endChangesCount, 0);
 	
-	// Reset should call EndChangeGroup and invalidate the group
+	// Reset should call EndChanges and invalidate the group
 	group.Reset();
 	QVERIFY(!group.IsValid());
-	QCOMPARE(mock.endChangeGroupCount, 1);
+	QCOMPARE(mock.endChangesCount, 1);
 	
 	// Second reset should do nothing
 	group.Reset();
 	QVERIFY(!group.IsValid());
-	QCOMPARE(mock.endChangeGroupCount, 1); // Count should not change
+	QCOMPARE(mock.endChangesCount, 1); // Count should not change
 }
 
 
