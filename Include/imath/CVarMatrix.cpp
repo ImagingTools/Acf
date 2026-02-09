@@ -182,23 +182,23 @@ void CVarMatrix::GetMultiplied(const CVarMatrix& matrix, CVarMatrix& result) con
 {
 	istd::CIndex2d matrixSize = matrix.GetSizes();
 	istd::CIndex2d size = GetSizes();
-	Q_ASSERT(size[0] == matrixSize[1]);	// width of first matrix must be equal of second one height
+	Q_ASSERT(size[1] == matrixSize[0]);	// width of first matrix must be equal to height of second matrix
 
-	result.SetSizes(istd::CIndex2d(matrixSize[0], size[1]));
+	result.SetSizes(istd::CIndex2d(size[0], matrixSize[1]));
 
 	istd::CIndex2d index;
 	istd::CIndex2d matrixIndex;
 	istd::CIndex2d resultIndex;
 
-	for (resultIndex[1] = 0; resultIndex[1] < size[1]; ++resultIndex[1]){
-		index[1] = resultIndex[1];
+	for (resultIndex[0] = 0; resultIndex[0] < size[0]; ++resultIndex[0]){
+		index[0] = resultIndex[0];
 
-		for (resultIndex[0] = 0; resultIndex[0] < matrixSize[0]; ++resultIndex[0]){
-			matrixIndex[0] = resultIndex[0];
+		for (resultIndex[1] = 0; resultIndex[1] < matrixSize[1]; ++resultIndex[1]){
+			matrixIndex[1] = resultIndex[1];
 
 			double sum = 0;
-			for (index[0] = 0; index[0] < size[0]; ++index[0]){
-				matrixIndex[1] = index[0];
+			for (index[1] = 0; index[1] < size[1]; ++index[1]){
+				matrixIndex[0] = index[1];
 
 				sum += GetAt(index) * matrix.GetAt(matrixIndex);
 			}
