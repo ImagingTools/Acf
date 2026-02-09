@@ -30,11 +30,11 @@ void CChangeSetTest::SingleIdConstructorTest()
 
 void CChangeSetTest::MultipleIdsConstructorTest()
 {
-	// Test with 2 IDs
-	istd::IChangeable::ChangeSet changeSet2(1, 2, "Two changes");
-	QVERIFY(changeSet2.Contains(1));
-	QVERIFY(changeSet2.Contains(2));
-	QVERIFY(!changeSet2.Contains(3));
+	// Test with 2 IDs (avoid ID=1 which is CF_ALL_DATA)
+	istd::IChangeable::ChangeSet changeSet2(11, 12, "Two changes");
+	QVERIFY(changeSet2.Contains(11));
+	QVERIFY(changeSet2.Contains(12));
+	QVERIFY(!changeSet2.Contains(13));
 	
 	// Test with 3 IDs
 	istd::IChangeable::ChangeSet changeSet3(10, 20, 30, "Three changes");
@@ -43,12 +43,12 @@ void CChangeSetTest::MultipleIdsConstructorTest()
 	QVERIFY(changeSet3.Contains(30));
 	QVERIFY(!changeSet3.Contains(40));
 	
-	// Test with 5 IDs
-	istd::IChangeable::ChangeSet changeSet5(1, 2, 3, 4, 5);
-	QVERIFY(changeSet5.Contains(1));
-	QVERIFY(changeSet5.Contains(3));
-	QVERIFY(changeSet5.Contains(5));
-	QVERIFY(!changeSet5.Contains(6));
+	// Test with 5 IDs (avoid ID=1 which is CF_ALL_DATA)
+	istd::IChangeable::ChangeSet changeSet5(11, 12, 13, 14, 15);
+	QVERIFY(changeSet5.Contains(11));
+	QVERIFY(changeSet5.Contains(13));
+	QVERIFY(changeSet5.Contains(15));
+	QVERIFY(!changeSet5.Contains(16));
 }
 
 
