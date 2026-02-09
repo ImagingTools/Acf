@@ -817,24 +817,36 @@ class RepositoryStats:
     def calculate_code_duplication(self):
         """Basic code duplication detection using line-based hashing."""
         # This is a simplified version - full duplication detection is complex
-        # We'll look for files with similar content
+        # We'll look for significant duplicate blocks
         try:
             from hashlib import md5
             
             line_hashes = defaultdict(list)
-            total_lines = 0
+            total_code_lines = 0
             
             for file_path, file_info in self.stats['source_files'].items():
                 try:
                     with open(self.repo_path / file_path, 'r', encoding='utf-8', errors='ignore') as f:
                         lines = f.readlines()
-                        total_lines += len(lines)
                         
-                        # Hash sequences of 5 lines (sliding window)
-                        for i in range(len(lines) - 4):
-                            block = ''.join(lines[i:i+5]).strip()
-                            if len(block) > 50:  # Only consider substantial blocks
-                                block_hash = md5(block.encode()).hexdigest()
+                        # Filter to only code lines (skip blanks and comments)
+                        code_lines = []
+                        for line in lines:
+                            stripped = line.strip()
+                            if stripped and not stripped.startswith('//') and not stripped.startswith('/*') and not stripped.startswith('*'):
+                                code_lines.append(stripped)
+                        
+                        total_code_lines += len(code_lines)
+                        
+                        # Hash sequences of 6 significant lines (non-overlapping blocks)
+                        block_size = 6
+                        for i in range(0, len(code_lines) - block_size + 1, block_size):
+                            block = '\n'.join(code_lines[i:i+block_size])
+                            # Only consider blocks with substantial content
+                            if len(block) > 100 and not all(c in ' \t\n{}();' for c in block):
+                                # Normalize whitespace for comparison
+                                normalized = ' '.join(block.split())
+                                block_hash = md5(normalized.encode()).hexdigest()
                                 line_hashes[block_hash].append({
                                     'file': file_path,
                                     'line': i + 1
@@ -842,15 +854,19 @@ class RepositoryStats:
                 except Exception:
                     continue
             
-            # Find duplicates (blocks appearing more than once)
+            # Find duplicates (blocks appearing in multiple locations)
             duplicates = {h: locs for h, locs in line_hashes.items() if len(locs) > 1}
             
-            # Estimate duplicate lines (simplified)
-            duplicate_lines = sum(len(locs) * 5 for locs in duplicates.values() if len(locs) > 1)
+            # Count duplicate lines more accurately (avoid double-counting)
+            # Each duplicate block contributes (n-1) * block_size duplicate lines
+            # where n is the number of occurrences
+            block_size = 6
+            duplicate_lines = sum((len(locs) - 1) * block_size for locs in duplicates.values())
             
             self.stats['quality_metrics']['code_duplication']['total_duplicate_lines'] = duplicate_lines
-            if total_lines > 0:
-                self.stats['quality_metrics']['code_duplication']['duplication_percentage'] = round((duplicate_lines / total_lines) * 100, 2)
+            if total_code_lines > 0:
+                dup_percentage = (duplicate_lines / total_code_lines) * 100
+                self.stats['quality_metrics']['code_duplication']['duplication_percentage'] = round(dup_percentage, 2)
             
             # Store top duplicates (limit to avoid huge JSON)
             top_duplicates = sorted(duplicates.items(), key=lambda x: len(x[1]), reverse=True)[:10]
