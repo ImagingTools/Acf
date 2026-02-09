@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Application>
+	<Sources>
+		<File Path="../main.cpp"/>
+		<File Path="../CModelBaseTest.h"/>
+		<File Path="../CModelBaseTest.cpp"/>
+		<File Path="../CSingleModelObserverBaseTest.h"/>
+		<File Path="../CSingleModelObserverBaseTest.cpp"/>
+		<File Path="../CMultiModelObserverBaseTest.h"/>
+		<File Path="../CMultiModelObserverBaseTest.cpp"/>
+		<File Path="../TModelWrapTest.h"/>
+		<File Path="../TModelWrapTest.cpp"/>
+		<File Path="../CModelProxyTest.h"/>
+		<File Path="../CModelProxyTest.cpp"/>
+		<File Path="../CModelUpdateBridgeTest.h"/>
+		<File Path="../CModelUpdateBridgeTest.cpp"/>
+		<File Path="../CMultiModelDispatcherBaseTest.h"/>
+		<File Path="../CMultiModelDispatcherBaseTest.cpp"/>
+	</Sources>
+</Application>
