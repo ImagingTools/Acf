@@ -138,7 +138,7 @@ jobs:
 
       - name: Upload Build ID Artifact
         if: steps.teamcity.outputs.build_id
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: teamcity-build-info-${{ matrix.platform }}
           path: |
@@ -320,7 +320,7 @@ jobs:
     if: always() && github.event_name == 'pull_request' && needs.trigger-teamcity.result == 'failure'
     steps:
       - name: Download Build Info Artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         continue-on-error: true
         with:
           pattern: teamcity-build-info-*
