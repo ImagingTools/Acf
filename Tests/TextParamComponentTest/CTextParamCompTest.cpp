@@ -200,14 +200,11 @@ void CTextParamCompTest::testReadOnlyBehavior()
 	// Verify the default text is set
 	QCOMPARE(m_textReadOnlyPtr->GetText(), QString("Read-Only Text"));
 	
-	// Note: The component allows setting text even when read-only
-	// This is implementation behavior - the IsReadOnly() flag is informational
-	// for UI or other consumers to decide whether to allow editing
+	// When IsReadOnly() is true, SetText() should not change the text
+	// The CTextParamComp::SetText() implementation checks m_isReadonlyAttrPtr
+	// and only calls BaseClass2::SetText() if the flag is false
 	m_textReadOnlyPtr->SetText("Attempted Change");
-	QCOMPARE(m_textReadOnlyPtr->GetText(), QString("Attempted Change"));
-	
-	// Restore original value
-	m_textReadOnlyPtr->SetText("Read-Only Text");
+	QCOMPARE(m_textReadOnlyPtr->GetText(), QString("Read-Only Text"));
 }
 
 
