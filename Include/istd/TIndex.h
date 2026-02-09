@@ -473,10 +473,11 @@ bool TIndex<Dimensions>::Increase(const TIndex& boundaries)
 {
 	Q_ASSERT(IsInside(boundaries));
 
-	for (int i = 0; i < Dimensions; ++i){
+	// Iterate in row-major order (last dimension first)
+	for (int i = Dimensions - 1; i >= 0; --i){
 		if (m_elements[i] < boundaries.m_elements[i] - 1){
 			m_elements[i]++;
-			for (int j = 0; j < i; ++j){
+			for (int j = i + 1; j < Dimensions; ++j){
 				m_elements[j] = 0;
 			}
 
@@ -495,11 +496,12 @@ bool TIndex<Dimensions>::Decrease(const TIndex& boundaries)
 {
 	Q_ASSERT(IsInside(boundaries));
 
-	for (int i = 0; i < Dimensions; ++i){
+	// Iterate in row-major order (last dimension first)
+	for (int i = Dimensions - 1; i >= 0; --i){
 		if (m_elements[i] > 0){
 			m_elements[i]--;
 
-			for (int j = 0; j < i; ++j){
+			for (int j = i + 1; j < Dimensions; ++j){
 				m_elements[j] = boundaries.m_elements[j] - 1;
 			}
 

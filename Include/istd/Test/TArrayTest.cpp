@@ -190,11 +190,9 @@ void TArrayTest::IteratorTest()
 		}
 	}
 	
-	// The original TIndex::Increase() iterates in column-major order (dimension 0 first)
-	// So for a 2x3 array, the iteration order is: [0,0], [1,0], [0,1], [1,1], [0,2], [1,2]
-	// With the values set as: [0,0]=1, [0,1]=2, [0,2]=3, [1,0]=4, [1,1]=5, [1,2]=6
-	// The iterator will return: 1, 4, 2, 5, 3, 6
-	int expectedValues[] = {1, 4, 2, 5, 3, 6};
+	// Values are set in row-major order: [0,0]=1, [0,1]=2, [0,2]=3, [1,0]=4, [1,1]=5, [1,2]=6
+	// The iterator should return values in the same order they were set (row-major order)
+	int expectedValues[] = {1, 2, 3, 4, 5, 6};
 	int index = 0;
 	
 	auto it = array.Begin();

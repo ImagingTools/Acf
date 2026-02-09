@@ -72,23 +72,25 @@ void CChangeSetTest::IsEmptyTest()
 
 void CChangeSetTest::ContainsTest()
 {
-	istd::IChangeable::ChangeSet changeSet(1, 2, 3);
+	// Note: CF_ALL_DATA = 1, so we avoid using 1 as a test ID
+	istd::IChangeable::ChangeSet changeSet(10, 20, 30);
 	
-	QVERIFY(changeSet.Contains(1));
-	QVERIFY(changeSet.Contains(2));
-	QVERIFY(changeSet.Contains(3));
-	QVERIFY(!changeSet.Contains(4));
+	QVERIFY(changeSet.Contains(10));
+	QVERIFY(changeSet.Contains(20));
+	QVERIFY(changeSet.Contains(30));
+	QVERIFY(!changeSet.Contains(40));
 	QVERIFY(!changeSet.Contains(0));
 }
 
 
 void CChangeSetTest::ContainsAnyTest()
 {
-	istd::IChangeable::ChangeSet changeSet1(1, 2, 3);
-	istd::IChangeable::ChangeSet changeSet2(3, 4, 5);
-	istd::IChangeable::ChangeSet changeSet3(6, 7, 8);
+	// Note: CF_ALL_DATA = 1, so we avoid using 1 as a test ID
+	istd::IChangeable::ChangeSet changeSet1(10, 20, 30);
+	istd::IChangeable::ChangeSet changeSet2(30, 40, 50);
+	istd::IChangeable::ChangeSet changeSet3(60, 70, 80);
 	
-	// changeSet1 and changeSet2 share ID 3
+	// changeSet1 and changeSet2 share ID 30
 	QVERIFY(changeSet1.ContainsAny(changeSet2));
 	QVERIFY(changeSet2.ContainsAny(changeSet1));
 	
@@ -126,18 +128,19 @@ void CChangeSetTest::ResetTest()
 
 void CChangeSetTest::MaskOutTest()
 {
-	istd::IChangeable::ChangeSet changeSet1(1, 2, 3, 4, 5);
-	istd::IChangeable::ChangeSet changeSet2(2, 4);
+	// Note: CF_ALL_DATA = 1, so we avoid using 1 as a test ID
+	istd::IChangeable::ChangeSet changeSet1(10, 20, 30, 40, 50);
+	istd::IChangeable::ChangeSet changeSet2(20, 40);
 	
-	// Mask out IDs 2 and 4 from changeSet1
+	// Mask out IDs 20 and 40 from changeSet1
 	changeSet1.MaskOut(changeSet2);
 	
-	// IDs 2 and 4 should be removed
-	QVERIFY(changeSet1.Contains(1));
-	QVERIFY(!changeSet1.Contains(2));
-	QVERIFY(changeSet1.Contains(3));
-	QVERIFY(!changeSet1.Contains(4));
-	QVERIFY(changeSet1.Contains(5));
+	// IDs 20 and 40 should be removed
+	QVERIFY(changeSet1.Contains(10));
+	QVERIFY(!changeSet1.Contains(20));
+	QVERIFY(changeSet1.Contains(30));
+	QVERIFY(!changeSet1.Contains(40));
+	QVERIFY(changeSet1.Contains(50));
 }
 
 
