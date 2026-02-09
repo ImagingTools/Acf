@@ -181,11 +181,11 @@ void CRectControlledShapeBase::ResetNodes() const
 
 i2d::CAffine2d CRectControlledShapeBase::CalcMoveTransform(i2d::CVector2d position, const i2d::CAffine2d& transform)
 {
-	const i2d::CMatrix2d& parallDeform= transform.GetDeformMatrix();
+	const i2d::CMatrix2d& parallDeform = transform.GetDeformMatrix();
 	const i2d::CVector2d& parallPos = transform.GetTranslation();
 
-	const i2d::CVector2d& axisX  = parallDeform.GetAxisX();
-	const i2d::CVector2d& axisY  = parallDeform.GetAxisY();
+	const i2d::CVector2d& axisX = parallDeform.GetAxisX();
+	const i2d::CVector2d& axisY = parallDeform.GetAxisY();
 	i2d::CVector2d center = parallPos + (axisX + axisY) * 0.5;
 
 	switch(m_mouseMode){
@@ -359,27 +359,27 @@ bool CRectControlledShapeBase::IsParallTouched(
 		if (line.GetDistance(screenPosition) < logicalLineWidth){
 			return true;
 		}
-		line.SetPoint1(GetScreenPosition(parallPosition + axisX + axisY));
+		line.SetPoint1Quiet(GetScreenPosition(parallPosition + axisX + axisY));
 		if (line.GetDistance(screenPosition) < logicalLineWidth){
 			return true;
 		}
-		line.SetPoint2(GetScreenPosition(parallPosition + axisY));
+		line.SetPoint2Quiet(GetScreenPosition(parallPosition + axisY));
 		if (line.GetDistance(screenPosition) < logicalLineWidth){
 			return true;
 		}
-		line.SetPoint1(GetScreenPosition(parallPosition));
+		line.SetPoint1Quiet(GetScreenPosition(parallPosition));
 		if (line.GetDistance(screenPosition) < logicalLineWidth){
 			return true;
 		}
 
 		if (IsSelected()){
-			line.SetPoint1(GetScreenPosition(parallPosition + (axisX + axisY) * 0.5));
-			line.SetPoint2(GetScreenPosition(parallPosition + axisX * 0.5 + axisY * 0.25));
+			line.SetPoint1Quiet(GetScreenPosition(parallPosition + (axisX + axisY) * 0.5));
+			line.SetPoint2Quiet(GetScreenPosition(parallPosition + axisX * 0.5 + axisY * 0.25));
 			if (line.GetDistance(screenPosition) < logicalLineWidth){
 				return true;
 			}
 
-			line.SetPoint2(GetScreenPosition(parallPosition + axisX * 0.25 + axisY * 0.5));
+			line.SetPoint2Quiet(GetScreenPosition(parallPosition + axisX * 0.25 + axisY * 0.5));
 			if (line.GetDistance(screenPosition) < logicalLineWidth){
 				return true;
 			}

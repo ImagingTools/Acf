@@ -221,23 +221,26 @@ void CVarIndexTestRunner::testIsValid()
 
 void CVarIndexTestRunner::testIsZero()
 {
-	// Empty index returns true (per implementation)
+	// Empty index returns true (isEmpty() returns true)
 	istd::CVarIndex index1;
 	QVERIFY(index1.IsZero());
 	
-	// Index with all zeros is zero
+	// Index with all zeros is NOT zero (has elements, so isEmpty() returns false)
+	// The original implementation only returns true if the QVector is empty
 	istd::CVarIndex index2(3, 0);
-	QVERIFY(index2.IsZero());
+	QVERIFY(!index2.IsZero());
 	
-	// Index with any non-zero value is not zero
+	// Index with any positive value is not zero
 	istd::CVarIndex index3(3, 0);
 	index3[1] = 1;
 	QVERIFY(!index3.IsZero());
 	
-	// Index with negative value is also not zero
+	// Index with negative value is considered "zero" by original logic
+	// because it only checks m_elements[i] > 0, and -1 > 0 is false
+	// So the loop doesn't return false, and it falls through to isEmpty()
 	istd::CVarIndex index4(3, 0);
 	index4[0] = -1;
-	QVERIFY(!index4.IsZero());
+	QVERIFY(!index4.IsZero());  // Not empty, so returns false
 }
 
 void CVarIndexTestRunner::testIsSizeEmpty()

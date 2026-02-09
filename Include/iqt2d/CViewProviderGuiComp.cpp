@@ -83,6 +83,16 @@ void CViewProviderGuiComp::SetupBackground()
 
 	if (m_backgroundModeAttrPtr.IsValid()){
 		switch (*m_backgroundModeAttrPtr){
+		case BM_NORMAL:{
+			iview::CColorSchema* newColorSchemaPtr = new iview::CColorSchema;
+			newColorSchemaPtr->Assign(consolePtr->GetViewRef().GetColorSchema());
+
+			QBrush backgroundBrush(QGuiApplication::palette().color(QPalette::Window));
+			newColorSchemaPtr->SetBrush(iview::IColorSchema::SB_BACKGROUND, backgroundBrush);
+
+			consolePtr->GetViewRef().SetDefaultColorSchema(newColorSchemaPtr, true);
+			}
+			break;
 		case BM_COLOR_SCHEMA:
 			if (!m_colorSchemaCompPtr.IsValid()){
 				iview::CColorSchema* newColorSchemaPtr = new iview::CColorSchema;
@@ -103,7 +113,7 @@ void CViewProviderGuiComp::SetupBackground()
 			QPainter p(&backgroundPixmap);
 
 			QColor color1 = QGuiApplication::palette().color(QPalette::Window);
-			QColor color2 = QGuiApplication::palette().color(QPalette::Midlight);
+			QColor color2 = QGuiApplication::palette().color(QPalette::Base);
 			p.fillRect(0, 0, 16, 16, QBrush(color1));
 			p.fillRect(0, 16, 16, 16, QBrush(color2));
 			p.fillRect(16, 0, 16, 16, QBrush(color2));
@@ -136,7 +146,6 @@ void CViewProviderGuiComp::OnGuiCreated()
 	iview::CViewport& view = consolePtr->GetViewRef();
 
 	view.SetShowInfoText(*m_infoTextEnabledAttrPtr);
-	view.SetDrawBorder(*m_drawBorderAttrPtr);
 
 	if (m_screenTransformationProvider.IsValid()) {
 		view.SetExternalScreenTransform(m_screenTransformationProvider->GetTransformation());

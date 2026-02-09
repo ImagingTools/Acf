@@ -30,6 +30,8 @@
 #include <iwidgets/CWidgetUpdateBlocker.h>
 #include <iview/IInteractiveShape.h>
 #include <iview/CInteractiveShapeBase.h>
+#include <iview/CPopupNavigator.h>
+#include <iview/CImageShape.h>
 
 
 namespace iview
@@ -73,6 +75,9 @@ CConsoleGui::CConsoleGui(QWidget* parent)
 	m_verticalScrollbarPtr->setTracking(false);
 	m_horizontalScrollbarPtr = new QScrollBar(Qt::Horizontal, m_viewWidget);
 	m_horizontalScrollbarPtr->setTracking(false);
+
+	// navigator button & popup
+	CreateNavigator();
 
 	// main layout
 	m_mainLayoutPtr->addLayout(m_centerLayoutPtr);
@@ -145,6 +150,7 @@ void CConsoleGui::SetFullScreenMode(bool fullScreenMode)
 		if (m_isFullScreenMode){
 			m_horizontalScrollbarPtr->setVisible(false);
 			m_verticalScrollbarPtr->setVisible(false);
+			m_navigatorPopupButtonPtr->setVisible(false);
 
 			m_savedTransform = m_viewPtr->GetTransform();
 			m_isViewMaximized = isMaximized();
@@ -470,6 +476,7 @@ void CConsoleGui::UpdateScrollbarsValues()
 		if (IsFullScreenMode()){
 			m_horizontalScrollbarPtr->setVisible(m_horizontalScrollbarPtr->isEnabled());
 			m_verticalScrollbarPtr->setVisible(m_verticalScrollbarPtr->isEnabled());
+			m_navigatorPopupButtonPtr->setVisible(m_horizontalScrollbarPtr->isEnabled() || m_verticalScrollbarPtr->isEnabled());
 		}
 	}
 }
@@ -665,6 +672,7 @@ void CConsoleGui::UpdateComponentsPosition()
 
 		m_horizontalScrollbarPtr->setVisible(isScrollHVisible);
 		m_verticalScrollbarPtr->setVisible(isScrollVVisible);
+		m_navigatorPopupButtonPtr->setVisible(isScrollHVisible || isScrollVVisible);
 	}
 
 
@@ -844,7 +852,7 @@ bool CConsoleGui::eventFilter(QObject* sourcePtr, QEvent* eventPtr)
 		if (IsFullScreenMode()){
 			eventPtr->accept();
 
-			emit OnCloseSignal();
+			Q_EMIT OnCloseSignal();
 
 			return true;
 		}
@@ -894,8 +902,79 @@ bool CConsoleGui::ConnectSignalSlots()
 	retVal = connect(m_verticalScrollbarPtr, SIGNAL(sliderMoved(int)), this, SLOT(OnVScrollbarChanged(int))) && retVal;
 
 	retVal = connect(m_viewPtr, SIGNAL(ShapesChanged()), this, SLOT(UpdateView()), Qt::QueuedConnection) && retVal;
+	retVal = connect(m_viewPtr, SIGNAL(BoundingBoxChanged()), this, SLOT(OnBoundingBoxChangedSlot()), Qt::QueuedConnection) && retVal;
 
 	return retVal;
+}
+
+
+void CConsoleGui::CreateNavigator()
+{
+	// add navigation button
+	CPopupNavigator* myPanner = new CPopupNavigator(this);
+	m_navigatorPopupButtonPtr = new QToolButton(this);
+	m_navigatorPopupButtonPtr->setIcon(m_uiResourcesManager.GetIcon(":/Icons/ShowScrollbar"));
+	m_navigatorPopupButtonPtr->setFixedSize(16, 16);
+	m_navigatorPopupButtonPtr->setToolTip(tr("Show Navigator Panel"));
+	m_centerLayoutPtr->addWidget(m_navigatorPopupButtonPtr, 1, 1);
+	myPanner->connectButton(m_navigatorPopupButtonPtr);
+	myPanner->connectSource(m_horizontalScrollbarPtr, m_verticalScrollbarPtr);
+	myPanner->setSliderBrush(QColor("#A7C7E7"));
+	myPanner->setFixedSize({ 150,100 });
+
+	auto resizeImage50from400 = [=](const QPixmap& image) -> QPixmap {
+		// Define target bounds
+		const int maxSize = 400;
+		const int maxSize2 = 800;
+		const int minSize = 50;
+
+		// Compute scaled size while keeping aspect ratio
+		QSize newSize = image.size();
+		newSize.scale(maxSize, maxSize, Qt::KeepAspectRatio);
+
+		// Enforce minimum size constraint
+		if (newSize.width() < minSize || newSize.height() < minSize) {
+			newSize.scale(maxSize2, maxSize2, Qt::KeepAspectRatio);
+		}
+
+		if (newSize.width() < minSize) {
+			newSize.setWidth(minSize);
+		}
+
+		if (newSize.height() < minSize) {
+			newSize.setHeight(minSize);
+		}
+
+		// Perform the scaling
+		return image.scaled(newSize, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+	};
+
+	connect(myPanner, &CPopupNavigator::aboutToShow, this, [=]() {
+		// look for a bitmap in the view
+		int layers = m_viewPtr->GetLayersCount();
+		for (int i = 0; i < layers; ++i) {
+			IViewLayer& layer = m_viewPtr->GetLayer(i);
+			if (layer.IsVisible()) {
+				auto shapes = layer.GetShapes();
+				for (auto shapePtr : shapes) {
+					if (auto imgShape = dynamic_cast<iview::CImageShape*>(shapePtr)) {
+						const QPixmap& pixmap = imgShape->GetPixmap();
+						if (!pixmap.isNull()) {
+							myPanner->setFromPixmap(resizeImage50from400(pixmap));
+							return;
+						}
+					}
+				}
+			}
+		}
+
+		// not found - use blank
+		myPanner->resetSize({ 150,100 });
+	});
+
+	connect(myPanner, &CPopupNavigator::wheeled, this, [=](QWheelEvent* eventPtr) {
+		OnWheelEvent(eventPtr);
+	});
 }
 
 

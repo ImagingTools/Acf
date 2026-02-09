@@ -9,10 +9,14 @@ The repository lacked an automated mechanism to fix common build errors after CI
 ## Solution
 Implemented a GitHub Actions workflow that automatically:
 1. Detects build failures
-2. Fetches detailed build logs from TeamCity server
-3. Extracts compiler errors and build problems
-4. Posts errors as comments in the PR discussion (similar to manual copy-paste)
-5. Provides links to TeamCity builds and workflow runs
+2. **Fetches actual build logs from TeamCity server (last 500 lines)**
+3. **Parses logs for compilation errors, linker errors, and CMake errors**
+4. Extracts structured build problems from TeamCity API (supplementary)
+5. **Creates intelligent summary of real error messages**
+6. Posts errors as comments in the PR discussion addressed to @github-copilot
+7. Provides links to TeamCity builds and workflow runs
+
+**Key Enhancement**: The workflow now analyzes **actual build logs** with real compiler/linker errors, not just generic "build failed" messages. This enables Copilot to provide meaningful, actionable fixes.
 
 ## Files Created/Modified
 
@@ -34,12 +38,21 @@ Implemented a GitHub Actions workflow that automatically:
 ### Steps:
 1. **Get PR Information** - Identifies the PR associated with failed build
 2. **Checkout PR branch** - Checks out the branch with write permissions  
-3. **Analyze Build Failure** - Fetches detailed TeamCity build problems via API
+3. **Analyze Build Failure** - Fetches and analyzes TeamCity build logs:
+   - Extracts TeamCity build IDs from GitHub Actions workflow logs
+   - Fetches actual build logs (last 500 lines) from TeamCity
+   - **Parses logs for compilation errors** (error:, Error:, fatal error:)
+   - **Parses logs for linker errors** (undefined reference, unresolved external)
+   - **Parses logs for CMake errors** (CMake Error, configuration issues)
+   - Also fetches structured problemOccurrences as supplementary data
 4. **Attempt Common Fixes** - Applies fixes if patterns recognized (placeholder)
-5. **Comment on PR** - Posts build errors as comments in the PR discussion, including:
-   - Error type and identity
-   - Detailed error messages in code blocks
-   - Links to TeamCity builds
+5. **Comment on PR** - Posts build errors as comments in the PR discussion:
+   - **Copilot addressing**: Uses `@github-copilot` to engage AI assistance
+   - **Real error messages**: Shows actual compilation/linker errors from logs
+   - **Intelligent summary**: Extracts first 10 key errors for quick review
+   - **Complete logs**: Full extracted errors in collapsible section
+   - **Structured problems**: TeamCity problemOccurrences in collapsible section
+   - Links to TeamCity builds with direct log access
    - Links to workflow runs
 6. **Commit and Push Fixes** - Creates and pushes auto-generated commit (if fixes applied)
 
@@ -58,15 +71,23 @@ Implemented a GitHub Actions workflow that automatically:
 ✅ Documentation
 ✅ Safety guards (PR-only, clear commit messages)
 ✅ Build error recognition from GitHub Actions workflow runs
-✅ TeamCity build problem fetching with proper field selection
-✅ **Build errors posted as PR comments (automated copy-paste)**
-✅ **Detailed error formatting with code blocks**
-✅ **TeamCity build links included in comments**
+✅ TeamCity build ID extraction from workflow logs
+✅ **TeamCity build log fetching (last 500 lines)**
+✅ **Build log parsing for compilation errors**
+✅ **Build log parsing for linker errors**
+✅ **Build log parsing for CMake errors**
+✅ **Intelligent error summarization (top 10 errors)**
+✅ TeamCity structured problem fetching (supplementary)
+✅ **Build errors with real compiler messages posted to PR**
+✅ **Copilot-addressed comments with @github-copilot**
+✅ **Actionable error context for AI-assisted fixing**
+✅ Collapsible sections for complete logs
+✅ Direct links to TeamCity build logs
 
 ### To Be Implemented:
 ⏳ Specific fix logic for common errors (component registration, package mismatches, etc.)
-⏳ Deep build log parsing from TeamCity for non-structured errors
 ⏳ Automatic application of fixes for recognized patterns
+⏳ Additional log parsing patterns (warnings, test failures, etc.)
 
 ## Supported Auto-Fixes (Planned)
 
@@ -130,11 +151,14 @@ Previously, the workflow created separate GitHub issues for each build problem. 
 
 ## Benefits
 
-1. **Faster Feedback**: Build errors appear immediately in PR discussion
-2. **Better Developer Experience**: Automated copy-paste of build errors
-3. **Matches Manual Process**: Replicates what reviewers do manually
-4. **Comprehensive Context**: Includes links to TeamCity builds and logs
-5. **No New Issues Created**: Keeps discussion in the PR where it belongs
+1. **Real Compiler Errors**: Actual error messages from compiler/linker, not generic "build failed"
+2. **Faster Feedback**: Build errors with full context appear immediately in PR
+3. **AI-Assisted Fixing**: Copilot receives actionable error information for meaningful suggestions
+4. **Automated Deep Analysis**: Build logs are parsed automatically for error extraction
+5. **Better Developer Experience**: No need to manually access TeamCity to see errors
+6. **Prioritized Errors**: Most important errors shown first in summary
+7. **Complete Context**: Full logs available in collapsible sections
+8. **Multi-Platform Support**: Analyzes errors from all failed platforms (Windows/Linux)
 
 ## Configuration
 
@@ -186,8 +210,22 @@ Edit `.github/workflows/auto-fix-on-failure.yml`:
   - Detailed error formatting with code blocks
   - TeamCity build links included for full context
   - No longer creates separate GitHub issues
+- **v1.3** (2026-02-06): Enhanced with Copilot integration
+  - Comments now addressed to @github-copilot
+  - Added error summarization for quick overview
+  - Requests AI assistance for fixing build errors
+- **v2.0** (2026-02-06): **Major enhancement - Real build log analysis**
+  - **Now fetches and parses actual TeamCity build logs (last 500 lines)**
+  - **Extracts real compilation errors** (error:, Error:, fatal error:)
+  - **Extracts real linker errors** (undefined reference, unresolved external, etc.)
+  - **Extracts CMake configuration errors**
+  - **Intelligent error summarization** (top 10 most important errors)
+  - Structured problems now supplementary (in collapsible section)
+  - Complete log errors available in collapsible details
+  - Direct links to TeamCity build logs for each build ID
+  - **Copilot now receives actionable, real error messages instead of generic "build failed"**
 
 ---
 
-**Status**: Build Error Commenting Implemented, Auto-Fix Logic Pending
-**Last Updated**: February 1, 2026
+**Status**: Build Log Analysis Implemented, Auto-Fix Logic Pending
+**Last Updated**: February 6, 2026
