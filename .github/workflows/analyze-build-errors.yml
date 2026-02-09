@@ -64,7 +64,7 @@ jobs:
 
       - name: Download TeamCity Build Info Artifacts
         if: fromJSON(steps.get_info.outputs.result).workflow_run_id != null
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         continue-on-error: true
         with:
           pattern: teamcity-build-info-*
