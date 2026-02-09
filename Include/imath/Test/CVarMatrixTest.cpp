@@ -292,8 +292,9 @@ void CVarMatrixTest::TransposeTest()
 	matrix.GetElementRef(1, 1) = 5.0;
 	matrix.GetElementRef(1, 2) = 6.0;
 	
-	// Get transposed matrix
-	imath::CVarMatrix transposed = matrix.GetTransposed();
+	// Get transposed matrix using GetTransposed(result) method
+	imath::CVarMatrix transposed;
+	matrix.GetTransposed(transposed);
 	
 	// Transposed should be 3x2: [[1, 4],
 	//                             [2, 5],
@@ -356,6 +357,9 @@ void CVarMatrixTest::FrobeniusNormTest()
 
 void CVarMatrixTest::ComparisonOperatorsTest()
 {
+	// Note: CVarMatrix doesn't have operator== and operator!= implemented.
+	// We test equality by comparing individual elements instead.
+	
 	istd::CIndex2d size(2, 2);
 	
 	imath::CVarMatrix m1(size);
@@ -376,13 +380,14 @@ void CVarMatrixTest::ComparisonOperatorsTest()
 	m3.GetElementRef(1, 0) = 3.0;
 	m3.GetElementRef(1, 1) = 5.0; // Different
 	
-	// Test equality
-	QVERIFY(m1 == m2);
-	QVERIFY(!(m1 == m3));
+	// Test equality by comparing elements
+	QVERIFY(m1.GetElementAt(0, 0) == m2.GetElementAt(0, 0));
+	QVERIFY(m1.GetElementAt(0, 1) == m2.GetElementAt(0, 1));
+	QVERIFY(m1.GetElementAt(1, 0) == m2.GetElementAt(1, 0));
+	QVERIFY(m1.GetElementAt(1, 1) == m2.GetElementAt(1, 1));
 	
 	// Test inequality
-	QVERIFY(m1 != m3);
-	QVERIFY(!(m1 != m2));
+	QVERIFY(m1.GetElementAt(1, 1) != m3.GetElementAt(1, 1));
 }
 
 
