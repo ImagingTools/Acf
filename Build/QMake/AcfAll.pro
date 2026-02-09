@@ -182,7 +182,6 @@ SUBDIRS += SelectionParamComponentTest
 SelectionParamComponentTest.file = ../../Tests/SelectionParamComponentTest/QMake/SelectionParamComponentTest.pro
 SelectionParamComponentTest.depends = Arxc iprm iser itest
 
-
 SUBDIRS += TextParamComponentTest
 TextParamComponentTest.file = ../../Tests/TextParamComponentTest/QMake/TextParamComponentTest.pro
 TextParamComponentTest.depends = Arxc iprm iser itest
@@ -198,6 +197,7 @@ NameParamComponentTest.depends = Arxc iprm iser itest
 SUBDIRS += EnableableParamComponentTest
 EnableableParamComponentTest.file = ../../Tests/EnableableParamComponentTest/QMake/EnableableParamComponentTest.pro
 EnableableParamComponentTest.depends = Arxc iprm iser itest
+
 SUBDIRS += LogTest
 LogTest.file = ../../Tests/LogTest/QMake/LogTest.pro
 LogTest.depends = Arxc ilog iser itest
