@@ -428,13 +428,20 @@ void TMatrixTest::SetColumnRowVectorTest()
 	QVERIFY(mat.GetAt(1, 0) == 10.0);
 	QVERIFY(mat.GetAt(1, 1) == 20.0);
 	
-	// Set row vector
-	imath::TVector<3, double> row;
-	row.SetElement(0, 1.0);
-	row.SetElement(1, 2.0);
-	row.SetElement(2, 3.0);
-	mat.SetRowVector(0, row);
+	// Verify the column was set correctly by reading it back
+	imath::TVector<2, double> colVerify;
+	mat.GetColumnVector(1, colVerify);
+	QVERIFY(colVerify.GetElement(0) == 10.0);
+	QVERIFY(colVerify.GetElement(1) == 20.0);
 	
+	// Note: TMatrix does not have SetRowVector method
+	// Rows can only be set by setting individual elements or columns
+	// Set elements to form a row pattern for verification
+	mat.SetAt(0, 0, 1.0);
+	mat.SetAt(1, 0, 2.0);
+	mat.SetAt(2, 0, 3.0);
+	
+	// Verify row was set correctly
 	QVERIFY(mat.GetAt(0, 0) == 1.0);
 	QVERIFY(mat.GetAt(1, 0) == 2.0);
 	QVERIFY(mat.GetAt(2, 0) == 3.0);
