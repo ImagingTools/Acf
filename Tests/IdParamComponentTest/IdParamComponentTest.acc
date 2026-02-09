@@ -13,7 +13,7 @@
         <Element Id="IdWithDefault" PackageId="BasePck" ComponentId="IdParam">
             <Data IsEnabled="true" Flags="0">
                 <AttributeInfoMap>
-                    <AttributeInfo Id="DefaultId" Type="ByteArray" ExportId="">
+                    <AttributeInfo Id="DefaultId" Type="Id" ExportId="">
                         <Data IsEnabled="true" Value="default_id_123"/>
                     </AttributeInfo>
                 </AttributeInfoMap>
