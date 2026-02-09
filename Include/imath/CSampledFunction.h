@@ -13,7 +13,73 @@ namespace imath
 
 
 /**
-	Implementation of the resampled 1D-function.
+	Implementation of 1D sampled function with uniform sampling grid.
+	
+	\section SampledFunctionPurpose Purpose
+	CSampledFunction represents a one-dimensional function sampled at regular intervals
+	over a logical domain. It stores function values at discrete sample points and provides
+	interpolation for continuous evaluation. This class is fundamental for representing
+	digitized signals, sensor data, lookup tables, and discretized mathematical functions.
+	
+	\section SampledFunctionConcepts Key Concepts
+	- **Logical Range**: The continuous domain [min, max] over which the function is defined
+	- **Samples**: Discrete function values stored at regular intervals
+	- **Sampling Step**: Distance between consecutive sample points (computed automatically)
+	- **Sample Coordinate**: The logical domain position of a given sample index
+	- **Interpolation**: Evaluating function at arbitrary points (typically linear)
+	
+	\section SampledFunctionUsageExamples Usage Examples
+	\code
+	// Create function with 100 samples
+	imath::CSampledFunction func(100, 0.0);
+	
+	// Set logical range [0, 10]
+	func.SetLogicalRange(istd::CRange(0.0, 10.0));
+	
+	// Fill with sine wave data
+	for (int i = 0; i < 100; ++i) {
+		double x = func.GetSampleCoordinate(i);  // Get position in [0, 10]
+		func.SetSampleValue(i, qSin(x));
+	}
+	
+	// Evaluate at arbitrary point (with interpolation)
+	double result;
+	if (func.GetValueAt(3.7, result)) {
+		// result contains interpolated value at x=3.7
+	}
+	
+	// Get sampling information
+	double step = func.GetSamplingStep();  // 10.0 / 99 ≈ 0.101
+	int count = func.GetTotalSamplesCount();  // 100
+	
+	// Copy from another sampled function
+	imath::CSampledFunction func2;
+	func2.CopyFrom(func);
+	
+	// Access raw samples
+	std::vector<double> samples = func.GetSamples();
+	\endcode
+	
+	\section SampledFunctionVsInterpolator Sampled Function vs Interpolator
+	- **CSampledFunction**: Stores and owns the sample data, uniform grid, IChangeable
+	- **Interpolators** (CLinearInterpolator, CAkimaInterpolator): Reference external data, 
+	  provide interpolation algorithms, don't store data
+	
+	Use CSampledFunction when:
+	- You need to store and manage sampled data
+	- Working with uniform sampling grids
+	- Need IChangeable interface (undo/redo, serialization)
+	- Building signal processing or data analysis systems
+	
+	\section SampledFunctionInterfaces Implemented Interfaces
+	- **ISampledFunction**: Core sampled function interface
+	- **TIMathFunction**: Mathematical function evaluation
+	- **IChangeable**: Change tracking, cloning, serialization
+	
+	\sa imath::ISampledFunction, imath::CSampledFunction2d, imath::CLinearInterpolator, 
+	    imath::CAkimaInterpolator
+	
+	\ingroup Functions
 */
 class CSampledFunction: virtual public ISampledFunction
 {

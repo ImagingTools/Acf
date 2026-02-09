@@ -779,7 +779,7 @@ void TMatrix<Width, Height, Element>::GetTransposed(TMatrix<Height, Width, Eleme
 {
 	for (int x = 0; x < Width; ++x){
 		for (int y = 0; y < Height; ++y){
-			result.m_elements[y][x] = m_elements[x][y];
+			result.SetAt(y, x, GetAt(x, y));
 		}
 	}
 }
@@ -896,7 +896,7 @@ void TMatrix<Width, Height, Element>::GetRowVector(int rowIndex, TVector<Width, 
 	Q_ASSERT(rowIndex < Height);
 
 	for (int x = 0; x < Width; ++x){
-		result[rowIndex] = m_elements[x][rowIndex];
+		result[x] = m_elements[x][rowIndex];
 	}
 }
 

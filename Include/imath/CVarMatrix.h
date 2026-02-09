@@ -22,7 +22,88 @@ class CVarVector;
 
 
 /**
-	Definition of mathematical matrix.
+	Implementation of variable-size mathematical matrix with double precision elements.
+	
+	\section VarMatrixPurpose Purpose
+	CVarMatrix is a dynamic-size matrix class that provides mathematical matrix operations
+	with runtime-determined dimensions. Built on top of istd::TArray<double, 2>, it supports
+	common matrix operations like addition, multiplication, transpose, decomposition, and
+	various matrix norms. The matrix stores double precision floating-point values in a
+	2D array structure.
+	
+	\section VarMatrixVsFixed CVarMatrix vs TMatrix
+	- **CVarMatrix**: Dynamic size determined at runtime, flexible resizing, heap allocation
+	- **TMatrix**: Fixed size at compile time, stack allocation, compile-time type safety
+	
+	Use CVarMatrix when:
+	- Matrix dimensions are determined at runtime (e.g., from file, algorithm output)
+	- You need to resize matrices dynamically during computation
+	- Working with matrices of varying sizes in the same algorithm
+	- Interfacing with external libraries that provide runtime-sized data
+	
+	Use TMatrix when:
+	- Matrix dimensions are known at compile time (e.g., 3x3 rotation matrices)
+	- Performance is critical and dimensions are fixed
+	- Want compile-time dimension checking for safety
+	
+	\section VarMatrixUsageExamples Usage Examples
+	\code
+	// Create 3x3 matrix
+	imath::CVarMatrix mat1(istd::CIndex2d(3, 3));
+	mat1.InitToIdentity(3);  // Set to identity matrix
+	
+	// Create from vector (column or row matrix)
+	imath::CVarVector vec(3);
+	vec.SetElement(0, 1.0);
+	vec.SetElement(1, 2.0);
+	vec.SetElement(2, 3.0);
+	imath::CVarMatrix mat2(vec, false);  // 3x1 column matrix
+	imath::CVarMatrix mat3(vec, true);   // 1x3 row matrix
+	
+	// Matrix operations
+	imath::CVarMatrix mat4(istd::CIndex2d(3, 3));
+	mat4.SetElementAt(0, 0, 2.0);
+	mat4.SetElementAt(1, 1, 3.0);
+	mat4.SetElementAt(2, 2, 4.0);
+	
+	// Matrix multiplication
+	imath::CVarMatrix result;
+	mat1.GetMultiplied(mat4, result);
+	
+	// Transpose
+	imath::CVarMatrix transposed;
+	mat4.GetTransposed(transposed);
+	
+	// Matrix norms
+	double trace = mat4.GetTrace();  // Sum of diagonal elements
+	double frobNorm = mat4.GetFrobeniusNorm();  // Euclidean norm
+	
+	// Decomposition
+	imath::CVarMatrix triangular;
+	bool success = mat4.GetTriangleDecomposed(triangular);
+	\endcode
+	
+	\section VarMatrixOperations Common Operations
+	- **Construction**: Default, size-based, copy, from vector
+	- **Element Access**: GetElementAt(), GetElementRef(), SetElementAt()
+	- **Initialization**: Clear(), InitToIdentity()
+	- **Properties**: GetMaxElement(), GetMinElement(), GetTrace()
+	- **Arithmetic**: GetAdded(), GetSubstracted(), GetMultiplied(), GetScaled(), GetNegated()
+	- **Transform**: GetTransposed(), Transpose()
+	- **Norms**: GetFrobeniusNorm(), GetFrobeniusNorm2()
+	- **Decomposition**: GetTriangleDecomposed(), GetDecompositionQDQ()
+	- **Comparison**: operators (==, !=)
+	- **Serialization**: Serialize()
+	
+	\section VarMatrixStorage Storage Format
+	The matrix uses column-major storage (compatible with OpenGL and many scientific libraries):
+	- Elements are stored column by column
+	- Element at (x, y) is in column x, row y
+	- Access via GetElementAt(x, y) or underlying TArray interface
+	
+	\sa imath::TMatrix, imath::CVarVector, istd::TArray
+	
+	\ingroup LinearAlgebra
 */
 class CVarMatrix: public istd::TArray<double, 2>
 {
