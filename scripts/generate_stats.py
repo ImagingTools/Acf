@@ -43,6 +43,38 @@ class RepositoryStats:
                 'fixmes': 0,
                 'hacks': 0,
                 'warnings': 0,
+                'cyclomatic_complexity': {
+                    'total': 0,
+                    'average': 0,
+                    'high_complexity_functions': [],  # Functions with CC > 10
+                    'max_complexity': 0,
+                },
+                'cognitive_complexity': {
+                    'total': 0,
+                    'average': 0,
+                    'high_complexity_functions': [],  # Functions with CC > 15
+                },
+                'code_duplication': {
+                    'duplicate_blocks': [],
+                    'duplication_percentage': 0,
+                    'total_duplicate_lines': 0,
+                },
+                'documentation_coverage': {
+                    'documented_classes': 0,
+                    'total_classes': 0,
+                    'documented_functions': 0,
+                    'total_functions': 0,
+                    'coverage_percentage': 0,
+                },
+                'maintainability_index': {
+                    'overall_score': 0,
+                    'files_by_category': {'high': 0, 'medium': 0, 'low': 0},
+                },
+                'code_churn': {
+                    'total_commits': 0,
+                    'most_changed_files': [],
+                    'churn_hotspots': [],  # High churn + high complexity
+                },
             },
             'code_structure': {
                 'include_dependencies': defaultdict(list),
@@ -461,6 +493,18 @@ class RepositoryStats:
                 if includes:
                     self.stats['code_structure']['include_dependencies'][rel_path] = includes
                 
+                # Calculate complexity metrics for source files
+                if file_path.suffix in ['.cpp', '.cc', '.c', '.h', '.hpp']:
+                    self.calculate_cyclomatic_complexity(file_path)
+                    self.calculate_cognitive_complexity(file_path)
+                    
+                    # Calculate documentation coverage
+                    doc_info = self.calculate_documentation_coverage(file_path)
+                    self.stats['quality_metrics']['documentation_coverage']['total_classes'] += doc_info['classes']
+                    self.stats['quality_metrics']['documentation_coverage']['total_functions'] += doc_info['functions']
+                    self.stats['quality_metrics']['documentation_coverage']['documented_classes'] += min(doc_info['documented_items'], doc_info['classes'])
+                    self.stats['quality_metrics']['documentation_coverage']['documented_functions'] += min(doc_info['documented_items'], doc_info['functions'])
+                
                 # Extract functions from cpp files too
                 if file_path.suffix in ['.cpp', '.cc', '.c']:
                     functions = self.extract_functions(file_path)
@@ -606,6 +650,217 @@ class RepositoryStats:
         doc_files = list(docs_path.rglob('*.md')) + list(docs_path.rglob('*.dox'))
         self.stats['documentation_files'] = len(doc_files)
     
+    def calculate_cyclomatic_complexity(self, file_path):
+        """Calculate cyclomatic complexity for functions in a file."""
+        try:
+            with open(file_path, 'r', encoding='utf-8', errors='ignore') as f:
+                content = f.read()
+                
+                # Find function definitions
+                # Pattern: return_type function_name(...) { ... }
+                function_pattern = r'\b\w+\s+(\w+)\s*\([^)]*\)\s*(?:const\s*)?(?:override\s*)?{'
+                functions = re.finditer(function_pattern, content)
+                
+                complexities = []
+                for match in functions:
+                    func_name = match.group(1)
+                    # Find function body (simplified - doesn't handle nested braces perfectly)
+                    start = match.end()
+                    brace_count = 1
+                    end = start
+                    
+                    while end < len(content) and brace_count > 0:
+                        if content[end] == '{':
+                            brace_count += 1
+                        elif content[end] == '}':
+                            brace_count -= 1
+                        end += 1
+                    
+                    func_body = content[start:end]
+                    
+                    # Calculate complexity: 1 + decision points
+                    complexity = 1
+                    # Decision points
+                    complexity += len(re.findall(r'\bif\s*\(', func_body))
+                    complexity += len(re.findall(r'\belse\b', func_body))
+                    complexity += len(re.findall(r'\bfor\s*\(', func_body))
+                    complexity += len(re.findall(r'\bwhile\s*\(', func_body))
+                    complexity += len(re.findall(r'\bcase\b', func_body))
+                    complexity += len(re.findall(r'\bcatch\s*\(', func_body))
+                    complexity += len(re.findall(r'\b\?\s*', func_body))  # Ternary operator
+                    complexity += func_body.count('&&')
+                    complexity += func_body.count('||')
+                    
+                    complexities.append({
+                        'name': func_name,
+                        'complexity': complexity,
+                        'file': str(file_path.relative_to(self.repo_path))
+                    })
+                    
+                    self.stats['quality_metrics']['cyclomatic_complexity']['total'] += complexity
+                    
+                    if complexity > 10:
+                        self.stats['quality_metrics']['cyclomatic_complexity']['high_complexity_functions'].append({
+                            'name': func_name,
+                            'complexity': complexity,
+                            'file': str(file_path.relative_to(self.repo_path))
+                        })
+                    
+                    if complexity > self.stats['quality_metrics']['cyclomatic_complexity']['max_complexity']:
+                        self.stats['quality_metrics']['cyclomatic_complexity']['max_complexity'] = complexity
+                
+                return complexities
+        except Exception as e:
+            return []
+    
+    def calculate_cognitive_complexity(self, file_path):
+        """Calculate cognitive complexity (how hard to understand) for a file."""
+        try:
+            with open(file_path, 'r', encoding='utf-8', errors='ignore') as f:
+                lines = f.readlines()
+                
+                total_complexity = 0
+                nesting_level = 0
+                
+                for line in lines:
+                    stripped = line.strip()
+                    
+                    # Increase nesting
+                    if any(keyword in stripped for keyword in ['if (', 'for (', 'while (', 'switch (']):
+                        total_complexity += (1 + nesting_level)
+                        if '{' in stripped or (len(lines) > lines.index(line) + 1 and '{' in lines[lines.index(line) + 1]):
+                            nesting_level += 1
+                    
+                    # Decrease nesting
+                    if '}' in stripped:
+                        nesting_level = max(0, nesting_level - 1)
+                    
+                    # Break-the-flow keywords
+                    if any(keyword in stripped for keyword in ['break', 'continue', 'goto', 'return']):
+                        total_complexity += 1
+                    
+                    # Logical operators in conditions
+                    if any(op in stripped for op in ['&&', '||']):
+                        total_complexity += stripped.count('&&') + stripped.count('||')
+                
+                self.stats['quality_metrics']['cognitive_complexity']['total'] += total_complexity
+                return total_complexity
+        except Exception as e:
+            return 0
+    
+    def calculate_documentation_coverage(self, file_path):
+        """Calculate documentation coverage for classes and functions."""
+        try:
+            with open(file_path, 'r', encoding='utf-8', errors='ignore') as f:
+                content = f.read()
+                
+                # Find classes
+                class_pattern = r'class\s+(?:ACF_\w+_EXPORT\s+)?(\w+)'
+                classes = re.findall(class_pattern, content)
+                
+                # Find functions/methods
+                function_pattern = r'(?:virtual\s+|static\s+|inline\s+)?\w+[\s\*&]+(\w+)\s*\([^)]*\)\s*(?:const\s*)?(?:override\s*)?[{;]'
+                functions = re.findall(function_pattern, content)
+                
+                # Find Doxygen comments (/** ... */ or ///)
+                doxygen_block_pattern = r'/\*\*.*?\*/'
+                doxygen_line_pattern = r'///'
+                
+                doxygen_blocks = len(re.findall(doxygen_block_pattern, content, re.DOTALL))
+                doxygen_lines = len(re.findall(doxygen_line_pattern, content))
+                
+                total_docs = doxygen_blocks + doxygen_lines
+                
+                # Estimate documented items (rough heuristic)
+                # Assume each doxygen comment documents one class or function
+                documented_items = total_docs
+                
+                return {
+                    'classes': len(classes),
+                    'functions': len(functions),
+                    'documented_items': documented_items
+                }
+        except Exception as e:
+            return {'classes': 0, 'functions': 0, 'documented_items': 0}
+    
+    def calculate_code_churn(self):
+        """Calculate code churn from git history (last 6 months)."""
+        try:
+            import subprocess
+            
+            # Get commits from last 6 months
+            result = subprocess.run(
+                ['git', 'log', '--since=6 months ago', '--name-only', '--pretty=format:'],
+                cwd=self.repo_path,
+                capture_output=True,
+                text=True,
+                timeout=30
+            )
+            
+            if result.returncode == 0:
+                files = [f for f in result.stdout.split('\n') if f.strip()]
+                file_changes = Counter(files)
+                
+                self.stats['quality_metrics']['code_churn']['total_commits'] = len([f for f in files if f])
+                
+                # Get top 20 most changed files
+                most_changed = file_changes.most_common(20)
+                self.stats['quality_metrics']['code_churn']['most_changed_files'] = [
+                    {'file': f, 'changes': count} for f, count in most_changed
+                ]
+                
+                return True
+        except Exception as e:
+            print(f"Could not calculate code churn: {e}")
+            return False
+    
+    def calculate_code_duplication(self):
+        """Basic code duplication detection using line-based hashing."""
+        # This is a simplified version - full duplication detection is complex
+        # We'll look for files with similar content
+        try:
+            from hashlib import md5
+            
+            line_hashes = defaultdict(list)
+            total_lines = 0
+            
+            for file_path, file_info in self.stats['source_files'].items():
+                try:
+                    with open(self.repo_path / file_path, 'r', encoding='utf-8', errors='ignore') as f:
+                        lines = f.readlines()
+                        total_lines += len(lines)
+                        
+                        # Hash sequences of 5 lines (sliding window)
+                        for i in range(len(lines) - 4):
+                            block = ''.join(lines[i:i+5]).strip()
+                            if len(block) > 50:  # Only consider substantial blocks
+                                block_hash = md5(block.encode()).hexdigest()
+                                line_hashes[block_hash].append({
+                                    'file': file_path,
+                                    'line': i + 1
+                                })
+                except Exception:
+                    continue
+            
+            # Find duplicates (blocks appearing more than once)
+            duplicates = {h: locs for h, locs in line_hashes.items() if len(locs) > 1}
+            
+            # Estimate duplicate lines (simplified)
+            duplicate_lines = sum(len(locs) * 5 for locs in duplicates.values() if len(locs) > 1)
+            
+            self.stats['quality_metrics']['code_duplication']['total_duplicate_lines'] = duplicate_lines
+            if total_lines > 0:
+                self.stats['quality_metrics']['code_duplication']['duplication_percentage'] = round((duplicate_lines / total_lines) * 100, 2)
+            
+            # Store top duplicates (limit to avoid huge JSON)
+            top_duplicates = sorted(duplicates.items(), key=lambda x: len(x[1]), reverse=True)[:10]
+            self.stats['quality_metrics']['code_duplication']['duplicate_blocks'] = [
+                {'locations': locs[:5], 'occurrences': len(locs)} for _, locs in top_duplicates
+            ]
+            
+        except Exception as e:
+            print(f"Could not calculate code duplication: {e}")
+    
     def generate(self):
         """Generate all statistics."""
         print("Analyzing Include directory...")
@@ -700,6 +955,108 @@ class RepositoryStats:
             self.stats['summary']['total_test_cases'] = 0
             self.stats['summary']['total_tested_classes'] = 0
             self.stats['summary']['test_density'] = 0
+        
+        # Calculate new quality metrics
+        print("Calculating code complexity metrics...")
+        
+        # Cyclomatic Complexity summary
+        total_functions = len(self.stats['functions'])
+        if total_functions > 0:
+            avg_complexity = self.stats['quality_metrics']['cyclomatic_complexity']['total'] / total_functions
+            self.stats['quality_metrics']['cyclomatic_complexity']['average'] = round(avg_complexity, 2)
+            self.stats['summary']['avg_cyclomatic_complexity'] = round(avg_complexity, 2)
+        else:
+            self.stats['quality_metrics']['cyclomatic_complexity']['average'] = 0
+            self.stats['summary']['avg_cyclomatic_complexity'] = 0
+        
+        # Sort high complexity functions
+        self.stats['quality_metrics']['cyclomatic_complexity']['high_complexity_functions'].sort(
+            key=lambda x: x['complexity'], reverse=True
+        )
+        self.stats['quality_metrics']['cyclomatic_complexity']['high_complexity_functions'] = \
+            self.stats['quality_metrics']['cyclomatic_complexity']['high_complexity_functions'][:20]  # Keep top 20
+        
+        # Cognitive Complexity summary
+        if self.stats['total_files'] > 0:
+            avg_cognitive = self.stats['quality_metrics']['cognitive_complexity']['total'] / self.stats['total_files']
+            self.stats['quality_metrics']['cognitive_complexity']['average'] = round(avg_cognitive, 2)
+            self.stats['summary']['avg_cognitive_complexity'] = round(avg_cognitive, 2)
+        else:
+            self.stats['quality_metrics']['cognitive_complexity']['average'] = 0
+            self.stats['summary']['avg_cognitive_complexity'] = 0
+        
+        # Documentation Coverage
+        doc_cov = self.stats['quality_metrics']['documentation_coverage']
+        total_items = doc_cov['total_classes'] + doc_cov['total_functions']
+        documented_items = doc_cov['documented_classes'] + doc_cov['documented_functions']
+        if total_items > 0:
+            doc_cov['coverage_percentage'] = round((documented_items / total_items) * 100, 1)
+            self.stats['summary']['documentation_coverage_percentage'] = doc_cov['coverage_percentage']
+        else:
+            doc_cov['coverage_percentage'] = 0
+            self.stats['summary']['documentation_coverage_percentage'] = 0
+        
+        # Code Duplication
+        print("Calculating code duplication...")
+        self.calculate_code_duplication()
+        self.stats['summary']['code_duplication_percentage'] = \
+            self.stats['quality_metrics']['code_duplication']['duplication_percentage']
+        
+        # Code Churn
+        print("Calculating code churn...")
+        self.calculate_code_churn()
+        
+        # Maintainability Index (simplified formula)
+        # MI = 171 - 5.2*ln(HV) - 0.23*CC - 16.2*ln(LOC) + 50*sin(sqrt(2.4*CM))
+        # Simplified: based on comment ratio, complexity, and size
+        if total_code > 0:
+            import math
+            comment_ratio = total_comment / total_code
+            avg_cc = self.stats['summary']['avg_cyclomatic_complexity']
+            
+            # Normalize to 0-100 scale
+            mi_score = 100
+            
+            # Penalty for low comments (ideal 0.2-0.5)
+            if comment_ratio < 0.1:
+                mi_score -= 20
+            elif comment_ratio < 0.2:
+                mi_score -= 10
+            elif comment_ratio > 0.6:
+                mi_score -= 5
+            
+            # Penalty for high complexity
+            if avg_cc > 15:
+                mi_score -= 30
+            elif avg_cc > 10:
+                mi_score -= 20
+            elif avg_cc > 5:
+                mi_score -= 10
+            
+            # Penalty for large average file size
+            avg_file_size = self.stats['summary']['avg_lines_per_file']
+            if avg_file_size > 500:
+                mi_score -= 15
+            elif avg_file_size > 300:
+                mi_score -= 10
+            elif avg_file_size > 200:
+                mi_score -= 5
+            
+            mi_score = max(0, min(100, mi_score))
+            self.stats['quality_metrics']['maintainability_index']['overall_score'] = round(mi_score, 1)
+            self.stats['summary']['maintainability_index'] = round(mi_score, 1)
+            
+            # Categorize files
+            if mi_score >= 70:
+                self.stats['quality_metrics']['maintainability_index']['category'] = 'High'
+            elif mi_score >= 50:
+                self.stats['quality_metrics']['maintainability_index']['category'] = 'Medium'
+            else:
+                self.stats['quality_metrics']['maintainability_index']['category'] = 'Low'
+        else:
+            self.stats['quality_metrics']['maintainability_index']['overall_score'] = 0
+            self.stats['summary']['maintainability_index'] = 0
+            self.stats['quality_metrics']['maintainability_index']['category'] = 'Unknown'
         
         # Calculate SOLID metrics
         self.calculate_solid_metrics()
@@ -937,6 +1294,20 @@ def main():
     print(f"Total Test Cases: {stats['summary']['total_test_cases']}")
     print(f"Tested Classes: {stats['summary']['total_tested_classes']}")
     print(f"Test Density: {stats['summary']['test_density']} tests per 1000 lines of code")
+    
+    print("\n=== Code Complexity ===")
+    print(f"Average Cyclomatic Complexity: {stats['summary']['avg_cyclomatic_complexity']}")
+    print(f"Max Cyclomatic Complexity: {stats['quality_metrics']['cyclomatic_complexity']['max_complexity']}")
+    print(f"High Complexity Functions (>10): {len(stats['quality_metrics']['cyclomatic_complexity']['high_complexity_functions'])}")
+    print(f"Average Cognitive Complexity: {stats['summary']['avg_cognitive_complexity']}")
+    
+    print("\n=== Code Quality ===")
+    print(f"Maintainability Index: {stats['summary']['maintainability_index']}/100 ({stats['quality_metrics']['maintainability_index']['category']})")
+    print(f"Documentation Coverage: {stats['summary']['documentation_coverage_percentage']}%")
+    print(f"Code Duplication: {stats['summary']['code_duplication_percentage']}%")
+    if stats['quality_metrics']['code_churn']['total_commits'] > 0:
+        print(f"Code Churn (6 months): {stats['quality_metrics']['code_churn']['total_commits']} file changes")
+        print(f"Most Changed Files: {len(stats['quality_metrics']['code_churn']['most_changed_files'])}")
     
     print("\n=== SOLID Principles Compliance ===")
     print(f"SOLID Compliance Score: {stats['summary']['solid_compliance_score']}/100")
