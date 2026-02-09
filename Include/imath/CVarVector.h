@@ -29,7 +29,82 @@ namespace imath
 
 
 /**
-	Simple implementation of variable-size vector.
+	Implementation of variable-size mathematical vector with double precision elements.
+	
+	\section VarVectorPurpose Purpose
+	CVarVector is a dynamic-size vector class that provides mathematical vector operations
+	similar to TVector but with runtime-determined size. It's ideal for scenarios where
+	the vector dimension is not known at compile time or needs to change during execution.
+	The vector stores double precision floating-point values and supports common operations
+	like addition, scaling, dot product, normalization, and distance calculations.
+	
+	\section VarVectorVsFixed CVarVector vs TVector
+	- **CVarVector**: Dynamic size determined at runtime, stored on heap, flexible resizing
+	- **TVector**: Fixed size at compile time, stored on stack, more efficient for known dimensions
+	
+	Use CVarVector when:
+	- Vector dimension is determined at runtime (e.g., from file or user input)
+	- You need to resize vectors dynamically
+	- Working with vectors of varying dimensions in the same data structure
+	
+	Use TVector when:
+	- Vector dimension is known at compile time (e.g., 2D/3D graphics)
+	- Performance is critical and dimension is fixed
+	- Want compile-time size checking
+	
+	\section VarVectorUsageExamples Usage Examples
+	\code
+	// Create empty vector and set size later
+	imath::CVarVector vec1;
+	vec1.SetElementsCount(3);
+	vec1.SetElement(0, 1.0);
+	vec1.SetElement(1, 2.0);
+	vec1.SetElement(2, 3.0);
+	
+	// Create vector with initial size and value
+	imath::CVarVector vec2(5, 0.0);  // 5 elements, all initialized to 0
+	
+	// Create from TVector
+	imath::TVector<3, double> fixedVec = {1.0, 2.0, 3.0};
+	imath::CVarVector vec3(fixedVec);
+	
+	// Vector operations
+	imath::CVarVector vec4(3);
+	vec4.SetElement(0, 4.0);
+	vec4.SetElement(1, 5.0);
+	vec4.SetElement(2, 6.0);
+	
+	// Addition
+	vec1.Translate(vec4);  // vec1 += vec4
+	
+	// Dot product
+	double dot = vec1.GetDotProduct(vec4);  // 1*4 + 2*5 + 3*6 = 32
+	
+	// Length and normalization
+	double length = vec1.GetLength();
+	if (vec1.Normalize()) {
+		// vec1 is now a unit vector
+	}
+	
+	// Dynamic resizing
+	vec1.EnsureElementsCount(10, 0.0);  // Grow to at least 10 elements
+	\endcode
+	
+	\section VarVectorOperations Common Operations
+	- **Construction**: Default, size-based, copy, from TVector, from iterators
+	- **Element Access**: GetElement(), SetElement(), operator[], GetElements()
+	- **Sizing**: SetElementsCount(), EnsureElementsCount(), IsEmpty()
+	- **Initialization**: Clear(), Reset(), SetAllElements(), SetElementsFrom()
+	- **Arithmetic**: Translate(), ScaledCumulate(), operators (+, -, *, /)
+	- **Metrics**: GetLength(), GetLength2(), GetDistance(), GetDotProduct()
+	- **Normalization**: Normalize(), GetNormalized()
+	- **Comparison**: IsNull(), operators (==, !=, <, >, <=, >=)
+	- **Min/Max**: GetMinimal(), GetMaximal()
+	- **Serialization**: Serialize()
+	
+	\sa imath::TVector, imath::TFastVector, imath::CVarMatrix
+	
+	\ingroup Geometry
 */
 class CVarVector
 {
@@ -47,7 +122,19 @@ public:
 	explicit CVarVector(int componentsCount, double value = 0);
 
 	/**
-		Constructor with iterators.
+		Creates a vector from a range of values using iterators.
+		
+		This constructor enables creation from any container or sequence that provides
+		iterators (e.g., std::vector, std::list, arrays).
+		
+		\param beginIter Iterator to the first element
+		\param endIter Iterator past the last element
+		
+		\code
+		std::vector<double> values = {1.0, 2.0, 3.0, 4.0};
+		imath::CVarVector vec(values.begin(), values.end());
+		// vec now contains {1.0, 2.0, 3.0, 4.0}
+		\endcode
 	*/
 	template <typename Iterator>
 	CVarVector(Iterator beginIter, Iterator endIter);
@@ -57,6 +144,20 @@ public:
 	 */
 	CVarVector(const CVarVector& vector);
 
+	/**
+		Creates a variable-size vector from a fixed-size TVector.
+		
+		Allows conversion from compile-time sized vectors to runtime-sized vectors.
+		Useful when interfacing between subsystems using different vector types.
+		
+		\param vector The fixed-size TVector to convert from
+		
+		\code
+		imath::TVector<3, double> fixedVec = {1.0, 2.0, 3.0};
+		imath::CVarVector varVec(fixedVec);
+		// varVec.GetElementsCount() == 3
+		\endcode
+	*/
 	template <int Size>
 	CVarVector(const TVector<Size, double>& vector);
 

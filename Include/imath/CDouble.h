@@ -15,7 +15,82 @@ namespace imath
 
 
 /**
-	Simple wrapper of real value represented as double type.
+	Wrapper class for double precision floating-point values with rounding utilities.
+	
+	\section DoublePurpose Purpose
+	CDouble provides a convenient wrapper around double precision floating-point values,
+	offering arithmetic operators and specialized rounding/comparison methods. Built on
+	top of TVector<1>, it combines the benefits of vector operations with double-specific
+	functionality for numerical computations requiring controlled precision.
+	
+	\section DoubleFeatures Key Features
+	- **Arithmetic Operations**: Full set of operators (+, -, *, /, +=, -=, *=, /=)
+	- **Comparison**: Standard comparison operators (==, !=, <, >, <=, >=)
+	- **Rounding**: Multiple rounding modes (round, floor, ceil) with precision control
+	- **Tolerance Comparison**: IsSimiliar() for floating-point equality within tolerance
+	- **Type Conversion**: Implicit conversion to/from double
+	- **Static Methods**: Utility functions for working with raw double values
+	
+	\section DoubleUsageExamples Usage Examples
+	\code
+	// Basic construction and arithmetic
+	imath::CDouble value1(3.14159);
+	imath::CDouble value2(2.71828);
+	imath::CDouble sum = value1 + value2;  // 5.85987
+	
+	// Rounding to specified precision
+	imath::CDouble pi(3.14159265359);
+	imath::CDouble rounded = pi.GetRounded(2);  // 3.14
+	imath::CDouble roundedDown = pi.GetRoundedDown(3);  // 3.141
+	imath::CDouble roundedUp = pi.GetRoundedUp(3);  // 3.142
+	
+	// Comparison with rounding
+	imath::CDouble val1(3.14159);
+	imath::CDouble val2(3.14151);
+	if (val1.IsRoundedEqual(val2, 2)) {
+		// true - both round to 3.14
+	}
+	
+	// Tolerance-based comparison (for floating-point equality)
+	imath::CDouble a(1.0000001);
+	imath::CDouble b(1.0000002);
+	if (a.IsSimiliar(b, 1e-6)) {
+		// true - difference is within tolerance
+	}
+	
+	// Using static methods
+	double d1 = 2.718281828;
+	double rounded = imath::CDouble::GetRounded(d1, 4);  // 2.7183
+	bool similar = imath::CDouble::IsSimiliar(2.0, 2.0000001, 1e-6);  // true
+	
+	// Implicit conversion
+	imath::CDouble value(5.5);
+	double d = value;  // Implicit conversion to double
+	value = 7.2;  // Implicit conversion from double
+	\endcode
+	
+	\section DoubleWhenToUse When to Use
+	Use CDouble when:
+	- You need controlled rounding and precision management
+	- Working with numerical algorithms requiring tolerance comparisons
+	- Interfacing with code that uses TVector but need scalar operations
+	- You want type safety and explicit semantics for double values
+	
+	Use raw double when:
+	- Simple scalar calculations without special rounding needs
+	- Performance is absolutely critical (minimal overhead)
+	- Interfacing with C APIs or external libraries expecting double*
+	
+	\section DoublePrecision Precision Notes
+	- **precision parameter**: Number of decimal places (e.g., precision=2 means 0.01 resolution)
+	- **GetRounded()**: Rounds to nearest (0.5 rounds up)
+	- **GetRoundedDown()**: Always rounds toward negative infinity (floor)
+	- **GetRoundedUp()**: Always rounds toward positive infinity (ceil)
+	- **IsSimiliar()**: Default tolerance is I_BIG_EPSILON (typically 1e-6)
+	
+	\sa imath::TVector, imath::CDoubleManip, imath::CFixedPointManip
+	
+	\ingroup NumericalTypes
 */
 class CDouble: public TVector<1>
 {
