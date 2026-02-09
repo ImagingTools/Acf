@@ -112,19 +112,17 @@ void CNameParamCompTest::testCloneWithDefault()
 	m_nameWithDefaultPtr->SetName("Clone Test Name");
 	
 	// Clone the parameter
-	auto clonedPtr = m_nameWithDefaultPtr->CloneMe();
-	QVERIFY(clonedPtr != nullptr);
-	
-	auto clonedNameParam = dynamic_cast<iprm::INameParam*>(clonedPtr.get());
-	QVERIFY(clonedNameParam != nullptr);
+	istd::TUniqueInterfacePtr<iprm::INameParam> clonedPtr;
+	QVERIFY(clonedPtr.MoveCastedPtr(m_nameWithDefaultPtr->CloneMe()));
+	QVERIFY(clonedPtr.IsValid());
 	
 	// Verify the value was cloned
-	QCOMPARE(clonedNameParam->GetName(), m_nameWithDefaultPtr->GetName());
-	QCOMPARE(clonedNameParam->GetName(), QString("Clone Test Name"));
+	QCOMPARE(clonedPtr->GetName(), m_nameWithDefaultPtr->GetName());
+	QCOMPARE(clonedPtr->GetName(), QString("Clone Test Name"));
 	
 	// Modify the clone and verify original is unchanged
-	clonedNameParam->SetName("Modified Clone");
-	QCOMPARE(clonedNameParam->GetName(), QString("Modified Clone"));
+	clonedPtr->SetName("Modified Clone");
+	QCOMPARE(clonedPtr->GetName(), QString("Modified Clone"));
 	QCOMPARE(m_nameWithDefaultPtr->GetName(), QString("Clone Test Name"));
 	
 	// Restore default value

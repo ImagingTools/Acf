@@ -114,19 +114,17 @@ void CTextParamCompTest::testCloneWithDefault()
 	m_textWithDefaultPtr->SetText("Clone Test Value");
 	
 	// Clone the parameter
-	auto clonedPtr = m_textWithDefaultPtr->CloneMe();
-	QVERIFY(clonedPtr != nullptr);
-	
-	auto clonedTextParam = dynamic_cast<iprm::ITextParam*>(clonedPtr.get());
-	QVERIFY(clonedTextParam != nullptr);
+	istd::TUniqueInterfacePtr<iprm::ITextParam> clonedPtr;
+	QVERIFY(clonedPtr.MoveCastedPtr(m_textWithDefaultPtr->CloneMe()));
+	QVERIFY(clonedPtr.IsValid());
 	
 	// Verify the value was cloned
-	QCOMPARE(clonedTextParam->GetText(), m_textWithDefaultPtr->GetText());
-	QCOMPARE(clonedTextParam->GetText(), QString("Clone Test Value"));
+	QCOMPARE(clonedPtr->GetText(), m_textWithDefaultPtr->GetText());
+	QCOMPARE(clonedPtr->GetText(), QString("Clone Test Value"));
 	
 	// Modify the clone and verify original is unchanged
-	clonedTextParam->SetText("Modified Clone");
-	QCOMPARE(clonedTextParam->GetText(), QString("Modified Clone"));
+	clonedPtr->SetText("Modified Clone");
+	QCOMPARE(clonedPtr->GetText(), QString("Modified Clone"));
 	QCOMPARE(m_textWithDefaultPtr->GetText(), QString("Clone Test Value"));
 	
 	// Restore default value

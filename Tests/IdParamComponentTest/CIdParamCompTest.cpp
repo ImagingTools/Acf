@@ -123,19 +123,17 @@ void CIdParamCompTest::testCloneWithDefault()
 	m_idWithDefaultPtr->SetId("clone_test_id");
 	
 	// Clone the parameter
-	auto clonedPtr = m_idWithDefaultPtr->CloneMe();
-	QVERIFY(clonedPtr != nullptr);
-	
-	auto clonedIdParam = dynamic_cast<iprm::IIdParam*>(clonedPtr.get());
-	QVERIFY(clonedIdParam != nullptr);
+	istd::TUniqueInterfacePtr<iprm::IIdParam> clonedPtr;
+	QVERIFY(clonedPtr.MoveCastedPtr(m_idWithDefaultPtr->CloneMe()));
+	QVERIFY(clonedPtr.IsValid());
 	
 	// Verify the value was cloned
-	QCOMPARE(clonedIdParam->GetId(), m_idWithDefaultPtr->GetId());
-	QCOMPARE(clonedIdParam->GetId(), QByteArray("clone_test_id"));
+	QCOMPARE(clonedPtr->GetId(), m_idWithDefaultPtr->GetId());
+	QCOMPARE(clonedPtr->GetId(), QByteArray("clone_test_id"));
 	
 	// Modify the clone and verify original is unchanged
-	clonedIdParam->SetId("modified_clone");
-	QCOMPARE(clonedIdParam->GetId(), QByteArray("modified_clone"));
+	clonedPtr->SetId("modified_clone");
+	QCOMPARE(clonedPtr->GetId(), QByteArray("modified_clone"));
 	QCOMPARE(m_idWithDefaultPtr->GetId(), QByteArray("clone_test_id"));
 	
 	// Restore default value

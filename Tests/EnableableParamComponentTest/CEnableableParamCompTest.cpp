@@ -127,19 +127,17 @@ void CEnableableParamCompTest::testCloneEnabled()
 	QVERIFY(m_enabledByDefaultPtr->SetEnabled(false));
 	
 	// Clone the parameter
-	auto clonedPtr = m_enabledByDefaultPtr->CloneMe();
-	QVERIFY(clonedPtr != nullptr);
-	
-	auto clonedEnableableParam = dynamic_cast<iprm::IEnableableParam*>(clonedPtr.get());
-	QVERIFY(clonedEnableableParam != nullptr);
+	istd::TUniqueInterfacePtr<iprm::IEnableableParam> clonedPtr;
+	QVERIFY(clonedPtr.MoveCastedPtr(m_enabledByDefaultPtr->CloneMe()));
+	QVERIFY(clonedPtr.IsValid());
 	
 	// Verify the state was cloned
-	QCOMPARE(clonedEnableableParam->IsEnabled(), m_enabledByDefaultPtr->IsEnabled());
-	QVERIFY(!clonedEnableableParam->IsEnabled());
+	QCOMPARE(clonedPtr->IsEnabled(), m_enabledByDefaultPtr->IsEnabled());
+	QVERIFY(!clonedPtr->IsEnabled());
 	
 	// Modify the clone and verify original is unchanged
-	QVERIFY(clonedEnableableParam->SetEnabled(true));
-	QVERIFY(clonedEnableableParam->IsEnabled());
+	QVERIFY(clonedPtr->SetEnabled(true));
+	QVERIFY(clonedPtr->IsEnabled());
 	QVERIFY(!m_enabledByDefaultPtr->IsEnabled());
 	
 	// Restore default state
