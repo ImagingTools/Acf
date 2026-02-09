@@ -779,7 +779,7 @@ void TMatrix<Width, Height, Element>::GetTransposed(TMatrix<Height, Width, Eleme
 {
 	for (int x = 0; x < Width; ++x){
 		for (int y = 0; y < Height; ++y){
-			result.m_elements[y][x] = m_elements[x][y];
+			result.SetAt(y, x, GetAt(x, y));
 		}
 	}
 }
