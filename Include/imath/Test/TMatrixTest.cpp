@@ -214,27 +214,32 @@ void TMatrixTest::SubtractionTest()
 void TMatrixTest::MatrixMultiplicationTest()
 {
 	// Test 2x2 * 2x2 = 2x2
+	// Note: TMatrix uses column-major storage where SetAt(x, y) sets column x, row y
 	imath::TMatrix<2, 2, double> mat1;
-	mat1.SetAt(0, 0, 1.0);
-	mat1.SetAt(0, 1, 2.0);
-	mat1.SetAt(1, 0, 3.0);
-	mat1.SetAt(1, 1, 4.0);
+	mat1.SetAt(0, 0, 1.0);  // col 0, row 0
+	mat1.SetAt(0, 1, 2.0);  // col 0, row 1
+	mat1.SetAt(1, 0, 3.0);  // col 1, row 0
+	mat1.SetAt(1, 1, 4.0);  // col 1, row 1
+	// mat1 = [1 3]
+	//        [2 4]
 	
 	imath::TMatrix<2, 2, double> mat2;
-	mat2.SetAt(0, 0, 5.0);
-	mat2.SetAt(0, 1, 6.0);
-	mat2.SetAt(1, 0, 7.0);
-	mat2.SetAt(1, 1, 8.0);
+	mat2.SetAt(0, 0, 5.0);  // col 0, row 0
+	mat2.SetAt(0, 1, 6.0);  // col 0, row 1
+	mat2.SetAt(1, 0, 7.0);  // col 1, row 0
+	mat2.SetAt(1, 1, 8.0);  // col 1, row 1
+	// mat2 = [5 7]
+	//        [6 8]
 	
 	imath::TMatrix<2, 2, double> result;
 	mat1.GetMultiplied(mat2, result);
 	
-	// [1 3] * [5 7] = [1*5+3*7  1*6+3*8] = [26 30]
-	// [2 4]   [6 8]   [2*5+4*7  2*6+4*8]   [38 44]
-	QVERIFY(qAbs(result.GetAt(0, 0) - 26.0) < 1e-10);
-	QVERIFY(qAbs(result.GetAt(0, 1) - 38.0) < 1e-10);
-	QVERIFY(qAbs(result.GetAt(1, 0) - 30.0) < 1e-10);
-	QVERIFY(qAbs(result.GetAt(1, 1) - 44.0) < 1e-10);
+	// [1 3] * [5 7] = [(1*5+3*6) (1*7+3*8)] = [23 31]
+	// [2 4]   [6 8]   [(2*5+4*6) (2*7+4*8)]   [34 46]
+	QVERIFY(qAbs(result.GetAt(0, 0) - 23.0) < 1e-10);
+	QVERIFY(qAbs(result.GetAt(0, 1) - 34.0) < 1e-10);
+	QVERIFY(qAbs(result.GetAt(1, 0) - 31.0) < 1e-10);
+	QVERIFY(qAbs(result.GetAt(1, 1) - 46.0) < 1e-10);
 	
 	// Test identity multiplication
 	imath::TMatrix<2, 2, double> identity(imath::TMatrix<2, 2, double>::MIM_IDENTITY);

@@ -896,7 +896,7 @@ void TMatrix<Width, Height, Element>::GetRowVector(int rowIndex, TVector<Width, 
 	Q_ASSERT(rowIndex < Height);
 
 	for (int x = 0; x < Width; ++x){
-		result[rowIndex] = m_elements[x][rowIndex];
+		result[x] = m_elements[x][rowIndex];
 	}
 }
 
