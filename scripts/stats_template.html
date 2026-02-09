@@ -438,6 +438,12 @@
                 <div class="number" id="components">-</div>
                 <div class="label">Components</div>
             </div>
+
+            <div class="stat-card">
+                <div class="icon">✅</div>
+                <div class="number" id="test-coverage">-</div>
+                <div class="label">Test Coverage</div>
+            </div>
         </div>
 
         <div class="section">
@@ -661,6 +667,25 @@
         </div>
 
         <div class="section">
+            <h2>✅ Test Coverage</h2>
+            <p class="section-description">Comprehensive testing metrics for the codebase</p>
+            <div class="metrics-table">
+                <div>
+                    <strong>Test Coverage:</strong> <span id="coverage-percentage">-</span>
+                </div>
+                <div>
+                    <strong>Total Test Cases:</strong> <span id="total-test-cases">-</span>
+                </div>
+                <div>
+                    <strong>Tested Classes:</strong> <span id="tested-classes">-</span>
+                </div>
+                <div>
+                    <strong>Test Density:</strong> <span id="test-density">-</span> tests per 1000 lines
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
             <h2>📈 Additional Metrics</h2>
             <div class="metrics-table">
                 <div>
@@ -725,6 +750,21 @@
                 summary.total_interfaces.toLocaleString();
             document.getElementById('components').textContent = 
                 summary.total_components.toLocaleString();
+            
+            // Update test coverage
+            const testCoverage = summary.test_coverage_percentage || 0;
+            document.getElementById('test-coverage').textContent = 
+                testCoverage.toFixed(1) + '%';
+            
+            // Update test coverage details section
+            document.getElementById('coverage-percentage').textContent = 
+                testCoverage.toFixed(1) + '%';
+            document.getElementById('total-test-cases').textContent = 
+                (summary.total_test_cases || 0).toLocaleString();
+            document.getElementById('tested-classes').textContent = 
+                (summary.total_tested_classes || 0).toLocaleString();
+            document.getElementById('test-density').textContent = 
+                (summary.test_density || 0).toFixed(2);
 
             // Update additional metrics
             document.getElementById('test-files').textContent = 

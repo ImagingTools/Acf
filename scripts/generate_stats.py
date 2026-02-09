@@ -514,13 +514,93 @@ class RepositoryStats:
                 }
     
     def analyze_tests(self):
-        """Analyze test files."""
+        """Analyze test files and calculate test coverage."""
         tests_path = self.repo_path / 'Tests'
+        include_path = self.repo_path / 'Include'
+        
         if not tests_path.exists():
             return
         
         test_files = list(tests_path.rglob('*.cpp')) + list(tests_path.rglob('*.h'))
         self.stats['test_files'] = len(test_files)
+        
+        # Count test cases and classes under test
+        test_cases = []
+        tested_classes = set()
+        
+        # Analyze test files for test methods
+        for test_file in test_files:
+            if test_file.suffix in ['.cpp', '.h']:
+                test_info = self.extract_test_info(test_file)
+                test_cases.extend(test_info['test_cases'])
+                tested_classes.update(test_info['tested_classes'])
+        
+        # Also check for inline tests in Include directory
+        if include_path.exists():
+            for lib_dir in include_path.iterdir():
+                if lib_dir.is_dir():
+                    test_dir = lib_dir / 'Test'
+                    if test_dir.exists():
+                        test_files_lib = list(test_dir.rglob('*.cpp')) + list(test_dir.rglob('*.h'))
+                        for test_file in test_files_lib:
+                            test_info = self.extract_test_info(test_file)
+                            test_cases.extend(test_info['test_cases'])
+                            tested_classes.update(test_info['tested_classes'])
+        
+        # Store test coverage information
+        self.stats['test_coverage'] = {
+            'total_test_cases': len(test_cases),
+            'test_cases': test_cases[:100],  # Store only first 100 to keep JSON manageable
+            'tested_classes': list(tested_classes),
+            'total_tested_classes': len(tested_classes),
+        }
+    
+    def extract_test_info(self, file_path):
+        """Extract test case information from a test file."""
+        test_cases = []
+        tested_classes = set()
+        
+        try:
+            with open(file_path, 'r', encoding='utf-8', errors='ignore') as f:
+                content = f.read()
+                
+                # Find test methods (Qt Test style: void testMethodName())
+                # Patterns: void testXxx(), void TestXxx(), private slots: ... testXxx()
+                test_method_pattern = r'void\s+(test\w+|Test\w+)\s*\('
+                test_methods = re.findall(test_method_pattern, content)
+                
+                for method in test_methods:
+                    test_cases.append({
+                        'name': method,
+                        'file': str(file_path.relative_to(self.repo_path))
+                    })
+                
+                # Try to identify classes being tested by looking for includes
+                # Pattern: #include <library/ClassName.h>
+                include_pattern = r'#include\s+[<"](\w+)/([A-Z]\w+)\.h[>"]'
+                includes = re.findall(include_pattern, content)
+                
+                for lib, class_name in includes:
+                    # Skip test infrastructure includes
+                    if not class_name.endswith('Test') and lib not in ['QtTest', 'QtCore', 'itest']:
+                        tested_classes.add(class_name)
+                
+                # Also look for explicit class instantiation or testing
+                # Pattern: TestClassName, ClassName*
+                class_ref_pattern = r'\b([A-Z]\w+(?:Comp|Component|Base|Manager|Provider))\b'
+                class_refs = re.findall(class_ref_pattern, content)
+                
+                for class_name in class_refs:
+                    if not class_name.endswith('Test'):
+                        tested_classes.add(class_name)
+                
+        except Exception as e:
+            print(f"Error extracting test info from {file_path}: {e}")
+        
+        return {
+            'test_cases': test_cases,
+            'tested_classes': tested_classes
+        }
     
     def analyze_docs(self):
         """Analyze documentation files."""
@@ -596,6 +676,35 @@ class RepositoryStats:
         
         # Sort large files by size
         self.stats['quality_metrics']['large_files'].sort(key=lambda x: x['lines'], reverse=True)
+        
+        # Calculate test coverage metrics
+        if 'test_coverage' in self.stats:
+            total_test_cases = self.stats['test_coverage']['total_test_cases']
+            total_tested_classes = self.stats['test_coverage']['total_tested_classes']
+            total_classes = len(self.stats['classes'])
+            total_components = len(self.stats['components'])
+            
+            # Calculate coverage percentage based on tested classes vs total classes
+            if total_classes > 0:
+                class_coverage = round((total_tested_classes / total_classes) * 100, 1)
+            else:
+                class_coverage = 0
+            
+            # Calculate test density (test cases per 1000 lines of code)
+            if total_code > 0:
+                test_density = round((total_test_cases / total_code) * 1000, 2)
+            else:
+                test_density = 0
+            
+            self.stats['summary']['test_coverage_percentage'] = class_coverage
+            self.stats['summary']['total_test_cases'] = total_test_cases
+            self.stats['summary']['total_tested_classes'] = total_tested_classes
+            self.stats['summary']['test_density'] = test_density
+        else:
+            self.stats['summary']['test_coverage_percentage'] = 0
+            self.stats['summary']['total_test_cases'] = 0
+            self.stats['summary']['total_tested_classes'] = 0
+            self.stats['summary']['test_density'] = 0
         
         # Calculate SOLID metrics
         self.calculate_solid_metrics()
@@ -827,6 +936,12 @@ def main():
     print(f"FIXMEs: {stats['quality_metrics']['fixmes']}")
     print(f"HACKs: {stats['quality_metrics']['hacks']}")
     print(f"Large Files (>1000 lines): {len(stats['quality_metrics']['large_files'])}")
+    
+    print("\n=== Test Coverage ===")
+    print(f"Test Coverage: {stats['summary']['test_coverage_percentage']}%")
+    print(f"Total Test Cases: {stats['summary']['total_test_cases']}")
+    print(f"Tested Classes: {stats['summary']['total_tested_classes']}")
+    print(f"Test Density: {stats['summary']['test_density']} tests per 1000 lines of code")
     
     print("\n=== SOLID Principles Compliance ===")
     print(f"SOLID Compliance Score: {stats['summary']['solid_compliance_score']}/100")
