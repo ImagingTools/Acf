@@ -34,9 +34,9 @@ namespace icmm
 	- Critical for chromatic adaptation
 	
 	**Observer Type:**
-	- Standard observer (2° or 10° field of view)
-	- CIE 1931 (2°) for small color patches
-	- CIE 1964 (10°) for larger fields
+	- Standard observer (2 degrees or 10 degrees field of view)
+	- CIE 1931 (2 degrees) for small color patches
+	- CIE 1964 (10 degrees) for larger fields
 	
 	**Calculation Method:**
 	- ASTM table type for spectral calculations
@@ -69,7 +69,7 @@ namespace icmm
 	{
 		// sRGB uses:
 		// - D65 illuminant
-		// - 2° standard observer
+		// - 2 degrees standard observer
 		// - Rec. 709 primaries
 		
 		// Implementation would create appropriate specification
@@ -159,23 +159,23 @@ namespace icmm
 	\section TristimulusSpecStandards Standard Configurations
 	**sRGB (web/display standard):**
 	- Illuminant: D65
-	- Observer: CIE 1931 2°
+	- Observer: CIE 1931 2 degrees
 	- Primaries: Rec. 709
 	
 	**Adobe RGB (photography):**
 	- Illuminant: D65
-	- Observer: CIE 1931 2°
+	- Observer: CIE 1931 2 degrees
 	- Wider gamut than sRGB
 	
 	**Print workflows:**
 	- Illuminant: D50 (standard for printing)
-	- Observer: CIE 1931 2°
+	- Observer: CIE 1931 2 degrees
 	- ICC profile-based
 
 	\section TristimulusSpecBestPractices Best Practices
 	- Match illuminant to viewing conditions (D65 for displays, D50 for print)
-	- Use 2° observer for most applications
-	- Use 10° observer for large color patches or critical matching
+	- Use 2 degrees observer for most applications
+	- Use 10 degrees observer for large color patches or critical matching
 	- Check for spectral base when accuracy is critical
 	- Cache specifications for repeated conversions
 
@@ -203,8 +203,8 @@ public:
 		Gets the standard observer type used for color calculations.
 		
 		The observer type defines the color matching functions used:
-		- OT_CIE_1931_2_DEGREE: Standard 2° observer (small fields)
-		- OT_CIE_1964_10_DEGREE: Supplementary 10° observer (large fields)
+		- OT_CIE_1931_2_DEGREE: Standard 2 degrees observer (small fields)
+		- OT_CIE_1964_10_DEGREE: Supplementary 10 degrees observer (large fields)
 		
 		\return ObserverType indicating which standard observer to use
 		

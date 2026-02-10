@@ -174,7 +174,7 @@ namespace icmm
 	- Use appropriate black generation for content type
 	- Consider paper type (coated vs uncoated affects ink limits)
 	- Proof on actual print device when possible
-	- Use ICC profiles for accurate RGB→CMYK conversion
+	- Use ICC profiles for accurate RGB->CMYK conversion
 	- Check registration and trapping requirements
 
 	\sa icmm::CCmyColorModel, icmm::ISubstractiveColorModel, icmm::CCmyk,

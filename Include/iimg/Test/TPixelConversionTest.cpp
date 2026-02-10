@@ -25,7 +25,7 @@ void TPixelConversionTest::GrayToFloatConversionTest()
 	QVERIFY(qAbs(result0 - 0.0f) < 0.001f);
 	
 	float result127 = converter(127);
-	QVERIFY(qAbs(result127 - 0.498f) < 0.01f);  // 127/255 ≈ 0.498
+	QVERIFY(qAbs(result127 - 0.498f) < 0.01f);  // 127/255 ~ 0.498
 	
 	float result255 = converter(255);
 	QVERIFY(qAbs(result255 - 1.0f) < 0.001f);

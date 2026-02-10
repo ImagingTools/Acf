@@ -111,8 +111,8 @@ namespace icmm
 	{
 		QList<icmm::CHsv> colors;
 		colors.append(base);
-		colors.append(RotateHue(base, 1.0 / 3.0));  // 120°
-		colors.append(RotateHue(base, 2.0 / 3.0));  // 240°
+		colors.append(RotateHue(base, 1.0 / 3.0));  // 120 degrees
+		colors.append(RotateHue(base, 2.0 / 3.0));  // 240 degrees
 		return colors;
 	}
 
@@ -158,7 +158,7 @@ namespace icmm
 	\section HsvVsRgb HSV vs RGB
 	- **HSV**: Better for user interfaces and artistic color selection
 	- **RGB**: Better for display, calculation, and blending
-	- **Conversion**: RGB ↔ HSV transformations are available but have cost
+	- **Conversion**: RGB <-> HSV transformations are available but have cost
 	- **Storage**: Store in the space where most operations will occur
 
 	\section HsvBestPractices Best Practices
@@ -169,7 +169,7 @@ namespace icmm
 	- For perceptual operations, consider using Lab color space instead
 
 	\note Component values are normalized to [0, 1] range where:
-	      - Hue: 0.0-1.0 represents 0°-360°
+	      - Hue: 0.0-1.0 represents 0 degrees-360 degrees
 	      - Saturation: 0.0 (gray) to 1.0 (pure color)
 	      - Value: 0.0 (black) to 1.0 (bright)
 

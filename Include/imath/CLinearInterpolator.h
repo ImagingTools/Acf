@@ -40,7 +40,7 @@ namespace imath
 	// Query inside domain
 	double result;
 	if (interp1.GetValueAt(1.5, result)) {
-		// result ≈ 1.75 (linear interpolation between 2.0 and 1.5)
+		// result ~ 1.75 (linear interpolation between 2.0 and 1.5)
 	}
 	
 	// Query outside domain (no extrapolation)
