@@ -22,11 +22,11 @@ namespace icmm
 
 	\section ColorTransformationTypes Transformation Types
 	Common color transformations include:
-	- **RGB ↔ HSV**: Conversion between RGB and HSV color spaces
-	- **RGB ↔ CMYK**: Conversion for display vs. print
-	- **RGB → XYZ → Lab**: Device-dependent to perceptually uniform space
-	- **Spectral → XYZ**: Full spectral data to tristimulus values
-	- **Any → XYZ → Any**: XYZ often serves as an intermediate color space
+	- **RGB <-> HSV**: Conversion between RGB and HSV color spaces
+	- **RGB <-> CMYK**: Conversion for display vs. print
+	- **RGB -> XYZ -> Lab**: Device-dependent to perceptually uniform space
+	- **Spectral -> XYZ**: Full spectral data to tristimulus values
+	- **Any -> XYZ -> Any**: XYZ often serves as an intermediate color space
 
 	\section ColorTransformationUsage Usage Examples
 	\code
@@ -97,7 +97,7 @@ namespace icmm
 	// Example 3: Color space conversion chain
 	icmm::CVarColor ConvertRgbToLab(const icmm::CVarColor& rgb)
 	{
-		// RGB → XYZ → Lab (common conversion path)
+		// RGB -> XYZ -> Lab (common conversion path)
 		icmm::CRgbColorModel rgbModel;
 		icmm::CXyzColorModel xyzModel;  // Hypothetical
 		icmm::CCieLabColorModel labModel;
@@ -156,13 +156,13 @@ namespace icmm
 	\section ColorTransformationPerformance Performance Considerations
 	- **Cache transformations**: Creating transformations has overhead; reuse them
 	  when converting multiple colors
-	- **Direct transformations**: Some conversions (RGB↔HSV) are direct and fast
+	- **Direct transformations**: Some conversions (RGB<->HSV) are direct and fast
 	- **Indirect transformations**: Others go through XYZ as intermediate, slower
 	- **Memory management**: Always delete transformation objects when done
 
 	\section ColorTransformationAccuracy Accuracy Considerations
 	- Color transformations may involve approximations
-	- Some conversions are lossy (RGB → CMYK → RGB may not round-trip exactly)
+	- Some conversions are lossy (RGB -> CMYK -> RGB may not round-trip exactly)
 	- Device-dependent models (RGB, CMYK) need calibration for accuracy
 	- Use device-independent spaces (Lab, XYZ) for accurate color matching
 

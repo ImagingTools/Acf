@@ -31,16 +31,16 @@ namespace imath
 	\section FixedPointRoundingModes Rounding Modes
 	
 	**RT_NORMAL** - Mathematical rounding (nearest value, 0.5 rounds up):
-	- 1.234 → 1.23 (precision=2)
-	- 1.235 → 1.24 (precision=2)
+	- 1.234 -> 1.23 (precision=2)
+	- 1.235 -> 1.24 (precision=2)
 	
 	**RT_FLOOR** - Always round toward negative infinity:
-	- 1.239 → 1.23 (precision=2)
-	- -1.231 → -1.24 (precision=2)
+	- 1.239 -> 1.23 (precision=2)
+	- -1.231 -> -1.24 (precision=2)
 	
 	**RT_CEIL** - Always round toward positive infinity:
-	- 1.231 → 1.24 (precision=2)
-	- -1.239 → -1.23 (precision=2)
+	- 1.231 -> 1.24 (precision=2)
+	- -1.239 -> -1.23 (precision=2)
 	
 	\section FixedPointUsageExamples Usage Examples
 	\code
@@ -54,7 +54,7 @@ namespace imath
 	QString str = moneyManip.GetString(5.1);  // "5.10" (always 2 decimals)
 	
 	// Comparison (rounds before comparing)
-	bool equal = moneyManip.AreValuesEqual(1.234, 1.235);  // true (both → 1.24)
+	bool equal = moneyManip.AreValuesEqual(1.234, 1.235);  // true (both -> 1.24)
 	bool less = moneyManip.IsSmaller(1.231, 1.235);  // true (1.23 < 1.24)
 	
 	// Increment/decrement by precision
@@ -84,8 +84,8 @@ namespace imath
 	ceil.GetRounded(1.235);    // 1.24
 	
 	normal.GetRounded(-1.235); // -1.24
-	floor.GetRounded(-1.235);  // -1.24 (toward -∞)
-	ceil.GetRounded(-1.235);   // -1.23 (toward +∞)
+	floor.GetRounded(-1.235);  // -1.24 (toward -infinity)
+	ceil.GetRounded(-1.235);   // -1.23 (toward +infinity)
 	\endcode
 	
 	\section FixedPointUseCases Common Use Cases

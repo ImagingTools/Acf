@@ -36,8 +36,8 @@ namespace icmm
 
 	\section LabAdvantages Lab Advantages
 	**Perceptual Uniformity:**
-	- Equal distances in Lab space ≈ equal perceived color differences
-	- Makes it ideal for ΔE (Delta E) color difference calculations
+	- Equal distances in Lab space ~ equal perceived color differences
+	- Makes it ideal for DeltaE (Delta E) color difference calculations
 	
 	**Device Independence:**
 	- Not tied to any specific device (monitor, printer)
@@ -68,13 +68,13 @@ namespace icmm
 	double a = color.GetA();
 	double b = color.GetB();
 
-	// Example 3: Calculating color difference (ΔE)
+	// Example 3: Calculating color difference (DeltaE)
 	double CompareColors(const icmm::CLab& color1, const icmm::CLab& color2)
 	{
-		// ΔE76 formula (CIE 1976)
+		// DeltaE76 formula (CIE 1976)
 		double deltaE = color1.GetDeltaE(color2);
 		
-		// Interpretation of ΔE:
+		// Interpretation of DeltaE:
 		// < 1.0: Imperceptible difference
 		// 1-2: Perceptible by close observation
 		// 2-10: Perceptible at a glance
@@ -171,11 +171,11 @@ namespace icmm
 	}
 	\endcode
 
-	\section LabDeltaE Delta E (ΔE) Color Difference
-	The ΔE value quantifies the perceptual difference between two colors:
+	\section LabDeltaE Delta E (DeltaE) Color Difference
+	The DeltaE value quantifies the perceptual difference between two colors:
 	
-	**ΔE76 (CIE 1976):**
-	- ΔE = √((L1-L2)² + (a1-a2)² + (b1-b2)²)
+	**DeltaE76 (CIE 1976):**
+	- DeltaE = sqrt((L1-L2)^2 + (a1-a2)^2 + (b1-b2)^2)
 	- Simple Euclidean distance in Lab space
 	- Available via GetDeltaE() method
 	
@@ -199,8 +199,8 @@ namespace icmm
 	- Use Lab for color difference calculations (quality control)
 	- Convert to Lab from any color space via XYZ as intermediate
 	- Be aware of illuminant - Lab is relative to a white point (usually D65)
-	- Use ΔE for objective color difference measurements
-	- Consider ΔE2000 for more accurate perceptual differences (not in this class)
+	- Use DeltaE for objective color difference measurements
+	- Consider DeltaE2000 for more accurate perceptual differences (not in this class)
 	- Lab values are typically normalized to [0,1] range in ACF but represent actual Lab ranges
 
 	\note In ACF, component values are normalized to [0, 1] range internally, but

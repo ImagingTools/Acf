@@ -49,7 +49,7 @@ namespace imath
 	}
 	
 	// Get sampling information
-	double step = func.GetSamplingStep();  // 10.0 / 99 ≈ 0.101
+	double step = func.GetSamplingStep();  // 10.0 / 99 ~ 0.101
 	int count = func.GetTotalSamplesCount();  // 100
 	
 	// Copy from another sampled function

@@ -164,14 +164,14 @@ namespace icmm
 	\section ColorModelTransformations Color Transformations
 	Color transformations convert colors from one model to another. Not all
 	transformations are available directly:
-	- **Direct**: RGB ↔ HSV, RGB ↔ CMYK
+	- **Direct**: RGB <-> HSV, RGB <-> CMYK
 	- **Via XYZ**: Most conversions go through XYZ as an intermediate step
 	- **Spectral**: Can be converted to any model via XYZ
 
 	\section ColorModelBestPractices Best Practices
 	- Use device-independent models (XYZ, Lab) for color comparisons
 	- Store colors in the model they'll be used in (RGB for display, CMYK for print)
-	- Use Lab for perceptual color differences (ΔE calculations)
+	- Use Lab for perceptual color differences (DeltaE calculations)
 	- Cache transformations if converting many colors
 	- Check transformation availability before converting
 
