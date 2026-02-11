@@ -28,6 +28,7 @@ public:
 		static iser::CArchiveTag idTag("Id", "Identifier");
 		static iser::CArchiveTag nameTag("Name", "Name");
 		static iser::CArchiveTag childrenTag("Children", "Children collection");
+		static iser::CArchiveTag childTag("Child", "Child item");
 		
 		bool retVal = archive.BeginTag(idTag);
 		retVal = retVal && archive.Process(id);
@@ -37,8 +38,34 @@ public:
 		retVal = retVal && archive.Process(name);
 		retVal = retVal && archive.EndTag(nameTag);
 		
-		retVal = retVal && archive.BeginTag(childrenTag);
-		retVal = retVal && archive.Process(children);
+		// Serialize children collection
+		int count = children.size();
+		retVal = retVal && archive.BeginMultiTag(childrenTag, childTag, count);
+		
+		if (archive.IsStoring())
+		{
+			// Writing: iterate and save each child
+			for (int child : children)
+			{
+				retVal = retVal && archive.BeginTag(childTag);
+				retVal = retVal && archive.Process(child);
+				retVal = retVal && archive.EndTag(childTag);
+			}
+		}
+		else
+		{
+			// Reading: count is set by BeginMultiTag
+			children.clear();
+			for (int i = 0; i < count; ++i)
+			{
+				int child = 0;
+				retVal = retVal && archive.BeginTag(childTag);
+				retVal = retVal && archive.Process(child);
+				retVal = retVal && archive.EndTag(childTag);
+				children.append(child);
+			}
+		}
+		
 		retVal = retVal && archive.EndTag(childrenTag);
 		
 		return retVal;
@@ -57,8 +84,33 @@ public:
 	virtual bool Serialize(iser::IArchive& archive) override
 	{
 		static iser::CArchiveTag dataTag("Data", "Large data array");
-		bool retVal = archive.BeginTag(dataTag);
-		retVal = retVal && archive.Process(data);
+		static iser::CArchiveTag itemTag("Item", "Data item");
+		
+		int count = data.size();
+		bool retVal = archive.BeginMultiTag(dataTag, itemTag, count);
+		
+		if (archive.IsStoring())
+		{
+			for (double value : data)
+			{
+				retVal = retVal && archive.BeginTag(itemTag);
+				retVal = retVal && archive.Process(value);
+				retVal = retVal && archive.EndTag(itemTag);
+			}
+		}
+		else
+		{
+			data.clear();
+			for (int i = 0; i < count; ++i)
+			{
+				double value = 0.0;
+				retVal = retVal && archive.BeginTag(itemTag);
+				retVal = retVal && archive.Process(value);
+				retVal = retVal && archive.EndTag(itemTag);
+				data.append(value);
+			}
+		}
+		
 		retVal = retVal && archive.EndTag(dataTag);
 		return retVal;
 	}
@@ -74,19 +126,91 @@ public:
 	virtual bool Serialize(iser::IArchive& archive) override
 	{
 		static iser::CArchiveTag intListTag("IntList", "Integer list");
+		static iser::CArchiveTag intItemTag("IntItem", "Integer item");
 		static iser::CArchiveTag stringListTag("StringList", "String list");
+		static iser::CArchiveTag stringItemTag("StringItem", "String item");
 		static iser::CArchiveTag doubleListTag("DoubleList", "Double list");
+		static iser::CArchiveTag doubleItemTag("DoubleItem", "Double item");
 		
-		bool retVal = archive.BeginTag(intListTag);
-		retVal = retVal && archive.Process(intList);
+		bool retVal = true;
+		
+		// Serialize int list
+		int intCount = intList.size();
+		retVal = retVal && archive.BeginMultiTag(intListTag, intItemTag, intCount);
+		if (archive.IsStoring())
+		{
+			for (int value : intList)
+			{
+				retVal = retVal && archive.BeginTag(intItemTag);
+				retVal = retVal && archive.Process(value);
+				retVal = retVal && archive.EndTag(intItemTag);
+			}
+		}
+		else
+		{
+			intList.clear();
+			for (int i = 0; i < intCount; ++i)
+			{
+				int value = 0;
+				retVal = retVal && archive.BeginTag(intItemTag);
+				retVal = retVal && archive.Process(value);
+				retVal = retVal && archive.EndTag(intItemTag);
+				intList.append(value);
+			}
+		}
 		retVal = retVal && archive.EndTag(intListTag);
 		
-		retVal = retVal && archive.BeginTag(stringListTag);
-		retVal = retVal && archive.Process(stringList);
+		// Serialize string list
+		int stringCount = stringList.size();
+		retVal = retVal && archive.BeginMultiTag(stringListTag, stringItemTag, stringCount);
+		if (archive.IsStoring())
+		{
+			for (const QString& value : stringList)
+			{
+				QString temp = value;
+				retVal = retVal && archive.BeginTag(stringItemTag);
+				retVal = retVal && archive.Process(temp);
+				retVal = retVal && archive.EndTag(stringItemTag);
+			}
+		}
+		else
+		{
+			stringList.clear();
+			for (int i = 0; i < stringCount; ++i)
+			{
+				QString value;
+				retVal = retVal && archive.BeginTag(stringItemTag);
+				retVal = retVal && archive.Process(value);
+				retVal = retVal && archive.EndTag(stringItemTag);
+				stringList.append(value);
+			}
+		}
 		retVal = retVal && archive.EndTag(stringListTag);
 		
-		retVal = retVal && archive.BeginTag(doubleListTag);
-		retVal = retVal && archive.Process(doubleList);
+		// Serialize double list
+		int doubleCount = doubleList.size();
+		retVal = retVal && archive.BeginMultiTag(doubleListTag, doubleItemTag, doubleCount);
+		if (archive.IsStoring())
+		{
+			for (double value : doubleList)
+			{
+				retVal = retVal && archive.BeginTag(doubleItemTag);
+				retVal = retVal && archive.Process(value);
+				retVal = retVal && archive.EndTag(doubleItemTag);
+			}
+		}
+		else
+		{
+			doubleList.clear();
+			for (int i = 0; i < doubleCount; ++i)
+			{
+				double value = 0.0;
+				retVal = retVal && archive.BeginTag(doubleItemTag);
+				retVal = retVal && archive.Process(value);
+				retVal = retVal && archive.EndTag(doubleItemTag);
+				doubleList.append(value);
+			}
+		}
 		retVal = retVal && archive.EndTag(doubleListTag);
 		
 		return retVal;
