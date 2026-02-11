@@ -1,13 +1,23 @@
 TARGET = ApplicationInfoComponentTest
 
-include(../../../Config/QMake/Application.pri)
+include(../../../Config/QMake/ApplicationConfig.pri)
+include(../../../Config/QMake/QtBaseConfig.pri)
 
-# Link with required libraries
-LIBS += -litest -libase -liser -listd
+LIBS += -L../../../Lib/$$COMPILER_DIR
+LIBS += -listd -liser -libase -litest
 
-# Qt modules
-QT += testlib
+QT += core gui testlib
 
-# Test configuration
-ARXC_CONFIG = ../../../Config/AcfTestConfig.awc
-ARXC_FILES = ../$${TARGET}.acc
+CONFIG += console
+
+# Set configuration of custom builds:
+# ARX Compiler:
+ARXC_CONFIG = $$PWD/../../../Config/AcfTestConfig.awc
+ARXC_FILES += $$files($$_PRO_FILE_PWD_/../*.acc, false)
+ARXC_OUTDIR = $$OUT_PWD/$$AUXINCLUDEPATH/GeneratedFiles/$$TARGET
+
+INCLUDEPATH += $$OUT_PWD/$$AUXINCLUDEPATH
+
+include(../../../Config/QMake/AcfQt.pri)
+include(../../../Config/QMake/AcfStd.pri)
+include(../../../Config/QMake/CustomBuild.pri)
