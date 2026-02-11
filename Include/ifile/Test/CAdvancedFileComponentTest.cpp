@@ -163,21 +163,6 @@ void CAdvancedFileComponentTest::testTempFileManagerFileOperations()
 	QString filePath = tempManager.GetPath(sessionId, fileId);
 	QVERIFY(!filePath.isEmpty());
 	
-	// Write to the file
-	QFile file(filePath);
-	if (file.open(QIODevice::WriteOnly | QIODevice::Text))
-	{
-		QTextStream out(&file);
-		out << "Test content";
-		file.close();
-		QVERIFY(true);
-	}
-	else
-	{
-		// File may not exist yet in temp location, that's OK
-		QVERIFY(true);
-	}
-	
 	// Remove the file from session
 	QVERIFY(tempManager.RemoveFileItem(sessionId, fileId));
 	
