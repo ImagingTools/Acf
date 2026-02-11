@@ -4,7 +4,8 @@
 
 // ACF includes
 #include <ibase/CSize.h>
-#include <iser/CMemoryArchive.h>
+#include <iser/CMemoryReadArchive.h>
+#include <iser/CMemoryWriteArchive.h>
 
 
 void CSizeTest::initTestCase()
@@ -156,17 +157,13 @@ void CSizeTest::testSerialization()
 	ibase::CSize originalSize(100, 200);
 	
 	// Serialize to memory
-	iser::CMemoryArchive archiveWrite;
-	archiveWrite.BeginStoring();
+	iser::CMemoryWriteArchive archiveWrite;
 	QVERIFY(originalSize.Serialize(archiveWrite));
-	archiveWrite.EndStoring();
 	
 	// Deserialize from memory
 	ibase::CSize deserializedSize;
-	iser::CMemoryArchive archiveRead(archiveWrite.GetData());
-	archiveRead.BeginRestoring();
+	iser::CMemoryReadArchive archiveRead(archiveWrite);
 	QVERIFY(deserializedSize.Serialize(archiveRead));
-	archiveRead.EndRestoring();
 	
 	// Verify the deserialized size matches the original
 	QCOMPARE(deserializedSize.GetX(), 100);

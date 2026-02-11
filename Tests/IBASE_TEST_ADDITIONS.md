@@ -34,19 +34,7 @@ This document summarizes the new unit tests and component tests added to the iba
 
 **Total Test Methods:** 5
 
-### 3. CObservableListBaseTest
-**Files:** `CObservableListBaseTest.h`, `CObservableListBaseTest.cpp`
-
-**Test Coverage:**
-- ElementAddChanges() method
-- ElementRemoveChanges() method
-- ElementUpdatedChanges() method
-- Change flag values uniqueness
-- Index parameter in ChangeSets
-
-**Total Test Methods:** 5
-
-### 4. TMsbWordTest
+### 3. TMsbWordTest
 **Files:** `TMsbWordTest.h`, `TMsbWordTest.cpp`
 
 **Test Coverage:**
@@ -63,7 +51,7 @@ This document summarizes the new unit tests and component tests added to the iba
 
 **Total Test Methods:** 10
 
-**Total Unit Test Methods:** 31
+**Total Unit Test Methods:** 26
 
 ## Component Tests (Tests/)
 
@@ -160,10 +148,10 @@ All tests use the Qt Test framework and ACF's test infrastructure:
 
 ## Summary Statistics
 
-- **New Unit Test Files:** 8 (4 headers + 4 implementations)
+- **New Unit Test Files:** 6 (3 headers + 3 implementations)
 - **New Component Test Directories:** 2
-- **Total New Test Methods:** 47
-- **Lines of Test Code:** ~800 for unit tests + ~400 for component tests
+- **Total New Test Methods:** 42
+- **Lines of Test Code:** ~700 for unit tests + ~400 for component tests
 - **Build Configurations:** 4 (CMake + QMake for each component test)
 - **Documentation Files:** 2 BUILD_SETUP.md files
 
@@ -172,8 +160,7 @@ All tests use the Qt Test framework and ACF's test infrastructure:
 ### Unit Tests
 1. `ibase::CSize` - 2D size with serialization support
 2. `ibase::CListObserver` - Observer for list changes
-3. `ibase::CObservableListBase` - Base for observable collections
-4. `ibase::TMsbWord` - Network byte order template class
+3. `ibase::TMsbWord` - Network byte order template class
 
 ### Components
 1. `ibase::CUuidComp` - UUID generation component

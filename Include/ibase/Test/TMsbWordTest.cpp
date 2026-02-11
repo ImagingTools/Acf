@@ -4,7 +4,8 @@
 
 // ACF includes
 #include <ibase/TMsbWord.h>
-#include <iser/CMemoryArchive.h>
+#include <iser/CMemoryReadArchive.h>
+#include <iser/CMemoryWriteArchive.h>
 
 
 void TMsbWordTest::initTestCase()
@@ -158,17 +159,13 @@ void TMsbWordTest::testSerialization()
 	ibase::TMsbWord<4> original(testValue);
 	
 	// Serialize to memory
-	iser::CMemoryArchive archiveWrite;
-	archiveWrite.BeginStoring();
+	iser::CMemoryWriteArchive archiveWrite;
 	QVERIFY(original.Serialize(archiveWrite));
-	archiveWrite.EndStoring();
 	
 	// Deserialize from memory
 	ibase::TMsbWord<4> deserialized;
-	iser::CMemoryArchive archiveRead(archiveWrite.GetData());
-	archiveRead.BeginRestoring();
+	iser::CMemoryReadArchive archiveRead(archiveWrite);
 	QVERIFY(deserialized.Serialize(archiveRead));
-	archiveRead.EndRestoring();
 	
 	// Verify the deserialized value matches the original
 	QCOMPARE(static_cast<quint32>(deserialized), testValue);

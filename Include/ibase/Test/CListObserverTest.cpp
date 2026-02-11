@@ -43,8 +43,9 @@ void CListObserverTest::testOnUpdateWithElementAdded()
 	CTestListObserver observer;
 	qsizetype testIndex = 5;
 	
-	// Create an element added change set
-	istd::IChangeable::ChangeSet changes = ibase::CObservableListBase::ElementAddChanges(testIndex);
+	// Create an element added change set manually
+	istd::IChangeable::ChangeSet changes(ibase::CObservableListBase::CF_ELEMENT_ADDED);
+	changes.SetChangeInfo(ibase::CObservableListBase::CN_INDEX_ID, testIndex);
 	
 	// Call OnUpdate
 	observer.OnUpdate(changes);
@@ -62,8 +63,9 @@ void CListObserverTest::testOnUpdateWithElementRemoved()
 	CTestListObserver observer;
 	qsizetype testIndex = 3;
 	
-	// Create an element removed change set
-	istd::IChangeable::ChangeSet changes = ibase::CObservableListBase::ElementRemoveChanges(testIndex);
+	// Create an element removed change set manually
+	istd::IChangeable::ChangeSet changes(ibase::CObservableListBase::CF_ELEMENT_REMOVED);
+	changes.SetChangeInfo(ibase::CObservableListBase::CN_INDEX_ID, testIndex);
 	
 	// Call OnUpdate
 	observer.OnUpdate(changes);
@@ -81,8 +83,9 @@ void CListObserverTest::testOnUpdateWithElementUpdated()
 	CTestListObserver observer;
 	qsizetype testIndex = 7;
 	
-	// Create an element updated change set
-	istd::IChangeable::ChangeSet changes = ibase::CObservableListBase::ElementUpdatedChanges(testIndex);
+	// Create an element updated change set manually
+	istd::IChangeable::ChangeSet changes(ibase::CObservableListBase::CF_ELEMENT_UPDATED);
+	changes.SetChangeInfo(ibase::CObservableListBase::CN_INDEX_ID, testIndex);
 	
 	// Call OnUpdate
 	observer.OnUpdate(changes);
@@ -101,14 +104,20 @@ void CListObserverTest::testMultipleNotifications()
 	
 	// Test sequence: add, update, remove
 	observer.Reset();
-	observer.OnUpdate(ibase::CObservableListBase::ElementAddChanges(1));
+	istd::IChangeable::ChangeSet addChanges(ibase::CObservableListBase::CF_ELEMENT_ADDED);
+	addChanges.SetChangeInfo(ibase::CObservableListBase::CN_INDEX_ID, qsizetype(1));
+	observer.OnUpdate(addChanges);
 	QCOMPARE(observer.m_lastAddedIndex, qsizetype(1));
 	
 	observer.Reset();
-	observer.OnUpdate(ibase::CObservableListBase::ElementUpdatedChanges(2));
+	istd::IChangeable::ChangeSet updateChanges(ibase::CObservableListBase::CF_ELEMENT_UPDATED);
+	updateChanges.SetChangeInfo(ibase::CObservableListBase::CN_INDEX_ID, qsizetype(2));
+	observer.OnUpdate(updateChanges);
 	QCOMPARE(observer.m_lastUpdatedIndex, qsizetype(2));
 	
 	observer.Reset();
-	observer.OnUpdate(ibase::CObservableListBase::ElementRemoveChanges(3));
+	istd::IChangeable::ChangeSet removeChanges(ibase::CObservableListBase::CF_ELEMENT_REMOVED);
+	removeChanges.SetChangeInfo(ibase::CObservableListBase::CN_INDEX_ID, qsizetype(3));
+	observer.OnUpdate(removeChanges);
 	QCOMPARE(observer.m_lastRemovedIndex, qsizetype(3));
 }
