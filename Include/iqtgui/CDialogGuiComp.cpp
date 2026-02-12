@@ -57,7 +57,7 @@ int CDialogGuiComp::ExecuteDialog(IGuiObject* parentPtr)
 
 			dialogPtr->show();
 
-			dialogPtr.PopPtr();
+			dialogPtr.PopRootPtr();
 
 			return QDialog::Accepted;
 		}
@@ -131,7 +131,7 @@ iqtgui::CGuiComponentDialog* CDialogGuiComp::CreateComponentDialog(int buttons, 
 		}
 	}
 
-	return dialogPtr.PopPtr();
+	return dialogPtr.PopRootPtr();
 }
 
 

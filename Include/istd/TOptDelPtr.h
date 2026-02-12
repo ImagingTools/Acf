@@ -186,7 +186,7 @@ inline Type* TOptDelPtr<Type, DelArray>::PopPtr()
 template <class Type, bool DelArray>
 void TOptDelPtr<Type, DelArray>::TakeOver(TOptDelPtr& sourcePtr)
 {
-	SetPtr(sourcePtr.PopPtr(), sourcePtr.IsToRelase());
+	SetPtr(sourcePtr.PopRootPtr(), sourcePtr.IsToRelase());
 }
 
 

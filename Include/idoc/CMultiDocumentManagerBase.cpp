@@ -205,7 +205,7 @@ bool CMultiDocumentManagerBase::InsertNewDocument(
 			bool* ignoredPtr)
 {
 	istd::TDelPtr<SingleDocumentData> newInfoPtr(CreateUnregisteredDocument(documentTypeId, createView, viewTypeId, true, beQuiet, ignoredPtr));
-	if (newInfoPtr.IsValid() && RegisterDocument(newInfoPtr.PopPtr())){
+	if (newInfoPtr.IsValid() && RegisterDocument(newInfoPtr.PopRootPtr())){
 		SingleDocumentData* newDocumentDataPtr = m_documentInfos.GetAt(m_documentInfos.GetCount() - 1);
 		Q_ASSERT(newDocumentDataPtr != NULL);
 
@@ -616,7 +616,7 @@ istd::IChangeableSharedPtr CMultiDocumentManagerBase::OpenSingleDocument(
 
 				infoPtr->isDirty = false;
 
-				return infoPtr.PopPtr()->documentPtr;
+				return infoPtr.PopRootPtr()->documentPtr;
 			}
 		}
 	}
@@ -756,7 +756,7 @@ CMultiDocumentManagerBase::SingleDocumentData* CMultiDocumentManagerBase::Create
 				newViewInfo.viewTypeId = viewTypeId;
 			}
 
-			return infoPtr.PopPtr();
+			return infoPtr.PopRootPtr();
 		}
 	}
 

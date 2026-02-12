@@ -139,7 +139,7 @@ template <class Type, class Accessor>
 inline TDelPtr<Type, Accessor>::TDelPtr(TDelPtr<Type, Accessor>&& ptr)
 :	BaseClass(NULL)
 {
-	SetPtr(ptr.PopPtr());
+	SetPtr(ptr.PopRootPtr());
 }
 
 
@@ -179,7 +179,7 @@ inline Type* TDelPtr<Type, Accessor>::PopPtr()
 template <class Type, class Accessor>
 void TDelPtr<Type, Accessor>::TakeOver(TDelPtr& sourcePtr)
 {
-	SetPtr(sourcePtr.PopPtr());
+	SetPtr(sourcePtr.PopRootPtr());
 }
 
 
@@ -199,7 +199,7 @@ TDelPtr<Type, Accessor>& TDelPtr<Type, Accessor>::operator=(const TDelPtr& I_IF_
 template <class Type, class Accessor>
 TDelPtr<Type, Accessor>& TDelPtr<Type, Accessor>::operator=(TDelPtr&& ptr)
 {
-	SetPtr(ptr.PopPtr());
+	SetPtr(ptr.PopRootPtr());
 
 	return *this;
 }

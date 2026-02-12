@@ -322,9 +322,9 @@ public:
 	}
 
 	/**
-		Pop the root pointer.Caller takes ownership of the raw pointer.
+		Pop the root pointer. Caller takes ownership of the raw pointer.
 	*/
-	RootIntefaceType* PopPtr() noexcept
+	RootIntefaceType* PopRootPtr() noexcept
 	{
 		BaseClass::m_interfacePtr = nullptr;
 
@@ -349,7 +349,7 @@ public:
 	{
 		BaseClass::m_interfacePtr = from.m_interfacePtr;
 
-		BaseClass::m_rootPtr.reset(from.PopPtr());
+		BaseClass::m_rootPtr.reset(from.PopRootPtr());
 	}
 
 	template<class SourceInterfaceType>
@@ -523,7 +523,7 @@ public:
 		BaseClass::m_interfacePtr = uniquePtr.GetPtr();
 
 		// Acquire raw pointer in one step and assign to shared_ptr to avoid leaks on exceptions.
-		RootIntefaceType* rawRoot = uniquePtr.PopPtr(); // caller (this function) now owns rawRoot
+		RootIntefaceType* rawRoot = uniquePtr.PopRootPtr(); // caller (this function) now owns rawRoot
 		if (rawRoot == nullptr){
 			Reset();
 			return *this;
@@ -551,7 +551,7 @@ public:
 		// Try dynamic cast on the raw pointer before transferring ownership
 		InterfaceType* interfacePtr = dynamic_cast<InterfaceType*>(uniquePtr.GetPtr());
 		if (interfacePtr != nullptr){
-			RootIntefaceType* rawRoot = uniquePtr.PopPtr();
+			RootIntefaceType* rawRoot = uniquePtr.PopRootPtr();
 			retVal.BaseClass::m_rootPtr = std::shared_ptr<RootIntefaceType>(rawRoot);
 			retVal.BaseClass::m_interfacePtr = interfacePtr;
 		}
@@ -583,7 +583,7 @@ public:
 		InterfaceType* targetPtr = dynamic_cast<InterfaceType*>(source.GetPtr());
 		if (targetPtr != nullptr){
 			// Transfer ownership of the unique_ptr into shared_ptr safely
-			RootIntefaceType* rawRoot = source.PopPtr();
+			RootIntefaceType* rawRoot = source.PopRootPtr();
 			BaseClass::m_rootPtr = std::shared_ptr<RootIntefaceType>(rawRoot);
 			BaseClass::m_interfacePtr = targetPtr;
 			return true;

@@ -101,7 +101,7 @@ void TDelPtrTest::PopPtrTest()
 	QCOMPARE(TestObject::destructorCount, 0);
 	
 	// Pop the pointer - should return the pointer without deleting
-	TestObject* poppedPtr = ptr.PopPtr();
+	TestObject* poppedPtr = ptr.PopRootPtr();
 	QVERIFY(ptr.GetPtr() == nullptr);
 	QVERIFY(poppedPtr == obj);
 	QCOMPARE(TestObject::destructorCount, 0);

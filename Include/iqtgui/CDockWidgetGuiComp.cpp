@@ -134,7 +134,7 @@ void CDockWidgetGuiComp::OnGuiCreated()
 	containerWidgetPtr->setLayout(layoutPtr);
 
 	if (m_slaveGuiCompPtr.IsValid() && m_slaveGuiCompPtr->CreateGui(containerWidgetPtr.GetPtr())){
-		dockWidgetPtr->setWidget(containerWidgetPtr.PopPtr());
+		dockWidgetPtr->setWidget(containerWidgetPtr.PopRootPtr());
 	}
 
 	if (m_dockFeaturesAttrPtr.IsValid()){

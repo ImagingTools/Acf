@@ -107,7 +107,7 @@ ifile::IFilePersistence::OperationState CClipboardSerializerComp::SaveToFile(
 				QString mimeType = *m_mimeTypeAttrPtr;
 				mimeDataPtr->setData(mimeType, QByteArray((const char*)archive.GetBuffer(), archive.GetBufferSize()));
 
-				clipboardPtr->setMimeData(mimeDataPtr.PopPtr());
+				clipboardPtr->setMimeData(mimeDataPtr.PopRootPtr());
 
 				return OS_OK;
 			}
