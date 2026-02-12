@@ -29,7 +29,7 @@ public:
 	virtual IFactoryInfo::KeyList GetFactoryKeys() const override;
 
 	// reimplemented (istd::TIFactory)
-	virtual istd::TUniqueInterfacePtr<Interface> CreateInstance(const QByteArray& keyId = "") const override;
+	virtual istd::TUniqueInterfacePtr<Interface, Interface> CreateInstance(const QByteArray& keyId = "") const override;
 
 private:
 	QByteArray m_keyId;
@@ -60,13 +60,13 @@ IFactoryInfo::KeyList TSingleFactory<Interface, Implementation>::GetFactoryKeys(
 
 
 template <class Interface, class Implementation>
-istd::TUniqueInterfacePtr<Interface> TSingleFactory<Interface, Implementation>::CreateInstance(const QByteArray& keyId) const
+istd::TUniqueInterfacePtr<Interface, Interface> TSingleFactory<Interface, Implementation>::CreateInstance(const QByteArray& keyId) const
 {
 	if (keyId.isEmpty() || (keyId == m_keyId)){
-		return istd::TUniqueInterfacePtr<Interface>(new Implementation);
+		return istd::TUniqueInterfacePtr<Interface, Interface>(new Implementation);
 	}
 
-	return istd::TUniqueInterfacePtr<Interface>();
+	return istd::TUniqueInterfacePtr<Interface, Interface>();
 }
 
 

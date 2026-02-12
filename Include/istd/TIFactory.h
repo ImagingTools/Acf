@@ -25,7 +25,7 @@ public:
 		\param	keyId		
 		\return			unique pointer to created object or empty pointer if it was not possible to create it or keyId does not exist.
 	*/
-	virtual istd::TUniqueInterfacePtr<Interface> CreateInstance(const QByteArray& keyId = "") const = 0;
+	virtual istd::TUniqueInterfacePtr<Interface, Interface> CreateInstance(const QByteArray& keyId = "") const = 0;
 };
 
 
