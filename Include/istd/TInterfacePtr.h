@@ -345,7 +345,8 @@ public:
 	InterfaceType* PopInterfacePtr() noexcept
 	{
 		// Case 1: Root and interface are the same (simple objects)
-		if (BaseClass::m_rootPtr.get() == BaseClass::m_interfacePtr)
+		// Compare as void* to handle cases where InterfaceType doesn't inherit from RootInterfaceType
+		if (static_cast<void*>(BaseClass::m_rootPtr.get()) == static_cast<void*>(BaseClass::m_interfacePtr))
 		{
 			InterfaceType* retVal = BaseClass::m_interfacePtr;
 			BaseClass::m_interfacePtr = nullptr;
