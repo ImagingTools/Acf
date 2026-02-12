@@ -264,6 +264,8 @@ public:
 		"RootIntefaceType must derive from istd::IPolymorphic");
 	static_assert(std::has_virtual_destructor_v<RootIntefaceType>,
 		"RootIntefaceType must have a virtual destructor");
+	static_assert(std::is_base_of_v<RootIntefaceType, InterfaceType>,
+		"InterfaceType must derive from RootIntefaceType");
 
 	TUniqueInterfacePtr() noexcept
 		:BaseClass()
@@ -345,8 +347,7 @@ public:
 	InterfaceType* PopInterfacePtr() noexcept
 	{
 		// Case 1: Root and interface are the same (simple objects)
-		// Compare as void* to handle cases where InterfaceType doesn't inherit from RootInterfaceType
-		if (static_cast<void*>(BaseClass::m_rootPtr.get()) == static_cast<void*>(BaseClass::m_interfacePtr))
+		if (BaseClass::m_rootPtr.get() == BaseClass::m_interfacePtr)
 		{
 			InterfaceType* retVal = BaseClass::m_interfacePtr;
 			BaseClass::m_interfacePtr = nullptr;
@@ -470,6 +471,8 @@ public:
 
 	static_assert(std::is_base_of_v<istd::IPolymorphic, RootIntefaceType>, "RootIntefaceType must derive from istd::IPolymorphic");
 	static_assert(std::has_virtual_destructor_v<RootIntefaceType>, "RootIntefaceType must have a virtual destructor");
+	static_assert(std::is_base_of_v<RootIntefaceType, InterfaceType>,
+		"InterfaceType must derive from RootIntefaceType");
 
 	TSharedInterfacePtr() noexcept
 		:BaseClass()
