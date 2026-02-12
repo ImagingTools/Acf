@@ -208,7 +208,9 @@ protected:
 			if (iter != m_factoriesMap.constEnd()){
 				Q_ASSERT(iter.value() != nullptr);
 
-				return IComponentUniquePtr(iter.value()->CreateInstance().PopInterfacePtr());
+				istd::TUniqueInterfacePtr<IComponent> componentPtr = iter.value()->CreateInstance();
+				IComponent* rawPtr = dynamic_cast<IComponent*>(componentPtr.PopPtr());
+				return IComponentUniquePtr(rawPtr);
 			}
 
 			return nullptr;
