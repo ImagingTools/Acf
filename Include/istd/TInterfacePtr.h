@@ -373,7 +373,8 @@ public:
 				RootIntefaceType* rootPtr = PopRootPtr();
 				return castedPtr;
 			}
-			// Cast failed - return nullptr without releasing ownership to avoid leak
+			// Cast failed - this should never happen in correct code
+			Q_ASSERT(false && "dynamic_cast failed in PopInterfacePtr - interface pointer type mismatch");
 			return nullptr;
 		}
 		
