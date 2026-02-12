@@ -280,7 +280,7 @@ istd::IChangeable* TExtMessage<Element>::CloneMe(CompatibilityMode mode) const
 {
 	istd::TDelPtr<TExtMessage<Element> > clonedPtr(new TExtMessage<Element>);
 	if (clonedPtr->CopyFrom(*this, mode)){
-		return clonedPtr.PopRootPtr();
+		return clonedPtr.PopPtr();
 	}
 
 	return NULL;

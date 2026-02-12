@@ -616,7 +616,7 @@ istd::IChangeableSharedPtr CMultiDocumentManagerBase::OpenSingleDocument(
 
 				infoPtr->isDirty = false;
 
-				return infoPtr.PopRootPtr()->documentPtr;
+				return infoPtr.PopPtr()->documentPtr;
 			}
 		}
 	}
@@ -756,7 +756,7 @@ CMultiDocumentManagerBase::SingleDocumentData* CMultiDocumentManagerBase::Create
 				newViewInfo.viewTypeId = viewTypeId;
 			}
 
-			return infoPtr.PopRootPtr();
+			return infoPtr.PopPtr();
 		}
 	}
 

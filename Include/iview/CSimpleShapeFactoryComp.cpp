@@ -60,7 +60,7 @@ IShape* CSimpleShapeFactoryComp::CreateShape(const istd::IChangeable* objectPtr,
 		}
 	}
 
-	return shapePtr.PopRootPtr();
+	return shapePtr.PopPtr();
 }
 
 
