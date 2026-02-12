@@ -209,7 +209,7 @@ protected:
 				Q_ASSERT(iter.value() != nullptr);
 
 				istd::TUniqueInterfacePtr<IComponent> componentPtr = iter.value()->CreateInstance();
-				return std::move(componentPtr.GetBasePtr());
+				return IComponentUniquePtr(componentPtr.PopInterfacePtr());
 			}
 
 			return nullptr;
