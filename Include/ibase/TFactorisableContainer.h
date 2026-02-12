@@ -237,7 +237,7 @@ InterfaceClass* TFactorisableContainer<InterfaceClass>::CreateElement(const QByt
 			if (interfacePtr != nullptr){
 				OnElementCreated(interfacePtr);
 
-				return polymorphicPtr.PopPtr();
+				return dynamic_cast<InterfaceClass*>(polymorphicPtr.PopPtr());
 			}
 			// else: polymorphicPtr will be automatically deleted
 		}
