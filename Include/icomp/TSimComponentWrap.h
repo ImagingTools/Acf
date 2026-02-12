@@ -208,7 +208,7 @@ protected:
 			if (iter != m_factoriesMap.constEnd()){
 				Q_ASSERT(iter.value() != nullptr);
 
-				return std::move(iter.value()->CreateInstance().GetBasePtr());
+				return IComponentUniquePtr(iter.value()->CreateInstance().PopInterfacePtr());
 			}
 
 			return nullptr;
