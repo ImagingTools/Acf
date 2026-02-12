@@ -80,8 +80,7 @@ bool CFocusDecorator::eventFilter(QObject* objectPtr, QEvent* eventPtr)
 				if (widgetPtr != NULL){
 					GraphicsEffectFactory* factoryPtr = m_widgetEffectsMap.value(widgetPtr, NULL);
 					if (factoryPtr != NULL){
-						QGraphicsEffect* effectPtr = dynamic_cast<QGraphicsEffect*>(factoryPtr->CreateInstance().PopPtr());
-						widgetPtr->setGraphicsEffect(effectPtr);
+						widgetPtr->setGraphicsEffect(factoryPtr->CreateInstance().PopInterfacePtr());
 					}
 				}
 				break;
