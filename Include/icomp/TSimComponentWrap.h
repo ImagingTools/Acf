@@ -208,7 +208,7 @@ protected:
 			if (iter != m_factoriesMap.constEnd()){
 				Q_ASSERT(iter.value() != nullptr);
 
-				return iter.value()->CreateInstance();
+				return std::move(iter.value()->CreateInstance().GetBasePtr());
 			}
 
 			return nullptr;
