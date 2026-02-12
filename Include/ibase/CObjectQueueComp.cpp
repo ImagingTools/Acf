@@ -285,7 +285,7 @@ istd::IChangeable* CObjectQueueComp::CreateObject()
 	}
 
 	if (m_objectsReserve.isEmpty()){
-		return dynamic_cast<istd::IChangeable*>(m_objectFactoryFactPtr.CreateInstance().PopRootPtr());
+		return m_objectFactoryFactPtr.CreateInstance().PopPtr();
 	}
 	else{
 		istd::IChangeable* retVal = m_objectsReserve.front();

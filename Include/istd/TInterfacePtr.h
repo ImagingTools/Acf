@@ -331,6 +331,10 @@ public:
 		return BaseClass::m_rootPtr.release(); // caller owns returned pointer
 	}
 
+	/**
+		Pop the interface pointer. Caller takes ownership of the raw pointer.
+		Works only when root and interface pointers are the same or interface is set but root is null.
+	*/
 	InterfaceType* PopInterfacePtr() noexcept
 	{
 		InterfaceType* retVal = BaseClass::m_interfacePtr;
@@ -340,6 +344,36 @@ public:
 		BaseClass::m_rootPtr.release();
 
 		return retVal;
+	}
+
+	/**
+		Intelligent pop method that automatically chooses the correct extraction method.
+		
+		Logic:
+		1. If m_rootPtr == m_interfacePtr (simple objects): use PopInterfacePtr()
+		2. If m_interfacePtr != nullptr && m_rootPtr == nullptr: use PopInterfacePtr()
+		3. If m_rootPtr != m_interfacePtr and both != nullptr (composite components): use PopRootPtr() with dynamic_cast
+		
+		\return Interface pointer with ownership transferred to caller.
+	*/
+	InterfaceType* PopPtr() noexcept
+	{
+		// Case 1 & 2: Can use PopInterfacePtr()
+		if (BaseClass::m_rootPtr.get() == BaseClass::m_interfacePtr || 
+		    (BaseClass::m_interfacePtr != nullptr && BaseClass::m_rootPtr.get() == nullptr))
+		{
+			return PopInterfacePtr();
+		}
+		
+		// Case 3: Root and interface differ - need dynamic_cast
+		if (BaseClass::m_rootPtr.get() != nullptr && BaseClass::m_interfacePtr != nullptr)
+		{
+			RootIntefaceType* rootPtr = PopRootPtr();
+			return dynamic_cast<InterfaceType*>(rootPtr);
+		}
+		
+		// Empty pointer
+		return nullptr;
 	}
 
 	/**
