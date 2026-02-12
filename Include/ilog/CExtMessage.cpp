@@ -157,7 +157,8 @@ bool CExtMessage::Serialize(iser::IArchive& archive)
 
 				m_attachedObjects.push_back(AttachedObject());
 				AttachedObject& lastElement = m_attachedObjects.last();
-				lastElement.objectPtr.SetPtr(objectPtr.PopInterfacePtr());
+				iser::IObject* rawPtr = dynamic_cast<iser::IObject*>(objectPtr.PopPtr());
+				lastElement.objectPtr.SetPtr(rawPtr);
 				lastElement.description = description;
 			}
 			else if (!archive.IsTagSkippingSupported()){

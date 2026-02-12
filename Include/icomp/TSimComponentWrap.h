@@ -209,7 +209,8 @@ protected:
 				Q_ASSERT(iter.value() != nullptr);
 
 				istd::TUniqueInterfacePtr<IComponent> componentPtr = iter.value()->CreateInstance();
-				return IComponentUniquePtr(componentPtr.PopInterfacePtr());
+				IComponent* rawPtr = dynamic_cast<IComponent*>(componentPtr.PopPtr());
+				return IComponentUniquePtr(rawPtr);
 			}
 
 			return nullptr;
