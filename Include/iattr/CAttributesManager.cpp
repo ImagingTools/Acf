@@ -215,7 +215,8 @@ bool CAttributesManager::Serialize(iser::IArchive& archive)
 
 			AttributePtr& attributePtr = m_attributesMap[attributeId];
 			if (!attributePtr.IsValid()){
-				attributePtr.SetPtr(m_attributesFactoryPtr->CreateInstance(attributeTypeId), true);
+				istd::TUniqueInterfacePtr<iser::IObject> newAttrPtr = m_attributesFactoryPtr->CreateInstance(attributeTypeId);
+				attributePtr.SetPtr(newAttrPtr.PopPtr(), true);
 
 				if (!attributePtr.IsValid()){
 					return false;

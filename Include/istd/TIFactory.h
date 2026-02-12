@@ -4,6 +4,7 @@
 
 // ACF includes
 #include <istd/IFactoryInfo.h>
+#include <istd/TInterfacePtr.h>
 
 
 namespace istd
@@ -22,9 +23,9 @@ public:
 	/**
 		Create an instance of the object, mapped to the keyId \c keyId.
 		\param	keyId		
-		\return			pointer to created object or NULL if it was not possible to create it or keyId does not exist.
+		\return			unique pointer to created object or empty pointer if it was not possible to create it or keyId does not exist.
 	*/
-	virtual Interface* CreateInstance(const QByteArray& keyId = "") const = 0;
+	virtual istd::TUniqueInterfacePtr<Interface> CreateInstance(const QByteArray& keyId = "") const = 0;
 };
 
 

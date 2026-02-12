@@ -148,7 +148,7 @@ bool CExtMessage::Serialize(iser::IArchive& archive)
 			retVal = retVal && archive.Process(description);
 			retVal = retVal && archive.EndTag(s_objectDescriptionTag);
 
-			istd::TDelPtr<iser::IObject> objectPtr(m_factoryPtr->CreateInstance(objectTypeId));
+			istd::TUniqueInterfacePtr<iser::IObject> objectPtr = m_factoryPtr->CreateInstance(objectTypeId);
 			if (objectPtr.IsValid()){
 				retVal = retVal && objectPtr->Serialize(archive);
 				if (!retVal){

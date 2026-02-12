@@ -35,7 +35,7 @@ public:
 	virtual istd::IFactoryInfo::KeyList GetFactoryKeys() const override;
 
 	// reimplemented (istd::TIFactory<icomp::IComponent>)
-	virtual icomp::IComponent* CreateInstance(const QByteArray& keyId = "") const override;
+	virtual istd::TUniqueInterfacePtr<icomp::IComponent> CreateInstance(const QByteArray& keyId = "") const override;
 
 	// reimplemented (icomp::ICompositeComponent)
 	virtual IComponentSharedPtr GetSubcomponent(const QByteArray& componentId) const override;
@@ -78,18 +78,18 @@ istd::IFactoryInfo::KeyList TSimComponentsFactory<Base>::GetFactoryKeys() const
 // reimplemented (istd::TIFactory<icomp::IComponent>)
 
 template <class Base>
-icomp::IComponent* TSimComponentsFactory<Base>::CreateInstance(const QByteArray& keyId) const
+istd::TUniqueInterfacePtr<icomp::IComponent> TSimComponentsFactory<Base>::CreateInstance(const QByteArray& keyId) const
 {
 	if (keyId.isEmpty() || m_factoryKeys.contains(keyId)){
 		icomp::IComponent* retVal = new TComponentWrap<Base>();
 		if (retVal != nullptr){
 			retVal->SetComponentContext(m_base.GetComponentContext(), this, false);
 
-			return retVal;
+			return istd::TUniqueInterfacePtr<icomp::IComponent>(retVal);
 		}
 	}
 
-	return nullptr;
+	return istd::TUniqueInterfacePtr<icomp::IComponent>();
 }
 
 
@@ -117,11 +117,7 @@ icomp::IComponentUniquePtr TSimComponentsFactory<Base>::CreateSubcomponent(const
 		return componentPtr;
 	}
 
-	icomp::IComponentUniquePtr retVal;
-	
-	retVal.reset(CreateInstance(componentId));
-
-	return retVal;
+	return CreateInstance(componentId);
 }
 
 

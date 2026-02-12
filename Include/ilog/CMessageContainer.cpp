@@ -162,7 +162,7 @@ bool CMessageContainer::Serialize(iser::IArchive& archive)
 
 			if (retVal){
 				if (knownMessageTypes.contains(messageTypeId)){
-					istd::TDelPtr<iser::IObject> objectPtr(GetMessageFactory().CreateInstance(messageTypeId));
+					istd::TUniqueInterfacePtr<iser::IObject> objectPtr = GetMessageFactory().CreateInstance(messageTypeId);
 
 					if (objectPtr.IsValid()){
 						retVal = retVal && objectPtr->Serialize(archive);

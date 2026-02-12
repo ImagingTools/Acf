@@ -208,7 +208,8 @@ protected:
 			if (iter != m_factoriesMap.constEnd()){
 				Q_ASSERT(iter.value() != nullptr);
 
-				return IComponentUniquePtr(iter.value()->CreateInstance());
+				istd::TUniqueInterfacePtr<IComponent> componentPtr = iter.value()->CreateInstance();
+				return std::move(componentPtr.GetBasePtr());
 			}
 
 			return nullptr;
