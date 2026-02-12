@@ -205,7 +205,7 @@ bool CMultiDocumentManagerBase::InsertNewDocument(
 			bool* ignoredPtr)
 {
 	istd::TDelPtr<SingleDocumentData> newInfoPtr(CreateUnregisteredDocument(documentTypeId, createView, viewTypeId, true, beQuiet, ignoredPtr));
-	if (newInfoPtr.IsValid() && RegisterDocument(newInfoPtr.PopRootPtr())){
+	if (newInfoPtr.IsValid() && RegisterDocument(newInfoPtr.PopPtr())){
 		SingleDocumentData* newDocumentDataPtr = m_documentInfos.GetAt(m_documentInfos.GetCount() - 1);
 		Q_ASSERT(newDocumentDataPtr != NULL);
 
