@@ -4,7 +4,6 @@
 
 // ACF includes
 #include <ifile/IFilePersistence.h>
-#include <ifile/IDeviceBasedPersistence.h>
 #include <ilog/TLoggerCompWrap.h>
 #include <idoc/IMultiPageDocument.h>
 
@@ -24,8 +23,7 @@ namespace idoc
 */
 class CMultiPageDocumentFilePersistenceComp:
 			public ilog::CLoggerComponentBase,
-			virtual public ifile::IFilePersistence,
-			virtual public ifile::IDeviceBasedPersistence
+			virtual public ifile::IFilePersistence
 {
 public:
 	typedef ilog::CLoggerComponentBase BaseClass;
@@ -40,7 +38,6 @@ public:
 	I_BEGIN_COMPONENT(CMultiPageDocumentFilePersistenceComp);
 		I_REGISTER_INTERFACE(ifile::IFileTypeInfo);
 		I_REGISTER_INTERFACE(ifile::IFilePersistence);
-		I_REGISTER_INTERFACE(ifile::IDeviceBasedPersistence);
 		I_ASSIGN(m_pageObjectPersistenceCompPtr, "BitmapPersistence", "Component used for persistence of the single page of the bitmap document", true, "BitmapPersistence");
 		I_ASSIGN(m_operationModeAttrPtr, "OperationMode", "Operation mode. 0 - flat structure, all files will be placed into the target folder\n1 - Files will be placed into the document's own folder\n2 - Same as 1, but the folder wll be compressed", true, OM_FOLDER);
 		I_ASSIGN(m_defaultPageSuffixAttrPtr, "DefaultPageFileExtension", "Default extension used for the page files", false, "png");	
@@ -61,20 +58,6 @@ public:
 				const istd::IChangeable& data,
 				const QString& filePath = QString(),
 				ibase::IProgressManager* progressManagerPtr = NULL) const override;
-
-	// reimplemented (ifile::IDeviceBasedPersistence)
-	virtual bool IsDeviceOperationSupported(
-				const istd::IChangeable& dataObject,
-				const QIODevice& device,
-				int deviceOperation) const override;
-	virtual int ReadFromDevice(
-				istd::IChangeable& data,
-				QIODevice& device,
-				ibase::IProgressManager* progressManagerPtr = nullptr) const override;
-	virtual int WriteToDevice(
-				const istd::IChangeable& data,
-				QIODevice& device,
-				ibase::IProgressManager* progressManagerPtr = nullptr) const override;
 
 	// reimplemented (ifile::IFileTypeInfo)
 	virtual bool GetFileExtensions(QStringList& result, const istd::IChangeable* dataObjectPtr = NULL, int flags = -1, bool doAppend = false) const override;

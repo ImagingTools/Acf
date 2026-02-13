@@ -226,40 +226,6 @@ void CTextFileLogStreamerComp::CloseFileStream()
 }
 
 
-// reimplemented (ifile::IDeviceBasedPersistence)
-
-bool CTextFileLogStreamerComp::IsDeviceOperationSupported(
-			const istd::IChangeable& /*dataObject*/,
-			const QIODevice& /*device*/,
-			int /*deviceOperation*/) const
-{
-	// Text file log streamer works with continuous streaming to a file
-	// Device-based single read/write operations are not the intended use case
-	return false;
-}
-
-
-int CTextFileLogStreamerComp::ReadFromDevice(
-			istd::IChangeable& /*data*/,
-			QIODevice& /*device*/,
-			ibase::IProgressManager* /*progressManagerPtr*/) const
-{
-	// Text file log streamer is for writing logs, not reading data
-	return ifile::IDeviceBasedPersistence::Failed;
-}
-
-
-int CTextFileLogStreamerComp::WriteToDevice(
-			const istd::IChangeable& /*data*/,
-			QIODevice& /*device*/,
-			ibase::IProgressManager* /*progressManagerPtr*/) const
-{
-	// Text file log streamer works with continuous streaming
-	// Single write operation via IDeviceBasedPersistence is not supported
-	return ifile::IDeviceBasedPersistence::Failed;
-}
-
-
 } // namespace ifile
 
 
