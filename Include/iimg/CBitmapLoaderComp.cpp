@@ -264,6 +264,110 @@ QString CBitmapLoaderComp::GetTypeDescription(const QString* extensionPtr) const
 }
 
 
+// reimplemented (ifile::IDeviceBasedPersistence)
+
+bool CBitmapLoaderComp::IsDeviceOperationSupported(
+			const istd::IChangeable& dataObject,
+			const QIODevice& /*device*/,
+			int /*deviceOperation*/) const
+{
+	return (dynamic_cast<const iimg::IQImageProvider*>(&dataObject) != nullptr);
+}
+
+
+int CBitmapLoaderComp::ReadFromDevice(
+			istd::IChangeable& data,
+			QIODevice& device,
+			ibase::IProgressManager* /*progressManagerPtr*/) const
+{
+	istd::CChangeNotifier notifier(&data);
+
+	// Ensure device is open for reading
+	if (!device.isOpen()){
+		if (!device.open(QIODevice::ReadOnly)){
+			return ifile::IDeviceBasedPersistence::Failed;
+		}
+	}
+	else if (!device.isReadable()){
+		// Device is open but not readable
+		return ifile::IDeviceBasedPersistence::Failed;
+	}
+
+	QImageReader reader(&device);
+	reader.setAutoTransform(true);
+	QImage image = reader.read();
+	if (image.isNull()) {
+		SendErrorMessage(MI_CANNOT_LOAD, QT_TR_NOOP(QString("Cannot load image from device: %1").arg(reader.errorString())));
+		return ifile::IDeviceBasedPersistence::Failed;
+	}
+
+	bool isOk = false;
+
+	if (CBitmap* qtBitmapPtr = dynamic_cast<CBitmap*>(&data)){
+		isOk = qtBitmapPtr->CopyImageFrom(image);
+	}
+	else{
+		CBitmap tempQtBitmap(image);
+
+		isOk = data.CopyFrom(tempQtBitmap);
+	}
+
+	if (isOk) return ifile::IDeviceBasedPersistence::Successful;
+	SendErrorMessage(MI_BAD_OBJECT_TYPE, QT_TR_NOOP("Cannot set the loaded data to the end-point object"));
+	return ifile::IDeviceBasedPersistence::Failed;
+}
+
+
+int CBitmapLoaderComp::WriteToDevice(
+			const istd::IChangeable& data,
+			QIODevice& device,
+			ibase::IProgressManager* /*progressManagerPtr*/) const
+{
+	const iimg::IQImageProvider* imageProviderPtr = dynamic_cast<const iimg::IQImageProvider*>(&data);
+
+	CBitmap qtBitmap;
+	if (imageProviderPtr == nullptr){
+		if (qtBitmap.CopyFrom(data)){
+			imageProviderPtr = &qtBitmap;
+		}
+		else{
+			SendErrorMessage(MI_BAD_OBJECT_TYPE, QT_TR_NOOP("Object is not supported image"));
+
+			return ifile::IDeviceBasedPersistence::Failed;
+		}
+	}
+
+	Q_ASSERT(imageProviderPtr != nullptr);
+
+	// Ensure device is open for writing
+	if (!device.isOpen()){
+		if (!device.open(QIODevice::WriteOnly)){
+			return ifile::IDeviceBasedPersistence::Failed;
+		}
+	}
+	else if (!device.isWritable()){
+		// Device is open but not writable
+		return ifile::IDeviceBasedPersistence::Failed;
+	}
+
+	const QImage& image = imageProviderPtr->GetQImage();
+	
+	// QImageWriter needs a format specified when writing to a device
+	// Default to PNG format for device-based writes
+	QImageWriter writer(&device, "PNG");
+	if (writer.write(image)){
+		return ifile::IDeviceBasedPersistence::Successful;
+	}
+	else{
+		if (!image.isNull()){
+			SendErrorMessage(MI_CANNOT_SAVE, QT_TR_NOOP(QString("Cannot save image to device: %1").arg(writer.errorString())));
+		}
+	}
+
+	return ifile::IDeviceBasedPersistence::Failed;
+}
+
+
 } // namespace iimg
 
 
