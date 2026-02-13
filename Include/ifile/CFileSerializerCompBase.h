@@ -10,6 +10,7 @@
 // ACF includes
 #include <ilog/TLoggerCompWrap.h>
 #include <ifile/IFilePersistence.h>
+#include <ifile/IDeviceBasedPersistence.h>
 #include <ifile/CFileTypeInfoComp.h>
 
 
@@ -25,7 +26,8 @@ namespace ifile
 */
 class CFileSerializerCompBase:
 			public ilog::TLoggerCompWrap<CFileTypeInfoComp>,
-			virtual public ifile::IFilePersistence
+			virtual public ifile::IFilePersistence,
+			virtual public ifile::IDeviceBasedPersistence
 {
 public:	
 	typedef ilog::TLoggerCompWrap<CFileTypeInfoComp> BaseClass;
@@ -33,6 +35,7 @@ public:
 	I_BEGIN_BASE_COMPONENT(CFileSerializerCompBase);
 		I_REGISTER_INTERFACE(ifile::IFileTypeInfo);
 		I_REGISTER_INTERFACE(ifile::IFilePersistence);
+		I_REGISTER_INTERFACE(ifile::IDeviceBasedPersistence);
 		I_ASSIGN(m_beQuiteOnLoadAttrPtr, "BeQuiteOnLoad", "Do not log message when loading if file is missing", true, false);
 		I_ASSIGN(m_versionInfoCompPtr, "VersionInfo", "Provide information about archive versions", false, "VersionInfo");
 	I_END_COMPONENT;
@@ -43,6 +46,20 @@ public:
 				const QString* filePathPtr = nullptr,
 				int flags = -1,
 				bool beQuiet = true) const override;
+
+	// reimplemented (ifile::IDeviceBasedPersistence)
+	virtual bool IsDeviceOperationSupported(
+				const istd::IChangeable& dataObject,
+				const QIODevice& device,
+				int deviceOperation) const override;
+	virtual int ReadFromDevice(
+				istd::IChangeable& data,
+				QIODevice& device,
+				ibase::IProgressManager* progressManagerPtr = nullptr) const override;
+	virtual int WriteToDevice(
+				const istd::IChangeable& data,
+				QIODevice& device,
+				ibase::IProgressManager* progressManagerPtr = nullptr) const override;
 
 protected:
 	/**

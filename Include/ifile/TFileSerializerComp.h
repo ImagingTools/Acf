@@ -5,12 +5,15 @@
 // Qt includes
 #include <QtCore/QObject>
 #include <QtCore/QDir>
+#include <QtCore/QFile>
 
 // ACF includes
 #include <istd/CChangeNotifier.h>
 #include <istd/CSystem.h>
 #include <ibase/IProgressManager.h>
 #include <ifile/CFileSerializerCompBase.h>
+#include <ifile/TDeviceReadTextArchiveWrap.h>
+#include <ifile/TDeviceWriteTextArchiveWrap.h>
 
 
 namespace ifile
@@ -41,6 +44,16 @@ public:
 				const istd::IChangeable& data,
 				const QString& filePath = QString(),
 				ibase::IProgressManager* progressManagerPtr = NULL) const override;
+
+	// reimplemented (ifile::IDeviceBasedPersistence)
+	virtual int ReadFromDevice(
+				istd::IChangeable& data,
+				QIODevice& device,
+				ibase::IProgressManager* progressManagerPtr = nullptr) const override;
+	virtual int WriteToDevice(
+				const istd::IChangeable& data,
+				QIODevice& device,
+				ibase::IProgressManager* progressManagerPtr = nullptr) const override;
 
 	// Wrapper classes for archives
 	class ReadArchiveEx: public ReadArchive
@@ -95,6 +108,97 @@ public:
 		}
 
 		virtual bool SendLogMessage(istd::IInformationProvider::InformationCategory category, int id, const QString& message, const QString& messageSource, int flags = 0) const
+		{
+			if (m_loggerPtr != nullptr){
+				QString correctedMessage = message;
+				QString correctedMessageSource = messageSource;
+
+				BaseClass::DecorateMessage(category, id, flags, correctedMessage, correctedMessageSource);
+
+				return m_loggerPtr->SendLogMessage(category, id, correctedMessage, correctedMessageSource, flags);
+			}
+
+			return false;
+		}
+
+	protected:
+		// reimplemented (istd::ILogger)
+		virtual bool IsLogConsumed(
+					const istd::IInformationProvider::InformationCategory* /*categoryPtr*/,
+					const int* flagsPtr = nullptr) const override
+		{
+			static const istd::IInformationProvider::InformationCategory slaveCategory = istd::IInformationProvider::IC_INFO;
+
+			return (m_loggerPtr != nullptr) && m_loggerPtr->IsLogConsumed(&slaveCategory, flagsPtr);
+		}
+
+	private:
+		const istd::ILogger* m_loggerPtr;
+	};
+
+	// Device-based archive wrappers for IDeviceBasedPersistence support
+	class ReadDeviceArchiveEx: public TDeviceReadTextArchiveWrap<typename ReadArchive::BaseClass>
+	{
+	public:
+		typedef TDeviceReadTextArchiveWrap<typename ReadArchive::BaseClass> BaseClass;
+
+		ReadDeviceArchiveEx(QIODevice& device, const istd::ILogger* loggerPtr)
+		:	BaseClass(device),
+			m_loggerPtr(loggerPtr)
+		{
+		}
+
+		virtual bool SendLogMessage(
+					istd::IInformationProvider::InformationCategory category,
+					int id,
+					const QString& message,
+					const QString& messageSource,
+					int flags = 0) const
+		{
+			if (m_loggerPtr != nullptr){
+				QString correctedMessage = message;
+				QString correctedMessageSource = messageSource;
+
+				BaseClass::DecorateMessage(category, id, flags, correctedMessage, correctedMessageSource);
+
+				return m_loggerPtr->SendLogMessage(istd::IInformationProvider::IC_INFO, id, correctedMessage, correctedMessageSource, flags);
+			}
+
+			return false;
+		}
+
+	protected:
+		// reimplemented (istd::ILogger)
+		virtual bool IsLogConsumed(
+					const istd::IInformationProvider::InformationCategory* /*categoryPtr*/,
+					const int* flagsPtr = nullptr) const override
+		{
+			static const istd::IInformationProvider::InformationCategory slaveCategory = istd::IInformationProvider::IC_INFO;
+
+			return (m_loggerPtr != nullptr) && m_loggerPtr->IsLogConsumed(&slaveCategory, flagsPtr);
+		}
+
+	private:
+		const istd::ILogger* m_loggerPtr;
+	};
+
+	class WriteDeviceArchiveEx: public TDeviceWriteTextArchiveWrap<typename WriteArchive::BaseClass>
+	{
+	public:
+		typedef TDeviceWriteTextArchiveWrap<typename WriteArchive::BaseClass> BaseClass;
+
+		WriteDeviceArchiveEx(QIODevice& device, const iser::IVersionInfo* infoPtr, const istd::ILogger* loggerPtr)
+		:	BaseClass(device, infoPtr),
+			m_loggerPtr(loggerPtr)
+		{
+		}
+
+		virtual bool SendLogMessage(
+					istd::IInformationProvider::InformationCategory category,
+					int id,
+					const QString& message,
+					const QString& messageSource,
+					int flags = 0) const
 		{
 			if (m_loggerPtr != nullptr){
 				QString correctedMessage = message;
@@ -222,6 +326,66 @@ void TFileSerializerComp<ReadArchive, WriteArchive>::OnReadError(
 			const QString& filePath) const
 {
 	SendWarningMessage(MI_CANNOT_LOAD, QString(QObject::tr("Cannot load object from file ")) + filePath);
+}
+
+
+// reimplemented (ifile::IDeviceBasedPersistence)
+
+template <class ReadArchive, class WriteArchive>
+int TFileSerializerComp<ReadArchive, WriteArchive>::ReadFromDevice(
+			istd::IChangeable& data,
+			QIODevice& device,
+			ibase::IProgressManager* /*progressManagerPtr*/) const
+{
+	ReadDeviceArchiveEx archive(device, this);
+
+	Q_ASSERT(!archive.IsStoring());
+
+	iser::ISerializable* serializablePtr = dynamic_cast<iser::ISerializable*>(&data);
+	if (serializablePtr == nullptr){
+		serializablePtr = CompCastPtr<iser::ISerializable>(&data);
+	}
+
+	Q_ASSERT(serializablePtr != nullptr);
+
+	if (serializablePtr->Serialize(archive)){
+		return IDeviceBasedPersistence::Successful;
+	}
+	else{
+		SendWarningMessage(IDeviceBasedPersistence::ReadOperationFailed, QObject::tr("Cannot load object from device"));
+	}
+
+	return IDeviceBasedPersistence::Failed;
+}
+
+
+template <class ReadArchive, class WriteArchive>
+int TFileSerializerComp<ReadArchive, WriteArchive>::WriteToDevice(
+			const istd::IChangeable& data,
+			QIODevice& device,
+			ibase::IProgressManager* /*progressManagerPtr*/) const
+{
+	WriteDeviceArchiveEx archive(device, GetVersionInfo(), this);
+	Q_ASSERT(archive.IsStoring());
+
+	const iser::ISerializable* serializablePtr = dynamic_cast<const iser::ISerializable*>(&data);
+	if(serializablePtr == nullptr){
+		serializablePtr = CompCastPtr<iser::ISerializable>(&data);
+	}
+	Q_ASSERT(serializablePtr != nullptr);
+
+	if (!CheckMinimalVersion(*serializablePtr, archive.GetVersionInfo())){
+		SendWarningMessage(IDeviceBasedPersistence::UnsupportedArchiveVersion, QObject::tr("Archive version is not supported, possible lost of data"));
+	}
+
+	if ((const_cast<iser::ISerializable*>(serializablePtr))->Serialize(archive)){
+		return IDeviceBasedPersistence::Successful;
+	}
+	else{
+		SendInfoMessage(IDeviceBasedPersistence::WriteOperationFailed, QObject::tr("Cannot serialize object to device"));
+	}
+
+	return IDeviceBasedPersistence::Failed;
 }
 
 
