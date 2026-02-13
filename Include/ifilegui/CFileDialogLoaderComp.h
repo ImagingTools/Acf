@@ -11,6 +11,7 @@
 #include <icomp/CComponentBase.h>
 #include <ilog/TLoggerCompWrap.h>
 #include <ifile/IFilePersistence.h>
+#include <ifile/IDeviceBasedPersistence.h>
 #include <ifile/IFilePersistenceInfo.h>
 #include <ifile/IFileNameParam.h>
 #include <ifilegui/ifilegui.h>
@@ -28,6 +29,7 @@ class CFileDialogLoaderComp:
 			public QObject,
 			public ilog::CLoggerComponentBase, 
 			virtual public ifile::IFilePersistence,
+			virtual public ifile::IDeviceBasedPersistence,
 			virtual public ifile::IFilePersistenceInfo
 {
 public:
@@ -41,6 +43,7 @@ public:
 	I_BEGIN_COMPONENT(CFileDialogLoaderComp);
 		I_REGISTER_INTERFACE(ifile::IFileTypeInfo);
 		I_REGISTER_INTERFACE(ifile::IFilePersistence);
+		I_REGISTER_INTERFACE(ifile::IDeviceBasedPersistence);
 		I_REGISTER_INTERFACE(ifile::IFilePersistenceInfo);
 		I_ASSIGN(m_useNativeAttrPtr, "UseNative", "Use native system file dialog", true, true);
 		I_ASSIGN_MULTI_0(m_loadersCompPtr, "Loaders", "List of file serializers will be used as slaves", true);
@@ -61,6 +64,20 @@ public:
 				const istd::IChangeable& data,
 				const QString& filePath = QString(),
 				ibase::IProgressManager* progressManagerPtr = NULL) const override;
+
+	// reimplemented (ifile::IDeviceBasedPersistence)
+	virtual bool IsDeviceOperationSupported(
+				const istd::IChangeable& dataObject,
+				const QIODevice& device,
+				int deviceOperation) const override;
+	virtual int ReadFromDevice(
+				istd::IChangeable& data,
+				QIODevice& device,
+				ibase::IProgressManager* progressManagerPtr = nullptr) const override;
+	virtual int WriteToDevice(
+				const istd::IChangeable& data,
+				QIODevice& device,
+				ibase::IProgressManager* progressManagerPtr = nullptr) const override;
 
 	// reimplemented (ifile::IFileTypeInfo)
 	virtual bool GetFileExtensions(QStringList& result, const istd::IChangeable* dataObjectPtr = NULL, int flags = -1, bool doAppend = false) const override;

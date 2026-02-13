@@ -94,6 +94,65 @@ ifile::IFilePersistence::OperationState CTextFileLoaderComp::SaveToFile(
 }
 
 
+// reimplemented (ifile::IDeviceBasedPersistence)
+
+bool CTextFileLoaderComp::IsDeviceOperationSupported(
+			const istd::IChangeable& dataObject,
+			const QIODevice& /*device*/,
+			int /*deviceOperation*/) const
+{
+	return (dynamic_cast<const idoc::ITextDocument*>(&dataObject) != nullptr);
+}
+
+
+int CTextFileLoaderComp::ReadFromDevice(
+			istd::IChangeable& data,
+			QIODevice& device,
+			ibase::IProgressManager* /*progressManagerPtr*/) const
+{
+	idoc::ITextDocument* documentPtr = dynamic_cast<idoc::ITextDocument*>(&data);
+	if (documentPtr == nullptr){
+		return ifile::IDeviceBasedPersistence::Failed;
+	}
+
+	if (!device.isOpen()){
+		if (!device.open(QIODevice::ReadOnly | QIODevice::Text)){
+			return ifile::IDeviceBasedPersistence::Failed;
+		}
+	}
+
+	QTextStream stream(&device);
+	QString documentText = stream.readAll();
+	
+	documentPtr->SetText(documentText);
+
+	return ifile::IDeviceBasedPersistence::Successful;
+}
+
+
+int CTextFileLoaderComp::WriteToDevice(
+			const istd::IChangeable& data,
+			QIODevice& device,
+			ibase::IProgressManager* /*progressManagerPtr*/) const
+{
+	const idoc::ITextDocument* documentPtr = dynamic_cast<const idoc::ITextDocument*>(&data);
+	if (documentPtr == nullptr){
+		return ifile::IDeviceBasedPersistence::Failed;
+	}
+
+	if (!device.isOpen()){
+		if (!device.open(QIODevice::WriteOnly | QIODevice::Text)){
+			return ifile::IDeviceBasedPersistence::Failed;
+		}
+	}
+
+	QTextStream stream(&device);
+	stream << documentPtr->GetText();
+
+	return ifile::IDeviceBasedPersistence::Successful;
+}
+
+
 // reimplemented (ifile::IFileTypeInfo)
 
 bool CTextFileLoaderComp::GetFileExtensions(QStringList& result, const istd::IChangeable* /*dataObjectPtr*/, int /*flags*/, bool doAppend) const

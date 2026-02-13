@@ -78,6 +78,62 @@ ifile::IFilePersistence::OperationState CComposedFilePersistenceComp::SaveToFile
 }
 
 
+// reimplemented (ifile::IDeviceBasedPersistence)
+
+bool CComposedFilePersistenceComp::IsDeviceOperationSupported(
+			const istd::IChangeable& dataObject,
+			const QIODevice& device,
+			int deviceOperation) const
+{
+	int slavesCount = m_slaveLoadersCompPtr.GetCount();
+	for (int i = 0; i < slavesCount; ++i){
+		const ifile::IFilePersistence* loaderPtr = m_slaveLoadersCompPtr[i];
+		const ifile::IDeviceBasedPersistence* devicePersistencePtr = dynamic_cast<const ifile::IDeviceBasedPersistence*>(loaderPtr);
+		if ((devicePersistencePtr != nullptr) && devicePersistencePtr->IsDeviceOperationSupported(dataObject, device, deviceOperation)){
+			return true;
+		}
+	}
+
+	return false;
+}
+
+
+int CComposedFilePersistenceComp::ReadFromDevice(
+			istd::IChangeable& data,
+			QIODevice& device,
+			ibase::IProgressManager* progressManagerPtr) const
+{
+	int slavesCount = m_slaveLoadersCompPtr.GetCount();
+	for (int i = 0; i < slavesCount; ++i){
+		ifile::IFilePersistence* loaderPtr = m_slaveLoadersCompPtr[i];
+		ifile::IDeviceBasedPersistence* devicePersistencePtr = dynamic_cast<ifile::IDeviceBasedPersistence*>(loaderPtr);
+		if ((devicePersistencePtr != nullptr) && devicePersistencePtr->IsDeviceOperationSupported(data, device, IDeviceBasedPersistence::ReadOperation)){
+			return devicePersistencePtr->ReadFromDevice(data, device, progressManagerPtr);
+		}
+	}
+
+	return IDeviceBasedPersistence::Failed;
+}
+
+
+int CComposedFilePersistenceComp::WriteToDevice(
+			const istd::IChangeable& data,
+			QIODevice& device,
+			ibase::IProgressManager* progressManagerPtr) const
+{
+	int slavesCount = m_slaveLoadersCompPtr.GetCount();
+	for (int i = 0; i < slavesCount; ++i){
+		ifile::IFilePersistence* loaderPtr = m_slaveLoadersCompPtr[i];
+		ifile::IDeviceBasedPersistence* devicePersistencePtr = dynamic_cast<ifile::IDeviceBasedPersistence*>(loaderPtr);
+		if ((devicePersistencePtr != nullptr) && devicePersistencePtr->IsDeviceOperationSupported(data, device, IDeviceBasedPersistence::WriteOperation)){
+			return devicePersistencePtr->WriteToDevice(data, device, progressManagerPtr);
+		}
+	}
+
+	return IDeviceBasedPersistence::Failed;
+}
+
+
 // reimplemented (ifile::IFileTypeInfo)
 
 bool CComposedFilePersistenceComp::GetFileExtensions(QStringList& result, const istd::IChangeable* dataObjectPtr, int flags, bool doAppend) const

@@ -302,6 +302,43 @@ QString CMultiPageDocumentFilePersistenceComp::GetInfoFilePath(const QString doc
 }
 
 
+// reimplemented (ifile::IDeviceBasedPersistence)
+
+bool CMultiPageDocumentFilePersistenceComp::IsDeviceOperationSupported(
+			const istd::IChangeable& /*dataObject*/,
+			const QIODevice& /*device*/,
+			int /*deviceOperation*/) const
+{
+	// Multi-page document persistence requires file system access for multiple files
+	// Device-based persistence is not supported for this complex use case
+	return false;
+}
+
+
+int CMultiPageDocumentFilePersistenceComp::ReadFromDevice(
+			istd::IChangeable& /*data*/,
+			QIODevice& /*device*/,
+			ibase::IProgressManager* /*progressManagerPtr*/) const
+{
+	// Multi-page document persistence requires file system access
+	SendWarningMessage(ifile::IDeviceBasedPersistence::ReadOperationFailed, 
+		QObject::tr("Device-based persistence is not supported for multi-page documents"));
+	return ifile::IDeviceBasedPersistence::Failed;
+}
+
+
+int CMultiPageDocumentFilePersistenceComp::WriteToDevice(
+			const istd::IChangeable& /*data*/,
+			QIODevice& /*device*/,
+			ibase::IProgressManager* /*progressManagerPtr*/) const
+{
+	// Multi-page document persistence requires file system access
+	SendWarningMessage(ifile::IDeviceBasedPersistence::WriteOperationFailed,
+		QObject::tr("Device-based persistence is not supported for multi-page documents"));
+	return ifile::IDeviceBasedPersistence::Failed;
+}
+
+
 // private static members
 
 iser::CArchiveTag CMultiPageDocumentFilePersistenceComp::s_pagesTag("Pages", "Container of the document pages", iser::CArchiveTag::TT_MULTIPLE);
