@@ -5,6 +5,7 @@
 // ACF includes
 #include <iser/IVersionInfo.h>
 #include <ifile/IFilePersistence.h>
+#include <ifile/IDeviceBasedPersistence.h>
 #include <ilog/TLoggerCompWrap.h>
 #include <iqt/iqt.h>
 
@@ -20,13 +21,15 @@ namespace iqt
 */
 class CClipboardSerializerComp:
 			public ilog::CLoggerComponentBase,
-			virtual public ifile::IFilePersistence
+			virtual public ifile::IFilePersistence,
+			virtual public ifile::IDeviceBasedPersistence
 {
 public:
 	typedef ilog::CLoggerComponentBase BaseClass;
 
 	I_BEGIN_COMPONENT(CClipboardSerializerComp);
 		I_REGISTER_INTERFACE(ifile::IFilePersistence);
+		I_REGISTER_INTERFACE(ifile::IDeviceBasedPersistence);
 		I_ASSIGN(m_versionInfoCompPtr, "VersionInfo", "Provide information about archive versions", false, "VersionInfo");
 		I_ASSIGN(m_mimeTypeAttrPtr, "MimeType", "Describe clipboard type", true, "acf/generic");
 	I_END_COMPONENT;
@@ -45,6 +48,20 @@ public:
 				const istd::IChangeable& data,
 				const QString& filePath = QString(),
 				ibase::IProgressManager* progressManagerPtr = NULL) const override;
+
+	// reimplemented (ifile::IDeviceBasedPersistence)
+	virtual bool IsDeviceOperationSupported(
+				const istd::IChangeable& dataObject,
+				const QIODevice& device,
+				int deviceOperation) const override;
+	virtual int ReadFromDevice(
+				istd::IChangeable& data,
+				QIODevice& device,
+				ibase::IProgressManager* progressManagerPtr = nullptr) const override;
+	virtual int WriteToDevice(
+				const istd::IChangeable& data,
+				QIODevice& device,
+				ibase::IProgressManager* progressManagerPtr = nullptr) const override;
 
 	// reimplemented (ifile::IFileTypeInfo)
 	virtual bool GetFileExtensions(QStringList& result, const istd::IChangeable* dataObjectPtr = NULL, int flags = -1, bool doAppend = false) const override;

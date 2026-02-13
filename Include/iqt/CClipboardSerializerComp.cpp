@@ -139,6 +139,70 @@ QString CClipboardSerializerComp::GetTypeDescription(const QString* /*extensionP
 }
 
 
+// reimplemented (ifile::IDeviceBasedPersistence)
+
+bool CClipboardSerializerComp::IsDeviceOperationSupported(
+			const istd::IChangeable& dataObject,
+			const QIODevice& /*device*/,
+			int /*deviceOperation*/) const
+{
+	return (dynamic_cast<const iser::ISerializable*>(&dataObject) != nullptr);
+}
+
+
+int CClipboardSerializerComp::ReadFromDevice(
+			istd::IChangeable& data,
+			QIODevice& device,
+			ibase::IProgressManager* /*progressManagerPtr*/) const
+{
+	iser::ISerializable* serializablePtr = dynamic_cast<iser::ISerializable*>(&data);
+	if (serializablePtr == nullptr){
+		return ifile::IDeviceBasedPersistence::Failed;
+	}
+
+	// Read all data from device into QByteArray
+	QByteArray byteArray = device.readAll();
+	
+	// Use memory archive to deserialize
+	iser::CMemoryReadArchive readArchive(byteArray);
+	
+	if (serializablePtr->Serialize(readArchive)){
+		return ifile::IDeviceBasedPersistence::Successful;
+	}
+
+	return ifile::IDeviceBasedPersistence::Failed;
+}
+
+
+int CClipboardSerializerComp::WriteToDevice(
+			const istd::IChangeable& data,
+			QIODevice& device,
+			ibase::IProgressManager* /*progressManagerPtr*/) const
+{
+	const iser::ISerializable* serializablePtr = dynamic_cast<const iser::ISerializable*>(&data);
+	if (serializablePtr == nullptr){
+		return ifile::IDeviceBasedPersistence::Failed;
+	}
+
+	// Create memory archive to serialize
+	iser::CMemoryWriteArchive writeArchive(m_versionInfoCompPtr.GetPtr());
+	
+	if (!(const_cast<iser::ISerializable*>(serializablePtr))->Serialize(writeArchive)){
+		return ifile::IDeviceBasedPersistence::Failed;
+	}
+
+	// Write serialized data to device
+	QByteArray byteArray = writeArchive.GetByteArray();
+	qint64 written = device.write(byteArray);
+	
+	if (written == byteArray.size()){
+		return ifile::IDeviceBasedPersistence::Successful;
+	}
+
+	return ifile::IDeviceBasedPersistence::Failed;
+}
+
+
 } // namespace iqt
 
 

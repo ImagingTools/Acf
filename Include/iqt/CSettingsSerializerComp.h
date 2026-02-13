@@ -7,6 +7,7 @@
 
 // ACF includes
 #include <ifile/IFilePersistence.h>
+#include <ifile/IDeviceBasedPersistence.h>
 #include <icomp/CComponentBase.h>
 #include <ibase/IApplicationInfo.h>
 #include <ilog/TLoggerCompWrap.h>
@@ -24,13 +25,15 @@ namespace iqt
 */
 class CSettingsSerializerComp:
 			public ilog::CLoggerComponentBase,
-			virtual public ifile::IFilePersistence
+			virtual public ifile::IFilePersistence,
+			virtual public ifile::IDeviceBasedPersistence
 {
 public:
 	typedef ilog::CLoggerComponentBase BaseClass;
 
 	I_BEGIN_COMPONENT(CSettingsSerializerComp);
 		I_REGISTER_INTERFACE(ifile::IFilePersistence);
+		I_REGISTER_INTERFACE(ifile::IDeviceBasedPersistence);
 		I_ASSIGN(m_applicationInfoCompPtr, "ApplicationInfo", "Application info", true, "ApplicationInfo");
 		I_ASSIGN(m_rootKeyAttrPtr, "RootKey", "The root key in the file/registry for the serialized object", true, "Data");
 		I_ASSIGN(m_scopeAttrPtr, "Scope", "The scope for the settingsin the registry. 0 - User scope.\n1 - System scope", false, QSettings::UserScope);
@@ -50,6 +53,20 @@ public:
 				const istd::IChangeable& data,
 				const QString& filePath = QString(),
 				ibase::IProgressManager* progressManagerPtr = NULL) const override;
+
+	// reimplemented (ifile::IDeviceBasedPersistence)
+	virtual bool IsDeviceOperationSupported(
+				const istd::IChangeable& dataObject,
+				const QIODevice& device,
+				int deviceOperation) const override;
+	virtual int ReadFromDevice(
+				istd::IChangeable& data,
+				QIODevice& device,
+				ibase::IProgressManager* progressManagerPtr = nullptr) const override;
+	virtual int WriteToDevice(
+				const istd::IChangeable& data,
+				QIODevice& device,
+				ibase::IProgressManager* progressManagerPtr = nullptr) const override;
 
 	// reimplemented (ifile::IFileTypeInfo)
 	virtual bool GetFileExtensions(QStringList& result, const istd::IChangeable* dataObjectPtr = NULL, int flags = -1, bool doAppend = false) const override;

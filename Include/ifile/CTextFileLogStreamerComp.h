@@ -9,6 +9,7 @@
 // ACF includes
 #include <ifile/IFileNameParam.h>
 #include <ifile/IFilePersistence.h>
+#include <ifile/IDeviceBasedPersistence.h>
 #include <ilog/CStreamLogCompBase.h>
 
 
@@ -21,13 +22,15 @@ namespace ifile
 */
 class CTextFileLogStreamerComp: 
 			public ilog::CStreamLogCompBase,
-			public ifile::IFilePersistence
+			public ifile::IFilePersistence,
+			public ifile::IDeviceBasedPersistence
 {
 public:
 	typedef ilog::CStreamLogCompBase BaseClass;
 
 	I_BEGIN_COMPONENT(CTextFileLogStreamerComp);
 		I_REGISTER_INTERFACE(ifile::IFilePersistence);
+		I_REGISTER_INTERFACE(ifile::IDeviceBasedPersistence);
 		I_ASSIGN(m_isAppendAttrPtr, "AppendToExisting", "Don't overwrite existing log file", true, false);
 	I_END_COMPONENT;
 
@@ -47,6 +50,20 @@ public:
 				const istd::IChangeable& data,
 				const QString& filePath = QString(),
 				ibase::IProgressManager* progressManagerPtr = NULL) const override;
+
+	// reimplemented (ifile::IDeviceBasedPersistence)
+	virtual bool IsDeviceOperationSupported(
+				const istd::IChangeable& dataObject,
+				const QIODevice& device,
+				int deviceOperation) const override;
+	virtual int ReadFromDevice(
+				istd::IChangeable& data,
+				QIODevice& device,
+				ibase::IProgressManager* progressManagerPtr = nullptr) const override;
+	virtual int WriteToDevice(
+				const istd::IChangeable& data,
+				QIODevice& device,
+				ibase::IProgressManager* progressManagerPtr = nullptr) const override;
 
 	// reimplemented (ifile::IFileTypeInfo)
 	virtual bool GetFileExtensions(QStringList& result, const istd::IChangeable* dataObjectPtr = NULL, int flags = -1, bool doAppend = false) const override;

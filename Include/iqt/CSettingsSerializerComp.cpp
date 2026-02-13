@@ -135,6 +135,38 @@ QString CSettingsSerializerComp::GetTypeDescription(const QString* /*extensionPt
 }
 
 
+// reimplemented (ifile::IDeviceBasedPersistence)
+
+bool CSettingsSerializerComp::IsDeviceOperationSupported(
+			const istd::IChangeable& /*dataObject*/,
+			const QIODevice& /*device*/,
+			int /*deviceOperation*/) const
+{
+	// QSettings uses file system/registry access, not device-based I/O
+	return false;
+}
+
+
+int CSettingsSerializerComp::ReadFromDevice(
+			istd::IChangeable& /*data*/,
+			QIODevice& /*device*/,
+			ibase::IProgressManager* /*progressManagerPtr*/) const
+{
+	// QSettings uses file system/registry access, not device-based I/O
+	return ifile::IDeviceBasedPersistence::Failed;
+}
+
+
+int CSettingsSerializerComp::WriteToDevice(
+			const istd::IChangeable& /*data*/,
+			QIODevice& /*device*/,
+			ibase::IProgressManager* /*progressManagerPtr*/) const
+{
+	// QSettings uses file system/registry access, not device-based I/O
+	return ifile::IDeviceBasedPersistence::Failed;
+}
+
+
 } // namespace iqt
 
 
