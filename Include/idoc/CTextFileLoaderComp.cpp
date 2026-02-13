@@ -115,10 +115,15 @@ int CTextFileLoaderComp::ReadFromDevice(
 		return ifile::IDeviceBasedPersistence::Failed;
 	}
 
+	// Ensure device is open for reading
 	if (!device.isOpen()){
 		if (!device.open(QIODevice::ReadOnly | QIODevice::Text)){
 			return ifile::IDeviceBasedPersistence::Failed;
 		}
+	}
+	else if (!device.isReadable()){
+		// Device is open but not readable
+		return ifile::IDeviceBasedPersistence::Failed;
 	}
 
 	QTextStream stream(&device);
@@ -140,10 +145,15 @@ int CTextFileLoaderComp::WriteToDevice(
 		return ifile::IDeviceBasedPersistence::Failed;
 	}
 
+	// Ensure device is open for writing
 	if (!device.isOpen()){
 		if (!device.open(QIODevice::WriteOnly | QIODevice::Text)){
 			return ifile::IDeviceBasedPersistence::Failed;
 		}
+	}
+	else if (!device.isWritable()){
+		// Device is open but not writable
+		return ifile::IDeviceBasedPersistence::Failed;
 	}
 
 	QTextStream stream(&device);

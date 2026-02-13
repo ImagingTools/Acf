@@ -107,12 +107,12 @@ int CComposedFilePersistenceComp::ReadFromDevice(
 	for (int i = 0; i < slavesCount; ++i){
 		ifile::IFilePersistence* loaderPtr = m_slaveLoadersCompPtr[i];
 		ifile::IDeviceBasedPersistence* devicePersistencePtr = dynamic_cast<ifile::IDeviceBasedPersistence*>(loaderPtr);
-		if ((devicePersistencePtr != nullptr) && devicePersistencePtr->IsDeviceOperationSupported(data, device, IDeviceBasedPersistence::ReadOperation)){
+		if ((devicePersistencePtr != nullptr) && devicePersistencePtr->IsDeviceOperationSupported(data, device, ifile::IDeviceBasedPersistence::ReadOperation)){
 			return devicePersistencePtr->ReadFromDevice(data, device, progressManagerPtr);
 		}
 	}
 
-	return IDeviceBasedPersistence::Failed;
+	return ifile::IDeviceBasedPersistence::Failed;
 }
 
 
@@ -125,12 +125,12 @@ int CComposedFilePersistenceComp::WriteToDevice(
 	for (int i = 0; i < slavesCount; ++i){
 		ifile::IFilePersistence* loaderPtr = m_slaveLoadersCompPtr[i];
 		ifile::IDeviceBasedPersistence* devicePersistencePtr = dynamic_cast<ifile::IDeviceBasedPersistence*>(loaderPtr);
-		if ((devicePersistencePtr != nullptr) && devicePersistencePtr->IsDeviceOperationSupported(data, device, IDeviceBasedPersistence::WriteOperation)){
+		if ((devicePersistencePtr != nullptr) && devicePersistencePtr->IsDeviceOperationSupported(data, device, ifile::IDeviceBasedPersistence::WriteOperation)){
 			return devicePersistencePtr->WriteToDevice(data, device, progressManagerPtr);
 		}
 	}
 
-	return IDeviceBasedPersistence::Failed;
+	return ifile::IDeviceBasedPersistence::Failed;
 }
 
 
