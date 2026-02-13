@@ -335,47 +335,51 @@ public:
 
 	/**
 		Intelligent pop of interface pointer. Caller takes ownership of the raw pointer.
-		
+
 		Automatically chooses the correct extraction method based on internal pointer state:
 		1. If m_rootPtr == m_interfacePtr (simple objects): extracts interface pointer
 		2. If m_interfacePtr != nullptr && m_rootPtr == nullptr: extracts interface pointer
-		3. If m_rootPtr != m_interfacePtr and both != nullptr (composite components): 
-		   extracts root and casts to interface
-		
+		3. If m_rootPtr != m_interfacePtr and both != nullptr (composite components): extracts root and casts to interface
+
 		\return Interface pointer with ownership transferred to caller.
 	*/
 	InterfaceType* PopInterfacePtr() noexcept
 	{
 		// Case 1: Root and interface are the same (simple objects)
-		if (BaseClass::m_rootPtr.get() == BaseClass::m_interfacePtr)
-		{
+		if (BaseClass::m_rootPtr.get() == BaseClass::m_interfacePtr){
 			InterfaceType* retVal = BaseClass::m_interfacePtr;
+
 			BaseClass::m_interfacePtr = nullptr;
+
 			BaseClass::m_rootPtr.release();
+
 			return retVal;
 		}
 		
 		// Case 2: Only interface is set, no root
-		if (BaseClass::m_interfacePtr != nullptr && BaseClass::m_rootPtr.get() == nullptr)
-		{
+		if (BaseClass::m_interfacePtr != nullptr && BaseClass::m_rootPtr.get() == nullptr){
 			InterfaceType* retVal = BaseClass::m_interfacePtr;
+
 			BaseClass::m_interfacePtr = nullptr;
+
 			return retVal;
 		}
 		
 		// Case 3: Root and interface differ (composite components)
-		if (BaseClass::m_rootPtr.get() != nullptr && BaseClass::m_interfacePtr != nullptr)
-		{
+		if (BaseClass::m_rootPtr.get() != nullptr && BaseClass::m_interfacePtr != nullptr){
 			// First check if dynamic_cast will succeed to avoid memory leak
 			InterfaceType* castedPtr = dynamic_cast<InterfaceType*>(BaseClass::m_rootPtr.get());
-			if (castedPtr != nullptr)
-			{
+			if (castedPtr != nullptr){
 				// Cast succeeded, safe to release ownership
 				RootIntefaceType* rootPtr = PopRootPtr();
+				Q_UNUSED(rootPtr);
+
 				return castedPtr;
 			}
+
 			// Cast failed - this should never happen in correct code
 			Q_ASSERT(false && "dynamic_cast failed in PopInterfacePtr - interface pointer type mismatch");
+
 			return nullptr;
 		}
 		
@@ -568,7 +572,9 @@ public:
 		return *this;
 	}
 
-	// Convert from unique to shared. After this call, uniquePtr no longer owns the object.
+	/**
+		Convert from unique to shared.After this call, uniquePtr no longer owns the object.
+	*/
 	TSharedInterfacePtr& FromUnique(TUniqueInterfacePtr<InterfaceType>& uniquePtr) noexcept
 	{
 		if (!uniquePtr.IsValid()){
