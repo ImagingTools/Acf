@@ -4,7 +4,6 @@
 
 // Qt includes
 #include <QtCore/QByteArray>
-#include <QtCore/QBuffer>
 #include <QtCore/QMimeData>
 #include <QtGui/QClipboard>
 #if QT_VERSION >= 0x050000
@@ -55,9 +54,12 @@ bool CClipboardSerializerComp::IsOperationSupported(
 ifile::IFilePersistence::OperationState CClipboardSerializerComp::LoadFromFile(
 			istd::IChangeable& data,
 			const QString& /*filePath*/,
-			ibase::IProgressManager* progressManagerPtr) const
+			ibase::IProgressManager* /*progressManagerPtr*/) const
 {
 	if (IsOperationSupported(&data, NULL, QF_LOAD | QF_ANONYMOUS, false)){
+		iser::ISerializable* serializablePtr = CompCastPtr<iser::ISerializable>(const_cast<istd::IChangeable*>(&data));
+		Q_ASSERT(serializablePtr != NULL);	// it was checked in IsOperationSupported
+
 		const QClipboard* clipboardPtr = QApplication::clipboard();
 		const QMimeData* mimeDataPtr = clipboardPtr->mimeData();
 
@@ -65,11 +67,9 @@ ifile::IFilePersistence::OperationState CClipboardSerializerComp::LoadFromFile(
 		if (mimeDataPtr->hasFormat(mimeType)){
 			QByteArray mimeData = mimeDataPtr->data(mimeType);
 			if (!mimeData.isEmpty()){
-				// Use device-based implementation with QBuffer
-				QBuffer buffer(&mimeData);
-				int result = ReadFromDevice(data, buffer, progressManagerPtr);
-				
-				if (result == ifile::IDeviceBasedPersistence::Successful){
+				iser::CMemoryReadArchive archive(mimeData.constData(), mimeData.size());
+
+				if (serializablePtr->Serialize(archive)){
 					return OS_OK;
 				}
 				else{
@@ -89,7 +89,7 @@ ifile::IFilePersistence::OperationState CClipboardSerializerComp::LoadFromFile(
 ifile::IFilePersistence::OperationState CClipboardSerializerComp::SaveToFile(
 			const istd::IChangeable& data, 
 			const QString& /*filePath*/,
-			ibase::IProgressManager* progressManagerPtr) const
+			ibase::IProgressManager* /*progressManagerPtr*/) const
 {
 	if (IsOperationSupported(&data, NULL, QF_SAVE | QF_ANONYMOUS, false)){
 		QClipboard* clipboardPtr = QApplication::clipboard();
@@ -99,15 +99,13 @@ ifile::IFilePersistence::OperationState CClipboardSerializerComp::SaveToFile(
 
 		istd::TDelPtr<QMimeData> mimeDataPtr(new QMimeData);
 		if (mimeDataPtr.IsValid()){
-			// Use device-based implementation with QBuffer
-			QByteArray byteArray;
-			QBuffer buffer(&byteArray);
-			
-			int result = WriteToDevice(data, buffer, progressManagerPtr);
-			
-			if (result == ifile::IDeviceBasedPersistence::Successful){
+			iser::ISerializable* serializablePtr = CompCastPtr<iser::ISerializable>(const_cast<istd::IChangeable*>(&data));
+			Q_ASSERT(serializablePtr != NULL);	// it was checked in IsOperationSupported
+
+			iser::CMemoryWriteArchive archive(m_versionInfoCompPtr.GetPtr());
+			if (serializablePtr->Serialize(archive)){
 				QString mimeType = *m_mimeTypeAttrPtr;
-				mimeDataPtr->setData(mimeType, byteArray);
+				mimeDataPtr->setData(mimeType, QByteArray((const char*)archive.GetBuffer(), archive.GetBufferSize()));
 
 				clipboardPtr->setMimeData(mimeDataPtr.PopPtr());
 
@@ -138,70 +136,6 @@ bool CClipboardSerializerComp::GetFileExtensions(QStringList& result, const istd
 QString CClipboardSerializerComp::GetTypeDescription(const QString* /*extensionPtr*/) const
 {
 	return QString();
-}
-
-
-// reimplemented (ifile::IDeviceBasedPersistence)
-
-bool CClipboardSerializerComp::IsDeviceOperationSupported(
-			const istd::IChangeable& dataObject,
-			const QIODevice& /*device*/,
-			int /*deviceOperation*/) const
-{
-	return (dynamic_cast<const iser::ISerializable*>(&dataObject) != nullptr);
-}
-
-
-int CClipboardSerializerComp::ReadFromDevice(
-			istd::IChangeable& data,
-			QIODevice& device,
-			ibase::IProgressManager* /*progressManagerPtr*/) const
-{
-	iser::ISerializable* serializablePtr = dynamic_cast<iser::ISerializable*>(&data);
-	if (serializablePtr == nullptr){
-		return ifile::IDeviceBasedPersistence::Failed;
-	}
-
-	// Read all data from device into QByteArray
-	QByteArray byteArray = device.readAll();
-	
-	// Use memory archive to deserialize
-	iser::CMemoryReadArchive readArchive(byteArray);
-	
-	if (serializablePtr->Serialize(readArchive)){
-		return ifile::IDeviceBasedPersistence::Successful;
-	}
-
-	return ifile::IDeviceBasedPersistence::Failed;
-}
-
-
-int CClipboardSerializerComp::WriteToDevice(
-			const istd::IChangeable& data,
-			QIODevice& device,
-			ibase::IProgressManager* /*progressManagerPtr*/) const
-{
-	const iser::ISerializable* serializablePtr = dynamic_cast<const iser::ISerializable*>(&data);
-	if (serializablePtr == nullptr){
-		return ifile::IDeviceBasedPersistence::Failed;
-	}
-
-	// Create memory archive to serialize
-	iser::CMemoryWriteArchive writeArchive(m_versionInfoCompPtr.GetPtr());
-	
-	if (!(const_cast<iser::ISerializable*>(serializablePtr))->Serialize(writeArchive)){
-		return ifile::IDeviceBasedPersistence::Failed;
-	}
-
-	// Write serialized data to device
-	QByteArray byteArray = writeArchive.GetByteArray();
-	qint64 written = device.write(byteArray);
-	
-	if (written == byteArray.size()){
-		return ifile::IDeviceBasedPersistence::Successful;
-	}
-
-	return ifile::IDeviceBasedPersistence::Failed;
 }
 
 
