@@ -85,8 +85,14 @@ ifile::IFilePersistence::OperationState CBitmapLoaderComp::LoadFromFile(
 			const QString& filePath,
 			ibase::IProgressManager* progressManagerPtr) const
 {
-	// Use device-based implementation with QFile
+	// Open file with proper error handling
 	QFile file(filePath);
+	if (!file.open(QIODevice::ReadOnly)){
+		SendErrorMessage(MI_CANNOT_LOAD, QT_TR_NOOP(QString("Cannot open file %1").arg(filePath)));
+		return OS_FAILED;
+	}
+	
+	// Use device-based implementation
 	int result = ReadFromDevice(data, file, progressManagerPtr);
 	
 	return (result == ifile::IDeviceBasedPersistence::Successful) ? OS_OK : OS_FAILED;
@@ -98,13 +104,17 @@ ifile::IFilePersistence::OperationState CBitmapLoaderComp::SaveToFile(
 			const QString& filePath,
 			ibase::IProgressManager* progressManagerPtr) const
 {
-	// Use device-based implementation with QFile
-	QFile file(filePath);
-	
 	// Extract format from file extension for proper saving
 	QFileInfo fileInfo(filePath);
 	QByteArray format = fileInfo.suffix().toLatin1();
 	
+	// Validate format - if empty or invalid, default to PNG
+	if (format.isEmpty() || !QImageWriter::supportedImageFormats().contains(format.toLower())){
+		format = "PNG";
+	}
+	
+	// Open file with proper error handling
+	QFile file(filePath);
 	if (!file.open(QIODevice::WriteOnly)){
 		SendErrorMessage(MI_CANNOT_SAVE, QT_TR_NOOP(QString("Cannot open file %1").arg(filePath)));
 		return OS_FAILED;
