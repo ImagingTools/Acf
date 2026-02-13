@@ -36,61 +36,34 @@ bool CTextFileLoaderComp::IsOperationSupported(
 ifile::IFilePersistence::OperationState CTextFileLoaderComp::LoadFromFile(
 			istd::IChangeable& data,
 			const QString& filePath,
-			ibase::IProgressManager* /*progressManagerPtr*/) const
+			ibase::IProgressManager* progressManagerPtr) const
 {
 	if (!IsOperationSupported(&data, &filePath, QF_LOAD | QF_FILE, false)){
 		return OS_FAILED;
 	}
 
-	ifile::IFilePersistence::OperationState retVal = OS_FAILED;
-
-	idoc::ITextDocument* documentPtr = dynamic_cast<idoc::ITextDocument*>(&data);
-	if (documentPtr != NULL){
-		QFile file(filePath);
-		if (!file.open(QIODevice::ReadOnly | QIODevice::Text)){
-			return OS_FAILED;
-		}
-
-		QTextStream fileStream(&file);
-
-		QString documentText = fileStream.readAll();
-		
-		documentPtr->SetText(documentText);
-
-		retVal = OS_OK;
-	}
-
-
-	return retVal;
+	// Use device-based implementation with QFile
+	QFile file(filePath);
+	int result = ReadFromDevice(data, file, progressManagerPtr);
+	
+	return (result == ifile::IDeviceBasedPersistence::Successful) ? OS_OK : OS_FAILED;
 }
 
 
 ifile::IFilePersistence::OperationState CTextFileLoaderComp::SaveToFile(
 			const istd::IChangeable& data,
 			const QString& filePath,
-			ibase::IProgressManager* /*progressManagerPtr*/) const
+			ibase::IProgressManager* progressManagerPtr) const
 {
 	if (!IsOperationSupported(&data, &filePath, QF_SAVE | QF_FILE, false)){
 		return OS_FAILED;
 	}
 
-	ifile::IFilePersistence::OperationState retVal = OS_FAILED;
-
-	const idoc::ITextDocument* documentPtr = dynamic_cast<const idoc::ITextDocument*>(&data);
-	if (documentPtr != NULL){
-		QFile file(filePath);
-		if (!file.open(QIODevice::WriteOnly | QIODevice::Truncate | QIODevice::Text)){
-			return OS_FAILED;
-		}
-
-		QTextStream fileStream(&file);
-
-		fileStream << documentPtr->GetText();
-
-		retVal = OS_OK;
-	}
-
-	return retVal;
+	// Use device-based implementation with QFile
+	QFile file(filePath);
+	int result = WriteToDevice(data, file, progressManagerPtr);
+	
+	return (result == ifile::IDeviceBasedPersistence::Successful) ? OS_OK : OS_FAILED;
 }
 
 

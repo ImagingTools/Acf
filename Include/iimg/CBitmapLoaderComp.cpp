@@ -83,66 +83,61 @@ bool CBitmapLoaderComp::IsOperationSupported(
 ifile::IFilePersistence::OperationState CBitmapLoaderComp::LoadFromFile(
 			istd::IChangeable& data,
 			const QString& filePath,
-			ibase::IProgressManager* /*progressManagerPtr*/) const
+			ibase::IProgressManager* progressManagerPtr) const
 {
-	istd::CChangeNotifier notifier(&data);
-
-	QImageReader reader(filePath);
-	reader.setAutoTransform(true);
-	QImage image = reader.read();
-	if (image.isNull()) {
-		SendErrorMessage(MI_CANNOT_LOAD, QT_TR_NOOP(QString("Cannot load file %1: %2").arg(filePath).arg(reader.errorString())));
-		return OS_FAILED;
-	}
-
-	bool isOk = false;
-
-	if (CBitmap* qtBitmapPtr = dynamic_cast<CBitmap*>(&data)){
-		isOk = qtBitmapPtr->CopyImageFrom(image);
-	}
-	else{
-		CBitmap tempQtBitmap(image);
-
-		isOk = data.CopyFrom(tempQtBitmap);
-	}
-
-	if (isOk) return OS_OK;
-	SendErrorMessage(MI_BAD_OBJECT_TYPE, QT_TR_NOOP("Cannot set the loaded data to the end-point object"));
-	return OS_FAILED;
+	// Use device-based implementation with QFile
+	QFile file(filePath);
+	int result = ReadFromDevice(data, file, progressManagerPtr);
+	
+	return (result == ifile::IDeviceBasedPersistence::Successful) ? OS_OK : OS_FAILED;
 }
 
 
 ifile::IFilePersistence::OperationState CBitmapLoaderComp::SaveToFile(
 			const istd::IChangeable& data,
 			const QString& filePath,
-			ibase::IProgressManager* /*progressManagerPtr*/) const
+			ibase::IProgressManager* progressManagerPtr) const
 {
+	// Use device-based implementation with QFile
+	QFile file(filePath);
+	
+	// Extract format from file extension for proper saving
+	QFileInfo fileInfo(filePath);
+	QByteArray format = fileInfo.suffix().toLatin1();
+	
+	if (!file.open(QIODevice::WriteOnly)){
+		SendErrorMessage(MI_CANNOT_SAVE, QT_TR_NOOP(QString("Cannot open file %1").arg(filePath)));
+		return OS_FAILED;
+	}
+	
 	const iimg::IQImageProvider* imageProviderPtr = dynamic_cast<const iimg::IQImageProvider*>(&data);
-
+	
 	CBitmap qtBitmap;
-	if (imageProviderPtr == NULL){
+	if (imageProviderPtr == nullptr){
 		if (qtBitmap.CopyFrom(data)){
 			imageProviderPtr = &qtBitmap;
 		}
 		else{
 			SendErrorMessage(MI_BAD_OBJECT_TYPE, QT_TR_NOOP("Object is not supported image"));
-
 			return OS_FAILED;
 		}
 	}
-
-	Q_ASSERT(imageProviderPtr != NULL);
-
+	
+	Q_ASSERT(imageProviderPtr != nullptr);
+	
 	const QImage& image = imageProviderPtr->GetQImage();
-	if (image.save(filePath)){
+	
+	// Save with the format from file extension
+	QImageWriter writer(&file, format);
+	if (writer.write(image)){
 		return OS_OK;
 	}
 	else{
 		if (!image.isNull()){
-			SendErrorMessage(MI_CANNOT_SAVE, QT_TR_NOOP(QString("Cannot save file %1").arg(filePath)));
+			SendErrorMessage(MI_CANNOT_SAVE, QT_TR_NOOP(QString("Cannot save file %1: %2").arg(filePath).arg(writer.errorString())));
 		}
 	}
-
+	
 	return OS_FAILED;
 }
 
