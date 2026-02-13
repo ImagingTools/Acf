@@ -34,40 +34,40 @@ static QByteArray s_position2dTypeId = CPosition2d::GetTypeName();
 
 // reimplemented (istd::TIFactory<iser::IObject>)
 
-iser::IObject* CObject2dFactory::CreateInstance(const QByteArray& keyId) const
+istd::TUniqueInterfacePtr<iser::IObject> CObject2dFactory::CreateInstance(const QByteArray& keyId) const
 {
 	if (keyId == s_line2dTypeId){
-		return new imod::TModelWrap<CLine2d>();
+		return istd::TUniqueInterfacePtr<iser::IObject>(new imod::TModelWrap<CLine2d>());
 	}
 	else if (keyId == s_label2dTypeId){
-		return new imod::TModelWrap<CLabel>();
+		return istd::TUniqueInterfacePtr<iser::IObject>(new imod::TModelWrap<CLabel>());
 	}
 	else if (keyId == s_position2dTypeId){
-		return new imod::TModelWrap<CPosition2d>();
+		return istd::TUniqueInterfacePtr<iser::IObject>(new imod::TModelWrap<CPosition2d>());
 	}
 	else if (keyId == s_polypoint2dTypeId){
-		return new imod::TModelWrap<CPolypoint>();
+		return istd::TUniqueInterfacePtr<iser::IObject>(new imod::TModelWrap<CPolypoint>());
 	}
 	else if (keyId == s_polyline2dTypeId){
-		return new imod::TModelWrap<CPolyline>();
+		return istd::TUniqueInterfacePtr<iser::IObject>(new imod::TModelWrap<CPolyline>());
 	}
 	else if (keyId == s_polygon2dTypeId){
-		return new imod::TModelWrap<CPolygon>();
+		return istd::TUniqueInterfacePtr<iser::IObject>(new imod::TModelWrap<CPolygon>());
 	}
 	else if (keyId == s_circle2dTypeId){
-		return new imod::TModelWrap<CCircle>();
+		return istd::TUniqueInterfacePtr<iser::IObject>(new imod::TModelWrap<CCircle>());
 	}
 	else if (keyId == s_ring2dTypeId){
-		return new imod::TModelWrap<CAnnulus>();
+		return istd::TUniqueInterfacePtr<iser::IObject>(new imod::TModelWrap<CAnnulus>());
 	}
 	else if (keyId == s_ringSegment2dTypeId){
-		return new imod::TModelWrap<CAnnulusSegment>();
+		return istd::TUniqueInterfacePtr<iser::IObject>(new imod::TModelWrap<CAnnulusSegment>());
 	}
 	else if (keyId == s_rect2dTypeId){
-		return new imod::TModelWrap<CRectangle>();
+		return istd::TUniqueInterfacePtr<iser::IObject>(new imod::TModelWrap<CRectangle>());
 	}
 	else{
-		return NULL;
+		return istd::TUniqueInterfacePtr<iser::IObject>();
 	}
 }
 

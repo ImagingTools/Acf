@@ -49,12 +49,12 @@ public:
 	}
 	
 	// reimplemented (istd::TIFactory)
-	virtual ITestElement* CreateInstance(const QByteArray& keyId = "") const override
+	virtual istd::TUniqueInterfacePtr<ITestElement> CreateInstance(const QByteArray& keyId = "") const override
 	{
 		if (keyId == "TestElement") {
-			return new CTestElement();
+			return istd::TUniqueInterfacePtr<ITestElement>(new CTestElement());
 		}
-		return nullptr;
+		return istd::TUniqueInterfacePtr<ITestElement>();
 	}
 	
 	// reimplemented (istd::IFactoryInfo)

@@ -15,7 +15,7 @@
 #endif
 
 // ACF includes
-#include <istd/TIFactory.h>
+#include <istd/IPolymorphic.h>
 
 
 namespace iwidgets
@@ -29,12 +29,16 @@ class CFocusDecorator: public QObject
 {
 	Q_OBJECT
 public:
-	typedef istd::TIFactory<QGraphicsEffect> GraphicsEffectFactory;
+	class IGraphicsEffectFactory: virtual public istd::IPolymorphic
+	{
+	public:
+		virtual std::unique_ptr<QGraphicsEffect> CreateEffect() const = 0;
+	};
 
 	explicit CFocusDecorator(QObject* parentPtr = NULL);
 	virtual ~CFocusDecorator();
 
-	bool RegisterWidget(QWidget* widgetPtr, GraphicsEffectFactory* effectFactoryPtr);
+	bool RegisterWidget(QWidget* widgetPtr, IGraphicsEffectFactory* effectFactoryPtr);
 	void UnregisterWidget(QWidget* widgetPtr);
 	void UnregisterAllWidgets();
 
@@ -46,7 +50,7 @@ private Q_SLOTS:
 	void OnObjectDestroyed(QObject* objectPtr);
 
 private:
-	typedef QMap<QObject*, GraphicsEffectFactory*> WidgetEffectsMap;
+	typedef QMap<QObject*, IGraphicsEffectFactory*> WidgetEffectsMap;
 	WidgetEffectsMap m_widgetEffectsMap;
 };
 

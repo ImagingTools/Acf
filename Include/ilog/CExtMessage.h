@@ -59,11 +59,11 @@ namespace ilog
 	// Attach invalid data object
 	istd::TSharedInterfacePtr<MyDataObject> dataObj(new MyDataObject);
 	dataObj->SetValue(invalidValue);
-	msg->InsertAttachedObject(dataObj.PopPtr(), "Invalid data sample");
+	msg->InsertAttachedObject(dataObj.PopRootPtr(), "Invalid data sample");
 	
 	// Attach validation context
 	istd::TSharedInterfacePtr<ValidationContext> context(new ValidationContext);
-	msg->InsertAttachedObject(context.PopPtr(), "Validation context");
+	msg->InsertAttachedObject(context.PopRootPtr(), "Validation context");
 	
 	// Send to logger
 	logger->AddMessage(msg);
