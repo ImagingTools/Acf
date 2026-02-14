@@ -153,7 +153,7 @@ public:
 					int id,
 					const QString& message,
 					const QString& messageSource,
-					int flags = 0) const
+					int flags = 0) const override
 		{
 			if (m_loggerPtr != nullptr){
 				QString correctedMessage = message;
@@ -198,7 +198,7 @@ public:
 					int id,
 					const QString& message,
 					const QString& messageSource,
-					int flags = 0) const
+					int flags = 0) const override
 		{
 			if (m_loggerPtr != nullptr){
 				QString correctedMessage = message;
