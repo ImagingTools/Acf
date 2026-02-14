@@ -73,22 +73,6 @@ bool CFileSerializerCompBase::IsOperationSupported(
 }
 
 
-// reimplemented (ifile::IDeviceBasedPersistence)
-
-bool CFileSerializerCompBase::IsDeviceOperationSupported(
-			const istd::IChangeable& dataObject,
-			const QIODevice& /*device*/,
-			int /*deviceOperation*/) const
-{
-	const iser::ISerializable* serializablePtr = dynamic_cast<const iser::ISerializable*>(&dataObject);
-	if (serializablePtr == nullptr){
-		serializablePtr = CompCastPtr<iser::ISerializable>(&dataObject);
-	}
-
-	return (serializablePtr != nullptr);
-}
-
-
 // protected methods
 
 const iser::IVersionInfo* CFileSerializerCompBase::GetVersionInfo() const

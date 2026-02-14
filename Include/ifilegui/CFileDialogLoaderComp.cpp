@@ -363,62 +363,6 @@ void CFileDialogLoaderComp::OnComponentCreated()
 }
 
 
-// reimplemented (ifile::IDeviceBasedPersistence)
-
-bool CFileDialogLoaderComp::IsDeviceOperationSupported(
-			const istd::IChangeable& dataObject,
-			const QIODevice& device,
-			int deviceOperation) const
-{
-	int loadersCount = m_loadersCompPtr.GetCount();
-	for (int i = 0; i < loadersCount; ++i){
-		const ifile::IFilePersistence* loaderPtr = m_loadersCompPtr[i];
-		const ifile::IDeviceBasedPersistence* devicePersistencePtr = dynamic_cast<const ifile::IDeviceBasedPersistence*>(loaderPtr);
-		if ((devicePersistencePtr != nullptr) && devicePersistencePtr->IsDeviceOperationSupported(dataObject, device, deviceOperation)){
-			return true;
-		}
-	}
-
-	return false;
-}
-
-
-int CFileDialogLoaderComp::ReadFromDevice(
-			istd::IChangeable& data,
-			QIODevice& device,
-			ibase::IProgressManager* progressManagerPtr) const
-{
-	int loadersCount = m_loadersCompPtr.GetCount();
-	for (int i = 0; i < loadersCount; ++i){
-		ifile::IFilePersistence* loaderPtr = m_loadersCompPtr[i];
-		ifile::IDeviceBasedPersistence* devicePersistencePtr = dynamic_cast<ifile::IDeviceBasedPersistence*>(loaderPtr);
-		if ((devicePersistencePtr != nullptr) && devicePersistencePtr->IsDeviceOperationSupported(data, device, ifile::IDeviceBasedPersistence::ReadOperation)){
-			return devicePersistencePtr->ReadFromDevice(data, device, progressManagerPtr);
-		}
-	}
-
-	return ifile::IDeviceBasedPersistence::Failed;
-}
-
-
-int CFileDialogLoaderComp::WriteToDevice(
-			const istd::IChangeable& data,
-			QIODevice& device,
-			ibase::IProgressManager* progressManagerPtr) const
-{
-	int loadersCount = m_loadersCompPtr.GetCount();
-	for (int i = 0; i < loadersCount; ++i){
-		ifile::IFilePersistence* loaderPtr = m_loadersCompPtr[i];
-		ifile::IDeviceBasedPersistence* devicePersistencePtr = dynamic_cast<ifile::IDeviceBasedPersistence*>(loaderPtr);
-		if ((devicePersistencePtr != nullptr) && devicePersistencePtr->IsDeviceOperationSupported(data, device, ifile::IDeviceBasedPersistence::WriteOperation)){
-			return devicePersistencePtr->WriteToDevice(data, device, progressManagerPtr);
-		}
-	}
-
-	return ifile::IDeviceBasedPersistence::Failed;
-}
-
-
 } // namespace ifilegui
 
 
