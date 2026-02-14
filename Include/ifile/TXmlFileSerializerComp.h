@@ -276,31 +276,19 @@ template <class ReadArchive, class WriteArchive>
 ifile::IFilePersistence::OperationState TXmlFileSerializerComp<ReadArchive, WriteArchive>::LoadFromFile(
 			istd::IChangeable& data,
 			const QString& filePath,
-			ibase::IProgressManager* /*progressManagerPtr*/) const
+			ibase::IProgressManager* progressManagerPtr) const
 {
 	if (IsOperationSupported(&data, &filePath, QF_LOAD | QF_FILE, *m_beQuiteOnLoadAttrPtr)){
-		iser::CArchiveTag rootTag(*m_rootTagAttrPtr, "Root of document", iser::CArchiveTag::TT_GROUP);
-
-		ReadArchiveEx archive(filePath, *m_serializeAcfHeaderAttrPtr, rootTag, this);
-
-		Q_ASSERT(!archive.IsStoring());
-
-		/**
-			\todo Change CompCastPtr to be sure that firstly the data will be casted to the interface, but NOT the first ISerializable in the composition.
-		*/
-		iser::ISerializable* serializablePtr = dynamic_cast<iser::ISerializable*>(&data);
-		if (serializablePtr == nullptr){
-			serializablePtr = CompCastPtr<iser::ISerializable>(&data);
+		// Use device-based implementation with QFile
+		QFile file(filePath);
+		if (!file.open(QIODevice::ReadOnly)){
+			SendWarningMessage(MI_CANNOT_LOAD, QString(QObject::tr("Cannot open file for reading: ")) + filePath);
+			return OS_FAILED;
 		}
-
-		Q_ASSERT(serializablePtr != nullptr);
-
-		if (serializablePtr->Serialize(archive)){
-			return OS_OK;
-		}
-		else{
-			OnReadError(archive, data, filePath);
-		}
+		
+		int result = ReadFromDevice(data, file, progressManagerPtr);
+		
+		return (result == IDeviceBasedPersistence::Successful) ? OS_OK : OS_FAILED;
 	}
 
 	return OS_FAILED;
@@ -311,36 +299,28 @@ template <class ReadArchive, class WriteArchive>
 ifile::IFilePersistence::OperationState TXmlFileSerializerComp<ReadArchive, WriteArchive>::SaveToFile(
 			const istd::IChangeable& data,
 			const QString& filePath,
-			ibase::IProgressManager* /*progressManagerPtr*/) const
+			ibase::IProgressManager* progressManagerPtr) const
 {
 	if (*m_autoCreateDirectoryAttrPtr){
 		QFileInfo fileInfo(filePath);
 
 		if (!istd::CSystem::EnsurePathExists(fileInfo.dir().absolutePath())){
 			SendErrorMessage(MI_FILE_NOT_EXIST, QObject::tr("Cannot create path to file"));
+			return OS_FAILED;
 		}
 	}
 
 	if (IsOperationSupported(&data, &filePath, QF_SAVE | QF_FILE, false)){
-		iser::CArchiveTag rootTag(*m_rootTagAttrPtr, "Root of document", iser::CArchiveTag::TT_GROUP);
-
-		WriteArchiveEx archive(filePath, GetVersionInfo(), *m_serializeAcfHeaderAttrPtr, rootTag, this);
-		Q_ASSERT(archive.IsStoring());
-
-		/**
-			\todo Change CompCastPtr to be sure that firstly the data will be casted to the interface, but NOT the first ISerializable in the composition.
-		*/
-		const iser::ISerializable* serializablePtr = dynamic_cast<const iser::ISerializable*>(&data);
-		if(serializablePtr == nullptr){
-			serializablePtr = CompCastPtr<iser::ISerializable>(&data);
+		// Use device-based implementation with QFile
+		QFile file(filePath);
+		if (!file.open(QIODevice::WriteOnly)){
+			SendInfoMessage(MI_CANNOT_SAVE, QObject::tr("Cannot open file for writing: '%1'").arg(filePath));
+			return OS_FAILED;
 		}
-		Q_ASSERT(serializablePtr != nullptr);
-
-		if (!CheckMinimalVersion(*serializablePtr, archive.GetVersionInfo())){
-			SendWarningMessage(MI_UNSUPPORTED_VERSION, QObject::tr("Archive version is not supported, possible lost of data"));
-		}
-
-		if ((const_cast<iser::ISerializable*>(serializablePtr))->Serialize(archive)){
+		
+		int result = WriteToDevice(data, file, progressManagerPtr);
+		
+		if (result == IDeviceBasedPersistence::Successful){
 			return OS_OK;
 		}
 		else{
