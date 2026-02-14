@@ -18,7 +18,6 @@ CFileWriteArchive::CFileWriteArchive(
 :	BaseClass(versionInfoPtr),
 	BaseClass2(filePath),
 	m_file(filePath),
-	m_devicePtr(nullptr),
 	m_supportTagSkipping(supportTagSkipping),
 	m_isValid(false)
 {
@@ -30,26 +29,9 @@ CFileWriteArchive::CFileWriteArchive(
 }
 
 
-CFileWriteArchive::CFileWriteArchive(
-			QIODevice& device,
-			const iser::IVersionInfo* versionInfoPtr,
-			bool supportTagSkipping,
-			bool serializeHeader)
-:	BaseClass(versionInfoPtr),
-	BaseClass2(QString()),
-	m_devicePtr(&device),
-	m_supportTagSkipping(supportTagSkipping),
-	m_isValid(true)
-{
-	if (serializeHeader){
-		SerializeAcfHeader();
-	}
-}
-
-
 void CFileWriteArchive::Flush()
 {
-	GetDevice().flush();
+	m_file.flush();
 }
 
 
@@ -69,13 +51,12 @@ bool CFileWriteArchive::BeginTag(const iser::CArchiveTag& tag)
 		return false;
 	}
 
-	QIODevice& device = GetDevice();
 	m_tagStack.push_back(TagStackElement());
 	TagStackElement& element = m_tagStack.back();
 
 	element.tagBinaryId = tag.GetBinaryId();
 	element.endFieldPosition = (tag.IsTagSkippingUsed() && m_supportTagSkipping)?
-				quint32(device.pos()):
+				quint32(m_file.pos()):
 				quint32(0);
 
 	quint32 dummyPos = 0;
@@ -98,14 +79,13 @@ bool CFileWriteArchive::EndTag(const iser::CArchiveTag& tag)
 	}
 
 	if (element.endFieldPosition != 0){	// add position of the file tag end to the tag begin
-		QIODevice& device = GetDevice();
-		quint32 endPosition = device.pos();
+		quint32 endPosition = m_file.pos();
 
-		retVal = retVal && device.seek(element.endFieldPosition);
+		retVal = retVal && m_file.seek(element.endFieldPosition);
 
 		retVal = retVal && Process(endPosition);
 
-		retVal = retVal && device.seek(endPosition);
+		retVal = retVal && m_file.seek(endPosition);
 	}
 
 	m_tagStack.pop_back();
@@ -124,12 +104,11 @@ bool CFileWriteArchive::ProcessData(void* data, int size)
 		return false; // Invalid data pointer
 	}
 
-	QIODevice& device = GetDevice();
 	const char* buffer = static_cast<const char*>(data);
 	int totalWritten = 0;
 
 	while (totalWritten < size) {
-		qint64 bytesWritten = device.write(buffer + totalWritten, size - totalWritten);
+		qint64 bytesWritten = m_file.write(buffer + totalWritten, size - totalWritten);
 		if (bytesWritten <= 0) {
 			// Write failed
 			return false;
@@ -137,22 +116,9 @@ bool CFileWriteArchive::ProcessData(void* data, int size)
 		totalWritten += bytesWritten;
 	}
 
-	return device->error() == QIODevice::NoError;
+	return m_file.error() == QFile::NoError;
 }
 
-
-// private methods
-
-QIODevice& CFileWriteArchive::GetDevice()
-{
-	return m_devicePtr ? *m_devicePtr : m_file;
-}
-
-
-const QIODevice& CFileWriteArchive::GetDevice() const
-{
-	return m_devicePtr ? *m_devicePtr : m_file;
-}
 
 
 } // namespace ifile

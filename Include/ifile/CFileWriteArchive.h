@@ -45,19 +45,6 @@ public:
 					bool serializeHeader = true);
 
 	/**
-		Constructor for device-based writing.
-		\param	device				QIODevice to write to (must be open for writing).
-		\param	versionInfoPtr		Version information.
-		\param	supportTagSkipping	if it is true skipping of tags on EndTag is supported.
-		\param	serializeHeader		if it is true (default) archive header will be serialized.
-	*/
-	CFileWriteArchive(
-					QIODevice& device,
-					const iser::IVersionInfo* versionInfoPtr = NULL,
-					bool supportTagSkipping = true,
-					bool serializeHeader = true);
-
-	/**
 		Return \c true if the archive is valid (e.g. the file medium can be accessed)
 	*/
 	bool IsArchiveValid() const;
@@ -81,11 +68,7 @@ protected:
 	};
 	
 private:
-	QIODevice& GetDevice();
-	const QIODevice& GetDevice() const;
-
 	QFile m_file;
-	QIODevice* m_devicePtr;  // Non-null when using external device, null when using m_file
 
 	bool m_supportTagSkipping;
 
