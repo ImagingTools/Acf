@@ -52,15 +52,6 @@ public:
 				const istd::IChangeable& dataObject,
 				const QIODevice& device,
 				int deviceOperation) const override;
-	virtual int ReadFromDevice(
-				istd::IChangeable& data,
-				QIODevice& device,
-				ibase::IProgressManager* progressManagerPtr = nullptr) const override;
-	virtual int WriteToDevice(
-				const istd::IChangeable& data,
-				QIODevice& device,
-				ibase::IProgressManager* progressManagerPtr = nullptr) const override;
-
 protected:
 	/**
 		Get working version info.
