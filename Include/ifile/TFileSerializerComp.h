@@ -167,7 +167,6 @@ public:
 			return false;
 		}
 
-	protected:
 		// reimplemented (istd::ILogger)
 		virtual bool IsLogConsumed(
 					const istd::IInformationProvider::InformationCategory* /*categoryPtr*/,
@@ -177,6 +176,8 @@ public:
 
 			return (m_loggerPtr != nullptr) && m_loggerPtr->IsLogConsumed(&slaveCategory, flagsPtr);
 		}
+
+	protected:
 
 	private:
 		const istd::ILogger* m_loggerPtr;
@@ -212,7 +213,6 @@ public:
 			return false;
 		}
 
-	protected:
 		// reimplemented (istd::ILogger)
 		virtual bool IsLogConsumed(
 					const istd::IInformationProvider::InformationCategory* /*categoryPtr*/,
@@ -222,6 +222,8 @@ public:
 
 			return (m_loggerPtr != nullptr) && m_loggerPtr->IsLogConsumed(&slaveCategory, flagsPtr);
 		}
+
+	protected:
 
 	private:
 		const istd::ILogger* m_loggerPtr;
