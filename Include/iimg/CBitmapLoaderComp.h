@@ -8,6 +8,7 @@
 
 // ACF includes
 #include <ifile/IFilePersistence.h>
+#include <ifile/IDeviceBasedPersistence.h>
 #include <icomp/CComponentBase.h>
 #include <ilog/TLoggerCompWrap.h>
 #include <iimg/iimg.h>
@@ -26,7 +27,8 @@ namespace iimg
 class CBitmapLoaderComp:
 			public QObject,
 			public ilog::CLoggerComponentBase,
-			virtual public ifile::IFilePersistence
+			virtual public ifile::IFilePersistence,
+			virtual public ifile::IDeviceBasedPersistence
 {
 	Q_OBJECT
 
@@ -41,6 +43,7 @@ public:
 	I_BEGIN_COMPONENT(CBitmapLoaderComp);
 		I_REGISTER_INTERFACE(ifile::IFileTypeInfo);
 		I_REGISTER_INTERFACE(ifile::IFilePersistence);
+		I_REGISTER_INTERFACE(ifile::IDeviceBasedPersistence);
 		I_ASSIGN_MULTI_0(m_extensionFilterAttrPtr, "ExtensionFilter", "Optional filter of extensions, lowercase as returned by Qt", false)
 	I_END_COMPONENT;
 
@@ -58,6 +61,20 @@ public:
 				const istd::IChangeable& data,
 				const QString& filePath = QString(),
 				ibase::IProgressManager* progressManagerPtr = NULL) const override;
+
+	// reimplemented (ifile::IDeviceBasedPersistence)
+	virtual bool IsDeviceOperationSupported(
+				const istd::IChangeable& dataObject,
+				const QIODevice& device,
+				int deviceOperation) const override;
+	virtual int ReadFromDevice(
+				istd::IChangeable& data,
+				QIODevice& device,
+				ibase::IProgressManager* progressManagerPtr = nullptr) const override;
+	virtual int WriteToDevice(
+				const istd::IChangeable& data,
+				QIODevice& device,
+				ibase::IProgressManager* progressManagerPtr = nullptr) const override;
 
 	// reimplemented (ifile::IFileTypeInfo)
 	virtual bool GetFileExtensions(
