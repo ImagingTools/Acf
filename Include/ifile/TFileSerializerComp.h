@@ -12,8 +12,6 @@
 #include <istd/CSystem.h>
 #include <ibase/IProgressManager.h>
 #include <ifile/CFileSerializerCompBase.h>
-#include <ifile/TDeviceReadTextArchiveWrap.h>
-#include <ifile/TDeviceWriteTextArchiveWrap.h>
 
 
 namespace ifile
@@ -56,10 +54,11 @@ public:
 				ibase::IProgressManager* progressManagerPtr = nullptr) const override;
 
 	// Device-based archive wrappers (work with any QIODevice including QFile)
-	class ReadDeviceArchiveEx: public TDeviceReadTextArchiveWrap<typename ReadArchive::BaseClass>
+	// Inherit directly from ReadArchive/WriteArchive to support both binary and text archives
+	class ReadDeviceArchiveEx: public ReadArchive
 	{
 	public:
-		typedef TDeviceReadTextArchiveWrap<typename ReadArchive::BaseClass> BaseClass;
+		typedef ReadArchive BaseClass;
 
 		ReadDeviceArchiveEx(QIODevice& device, const istd::ILogger* loggerPtr)
 		:	BaseClass(device),
@@ -102,10 +101,10 @@ public:
 		const istd::ILogger* m_loggerPtr;
 	};
 
-	class WriteDeviceArchiveEx: public TDeviceWriteTextArchiveWrap<typename WriteArchive::BaseClass>
+	class WriteDeviceArchiveEx: public WriteArchive
 	{
 	public:
-		typedef TDeviceWriteTextArchiveWrap<typename WriteArchive::BaseClass> BaseClass;
+		typedef WriteArchive BaseClass;
 
 		WriteDeviceArchiveEx(QIODevice& device, const iser::IVersionInfo* infoPtr, const istd::ILogger* loggerPtr)
 		:	BaseClass(device, infoPtr),
