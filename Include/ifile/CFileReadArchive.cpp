@@ -17,10 +17,22 @@ namespace ifile
 CFileReadArchive::CFileReadArchive(const QString& filePath, bool supportTagSkipping, bool serializeHeader)
 :	BaseClass2(filePath),
 	m_file(filePath),
+	m_devicePtr(nullptr),
 	m_supportTagSkipping(supportTagSkipping)
 {
 	m_file.open(QIODevice::ReadOnly);
 
+	if (serializeHeader){
+		SerializeAcfHeader();
+	}
+}
+
+
+CFileReadArchive::CFileReadArchive(QIODevice& device, bool supportTagSkipping, bool serializeHeader)
+:	BaseClass2(QString()),
+	m_devicePtr(&device),
+	m_supportTagSkipping(supportTagSkipping)
+{
 	if (serializeHeader){
 		SerializeAcfHeader();
 	}
@@ -66,7 +78,7 @@ bool CFileReadArchive::EndTag(const iser::CArchiveTag& tag)
 	}
 
 	if (element.useTagSkipping && (element.endPosition != 0)){
-		retVal = retVal && m_file.seek(element.endPosition);
+		retVal = retVal && GetDevice()->seek(element.endPosition);
 	}
 
 	m_tagStack.pop_back();
@@ -87,11 +99,12 @@ bool CFileReadArchive::ProcessData(void* data, int size)
 		return false;
 	}
 
+	QIODevice* device = GetDevice();
 	char* buffer = static_cast<char*>(data);
 	int totalRead = 0;
 
 	while (totalRead < size) {
-		qint64 bytesRead = m_file.read(buffer + totalRead, size - totalRead);
+		qint64 bytesRead = device->read(buffer + totalRead, size - totalRead);
 		if (bytesRead <= 0) {
 			// Read failed or EOF reached before reading all data
 			return false;
@@ -99,7 +112,7 @@ bool CFileReadArchive::ProcessData(void* data, int size)
 		totalRead += bytesRead;
 	}
 
-	return m_file.error() == QFile::NoError;
+	return device->error() == QIODevice::NoError;
 }
 
 
@@ -122,7 +135,22 @@ void CFileReadArchive::DecorateMessage(
 
 int CFileReadArchive::GetMaxStringLength() const
 {
-	return int(m_file.size() - m_file.pos());
+	const QIODevice* device = GetDevice();
+	return int(device->size() - device->pos());
+}
+
+
+// private methods
+
+QIODevice* CFileReadArchive::GetDevice()
+{
+	return m_devicePtr ? m_devicePtr : &m_file;
+}
+
+
+const QIODevice* CFileReadArchive::GetDevice() const
+{
+	return m_devicePtr ? m_devicePtr : &m_file;
 }
 
 
