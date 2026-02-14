@@ -74,8 +74,8 @@ protected:
 	virtual int GetMaxStringLength() const override;
 
 private:
-	QIODevice* GetDevice();
-	const QIODevice* GetDevice() const;
+	QIODevice& GetDevice();
+	const QIODevice& GetDevice() const;
 
 	QFile m_file;
 	QIODevice* m_devicePtr;  // Non-null when using external device, null when using m_file

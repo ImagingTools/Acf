@@ -49,7 +49,7 @@ CFileWriteArchive::CFileWriteArchive(
 
 void CFileWriteArchive::Flush()
 {
-	GetDevice()->flush();
+	GetDevice().flush();
 }
 
 
@@ -69,13 +69,13 @@ bool CFileWriteArchive::BeginTag(const iser::CArchiveTag& tag)
 		return false;
 	}
 
-	QIODevice* device = GetDevice();
+	QIODevice& device = GetDevice();
 	m_tagStack.push_back(TagStackElement());
 	TagStackElement& element = m_tagStack.back();
 
 	element.tagBinaryId = tag.GetBinaryId();
 	element.endFieldPosition = (tag.IsTagSkippingUsed() && m_supportTagSkipping)?
-				quint32(device->pos()):
+				quint32(device.pos()):
 				quint32(0);
 
 	quint32 dummyPos = 0;
@@ -98,14 +98,14 @@ bool CFileWriteArchive::EndTag(const iser::CArchiveTag& tag)
 	}
 
 	if (element.endFieldPosition != 0){	// add position of the file tag end to the tag begin
-		QIODevice* device = GetDevice();
-		quint32 endPosition = device->pos();
+		QIODevice& device = GetDevice();
+		quint32 endPosition = device.pos();
 
-		retVal = retVal && device->seek(element.endFieldPosition);
+		retVal = retVal && device.seek(element.endFieldPosition);
 
 		retVal = retVal && Process(endPosition);
 
-		retVal = retVal && device->seek(endPosition);
+		retVal = retVal && device.seek(endPosition);
 	}
 
 	m_tagStack.pop_back();
@@ -124,12 +124,12 @@ bool CFileWriteArchive::ProcessData(void* data, int size)
 		return false; // Invalid data pointer
 	}
 
-	QIODevice* device = GetDevice();
+	QIODevice& device = GetDevice();
 	const char* buffer = static_cast<const char*>(data);
 	int totalWritten = 0;
 
 	while (totalWritten < size) {
-		qint64 bytesWritten = device->write(buffer + totalWritten, size - totalWritten);
+		qint64 bytesWritten = device.write(buffer + totalWritten, size - totalWritten);
 		if (bytesWritten <= 0) {
 			// Write failed
 			return false;
@@ -143,15 +143,15 @@ bool CFileWriteArchive::ProcessData(void* data, int size)
 
 // private methods
 
-QIODevice* CFileWriteArchive::GetDevice()
+QIODevice& CFileWriteArchive::GetDevice()
 {
-	return m_devicePtr ? m_devicePtr : &m_file;
+	return m_devicePtr ? *m_devicePtr : m_file;
 }
 
 
-const QIODevice* CFileWriteArchive::GetDevice() const
+const QIODevice& CFileWriteArchive::GetDevice() const
 {
-	return m_devicePtr ? m_devicePtr : &m_file;
+	return m_devicePtr ? *m_devicePtr : m_file;
 }
 
 

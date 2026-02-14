@@ -78,7 +78,7 @@ bool CFileReadArchive::EndTag(const iser::CArchiveTag& tag)
 	}
 
 	if (element.useTagSkipping && (element.endPosition != 0)){
-		retVal = retVal && GetDevice()->seek(element.endPosition);
+		retVal = retVal && GetDevice().seek(element.endPosition);
 	}
 
 	m_tagStack.pop_back();
@@ -99,12 +99,12 @@ bool CFileReadArchive::ProcessData(void* data, int size)
 		return false;
 	}
 
-	QIODevice* device = GetDevice();
+	QIODevice& device = GetDevice();
 	char* buffer = static_cast<char*>(data);
 	int totalRead = 0;
 
 	while (totalRead < size) {
-		qint64 bytesRead = device->read(buffer + totalRead, size - totalRead);
+		qint64 bytesRead = device.read(buffer + totalRead, size - totalRead);
 		if (bytesRead <= 0) {
 			// Read failed or EOF reached before reading all data
 			return false;
@@ -135,22 +135,22 @@ void CFileReadArchive::DecorateMessage(
 
 int CFileReadArchive::GetMaxStringLength() const
 {
-	const QIODevice* device = GetDevice();
-	return int(device->size() - device->pos());
+	const QIODevice& device = GetDevice();
+	return int(device.size() - device.pos());
 }
 
 
 // private methods
 
-QIODevice* CFileReadArchive::GetDevice()
+QIODevice& CFileReadArchive::GetDevice()
 {
-	return m_devicePtr ? m_devicePtr : &m_file;
+	return m_devicePtr ? *m_devicePtr : m_file;
 }
 
 
-const QIODevice* CFileReadArchive::GetDevice() const
+const QIODevice& CFileReadArchive::GetDevice() const
 {
-	return m_devicePtr ? m_devicePtr : &m_file;
+	return m_devicePtr ? *m_devicePtr : m_file;
 }
 
 
