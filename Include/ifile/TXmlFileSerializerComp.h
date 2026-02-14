@@ -12,8 +12,6 @@
 #include <istd/CSystem.h>
 #include <ibase/IProgressManager.h>
 #include <ifile/CFileSerializerCompBase.h>
-#include <ifile/TDeviceReadTextArchiveWrap.h>
-#include <ifile/TDeviceWriteTextArchiveWrap.h>
 
 
 namespace ifile
@@ -59,10 +57,10 @@ public:
 
 protected:
 	// Device-based archive wrappers (work with any QIODevice including QFile)
-	class ReadDeviceArchiveEx: public TDeviceReadTextArchiveWrap<typename ReadArchive::BaseClass>
+	class ReadDeviceArchiveEx: public ReadArchive
 	{
 	public:
-		typedef TDeviceReadTextArchiveWrap<typename ReadArchive::BaseClass> BaseClass;
+		typedef ReadArchive BaseClass;
 
 		ReadDeviceArchiveEx(
 					QIODevice& device,
@@ -108,10 +106,10 @@ protected:
 		const TXmlFileSerializerComp* m_loggerPtr;
 	};
 
-	class WriteDeviceArchiveEx: public TDeviceWriteTextArchiveWrap<typename WriteArchive::BaseClass>
+	class WriteDeviceArchiveEx: public WriteArchive
 	{
 	public:
-		typedef TDeviceWriteTextArchiveWrap<typename WriteArchive::BaseClass> BaseClass;
+		typedef WriteArchive BaseClass;
 
 		WriteDeviceArchiveEx(
 					QIODevice& device,
