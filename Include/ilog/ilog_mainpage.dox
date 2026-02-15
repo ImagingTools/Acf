@@ -337,10 +337,10 @@ istd::TSharedInterfacePtr<ilog::CExtMessage> extMsg(
 
 // Attach custom objects
 istd::TSharedInterfacePtr<iser::IObject> dataObject(new MyDataObject);
-extMsg->InsertAttachedObject(dataObject.PopPtr(), "Invalid data sample");
+extMsg->InsertAttachedObject(dataObject.PopRootPtr(), "Invalid data sample");
 
 istd::TSharedInterfacePtr<iser::IObject> contextObject(new MyContextObject);
-extMsg->InsertAttachedObject(contextObject.PopPtr(), "Validation context");
+extMsg->InsertAttachedObject(contextObject.PopRootPtr(), "Validation context");
 
 // Access attached objects later
 int count = extMsg->GetAttachedObjectsCount();

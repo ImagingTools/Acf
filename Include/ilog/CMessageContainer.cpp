@@ -162,7 +162,7 @@ bool CMessageContainer::Serialize(iser::IArchive& archive)
 
 			if (retVal){
 				if (knownMessageTypes.contains(messageTypeId)){
-					istd::TDelPtr<iser::IObject> objectPtr(GetMessageFactory().CreateInstance(messageTypeId));
+					istd::TUniqueInterfacePtr<iser::IObject> objectPtr = GetMessageFactory().CreateInstance(messageTypeId);
 
 					if (objectPtr.IsValid()){
 						retVal = retVal && objectPtr->Serialize(archive);
@@ -170,7 +170,7 @@ bool CMessageContainer::Serialize(iser::IArchive& archive)
 						if (retVal){
 							istd::IInformationProvider* infoPtr = dynamic_cast<istd::IInformationProvider*>(objectPtr.GetPtr());
 							if (infoPtr != NULL){
-								IMessageConsumer::MessagePtr messageObjectPtr(dynamic_cast<istd::IInformationProvider*>(objectPtr.PopPtr()));
+								IMessageConsumer::MessagePtr messageObjectPtr(dynamic_cast<istd::IInformationProvider*>(objectPtr.PopInterfacePtr()));
 
 								m_messages.push_back(messageObjectPtr);
 							}

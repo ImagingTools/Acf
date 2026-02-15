@@ -264,6 +264,8 @@ public:
 		"RootIntefaceType must derive from istd::IPolymorphic");
 	static_assert(std::has_virtual_destructor_v<RootIntefaceType>,
 		"RootIntefaceType must have a virtual destructor");
+	static_assert(std::is_base_of_v<RootIntefaceType, InterfaceType>,
+		"InterfaceType must derive from RootIntefaceType");
 
 	TUniqueInterfacePtr() noexcept
 		:BaseClass()
@@ -322,24 +324,80 @@ public:
 	}
 
 	/**
-		Pop the root pointer.Caller takes ownership of the raw pointer.
+		Pop the root pointer. Caller takes ownership of the raw pointer.
 	*/
-	RootIntefaceType* PopPtr() noexcept
+	RootIntefaceType* PopRootPtr() noexcept
 	{
 		BaseClass::m_interfacePtr = nullptr;
 
 		return BaseClass::m_rootPtr.release(); // caller owns returned pointer
 	}
 
+	/**
+		Intelligent pop of interface pointer. Caller takes ownership of the raw pointer.
+
+		Automatically chooses the correct extraction method based on internal pointer state:
+		1. If m_rootPtr == m_interfacePtr (simple objects): extracts interface pointer
+		2. If m_interfacePtr != nullptr && m_rootPtr == nullptr: extracts interface pointer
+		3. If m_rootPtr != m_interfacePtr and both != nullptr (composite components): extracts root and casts to interface
+
+		\return Interface pointer with ownership transferred to caller.
+	*/
 	InterfaceType* PopInterfacePtr() noexcept
 	{
-		InterfaceType* retVal = BaseClass::m_interfacePtr;
+		// Case 1: Root and interface are the same (simple objects)
+		if (BaseClass::m_rootPtr.get() == BaseClass::m_interfacePtr){
+			InterfaceType* retVal = BaseClass::m_interfacePtr;
 
-		BaseClass::m_interfacePtr = nullptr;
+			BaseClass::m_interfacePtr = nullptr;
 
-		BaseClass::m_rootPtr.release();
+			BaseClass::m_rootPtr.release();
 
-		return retVal;
+			return retVal;
+		}
+		
+		// Case 2: Only interface is set, no root
+		if (BaseClass::m_interfacePtr != nullptr && BaseClass::m_rootPtr.get() == nullptr){
+			InterfaceType* retVal = BaseClass::m_interfacePtr;
+
+			BaseClass::m_interfacePtr = nullptr;
+
+			return retVal;
+		}
+		
+		// Case 3: Root and interface differ (composite components)
+		if (BaseClass::m_rootPtr.get() != nullptr && BaseClass::m_interfacePtr != nullptr){
+			// First check if dynamic_cast will succeed to avoid memory leak
+			InterfaceType* castedPtr = dynamic_cast<InterfaceType*>(BaseClass::m_rootPtr.get());
+			if (castedPtr != nullptr){
+				// Cast succeeded, safe to release ownership
+				RootIntefaceType* rootPtr = PopRootPtr();
+				Q_UNUSED(rootPtr);
+
+				return castedPtr;
+			}
+
+			// Cast failed - this should never happen in correct code
+			Q_ASSERT(false && "dynamic_cast failed in PopInterfacePtr - interface pointer type mismatch");
+
+			return nullptr;
+		}
+		
+		// Empty pointer
+		return nullptr;
+	}
+
+	/**
+		Intelligent pop method - alias for PopInterfacePtr().
+		
+		Automatically chooses the correct extraction method based on internal pointer state.
+		See PopInterfacePtr() for details.
+		
+		\return Interface pointer with ownership transferred to caller.
+	*/
+	InterfaceType* PopPtr() noexcept
+	{
+		return PopInterfacePtr();
 	}
 
 	/**
@@ -349,7 +407,7 @@ public:
 	{
 		BaseClass::m_interfacePtr = from.m_interfacePtr;
 
-		BaseClass::m_rootPtr.reset(from.PopPtr());
+		BaseClass::m_rootPtr.reset(from.PopRootPtr());
 	}
 
 	template<class SourceInterfaceType>
@@ -417,6 +475,8 @@ public:
 
 	static_assert(std::is_base_of_v<istd::IPolymorphic, RootIntefaceType>, "RootIntefaceType must derive from istd::IPolymorphic");
 	static_assert(std::has_virtual_destructor_v<RootIntefaceType>, "RootIntefaceType must have a virtual destructor");
+	static_assert(std::is_base_of_v<RootIntefaceType, InterfaceType>,
+		"InterfaceType must derive from RootIntefaceType");
 
 	TSharedInterfacePtr() noexcept
 		:BaseClass()
@@ -512,7 +572,9 @@ public:
 		return *this;
 	}
 
-	// Convert from unique to shared. After this call, uniquePtr no longer owns the object.
+	/**
+		Convert from unique to shared.After this call, uniquePtr no longer owns the object.
+	*/
 	TSharedInterfacePtr& FromUnique(TUniqueInterfacePtr<InterfaceType>& uniquePtr) noexcept
 	{
 		if (!uniquePtr.IsValid()){
@@ -523,7 +585,7 @@ public:
 		BaseClass::m_interfacePtr = uniquePtr.GetPtr();
 
 		// Acquire raw pointer in one step and assign to shared_ptr to avoid leaks on exceptions.
-		RootIntefaceType* rawRoot = uniquePtr.PopPtr(); // caller (this function) now owns rawRoot
+		RootIntefaceType* rawRoot = uniquePtr.PopRootPtr(); // caller (this function) now owns rawRoot
 		if (rawRoot == nullptr){
 			Reset();
 			return *this;
@@ -551,7 +613,7 @@ public:
 		// Try dynamic cast on the raw pointer before transferring ownership
 		InterfaceType* interfacePtr = dynamic_cast<InterfaceType*>(uniquePtr.GetPtr());
 		if (interfacePtr != nullptr){
-			RootIntefaceType* rawRoot = uniquePtr.PopPtr();
+			RootIntefaceType* rawRoot = uniquePtr.PopRootPtr();
 			retVal.BaseClass::m_rootPtr = std::shared_ptr<RootIntefaceType>(rawRoot);
 			retVal.BaseClass::m_interfacePtr = interfacePtr;
 		}
@@ -583,7 +645,7 @@ public:
 		InterfaceType* targetPtr = dynamic_cast<InterfaceType*>(source.GetPtr());
 		if (targetPtr != nullptr){
 			// Transfer ownership of the unique_ptr into shared_ptr safely
-			RootIntefaceType* rawRoot = source.PopPtr();
+			RootIntefaceType* rawRoot = source.PopRootPtr();
 			BaseClass::m_rootPtr = std::shared_ptr<RootIntefaceType>(rawRoot);
 			BaseClass::m_interfacePtr = targetPtr;
 			return true;

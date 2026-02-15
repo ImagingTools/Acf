@@ -36,61 +36,103 @@ bool CTextFileLoaderComp::IsOperationSupported(
 ifile::IFilePersistence::OperationState CTextFileLoaderComp::LoadFromFile(
 			istd::IChangeable& data,
 			const QString& filePath,
-			ibase::IProgressManager* /*progressManagerPtr*/) const
+			ibase::IProgressManager* progressManagerPtr) const
 {
 	if (!IsOperationSupported(&data, &filePath, QF_LOAD | QF_FILE, false)){
 		return OS_FAILED;
 	}
 
-	ifile::IFilePersistence::OperationState retVal = OS_FAILED;
-
-	idoc::ITextDocument* documentPtr = dynamic_cast<idoc::ITextDocument*>(&data);
-	if (documentPtr != NULL){
-		QFile file(filePath);
-		if (!file.open(QIODevice::ReadOnly | QIODevice::Text)){
-			return OS_FAILED;
-		}
-
-		QTextStream fileStream(&file);
-
-		QString documentText = fileStream.readAll();
-		
-		documentPtr->SetText(documentText);
-
-		retVal = OS_OK;
-	}
-
-
-	return retVal;
+	// Use device-based implementation with QFile
+	QFile file(filePath);
+	int result = ReadFromDevice(data, file, progressManagerPtr);
+	
+	return (result == ifile::IDeviceBasedPersistence::Successful) ? OS_OK : OS_FAILED;
 }
 
 
 ifile::IFilePersistence::OperationState CTextFileLoaderComp::SaveToFile(
 			const istd::IChangeable& data,
 			const QString& filePath,
-			ibase::IProgressManager* /*progressManagerPtr*/) const
+			ibase::IProgressManager* progressManagerPtr) const
 {
 	if (!IsOperationSupported(&data, &filePath, QF_SAVE | QF_FILE, false)){
 		return OS_FAILED;
 	}
 
-	ifile::IFilePersistence::OperationState retVal = OS_FAILED;
+	// Use device-based implementation with QFile
+	QFile file(filePath);
+	int result = WriteToDevice(data, file, progressManagerPtr);
+	
+	return (result == ifile::IDeviceBasedPersistence::Successful) ? OS_OK : OS_FAILED;
+}
 
-	const idoc::ITextDocument* documentPtr = dynamic_cast<const idoc::ITextDocument*>(&data);
-	if (documentPtr != NULL){
-		QFile file(filePath);
-		if (!file.open(QIODevice::WriteOnly | QIODevice::Truncate | QIODevice::Text)){
-			return OS_FAILED;
-		}
 
-		QTextStream fileStream(&file);
+// reimplemented (ifile::IDeviceBasedPersistence)
 
-		fileStream << documentPtr->GetText();
+bool CTextFileLoaderComp::IsDeviceOperationSupported(
+			const istd::IChangeable& dataObject,
+			const QIODevice& /*device*/,
+			int /*deviceOperation*/) const
+{
+	return (dynamic_cast<const idoc::ITextDocument*>(&dataObject) != nullptr);
+}
 
-		retVal = OS_OK;
+
+int CTextFileLoaderComp::ReadFromDevice(
+			istd::IChangeable& data,
+			QIODevice& device,
+			ibase::IProgressManager* /*progressManagerPtr*/) const
+{
+	idoc::ITextDocument* documentPtr = dynamic_cast<idoc::ITextDocument*>(&data);
+	if (documentPtr == nullptr){
+		return ifile::IDeviceBasedPersistence::Failed;
 	}
 
-	return retVal;
+	// Ensure device is open for reading
+	if (!device.isOpen()){
+		if (!device.open(QIODevice::ReadOnly | QIODevice::Text)){
+			return ifile::IDeviceBasedPersistence::Failed;
+		}
+	}
+	else if (!device.isReadable()){
+		// Device is open but not readable
+		return ifile::IDeviceBasedPersistence::Failed;
+	}
+
+	QTextStream stream(&device);
+	QString documentText = stream.readAll();
+	
+	documentPtr->SetText(documentText);
+
+	return ifile::IDeviceBasedPersistence::Successful;
+}
+
+
+int CTextFileLoaderComp::WriteToDevice(
+			const istd::IChangeable& data,
+			QIODevice& device,
+			ibase::IProgressManager* /*progressManagerPtr*/) const
+{
+	const idoc::ITextDocument* documentPtr = dynamic_cast<const idoc::ITextDocument*>(&data);
+	if (documentPtr == nullptr){
+		return ifile::IDeviceBasedPersistence::Failed;
+	}
+
+	// Ensure device is open for writing
+	if (!device.isOpen()){
+		if (!device.open(QIODevice::WriteOnly | QIODevice::Text)){
+			return ifile::IDeviceBasedPersistence::Failed;
+		}
+	}
+	else if (!device.isWritable()){
+		// Device is open but not writable
+		return ifile::IDeviceBasedPersistence::Failed;
+	}
+
+	QTextStream stream(&device);
+	stream << documentPtr->GetText();
+
+	return ifile::IDeviceBasedPersistence::Successful;
 }
 
 

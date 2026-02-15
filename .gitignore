@@ -40,3 +40,6 @@ __pycache__/
 dist/
 build/
 *.egg
+
+# OS-specific
+.DS_Store

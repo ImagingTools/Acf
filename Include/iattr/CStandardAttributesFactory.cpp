@@ -26,40 +26,40 @@ static QByteArray idListAttrTypeName = CIdListAttribute::GetTypeName();
 
 // reimplemented (istd::TIFactory<iser::IObject>)
 
-iser::IObject* CStandardAttributesFactory::CreateInstance(const QByteArray& keyId) const
+istd::TUniqueInterfacePtr<iser::IObject> CStandardAttributesFactory::CreateInstance(const QByteArray& keyId) const
 {
 	if (keyId == integerAttrTypeName){
-		return new CIntegerAttribute();
+		return istd::TUniqueInterfacePtr<iser::IObject>(new CIntegerAttribute());
 	}
 	else if (keyId == realAttrTypeName){
-		return new CRealAttribute();
+		return istd::TUniqueInterfacePtr<iser::IObject>(new CRealAttribute());
 	}
 	else if (keyId == booleanAttrTypeName){
-		return new CBooleanAttribute();
+		return istd::TUniqueInterfacePtr<iser::IObject>(new CBooleanAttribute());
 	}
 	else if (keyId == stringAttrTypeName){
-		return new CStringAttribute();
+		return istd::TUniqueInterfacePtr<iser::IObject>(new CStringAttribute());
 	}
 	else if (keyId == idAttrTypeName){
-		return new CIdAttribute();
+		return istd::TUniqueInterfacePtr<iser::IObject>(new CIdAttribute());
 	}
 	else if (keyId == integerListAttrTypeName){
-		return new CIntegerListAttribute();
+		return istd::TUniqueInterfacePtr<iser::IObject>(new CIntegerListAttribute());
 	}
 	else if (keyId == realListAttrTypeName){
-		return new CRealListAttribute();
+		return istd::TUniqueInterfacePtr<iser::IObject>(new CRealListAttribute());
 	}
 	else if (keyId == boolListAttrTypeName){
-		return new CBooleanListAttribute();
+		return istd::TUniqueInterfacePtr<iser::IObject>(new CBooleanListAttribute());
 	}
 	else if (keyId == stringListAttrTypeName){
-		return new CStringListAttribute();
+		return istd::TUniqueInterfacePtr<iser::IObject>(new CStringListAttribute());
 	}
 	else if (keyId == idListAttrTypeName){
-		return new CIdListAttribute();
+		return istd::TUniqueInterfacePtr<iser::IObject>(new CIdListAttribute());
 	}
 	else{
-		return NULL;
+		return istd::TUniqueInterfacePtr<iser::IObject>();
 	}
 }
 

@@ -4,6 +4,7 @@
 
 // ACF includes
 #include <ifile/IFilePersistence.h>
+#include <ifile/IDeviceBasedPersistence.h>
 #include <icomp/CComponentBase.h>
 
 
@@ -58,7 +59,7 @@ namespace idoc
 	\sa CTextDocumentComp, ITextDocument
 	\ingroup DocumentBasedFramework
 */
-class CTextFileLoaderComp: public icomp::CComponentBase, public ifile::IFilePersistence
+class CTextFileLoaderComp: public icomp::CComponentBase, public ifile::IFilePersistence, public ifile::IDeviceBasedPersistence
 {
 public:
 	typedef icomp::CComponentBase BaseClass;
@@ -66,6 +67,7 @@ public:
 	I_BEGIN_COMPONENT(CTextFileLoaderComp);
 		I_REGISTER_INTERFACE(ifile::IFileTypeInfo);
 		I_REGISTER_INTERFACE(ifile::IFilePersistence);
+		I_REGISTER_INTERFACE(ifile::IDeviceBasedPersistence);
 		I_ASSIGN_MULTI_1(m_fileExtensionsAttrPtr, "FileExtensions", "List of possible file extensions", true, "txt");
 		I_ASSIGN_MULTI_1(m_typeDescriptionsAttrPtr, "TypeDescriptions", "List of descriptions for each extension", true, "Text file");
 	I_END_COMPONENT;
@@ -84,6 +86,20 @@ public:
 				const istd::IChangeable& data,
 				const QString& filePath = QString(),
 				ibase::IProgressManager* progressManagerPtr = NULL) const override;
+
+	// reimplemented (ifile::IDeviceBasedPersistence)
+	virtual bool IsDeviceOperationSupported(
+				const istd::IChangeable& dataObject,
+				const QIODevice& device,
+				int deviceOperation) const override;
+	virtual int ReadFromDevice(
+				istd::IChangeable& data,
+				QIODevice& device,
+				ibase::IProgressManager* progressManagerPtr = nullptr) const override;
+	virtual int WriteToDevice(
+				const istd::IChangeable& data,
+				QIODevice& device,
+				ibase::IProgressManager* progressManagerPtr = nullptr) const override;
 
 	// reimplemented (ifile::IFileTypeInfo)
 	virtual bool GetFileExtensions(QStringList& result, const istd::IChangeable* dataObjectPtr = NULL, int flags = -1, bool doAppend = false) const override;
