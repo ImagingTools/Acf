@@ -64,6 +64,7 @@ template <class Base>
 TSimComponentsFactory<Base>::TSimComponentsFactory()
 {
 	m_factoryKeys.insert(istd::CClassInfo::GetName<Base>());
+	m_base.InitComponent();
 }
 
 // reimplemented (istd::IFactoryInfo)
