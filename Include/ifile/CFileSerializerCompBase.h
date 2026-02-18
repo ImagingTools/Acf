@@ -43,7 +43,6 @@ public:
 				const QString* filePathPtr = nullptr,
 				int flags = -1,
 				bool beQuiet = true) const override;
-
 protected:
 	/**
 		Get working version info.

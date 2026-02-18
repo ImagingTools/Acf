@@ -231,19 +231,15 @@ template <class InterfaceClass>
 InterfaceClass* TFactorisableContainer<InterfaceClass>::CreateElement(const QByteArray& itemKey)
 {
 	if (m_itemFactoryPtr != nullptr){
-		istd::IPolymorphic* polymorphicPtr = m_itemFactoryPtr->CreateInstance(itemKey);
-		if (polymorphicPtr != nullptr){
-			InterfaceClass* interfacePtr = dynamic_cast<InterfaceClass*>(polymorphicPtr);
+		auto polymorphicPtr = m_itemFactoryPtr->CreateInstance(itemKey);
+		if (polymorphicPtr.IsValid()){
+			InterfaceClass* interfacePtr = polymorphicPtr.GetPtr();
 			if (interfacePtr != nullptr){
 				OnElementCreated(interfacePtr);
 
-				return interfacePtr;
+				return polymorphicPtr.PopPtr();
 			}
-			else{
-				delete polymorphicPtr;
-				
-				return nullptr;
-			}
+			// else: polymorphicPtr will be automatically deleted
 		}
 	}
 	

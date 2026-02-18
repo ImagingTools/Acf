@@ -208,7 +208,7 @@ protected:
 			if (iter != m_factoriesMap.constEnd()){
 				Q_ASSERT(iter.value() != nullptr);
 
-				return IComponentUniquePtr(iter.value()->CreateInstance());
+				return IComponentUniquePtr(iter.value()->CreateInstance().PopPtr());
 			}
 
 			return nullptr;
