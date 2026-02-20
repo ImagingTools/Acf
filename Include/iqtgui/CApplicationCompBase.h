@@ -99,7 +99,6 @@ private:
 protected:
 	imod::TModelWrap<RuntimeStatus> m_runtimeStatus;
 
-private:
 	I_REF(IGuiObject, m_splashScreenCompPtr);
 	I_REF(ibase::IApplicationInfo, m_applicationInfoCompPtr);
 	I_REF(iqt::ITranslationManager, m_translationManagerCompPtr);
