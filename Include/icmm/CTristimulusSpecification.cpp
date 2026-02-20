@@ -147,12 +147,12 @@ bool CTristimulusSpecification::Serialize(iser::IArchive& archive)
 
 	iser::CArchiveTag observerTypeTag("ObserverType", "Observer Type", iser::CArchiveTag::TT_LEAF);
 	retVal = retVal && archive.BeginTag(observerTypeTag);
-	retVal = retVal && iser::CPrimitiveTypesSerializer::SerializeEnum(archive, m_observerType, &icmm::staticMetaObject);
+	retVal = retVal && iser::CPrimitiveTypesSerializer::SerializeQEnum(archive, m_observerType);
 	retVal = retVal && archive.EndTag(observerTypeTag);
 
 	iser::CArchiveTag astmTableTypeTag("AstmTableType", "ASTM table entry", iser::CArchiveTag::TT_LEAF);
 	retVal = retVal && archive.BeginTag(astmTableTypeTag);
-	retVal = retVal && iser::CPrimitiveTypesSerializer::SerializeEnum(archive, m_method, &icmm::staticMetaObject);
+	retVal = retVal && iser::CPrimitiveTypesSerializer::SerializeQEnum(archive, m_method);
 	retVal = retVal && archive.EndTag(astmTableTypeTag);
 
 	iser::CArchiveTag baseSpecTag("BaseSpec", "Base specification", iser::CArchiveTag::TT_WEAK, nullptr, true);

@@ -118,21 +118,12 @@ public:
 				EnumType& enumValue);
 
 	/**
-		Method for serialization of the enumerated value using Qt's meta information system.
-		This implementation supports both methods for serialization of the enumerator - as integer value or in textual form.
-		The second variant is only possible if the owner of the enumeration is a class which is directly or indirectly derived from QObject
+		Method for serialization of the enumerated value using Qt's meta information system (Q_ENUM or Q_ENUM_NS).
 	*/
 	template <typename EnumType>
-	static bool SerializeEnum(
+	static bool SerializeQEnum(
 				iser::IArchive& archive,
-				EnumType& enumValue,
-				const QMetaObject* metaObjectPtr);
-
-	template <typename EnumType>
-	static bool SerializeEnum(
-				iser::IArchive& archive,
-				EnumType& enumValue,
-				const QObject* objectPtr);
+				EnumType& enumValue);
 
 	/**
 		This method can be used for serialization associatime containers i.e.: \c QHash, \c QMap \c std::map (since c++17)...
@@ -351,89 +342,28 @@ bool CPrimitiveTypesSerializer::SerializeEnum(
 }
 
 
-template<typename EnumType>
-bool CPrimitiveTypesSerializer::SerializeEnum(
-			IArchive& archive,
-			EnumType& enumValue,
-			const QObject* objectPtr)
-{
-	const QMetaObject* metaObjectPtr = nullptr;
-
-	if (objectPtr != nullptr){
-		metaObjectPtr = objectPtr->metaObject();
-	}
-
-	return SerializeEnum(archive, enumValue, metaObjectPtr);
-}
-
-
 template <typename EnumType>
-bool CPrimitiveTypesSerializer::SerializeEnum(
+bool CPrimitiveTypesSerializer::SerializeQEnum(
 			iser::IArchive& archive,
-			EnumType& enumValue,
-			const QMetaObject* metaObjectPtr)
+			EnumType& enumValue)
 {
-	QByteArray enumValueAsText;
-	QMetaEnum foundEnumMeta;
-
-	QString enumTypeName = typeid(EnumType).name();
-	enumTypeName = enumTypeName.mid(enumTypeName.lastIndexOf(":") + 1);
-
-	if (metaObjectPtr != NULL){
-		// Iterate over all enums of the class:
-		int enumeratorsCount = metaObjectPtr->enumeratorCount();
-		for (int enumeratorIndex = 0; enumeratorIndex < enumeratorsCount; ++enumeratorIndex){
-			QMetaEnum enumMeta = metaObjectPtr->enumerator(enumeratorIndex);
-			QString enumName = enumMeta.name();
-
-			if (enumTypeName == enumName){
-				foundEnumMeta = enumMeta;
-
-				// Find the enum value:
-				int keysCount = enumMeta.keyCount();
-				for (int keyIndex = 0; keyIndex < keysCount; ++keyIndex){
-				
-					if (enumMeta.value(keyIndex) == (int)enumValue){
-						enumValueAsText = enumMeta.valueToKey(keyIndex);
-						break;
-					}
-				}
-			}
+	QByteArray enumValueAsText;	
+	const auto metaEnum = QMetaEnum::fromType<EnumType>();
+	if (!metaEnum.isValid()){
+		return false;
+	}
+	if (archive.IsStoring()){
+		enumValueAsText = metaEnum.valueToKey((int)enumValue);
+		if (enumValueAsText.isEmpty()){
+			return false;
 		}
 	}
 
 	bool retVal = true;
-
-	// Enum value is defined in textual form:
-	if (!enumValueAsText.isEmpty()){
-		retVal = retVal && archive.Process(enumValueAsText);
-		
-		if (retVal && !archive.IsStoring()){
-			Q_ASSERT(foundEnumMeta.isValid());
-#if QT_VERSION >= 0x050000
-			enumValue = EnumType(foundEnumMeta.keyToValue(enumValueAsText.constData(), &retVal));
-#else
-			int value = foundEnumMeta.keyToValue(enumValueAsText.constData());
-			if (value >= 0){
-				enumValue = EnumType(value);
-			}
-			else{
-				return false;
-			}
-#endif
-		}
+	retVal = retVal && archive.Process(enumValueAsText);
+	if (retVal && !archive.IsStoring()){
+		enumValue = EnumType(metaEnum.keyToValue(enumValueAsText.constData(), &retVal));
 	}
-	else{
-		int value = (int)enumValue;
-
-		retVal = retVal && archive.Process(value);
-
-		if (!archive.IsStoring()){
-			// TODO: check if the readed value is in range of the enum values!
-			enumValue = EnumType(value);
-		}
-	}
-
 	return retVal;
 }
 
