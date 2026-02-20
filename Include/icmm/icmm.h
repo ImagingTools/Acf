@@ -30,6 +30,7 @@ enum class AstmTableType
 	E3081nm,
 	Unknown
 };
+Q_ENUM_NS(AstmTableType)
 
 
 enum class SphereType
@@ -38,6 +39,7 @@ enum class SphereType
 	SpecularExcluded,
 	Diffuse
 };
+Q_ENUM_NS(SphereType)
 
 
 enum class StandardIlluminant
@@ -93,18 +95,7 @@ enum class DensityFilterType
 	A,
 	B
 };
-
-
-enum class SpectrumType
-{
-	Reflectance,
-	Transmittance,
-	TotalTransmittance,
-	Emissive,
-	ColorimetricReflectance,
-	ColorimetricTransmittance,
-	ColorimetricEmissive
-};
+Q_ENUM_NS(DensityFilterType)
 
 
 /**
@@ -137,6 +128,7 @@ enum class DeviceTypeFlags
 	Spot = 1,
 	Scanning = 2
 };
+Q_ENUM_NS(DeviceTypeFlags)
 
 
 enum class FilterType
@@ -147,6 +139,7 @@ enum class FilterType
 	Partial,
 	Custom
 };
+Q_ENUM_NS(FilterType)
 
 
 enum class DeviceIlluminationType
@@ -160,6 +153,7 @@ enum class DeviceIlluminationType
 	Ambient,
 	Custom
 };
+Q_ENUM_NS(DeviceIlluminationType)
 
 
 enum class EmmisiveModelType
@@ -168,6 +162,7 @@ enum class EmmisiveModelType
 	Reflected,
 	Other
 };
+Q_ENUM_NS(EmmisiveModelType)
 
 
 enum class SingleAngleConfigurationType
@@ -175,6 +170,7 @@ enum class SingleAngleConfigurationType
 	Annular,
 	Uniplanar
 };
+Q_ENUM_NS(SingleAngleConfigurationType)
 
 
 /**
