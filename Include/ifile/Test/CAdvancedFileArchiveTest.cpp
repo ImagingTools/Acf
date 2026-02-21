@@ -6,8 +6,6 @@
 #include <QtCore/QTemporaryFile>
 #include <QtCore/QDir>
 #include <QtCore/QVector>
-#include <QtCore/QThread>
-#include <QtConcurrent/QtConcurrent>
 
 // ACF includes
 #include <ifile/CFileReadArchive.h>
