@@ -341,6 +341,12 @@ bool CBitmapBase::Serialize(iser::IArchive& archive)
 
 // reimplemented (istd::IChangeable)
 
+int CBitmapBase::GetSupportedOperations() const
+{
+	return SO_RESET;
+}
+
+
 bool CBitmapBase::ResetData(CompatibilityMode /*mode*/)
 {
 	ResetImage();

@@ -113,7 +113,7 @@ void CGeneralBitmap::ClearImage()
 
 int CGeneralBitmap::GetSupportedOperations() const
 {
-	return SO_COPY | SO_CLONE;
+	return BaseClass::GetSupportedOperations() | SO_COPY | SO_CLONE;
 }
 
 

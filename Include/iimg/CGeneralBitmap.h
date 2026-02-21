@@ -19,6 +19,8 @@ namespace iimg
 class CGeneralBitmap: public CBitmapBase
 {
 public:
+	typedef CBitmapBase BaseClass;
+
 	CGeneralBitmap();
 	CGeneralBitmap(const CGeneralBitmap& bitmap);
 
