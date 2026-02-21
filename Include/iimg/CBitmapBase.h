@@ -45,10 +45,6 @@ public:
 	// reimplemented (iser::ISerializable)
 	virtual bool Serialize(iser::IArchive& archive) override;
 
-	// reimplemented (istd::IChangeable)
-	virtual int GetSupportedOperations() const override;
-	virtual bool ResetData(CompatibilityMode mode = CM_WITHOUT_REFS) override;
-
 protected:
 	static int GetComponentsCount(IBitmap::PixelFormat format);
 	static int GetComponentBitsCount(IBitmap::PixelFormat format, int componentIndex);

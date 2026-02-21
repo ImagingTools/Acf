@@ -43,6 +43,7 @@ public:
 	virtual int GetSupportedOperations() const override;
 	virtual bool CopyFrom(const istd::IChangeable& object, CompatibilityMode mode = CM_WITHOUT_REFS) override;
 	virtual istd::TUniqueInterfacePtr<istd::IChangeable> CloneMe(CompatibilityMode mode = CM_WITHOUT_REFS) const override;
+	virtual bool ResetData(CompatibilityMode mode = CM_WITHOUT_REFS) override;
 
 	// operators
 	CGeneralBitmap& operator=(const CGeneralBitmap& bitmap);
@@ -81,6 +82,9 @@ protected:
 				int pixelBitsCount,
 				int componentsCount,
 				PixelFormat pixelFormat);
+
+private:
+	void Reset();
 
 private:
 	istd::TOptDelPtr<uint8_t, true> m_buffer;

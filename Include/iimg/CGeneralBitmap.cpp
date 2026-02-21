@@ -83,11 +83,7 @@ bool CGeneralBitmap::CreateBitmap(PixelFormat pixelFormat, const istd::CIndex2d&
 
 void CGeneralBitmap::ResetImage()
 {
-	istd::CChangeNotifier notifier(this);
-
-	m_size.Reset();
-	m_buffer.Reset();
-	m_linesDifference = 0;
+	Reset();
 }
 
 
@@ -113,7 +109,7 @@ void CGeneralBitmap::ClearImage()
 
 int CGeneralBitmap::GetSupportedOperations() const
 {
-	return BaseClass::GetSupportedOperations() | SO_COPY | SO_CLONE;
+	return SO_RESET | SO_COPY | SO_CLONE;
 }
 
 
@@ -158,6 +154,16 @@ istd::IChangeableUniquePtr CGeneralBitmap::CloneMe(CompatibilityMode mode) const
 	return istd::IChangeableUniquePtr();
 }
 
+
+bool CGeneralBitmap::ResetData(CompatibilityMode /*mode*/)
+{
+	Reset();
+
+	return true;
+}
+
+
+// public operators
 
 CGeneralBitmap& CGeneralBitmap::operator=(const CGeneralBitmap& bitmap)
 {
@@ -300,6 +306,18 @@ bool CGeneralBitmap::CreateBitmap(
 	m_buffer.SetPtr((quint8*)dataPtr, releaseFlag);
 
 	return true;
+}
+
+
+// private methods
+
+void CGeneralBitmap::Reset()
+{
+	istd::CChangeNotifier notifier(this);
+
+	m_size.Reset();
+	m_buffer.Reset();
+	m_linesDifference = 0;
 }
 
 
