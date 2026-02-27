@@ -354,7 +354,11 @@ void CInteractiveViewLayer::InsertSelectedShapes(SelectedShapes& result) const
 
 void CInteractiveViewLayer::DeselectAllShapes()
 {
-	for (ShapeList::ConstIterator iter = m_activeShapes.begin(); iter != m_activeShapes.end(); ++iter) {
+	// Create a copy of the list to avoid iterator invalidation
+	// when SetSelected() triggers OnShapeSelected() which modifies m_activeShapes
+	ShapeList activeShapesCopy = m_activeShapes;
+	
+	for (ShapeList::ConstIterator iter = activeShapesCopy.begin(); iter != activeShapesCopy.end(); ++iter) {
 		Q_ASSERT(dynamic_cast<iview::IInteractiveShape*>(iter->shapePtr) != NULL);
 
 		iview::IInteractiveShape* shapePtr = dynamic_cast<iview::IInteractiveShape*>(iter->shapePtr);
