@@ -36,7 +36,7 @@ macro(get_target_name target_name)
 		elseif(${MSVC_TOOLSET_VERSION} STREQUAL 145)
 			set(COMPILER_NAME "VC18")
 
-		elseif(DEFINED MSVC_TOOLSET_VERSION)
+		else()
 			message(FATAL_ERROR "Found unexpected MSVC_TOOLSET_VERSION: ${MSVC_TOOLSET_VERSION}")
 		endif()
 
