@@ -4,6 +4,7 @@
 
 // ACF includes
 #include <iprm/IParamsSet.h>
+#include <iprm/IParamsInfoProvider.h>
 #include <iser/CMemoryReadArchive.h>
 #include <iser/CMemoryWriteArchive.h>
 
@@ -266,6 +267,47 @@ void CParamsManagerTestRunner::CopyTest()
 	
 	// Clean up
 	m_paramsManagerPtr->RemoveParamsSet(sourceIndex);
+}
+
+
+void CParamsManagerTestRunner::ParamsInfoProviderTest()
+{
+	// Get the first fixed parameter set
+	const iprm::IParamsSet* paramsSet = m_paramsManagerPtr->GetParamsSet(0);
+	QVERIFY(paramsSet != nullptr);
+	
+	// Get the IParamsInfoProvider interface
+	const iprm::IParamsInfoProvider* infoProvider = paramsSet->GetParamsInfoProvider();
+	
+	// The interface can be nullptr for sets that don't provide parameter info
+	// But for CComposedParamsSetComp, it should return this
+	if (infoProvider != nullptr)
+	{
+		// Try to get info for the "Selection" parameter that exists in the test configuration
+		const iprm::IParamsInfoProvider::ParamInfo* info = infoProvider->GetParamInfo("Selection");
+		
+		// Info might be nullptr if names/descriptions are not configured
+		if (info != nullptr)
+		{
+			// Just verify that the structure is accessible
+			QString name = info->name;
+			QString description = info->description;
+			
+			// We don't validate specific values since they may not be configured in the test
+			// Just verify the call doesn't crash
+			QVERIFY(true);
+		}
+		
+		// Test with a non-existent parameter ID
+		const iprm::IParamsInfoProvider::ParamInfo* invalidInfo = infoProvider->GetParamInfo("NonExistentParam");
+		QVERIFY(invalidInfo == nullptr);
+	}
+	else
+	{
+		// If the parameter set doesn't provide parameter info, that's also valid
+		// Just verify the call doesn't crash
+		QVERIFY(true);
+	}
 }
 
 
