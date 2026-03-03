@@ -46,7 +46,7 @@ public:
 	virtual const IParamsInfoProvider* GetParamsInfoProvider() const override;
 
 	// reimplemented (iprm::IParamsInfoProvider)
-	virtual bool GetParamInfo(const QByteArray& paramId, ParamInfo& info) const override;
+	virtual std::unique_ptr<ParamInfo> GetParamInfo(const QByteArray& paramId) const override;
 
 	// reimplemented (istd::IHierarchical)
 	virtual int GetHierarchicalFlags() const override;

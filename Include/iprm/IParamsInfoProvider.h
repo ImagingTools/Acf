@@ -6,6 +6,9 @@
 #include <QtCore/QString>
 #include <QtCore/QByteArray>
 
+// std includes
+#include <memory>
+
 // ACF includes
 #include <istd/IChangeable.h>
 
@@ -30,11 +33,12 @@ namespace iprm
 	if (infoProvider != nullptr)
 	{
 	    // Get information about a specific parameter
-	    iprm::IParamsInfoProvider::ParamInfo info;
-	    if (infoProvider->GetParamInfo("threshold", info))
+	    std::unique_ptr<iprm::IParamsInfoProvider::ParamInfo> info = 
+	        infoProvider->GetParamInfo("threshold");
+	    if (info != nullptr)
 	    {
-	        QString displayName = info.name;
-	        QString description = info.description;
+	        QString displayName = info->name;
+	        QString description = info->description;
 	        
 	        qDebug() << "Parameter:" << displayName;
 	        qDebug() << "Description:" << description;
@@ -64,19 +68,18 @@ public:
 		Retrieves metadata (name and description) for a parameter identified by its ID.
 		
 		\param paramId ID of the parameter to get information for.
-		\param[out] info Reference to ParamInfo structure that will be filled with
-		                 parameter metadata.
-		\return True if parameter information was found and filled in, false otherwise.
+		\return Unique pointer to ParamInfo structure if parameter was found, nullptr otherwise.
 		
 		\code{.cpp}
-		iprm::IParamsInfoProvider::ParamInfo info;
-		if (infoProvider->GetParamInfo("myParam", info))
+		std::unique_ptr<iprm::IParamsInfoProvider::ParamInfo> info = 
+		    infoProvider->GetParamInfo("myParam");
+		if (info != nullptr)
 		{
-		    // Use info.name and info.description
+		    // Use info->name and info->description
 		}
 		\endcode
 	*/
-	virtual bool GetParamInfo(const QByteArray& paramId, ParamInfo& info) const = 0;
+	virtual std::unique_ptr<ParamInfo> GetParamInfo(const QByteArray& paramId) const = 0;
 };
 
 

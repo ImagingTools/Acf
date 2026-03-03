@@ -284,25 +284,25 @@ void CParamsManagerTestRunner::ParamsInfoProviderTest()
 	if (infoProvider != nullptr)
 	{
 		// Try to get info for the "Selection" parameter that exists in the test configuration
-		iprm::IParamsInfoProvider::ParamInfo info;
-		bool found = infoProvider->GetParamInfo("Selection", info);
+		std::unique_ptr<iprm::IParamsInfoProvider::ParamInfo> info = 
+			infoProvider->GetParamInfo("Selection");
 		
 		// Info might not be found if names/descriptions are not configured
-		if (found)
+		if (info != nullptr)
 		{
 			// Verify that the name and description are accessible
 			// Note: We don't validate specific values since they may not be configured in the test
 			// Just verify the strings are accessible (they may be empty)
-			QString name = info.name;
-			QString description = info.description;
+			QString name = info->name;
+			QString description = info->description;
 			Q_UNUSED(name);
 			Q_UNUSED(description);
 		}
 		
 		// Test with a non-existent parameter ID
-		iprm::IParamsInfoProvider::ParamInfo invalidInfo;
-		bool invalidFound = infoProvider->GetParamInfo("NonExistentParam", invalidInfo);
-		QVERIFY(!invalidFound);
+		std::unique_ptr<iprm::IParamsInfoProvider::ParamInfo> invalidInfo = 
+			infoProvider->GetParamInfo("NonExistentParam");
+		QVERIFY(invalidInfo == nullptr);
 	}
 }
 

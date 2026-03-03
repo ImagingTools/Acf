@@ -61,14 +61,14 @@ const IParamsInfoProvider* CComposedParamsSetComp::GetParamsInfoProvider() const
 
 // reimplemented (iprm::IParamsInfoProvider)
 
-bool CComposedParamsSetComp::GetParamInfo(const QByteArray& paramId, ParamInfo& info) const
+std::unique_ptr<IParamsInfoProvider::ParamInfo> CComposedParamsSetComp::GetParamInfo(const QByteArray& paramId) const
 {
 	// Check if all multi-attributes are valid
 	if (!m_parametersIdAttrPtr.IsValid() ||
 		!m_parameterNameAttrPtr.IsValid() ||
 		!m_parameterDescriptionAttrPtr.IsValid())
 	{
-		return false;
+		return nullptr;
 	}
 
 	// Find the index of the parameter ID
@@ -82,24 +82,25 @@ bool CComposedParamsSetComp::GetParamInfo(const QByteArray& paramId, ParamInfo& 
 		}
 	}
 
-	// If parameter ID not found, return false
+	// If parameter ID not found, return nullptr
 	if (paramIndex < 0)
 	{
-		return false;
+		return nullptr;
 	}
 
 	// Check if the index is within bounds for name and description arrays
 	if (paramIndex >= m_parameterNameAttrPtr.GetCount() ||
 		paramIndex >= m_parameterDescriptionAttrPtr.GetCount())
 	{
-		return false;
+		return nullptr;
 	}
 
-	// Fill the ParamInfo structure
-	info.name = m_parameterNameAttrPtr[paramIndex];
-	info.description = m_parameterDescriptionAttrPtr[paramIndex];
+	// Create and fill the ParamInfo structure
+	auto info = std::make_unique<ParamInfo>();
+	info->name = m_parameterNameAttrPtr[paramIndex];
+	info->description = m_parameterDescriptionAttrPtr[paramIndex];
 
-	return true;
+	return info;
 }
 
 
