@@ -188,11 +188,10 @@ public:
 		const iprm::IParamsInfoProvider* infoProvider = paramsSet->GetParamsInfoProvider();
 		if (infoProvider)
 		{
-		    const iprm::IParamsInfoProvider::ParamInfo* info = 
-		        infoProvider->GetParamInfo("threshold");
-		    if (info)
+		    iprm::IParamsInfoProvider::ParamInfo info;
+		    if (infoProvider->GetParamInfo("threshold", info))
 		    {
-		        qDebug() << "Parameter:" << info->name << "-" << info->description;
+		        qDebug() << "Parameter:" << info.name << "-" << info.description;
 		    }
 		}
 		\endcode

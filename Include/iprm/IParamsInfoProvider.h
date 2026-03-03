@@ -30,13 +30,11 @@ namespace iprm
 	if (infoProvider)
 	{
 	    // Get information about a specific parameter
-	    const iprm::IParamsInfoProvider::ParamInfo* info = 
-	        infoProvider->GetParamInfo("threshold");
-	    
-	    if (info)
+	    iprm::IParamsInfoProvider::ParamInfo info;
+	    if (infoProvider->GetParamInfo("threshold", info))
 	    {
-	        QString displayName = info->name;
-	        QString description = info->description;
+	        QString displayName = info.name;
+	        QString description = info.description;
 	        
 	        qDebug() << "Parameter:" << displayName;
 	        qDebug() << "Description:" << description;
