@@ -181,6 +181,12 @@ iser::ISerializable* CParamsSet::GetEditableParameter(const QByteArray& id)
 }
 
 
+const IParamsInfoProvider* CParamsSet::GetParamsInfoProvider() const
+{
+	return nullptr;
+}
+
+
 // reimplemented (iser::ISerializable)
 
 bool CParamsSet::Serialize(iser::IArchive& archive)

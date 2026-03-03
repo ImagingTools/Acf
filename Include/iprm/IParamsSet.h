@@ -14,6 +14,12 @@
 
 namespace iprm
 {
+	class IParamsInfoProvider;
+}
+
+
+namespace iprm
+{
 
 
 /**
@@ -165,6 +171,35 @@ public:
 		\see GetParameter
 	*/
 	virtual iser::ISerializable* GetEditableParameter(const QByteArray& id) = 0;
+
+	/**
+		\brief Get parameter information provider.
+		
+		Retrieves the parameter information provider that can be used to obtain
+		metadata (names and descriptions) for parameters in this set.
+		
+		\return Pointer to IParamsInfoProvider instance, or NULL if parameter
+		        information is not available for this parameter set.
+		
+		\note Not all parameter sets provide parameter information. Some may
+		      return NULL if they don't support this feature.
+		
+		\code{.cpp}
+		const iprm::IParamsInfoProvider* infoProvider = paramsSet->GetParamsInfoProvider();
+		if (infoProvider)
+		{
+		    const iprm::IParamsInfoProvider::ParamInfo* info = 
+		        infoProvider->GetParamInfo("threshold");
+		    if (info)
+		    {
+		        qDebug() << "Parameter:" << info->name << "-" << info->description;
+		    }
+		}
+		\endcode
+		
+		\see IParamsInfoProvider
+	*/
+	virtual const IParamsInfoProvider* GetParamsInfoProvider() const = 0;
 };
 
 
