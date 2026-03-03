@@ -2,17 +2,8 @@
 #pragma once
 
 
-// Qt includes
-#include <QtCore/QString>
-#include <QtCore/QByteArray>
-
-// std includes
-#include <memory>
-
 // ACF includes
 #include <istd/IChangeable.h>
-
-#include <iprm/iprm.h>
 
 
 namespace iprm

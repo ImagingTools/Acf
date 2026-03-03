@@ -66,32 +66,27 @@ std::unique_ptr<IParamsInfoProvider::ParamInfo> CComposedParamsSetComp::GetParam
 	// Check if all multi-attributes are valid
 	if (!m_parametersIdAttrPtr.IsValid() ||
 		!m_parameterNameAttrPtr.IsValid() ||
-		!m_parameterDescriptionAttrPtr.IsValid())
-	{
+		!m_parameterDescriptionAttrPtr.IsValid()){
 		return nullptr;
 	}
 
 	// Find the index of the parameter ID
 	int paramIndex = -1;
-	for (int i = 0; i < m_parametersIdAttrPtr.GetCount(); ++i)
-	{
-		if (m_parametersIdAttrPtr[i] == paramId)
-		{
+	for (int i = 0; i < m_parametersIdAttrPtr.GetCount(); ++i){
+		if (m_parametersIdAttrPtr[i] == paramId){
 			paramIndex = i;
 			break;
 		}
 	}
 
 	// If parameter ID not found, return nullptr
-	if (paramIndex < 0)
-	{
+	if (paramIndex < 0){
 		return nullptr;
 	}
 
 	// Check if the index is within bounds for name and description arrays
 	if (paramIndex >= m_parameterNameAttrPtr.GetCount() ||
-		paramIndex >= m_parameterDescriptionAttrPtr.GetCount())
-	{
+		paramIndex >= m_parameterDescriptionAttrPtr.GetCount())	{
 		return nullptr;
 	}
 
@@ -137,7 +132,7 @@ istd::IPolymorphic* CComposedParamsSetComp::GetParent() const
 
 int CComposedParamsSetComp::GetSupportedOperations() const
 {
-    return SO_COPY | SO_COMPARE;
+	return SO_COPY | SO_COMPARE;
 }
 
 
