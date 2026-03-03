@@ -178,11 +178,11 @@ public:
 		Retrieves the parameter information provider that can be used to obtain
 		metadata (names and descriptions) for parameters in this set.
 		
-		\return Pointer to IParamsInfoProvider instance, or NULL if parameter
+		\return Pointer to IParamsInfoProvider instance, or nullptr if parameter
 		        information is not available for this parameter set.
 		
 		\note Not all parameter sets provide parameter information. Some may
-		      return NULL if they don't support this feature.
+		      return nullptr if they don't support this feature.
 		
 		\code{.cpp}
 		const iprm::IParamsInfoProvider* infoProvider = paramsSet->GetParamsInfoProvider();

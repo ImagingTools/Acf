@@ -116,7 +116,7 @@ const IParamsInfoProvider* CSelectableParamsSetComp::GetParamsInfoProvider() con
 
 		if ((selectedIndex >= 0) && (selectedIndex < m_paramsManagerCompPtr->GetParamsSetsCount())){
 			const iprm::IParamsSet* paramsPtr = m_paramsManagerCompPtr->GetParamsSet(selectedIndex);
-			if (paramsPtr != NULL){
+			if (paramsPtr != nullptr){
 				return paramsPtr->GetParamsInfoProvider();
 			}
 		}

@@ -898,9 +898,9 @@ iser::ISerializable* CParamsManagerCompBase::SelectedParams::GetEditableParamete
 
 const IParamsInfoProvider* CParamsManagerCompBase::SelectedParams::GetParamsInfoProvider() const
 {
-	if ((parentPtr != NULL) && (parentPtr->m_selectedIndex >= 0)){
+	if ((parentPtr != nullptr) && (parentPtr->m_selectedIndex >= 0)){
 		const IParamsSet* selectedParamsSetPtr = parentPtr->GetParamsSet(parentPtr->m_selectedIndex);
-		if (selectedParamsSetPtr != NULL){
+		if (selectedParamsSetPtr != nullptr){
 			return selectedParamsSetPtr->GetParamsInfoProvider();
 		}
 	}
