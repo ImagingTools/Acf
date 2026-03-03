@@ -34,7 +34,7 @@ public:
 		I_REGISTER_INTERFACE(IParamsInfoProvider);
 		I_ASSIGN_MULTI_0(m_slaveParamsCompPtr, "SlaveSets", "List of slave parameter sets", false);
 		I_ASSIGN_MULTI_0(m_parametersCompPtr, "Parameters", "Parameters", true);
-		I_ASSIGN_MULTI_0(m_parametersIdAttrPtr, "ParametersId", "ID of each paremeter in 'Parameters'", true);
+		I_ASSIGN_MULTI_0(m_parametersIdAttrPtr, "ParametersId", "ID of each parameter in 'Parameters'", true);
 		I_ASSIGN_MULTI_0(m_parameterNameAttrPtr, "ParametersName", "Name of each parameter in 'Parameters'", true);
 		I_ASSIGN_MULTI_0(m_parameterDescriptionAttrPtr, "ParametersDescription", "Description of each parameter in 'Parameters'", true);
 		I_ASSIGN(m_typeIdAttrPtr, "TypeId", "ID of this parameter set", true, "Default");
@@ -46,7 +46,7 @@ public:
 	virtual const IParamsInfoProvider* GetParamsInfoProvider() const override;
 
 	// reimplemented (iprm::IParamsInfoProvider)
-	virtual const ParamInfo* GetParamInfo(const QByteArray& paramId) const override;
+	virtual bool GetParamInfo(const QByteArray& paramId, ParamInfo& info) const override;
 
 	// reimplemented (istd::IHierarchical)
 	virtual int GetHierarchicalFlags() const override;
@@ -73,8 +73,6 @@ private:
 	I_MULTIATTR(QString, m_parameterNameAttrPtr);
 	I_MULTIATTR(QString, m_parameterDescriptionAttrPtr);
 	I_ATTR(QByteArray, m_typeIdAttrPtr);
-	
-	mutable ParamInfo m_cachedParamInfo;
 };
 
 

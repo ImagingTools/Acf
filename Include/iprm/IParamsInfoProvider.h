@@ -66,22 +66,19 @@ public:
 		Retrieves metadata (name and description) for a parameter identified by its ID.
 		
 		\param paramId ID of the parameter to get information for.
-		\return Pointer to ParamInfo structure containing parameter metadata, or NULL
-		        if no information is available for the given parameter ID.
-		
-		\note The returned pointer is valid until the next call to GetParamInfo or
-		      until the parameter set is modified.
+		\param[out] info Reference to ParamInfo structure that will be filled with
+		                 parameter metadata.
+		\return True if parameter information was found and filled in, false otherwise.
 		
 		\code{.cpp}
-		const iprm::IParamsInfoProvider::ParamInfo* info = 
-		    infoProvider->GetParamInfo("myParam");
-		if (info)
+		iprm::IParamsInfoProvider::ParamInfo info;
+		if (infoProvider->GetParamInfo("myParam", info))
 		{
-		    // Use info->name and info->description
+		    // Use info.name and info.description
 		}
 		\endcode
 	*/
-	virtual const ParamInfo* GetParamInfo(const QByteArray& paramId) const = 0;
+	virtual bool GetParamInfo(const QByteArray& paramId, ParamInfo& info) const = 0;
 };
 
 

@@ -61,14 +61,14 @@ const IParamsInfoProvider* CComposedParamsSetComp::GetParamsInfoProvider() const
 
 // reimplemented (iprm::IParamsInfoProvider)
 
-const IParamsInfoProvider::ParamInfo* CComposedParamsSetComp::GetParamInfo(const QByteArray& paramId) const
+bool CComposedParamsSetComp::GetParamInfo(const QByteArray& paramId, ParamInfo& info) const
 {
 	// Check if all multi-attributes are valid
 	if (!m_parametersIdAttrPtr.IsValid() ||
 		!m_parameterNameAttrPtr.IsValid() ||
 		!m_parameterDescriptionAttrPtr.IsValid())
 	{
-		return nullptr;
+		return false;
 	}
 
 	// Find the index of the parameter ID
@@ -82,24 +82,24 @@ const IParamsInfoProvider::ParamInfo* CComposedParamsSetComp::GetParamInfo(const
 		}
 	}
 
-	// If parameter ID not found, return nullptr
+	// If parameter ID not found, return false
 	if (paramIndex < 0)
 	{
-		return nullptr;
+		return false;
 	}
 
 	// Check if the index is within bounds for name and description arrays
 	if (paramIndex >= m_parameterNameAttrPtr.GetCount() ||
 		paramIndex >= m_parameterDescriptionAttrPtr.GetCount())
 	{
-		return nullptr;
+		return false;
 	}
 
-	// Fill the cached ParamInfo structure
-	m_cachedParamInfo.name = m_parameterNameAttrPtr[paramIndex];
-	m_cachedParamInfo.description = m_parameterDescriptionAttrPtr[paramIndex];
+	// Fill the ParamInfo structure
+	info.name = m_parameterNameAttrPtr[paramIndex];
+	info.description = m_parameterDescriptionAttrPtr[paramIndex];
 
-	return &m_cachedParamInfo;
+	return true;
 }
 
 
