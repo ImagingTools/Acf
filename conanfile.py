@@ -127,6 +127,12 @@ class AcfConan(ConanFile):
         with open(presetsPath, 'w') as f:
             json.dump(data, f, indent=2)
 
+    def _update_version(self):
+        script_name = "GenerateVersion.bat" if self.settings.os == "Windows" else "GenerateVersion.sh"
+        script_path = os.path.join(self.source_folder, "Build", "Git", script_name)
+
+        self.run(script_path, cwd=self.source_folder)
+
     def generate(self):
         qt_major = self._get_qt_version().split(".")[0]
 
@@ -158,6 +164,8 @@ class AcfConan(ConanFile):
         self._write_env_to_presets({
             var: val for var, val in env.items()
             if var.startswith('ACF')})
+
+        self._update_version()
 
     def build(self):
         cmake = CMake(self)
