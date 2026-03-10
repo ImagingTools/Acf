@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: LGPL-2.1-or-later OR GPL-2.0-or-later OR GPL-3.0-or-later OR LicenseRef-ACF-Commercial
 #pragma once
 
 
@@ -16,7 +17,7 @@ class CObject2dFactory: virtual public iser::IObjectFactory
 {
 public:
 	// reimplemented (istd::TIFactory<iser::IObject>)
-	virtual iser::IObject* CreateInstance(const QByteArray& keyId = "") const override;
+	virtual istd::TUniqueInterfacePtr<iser::IObject> CreateInstance(const QByteArray& keyId = "") const override;
 
 	// reimplemented (istd::IFactoryInfo)
 	virtual KeyList GetFactoryKeys() const override;

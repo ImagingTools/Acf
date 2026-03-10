@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: LGPL-2.1-or-later OR GPL-2.0-or-later OR GPL-3.0-or-later OR LicenseRef-ACF-Commercial
 #pragma once
 
 
@@ -22,6 +23,9 @@ public:
 	typedef CShapeBase BaseClass;
 
 	explicit CImageShape(const icmm::IColorTransformation* colorTransformationPtr = NULL);
+
+	// read-only pixmap access
+	const QPixmap& GetPixmap() const { return m_pixmap; }	
 
 	// reimplemented (iview::IShape)
 	virtual void Draw(QPainter& drawContext) const override;

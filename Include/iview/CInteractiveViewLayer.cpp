@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: LGPL-2.1-or-later OR GPL-2.0-or-later OR GPL-3.0-or-later OR LicenseRef-ACF-Commercial
 #include <iview/CInteractiveViewLayer.h>
 
 
@@ -160,6 +161,8 @@ bool CInteractiveViewLayer::OnMouseButton(istd::CIndex2d position, Qt::MouseButt
 	IShapeView* viewPtr = GetViewPtr();
 	Q_ASSERT(viewPtr != NULL);
 
+	int keysState = GetKeysState();
+
 	IViewEventObserver* listenerPtr = dynamic_cast<IViewEventObserver*>(viewPtr);
 
 	QVectorIterator<ShapeWithBoundingBox> activeShapeIterator(m_activeShapes);
@@ -174,6 +177,7 @@ bool CInteractiveViewLayer::OnMouseButton(istd::CIndex2d position, Qt::MouseButt
 						uiShapePtr->IsVisible() &&
 						boundingBox.IsInside(position)){
 			ITouchable::TouchState touchState = uiShapePtr->IsTouched(position);
+
 			if (touchState != IInteractiveShape::TS_NONE){
 				if ((listenerPtr != NULL) && listenerPtr->OnViewMouseButton(*viewPtr, position, buttonType, downFlag, uiShapePtr)){
 					return true;
@@ -182,10 +186,21 @@ bool CInteractiveViewLayer::OnMouseButton(istd::CIndex2d position, Qt::MouseButt
 				if (buttonType == Qt::LeftButton){
 					if (touchState == IInteractiveShape::TS_DRAGGABLE){
 						if (downFlag){
+							// if SHIFT is down: add a point
+							if (keysState & Qt::ShiftModifier) {
+								uiShapePtr->OnMouseButton(position, buttonType, downFlag);
+								return true;
+							}
+
+							// start drag
 							IDraggable* draggablePtr = dynamic_cast<IDraggable*>(viewPtr);
 							if ((draggablePtr != NULL) && draggablePtr->IsDraggable()){
 								draggablePtr->BeginDrag(position);
+								return true;
 							}
+
+							// else route to shape
+							uiShapePtr->OnMouseButton(position, buttonType, downFlag);
 						}
 					}
 					else{
@@ -201,8 +216,6 @@ bool CInteractiveViewLayer::OnMouseButton(istd::CIndex2d position, Qt::MouseButt
 		}
 	}
 
-	int keysState = GetKeysState();
-
 	QVectorIterator<ShapeWithBoundingBox> inactiveShapeIterator(m_shapes);
 	inactiveShapeIterator.toBack();
 
@@ -215,6 +228,7 @@ bool CInteractiveViewLayer::OnMouseButton(istd::CIndex2d position, Qt::MouseButt
 						uiShapePtr->IsVisible() &&
 						boundingBox.IsInside(position)){
 			ITouchable::TouchState touchState = uiShapePtr->IsTouched(position);
+
 			if (touchState != IInteractiveShape::TS_NONE){
 				if ((listenerPtr != NULL) && listenerPtr->OnViewMouseButton(*viewPtr, position, buttonType, downFlag, uiShapePtr)){
 					return true;
@@ -340,7 +354,11 @@ void CInteractiveViewLayer::InsertSelectedShapes(SelectedShapes& result) const
 
 void CInteractiveViewLayer::DeselectAllShapes()
 {
-	for (ShapeList::ConstIterator iter = m_activeShapes.begin(); iter != m_activeShapes.end(); ++iter) {
+	// Create a copy of the list to avoid iterator invalidation
+	// when SetSelected() triggers OnShapeSelected() which modifies m_activeShapes
+	ShapeList activeShapesCopy = m_activeShapes;
+	
+	for (ShapeList::ConstIterator iter = activeShapesCopy.begin(); iter != activeShapesCopy.end(); ++iter) {
 		Q_ASSERT(dynamic_cast<iview::IInteractiveShape*>(iter->shapePtr) != NULL);
 
 		iview::IInteractiveShape* shapePtr = dynamic_cast<iview::IInteractiveShape*>(iter->shapePtr);

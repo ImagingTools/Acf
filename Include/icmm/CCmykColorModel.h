@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: LGPL-2.1-or-later OR GPL-2.0-or-later OR GPL-3.0-or-later OR LicenseRef-ACF-Commercial
 #pragma once
 
 
@@ -173,7 +174,7 @@ namespace icmm
 	- Use appropriate black generation for content type
 	- Consider paper type (coated vs uncoated affects ink limits)
 	- Proof on actual print device when possible
-	- Use ICC profiles for accurate RGB→CMYK conversion
+	- Use ICC profiles for accurate RGB->CMYK conversion
 	- Check registration and trapping requirements
 
 	\sa icmm::CCmyColorModel, icmm::ISubstractiveColorModel, icmm::CCmyk,

@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: LGPL-2.1-or-later OR GPL-2.0-or-later OR GPL-3.0-or-later OR LicenseRef-ACF-Commercial
 #include "BasePck.h"
 
 
@@ -22,6 +23,11 @@ I_EXPORT_COMPONENT(
 			Log,
 			"Data model of the logging component",
 			IM_TAG("Log"));
+
+I_EXPORT_COMPONENT(
+			LogRouter,
+			"Routes messages from one log container to another with filtering",
+			"Message Routing Filter Observer" IM_CATEGORY(I_SERVICE) IM_TAG("Log"));
 
 I_EXPORT_COMPONENT(
 			StandardStreamBridge,

@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: LGPL-2.1-or-later OR GPL-2.0-or-later OR GPL-3.0-or-later OR LicenseRef-ACF-Commercial
 #include <icmm/CTristimulusSpecification.h>
 
 
@@ -34,6 +35,12 @@ CTristimulusSpecification::CTristimulusSpecification(const ITristimulusSpecifica
 }
 
 
+QByteArray CTristimulusSpecification::GetTypeId()
+{
+	return QByteArrayLiteral("icmm::CTristimulusSpecification");
+}
+
+
 // reimplemented (ITristimulusSpecification)
 
 std::shared_ptr<IIlluminant> icmm::CTristimulusSpecification::GetIlluminant() const
@@ -57,6 +64,14 @@ AstmTableType CTristimulusSpecification::GetMethod() const
 std::shared_ptr<ISpectralColorSpecification> CTristimulusSpecification::GetBaseSpecification() const
 {
 	return m_baseSpecPtr;
+}
+
+
+// reimplemented (istd::IObject)
+
+QByteArray CTristimulusSpecification::GetFactoryId() const
+{
+	return GetTypeId();
 }
 
 
@@ -132,12 +147,12 @@ bool CTristimulusSpecification::Serialize(iser::IArchive& archive)
 
 	iser::CArchiveTag observerTypeTag("ObserverType", "Observer Type", iser::CArchiveTag::TT_LEAF);
 	retVal = retVal && archive.BeginTag(observerTypeTag);
-	retVal = retVal && iser::CPrimitiveTypesSerializer::SerializeEnum(archive, m_observerType, &icmm::staticMetaObject);
+	retVal = retVal && iser::CPrimitiveTypesSerializer::SerializeQEnum(archive, m_observerType);
 	retVal = retVal && archive.EndTag(observerTypeTag);
 
 	iser::CArchiveTag astmTableTypeTag("AstmTableType", "ASTM table entry", iser::CArchiveTag::TT_LEAF);
 	retVal = retVal && archive.BeginTag(astmTableTypeTag);
-	retVal = retVal && iser::CPrimitiveTypesSerializer::SerializeEnum(archive, m_method, &icmm::staticMetaObject);
+	retVal = retVal && iser::CPrimitiveTypesSerializer::SerializeQEnum(archive, m_method);
 	retVal = retVal && archive.EndTag(astmTableTypeTag);
 
 	iser::CArchiveTag baseSpecTag("BaseSpec", "Base specification", iser::CArchiveTag::TT_WEAK, nullptr, true);

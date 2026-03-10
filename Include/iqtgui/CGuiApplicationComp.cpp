@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: LGPL-2.1-or-later OR GPL-2.0-or-later OR GPL-3.0-or-later OR LicenseRef-ACF-Commercial
 #include <iqtgui/CGuiApplicationComp.h>
 
 
@@ -171,7 +172,7 @@ int CGuiApplicationComp::Execute(int argc, char** argv)
 
 			m_lastWidgetGeometry = m_mainWidgetPtr->geometry();
 
-			emit OnEventLoopStartedSignal();
+			Q_EMIT OnEventLoopStartedSignal();
 
 			// Start application loop:
 			retVal = QApplication::exec();
@@ -185,7 +186,7 @@ int CGuiApplicationComp::Execute(int argc, char** argv)
 		}
 		else{
 			if (m_trayIconPtr.IsValid()){
-				emit OnEventLoopStartedSignal();
+				Q_EMIT OnEventLoopStartedSignal();
 
 				// Start application loop:
 				retVal = QApplication::exec();

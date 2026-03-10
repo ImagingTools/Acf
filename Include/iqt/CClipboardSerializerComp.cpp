@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: LGPL-2.1-or-later OR GPL-2.0-or-later OR GPL-3.0-or-later OR LicenseRef-ACF-Commercial
 #include <iqt/CClipboardSerializerComp.h>
 
 
@@ -122,9 +123,13 @@ ifile::IFilePersistence::OperationState CClipboardSerializerComp::SaveToFile(
 
 // reimplemented (ifile::IFileTypeInfo)
 
-bool CClipboardSerializerComp::GetFileExtensions(QStringList& /*result*/, const istd::IChangeable* /*dataObjectPtr*/, int /*flags*/, bool /*doAppend*/) const
+bool CClipboardSerializerComp::GetFileExtensions(QStringList& result, const istd::IChangeable* /*dataObjectPtr*/, int /*flags*/, bool doAppend) const
 {
-	return false;
+	if (!doAppend){
+		result.clear();
+	}
+
+	return true;
 }
 
 

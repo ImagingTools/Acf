@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: LGPL-2.1-or-later OR GPL-2.0-or-later OR GPL-3.0-or-later OR LicenseRef-ACF-Commercial
 #pragma once
 
 
@@ -230,19 +231,15 @@ template <class InterfaceClass>
 InterfaceClass* TFactorisableContainer<InterfaceClass>::CreateElement(const QByteArray& itemKey)
 {
 	if (m_itemFactoryPtr != nullptr){
-		istd::IPolymorphic* polymorphicPtr = m_itemFactoryPtr->CreateInstance(itemKey);
-		if (polymorphicPtr != nullptr){
-			InterfaceClass* interfacePtr = dynamic_cast<InterfaceClass*>(polymorphicPtr);
+		auto polymorphicPtr = m_itemFactoryPtr->CreateInstance(itemKey);
+		if (polymorphicPtr.IsValid()){
+			InterfaceClass* interfacePtr = polymorphicPtr.GetPtr();
 			if (interfacePtr != nullptr){
 				OnElementCreated(interfacePtr);
 
-				return interfacePtr;
+				return polymorphicPtr.PopPtr();
 			}
-			else{
-				delete polymorphicPtr;
-				
-				return nullptr;
-			}
+			// else: polymorphicPtr will be automatically deleted
 		}
 	}
 	

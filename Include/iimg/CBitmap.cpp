@@ -1,6 +1,8 @@
+// SPDX-License-Identifier: LGPL-2.1-or-later OR GPL-2.0-or-later OR GPL-3.0-or-later OR LicenseRef-ACF-Commercial
 #include <iimg/CBitmap.h>
 
 
+// STL includes
 #include <cstring>// include std::memcpy
 
 // Qt includes
@@ -429,16 +431,7 @@ void* CBitmap::GetLinePtr(int positionY)
 
 void CBitmap::ResetImage()
 {
-	istd::CChangeNotifier changePtr(this);
-
-	m_image = QImage();
-
-	m_colorModelPtr.Reset();
-
-	m_image.setDotsPerMeterX(1000);
-	m_image.setDotsPerMeterY(1000);
-
-	m_externalBuffer.Reset();
+	Reset();
 }
 
 
@@ -466,7 +459,7 @@ QByteArray CBitmap::GetFactoryId() const
 
 int CBitmap::GetSupportedOperations() const
 {
-	return SO_COPY | SO_CLONE;
+	return SO_RESET | SO_COPY | SO_CLONE;
 }
 
 
@@ -562,6 +555,14 @@ istd::IChangeableUniquePtr CBitmap::CloneMe(CompatibilityMode mode) const
 	}
 
 	return istd::IChangeableUniquePtr();
+}
+
+
+bool CBitmap::ResetData(CompatibilityMode /*mode*/)
+{
+	Reset();
+
+	return true;
 }
 
 
@@ -681,7 +682,7 @@ bool CBitmap::SetQImage(const QImage& image)
 void CBitmap::InitializeColorModel()
 {
 	m_colorModelPtr.Reset();
-	
+
 	if (!m_image.isNull()){
 		if (m_image.hasAlphaChannel()){
 			m_colorModelPtr.SetPtr(new icmm::CRgbaColorModel);
@@ -690,6 +691,23 @@ void CBitmap::InitializeColorModel()
 			m_colorModelPtr.SetPtr(new icmm::CRgbColorModel);
 		}
 	}
+}
+
+
+// private methods
+
+void CBitmap::Reset()
+{
+	istd::CChangeNotifier changePtr(this);
+
+	m_image = QImage();
+
+	m_colorModelPtr.Reset();
+
+	m_image.setDotsPerMeterX(1000);
+	m_image.setDotsPerMeterY(1000);
+
+	m_externalBuffer.Reset();
 }
 
 

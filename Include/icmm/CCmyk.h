@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: LGPL-2.1-or-later OR GPL-2.0-or-later OR GPL-3.0-or-later OR LicenseRef-ACF-Commercial
 #pragma once
 
 
@@ -161,8 +162,8 @@ namespace icmm
 	- **Super Black**: Maximum K with CMY support (photography)
 
 	**Screen Angles:**
-	- Cyan: 105°, Magenta: 75°, Yellow: 90°, Black: 45°
-	- Prevents moiré patterns in halftone printing
+	- Cyan: 105 degrees, Magenta: 75 degrees, Yellow: 90 degrees, Black: 45 degrees
+	- Prevents moire patterns in halftone printing
 
 	\section CmykBestPractices Best Practices
 	- Monitor ink coverage - keep TAC below printer limits

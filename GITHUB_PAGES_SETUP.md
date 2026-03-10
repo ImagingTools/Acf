@@ -1,10 +1,23 @@
 # GitHub Pages Setup Instructions
 
-This document explains how to enable GitHub Pages for the ACF repository to host the Doxygen documentation.
+This document explains how to enable GitHub Pages for the ACF repository to host the Doxygen documentation and repository statistics.
 
 ## Prerequisites
 
-The GitHub Actions workflow has been created in `.github/workflows/doxygen-pages.yml`. This workflow will automatically generate and deploy the documentation when changes are pushed to the `main` or `master` branch.
+The GitHub Actions workflow has been created in `.github/workflows/stats-pages.yml`. This workflow will automatically generate and deploy both the API documentation and repository statistics when changes are pushed to the `main` or `master` branch.
+
+## What Gets Deployed
+
+The GitHub Pages site includes:
+
+1. **API Documentation**: Generated from source code comments using Doxygen
+   - Available at: https://imagingtools.github.io/Acf/
+   
+2. **Repository Statistics**: Comprehensive code metrics and quality indicators
+   - Available at: https://imagingtools.github.io/Acf/stats/
+   - Includes: LOC, class counts, component usage, quality score, technical debt indicators
+   
+See `scripts/README.md` for details about the statistics system.
 
 ## Enabling GitHub Pages
 
@@ -33,21 +46,27 @@ To manually trigger the workflow:
 3. Click the **Run workflow** button
 4. Select the branch (e.g., `main`) and click **Run workflow**
 
-### 4. Access the Documentation
+### 4. Access the Documentation and Statistics
 
 Once the workflow completes successfully:
-- The documentation will be available at: https://imagingtools.github.io/Acf/
+- The API documentation will be available at: https://imagingtools.github.io/Acf/
+- The repository statistics will be available at: https://imagingtools.github.io/Acf/stats/
 - You can find the exact URL in the workflow run details under the "deploy" job
 
 ## Workflow Details
 
-The workflow performs the following steps:
+The workflow (`stats-pages.yml`) performs the following steps:
 
-1. **Checkout**: Checks out the repository code
-2. **Install Doxygen**: Installs Doxygen and Graphviz on Ubuntu
-3. **Generate Documentation**: Runs `doxygen Doxyfile` from the `Install/` directory
-4. **Upload Artifact**: Uploads the generated HTML documentation
-5. **Deploy to Pages**: Deploys the documentation to GitHub Pages
+1. **Generate Statistics**: Analyzes repository with Python script to collect metrics
+2. **Generate Doxygen Documentation**: Runs `doxygen Doxyfile` from the `Install/` directory
+3. **Combine Content**: Merges statistics page and documentation into single site
+4. **Upload Artifact**: Uploads the combined content
+5. **Deploy to Pages**: Deploys to GitHub Pages
+
+The workflow runs:
+- On push to `main` or `master` branch
+- On manual trigger via workflow dispatch
+- Weekly on Monday at 00:00 UTC (automated updates)
 
 ## Troubleshooting
 
@@ -67,17 +86,32 @@ If the documentation doesn't update after merging changes:
 2. Verify that GitHub Pages is configured to use "GitHub Actions" as the source
 3. Wait a few minutes for the deployment to propagate
 
-## Modifying the Documentation
+## Modifying the Documentation and Statistics
 
-The documentation is generated from:
+### API Documentation
+
+The API documentation is generated from:
 - **Source code comments**: Doxygen comments in `.h` files
 - **Doxyfile**: Configuration in `Install/Doxyfile`
 - **Additional pages**: `.dox` files (e.g., `Include/iprm/iprm_mainpage.dox`)
 
-To modify the documentation:
+To modify the API documentation:
 1. Update source code comments or `.dox` files
 2. Commit and push changes to the `main` branch
 3. The workflow will automatically regenerate and deploy the documentation
+
+### Repository Statistics
+
+The statistics page is generated from:
+- **Python script**: `scripts/generate_stats.py` analyzes the repository
+- **HTML template**: `scripts/stats_template.html` displays the results
+- **Configuration**: Thresholds and weights can be adjusted in the Python script
+
+To modify statistics:
+1. Edit `scripts/generate_stats.py` for new metrics or calculations
+2. Edit `scripts/stats_template.html` for display changes
+3. See `scripts/README.md` for detailed customization instructions
+4. Commit and push changes - statistics update automatically
 
 ## Additional Configuration
 
@@ -103,4 +137,5 @@ To modify Doxygen settings:
 For issues related to:
 - **GitHub Pages**: See [GitHub Pages documentation](https://docs.github.com/en/pages)
 - **Doxygen**: See [Doxygen documentation](https://www.doxygen.nl/manual/)
-- **Workflow**: Check the workflow file `.github/workflows/doxygen-pages.yml`
+- **Statistics**: See `scripts/README.md` for statistics system documentation
+- **Workflow**: Check the workflow file `.github/workflows/stats-pages.yml`

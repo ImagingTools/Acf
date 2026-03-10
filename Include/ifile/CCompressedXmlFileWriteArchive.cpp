@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: LGPL-2.1-or-later OR GPL-2.0-or-later OR GPL-3.0-or-later OR LicenseRef-ACF-Commercial
 #include <ifile/CCompressedXmlFileWriteArchive.h>
 
 
@@ -35,7 +36,7 @@ bool CCompressedXmlFileWriteArchive::OpenFile(const QString& filePath)
 	m_file.setFileName(filePath);
 
 	if (m_file.open(QIODevice::WriteOnly)){
-		if (m_buffer.open(QIODevice::WriteOnly | QIODevice::Text)){
+		if (m_buffer.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Unbuffered)){
 			return InitArchive(&m_buffer);
 		}
 	}

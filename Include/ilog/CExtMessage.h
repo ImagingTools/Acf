@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: LGPL-2.1-or-later OR GPL-2.0-or-later OR GPL-3.0-or-later OR LicenseRef-ACF-Commercial
 #pragma once
 
 
@@ -58,11 +59,11 @@ namespace ilog
 	// Attach invalid data object
 	istd::TSharedInterfacePtr<MyDataObject> dataObj(new MyDataObject);
 	dataObj->SetValue(invalidValue);
-	msg->InsertAttachedObject(dataObj.PopPtr(), "Invalid data sample");
+	msg->InsertAttachedObject(dataObj.PopRootPtr(), "Invalid data sample");
 	
 	// Attach validation context
 	istd::TSharedInterfacePtr<ValidationContext> context(new ValidationContext);
-	msg->InsertAttachedObject(context.PopPtr(), "Validation context");
+	msg->InsertAttachedObject(context.PopRootPtr(), "Validation context");
 	
 	// Send to logger
 	logger->AddMessage(msg);
@@ -81,7 +82,6 @@ namespace ilog
 class CExtMessage: public CMessage
 {
 public:
-	/// Base class typedef
 	typedef CMessage BaseClass;
 
 	/**
@@ -92,7 +92,7 @@ public:
 		\param	factoryPtr	Optional object factory for deserialization of attached objects
 	*/
 	explicit CExtMessage(const iser::IObjectFactory* factoryPtr = NULL);
-	
+
 	/**
 		Construct extended message with all properties.
 		

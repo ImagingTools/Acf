@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Acf>
+    <AcfHeader>
+        <VersionInfos>
+            <Version Id="0" Number="5454" Description="ACF"/>
+            <Version Id="1" Number="2256" Description="ACF-Solutions"/>
+            <Version Id="1023" Number="395266" Description="Qt Framework"/>
+        </VersionInfos>
+    </AcfHeader>
+    <PositionMap>
+        <Element ComponentName="ApplicationInfo" X="225" Y="225" Note=""/>
+        <Element ComponentName="ApplicationSettingsProvider" X="225" Y="350" Note=""/>
+        <Element ComponentName="ClipboardSerializer" X="675" Y="350" Note=""/>
+        <Element ComponentName="IniSettingsProvider" X="225" Y="475" Note=""/>
+        <Element ComponentName="SettingsSerializer" X="225" Y="100" Note=""/>
+        <Element ComponentName="TestDataObject" X="900" Y="225" Note=""/>
+        <Element ComponentName="TranslationManager" X="900" Y="350" Note=""/>
+        <Element ComponentName="VersionInfo" X="675" Y="225" Note=""/>
+    </PositionMap>
+    <EmbeddedRegistries/>
+</Acf>

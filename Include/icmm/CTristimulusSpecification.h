@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: LGPL-2.1-or-later OR GPL-2.0-or-later OR GPL-3.0-or-later OR LicenseRef-ACF-Commercial
 #pragma once
 
 
@@ -11,7 +12,7 @@ namespace icmm
 {
 
 
-class CTristimulusSpecification: virtual public ITristimulusSpecification, virtual public iser::ISerializable
+class CTristimulusSpecification: virtual public ITristimulusSpecification
 {
 public:
 	CTristimulusSpecification(
@@ -22,11 +23,16 @@ public:
 
 	CTristimulusSpecification(const ITristimulusSpecification& other);
 
+	static QByteArray GetTypeId();
+
 	// reimplemented (ITristimulusSpecification)
 	virtual std::shared_ptr<IIlluminant> GetIlluminant() const override;
 	virtual ObserverType GetObserverType() const override;
 	virtual AstmTableType GetMethod() const override;
 	virtual std::shared_ptr<ISpectralColorSpecification> GetBaseSpecification() const override;
+
+	// reimplemented (istd::IObject)
+	virtual QByteArray GetFactoryId() const;
 
 	// reimplemented (istd::IChangeable)
 	virtual int GetSupportedOperations() const override;

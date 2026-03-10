@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: LGPL-2.1-or-later OR GPL-2.0-or-later OR GPL-3.0-or-later OR LicenseRef-ACF-Commercial
 #pragma once
 
 
@@ -63,12 +64,16 @@ public:
 	virtual int GetSupportedOperations() const override;
 	virtual bool CopyFrom(const istd::IChangeable& object, CompatibilityMode mode = CM_WITHOUT_REFS) override;
 	virtual istd::TUniqueInterfacePtr<istd::IChangeable> CloneMe(CompatibilityMode mode = CM_WITHOUT_REFS) const override;
+	virtual bool ResetData(CompatibilityMode mode = CM_WITHOUT_REFS) override;
 
 protected:
 	QImage::Format CalcQtFormat(PixelFormat pixelFormat) const;
 	PixelFormat CalcFromQtFormat(QImage::Format imageFormat) const;
 	bool SetQImage(const QImage& image);
 	void InitializeColorModel();
+
+private:
+	void Reset();
 
 private:
 	QImage m_image;

@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: LGPL-2.1-or-later OR GPL-2.0-or-later OR GPL-3.0-or-later OR LicenseRef-ACF-Commercial
 #pragma once
 
 
@@ -216,7 +217,7 @@ private:
 	/**
 		Flag indicating that object has been changed.
 	*/
-	bool m_isObjectChanged;
+	std::atomic<bool> m_isObjectChanged;
 
 	/**
 		Object state is synchronized with the file state.

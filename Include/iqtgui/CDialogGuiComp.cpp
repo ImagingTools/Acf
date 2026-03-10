@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: LGPL-2.1-or-later OR GPL-2.0-or-later OR GPL-3.0-or-later OR LicenseRef-ACF-Commercial
 #include <iqtgui/CDialogGuiComp.h>
 
 
@@ -171,7 +172,7 @@ void CDialogGuiComp::UpdateVisuals()
 		m_dialogPtr->setWindowIcon(icon);
 
 		if (m_dialogTitleAttrPtr.IsValid()){
-			m_dialogPtr->setWindowTitle((*m_dialogTitleAttrPtr));
+			m_dialogPtr->setWindowTitle(*m_dialogTitleAttrPtr);
 		}
 		else{
 			m_dialogPtr->setWindowTitle(QCoreApplication::applicationName());
@@ -222,6 +223,8 @@ void CDialogGuiComp::OnComponentCreated()
 
 void CDialogGuiComp::OnCommandActivated()
 {
+	UpdateVisuals();
+
 	ExecuteDialog(NULL);
 }
 

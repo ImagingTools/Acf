@@ -8,7 +8,10 @@ ACF (Application Component Framework) is a flexible and extensible framework for
 
 The full API documentation is available at: [https://imagingtools.github.io/Acf/](https://imagingtools.github.io/Acf/)
 
-The documentation is automatically generated from the source code using Doxygen and deployed to GitHub Pages.
+**Repository Statistics**: [https://imagingtools.github.io/Acf/stats/](https://imagingtools.github.io/Acf/stats/)  
+View comprehensive code metrics including lines of code, number of classes and components, test coverage, code quality indicators, and more.
+
+The documentation and statistics are automatically generated from the source code and deployed to GitHub Pages.
 
 ### Framework Documentation
 
@@ -90,6 +93,21 @@ The documentation is automatically generated from the source code using Doxygen 
 ## Building
 
 See the documentation for detailed build instructions.
+
+## Continuous Integration
+
+ACF uses automated CI/CD with the following features:
+
+- **TeamCity Integration**: Automated builds for Windows and Linux platforms
+- **Security Scanning**: Automated vulnerability scanning and SBOM validation
+- **Auto-Fix on Build Failure**: When builds fail on pull requests, the system automatically:
+  - Analyzes common error patterns
+  - Applies fixes for missing component registrations
+  - Corrects package mismatches in configuration files
+  - Commits fixes back to the PR branch
+  - Provides guidance when manual intervention is needed
+
+For more information about the auto-fix feature, see [Auto-Fix Documentation](.github/workflows/AUTO_FIX_DOCUMENTATION.md).
 
 ## Security
 

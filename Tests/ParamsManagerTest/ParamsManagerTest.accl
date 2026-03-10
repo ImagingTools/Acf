@@ -1,8 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<LoadSettings>
-    <Partitura>
-        <Classes>
-            <Class ClassName="CParamsManagerTestRunner" Flags="1"/>
-        </Classes>
-    </Partitura>
-</LoadSettings>
+<Acf>
+    <AcfHeader>
+        <VersionInfos>
+            <Version Id="0" Number="5715" Description="ACF"/>
+            <Version Id="1" Number="2274" Description="ACF-Solutions"/>
+            <Version Id="1023" Number="395264" Description="Qt Framework"/>
+        </VersionInfos>
+    </AcfHeader>
+    <PositionMap>
+        <Element ComponentName="Factory" X="575" Y="650" Note=""/>
+        <Element ComponentName="Fixed1" X="325" Y="225" Note=""/>
+        <Element ComponentName="Fixed2" X="850" Y="225" Note=""/>
+        <Element ComponentName="ParamsManager" X="575" Y="425" Note=""/>
+    </PositionMap>
+    <EmbeddedRegistries>
+        <EmbededRegistry Id="ParamsSet1">
+            <PositionMap>
+                <Element ComponentName="ParamsSet" X="575" Y="225" Note=""/>
+                <Element ComponentName="Selection" X="575" Y="475" Note=""/>
+            </PositionMap>
+            <EmbeddedRegistries/>
+        </EmbededRegistry>
+    </EmbeddedRegistries>
+</Acf>

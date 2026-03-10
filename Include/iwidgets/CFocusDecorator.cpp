@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: LGPL-2.1-or-later OR GPL-2.0-or-later OR GPL-3.0-or-later OR LicenseRef-ACF-Commercial
 #include <iwidgets/CFocusDecorator.h>
 
 
@@ -19,7 +20,7 @@ CFocusDecorator::~CFocusDecorator()
 }
 
 
-bool CFocusDecorator::RegisterWidget(QWidget* widgetPtr, GraphicsEffectFactory* factoryPtr)
+bool CFocusDecorator::RegisterWidget(QWidget* widgetPtr, CFocusDecorator::IGraphicsEffectFactory* factoryPtr)
 {
 	if (widgetPtr == NULL){
 		return false;
@@ -77,9 +78,9 @@ bool CFocusDecorator::eventFilter(QObject* objectPtr, QEvent* eventPtr)
 			case QEvent::FocusIn:{
 				QWidget* widgetPtr = dynamic_cast<QWidget*>(objectPtr);
 				if (widgetPtr != NULL){
-					GraphicsEffectFactory* factoryPtr = m_widgetEffectsMap.value(widgetPtr, NULL);
+					IGraphicsEffectFactory* factoryPtr = m_widgetEffectsMap.value(widgetPtr, NULL);
 					if (factoryPtr != NULL){
-						widgetPtr->setGraphicsEffect(factoryPtr->CreateInstance());
+						widgetPtr->setGraphicsEffect(factoryPtr->CreateEffect().release());
 					}
 				}
 				break;

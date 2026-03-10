@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: LGPL-2.1-or-later OR GPL-2.0-or-later OR GPL-3.0-or-later OR LicenseRef-ACF-Commercial
 #pragma once
 
 
@@ -33,7 +34,7 @@ class IParamsSet;
 	#include <ilog/CMessageConsumer.h>
 	
 	// Assuming validator is obtained from a component or factory
-	iprm::IParamsSetValidator* validator = /* ... */;
+	iprm::IParamsSetValidator* validator;
 	
 	// Get supported type IDs
 	iprm::IParamsSetValidator::Ids supportedTypes = validator->GetSupportedTypeIds();
@@ -45,7 +46,7 @@ class IParamsSet;
 	}
 	
 	// Validate a parameter set
-	iprm::IParamsSet* paramsSet = /* ... */;
+	iprm::IParamsSet* paramsSet;
 	QByteArray validationContext = "save_operation";
 	
 	// Create message consumer to collect validation messages

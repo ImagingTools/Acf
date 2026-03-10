@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: LGPL-2.1-or-later OR GPL-2.0-or-later OR GPL-3.0-or-later OR LicenseRef-ACF-Commercial
 #pragma once
 
 
@@ -15,6 +16,15 @@ class CCumulatedProgressManagerBaseTest : public QObject
 
 private Q_SLOTS:
 	void DoOverflowTest1();
+	void TestBasicProgressLogger();
+	void TestMultipleSubtasks();
+	void TestCancellation();
+	void TestGetProcessedTasksSorted();
+	void TestGetProcessedTasksMaxCount();
+	void TestResetProgressManager();
+	void TestTaskStatusTransitions();
+	void TestNestedSubtasks();
+	void TestDefaultTaskInfo();
 };
 
 

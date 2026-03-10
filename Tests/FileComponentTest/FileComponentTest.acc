@@ -1,0 +1,105 @@
+// SPDX-License-Identifier: LGPL-2.1-or-later OR GPL-2.0-or-later OR GPL-3.0-or-later OR LicenseRef-ACF-Commercial
+
+// File Component Tests Configuration
+
+// Test 1: FileNameParam component with default settings
+FileNameParam: ifile::CFileNameParamComp
+{
+	DefaultPath = ".";
+	PathType = 0;  // PT_UNKNOWN
+}
+
+// Test 2: FileNameParam component with file path type
+FileNameParamFile: ifile::CFileNameParamComp
+{
+	DefaultPath = "/home/user/test.txt";
+	PathType = 1;  // PT_FILE
+}
+
+// Test 3: FileNameParam component with directory path type
+FileNameParamDir: ifile::CFileNameParamComp
+{
+	DefaultPath = "/home/user/documents";
+	PathType = 2;  // PT_DIRECTORY
+}
+
+// Test 4: FileNameParam component with path variables
+FileNameParamVars: ifile::CFileNameParamComp
+{
+	DefaultPath = "$(TempPath)/myapp";
+	PathType = 2;  // PT_DIRECTORY
+}
+
+// Test 5: FileTypeInfo component with basic extensions
+FileTypeInfo: ifile::CFileTypeInfoComp
+{
+	FileExtensions = {"txt", "log", "md"};
+	TypeDescriptions = {"Text Files", "Log Files", "Markdown Files"};
+}
+
+// Test 6: FileTypeInfo component with platform-specific extensions
+FileTypeInfoPlatform: ifile::CFileTypeInfoComp
+{
+	FileExtensions = {"dat", "bin"};
+	TypeDescriptions = {"Data Files", "Binary Files"};
+	FileExtensionsWin = {"exe", "dll"};
+	TypeDescriptionsWin = {"Executable Files", "Dynamic Link Library"};
+	FileExtensionsUnx = {"so", "a"};
+	TypeDescriptionsUnx = {"Shared Object", "Static Library"};
+}
+
+// Test 7: TempFileManager component
+TempFolder: ifile::CFileNameParamComp
+{
+	DefaultPath = "$(TempPath)/acf_test";
+	PathType = 2;  // PT_DIRECTORY
+}
+
+TempFileManager: ifile::CTempFileManagerComp
+{
+	RootFolder = ref TempFolder;
+}
+
+// Test 8: SystemLocation component
+SystemLocation: ifile::CSystemLocationComp
+{
+	Path = "ApplicationData";
+	ApplicationSpecific = true;
+	UserSpecific = false;
+}
+
+// Test 9: FileListProvider component with filters
+TestDir: ifile::CFileNameParamComp
+{
+	DefaultPath = ".";
+	PathType = 2;  // PT_DIRECTORY
+}
+
+FileListProvider: ifile::CFileListProviderComp
+{
+	DirParam = ref TestDir;
+	Filters = {"*.cpp", "*.h"};
+	MinRecurDepth = 0;
+	MaxRecurDepth = 1;
+}
+
+// Test 10: Composed file persistence with multiple loaders
+// Create simple JSON loader
+JsonTypeInfo: ifile::CFileTypeInfoComp
+{
+	FileExtensions = {"json"};
+	TypeDescriptions = {"JSON Files"};
+}
+
+// Create simple XML loader
+XmlTypeInfo: ifile::CFileTypeInfoComp
+{
+	FileExtensions = {"xml"};
+	TypeDescriptions = {"XML Files"};
+}
+
+// Composed persistence that can handle both
+ComposedPersistence: ifile::CComposedFilePersistenceComp
+{
+	CommonDescription = "Multi-format files";
+}

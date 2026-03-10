@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: LGPL-2.1-or-later OR GPL-2.0-or-later OR GPL-3.0-or-later OR LicenseRef-ACF-Commercial
 #include <iloggui/CMessageBoxComp.h>
 
 
@@ -84,6 +85,20 @@ void CMessageBoxComp::AddMessage(const MessagePtr& messagePtr)
 void CMessageBoxComp::OnComponentCreated()
 {
 	BaseClass::OnComponentCreated();
+
+	m_messageBox = QSharedPointer<QMessageBox>(new QMessageBox());
+	m_messageBox->setWindowModality(Qt::ApplicationModal);
+	m_messageBox->setStandardButtons(QMessageBox::Ok);
+}
+
+
+void CMessageBoxComp::OnComponentDestroyed()
+{
+	disconnect(this);
+
+	m_messageBox.reset();
+
+	BaseClass::OnComponentDestroyed();
 }
 
 
@@ -121,8 +136,12 @@ void CMessageBoxComp::CreateMessageText(QString& messageText, QString& detailedT
 
 void CMessageBoxComp::OnAddMessage()
 {
-	if (!QApplication::startingUp()){
-		if (!m_messageBox.isVisible()){
+	if (!m_messageBox){
+		return;
+	}
+
+	if (!QApplication::startingUp() && !QApplication::closingDown()){
+		if (!m_messageBox->isVisible()){
 			m_messageQueueMutex.lock();
 
 			QString messageText;
@@ -133,11 +152,11 @@ void CMessageBoxComp::OnAddMessage()
 			m_messageQueue.clear();
 			m_messageQueueMutex.unlock();
 
-			m_messageBox.setText(messageText);
-			m_messageBox.setDetailedText(detailedText);
-			m_messageBox.setIconPixmap(statusIcon.pixmap(32, 32));
+			m_messageBox->setText(messageText);
+			m_messageBox->setDetailedText(detailedText);
+			m_messageBox->setIconPixmap(statusIcon.pixmap(32, 32));
 
-			m_messageBox.exec();
+			m_messageBox->exec();
 		}
 	}
 }

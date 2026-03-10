@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: LGPL-2.1-or-later OR GPL-2.0-or-later OR GPL-3.0-or-later OR LicenseRef-ACF-Commercial
 #include <iqtgui/CCommandBasedSelectionControllerComp.h>
 
 
@@ -166,10 +167,10 @@ void CCommandBasedSelectionControllerComp::BuildCommands()
 
 			connect(commandPtr, SIGNAL(triggered()), this, SLOT(OnCommandActivated()));
 
-			commandPtr->setChecked(currentSelection == optionIndex);
 			commandPtr->setCheckable(true);
+			commandPtr->setChecked(currentSelection == optionIndex);
 
-			m_commandsList.InsertChild(commandPtr, true, optionIndex + indexOffset);				
+			m_commandsList.InsertChild(commandPtr, true, optionIndex + indexOffset);
 		}
 
 		if (m_actionIconsProviderCompPtr.IsValid()){

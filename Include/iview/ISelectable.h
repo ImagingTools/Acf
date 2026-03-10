@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: LGPL-2.1-or-later OR GPL-2.0-or-later OR GPL-3.0-or-later OR LicenseRef-ACF-Commercial
 #pragma once
 
 
@@ -35,6 +36,7 @@ public:
 		MPM_HAND,
 		MPM_DRAG,
 		MPM_SCREEN_MOVE,
+		MPM_ADD,
 		MPM_LAST
 	};
 

@@ -179,10 +179,6 @@ Example structure:
 - License: Same as Qt
 - Purpose: Qt-based build system
 
-**Qbs (Optional - for Qbs builds)**
-- License: LGPL-3.0
-- Purpose: Alternative build system
-
 **Doxygen (Optional - for documentation)**
 - License: GPL-2.0
 - Purpose: API documentation generation

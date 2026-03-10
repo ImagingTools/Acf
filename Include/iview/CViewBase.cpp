@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: LGPL-2.1-or-later OR GPL-2.0-or-later OR GPL-3.0-or-later OR LicenseRef-ACF-Commercial
 #include <iview/CViewBase.h>
 
 
@@ -864,6 +865,9 @@ bool CViewBase::OnMouseButton(istd::CIndex2d position, Qt::MouseButton buttonTyp
 
 		if (downFlag && (buttonType == Qt::LeftButton)){
 			if ((m_keysState & Qt::ControlModifier) == 0){
+				// Temporarily disable select events to avoid reentrancy issues
+				// when DeselectAllShapes() triggers OnShapeSelected() callbacks
+				m_isSelectEventActive = false;
 				DeselectAllShapes();
 				UpdateMousePointer();
 				Update();
@@ -964,7 +968,7 @@ ISelectable::MousePointerMode CViewBase::CalcMousePointer(istd::CIndex2d positio
 				}
 				Q_ASSERT(shapePtr != NULL);
 
-				return result;
+				return shapePtr->UpdateMousePointer(result, touchState, position);
 			}
 
 			areSelected = areSelected || (layerPtr->GetSelectedShapesCount() > 0);

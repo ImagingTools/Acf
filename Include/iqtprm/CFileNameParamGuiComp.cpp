@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: LGPL-2.1-or-later OR GPL-2.0-or-later OR GPL-3.0-or-later OR LicenseRef-ACF-Commercial
 #include <iqtprm/CFileNameParamGuiComp.h>
 
 
@@ -138,7 +139,7 @@ void CFileNameParamGuiComp::OnGuiCreated()
 		DirEdit->setStyleSheet(
 			"QComboBox::drop-down {border: none; background-color: transparent;} "
 			"QComboBox::down-arrow {image: none;}"
-			);
+		);
 	}
 
 	BaseClass::OnGuiCreated();

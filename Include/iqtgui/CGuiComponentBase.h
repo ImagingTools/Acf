@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: LGPL-2.1-or-later OR GPL-2.0-or-later OR GPL-3.0-or-later OR LicenseRef-ACF-Commercial
 #pragma once
 
 
@@ -121,6 +122,8 @@ protected:
 		Set status text;
 	*/
 	void SetStatusText(const QString& text);
+
+	void SetDefaultVisualStatus();
 
 	// reimplemented (ibase::TLocalizableWrap)
 	virtual void OnLanguageChanged() override;

@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: LGPL-2.1-or-later OR GPL-2.0-or-later OR GPL-3.0-or-later OR LicenseRef-ACF-Commercial
 #pragma once
 
 
@@ -207,7 +208,7 @@ public:
 		
 		\return A new vector perpendicular to both this vector and the input vector
 		
-		\note The cross product is not commutative: A × B ≠ B × A (in fact, A × B = -(B × A))
+		\note The cross product is not commutative: A x B != B x A (in fact, A x B = -(B x A))
 		\note The result follows the right-hand rule for determining direction
 		
 		\code

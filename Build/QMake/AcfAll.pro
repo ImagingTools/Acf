@@ -133,6 +133,9 @@ istdTest.file = ../../Include/istd/Test/QMake/istdTest.pro
 SUBDIRS += icompTest
 icompTest.file = ../../Include/icomp/Test/QMake/icompTest.pro
 
+SUBDIRS += ipackageTest
+ipackageTest.file = ../../Include/ipackage/Test/QMake/ipackageTest.pro
+
 SUBDIRS += iserTest
 iserTest.file = ../../Include/iser/Test/QMake/iserTest.pro
 
@@ -151,6 +154,18 @@ ifileTest.file = ../../Include/ifile/Test/QMake/ifileTest.pro
 SUBDIRS += icmmTest
 icmmTest.file = ../../Include/icmm/Test/QMake/icmmTest.pro
 
+SUBDIRS += iimgTest
+iimgTest.file = ../../Include/iimg/Test/QMake/iimgTest.pro
+
+SUBDIRS += i3dTest
+i3dTest.file = ../../Include/i3d/Test/QMake/i3dTest.pro
+
+SUBDIRS += imathTest
+imathTest.file = ../../Include/imath/Test/QMake/imathTest.pro
+
+SUBDIRS += iqtTest
+iqtTest.file = ../../Include/iqt/Test/QMake/iqtTest.pro
+
 SUBDIRS += SelectionParamIntegrationTest
 SelectionParamIntegrationTest.file = ../../Tests/SelectionParamIntegrationTest/QMake/SelectionParamIntegrationTest.pro
 SelectionParamIntegrationTest.depends = Arxc iprm iser itest
@@ -159,4 +174,58 @@ SUBDIRS += MultiThreadingComponentTest
 MultiThreadingComponentTest.file = ../../Tests/MultiThreadingComponentTest/QMake/MultiThreadingComponentTest.pro
 MultiThreadingComponentTest.depends = Arxc iprm iser itest
 
+SUBDIRS += ParamsManagerTest
+ParamsManagerTest.file = ../../Tests/ParamsManagerTest/QMake/ParamsManagerTest.pro
+ParamsManagerTest.depends = Arxc iprm iser itest
+
+SUBDIRS += SelectionParamComponentTest
+SelectionParamComponentTest.file = ../../Tests/SelectionParamComponentTest/QMake/SelectionParamComponentTest.pro
+SelectionParamComponentTest.depends = Arxc iprm iser itest
+
+SUBDIRS += TextParamComponentTest
+TextParamComponentTest.file = ../../Tests/TextParamComponentTest/QMake/TextParamComponentTest.pro
+TextParamComponentTest.depends = Arxc iprm iser itest
+
+SUBDIRS += IdParamComponentTest
+IdParamComponentTest.file = ../../Tests/IdParamComponentTest/QMake/IdParamComponentTest.pro
+IdParamComponentTest.depends = Arxc iprm iser itest
+
+SUBDIRS += NameParamComponentTest
+NameParamComponentTest.file = ../../Tests/NameParamComponentTest/QMake/NameParamComponentTest.pro
+NameParamComponentTest.depends = Arxc iprm iser itest
+
+SUBDIRS += EnableableParamComponentTest
+EnableableParamComponentTest.file = ../../Tests/EnableableParamComponentTest/QMake/EnableableParamComponentTest.pro
+EnableableParamComponentTest.depends = Arxc iprm iser itest
+
+SUBDIRS += LogTest
+LogTest.file = ../../Tests/LogTest/QMake/LogTest.pro
+LogTest.depends = Arxc ilog iser itest
+
+SUBDIRS += DocumentManagementComponentTest
+DocumentManagementComponentTest.file = ../../Tests/DocumentManagementComponentTest/QMake/DocumentManagementComponentTest.pro
+DocumentManagementComponentTest.depends = Arxc idoc iser itest
+
+SUBDIRS += IqtComponentTest
+IqtComponentTest.file = ../../Tests/IqtComponentTest/QMake/IqtComponentTest.pro
+IqtComponentTest.depends = Arxc iqt ifile iprm iser itest
+
+SUBDIRS += AutoPersistenceTest
+AutoPersistenceTest.file = ../../Tests/AutoPersistenceTest/QMake/AutoPersistenceTest.pro
+AutoPersistenceTest.depends = Arxc iprm ifile iser itest
+
+SUBDIRS += VarIndexTest
+VarIndexTest.file = ../../Tests/VarIndexTest/QMake/VarIndexTest.pro
+VarIndexTest.depends = istd itest
+
+SUBDIRS += SerializationRegressionTest
+SerializationRegressionTest.file = ../../Tests/SerializationRegressionTest/QMake/SerializationRegressionTest.pro
+SerializationRegressionTest.depends = Arxc i2d i3d icmm imath iser istd iprm ifile iimg ibase imod itest
+
+# Impl Tests
+!macx-ios*{
+	SUBDIRS += TestComposedGui
+	TestComposedGui.file = ../../Tests/TestComposedGui/QMake/TestComposedGui.pro
+	TestComposedGui.depends = Arxc Acf
+}
 

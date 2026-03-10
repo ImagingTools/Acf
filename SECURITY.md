@@ -55,7 +55,7 @@ Security advisories will be published through:
 
 ### Build Environment Security
 
-ACF is built using CMake, QMake, and Qbs build systems. Users should:
+ACF is built using CMake and QMake build systems. Users should:
 
 - Verify the integrity of downloaded releases
 - Use trusted sources for dependencies (Qt framework)

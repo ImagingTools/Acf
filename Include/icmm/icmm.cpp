@@ -1,4 +1,8 @@
+// SPDX-License-Identifier: LGPL-2.1-or-later OR GPL-2.0-or-later OR GPL-3.0-or-later OR LicenseRef-ACF-Commercial
 #include <icmm/icmm.h>
+
+
+#include <icmm/IColorModel.h>
 
 
 namespace icmm
@@ -24,6 +28,16 @@ bool IsCmyk(ColorantUsage usage)
 	default:
 		return false;
 	}
+}
+
+
+QStringList GetColorSpaceComponentNames(const icmm::IColorModel& colorModel)
+{
+	QStringList result;
+	for (int i = 0; i < colorModel.GetColorSpaceDimensionality(); ++i){
+		result << colorModel.GetColorSpaceComponentName(i);
+	}
+	return result;
 }
 
 

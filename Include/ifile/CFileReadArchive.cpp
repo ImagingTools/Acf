@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: LGPL-2.1-or-later OR GPL-2.0-or-later OR GPL-3.0-or-later OR LicenseRef-ACF-Commercial
 #include <ifile/CFileReadArchive.h>
 
 
@@ -82,11 +83,21 @@ bool CFileReadArchive::ProcessData(void* data, int size)
 		return true;
 	}
 
-	if (data == NULL){
+	if (data == nullptr) {
 		return false;
 	}
 
-	m_file.read((char*)data, size);
+	char* buffer = static_cast<char*>(data);
+	int totalRead = 0;
+
+	while (totalRead < size) {
+		qint64 bytesRead = m_file.read(buffer + totalRead, size - totalRead);
+		if (bytesRead <= 0) {
+			// Read failed or EOF reached before reading all data
+			return false;
+		}
+		totalRead += bytesRead;
+	}
 
 	return m_file.error() == QFile::NoError;
 }

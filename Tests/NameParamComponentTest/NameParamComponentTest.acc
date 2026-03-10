@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Acf>
+    <AcfHeader>
+        <VersionInfos>
+            <Version Id="0" Number="5715" Description="ACF"/>
+            <Version Id="1" Number="2274" Description="ACF-Solutions"/>
+            <Version Id="1023" Number="395264" Description="Qt Framework"/>
+        </VersionInfos>
+    </AcfHeader>
+    <Description>Component tests for CNameParamComp with various configurations</Description>
+    <Keywords></Keywords>
+    <ElementsList>
+        <Element Id="NameWithDefault" PackageId="BasePck" ComponentId="NameParam">
+            <Data IsEnabled="true" Flags="0">
+                <AttributeInfoMap>
+                    <AttributeInfo Id="DefaultName" Type="Text" ExportId="">
+                        <Data IsEnabled="true" Value="Default Name"/>
+                    </AttributeInfo>
+                </AttributeInfoMap>
+            </Data>
+        </Element>
+        <Element Id="NameNoDefault" PackageId="BasePck" ComponentId="NameParam">
+            <Data IsEnabled="true" Flags="0">
+                <AttributeInfoMap/>
+            </Data>
+        </Element>
+        <Element Id="NameFixed" PackageId="BasePck" ComponentId="NameParam">
+            <Data IsEnabled="true" Flags="0">
+                <AttributeInfoMap>
+                    <AttributeInfo Id="DefaultName" Type="Text" ExportId="">
+                        <Data IsEnabled="true" Value="Fixed Name"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="IsNameFixed" Type="Boolean" ExportId="">
+                        <Data IsEnabled="true" Value="true"/>
+                    </AttributeInfo>
+                </AttributeInfoMap>
+            </Data>
+        </Element>
+    </ElementsList>
+    <EmbeddedRegistriesList/>
+    <ExportedInterfaces/>
+    <ExportedComponents>
+        <Component ExportedId="NameWithDefault" ComponentId="NameWithDefault"/>
+        <Component ExportedId="NameNoDefault" ComponentId="NameNoDefault"/>
+        <Component ExportedId="NameFixed" ComponentId="NameFixed"/>
+    </ExportedComponents>
+</Acf>

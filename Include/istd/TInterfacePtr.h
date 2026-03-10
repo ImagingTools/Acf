@@ -1,4 +1,5 @@
-﻿#pragma once
+// SPDX-License-Identifier: LGPL-2.1-or-later OR GPL-2.0-or-later OR GPL-3.0-or-later OR LicenseRef-ACF-Commercial
+#pragma once
 
 
 // STL includes
@@ -18,12 +19,21 @@ namespace istd
 
 
 /**
+	\brief Base template for polymorphic interface pointers.
+
 	Specialized polymorphic pointer that manages the allocated root object
 	(m_rootPtr) and simultaneously provides a pointer to the actual interface implementation (m_interfacePtr).
 	The interface instance is "derived" from the root object using the provided
 	extractor (ExtractInterfaceFunc) or an alternative extraction mechanism.
 	Ownership and lifetime are tied to m_rootPtr; m_interfacePtr is a non-owning
 	view into the interface and may point to a different (sub)object than m_rootPtr.
+
+	\tparam InterfaceType The interface type to expose.
+	\tparam PolymorphicPointerImpl The underlying smart pointer type (std::unique_ptr or std::shared_ptr).
+
+	\note This class is not meant to be used directly. Use TUniqueInterfacePtr or TSharedInterfacePtr instead.
+
+	\ingroup Main
 */
 template <class InterfaceType, class PolymorphicPointerImpl>
 class TInterfacePtr
@@ -209,6 +219,40 @@ protected:
 };
 
 
+/**
+	\brief Unique ownership smart pointer for interface types.
+
+	TUniqueInterfacePtr provides exclusive ownership of an object with automatic memory management.
+	It is similar to std::unique_ptr but specialized for ACF's interface-based architecture where
+	the root object and interface pointer may differ.
+
+	Key characteristics:
+	- **Unique ownership**: Only one TUniqueInterfacePtr can own an object at a time.
+	- **Move semantics**: Ownership can be transferred via move operations.
+	- **No copying**: Copy constructor and copy assignment are deleted.
+	- **Automatic cleanup**: The object is automatically deleted when the pointer goes out of scope.
+	- **Interface separation**: Supports separate root object and interface pointers for polymorphic designs.
+
+	\tparam InterfaceType The interface type to expose.
+	\tparam RootIntefaceType The root type that owns the object (default: istd::IPolymorphic).
+
+	\note RootIntefaceType must derive from istd::IPolymorphic and have a virtual destructor.
+
+	\sa TSharedInterfacePtr, TOptInterfacePtr
+
+	Example:
+	\code{.cpp}
+	// Create a unique pointer
+	istd::TUniqueInterfacePtr<IMyInterface> ptr = CreateMyObject();
+	ptr->DoSomething();
+
+	// Transfer ownership via move
+	istd::TUniqueInterfacePtr<IMyInterface> ptr2 = std::move(ptr);
+	// ptr is now invalid, ptr2 owns the object
+	\endcode
+
+	\ingroup Main
+*/
 template <class InterfaceType, class RootIntefaceType = istd::IPolymorphic>
 class TUniqueInterfacePtr : public TInterfacePtr<InterfaceType, std::unique_ptr<RootIntefaceType>>
 {
@@ -220,6 +264,8 @@ public:
 		"RootIntefaceType must derive from istd::IPolymorphic");
 	static_assert(std::has_virtual_destructor_v<RootIntefaceType>,
 		"RootIntefaceType must have a virtual destructor");
+	static_assert(std::is_base_of_v<RootIntefaceType, InterfaceType>,
+		"InterfaceType must derive from RootIntefaceType");
 
 	TUniqueInterfacePtr() noexcept
 		:BaseClass()
@@ -278,24 +324,80 @@ public:
 	}
 
 	/**
-		Pop the root pointer.Caller takes ownership of the raw pointer.
+		Pop the root pointer. Caller takes ownership of the raw pointer.
 	*/
-	RootIntefaceType* PopPtr() noexcept
+	RootIntefaceType* PopRootPtr() noexcept
 	{
 		BaseClass::m_interfacePtr = nullptr;
 
 		return BaseClass::m_rootPtr.release(); // caller owns returned pointer
 	}
 
+	/**
+		Intelligent pop of interface pointer. Caller takes ownership of the raw pointer.
+
+		Automatically chooses the correct extraction method based on internal pointer state:
+		1. If m_rootPtr == m_interfacePtr (simple objects): extracts interface pointer
+		2. If m_interfacePtr != nullptr && m_rootPtr == nullptr: extracts interface pointer
+		3. If m_rootPtr != m_interfacePtr and both != nullptr (composite components): extracts root and casts to interface
+
+		\return Interface pointer with ownership transferred to caller.
+	*/
 	InterfaceType* PopInterfacePtr() noexcept
 	{
-		InterfaceType* retVal = BaseClass::m_interfacePtr;
+		// Case 1: Root and interface are the same (simple objects)
+		if (BaseClass::m_rootPtr.get() == BaseClass::m_interfacePtr){
+			InterfaceType* retVal = BaseClass::m_interfacePtr;
 
-		BaseClass::m_interfacePtr = nullptr;
+			BaseClass::m_interfacePtr = nullptr;
 
-		BaseClass::m_rootPtr.release();
+			BaseClass::m_rootPtr.release();
 
-		return retVal;
+			return retVal;
+		}
+		
+		// Case 2: Only interface is set, no root
+		if (BaseClass::m_interfacePtr != nullptr && BaseClass::m_rootPtr.get() == nullptr){
+			InterfaceType* retVal = BaseClass::m_interfacePtr;
+
+			BaseClass::m_interfacePtr = nullptr;
+
+			return retVal;
+		}
+		
+		// Case 3: Root and interface differ (composite components)
+		if (BaseClass::m_rootPtr.get() != nullptr && BaseClass::m_interfacePtr != nullptr){
+			// First check if dynamic_cast will succeed to avoid memory leak
+			InterfaceType* castedPtr = dynamic_cast<InterfaceType*>(BaseClass::m_rootPtr.get());
+			if (castedPtr != nullptr){
+				// Cast succeeded, safe to release ownership
+				RootIntefaceType* rootPtr = PopRootPtr();
+				Q_UNUSED(rootPtr);
+
+				return castedPtr;
+			}
+
+			// Cast failed - this should never happen in correct code
+			Q_ASSERT(false && "dynamic_cast failed in PopInterfacePtr - interface pointer type mismatch");
+
+			return nullptr;
+		}
+		
+		// Empty pointer
+		return nullptr;
+	}
+
+	/**
+		Intelligent pop method - alias for PopInterfacePtr().
+		
+		Automatically chooses the correct extraction method based on internal pointer state.
+		See PopInterfacePtr() for details.
+		
+		\return Interface pointer with ownership transferred to caller.
+	*/
+	InterfaceType* PopPtr() noexcept
+	{
+		return PopInterfacePtr();
 	}
 
 	/**
@@ -305,7 +407,7 @@ public:
 	{
 		BaseClass::m_interfacePtr = from.m_interfacePtr;
 
-		BaseClass::m_rootPtr.reset(from.PopPtr());
+		BaseClass::m_rootPtr.reset(from.PopRootPtr());
 	}
 
 	template<class SourceInterfaceType>
@@ -329,6 +431,41 @@ public:
 };
 
 
+/**
+	\brief Shared ownership smart pointer for interface types.
+
+	TSharedInterfacePtr provides shared ownership of an object with reference counting and automatic memory management.
+	It is similar to std::shared_ptr but specialized for ACF's interface-based architecture where
+	the root object and interface pointer may differ.
+
+	Key characteristics:
+	- **Shared ownership**: Multiple TSharedInterfacePtr instances can own the same object.
+	- **Reference counting**: The object is deleted when the last owner is destroyed.
+	- **Copy and move**: Supports both copy and move semantics.
+	- **Thread-safe counting**: Reference counting is thread-safe (but the object itself may not be).
+	- **Interface separation**: Supports separate root object and interface pointers for polymorphic designs.
+
+	\tparam InterfaceType The interface type to expose.
+	\tparam RootIntefaceType The root type that owns the object (default: istd::IPolymorphic).
+
+	\note RootIntefaceType must derive from istd::IPolymorphic and have a virtual destructor.
+
+	\sa TUniqueInterfacePtr, TOptInterfacePtr
+
+	Example:
+	\code{.cpp}
+	// Create a shared pointer
+	istd::TSharedInterfacePtr<IMyInterface> ptr1 = CreateMyObject();
+	ptr1->DoSomething();
+
+	// Share ownership via copy
+	istd::TSharedInterfacePtr<IMyInterface> ptr2 = ptr1;
+	// Both ptr1 and ptr2 now own the object
+	// Object will be deleted when both go out of scope
+	\endcode
+
+	\ingroup Main
+*/
 template <class InterfaceType, class RootIntefaceType = istd::IPolymorphic>
 class TSharedInterfacePtr : public TInterfacePtr<InterfaceType, std::shared_ptr<RootIntefaceType>>
 {
@@ -338,6 +475,8 @@ public:
 
 	static_assert(std::is_base_of_v<istd::IPolymorphic, RootIntefaceType>, "RootIntefaceType must derive from istd::IPolymorphic");
 	static_assert(std::has_virtual_destructor_v<RootIntefaceType>, "RootIntefaceType must have a virtual destructor");
+	static_assert(std::is_base_of_v<RootIntefaceType, InterfaceType>,
+		"InterfaceType must derive from RootIntefaceType");
 
 	TSharedInterfacePtr() noexcept
 		:BaseClass()
@@ -433,7 +572,9 @@ public:
 		return *this;
 	}
 
-	// Convert from unique to shared. After this call, uniquePtr no longer owns the object.
+	/**
+		Convert from unique to shared.After this call, uniquePtr no longer owns the object.
+	*/
 	TSharedInterfacePtr& FromUnique(TUniqueInterfacePtr<InterfaceType>& uniquePtr) noexcept
 	{
 		if (!uniquePtr.IsValid()){
@@ -444,7 +585,7 @@ public:
 		BaseClass::m_interfacePtr = uniquePtr.GetPtr();
 
 		// Acquire raw pointer in one step and assign to shared_ptr to avoid leaks on exceptions.
-		RootIntefaceType* rawRoot = uniquePtr.PopPtr(); // caller (this function) now owns rawRoot
+		RootIntefaceType* rawRoot = uniquePtr.PopRootPtr(); // caller (this function) now owns rawRoot
 		if (rawRoot == nullptr){
 			Reset();
 			return *this;
@@ -472,7 +613,7 @@ public:
 		// Try dynamic cast on the raw pointer before transferring ownership
 		InterfaceType* interfacePtr = dynamic_cast<InterfaceType*>(uniquePtr.GetPtr());
 		if (interfacePtr != nullptr){
-			RootIntefaceType* rawRoot = uniquePtr.PopPtr();
+			RootIntefaceType* rawRoot = uniquePtr.PopRootPtr();
 			retVal.BaseClass::m_rootPtr = std::shared_ptr<RootIntefaceType>(rawRoot);
 			retVal.BaseClass::m_interfacePtr = interfacePtr;
 		}
@@ -504,7 +645,7 @@ public:
 		InterfaceType* targetPtr = dynamic_cast<InterfaceType*>(source.GetPtr());
 		if (targetPtr != nullptr){
 			// Transfer ownership of the unique_ptr into shared_ptr safely
-			RootIntefaceType* rawRoot = source.PopPtr();
+			RootIntefaceType* rawRoot = source.PopRootPtr();
 			BaseClass::m_rootPtr = std::shared_ptr<RootIntefaceType>(rawRoot);
 			BaseClass::m_interfacePtr = targetPtr;
 			return true;

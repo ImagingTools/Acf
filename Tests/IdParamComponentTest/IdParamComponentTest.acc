@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Acf>
+    <AcfHeader>
+        <VersionInfos>
+            <Version Id="0" Number="5715" Description="ACF"/>
+            <Version Id="1" Number="2274" Description="ACF-Solutions"/>
+            <Version Id="1023" Number="395264" Description="Qt Framework"/>
+        </VersionInfos>
+    </AcfHeader>
+    <Description>Component tests for CIdParamComp with various configurations</Description>
+    <Keywords></Keywords>
+    <ElementsList>
+        <Element Id="IdWithDefault" PackageId="BasePck" ComponentId="IdParam">
+            <Data IsEnabled="true" Flags="0">
+                <AttributeInfoMap>
+                    <AttributeInfo Id="DefaultId" Type="Id" ExportId="">
+                        <Data IsEnabled="true" Value="default_id_123"/>
+                    </AttributeInfo>
+                </AttributeInfoMap>
+            </Data>
+        </Element>
+        <Element Id="IdNoDefault" PackageId="BasePck" ComponentId="IdParam">
+            <Data IsEnabled="true" Flags="0">
+                <AttributeInfoMap/>
+            </Data>
+        </Element>
+    </ElementsList>
+    <EmbeddedRegistriesList/>
+    <ExportedInterfaces/>
+    <ExportedComponents>
+        <Component ExportedId="IdWithDefault" ComponentId="IdWithDefault"/>
+        <Component ExportedId="IdNoDefault" ComponentId="IdNoDefault"/>
+    </ExportedComponents>
+</Acf>

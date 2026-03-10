@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: LGPL-2.1-or-later OR GPL-2.0-or-later OR GPL-3.0-or-later OR LicenseRef-ACF-Commercial
 #pragma once
 
 
@@ -38,6 +39,7 @@
 #include <ifile/TDeviceBasedSerializerComp.h>
 #include <ifile/CFileReadSecureArchive.h>
 #include <ifile/CFileWriteSecureArchive.h>
+
 
 /**
 	Package for file system primitives management.

@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: LGPL-2.1-or-later OR GPL-2.0-or-later OR GPL-3.0-or-later OR LicenseRef-ACF-Commercial
 #include <iattr/CAttributesManager.h>
 
 
@@ -214,7 +215,8 @@ bool CAttributesManager::Serialize(iser::IArchive& archive)
 
 			AttributePtr& attributePtr = m_attributesMap[attributeId];
 			if (!attributePtr.IsValid()){
-				attributePtr.SetPtr(m_attributesFactoryPtr->CreateInstance(attributeTypeId), true);
+				istd::TUniqueInterfacePtr<iser::IObject> newAttrPtr = m_attributesFactoryPtr->CreateInstance(attributeTypeId);
+				attributePtr.SetPtr(newAttrPtr.PopInterfacePtr(), true);
 
 				if (!attributePtr.IsValid()){
 					return false;

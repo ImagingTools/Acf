@@ -1,0 +1,41 @@
+// SPDX-License-Identifier: LGPL-2.1-or-later OR GPL-2.0-or-later OR GPL-3.0-or-later OR LicenseRef-ACF-Commercial
+#pragma once
+
+
+// Qt includes
+#include <QtCore/QObject>
+#include <QtTest/QtTest>
+
+// ACF includes
+#include <iprm/IParamsManager.h>
+#include <itest/CStandardTestExecutor.h>
+#include <GeneratedFiles/ParamsManagerTest/CParamsManagerTest.h>
+
+class CParamsManagerTestRunner: public QObject
+{
+	Q_OBJECT
+private slots:
+	void initTestCase();
+
+	void GetIndexOperationFlagsTest();
+	void SetIndexOperationFlagsTest();
+	void GetParamsSetsCountTest();
+	void GetParamsTypeConstraintsTest();
+	void InsertParamsSetTest();
+	void RemoveParamsSetTest();
+	void SwapParamsSetTest();
+	void GetParamsSetTest();
+	void CreateParameterSetTest();
+	void GetSetParamsSetNameTest();
+	void GetSetParamsSetDescriptionTest();
+	void SerializeTest();
+	void CopyTest();
+	void ParamsInfoProviderTest();
+
+	void cleanupTestCase();
+
+private:
+	std::shared_ptr<CParamsManagerTest> m_testPartituraInstanceCompPtr;
+	iprm::IParamsManager* m_paramsManagerPtr = nullptr;
+};
+

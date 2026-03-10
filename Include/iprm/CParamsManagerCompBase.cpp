@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: LGPL-2.1-or-later OR GPL-2.0-or-later OR GPL-3.0-or-later OR LicenseRef-ACF-Commercial
 #include <iprm/CParamsManagerCompBase.h>
 
 
@@ -759,6 +760,14 @@ iser::ISerializable* CParamsManagerCompBase::ParamSet::GetEditableParameter(cons
 }
 
 
+const IParamsInfoProvider* CParamsManagerCompBase::ParamSet::GetParamsInfoProvider() const
+{
+	Q_ASSERT(paramSetPtr.IsValid());
+
+	return paramSetPtr->GetParamsInfoProvider();
+}
+
+
 // reimplemented (iprm::ISelectionParam)
 
 const IOptionsList* CParamsManagerCompBase::ParamSet::GetSelectionConstraints() const
@@ -884,6 +893,19 @@ const iser::ISerializable* CParamsManagerCompBase::SelectedParams::GetParameter(
 iser::ISerializable* CParamsManagerCompBase::SelectedParams::GetEditableParameter(const QByteArray& /*id*/)
 {
 	return NULL;
+}
+
+
+const IParamsInfoProvider* CParamsManagerCompBase::SelectedParams::GetParamsInfoProvider() const
+{
+	if ((parentPtr != nullptr) && (parentPtr->m_selectedIndex >= 0)){
+		const IParamsSet* selectedParamsSetPtr = parentPtr->GetParamsSet(parentPtr->m_selectedIndex);
+		if (selectedParamsSetPtr != nullptr){
+			return selectedParamsSetPtr->GetParamsInfoProvider();
+		}
+	}
+
+	return nullptr;
 }
 
 

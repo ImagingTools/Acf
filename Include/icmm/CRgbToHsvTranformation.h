@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: LGPL-2.1-or-later OR GPL-2.0-or-later OR GPL-3.0-or-later OR LicenseRef-ACF-Commercial
 #pragma once
 
 
@@ -27,7 +28,7 @@ namespace icmm
 	   - If R is max: H = (G - B) / (max - min)
 	   - If G is max: H = 2 + (B - R) / (max - min)
 	   - If B is max: H = 4 + (R - G) / (max - min)
-	   - Then: H = H * 60° (and add 360° if negative)
+	   - Then: H = H * 60 degrees (and add 360 degrees if negative)
 
 	\section RgbToHsvUsage Usage Examples
 	\code
@@ -43,7 +44,7 @@ namespace icmm
 	// Convert to HSV
 	icmm::CVarColor hsv;
 	if (rgbToHsv.GetValueAt(rgb, hsv)) {
-		double hue = hsv.GetElement(0);         // ~30° (orange hue)
+		double hue = hsv.GetElement(0);         // ~30 degrees (orange hue)
 		double saturation = hsv.GetElement(1);  // 1.0 (fully saturated)
 		double value = hsv.GetElement(2);       // 1.0 (maximum brightness)
 	}
@@ -94,7 +95,7 @@ namespace icmm
 	{
 		// Create HSV color
 		icmm::CVarColor hsv(3);
-		hsv.SetElement(0, hue);         // 0-360°
+		hsv.SetElement(0, hue);         // 0-360 degrees
 		hsv.SetElement(1, saturation);  // 0-1
 		hsv.SetElement(2, value);       // 0-1
 		

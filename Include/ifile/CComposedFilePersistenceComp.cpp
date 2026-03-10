@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: LGPL-2.1-or-later OR GPL-2.0-or-later OR GPL-3.0-or-later OR LicenseRef-ACF-Commercial
 #include <ifile/CComposedFilePersistenceComp.h>
 
 
@@ -74,6 +75,62 @@ ifile::IFilePersistence::OperationState CComposedFilePersistenceComp::SaveToFile
 	}
 
 	return OS_FAILED;
+}
+
+
+// reimplemented (ifile::IDeviceBasedPersistence)
+
+bool CComposedFilePersistenceComp::IsDeviceOperationSupported(
+			const istd::IChangeable& dataObject,
+			const QIODevice& device,
+			int deviceOperation) const
+{
+	int slavesCount = m_slaveLoadersCompPtr.GetCount();
+	for (int i = 0; i < slavesCount; ++i){
+		const ifile::IFilePersistence* loaderPtr = m_slaveLoadersCompPtr[i];
+		const ifile::IDeviceBasedPersistence* devicePersistencePtr = dynamic_cast<const ifile::IDeviceBasedPersistence*>(loaderPtr);
+		if ((devicePersistencePtr != nullptr) && devicePersistencePtr->IsDeviceOperationSupported(dataObject, device, deviceOperation)){
+			return true;
+		}
+	}
+
+	return false;
+}
+
+
+int CComposedFilePersistenceComp::ReadFromDevice(
+			istd::IChangeable& data,
+			QIODevice& device,
+			ibase::IProgressManager* progressManagerPtr) const
+{
+	int slavesCount = m_slaveLoadersCompPtr.GetCount();
+	for (int i = 0; i < slavesCount; ++i){
+		ifile::IFilePersistence* loaderPtr = m_slaveLoadersCompPtr[i];
+		ifile::IDeviceBasedPersistence* devicePersistencePtr = dynamic_cast<ifile::IDeviceBasedPersistence*>(loaderPtr);
+		if ((devicePersistencePtr != nullptr) && devicePersistencePtr->IsDeviceOperationSupported(data, device, ifile::IDeviceBasedPersistence::ReadOperation)){
+			return devicePersistencePtr->ReadFromDevice(data, device, progressManagerPtr);
+		}
+	}
+
+	return ifile::IDeviceBasedPersistence::Failed;
+}
+
+
+int CComposedFilePersistenceComp::WriteToDevice(
+			const istd::IChangeable& data,
+			QIODevice& device,
+			ibase::IProgressManager* progressManagerPtr) const
+{
+	int slavesCount = m_slaveLoadersCompPtr.GetCount();
+	for (int i = 0; i < slavesCount; ++i){
+		ifile::IFilePersistence* loaderPtr = m_slaveLoadersCompPtr[i];
+		ifile::IDeviceBasedPersistence* devicePersistencePtr = dynamic_cast<ifile::IDeviceBasedPersistence*>(loaderPtr);
+		if ((devicePersistencePtr != nullptr) && devicePersistencePtr->IsDeviceOperationSupported(data, device, ifile::IDeviceBasedPersistence::WriteOperation)){
+			return devicePersistencePtr->WriteToDevice(data, device, progressManagerPtr);
+		}
+	}
+
+	return ifile::IDeviceBasedPersistence::Failed;
 }
 
 

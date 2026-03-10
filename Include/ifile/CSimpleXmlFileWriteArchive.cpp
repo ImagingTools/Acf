@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: LGPL-2.1-or-later OR GPL-2.0-or-later OR GPL-3.0-or-later OR LicenseRef-ACF-Commercial
 #include <ifile/CSimpleXmlFileWriteArchive.h>
 
 
@@ -14,7 +15,7 @@ CSimpleXmlFileWriteArchive::CSimpleXmlFileWriteArchive(
 	BaseClass2(filePath),
 	m_file(filePath)
 {
-	if (m_file.open(QIODevice::WriteOnly | QIODevice::Truncate | QIODevice::Text)){
+	if (m_file.open(QIODevice::WriteOnly | QIODevice::Truncate | QIODevice::Text | QIODevice::Unbuffered)){
 		m_stream.setDevice(&m_file);
 
 		WriteXmlHeader();

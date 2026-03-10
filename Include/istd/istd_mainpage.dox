@@ -29,9 +29,33 @@ The istd library is organized into several key components:
 
 \subsection smart_pointers Smart Pointers
 
+The istd library provides specialized smart pointers for interface-based polymorphic objects that support
+automatic memory management with different ownership semantics:
+
 - **istd::TUniqueInterfacePtr**: Unique ownership smart pointer for interfaces
 - **istd::TSharedInterfacePtr**: Shared ownership smart pointer for interfaces
-- **istd::TWeakInterfacePtr**: Weak reference smart pointer for interfaces
+- **istd::TOptInterfacePtr**: Flexible smart pointer supporting both managed and unmanaged pointers
+- **istd::TDelPtr**: Unique ownership pointer with automatic deletion (deprecated, use TUniqueInterfacePtr)
+- **istd::TOptDelPtr**: Optional deletion pointer (deprecated, use TOptInterfacePtr)
+- **istd::TSmartPtr**: Transfer smart pointer (deprecated, use std::shared_ptr)
+
+\subsection smart_ptr_features Smart Pointer Features
+
+The interface-based smart pointers (TUniqueInterfacePtr and TSharedInterfacePtr) provide:
+- Separation between root object and interface pointer for polymorphic designs
+- Type-safe dynamic casting to derived interfaces
+- Integration with istd::IPolymorphic base class
+- Move semantics for efficient ownership transfer
+- Conversion between unique and shared ownership
+
+\subsection smart_ptr_comparison Smart Pointer Comparison
+
+| Feature | TUniqueInterfacePtr | TSharedInterfacePtr | TOptInterfacePtr |
+|---------|---------------------|---------------------|------------------|
+| Ownership | Unique (exclusive) | Shared (reference counted) | Optional (managed or unmanaged) |
+| Copy | No (move only) | Yes | Yes |
+| Thread-safe | N/A | Reference counting only | Reference counting only |
+| Use case | Single owner | Multiple owners | Mixed ownership scenarios |
 
 \subsection utilities Utilities
 
@@ -72,20 +96,270 @@ private:
 };
 \endcode
 
-\subsection example_smart_ptr Smart Pointer Example
+\subsection example_smart_ptr Smart Pointer Examples
+
+\subsubsection example_unique_ptr Unique Interface Pointer
+
+TUniqueInterfacePtr provides exclusive ownership - only one pointer can own the object at a time.
 
 \code{.cpp}
-#include <istd/TUniqueInterfacePtr.h>
-#include <istd/TSharedInterfacePtr.h>
+#include <istd/TInterfacePtr.h>
 
-// Unique ownership
-istd::TUniqueInterfacePtr<IMyInterface> uniquePtr = CreateObject();
+// Create a unique pointer - takes ownership
+istd::TUniqueInterfacePtr<IMyInterface> uniquePtr = CreateMyObject();
+
+// Use the pointer
 uniquePtr->DoSomething();
+if (uniquePtr.IsValid())
+{
+    uniquePtr->ProcessData();
+}
 
-// Shared ownership
-istd::TSharedInterfacePtr<IMyInterface> sharedPtr = CreateObject();
-istd::TSharedInterfacePtr<IMyInterface> anotherRef = sharedPtr;
-sharedPtr->DoSomething();
+// Transfer ownership via move
+istd::TUniqueInterfacePtr<IMyInterface> ptr2 = std::move(uniquePtr);
+// uniquePtr is now invalid, ptr2 owns the object
+
+// Extract raw pointer and release ownership
+IMyInterface* rawPtr = ptr2.PopInterfacePtr();
+// ptr2 is now invalid, caller must delete rawPtr
+\endcode
+
+\subsubsection example_shared_ptr Shared Interface Pointer
+
+TSharedInterfacePtr provides shared ownership - multiple pointers can share ownership of the same object.
+The object is automatically deleted when the last owner is destroyed.
+
+\code{.cpp}
+#include <istd/TInterfacePtr.h>
+
+// Create a shared pointer
+istd::TSharedInterfacePtr<IMyInterface> sharedPtr1 = CreateMyObject();
+
+// Share ownership by copying
+istd::TSharedInterfacePtr<IMyInterface> sharedPtr2 = sharedPtr1;
+// Both sharedPtr1 and sharedPtr2 now own the object
+
+// Use either pointer
+sharedPtr1->DoSomething();
+sharedPtr2->ProcessData();
+
+// Object is deleted when both pointers go out of scope
+\endcode
+
+\subsubsection example_conversion_unique_to_shared Converting Unique to Shared Ownership
+
+One of the most common patterns is converting from unique ownership (single owner) to shared ownership
+(multiple owners). This is a one-way conversion - once converted to shared, you cannot convert back to unique.
+
+\code{.cpp}
+#include <istd/TInterfacePtr.h>
+
+// Start with unique ownership
+istd::TUniqueInterfacePtr<IMyInterface> uniquePtr = CreateMyObject();
+uniquePtr->Initialize();
+
+// Method 1: Direct conversion using constructor (transfers ownership)
+istd::TSharedInterfacePtr<IMyInterface> sharedPtr1(std::move(uniquePtr));
+// uniquePtr is now invalid, sharedPtr1 owns the object
+
+// Method 2: Using FromUnique() method
+istd::TUniqueInterfacePtr<IMyInterface> uniquePtr2 = CreateAnotherObject();
+istd::TSharedInterfacePtr<IMyInterface> sharedPtr2;
+sharedPtr2.FromUnique(uniquePtr2);
+// uniquePtr2 is now invalid, sharedPtr2 owns the object
+
+// Method 3: Using CreateFromUnique() static method
+istd::TUniqueInterfacePtr<IMyInterface> uniquePtr3 = CreateThirdObject();
+istd::TSharedInterfacePtr<IMyInterface> sharedPtr3 = 
+    istd::TSharedInterfacePtr<IMyInterface>::CreateFromUnique(uniquePtr3);
+// uniquePtr3 is now invalid, sharedPtr3 owns the object
+
+// Now you can share ownership
+istd::TSharedInterfacePtr<IMyInterface> sharedPtr4 = sharedPtr3;
+// Both sharedPtr3 and sharedPtr4 own the object
+\endcode
+
+\subsubsection example_conversion_with_casting Converting with Dynamic Casting
+
+When converting between different interface types, use the MoveCastedPtr methods which perform
+safe dynamic casting during the ownership transfer.
+
+\code{.cpp}
+#include <istd/TInterfacePtr.h>
+
+// Interfaces
+class IBase : public istd::IPolymorphic { /*...*/ };
+class IDerived : public IBase { /*...*/ };
+
+// Create unique pointer to derived interface
+istd::TUniqueInterfacePtr<IDerived> derivedPtr = CreateDerivedObject();
+
+// Convert to unique pointer of base interface with casting
+istd::TUniqueInterfacePtr<IBase> basePtr;
+if (basePtr.MoveCastedPtr(derivedPtr))
+{
+    // Success: basePtr now owns the object, derivedPtr is invalid
+    basePtr->DoBaseOperation();
+}
+else
+{
+    // Failed: dynamic_cast failed
+}
+
+// Convert unique to shared with casting
+istd::TUniqueInterfacePtr<IDerived> derivedPtr2 = CreateDerivedObject();
+istd::TSharedInterfacePtr<IBase> sharedBase;
+if (sharedBase.MoveCastedPtr(derivedPtr2))
+{
+    // Success: sharedBase now owns the object, derivedPtr2 is invalid
+    sharedBase->DoBaseOperation();
+}
+
+// Convert between shared pointers with casting
+istd::TSharedInterfacePtr<IDerived> sharedDerived = CreateDerivedObject();
+istd::TSharedInterfacePtr<IBase> sharedBase2;
+if (sharedBase2.SetCastedPtr(sharedDerived))
+{
+    // Success: both now share ownership
+    sharedBase2->DoBaseOperation();
+}
+\endcode
+
+\subsubsection example_opt_ptr Optional Interface Pointer
+
+TOptInterfacePtr can hold either managed (owned) or unmanaged (borrowed) pointers, providing
+flexibility in ownership semantics.
+
+\code{.cpp}
+#include <istd/TOptInterfacePtr.h>
+
+class DataProcessor
+{
+    istd::TOptInterfacePtr<IDataSource> m_dataSource;
+
+public:
+    // Accept owned pointer
+    void SetOwnedSource(istd::TSharedInterfacePtr<IDataSource> source)
+    {
+        m_dataSource.SetManagedPtr(source);
+    }
+
+    // Accept borrowed pointer (caller retains ownership)
+    void SetBorrowedSource(IDataSource* source)
+    {
+        m_dataSource.SetUnmanagedPtr(source);
+    }
+
+    // Convert from unique to managed
+    void TakeOwnership(istd::TUniqueInterfacePtr<IDataSource>& source)
+    {
+        m_dataSource.TakeOver(source);
+        // source is now invalid, m_dataSource owns it
+    }
+
+    // Check ownership status
+    void Process()
+    {
+        if (m_dataSource.IsValid())
+        {
+            if (m_dataSource.IsManaged())
+            {
+                // We own this pointer
+                qDebug() << "Processing owned data source";
+            }
+            else
+            {
+                // We don't own this pointer
+                qDebug() << "Processing borrowed data source";
+            }
+            
+            m_dataSource->ReadData();
+        }
+    }
+};
+
+// Usage example
+void Example()
+{
+    DataProcessor processor;
+
+    // Case 1: Owned pointer
+    istd::TSharedInterfacePtr<IDataSource> ownedSource = CreateDataSource();
+    processor.SetOwnedSource(ownedSource);
+    // Both processor and ownedSource share ownership
+
+    // Case 2: Borrowed pointer
+    IDataSource* borrowedSource = GetGlobalDataSource();
+    processor.SetBorrowedSource(borrowedSource);
+    // Caller must ensure borrowedSource remains valid
+
+    // Case 3: Transfer from unique
+    istd::TUniqueInterfacePtr<IDataSource> uniqueSource = CreateDataSource();
+    processor.TakeOwnership(uniqueSource);
+    // uniqueSource is now invalid, processor owns it
+}
+\endcode
+
+\subsubsection example_factory_pattern Factory Pattern with Smart Pointers
+
+A common pattern is to use unique pointers in factory methods and convert to shared pointers
+where needed:
+
+\code{.cpp}
+#include <istd/TInterfacePtr.h>
+
+class IProcessor : public istd::IPolymorphic
+{
+public:
+    virtual void Process() = 0;
+};
+
+// Factory returns unique pointer (single owner initially)
+istd::TUniqueInterfacePtr<IProcessor> CreateProcessor(const QString& type)
+{
+    if (type == "fast")
+        return istd::TUniqueInterfacePtr<IProcessor>(new FastProcessor());
+    else if (type == "accurate")
+        return istd::TUniqueInterfacePtr<IProcessor>(new AccurateProcessor());
+    else
+        return istd::TUniqueInterfacePtr<IProcessor>();
+}
+
+// Manager class needs to share processors
+class ProcessorManager
+{
+    QList<istd::TSharedInterfacePtr<IProcessor>> m_processors;
+
+public:
+    void AddProcessor(const QString& type)
+    {
+        // Create with unique ownership
+        istd::TUniqueInterfacePtr<IProcessor> processor = CreateProcessor(type);
+        
+        if (processor.IsValid())
+        {
+            // Convert to shared for storage
+            istd::TSharedInterfacePtr<IProcessor> sharedProc(std::move(processor));
+            m_processors.append(sharedProc);
+        }
+    }
+
+    void ProcessAll()
+    {
+        for (auto& processor : m_processors)
+        {
+            processor->Process();
+        }
+    }
+
+    // Return shared pointer to allow external sharing
+    istd::TSharedInterfacePtr<IProcessor> GetProcessor(int index)
+    {
+        if (index >= 0 && index < m_processors.size())
+            return m_processors[index];
+        return istd::TSharedInterfacePtr<IProcessor>();
+    }
+};
 \endcode
 
 \subsection example_crc CRC Calculation Example
@@ -114,6 +388,13 @@ The istd library has minimal dependencies:
 \section best_practices Best Practices
 
 -# **Use Smart Pointers**: Prefer smart pointers over raw pointers for automatic memory management
+-# **Choose the Right Smart Pointer**:
+   - Use TUniqueInterfacePtr when ownership is clear and exclusive
+   - Use TSharedInterfacePtr when multiple owners need to share the object
+   - Use TOptInterfacePtr when you need to mix owned and borrowed pointers
+-# **Factory Pattern**: Return TUniqueInterfacePtr from factory methods, convert to TSharedInterfacePtr if sharing is needed
+-# **Conversions**: Convert from unique to shared ownership when needed, but remember this is one-way
+-# **Avoid Premature Sharing**: Start with unique ownership and only convert to shared when actually needed
 -# **Scope Change Notifications**: Use CChangeNotifier for automatic notification on scope exit
 -# **Group Related Changes**: Use CChangeGroup to batch multiple changes into one notification
 -# **Check Change Flags**: Always check specific change flags rather than relying on "any change"

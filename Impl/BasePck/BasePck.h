@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: LGPL-2.1-or-later OR GPL-2.0-or-later OR GPL-3.0-or-later OR LicenseRef-ACF-Commercial
 #pragma once
 
 
@@ -5,6 +6,7 @@
 
 #include <ilog/CConsoleLogComp.h>
 #include <ilog/CLogComp.h>
+#include <ilog/CLogRouterComp.h>
 #include <ilog/CStandardStreamBridgeComp.h>
 #include <ilog/CTracingConfigurationComp.h>
 
@@ -78,6 +80,7 @@ namespace BasePck
 
 typedef ilog::CConsoleLogComp ConsoleLog;
 typedef icomp::TModelCompWrap<ilog::CLogComp> Log;
+typedef ilog::CLogRouterComp LogRouter;
 typedef ilog::CStandardStreamBridgeComp StandardStreamBridge;
 typedef ilog::CTracingConfigurationComp TracingConfiguration;
 

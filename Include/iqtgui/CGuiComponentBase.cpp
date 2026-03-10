@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: LGPL-2.1-or-later OR GPL-2.0-or-later OR GPL-3.0-or-later OR LicenseRef-ACF-Commercial
 #include <iqtgui/CGuiComponentBase.h>
 
 
@@ -210,6 +211,18 @@ void CGuiComponentBase::SetStatusText(const QString& text)
 
 		m_visualStatus.m_statusText = text;
 	}
+}
+
+
+void CGuiComponentBase::SetDefaultVisualStatus()
+{
+	istd::CChangeNotifier notifier(&m_visualStatus);
+
+	if (m_defaultStatusIconPathAttrPtr.IsValid()) {
+		m_visualStatus.m_statusIcon = GetIcon(*m_defaultStatusIconPathAttrPtr);
+	}
+
+	m_visualStatus.m_statusText = *m_defaultStatusTextAttrPtr;
 }
 
 

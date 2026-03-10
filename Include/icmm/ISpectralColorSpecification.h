@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: LGPL-2.1-or-later OR GPL-2.0-or-later OR GPL-3.0-or-later OR LicenseRef-ACF-Commercial
 #pragma once
 
 
@@ -13,8 +14,7 @@ namespace icmm
 
 class ISpectralColorSpecification:
 			virtual public IColorSpecification,
-			virtual public ISpectrumInfoProvider,
-			virtual public iser::ISerializable
+			virtual public ISpectrumInfoProvider
 {
 public:
 	typedef std::shared_ptr<const ISpectralColorSpecification> ConstSpectralColorSpecPtr;
@@ -27,12 +27,13 @@ public:
 		Transmissive,
 		TotalTransmissive
 	};
+	I_DECLARE_ENUM(SpectrumType, Reflective, Emissive, Emissive, TotalTransmissive);
 
 	virtual SpectrumType GetSpectrumType() const = 0;
 
 protected:
 	// reimplemented (IColorSpecification)
-	virtual SpecType GetSpecificationType() const override;
+	virtual SpecType GetSpecificationType() const final;
 };
 
 

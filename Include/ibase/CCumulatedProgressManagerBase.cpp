@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: LGPL-2.1-or-later OR GPL-2.0-or-later OR GPL-3.0-or-later OR LicenseRef-ACF-Commercial
 #include <ibase/CCumulatedProgressManagerBase.h>
 
 
@@ -26,12 +27,22 @@ public:
 		{
 		}
 
+	// reimplemented (ibase::CCumulatedProgressManagerBase)
+	virtual std::unique_ptr<IProgressLogger> StartProgressLogger(bool isCancelable = false, const QString& description = {}) override
+	{
+		// Report status as Running when logger is started
+		if (m_parentPtr != nullptr){
+			m_parentPtr->ReportTaskProgress(static_cast<CCumulatedProgressManagerBase::TaskBase*>(this), GetCumulatedProgress(), TaskStatus::Running);
+		}
+		return CCumulatedProgressManagerBase::StartProgressLogger(isCancelable, description);
+	}
+
 protected:
 	// reimplemented (ibase::CCumulatedProgressManagerBase)
 	virtual void OnProgressChanged(double cumulatedValue) override
 	{
 		if (m_parentPtr != nullptr){
-			m_parentPtr->ReportTaskProgress(this, cumulatedValue, TaskStatus::Running);
+			m_parentPtr->ReportTaskProgress(static_cast<CCumulatedProgressManagerBase::TaskBase*>(this), cumulatedValue, TaskStatus::Running);
 		}
 	}
 
@@ -39,7 +50,7 @@ protected:
 	{
 		if (m_parentPtr != nullptr){
 			if (GetProcessedTasks().size() == 0){
-				m_parentPtr->ReportTaskProgress(this, GetCumulatedProgress(), TaskStatus::Finished);
+				m_parentPtr->ReportTaskProgress(static_cast<CCumulatedProgressManagerBase::TaskBase*>(this), GetCumulatedProgress(), TaskStatus::Finished);
 			}
 		}
 	}

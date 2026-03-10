@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: LGPL-2.1-or-later OR GPL-2.0-or-later OR GPL-3.0-or-later OR LicenseRef-ACF-Commercial
 #include <iprm/CSelectableParamsSetComp.h>
 
 
@@ -98,6 +99,30 @@ iser::ISerializable* CSelectableParamsSetComp::GetEditableParameter(const QByteA
 	}
 
 	return const_cast<iser::ISerializable*>(GetParameter(id));
+}
+
+
+const IParamsInfoProvider* CSelectableParamsSetComp::GetParamsInfoProvider() const
+{
+	// Delegate to the selected parameter set
+	if (m_paramsManagerCompPtr.IsValid()){
+		int selectedIndex = -1;
+		if (m_currentSelectionCompPtr.IsValid()){
+			selectedIndex = m_currentSelectionCompPtr->GetSelectedOptionIndex();
+		}
+		else{
+			selectedIndex = m_paramsManagerCompPtr->GetSelectedOptionIndex();
+		}
+
+		if ((selectedIndex >= 0) && (selectedIndex < m_paramsManagerCompPtr->GetParamsSetsCount())){
+			const iprm::IParamsSet* paramsPtr = m_paramsManagerCompPtr->GetParamsSet(selectedIndex);
+			if (paramsPtr != nullptr){
+				return paramsPtr->GetParamsInfoProvider();
+			}
+		}
+	}
+
+	return nullptr;
 }
 
 

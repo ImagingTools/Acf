@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: LGPL-2.1-or-later OR GPL-2.0-or-later OR GPL-3.0-or-later OR LicenseRef-ACF-Commercial
 #pragma once
 
 
@@ -40,7 +41,7 @@ public:
 	virtual IFactoryInfo::KeyList GetFactoryKeys() const override;
 
 	// reimplemented (istd::TIFactory)
-	virtual InterfaceType* CreateInstance(const QByteArray& keyId = "") const override;
+	virtual istd::TUniqueInterfacePtr<InterfaceType> CreateInstance(const QByteArray& keyId = "") const override;
 
 protected:
 	typedef istd::TSmartPtr<FactoryInterface> FactoryPtr;
@@ -74,21 +75,21 @@ IFactoryInfo::KeyList TComposedFactory<InterfaceType>::GetFactoryKeys() const
 // reimplemented (istd::TIFactory)
 
 template <class InterfaceType>
-InterfaceType* TComposedFactory<InterfaceType>::CreateInstance(const QByteArray& keyId) const
+istd::TUniqueInterfacePtr<InterfaceType> TComposedFactory<InterfaceType>::CreateInstance(const QByteArray& keyId) const
 {
 	for (		typename FactoryList::const_iterator iter = m_factoryList.begin();
 				iter != m_factoryList.end();
 				++iter){
 		const FactoryPtr& factoryPtr = *iter;
 
-		InterfaceType* createdPtr = factoryPtr->CreateInstance(keyId);
+		istd::TUniqueInterfacePtr<InterfaceType> createdPtr = factoryPtr->CreateInstance(keyId);
 
-		if (createdPtr != NULL){
+		if (createdPtr.IsValid()){
 			return createdPtr;
 		}
 	}
 
-	return NULL;
+	return istd::TUniqueInterfacePtr<InterfaceType>();
 }
 
 
