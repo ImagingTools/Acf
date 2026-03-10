@@ -865,6 +865,9 @@ bool CViewBase::OnMouseButton(istd::CIndex2d position, Qt::MouseButton buttonTyp
 
 		if (downFlag && (buttonType == Qt::LeftButton)){
 			if ((m_keysState & Qt::ControlModifier) == 0){
+				// Temporarily disable select events to avoid reentrancy issues
+				// when DeselectAllShapes() triggers OnShapeSelected() callbacks
+				m_isSelectEventActive = false;
 				DeselectAllShapes();
 				UpdateMousePointer();
 				Update();

@@ -760,6 +760,14 @@ iser::ISerializable* CParamsManagerCompBase::ParamSet::GetEditableParameter(cons
 }
 
 
+const IParamsInfoProvider* CParamsManagerCompBase::ParamSet::GetParamsInfoProvider() const
+{
+	Q_ASSERT(paramSetPtr.IsValid());
+
+	return paramSetPtr->GetParamsInfoProvider();
+}
+
+
 // reimplemented (iprm::ISelectionParam)
 
 const IOptionsList* CParamsManagerCompBase::ParamSet::GetSelectionConstraints() const
@@ -885,6 +893,19 @@ const iser::ISerializable* CParamsManagerCompBase::SelectedParams::GetParameter(
 iser::ISerializable* CParamsManagerCompBase::SelectedParams::GetEditableParameter(const QByteArray& /*id*/)
 {
 	return NULL;
+}
+
+
+const IParamsInfoProvider* CParamsManagerCompBase::SelectedParams::GetParamsInfoProvider() const
+{
+	if ((parentPtr != nullptr) && (parentPtr->m_selectedIndex >= 0)){
+		const IParamsSet* selectedParamsSetPtr = parentPtr->GetParamsSet(parentPtr->m_selectedIndex);
+		if (selectedParamsSetPtr != nullptr){
+			return selectedParamsSetPtr->GetParamsInfoProvider();
+		}
+	}
+
+	return nullptr;
 }
 
 

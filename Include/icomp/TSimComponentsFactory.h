@@ -64,6 +64,7 @@ template <class Base>
 TSimComponentsFactory<Base>::TSimComponentsFactory()
 {
 	m_factoryKeys.insert(istd::CClassInfo::GetName<Base>());
+	m_base.InitComponent();
 }
 
 // reimplemented (istd::IFactoryInfo)
@@ -117,7 +118,7 @@ icomp::IComponentUniquePtr TSimComponentsFactory<Base>::CreateSubcomponent(const
 		return componentPtr;
 	}
 
-	return CreateInstance(componentId);
+	return icomp::IComponentUniquePtr(CreateInstance(componentId).PopInterfacePtr());
 }
 
 

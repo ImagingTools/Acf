@@ -153,7 +153,7 @@ bool CIlluminant::Serialize(iser::IArchive& archive)
 
 	iser::CArchiveTag illuminantTypeTag("IlluminantType", "Illuminant", iser::CArchiveTag::TT_LEAF);
 	retVal = retVal && archive.BeginTag(illuminantTypeTag);
-	retVal = retVal && iser::CPrimitiveTypesSerializer::SerializeEnum(archive, m_illuminantType, &icmm::staticMetaObject);
+	retVal = retVal && iser::CPrimitiveTypesSerializer::SerializeQEnum(archive, m_illuminantType);
 	retVal = retVal && archive.EndTag(illuminantTypeTag);
 
 	iser::CArchiveTag illuminantNameTag("IlluminantName", "Name of the illuminant", iser::CArchiveTag::TT_LEAF);

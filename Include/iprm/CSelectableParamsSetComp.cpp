@@ -102,6 +102,30 @@ iser::ISerializable* CSelectableParamsSetComp::GetEditableParameter(const QByteA
 }
 
 
+const IParamsInfoProvider* CSelectableParamsSetComp::GetParamsInfoProvider() const
+{
+	// Delegate to the selected parameter set
+	if (m_paramsManagerCompPtr.IsValid()){
+		int selectedIndex = -1;
+		if (m_currentSelectionCompPtr.IsValid()){
+			selectedIndex = m_currentSelectionCompPtr->GetSelectedOptionIndex();
+		}
+		else{
+			selectedIndex = m_paramsManagerCompPtr->GetSelectedOptionIndex();
+		}
+
+		if ((selectedIndex >= 0) && (selectedIndex < m_paramsManagerCompPtr->GetParamsSetsCount())){
+			const iprm::IParamsSet* paramsPtr = m_paramsManagerCompPtr->GetParamsSet(selectedIndex);
+			if (paramsPtr != nullptr){
+				return paramsPtr->GetParamsInfoProvider();
+			}
+		}
+	}
+
+	return nullptr;
+}
+
+
 // reimplemented (iser::ISerializable)
 
 bool CSelectableParamsSetComp::Serialize(iser::IArchive& /*archive*/)

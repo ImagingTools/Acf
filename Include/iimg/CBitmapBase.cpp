@@ -339,16 +339,6 @@ bool CBitmapBase::Serialize(iser::IArchive& archive)
 }
 
 
-// reimplemented (istd::IChangeable)
-
-bool CBitmapBase::ResetData(CompatibilityMode /*mode*/)
-{
-	ResetImage();
-
-	return true;
-}
-
-
 // protected static methods
 
 int CBitmapBase::GetComponentsCount(IBitmap::PixelFormat format)

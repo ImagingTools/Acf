@@ -102,7 +102,7 @@ ifile::IFilePersistence::OperationState CBitmapLoaderComp::LoadFromFile(
 ifile::IFilePersistence::OperationState CBitmapLoaderComp::SaveToFile(
 			const istd::IChangeable& data,
 			const QString& filePath,
-			ibase::IProgressManager* progressManagerPtr) const
+			ibase::IProgressManager* /*progressManagerPtr*/) const
 {
 	// Extract format from file extension for proper saving
 	QFileInfo fileInfo(filePath);

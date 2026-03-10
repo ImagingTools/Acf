@@ -43,7 +43,7 @@ jobs:
           cp stats.json stats-page/stats.json
       
       - name: Upload statistics artifact
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: statistics
           path: |
@@ -69,7 +69,7 @@ jobs:
           doxygen Doxyfile
       
       - name: Download statistics artifact
-        uses: actions/download-artifact@v7
+        uses: actions/download-artifact@v8
         with:
           name: statistics
           path: statistics
