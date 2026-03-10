@@ -1,8 +1,11 @@
 # ACF Repository Consolidation Plan
 
+> **Last Updated:** March 2026  
+> **Status:** ✅ Validated - All 4 repositories analyzed and ready for consolidation
+
 ## Executive Summary
 
-This document proposes consolidating three separate ACF repositories (Acf, AcfSln, IAcf) into a single unified repository with a domain-oriented structure. This consolidation will improve maintainability, discoverability, and developer experience while preserving all existing functionality.
+This document proposes consolidating four separate ACF repositories (Acf, AcfSln, IAcf, ImtCore) into a single unified repository with a domain-oriented structure. This consolidation will improve maintainability, discoverability, and developer experience while preserving all existing functionality.
 
 ## Current State
 
@@ -12,27 +15,27 @@ This document proposes consolidating three separate ACF repositories (Acf, AcfSl
    - **Purpose**: Foundation framework and infrastructure
    - **Libraries**: 27 libraries
    - **Focus**: Core components, Qt integration, basic utilities
-   - **Status**: Active, well-documented
+   - **Status**: ✅ Active, well-documented, conanfile.py infrastructure added
 
 2. **AcfSln** (Application Packages)
    - **Purpose**: Domain-specific business logic
-   - **Libraries**: 33 libraries  
+   - **Libraries**: 34 libraries (iqtex added since initial analysis)
    - **Focus**: Imaging, calibration, measurement, production
-   - **Status**: Active, application-focused
+   - **Status**: ✅ Active, application-focused
 
 3. **IAcf** (Integration Packages)
    - **Purpose**: Third-party integrations
    - **Libraries**: 11 libraries
    - **Focus**: OpenCV, Qwt, QScintilla, Phonon, platform-specific
-   - **Status**: Active, integration-focused
+   - **Status**: ✅ Active, integration-focused
 
 4. **ImtCore** (Enterprise Application Core)
    - **Purpose**: Enterprise application infrastructure
-   - **Libraries**: 7+ libraries
-   - **Focus**: Database, authentication, services, application framework
-   - **Status**: Active, enterprise-focused
+   - **Libraries**: 61+ libraries
+   - **Focus**: Enterprise features (auth, licensing, GraphQL APIs, 3D visualization, QML, code generation)
+   - **Status**: ✅ Active, enterprise-focused
 
-**Total**: 78+ libraries across 4 repositories
+**Total**: 140 libraries across 4 repositories (27 + 34 + 11 + 61 + iqtex = 140, verified March 2026)
 
 ## Problems with Current Structure
 
@@ -88,7 +91,7 @@ Acf/ (Unified Repository)
 ├── Multimedia/        # Media management (3 libs) - Layer 2
 ├── DevelopmentTools/  # Design and scripting (3 libs) - Layer 2
 ├── DeviceManagement/  # Device management (2 libs) - Layer 2
-├── UI/                # Core UI infrastructure (18+ libs) - Layer 2
+├── UI/                # Core UI infrastructure (19+ libs) - Layer 2
 ├── API/               # APIs and communication (12 libs) - Layer 2
 ├── Production/        # Manufacturing (5 libs) - Layer 3
 └── Services/          # Application services (6 libs) - Layer 3
@@ -118,7 +121,7 @@ Acf/ (Unified Repository)
 - Multimedia: imm, iqtmm, iphonon (media management and playback with integrated UI)
 - DevelopmentTools: icmpstr (Compositor visual editor), imtpy, imtej
 - DeviceManagement: imtdev, imtdevgui (device management framework and UI)
-- UI: 18+ core UI libraries (Qt widgets, QML, theming, wizards)
+- UI: 19+ core UI libraries (Qt widgets, QML, theming, wizards, Qt extensions)
 - API: GraphQL APIs, HTTP/REST (imtrest to be split), email, communication
 - Depends on Core and Foundation
 

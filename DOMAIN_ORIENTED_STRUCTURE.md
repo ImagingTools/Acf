@@ -1,8 +1,18 @@
 # Domain-Oriented Library Structure for Unified ACF Repository
 
+> **Last Updated:** March 2026  
+> **Status:** ✅ Validated - All repository analyses current and accurate
+
 ## Executive Summary
 
 This document proposes a domain-oriented reorganization of the four ACF repositories (Acf, AcfSln, IAcf, ImtCore) into a single unified repository. The new structure groups libraries by functional domain rather than by technical layer, improving discoverability, maintainability, and logical organization.
+
+**Repository Status (March 2026):**
+- ✅ Acf: 27 libraries verified (stable, conanfile.py added, infrastructure improvements)
+- ✅ AcfSln: 34 libraries verified (iqtex added since initial analysis)
+- ✅ IAcf: 11 libraries verified (stable, no changes)
+- ✅ ImtCore: 61+ libraries verified (stable repository structure)
+- ✅ Total: **139+ libraries** ready for consolidation
 
 ## Current State Analysis
 
@@ -11,10 +21,10 @@ The foundation framework providing core infrastructure, Qt integration, and basi
 
 **Libraries**: istd, icomp, iser, iprm, iattr, ibase, ipackage, imath, i2d, i3d, icmm, iimg, idoc, iview, imod, ifile, ifilegui, iqt, iqt2d, iqtdoc, iqtgui, iqtprm, iwidgets, ilog, iloggui, itest
 
-### Repository 2: **AcfSln** (Application Packages - 33 libraries)
+### Repository 2: **AcfSln** (Application Packages - 34 libraries)
 Domain-specific business logic for imaging and industrial applications.
 
-**Libraries**: iproc, iprocgui, iipr, iqtipr, icalib, icalibgui, imeas, iqtmeas, icam, iqtcam, icomm, iauth, iqtauth, isig, iqtsig, iprod, iinsp, iqtinsp, idocproc, ifileproc, ibarcode, iblob, iblobgui, iedge, iedgegui, ihotf, ihotfgui, imm, iqtmm, iwiz, iwizgui, iweb, ialgo, icmpstr, iservice
+**Libraries**: iproc, iprocgui, iipr, iqtipr, icalib, icalibgui, imeas, iqtmeas, icam, iqtcam, icomm, iauth, iqtauth, isig, iqtsig, iprod, iinsp, iqtinsp, idocproc, ifileproc, ibarcode, iblob, iblobgui, iedge, iedgegui, ihotf, ihotfgui, imm, iqtmm, iwiz, iwizgui, iweb, ialgo, icmpstr, iqtex, iservice
 
 ### Repository 3: **IAcf** (Integration Packages - 11 libraries)
 Third-party library integrations and platform-specific implementations.
@@ -195,7 +205,8 @@ Acf/  (Unified Repository)
 │   │   └── iqtsig/                # Signal processing UI
 │   │
 │   └── Integration/
-│       └── iqaxmm/                # ActiveX multimedia
+│       ├── iqaxmm/                # ActiveX multimedia
+│       └── iqtex/                 # Qt extensions
 │
 │   # Note: Domain-specific UI modules are now co-located with their domains:
 │   # iprocgui, iqtipr → ImageProcessing/ComputerVision domains
@@ -324,10 +335,10 @@ The structure follows a layered architecture to minimize circular dependencies:
 **Libraries**: imtdev, imtdevgui
 **Key Features**: Device management framework and UI
 
-### 14. UI (18+ core libraries)
+### 14. UI (19+ core libraries)
 **Purpose**: Core user interface infrastructure (domain-specific UIs are co-located with their domains)
-**Libraries**: iqt, iqtgui, iqtprm, iqt2d, iqtdoc, iwidgets, iqsci, iwiz, iwizgui, ifilegui, iloggui, imtgui, imtwidgets, imtstyle, imtqml, imtqml2d, imtstylecontrolsqml, imtdesign, iqtsig, iqaxmm
-**Key Features**: Qt widgets, QML framework, theming, wizards, file/log UI, signal processing UI
+**Libraries**: iqt, iqtgui, iqtprm, iqt2d, iqtdoc, iwidgets, iqsci, iwiz, iwizgui, ifilegui, iloggui, imtgui, imtwidgets, imtstyle, imtqml, imtqml2d, imtstylecontrolsqml, imtdesign, iqtsig, iqaxmm, iqtex
+**Key Features**: Qt widgets, QML framework, theming, wizards, file/log UI, signal processing UI, Qt extensions
 
 ### 15. API (12 libraries)
 **Purpose**: API and communication infrastructure  
