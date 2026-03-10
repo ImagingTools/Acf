@@ -210,6 +210,14 @@ SUBDIRS += IqtComponentTest
 IqtComponentTest.file = ../../Tests/IqtComponentTest/QMake/IqtComponentTest.pro
 IqtComponentTest.depends = Arxc iqt ifile iprm iser itest
 
+SUBDIRS += UuidComponentTest
+UuidComponentTest.file = ../../Tests/UuidComponentTest/QMake/UuidComponentTest.pro
+UuidComponentTest.depends = Arxc ibase iprm iser itest
+
+SUBDIRS += ApplicationInfoComponentTest
+ApplicationInfoComponentTest.file = ../../Tests/ApplicationInfoComponentTest/QMake/ApplicationInfoComponentTest.pro
+ApplicationInfoComponentTest.depends = Arxc ibase iser itest
+
 SUBDIRS += AutoPersistenceTest
 AutoPersistenceTest.file = ../../Tests/AutoPersistenceTest/QMake/AutoPersistenceTest.pro
 AutoPersistenceTest.depends = Arxc iprm ifile iser itest
