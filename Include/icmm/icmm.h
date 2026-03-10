@@ -23,6 +23,9 @@ namespace icmm
 Q_NAMESPACE
 
 
+class IColorModel;
+
+
 enum class AstmTableType
 {
 	E308Table5,
@@ -225,6 +228,7 @@ I_DECLARE_ENUM(
 			CU_SPOT);
 
 bool IsCmyk(ColorantUsage usage);
+QStringList GetColorSpaceComponentNames(const icmm::IColorModel& colorModel);
 
 
 } // namespace icmm

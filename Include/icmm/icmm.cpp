@@ -2,6 +2,9 @@
 #include <icmm/icmm.h>
 
 
+#include <icmm/IColorModel.h>
+
+
 namespace icmm
 {
 
@@ -25,6 +28,16 @@ bool IsCmyk(ColorantUsage usage)
 	default:
 		return false;
 	}
+}
+
+
+QStringList GetColorSpaceComponentNames(const icmm::IColorModel& colorModel)
+{
+	QStringList result;
+	for (int i = 0; i < colorModel.GetColorSpaceDimensionality(); ++i){
+		result << colorModel.GetColorSpaceComponentName(i);
+	}
+	return result;
 }
 
 

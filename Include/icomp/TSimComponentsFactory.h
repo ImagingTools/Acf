@@ -118,7 +118,7 @@ icomp::IComponentUniquePtr TSimComponentsFactory<Base>::CreateSubcomponent(const
 		return componentPtr;
 	}
 
-	return CreateInstance(componentId);
+	return icomp::IComponentUniquePtr(CreateInstance(componentId).PopInterfacePtr());
 }
 
 
