@@ -35,6 +35,9 @@ public:
 		I_ASSIGN(m_typeIdAttrPtr, "TypeId", "ID of this parameter set", true, "Default");
 	I_END_COMPONENT;
 
+	//reimplemented (iser::IObject)
+	virtual QByteArray GetFactoryId() const override;
+
 	// reimplemented (iprm::IParamsSet)
 	virtual Ids GetParamIds(bool editableOnly = false) const override;
 	virtual const iser::ISerializable* GetParameter(const QByteArray& id) const override;

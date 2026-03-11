@@ -77,7 +77,6 @@ namespace ilog
 class CStreamLogCompBase: public CLogCompBase
 {
 public:
-	/// Base class typedef
 	typedef ilog::CLogCompBase BaseClass;
 
 	I_BEGIN_BASE_COMPONENT(CStreamLogCompBase);
