@@ -20,6 +20,9 @@ moc_*.cpp
 ui_*.h
 qrc_*.cpp
 
+# CMake
+CMakeUserPresets.json
+
 # Generated version files
 Config/QMake/AcfVersion.pri
 Include/istd/AcfVersion.h
