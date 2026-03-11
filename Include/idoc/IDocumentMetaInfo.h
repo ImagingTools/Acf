@@ -223,7 +223,14 @@ inline std::optional<T> IDocumentMetaInfo::GetMetaInfoT(const idoc::IDocumentMet
 		return {};
 	}
 
-	if (metaData.typeId() != qMetaTypeId<T>()) {
+	const int metaTypeId =
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+		metaData.metaType().id();
+#else
+		metaData.userType();
+#endif
+
+	if (metaTypeId != qMetaTypeId<T>()) {
 		I_IF_DEBUG(qWarning() << __FILE__ << __LINE__ << "Type mismatch for meta info key:" << key;)
 
 		return {};
