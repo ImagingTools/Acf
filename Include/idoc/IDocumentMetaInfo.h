@@ -176,11 +176,61 @@ public:
 		Check if meta information can be changed.
 	*/
 	virtual bool IsMetaInfoWritable(int metaInfoType) const = 0;
+
+	/**
+		Type-safe retrieval of metadata values.
+		
+		This static template helper method provides a convenient way to retrieve metadata
+		with automatic type checking. It wraps the GetMetaInfo() call and performs runtime
+		type validation to ensure the stored value matches the requested type.
+		
+		\tparam T		The expected type of the metadata value (e.g., QString, QDateTime).
+		\param metaInfo	Reference to the document metadata interface to query.
+		\param key		The metadata type identifier (e.g., MIT_TITLE, MIT_AUTHOR, or custom types >= MIT_USER).
+		\return			std::optional containing the value if retrieval succeeds;
+						empty std::optional if the key doesn't exist or type mismatch occurs.
+		
+		\note In debug builds, a warning is logged if the stored type doesn't match the requested type.
+		
+		\par Example
+		\code
+		auto title = IDocumentMetaInfo::GetMetaInfoT<QString>(metaInfo, MIT_TITLE);
+		if (title) {
+			qDebug() << "Title:" << *title;
+		}
+		
+		auto created = IDocumentMetaInfo::GetMetaInfoT<QDateTime>(metaInfo, MIT_CREATION_TIME);
+		if (created.has_value()) {
+			qDebug() << "Created on:" << created.value();
+		}
+		\endcode
+		
+		\sa GetMetaInfo
+	*/
+	template<class T>
+	static std::optional<T> GetMetaInfoT(const idoc::IDocumentMetaInfo& metaInfo, int key);
 };
 
 
 typedef istd::TSharedInterfacePtr<IDocumentMetaInfo> MetaInfoPtr;
 
+// inline methods
+template<class T>
+inline std::optional<T> IDocumentMetaInfo::GetMetaInfoT(const idoc::IDocumentMetaInfo& metaInfo, int key)
+{
+	QVariant metaData = metaInfo.GetMetaInfo(key);
+	if (!metaData.isValid()) {
+		return {};
+	}
+
+	if (metaData.typeId() != qMetaTypeId<T>()) {
+		I_IF_DEBUG(qWarning() << __FILE__ << __LINE__ << "Type mismatch for meta info key:" << key;)
+
+		return {};
+	}
+
+	return metaData.value<T>();
+}
 
 } // namespace idoc
 
