@@ -2,7 +2,11 @@
 #pragma once
 
 
+// STL includes
+#include <optional>
+
 // Qt includes
+#include <QtCore/QDebug>
 #include <QtCore/QVariant>
 
 // ACF includes
@@ -225,7 +229,7 @@ inline std::optional<T> IDocumentMetaInfo::GetMetaInfoT(const idoc::IDocumentMet
 
 	const int metaTypeId =
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-		metaData.metaType().id();
+		metaData.typeId();
 #else
 		metaData.userType();
 #endif
