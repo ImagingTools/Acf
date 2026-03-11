@@ -1,6 +1,5 @@
 _codeql_detected_source_root
 # Build artifacts
-build/
 AuxInclude/*
 Bin/*
 Lib/*
@@ -38,7 +37,6 @@ __pycache__/
 .Python
 *.egg-info/
 dist/
-build/
 *.egg
 
 # OS-specific
