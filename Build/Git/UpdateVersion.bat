@@ -49,3 +49,4 @@ set "OUT=%FILE:.xtrsvn=%"
 
 echo Wrote %OUT% with WCREV=%REV% and WCMODS=%DIRTY%
 endlocal
+exit /b 0
