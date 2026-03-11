@@ -366,21 +366,14 @@ public:
 		}
 		
 		// Case 3: Root and interface differ (composite components)
-		if (BaseClass::m_rootPtr.get() != nullptr && BaseClass::m_interfacePtr != nullptr){
-			// First check if dynamic_cast will succeed to avoid memory leak
-			InterfaceType* castedPtr = dynamic_cast<InterfaceType*>(BaseClass::m_rootPtr.get());
-			if (castedPtr != nullptr){
-				// Cast succeeded, safe to release ownership
-				RootIntefaceType* rootPtr = PopRootPtr();
-				Q_UNUSED(rootPtr);
+		if (BaseClass::m_rootPtr.get() != nullptr && BaseClass::m_interfacePtr != nullptr){			
+			InterfaceType* retVal = BaseClass::m_interfacePtr;
+			
+			// Release ownership
+			RootIntefaceType* rootPtr = PopRootPtr();
+			Q_UNUSED(rootPtr);
 
-				return castedPtr;
-			}
-
-			// Cast failed - this should never happen in correct code
-			Q_ASSERT(false && "dynamic_cast failed in PopInterfacePtr - interface pointer type mismatch");
-
-			return nullptr;
+			return retVal;
 		}
 		
 		// Empty pointer
