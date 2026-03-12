@@ -29,11 +29,11 @@ public:
 
 	// reimplemented (ifile::IDeviceBasedPersistence)
 	virtual bool IsDeviceOperationSupported(const istd::IChangeable& dataObject, const QIODevice& device, int deviceOperation) const override;
-	virtual int ReadFromDevice(
+	virtual ifile::IDeviceBasedPersistence::OperationState ReadFromDevice(
 				istd::IChangeable& data,
 				QIODevice& device,
 				ibase::IProgressManager* progressManagerPtr = nullptr) const override;
-	virtual int WriteToDevice(
+	virtual ifile::IDeviceBasedPersistence::OperationState WriteToDevice(
 				const istd::IChangeable& data,
 				QIODevice& device,
 				ibase::IProgressManager* progressManagerPtr = nullptr) const override;
@@ -164,7 +164,7 @@ bool TDeviceBasedSerializerComp<ReadArchive, WriteArchive>::IsDeviceOperationSup
 
 
 template <class ReadArchive, class WriteArchive>
-int TDeviceBasedSerializerComp<ReadArchive, WriteArchive>::ReadFromDevice(
+ifile::IDeviceBasedPersistence::OperationState TDeviceBasedSerializerComp<ReadArchive, WriteArchive>::ReadFromDevice(
 			istd::IChangeable& data,
 			QIODevice& device,
 			ibase::IProgressManager* /*progressManagerPtr*/) const
@@ -194,7 +194,7 @@ int TDeviceBasedSerializerComp<ReadArchive, WriteArchive>::ReadFromDevice(
 
 
 template <class ReadArchive, class WriteArchive>
-int TDeviceBasedSerializerComp<ReadArchive, WriteArchive>::WriteToDevice(
+ifile::IDeviceBasedPersistence::OperationState TDeviceBasedSerializerComp<ReadArchive, WriteArchive>::WriteToDevice(
 			const istd::IChangeable& data,
 			QIODevice& device,
 			ibase::IProgressManager* /*progressManagerPtr*/) const

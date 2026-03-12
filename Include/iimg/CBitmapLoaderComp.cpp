@@ -280,7 +280,7 @@ bool CBitmapLoaderComp::IsDeviceOperationSupported(
 }
 
 
-int CBitmapLoaderComp::ReadFromDevice(
+ifile::IDeviceBasedPersistence::OperationState CBitmapLoaderComp::ReadFromDevice(
 			istd::IChangeable& data,
 			QIODevice& device,
 			ibase::IProgressManager* /*progressManagerPtr*/) const
@@ -323,7 +323,7 @@ int CBitmapLoaderComp::ReadFromDevice(
 }
 
 
-int CBitmapLoaderComp::WriteToDevice(
+ifile::IDeviceBasedPersistence::OperationState CBitmapLoaderComp::WriteToDevice(
 			const istd::IChangeable& data,
 			QIODevice& device,
 			ibase::IProgressManager* /*progressManagerPtr*/) const
