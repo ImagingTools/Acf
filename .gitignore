@@ -23,6 +23,9 @@ qrc_*.cpp
 # CMake
 CMakeUserPresets.json
 
+# IDE
+.vscode/
+
 # Generated version files
 Config/QMake/AcfVersion.pri
 Include/istd/AcfVersion.h
