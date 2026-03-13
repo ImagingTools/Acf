@@ -22,8 +22,8 @@ fi
 # Try to fetch and unshallow if needed (suppress errors if already complete)
 git fetch --prune --unshallow 2>/dev/null || true
 
-# Try origin/master first, then fall back to HEAD
-REV=$(git rev-list --count origin/master 2>/dev/null || git rev-list --count HEAD 2>/dev/null || echo "")
+# Try origin/main first, then fall back to HEAD
+REV=$(git rev-list --count origin/main 2>/dev/null || git rev-list --count HEAD 2>/dev/null || echo "")
 
 if [ -z "$REV" ]; then
     echo "Failed to compute revision count."
@@ -42,12 +42,24 @@ echo "Processing file: $FILE"
 
 # --- Output file (remove .xtrsvn extension) ---
 OUT="${FILE%.xtrsvn}"
+TMP="$OUT.tmp"
 
 # --- Process file line by line, replacing placeholders ---
 while IFS= read -r line; do
     line="${line//\$WCREV\$/$REV}"
     line="${line//\$WCMODS?1:0\$/$DIRTY}"
     echo "$line"
-done < "$FILE" > "$OUT"
+done < "$FILE" > "$TMP"
 
-echo "Wrote $OUT with WCREV=$REV and WCMODS=$DIRTY"
+if [ -f "$OUT" ]; then
+    if cmp -s "$TMP" "$OUT"; then
+        rm -f "$TMP"
+        echo "No changes in $OUT, file not rewritten"
+    else
+        mv -f "$TMP" "$OUT"
+        echo "Wrote $OUT with WCREV=$REV and WCMODS=$DIRTY"
+    fi
+else
+    mv -f "$TMP" "$OUT"
+    echo "Wrote $OUT with WCREV=$REV and WCMODS=$DIRTY"
+fi
