@@ -5,13 +5,16 @@
 
 set -e
 
+cd "$(dirname "$0")/../.."
+
 # --- Parameter check ---
 if [ -z "$1" ]; then
-    echo "Usage: $(basename "$0") path/to/template.xtrsvn"
+    echo "Usage: $(basename "$0") path/to/template.xtrsvn [path/to/backupdir]"
     exit 1
 fi
 
 FILE="$1"
+BACKUPDIR="$2"
 
 if [ ! -f "$FILE" ]; then
     echo "File \"$FILE\" does not exist."
@@ -44,6 +47,15 @@ echo "Processing file: $FILE"
 OUT="${FILE%.xtrsvn}"
 TMP="$OUT.tmp"
 
+# --- Restore file from backup if output is missing ---
+if [ -n "$BACKUPDIR" ]; then
+    BACKUPFILE="$BACKUPDIR/$OUT"
+    if [ ! -f "$OUT" ] && [ -f "$BACKUPFILE" ]; then
+        cp -af "$BACKUPFILE" "$OUT"
+        echo "Restored $OUT from backup $BACKUPFILE"
+    fi
+fi
+
 # --- Process file line by line, replacing placeholders ---
 while IFS= read -r line; do
     line="${line//\$WCREV\$/$REV}"
@@ -62,4 +74,10 @@ if [ -f "$OUT" ]; then
 else
     mv -f "$TMP" "$OUT"
     echo "Wrote $OUT with WCREV=$REV and WCMODS=$DIRTY"
+fi
+
+if [ -n "$BACKUPDIR" ]; then
+    mkdir -p "$(dirname "$BACKUPFILE")"
+    cp -af "$OUT" "$BACKUPFILE"
+    echo "Backed up $OUT to $BACKUPFILE"
 fi
