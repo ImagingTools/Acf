@@ -130,8 +130,9 @@ class AcfConan(ConanFile):
     def _update_version(self):
         script_name = "GenerateVersion.bat" if self.settings.os == "Windows" else "GenerateVersion.sh"
         script_path = os.path.join(self.source_folder, "Build", "Git", script_name)
+        backup_dir = os.path.join(self.build_folder, "xtrsvn-backups")
 
-        self.run(script_path, cwd=self.source_folder)
+        self.run(f'"{script_path}" "{backup_dir}"', cwd=self.source_folder)
 
     def generate(self):
         qt_major = self._get_qt_version().split(".")[0]
