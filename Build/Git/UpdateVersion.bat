@@ -1,13 +1,16 @@
 @echo off
 setlocal enabledelayedexpansion
 
+cd /d "%~dp0\..\.."
+
 REM --- Validate input parameter ---
 if "%~1"=="" (
-    echo Usage: %~nx0 path\to\template.xtrsvn
+    echo Usage: %~nx0 path\to\template.xtrsvn [path\to\backupdir]
     exit /b 1
 )
 
 set "FILE=%~1"
+set "BACKUPDIR=%~2"
 
 if not exist "%FILE%" (
     echo File "%FILE%" does not exist.
@@ -41,6 +44,17 @@ REM --- Output file path (strip .xtrsvn) ---
 set "OUT=%FILE:.xtrsvn=%"
 set "TMP=%OUT%.tmp"
 
+REM --- Restore file from backup, useful for the CI scenario where git clean removes the generated file
+if not "%BACKUPDIR%"=="" (
+    set "BACKUPFILE=%BACKUPDIR%\%OUT%"
+    if not exist "%OUT%" (
+        if exist "!BACKUPFILE!" (
+            copy /y "!BACKUPFILE!" "%OUT%" >nul
+            echo Restored %OUT% from backup !BACKUPFILE!
+        )
+    )
+)
+
 (for /f "usebackq delims=" %%L in ("%FILE%") do (
     set "line=%%L"
     set "line=!line:$WCREV$=%REV%!"
@@ -61,5 +75,12 @@ if exist "%OUT%" (
     move /y "%TMP%" "%OUT%" >nul
     echo Wrote %OUT% with WCREV=%REV% and WCMODS=%DIRTY%
 )
+
+if not "%BACKUPDIR%"=="" (
+    for %%D in ("!BACKUPFILE!") do if not exist "%%~dpD" mkdir "%%~dpD" >nul 2>&1
+    copy /y "%OUT%" "!BACKUPFILE!" >nul
+    echo Backed up %OUT% to !BACKUPFILE!
+)
+
 endlocal
 exit /b 0
