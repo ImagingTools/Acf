@@ -11,7 +11,7 @@ namespace i3d
 
 
 /**
-	Definition of an axis-aligned bounding box (AABB) in 3D space.
+	  Definition of an axis-aligned bounding box (AABB) in 3D space.
 	Box is stored as minimum and maximum corner points.
 */
 class CBox3d
