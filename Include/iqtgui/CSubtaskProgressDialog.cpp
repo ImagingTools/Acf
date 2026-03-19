@@ -56,9 +56,10 @@ CSubtaskProgressDialog::CSubtaskProgressDialog(
 	overallBarLayoutPtr->addWidget(m_overallProgressBarPtr);
 	mainLayoutPtr->addLayout(overallBarLayoutPtr);
 
-	// Subtasks section
+	// Subtasks section (hidden when there is only one task)
 	m_subtasksLabelPtr = new QLabel(tr("Subtasks:"), this);
 	m_subtasksLabelPtr->setFont(boldFont);
+	m_subtasksLabelPtr->setVisible(false);
 	mainLayoutPtr->addWidget(m_subtasksLabelPtr);
 
 	// Subtasks container with scroll capability
@@ -66,6 +67,7 @@ CSubtaskProgressDialog::CSubtaskProgressDialog(
 	m_subtasksLayoutPtr = new QVBoxLayout(m_subtasksContainerPtr);
 	m_subtasksLayoutPtr->setSpacing(8);
 	m_subtasksLayoutPtr->setContentsMargins(10, 0, 0, 0);
+	m_subtasksContainerPtr->setVisible(false);
 	mainLayoutPtr->addWidget(m_subtasksContainerPtr);
 
 	// Add stretch to push cancel button to bottom
@@ -165,6 +167,11 @@ void CSubtaskProgressDialog::OnSubtasksUpdated()
 	for (const auto& taskId : toRemove){
 		RemoveSubtaskWidget(taskId);
 	}
+
+	// Show subtasks section only if there are multiple tasks
+	const bool showSubtasks = tasks.size() > 1;
+	m_subtasksLabelPtr->setVisible(showSubtasks);
+	m_subtasksContainerPtr->setVisible(showSubtasks);
 
 	// Update cancel button state
 	m_cancelButtonPtr->setEnabled(IsCancelable() && !IsCanceled());
