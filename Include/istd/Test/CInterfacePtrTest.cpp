@@ -73,6 +73,29 @@ void CInterfacePtrTest::DoSharedInterfaceTest()
 		QVERIFY(sharedPtrBase.IsValid());
 		QVERIFY(sharedPtrDerivde.IsValid());
 	}
+
+	// test dynamicCast() success
+	{
+		istd::TSharedInterfacePtr<IInterface2> sharedPtrBase(new T22);
+		auto sharedPtrDerived = sharedPtrBase.dynamicCast<IInterface22>();
+		QVERIFY(sharedPtrDerived.IsValid());
+		QVERIFY(sharedPtrDerived.GetBasePtr().use_count() == 2);
+	}
+	// test dynamicCast() failure
+	{
+		istd::TSharedInterfacePtr<IInterface2> sharedPtrBase(new T2);
+		auto sharedPtrDerived = sharedPtrBase.dynamicCast<IInterface22>();
+		QVERIFY(!sharedPtrDerived.IsValid());
+		QVERIFY(sharedPtrBase.GetBasePtr().use_count() == 1);
+	}
+	// test dynamicCast() on const
+	{
+		// TODO:
+		// const istd::TSharedInterfacePtr<IInterface2> sharedPtrBase(new T22);
+		// auto sharedPtrDerived = sharedPtrBase.dynamicCast<IInterface22>();
+		// QVERIFY(sharedPtrDerived.IsValid());
+		// QVERIFY(sharedPtrDerived.GetBasePtr().use_count() == 2);
+	}
 }
 
 
