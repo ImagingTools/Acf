@@ -427,7 +427,7 @@ public:
 	}
 
 	template<class SourceInterfaceType>
-	bool MoveCastedPtr(TUniqueInterfacePtr<SourceInterfaceType>& source) noexcept
+	bool MoveCastedPtr(TUniqueInterfacePtr<SourceInterfaceType>&& source) noexcept
 	{
 		InterfaceType* targetPtr = dynamic_cast<InterfaceType*>(source.GetPtr());
 		if (targetPtr != nullptr){
@@ -437,12 +437,6 @@ public:
 			return true;
 		}
 		return false;
-	}
-
-	template<class SourceInterfaceType>
-	bool MoveCastedPtr(TUniqueInterfacePtr<SourceInterfaceType>&& source) noexcept
-	{
-		return MoveCastedPtr(source);
 	}
 };
 
@@ -658,7 +652,7 @@ public:
 
 	// Move-cast from unique: transfer ownership if dynamic_cast succeeds
 	template<class SourceInterfaceType>
-	bool MoveCastedPtr(TUniqueInterfacePtr<SourceInterfaceType>& source) noexcept
+	bool MoveCastedPtr(TUniqueInterfacePtr<SourceInterfaceType>&& source) noexcept
 	{
 		if (!source.IsValid()){
 			Reset();
@@ -675,12 +669,6 @@ public:
 		}
 
 		return false;
-	}
-
-	template<class SourceInterfaceType>
-	bool MoveCastedPtr(TUniqueInterfacePtr<SourceInterfaceType>&& source) noexcept
-	{
-		return MoveCastedPtr(source);
 	}
 
 	/**
