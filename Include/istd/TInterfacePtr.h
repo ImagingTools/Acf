@@ -159,6 +159,16 @@ public:
 		return IsValid();
 	}
 
+	bool operator==(std::nullptr_t) const noexcept
+	{
+		return !IsValid();
+	}
+
+	bool operator!=(std::nullptr_t) const noexcept
+	{
+		return IsValid();
+	}
+
 	TInterfacePtr& operator=(std::nullptr_t) noexcept
 	{
 		Reset();
