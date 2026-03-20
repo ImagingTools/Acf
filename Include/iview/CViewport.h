@@ -112,7 +112,7 @@ protected:
 	// static methods
 	int GetMouseKeysState(const QMouseEvent& event);
 
-private:
+protected:
 	QCursor m_mousePointerModes[MPM_LAST];
 
 	imath::CFixedPointManip m_pixelPositionFormatter;

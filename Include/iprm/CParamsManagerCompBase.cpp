@@ -103,14 +103,14 @@ int CParamsManagerCompBase::InsertParamsSet(int typeIndex, int index)
 		int insertIndex = index - fixedParamsCount;
 
 		for (int i = m_paramSets.size() - 1; i > insertIndex; --i){
-			m_paramSets[i].TakeOver(m_paramSets[i - 1]);
+			m_paramSets[i] = std::move(m_paramSets[i - 1]);
 		}
-		m_paramSets[insertIndex].TakeOver(paramsSetPtr);
+		m_paramSets[insertIndex] = std::move(paramsSetPtr);
 
 		return index;
 	}
 	else{
-		m_paramSets.last().TakeOver(paramsSetPtr);
+		m_paramSets.back() = std::move(paramsSetPtr);
 
 		return GetParamsSetsCount() - 1;
 	}
@@ -126,18 +126,18 @@ bool CParamsManagerCompBase::RemoveParamsSet(int index)
 
 	int removeIndex = index - fixedParamsCount;
 
-	if ((removeIndex >= 0) && (removeIndex < m_paramSets.count())){
+	if ((removeIndex >= 0) && (removeIndex < m_paramSets.size())) {
 		istd::CChangeNotifier notifier(this, &s_removeChangeSet);
 		Q_UNUSED(notifier);
-	
+
 		m_selectedIndex = index - 1;
 
-		istd::TDelPtr<ParamSet> removedParamsSetPtr;
-		removedParamsSetPtr.TakeOver(m_paramSets[removeIndex]);
+		std::unique_ptr<ParamSet> removedParamsSetPtr;
+		removedParamsSetPtr.reset(m_paramSets[removeIndex].release());
 
 		EnsureParamsSetModelDetached(removedParamsSetPtr->paramSetPtr.GetPtr());
 
-		m_paramSets.removeAt(removeIndex);
+		m_paramSets.erase(m_paramSets.begin() + removeIndex);
 
 		notifier.Reset();
 
@@ -195,10 +195,10 @@ IParamsSet* CParamsManagerCompBase::GetParamsSet(int index) const
 		m_elementNameParamIdAttrPtr.IsValid() ||
 		m_elementDescriptionParamIdAttrPtr.IsValid()
 	){
-		return m_paramSets[index - fixedSetsCount].GetPtr();
+		return m_paramSets[index - fixedSetsCount].get();
 	}
 	else{
-		if (m_paramSets[index - fixedSetsCount].GetPtr()){
+		if (m_paramSets[index - fixedSetsCount].get()) {
 			return m_paramSets[index - fixedSetsCount]->paramSetPtr.GetPtr();
 		}
 		else{
@@ -607,7 +607,7 @@ int CParamsManagerCompBase::FindParamSetIndex(const QString& name) const
 	int paramsCount = m_paramSets.size();
 	for (int i = 0; i < paramsCount; ++i){
 		const ParamSetPtr& paramSetPtr = m_paramSets[i];
-		if (paramSetPtr.IsValid() && (paramSetPtr->name == name)){
+		if (paramSetPtr && (paramSetPtr->name == name)) {
 			return i;
 		}
 	}
@@ -781,10 +781,10 @@ int CParamsManagerCompBase::ParamSet::GetSelectedOptionIndex() const
 	if (parentPtr != NULL){
 		int retIndex = 0;
 
-		for (		ParamSets::ConstIterator iter = parentPtr->m_paramSets.constBegin();
-					iter != parentPtr->m_paramSets.constEnd();
-					++iter, ++retIndex){
-			if (iter->GetPtr() == this){
+		for (ParamSets::const_iterator iter = parentPtr->m_paramSets.cbegin();
+			iter != parentPtr->m_paramSets.cend();
+			++iter, ++retIndex) {
+			if (iter->get() == this) {
 				return retIndex + parentPtr->m_fixedParamSetsCompPtr.GetCount();
 			}
 		}
