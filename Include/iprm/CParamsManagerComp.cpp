@@ -37,7 +37,7 @@ bool CParamsManagerComp::SetSetsCount(int count)
 		Q_UNUSED(notifier);
 
 		while (m_paramSets.size() < (count - fixedSetsCount)){
-			m_paramSets.append(ParamSetPtr());
+			m_paramSets.push_back(ParamSetPtr());
 		}
 
 		while (m_paramSets.size() > (count - fixedSetsCount)){
@@ -67,7 +67,7 @@ bool CParamsManagerComp::SetSetsCount(int count)
 					paramsModelPtr->AttachObserver(&m_updateBridge);
 				}
 
-				m_paramSets[i - fixedSetsCount].TakeOver(paramsSetPtr);
+				m_paramSets[i - fixedSetsCount] = std::move(paramsSetPtr);
 			}
 		}
 	}
@@ -299,9 +299,9 @@ bool CParamsManagerComp::CopyFrom(const istd::IChangeable& object, istd::IChange
 		if (i >= m_fixedParamSetsCompPtr.GetCount()){
 			int paramIndex = i - m_fixedParamSetsCompPtr.GetCount();
 
-			Q_ASSERT(paramIndex < m_paramSets.count());
-			Q_ASSERT(m_paramSets[paramIndex].IsValid());
-	
+			Q_ASSERT(paramIndex < m_paramSets.size());
+			Q_ASSERT(m_paramSets[paramIndex]);
+
 			m_paramSets[paramIndex]->uuid = QUuid::createUuid().toByteArray();
 		}
 		
@@ -379,7 +379,7 @@ bool CParamsManagerComp::IsParameterCreationSupported() const
 
 int CParamsManagerComp::GetCreatedParamsSetsCount() const
 {
-	return m_paramSets.count();
+	return m_paramSets.size();
 }
 
 

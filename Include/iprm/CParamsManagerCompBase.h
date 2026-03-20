@@ -236,9 +236,10 @@ protected:
 		CParamsManagerCompBase* parentPtr;
 	};
 
-	typedef istd::TDelPtr<ParamSet> ParamSetPtr;
+	typedef std::unique_ptr<ParamSet> ParamSetPtr;
 
-	typedef QList<ParamSetPtr> ParamSets;
+	typedef std::vector<ParamSetPtr> ParamSets;
+
 
 	ParamSets m_paramSets;
 
