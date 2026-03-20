@@ -65,6 +65,14 @@ void CInterfacePtrTest::DoSharedInterfaceTest()
 		QVERIFY(sharedPtr3.IsValid());
 		QVERIFY(stdSharedPtr.use_count() == 2);
 	}
+
+	// create from derived class
+	{
+		istd::TSharedInterfacePtr<IInterface22> sharedPtrDerivde(new T22);
+		istd::TSharedInterfacePtr<IInterface2> sharedPtrBase = sharedPtrDerivde;
+		QVERIFY(sharedPtrBase.IsValid());
+		QVERIFY(sharedPtrDerivde.IsValid());
+	}
 }
 
 
