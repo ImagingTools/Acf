@@ -23,7 +23,7 @@ istd::IChangeable* CMultiPageBitmapSequenceComp::InsertPage(
 			newPage.pageMetaInfo.CopyFrom(*pageMetaInfoPtr);
 		}
 
-		newPage.pagePtr.MoveCastedPtr(multiBitmapPtr);
+		newPage.pagePtr.MoveCastedPtr(std::move(multiBitmapPtr));
 
 		m_documentPages.insert(position, newPage);
 
