@@ -533,6 +533,15 @@ public:
 		BaseClass::m_interfacePtr = ptr.get();
 	}
 
+	template<typename U>
+	TSharedInterfacePtr(std::unique_ptr<U>&& ptr) noexcept
+	{
+		static_assert(std::is_base_of_v<RootIntefaceType, InterfaceType>, "Here InterfaceType must extend RootIntefaceType");
+		static_assert(std::is_base_of_v<InterfaceType, U>, "U must extend InterfaceType");
+		BaseClass::m_interfacePtr = ptr.get();
+		BaseClass::m_rootPtr = std::move(ptr);
+	}
+
 	// Move constructor
 	TSharedInterfacePtr(TSharedInterfacePtr&& ptr) noexcept
 	{
@@ -565,18 +574,6 @@ public:
 	{
 		BaseClass::m_rootPtr = ptr.m_rootPtr;
 		BaseClass::m_interfacePtr = ptr.m_interfacePtr;
-		return *this;
-	}
-
-	TSharedInterfacePtr& operator=(const std::shared_ptr<istd::IPolymorphic>& ptr) noexcept
-	{
-		InterfaceType* interfacePtr = dynamic_cast<InterfaceType*>(ptr.get());
-		if (interfacePtr != nullptr){
-			BaseClass::m_rootPtr = ptr;
-
-			BaseClass::m_interfacePtr = interfacePtr;
-		}
-
 		return *this;
 	}
 
