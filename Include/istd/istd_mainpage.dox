@@ -196,7 +196,7 @@ istd::TUniqueInterfacePtr<IDerived> derivedPtr = CreateDerivedObject();
 
 // Convert to unique pointer of base interface with casting
 istd::TUniqueInterfacePtr<IBase> basePtr;
-if (basePtr.MoveCastedPtr(derivedPtr))
+if (basePtr.MoveCastedPtr(std::move(derivedPtr)))
 {
     // Success: basePtr now owns the object, derivedPtr is invalid
     basePtr->DoBaseOperation();
@@ -209,7 +209,7 @@ else
 // Convert unique to shared with casting
 istd::TUniqueInterfacePtr<IDerived> derivedPtr2 = CreateDerivedObject();
 istd::TSharedInterfacePtr<IBase> sharedBase;
-if (sharedBase.MoveCastedPtr(derivedPtr2))
+if (sharedBase.MoveCastedPtr(std::move(derivedPtr2)))
 {
     // Success: sharedBase now owns the object, derivedPtr2 is invalid
     sharedBase->DoBaseOperation();

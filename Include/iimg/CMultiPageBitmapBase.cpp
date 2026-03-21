@@ -28,7 +28,7 @@ istd::IChangeable* CMultiPageBitmapBase::InsertPage(
 		return NULL;
 	}
 
-	newPage.pagePtr.MoveCastedPtr(bitmapPtr);
+	newPage.pagePtr.MoveCastedPtr(std::move(bitmapPtr));
 
 	istd::CChangeNotifier changePtr(this);
 
