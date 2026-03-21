@@ -437,7 +437,7 @@ public:
 	}
 
 	template<class SourceInterfaceType>
-	[[deprecated]] bool MoveCastedPtr(TUniqueInterfacePtr<SourceInterfaceType>& source) noexcept
+	bool MoveCastedPtr(TUniqueInterfacePtr<SourceInterfaceType>&& source) noexcept
 	{
 		InterfaceType* targetPtr = dynamic_cast<InterfaceType*>(source.GetPtr());
 		if (targetPtr != nullptr){
@@ -450,9 +450,9 @@ public:
 	}
 
 	template<class SourceInterfaceType>
-	bool MoveCastedPtr(TUniqueInterfacePtr<SourceInterfaceType>&& source) noexcept
+	[[deprecated]] bool MoveCastedPtr(TUniqueInterfacePtr<SourceInterfaceType>& source) noexcept
 	{
-		return MoveCastedPtr(source);
+		return MoveCastedPtr(std::move(source));
 	}
 };
 
@@ -565,7 +565,7 @@ public:
 	TSharedInterfacePtr(TUniqueInterfacePtr<DerivedType>&& ptr) noexcept
 	{
 		static_assert(std::is_base_of_v<InterfaceType, DerivedType>, "DerivedType must extend InterfaceType");
-		*this = CreateFromUnique(ptr);
+		*this = CreateFromUnique(std::move(ptr));
 	}
 
 	~TSharedInterfacePtr()
@@ -603,9 +603,9 @@ public:
 	}
 
 	/**
-		Convert from unique to shared.After this call, uniquePtr no longer owns the object.
+		Convert from unique to shared. After this call, uniquePtr no longer owns the object.
 	*/
-	TSharedInterfacePtr& FromUnique(TUniqueInterfacePtr<InterfaceType>& uniquePtr) noexcept
+	TSharedInterfacePtr& FromUnique(TUniqueInterfacePtr<InterfaceType>&& uniquePtr) noexcept
 	{
 		if (!uniquePtr.IsValid()){
 			Reset();
@@ -627,9 +627,9 @@ public:
 		return *this;
 	}
 
-	TSharedInterfacePtr& FromUnique(TUniqueInterfacePtr<InterfaceType>&& uniquePtr) noexcept
+	[[deprecated]] TSharedInterfacePtr& FromUnique(TUniqueInterfacePtr<InterfaceType>& uniquePtr) noexcept
 	{
-		return FromUnique(uniquePtr);
+		return FromUnique(std::move(uniquePtr));
 	}
 
 	template <typename OtherInterface>
@@ -651,21 +651,21 @@ public:
 		return retVal;
 	}
 
-	static TSharedInterfacePtr CreateFromUnique(TUniqueInterfacePtr<InterfaceType>& uniquePtr) noexcept
+	static TSharedInterfacePtr CreateFromUnique(TUniqueInterfacePtr<InterfaceType>&& uniquePtr) noexcept
 	{
 		TSharedInterfacePtr retVal;
-		retVal.FromUnique(uniquePtr);
+		retVal.FromUnique(std::move(uniquePtr));
 		return retVal;
 	}
 
-	static TSharedInterfacePtr CreateFromUnique(TUniqueInterfacePtr<InterfaceType>&& uniquePtr) noexcept
+	[[deprecated]] static TSharedInterfacePtr CreateFromUnique(TUniqueInterfacePtr<InterfaceType>& uniquePtr) noexcept
 	{
-		return CreateFromUnique(uniquePtr);
+		return CreateFromUnique(std::move(uniquePtr));
 	}
 
 	// Move-cast from unique: transfer ownership if dynamic_cast succeeds
 	template<class SourceInterfaceType>
-	[[deprecated]] bool MoveCastedPtr(TUniqueInterfacePtr<SourceInterfaceType>& source) noexcept
+	bool MoveCastedPtr(TUniqueInterfacePtr<SourceInterfaceType>&& source) noexcept
 	{
 		if (!source.IsValid()){
 			Reset();
@@ -685,9 +685,9 @@ public:
 	}
 
 	template<class SourceInterfaceType>
-	bool MoveCastedPtr(TUniqueInterfacePtr<SourceInterfaceType>&& source) noexcept
+	[[deprecated]] bool MoveCastedPtr(TUniqueInterfacePtr<SourceInterfaceType>& source) noexcept
 	{
-		return MoveCastedPtr(source);
+		return MoveCastedPtr(std::move(source));
 	}
 
 	/**
