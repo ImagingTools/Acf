@@ -257,6 +257,10 @@ protected:
 template <class InterfaceType, class RootIntefaceType = istd::IPolymorphic>
 class TUniqueInterfacePtr : public TInterfacePtr<InterfaceType, std::unique_ptr<RootIntefaceType>>
 {
+
+	template<typename U, typename R>
+	friend class TUniqueInterfacePtr;
+
 public:
 	typedef TInterfacePtr<InterfaceType, std::unique_ptr<RootIntefaceType>> BaseClass;
 	typedef typename BaseClass::ExtractInterfaceFunc ExtractInterfaceFunc;
@@ -282,7 +286,6 @@ public:
 	TUniqueInterfacePtr(std::unique_ptr<T>&& ptr) noexcept
 	{
 		BaseClass::m_interfacePtr = ptr.get();
-
 		BaseClass::m_rootPtr = std::move(ptr);
 	}
 	
@@ -292,7 +295,6 @@ public:
 
 		return *this;
 	}
-
 
 	explicit TUniqueInterfacePtr(RootIntefaceType* rootPtr, const ExtractInterfaceFunc& extractInterface) noexcept
 		:BaseClass(rootPtr, extractInterface)
@@ -308,8 +310,10 @@ public:
 	TUniqueInterfacePtr& operator=(const TUniqueInterfacePtr& ptr) = delete;
 
 	// Move constructor
-	TUniqueInterfacePtr(TUniqueInterfacePtr&& ptr) noexcept
+	template <typename U>
+	TUniqueInterfacePtr(TUniqueInterfacePtr<U>&& ptr) noexcept
 	{
+		static_assert(std::is_base_of_v<InterfaceType, U>, "U must extend InterfaceType");
 		BaseClass::m_rootPtr = std::move(ptr.m_rootPtr);
 		BaseClass::m_interfacePtr = std::exchange(ptr.m_interfacePtr, nullptr);
 	}
@@ -317,6 +321,17 @@ public:
 	// Move assignment
 	TUniqueInterfacePtr& operator=(TUniqueInterfacePtr&& ptr) noexcept
 	{
+		if (this != &ptr){
+			BaseClass::m_rootPtr = std::move(ptr.m_rootPtr);
+			BaseClass::m_interfacePtr = std::exchange(ptr.m_interfacePtr, nullptr);
+		}
+		return *this;
+	}
+
+	template <typename U>
+	TUniqueInterfacePtr& operator=(TUniqueInterfacePtr<U>&& ptr) noexcept
+	{
+		static_assert(std::is_base_of_v<InterfaceType, U>, "U must extend InterfaceType");
 		if (this != &ptr){
 			BaseClass::m_rootPtr = std::move(ptr.m_rootPtr);
 			BaseClass::m_interfacePtr = std::exchange(ptr.m_interfacePtr, nullptr);
@@ -528,8 +543,10 @@ public:
 	/**
 		Construct from unique by transferring ownership into shared_ptr.
 	*/
-	TSharedInterfacePtr(TUniqueInterfacePtr<InterfaceType>&& ptr) noexcept
+	template <typename U>
+	TSharedInterfacePtr(TUniqueInterfacePtr<U>&& ptr) noexcept
 	{
+		static_assert(std::is_base_of_v<InterfaceType, U>, "U must extend InterfaceType");
 		*this = CreateFromUnique(ptr);
 	}
 
