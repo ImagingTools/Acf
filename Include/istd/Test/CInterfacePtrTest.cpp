@@ -45,6 +45,12 @@ private:
 };
 
 
+static istd::TSharedInterfacePtr<IInterface1> returningStdSharedPtrCompiles()
+{
+	return std::make_shared<T1>();
+}
+
+
 void CInterfacePtrTest::DoSharedInterfaceTest()
 {
 	// basic operations
@@ -243,12 +249,12 @@ void CInterfacePtrTest::DoSharedInterfaceTest()
 		QVERIFY(existingShared.GetPtr() == originalInterface);
 		QVERIFY(incompatibleUnique.IsValid());
 	}
-}
 
-
-static istd::TSharedInterfacePtr<IInterface1> returningStdSharedPtrCompiles()
-{
-	return std::make_shared<T1>();
+	// other
+	{
+		istd::TSharedInterfacePtr<IInterface1> sharedPtr = returningStdSharedPtrCompiles();
+		QVERIFY(sharedPtr.IsValid());
+	}
 }
 
 
