@@ -310,10 +310,10 @@ public:
 	TUniqueInterfacePtr& operator=(const TUniqueInterfacePtr& ptr) = delete;
 
 	// Move constructor
-	template <typename U>
-	TUniqueInterfacePtr(TUniqueInterfacePtr<U>&& ptr) noexcept
+	template <typename DerivedType>
+	TUniqueInterfacePtr(TUniqueInterfacePtr<DerivedType>&& ptr) noexcept
 	{
-		static_assert(std::is_base_of_v<InterfaceType, U>, "U must extend InterfaceType");
+		static_assert(std::is_base_of_v<InterfaceType, DerivedType>, "DerivedType must extend InterfaceType");
 		BaseClass::m_rootPtr = std::move(ptr.m_rootPtr);
 		BaseClass::m_interfacePtr = std::exchange(ptr.m_interfacePtr, nullptr);
 	}
@@ -576,12 +576,12 @@ public:
 		return *this;
 	}
 
-	template <typename U>
-	TSharedInterfacePtr& operator=(const TSharedInterfacePtr<U>& ptr) noexcept
+	template <typename DerivedType>
+	TSharedInterfacePtr& operator=(const TSharedInterfacePtr<DerivedType>& ptr) noexcept
 	{
-		static_assert(std::is_base_of_v<InterfaceType, U>, "U must extend InterfaceType");
+		static_assert(std::is_base_of_v<InterfaceType, DerivedType>, "DerivedType must extend InterfaceType");
 		BaseClass::m_rootPtr = ptr.GetBasePtr();
-		BaseClass::m_interfacePtr = const_cast<U*>(ptr.GetPtr());
+		BaseClass::m_interfacePtr = const_cast<DerivedType*>(ptr.GetPtr());
 		return *this;
 	}
 
