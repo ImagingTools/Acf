@@ -430,13 +430,12 @@ public:
 	}
 
 	/**
-		Transfer ownership from another unique ptr(take over raw ownership)
+		Transfer ownership from another unique ptr(take over raw ownership).
+		Alternatively move assignment operator can be used.
 	*/
 	void TakeOver(TUniqueInterfacePtr<InterfaceType>& from) noexcept
 	{
-		BaseClass::m_interfacePtr = from.m_interfacePtr;
-
-		BaseClass::m_rootPtr.reset(from.PopRootPtr());
+		*this = std::move(from);
 	}
 
 	template<class SourceInterfaceType>
