@@ -269,6 +269,10 @@ void CInterfacePtrTest::DoUniqueInterfaceTest()
 
 	istd::TUniqueInterfacePtr<const IInterface1> ptr4(std::make_unique<T1>());
 	QVERIFY(ptr4.IsValid());
+
+	// test assignment from derived unique pointer
+	ptr4 = istd::TUniqueInterfacePtr<T1>(new T1);
+	QVERIFY(ptr4.IsValid());
 }
 
 
