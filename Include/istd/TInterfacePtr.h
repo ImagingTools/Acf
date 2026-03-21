@@ -717,7 +717,7 @@ public:
 	const TSharedInterfacePtr<const T> dynamicCast() const noexcept
 	{
 		TSharedInterfacePtr<const T> retVal;
-		retVal.SetCastedPtr(*this);
+		retVal.SetCastedPtr(const_cast<TSharedInterfacePtr&>(*this));
 		return retVal;
 	}
 };
