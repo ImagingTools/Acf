@@ -140,7 +140,20 @@ public:
 		return m_rootPtr;
 	}
 
+	//
 	// STL-like support
+	//
+
+	InterfaceType* get() noexcept
+	{
+		return GetPtr();
+	}
+
+	const InterfaceType* get() const noexcept
+	{
+		return GetPtr();
+	}
+
 	template <class T>
 	T* dynamicCast() noexcept
 	{
