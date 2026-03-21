@@ -32,49 +32,100 @@ class T22 : public IInterface22
 {
 };
 
+class TCompositeRoot : public istd::IPolymorphic
+{
+public:
+	IInterface1* GetInterface()
+	{
+		return &m_t1;
+	}
+
+private:
+	T1 m_t1;
+};
+
 
 void CInterfacePtrTest::DoSharedInterfaceTest()
 {
-	istd::TSharedInterfacePtr<IInterface1> sharedPtr(new T1);
-	QVERIFY(sharedPtr.IsValid());
-
-	istd::TSharedInterfacePtr<IInterface1> sharedPtr2 = sharedPtr;
-	QVERIFY(sharedPtr2.IsValid());
-
-	istd::TSharedInterfacePtr<const IInterface1> sharedConstPtr;
-	sharedConstPtr = sharedPtr;
-	QVERIFY(sharedConstPtr.IsValid());
-	sharedConstPtr = std::make_shared<T1>();
-	QVERIFY(sharedConstPtr.IsValid());
-	QVERIFY(sharedConstPtr);
-
-	// create from unique ptr
+	// basic operations
 	{
-		istd::TSharedInterfacePtr<const IInterface1> sharedConstPtr2;
-		sharedConstPtr2 = std::make_unique<T1>();
-		QVERIFY(sharedConstPtr2.IsValid());
-	}
-	
-	sharedPtr.Reset();
-	QVERIFY(!sharedPtr.IsValid());
+		istd::TSharedInterfacePtr<IInterface1> sharedPtr(new T1);
+		QVERIFY(sharedPtr.IsValid());
 
-	sharedPtr2.Reset();
-	QVERIFY(!sharedPtr2.IsValid());
+		istd::TSharedInterfacePtr<IInterface1> sharedPtr2 = sharedPtr;
+		QVERIFY(sharedPtr2.IsValid());
+		QVERIFY(sharedPtr.GetBasePtr().use_count() == 2);
+
+		istd::TSharedInterfacePtr<const IInterface1> sharedConstPtr;
+		sharedConstPtr = sharedPtr;
+		QVERIFY(sharedConstPtr.IsValid());
+		QVERIFY(sharedConstPtr.GetBasePtr().use_count() == 3);
+		
+		sharedConstPtr = std::make_shared<T1>();
+		QVERIFY(sharedConstPtr.IsValid());
+		QVERIFY(sharedConstPtr);
+		QVERIFY(sharedPtr.GetBasePtr().use_count() == 2);
+
+		sharedPtr.Reset();
+		QVERIFY(!sharedPtr.IsValid());
+
+		sharedPtr2.Reset();
+		QVERIFY(!sharedPtr2.IsValid());
+		QVERIFY(sharedConstPtr.IsValid());
+		sharedConstPtr.Reset();
+		QVERIFY(!sharedConstPtr.IsValid());
+	}
+
+	// assign from std::unique_ptr
+	{
+		istd::TSharedInterfacePtr<const IInterface1> sharedConstPtr;
+		sharedConstPtr = std::make_unique<T1>();
+		QVERIFY(sharedConstPtr.IsValid());
+	}
 
 	// create from std::shared_ptr
 	{
 		std::shared_ptr<T1> stdSharedPtr = std::make_shared<T1>();
-		istd::TSharedInterfacePtr<IInterface1> sharedPtr3(stdSharedPtr);
-		QVERIFY(sharedPtr3.IsValid());
+		istd::TSharedInterfacePtr<IInterface1> sharedPtr(stdSharedPtr);
+		QVERIFY(sharedPtr.IsValid());
 		QVERIFY(stdSharedPtr.use_count() == 2);
 	}
 
-	// create from derived class
+	// move semantics
 	{
-		istd::TSharedInterfacePtr<IInterface22> sharedPtrDerivde(new T22);
-		istd::TSharedInterfacePtr<IInterface2> sharedPtrBase = sharedPtrDerivde;
+		istd::TSharedInterfacePtr<IInterface1> countedPtr(new T1);
+		QVERIFY(countedPtr.IsValid());
+
+		istd::TSharedInterfacePtr<IInterface1> countedCopy = countedPtr;
+		QVERIFY(countedPtr.GetBasePtr().use_count() == 2);
+
+		istd::TSharedInterfacePtr<IInterface1> countedMoved(std::move(countedCopy));
+		QVERIFY(!countedCopy.IsValid());
+		QVERIFY(countedMoved.IsValid());
+		QVERIFY(countedMoved.GetBasePtr().use_count() == 2);
+
+		istd::TSharedInterfacePtr<IInterface1> countedAssigned;
+		countedAssigned = std::move(countedMoved);
+		QVERIFY(!countedMoved.IsValid());
+		QVERIFY(countedAssigned.IsValid());
+		QVERIFY(countedAssigned.GetBasePtr().use_count() == 2);
+
+		countedPtr.Reset();
+		QVERIFY(countedAssigned.IsValid());
+		QVERIFY(countedAssigned.GetBasePtr().use_count() == 1);
+
+		countedAssigned.Reset();
+		QVERIFY(!countedAssigned.IsValid());
+	}
+
+	// assignment from derived shared pointer
+	{
+		istd::TSharedInterfacePtr<IInterface22> sharedPtrDerived(new T22);
+		istd::TSharedInterfacePtr<IInterface2> sharedPtrBase;
+		sharedPtrBase = sharedPtrDerived;
 		QVERIFY(sharedPtrBase.IsValid());
-		QVERIFY(sharedPtrDerivde.IsValid());
+		QVERIFY(sharedPtrDerived.IsValid());
+		QVERIFY(sharedPtrBase.GetBasePtr().use_count() == 2);
 	}
 
 	// test dynamicCast() success
@@ -98,6 +149,100 @@ void CInterfacePtrTest::DoSharedInterfaceTest()
 		// auto sharedPtrDerived = sharedPtrBase.dynamicCast<IInterface22>();
 		// QVERIFY(sharedPtrDerived.IsValid());
 		// QVERIFY(sharedPtrDerived.GetBasePtr().use_count() == 2);
+	}
+
+	// test SetCastedPtr() success
+	{
+		istd::TSharedInterfacePtr<IInterface22> sharedPtrDerived(new T22);
+		istd::TSharedInterfacePtr<IInterface2> sharedPtrBase;
+		QVERIFY(sharedPtrBase.SetCastedPtr(sharedPtrDerived));
+		QVERIFY(sharedPtrBase.IsValid());
+		QVERIFY(sharedPtrDerived.IsValid());
+		QVERIFY(sharedPtrBase.GetBasePtr().use_count() == 2);
+	}
+
+	// test SetCastedPtr() failure keeps target unchanged
+	{
+		istd::TSharedInterfacePtr<IInterface2> sharedPtrBase(new T22);
+		IInterface2* originalInterface = sharedPtrBase.GetPtr();
+		istd::TSharedInterfacePtr<IInterface1> incompatiblePtr(new T1);
+		QVERIFY(!sharedPtrBase.SetCastedPtr(incompatiblePtr));
+		QVERIFY(sharedPtrBase.IsValid());
+		QVERIFY(sharedPtrBase.GetPtr() == originalInterface);
+		QVERIFY(incompatiblePtr.IsValid());
+	}
+
+	// separate root and interface pointers share ownership correctly
+	{
+		TCompositeRoot* root = new TCompositeRoot;
+		istd::TSharedInterfacePtr<IInterface1> compositePtr(root, [root]() { return root->GetInterface(); });
+		QVERIFY(compositePtr.IsValid());
+		QVERIFY(compositePtr.GetBasePtr().get() == root);
+		QVERIFY(compositePtr.GetPtr() == root->GetInterface());
+		QVERIFY(compositePtr.GetPtr() != compositePtr.GetBasePtr().get());
+
+		istd::TSharedInterfacePtr<IInterface1> compositeCopy = compositePtr;
+		QVERIFY(compositeCopy.GetBasePtr().use_count() == 2);
+
+		compositePtr.Reset();
+		QVERIFY(compositeCopy.IsValid());
+		QVERIFY(compositeCopy.GetBasePtr().use_count() == 1);
+
+		compositeCopy.Reset();
+		QVERIFY(!compositeCopy.IsValid());
+	}
+
+	// conversion from unique through constructor
+	{
+		istd::TUniqueInterfacePtr<IInterface22> uniqueDerived(new T22);
+		istd::TSharedInterfacePtr<IInterface2> sharedBase(std::move(uniqueDerived));
+		QVERIFY(sharedBase.IsValid());
+		QVERIFY(!uniqueDerived.IsValid());
+		QVERIFY(sharedBase.GetBasePtr().use_count() == 1);
+	}
+
+	// conversion from unique through FromUnique()
+	{
+		istd::TUniqueInterfacePtr<IInterface1> uniquePtr(new T1);
+		istd::TSharedInterfacePtr<IInterface1> sharedFromUnique;
+		sharedFromUnique.FromUnique(uniquePtr);
+		QVERIFY(sharedFromUnique.IsValid());
+		QVERIFY(!uniquePtr.IsValid());
+		QVERIFY(sharedFromUnique.GetBasePtr().use_count() == 1);
+
+		istd::TUniqueInterfacePtr<IInterface1> emptyUnique;
+		sharedFromUnique.FromUnique(emptyUnique);
+		QVERIFY(!sharedFromUnique.IsValid());
+	}
+
+	// CreateFromUnique() cast success/failure
+	{
+		istd::TUniqueInterfacePtr<IInterface22> uniqueDerived(new T22);
+		auto sharedBase = istd::TSharedInterfacePtr<IInterface2>::CreateFromUnique(uniqueDerived);
+		QVERIFY(sharedBase.IsValid());
+		QVERIFY(!uniqueDerived.IsValid());
+
+		istd::TUniqueInterfacePtr<IInterface1> incompatibleUnique(new T1);
+		auto incompatibleShared = istd::TSharedInterfacePtr<IInterface2>::CreateFromUnique(incompatibleUnique);
+		QVERIFY(!incompatibleShared.IsValid());
+		QVERIFY(incompatibleUnique.IsValid());
+	}
+
+	// MoveCastedPtr() success and failure
+	{
+		istd::TUniqueInterfacePtr<IInterface22> uniqueDerived(new T22);
+		istd::TSharedInterfacePtr<IInterface2> sharedBase;
+		QVERIFY(sharedBase.MoveCastedPtr(std::move(uniqueDerived)));
+		QVERIFY(sharedBase.IsValid());
+		QVERIFY(!uniqueDerived.IsValid());
+
+		istd::TSharedInterfacePtr<IInterface2> existingShared(new T22);
+		IInterface2* originalInterface = existingShared.GetPtr();
+		istd::TUniqueInterfacePtr<IInterface1> incompatibleUnique(new T1);
+		QVERIFY(!existingShared.MoveCastedPtr(std::move(incompatibleUnique)));
+		QVERIFY(existingShared.IsValid());
+		QVERIFY(existingShared.GetPtr() == originalInterface);
+		QVERIFY(incompatibleUnique.IsValid());
 	}
 }
 
