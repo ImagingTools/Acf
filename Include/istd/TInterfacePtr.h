@@ -579,8 +579,9 @@ public:
 	template <typename U>
 	TSharedInterfacePtr& operator=(const TSharedInterfacePtr<U>& ptr) noexcept
 	{
+		static_assert(std::is_base_of_v<InterfaceType, U>, "U must extend InterfaceType");
 		BaseClass::m_rootPtr = ptr.GetBasePtr();
-		BaseClass::m_interfacePtr = ptr.GetPtr();
+		BaseClass::m_interfacePtr = const_cast<U*>(ptr.GetPtr());
 		return *this;
 	}
 
