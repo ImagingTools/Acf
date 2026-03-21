@@ -149,6 +149,9 @@ public:
 		return GetPtr();
 	}
 
+	/**
+		\note different from std::unique_ptr/shared_ptr get() - returns const pointer
+	*/
 	const InterfaceType* get() const noexcept
 	{
 		return GetPtr();
@@ -343,7 +346,7 @@ public:
 	{
 		static_assert(std::is_base_of_v<InterfaceType, DerivedType>, "DerivedType must extend InterfaceType");
 		static_assert(!std::is_same_v<DerivedType, InterfaceType>, "Non-templated move assignment operator overload must be used");
-		
+
 		BaseClass::m_rootPtr = std::move(ptr.m_rootPtr);
 		BaseClass::m_interfacePtr = std::exchange(ptr.m_interfacePtr, nullptr);
 		return *this;
