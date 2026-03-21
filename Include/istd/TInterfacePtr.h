@@ -154,18 +154,6 @@ public:
 		return GetPtr();
 	}
 
-	template <class T>
-	T* dynamicCast() noexcept
-	{
-		return GetPtr<T>();
-	}
-
-	template <class T>
-	const T* dynamicCast() const noexcept
-	{
-		return GetPtr<const T>();
-	}
-
 	explicit operator bool() const noexcept
 	{
 		return IsValid();
@@ -697,6 +685,26 @@ public:
 		}
 
 		return false;
+	}
+
+	//
+	// Qt-like support
+	//
+
+	template <class T>
+	TSharedInterfacePtr<T> dynamicCast() noexcept
+	{
+		TSharedInterfacePtr<T> retVal;
+		retVal.SetCastedPtr(*this);
+		return retVal;
+	}
+
+	template <class T>
+	const TSharedInterfacePtr<const T> dynamicCast() const noexcept
+	{
+		TSharedInterfacePtr<const T> retVal;
+		retVal.SetCastedPtr(*this);
+		return retVal;
 	}
 };
 
