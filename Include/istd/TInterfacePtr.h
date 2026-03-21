@@ -502,8 +502,10 @@ public:
 	template <typename U>
 	TSharedInterfacePtr(const TSharedInterfacePtr<U>& other) noexcept
 	{
+		static_assert(std::is_base_of_v<InterfaceType, U>, "U must extend InterfaceType");
+
 		BaseClass::m_rootPtr = other.GetBasePtr();
-		BaseClass::m_interfacePtr = static_cast<InterfaceType*>(other.GetPtr());
+		BaseClass::m_interfacePtr = const_cast<U*>(other.GetPtr());
 	}
 
 	explicit TSharedInterfacePtr(const std::shared_ptr<RootIntefaceType>& ptr) noexcept
