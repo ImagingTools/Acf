@@ -156,14 +156,14 @@ void CInterfacePtrTest::DoSharedInterfaceTest()
 		QVERIFY(sharedPtrDerived.GetBasePtr().use_count() == 2);
 	}
 
-	// test SetCastedPtr() success
+	// test SetCastedPtr() downcast success
 	{
-		istd::TSharedInterfacePtr<IInterface22> sharedPtrDerived(new T22);
-		istd::TSharedInterfacePtr<IInterface2> sharedPtrBase;
-		QVERIFY(sharedPtrBase.SetCastedPtr(sharedPtrDerived));
+		istd::TSharedInterfacePtr<IInterface2> sharedPtrBase(new T22);
+		istd::TSharedInterfacePtr<IInterface22> sharedPtrDerived;
+		QVERIFY(sharedPtrDerived.SetCastedPtr(sharedPtrBase));
 		QVERIFY(sharedPtrBase.IsValid());
 		QVERIFY(sharedPtrDerived.IsValid());
-		QVERIFY(sharedPtrBase.GetBasePtr().use_count() == 2);
+		QVERIFY(sharedPtrDerived.GetBasePtr().use_count() == 2);
 	}
 
 	// test SetCastedPtr() failure keeps target unchanged
@@ -222,28 +222,28 @@ void CInterfacePtrTest::DoSharedInterfaceTest()
 
 	// CreateFromUnique() cast success/failure
 	{
-		istd::TUniqueInterfacePtr<IInterface22> uniqueDerived(new T22);
-		auto sharedBase = istd::TSharedInterfacePtr<IInterface2>::CreateFromUnique(uniqueDerived);
-		QVERIFY(sharedBase.IsValid());
-		QVERIFY(!uniqueDerived.IsValid());
+		istd::TUniqueInterfacePtr<IInterface2> compatibleUnique(new T22);
+		auto sharedDerived = istd::TSharedInterfacePtr<IInterface22>::CreateFromUnique(compatibleUnique);
+		QVERIFY(sharedDerived.IsValid());
+		QVERIFY(!compatibleUnique.IsValid());
 
-		istd::TUniqueInterfacePtr<IInterface1> incompatibleUnique(new T1);
-		auto incompatibleShared = istd::TSharedInterfacePtr<IInterface2>::CreateFromUnique(incompatibleUnique);
+		istd::TUniqueInterfacePtr<IInterface2> incompatibleUnique(new T2);
+		auto incompatibleShared = istd::TSharedInterfacePtr<IInterface22>::CreateFromUnique(incompatibleUnique);
 		QVERIFY(!incompatibleShared.IsValid());
 		QVERIFY(incompatibleUnique.IsValid());
 	}
 
 	// MoveCastedPtr() success and failure
 	{
-		istd::TUniqueInterfacePtr<IInterface22> uniqueDerived(new T22);
-		istd::TSharedInterfacePtr<IInterface2> sharedBase;
-		QVERIFY(sharedBase.MoveCastedPtr(std::move(uniqueDerived)));
-		QVERIFY(sharedBase.IsValid());
-		QVERIFY(!uniqueDerived.IsValid());
+		istd::TUniqueInterfacePtr<IInterface2> compatibleUnique(new T22);
+		istd::TSharedInterfacePtr<IInterface22> sharedDerived;
+		QVERIFY(sharedDerived.MoveCastedPtr(std::move(compatibleUnique)));
+		QVERIFY(sharedDerived.IsValid());
+		QVERIFY(!compatibleUnique.IsValid());
 
-		istd::TSharedInterfacePtr<IInterface2> existingShared(new T22);
-		IInterface2* originalInterface = existingShared.GetPtr();
-		istd::TUniqueInterfacePtr<IInterface1> incompatibleUnique(new T1);
+		istd::TSharedInterfacePtr<IInterface22> existingShared(new T22);
+		IInterface22* originalInterface = existingShared.GetPtr();
+		istd::TUniqueInterfacePtr<IInterface2> incompatibleUnique(new T2);
 		QVERIFY(!existingShared.MoveCastedPtr(std::move(incompatibleUnique)));
 		QVERIFY(existingShared.IsValid());
 		QVERIFY(existingShared.GetPtr() == originalInterface);
