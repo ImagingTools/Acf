@@ -181,8 +181,14 @@ istd::TSharedInterfacePtr<IMyInterface> sharedPtr4 = sharedPtr3;
 
 \subsubsection example_conversion_with_casting Converting with Dynamic Casting
 
-When converting between different interface types, use the MoveCastedPtr methods which perform
-safe dynamic casting during the ownership transfer.
+Derived-to-base conversion (upcast) does not need a dynamic cast. It is supported directly
+by constructors and assignment operators.
+
+Base-to-derived conversion (downcast) requires an explicit dynamic-cast helper:
+- Use MoveCastedPtr() for TUniqueInterfacePtr
+- Use SetCastedPtr() or dynamicCast() for TSharedInterfacePtr
+
+Shared setup for the examples below:
 
 \code{.cpp}
 #include <istd/TInterfacePtr.h>
@@ -190,38 +196,52 @@ safe dynamic casting during the ownership transfer.
 // Interfaces
 class IBase : public istd::IPolymorphic { /*...*/ };
 class IDerived : public IBase { /*...*/ };
+\endcode
 
-// Create unique pointer to derived interface
+Upcast with TUniqueInterfacePtr (derived to base):
+
+\code{.cpp}
+// Direct upcast via move assignment
 istd::TUniqueInterfacePtr<IDerived> derivedPtr = CreateDerivedObject();
+istd::TUniqueInterfacePtr<IBase> basePtr(std::move(derivedPtr));
+// basePtr now owns the object, derivedPtr is invalid
+\endcode
 
-// Convert to unique pointer of base interface with casting
-istd::TUniqueInterfacePtr<IBase> basePtr;
-if (basePtr.MoveCastedPtr(std::move(derivedPtr)))
+Downcast with TUniqueInterfacePtr (base to derived):
+
+\code{.cpp}
+istd::TUniqueInterfacePtr<IBase> basePtr = CreateMaybeDerivedObject();
+istd::TUniqueInterfacePtr<IDerived> derivedPtr;
+if (derivedPtr.MoveCastedPtr(std::move(basePtr)))
 {
-    // Success: basePtr now owns the object, derivedPtr is invalid
-    basePtr->DoBaseOperation();
+    // Success: derivedPtr now owns the object, basePtr is invalid
+    derivedPtr->DoDerivedOperation();
 }
 else
 {
     // Failed: dynamic_cast failed
 }
+\endcode
 
-// Convert unique to shared with casting
-istd::TUniqueInterfacePtr<IDerived> derivedPtr2 = CreateDerivedObject();
-istd::TSharedInterfacePtr<IBase> sharedBase;
-if (sharedBase.MoveCastedPtr(std::move(derivedPtr2)))
-{
-    // Success: sharedBase now owns the object, derivedPtr2 is invalid
-    sharedBase->DoBaseOperation();
-}
+Upcast to TSharedInterfacePtr (derived to base):
 
-// Convert between shared pointers with casting
-istd::TSharedInterfacePtr<IDerived> sharedDerived = CreateDerivedObject();
-istd::TSharedInterfacePtr<IBase> sharedBase2;
-if (sharedBase2.SetCastedPtr(sharedDerived))
+\code{.cpp}
+istd::TUniqueInterfacePtr<IDerived> derivedPtr = CreateDerivedObject();
+istd::TSharedInterfacePtr<IBase> basePtr;
+basePtr = std::move(derivedPtr);
+// basePtr now owns the object, derivedPtr is invalid
+
+\endcode
+
+Downcast with TSharedInterfacePtr (base to derived):
+
+\code{.cpp}
+istd::TSharedInterfacePtr<IBase> basePtr = CreateMaybeDerivedSharedObject();
+istd::TSharedInterfacePtr<IDerived> sharedDerived;
+if (sharedDerived.SetCastedPtr(basePtr))
 {
-    // Success: both now share ownership
-    sharedBase2->DoBaseOperation();
+    // Success: sharedDerived and basePtr now share ownership
+    sharedDerived->DoDerivedOperation();
 }
 \endcode
 
