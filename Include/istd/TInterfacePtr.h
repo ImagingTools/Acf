@@ -508,10 +508,13 @@ public:
 		BaseClass::m_interfacePtr = const_cast<U*>(other.GetPtr());
 	}
 
-	explicit TSharedInterfacePtr(const std::shared_ptr<RootIntefaceType>& ptr) noexcept
+	template<typename U>
+	TSharedInterfacePtr(const std::shared_ptr<U>& ptr) noexcept
 	{
+		static_assert(std::is_base_of_v<RootIntefaceType, InterfaceType>, "Here InterfaceType must extend RootIntefaceType");
+		static_assert(std::is_base_of_v<InterfaceType, U>, "U must extend InterfaceType");
 		BaseClass::m_rootPtr = ptr;
-		BaseClass::m_interfacePtr = dynamic_cast<InterfaceType*>(ptr.get());
+		BaseClass::m_interfacePtr = ptr.get();
 	}
 
 	// Move constructor
