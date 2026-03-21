@@ -515,29 +515,28 @@ public:
 		BaseClass::m_interfacePtr = ptr.m_interfacePtr;
 	}
 
-	template <typename U>
-	TSharedInterfacePtr(const TSharedInterfacePtr<U>& other) noexcept
+	template <typename DerivedType>
+	TSharedInterfacePtr(const TSharedInterfacePtr<DerivedType>& other) noexcept
 	{
-		static_assert(std::is_base_of_v<InterfaceType, U>, "U must extend InterfaceType");
-
+		static_assert(std::is_base_of_v<InterfaceType, DerivedType>, "DerivedType must extend InterfaceType");
 		BaseClass::m_rootPtr = other.GetBasePtr();
-		BaseClass::m_interfacePtr = const_cast<U*>(other.GetPtr());
+		BaseClass::m_interfacePtr = const_cast<DerivedType*>(other.GetPtr());
 	}
 
-	template<typename U>
-	TSharedInterfacePtr(const std::shared_ptr<U>& ptr) noexcept
+	template<typename DerivedType>
+	TSharedInterfacePtr(const std::shared_ptr<DerivedType>& ptr) noexcept
 	{
 		static_assert(std::is_base_of_v<RootIntefaceType, InterfaceType>, "Here InterfaceType must extend RootIntefaceType");
-		static_assert(std::is_base_of_v<InterfaceType, U>, "U must extend InterfaceType");
+		static_assert(std::is_base_of_v<InterfaceType, DerivedType>, "DerivedType must extend InterfaceType");
 		BaseClass::m_rootPtr = ptr;
 		BaseClass::m_interfacePtr = ptr.get();
 	}
 
-	template<typename U>
-	TSharedInterfacePtr(std::unique_ptr<U>&& ptr) noexcept
+	template<typename DerivedType>
+	TSharedInterfacePtr(std::unique_ptr<DerivedType>&& ptr) noexcept
 	{
 		static_assert(std::is_base_of_v<RootIntefaceType, InterfaceType>, "Here InterfaceType must extend RootIntefaceType");
-		static_assert(std::is_base_of_v<InterfaceType, U>, "U must extend InterfaceType");
+		static_assert(std::is_base_of_v<InterfaceType, DerivedType>, "DerivedType must extend InterfaceType");
 		BaseClass::m_interfacePtr = ptr.get();
 		BaseClass::m_rootPtr = std::move(ptr);
 	}
@@ -552,10 +551,10 @@ public:
 	/**
 		Construct from unique by transferring ownership into shared_ptr.
 	*/
-	template <typename U>
-	TSharedInterfacePtr(TUniqueInterfacePtr<U>&& ptr) noexcept
+	template <typename DerivedType>
+	TSharedInterfacePtr(TUniqueInterfacePtr<DerivedType>&& ptr) noexcept
 	{
-		static_assert(std::is_base_of_v<InterfaceType, U>, "U must extend InterfaceType");
+		static_assert(std::is_base_of_v<InterfaceType, DerivedType>, "DerivedType must extend InterfaceType");
 		*this = CreateFromUnique(ptr);
 	}
 
