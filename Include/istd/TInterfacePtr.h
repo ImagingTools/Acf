@@ -228,6 +228,8 @@ protected:
 	}
 
 protected:
+	// invariant: both pointers are either null or valid,
+	// and if valid, m_interfacePtr points to an interface implemented by the object owned by m_rootPtr
 	RootObjectPtr m_rootPtr;
 	InterfaceType* m_interfacePtr = nullptr;
 };
@@ -301,13 +303,6 @@ public:
 		BaseClass::m_interfacePtr = ptr.get();
 		BaseClass::m_rootPtr = std::move(ptr);
 	}
-	
-	TUniqueInterfacePtr& operator=(std::nullptr_t) noexcept
-	{
-		BaseClass::Reset();
-
-		return *this;
-	}
 
 	explicit TUniqueInterfacePtr(RootIntefaceType* rootPtr, const ExtractInterfaceFunc& extractInterface) noexcept
 		:BaseClass(rootPtr, extractInterface)
@@ -322,7 +317,9 @@ public:
 	TUniqueInterfacePtr(const TUniqueInterfacePtr& ptr) = delete;
 	TUniqueInterfacePtr& operator=(const TUniqueInterfacePtr& ptr) = delete;
 
-	// Move constructor
+	/**
+		Move constructor from unique pointer for the derived or same type.
+	*/
 	template <typename DerivedType>
 	TUniqueInterfacePtr(TUniqueInterfacePtr<DerivedType>&& ptr) noexcept
 	{
@@ -331,7 +328,9 @@ public:
 		BaseClass::m_interfacePtr = std::exchange(ptr.m_interfacePtr, nullptr);
 	}
 
-	// Move assignment
+	/**
+		Move assignment.
+	*/
 	TUniqueInterfacePtr& operator=(TUniqueInterfacePtr&& ptr) noexcept
 	{
 		if (this != &ptr){
@@ -341,6 +340,9 @@ public:
 		return *this;
 	}
 
+	/**
+		Move assignment from derived type.
+	*/
 	template <typename DerivedType>
 	TUniqueInterfacePtr& operator=(TUniqueInterfacePtr<DerivedType>&& ptr) noexcept
 	{
@@ -349,6 +351,12 @@ public:
 
 		BaseClass::m_rootPtr = std::move(ptr.m_rootPtr);
 		BaseClass::m_interfacePtr = std::exchange(ptr.m_interfacePtr, nullptr);
+		return *this;
+	}
+
+	TUniqueInterfacePtr& operator=(std::nullptr_t) noexcept
+	{
+		BaseClass::Reset();
 		return *this;
 	}
 
@@ -430,7 +438,7 @@ public:
 	}
 
 	/**
-		Transfer ownership from another unique ptr(take over raw ownership).
+		Transfer ownership from another unique ptr (take over raw ownership).
 		Alternatively move assignment operator can be used.
 	*/
 	void TakeOver(TUniqueInterfacePtr<InterfaceType>& from) noexcept
@@ -521,12 +529,18 @@ public:
 	{
 	}
 
+	/**
+		Copy constructor. Shares ownership.
+	*/
 	TSharedInterfacePtr(const TSharedInterfacePtr& ptr) noexcept
 	{
 		BaseClass::m_rootPtr = ptr.m_rootPtr;
 		BaseClass::m_interfacePtr = ptr.m_interfacePtr;
 	}
 
+	/**
+		Copy constructor from derived type. Shares ownership.
+	*/
 	template <typename DerivedType>
 	TSharedInterfacePtr(const TSharedInterfacePtr<DerivedType>& other) noexcept
 	{
@@ -553,7 +567,9 @@ public:
 		BaseClass::m_rootPtr = std::move(ptr);
 	}
 
-	// Move constructor
+	/**
+		Move constructor. Transfers ownership.
+	*/
 	TSharedInterfacePtr(TSharedInterfacePtr&& ptr) noexcept
 	{
 		BaseClass::m_rootPtr = std::move(ptr.m_rootPtr);
@@ -561,13 +577,12 @@ public:
 	}
 
 	/**
-		Construct from unique by transferring ownership into shared_ptr.
+		Construct from unique by transferring ownership into shared.
 	*/
 	template <typename DerivedType>
 	TSharedInterfacePtr(TUniqueInterfacePtr<DerivedType>&& ptr) noexcept
 	{
-		static_assert(std::is_base_of_v<InterfaceType, DerivedType>, "DerivedType must extend InterfaceType");
-		*this = CreateFromUnique(std::move(ptr));
+		FromUnique(std::move(ptr));
 	}
 
 	~TSharedInterfacePtr()
@@ -581,6 +596,9 @@ public:
 		BaseClass::m_interfacePtr = nullptr;
 	}
 
+	/**
+		Copy assignment operator. Shares ownership.
+	*/
 	TSharedInterfacePtr& operator=(const TSharedInterfacePtr& ptr) noexcept
 	{
 		BaseClass::m_rootPtr = ptr.m_rootPtr;
@@ -588,6 +606,9 @@ public:
 		return *this;
 	}
 
+	/**
+		Copy assignment operator from derived type. Shares ownership.
+	*/
 	template <typename DerivedType>
 	TSharedInterfacePtr& operator=(const TSharedInterfacePtr<DerivedType>& ptr) noexcept
 	{
@@ -607,8 +628,11 @@ public:
 	/**
 		Convert from unique to shared. After this call, uniquePtr no longer owns the object.
 	*/
-	TSharedInterfacePtr& FromUnique(TUniqueInterfacePtr<InterfaceType>&& uniquePtr) noexcept
+	template<typename DerivedType>
+	TSharedInterfacePtr& FromUnique(TUniqueInterfacePtr<DerivedType>&& uniquePtr) noexcept
 	{
+		static_assert(std::is_base_of_v<InterfaceType, DerivedType>, "DerivedType must extend InterfaceType");
+
 		if (!uniquePtr.IsValid()){
 			Reset();
 			return *this;
@@ -634,6 +658,9 @@ public:
 		return FromUnique(std::move(uniquePtr));
 	}
 
+	/**
+		Create a shared pointer from unique pointer of other type by transferring ownership if dynamic_cast succeeds.
+	*/
 	template <typename OtherInterface>
 	static TSharedInterfacePtr CreateFromUnique(TUniqueInterfacePtr<OtherInterface>& uniquePtr) noexcept
 	{
@@ -653,6 +680,10 @@ public:
 		return retVal;
 	}
 
+	/**
+		Create  a shared pointer from unique of the same type by transferring ownership.
+		Alternatively move assignment operator can be used.
+	*/
 	static TSharedInterfacePtr CreateFromUnique(TUniqueInterfacePtr<InterfaceType>&& uniquePtr) noexcept
 	{
 		TSharedInterfacePtr retVal;
@@ -665,7 +696,9 @@ public:
 		return CreateFromUnique(std::move(uniquePtr));
 	}
 
-	// Move-cast from unique: transfer ownership if dynamic_cast succeeds
+	/**
+		Move-cast from unique: transfer ownership if dynamic_cast succeeds
+	*/
 	template<class SourceInterfaceType>
 	bool MoveCastedPtr(TUniqueInterfacePtr<SourceInterfaceType>&& source) noexcept
 	{
