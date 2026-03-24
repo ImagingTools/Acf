@@ -10,8 +10,8 @@ namespace iser
 
 CJsonReadArchiveBase::CJsonReadArchiveBase(
 			bool serializeHeader,
-			const iser::CArchiveTag& rootTag)
-	:m_rootTag(rootTag),
+			const iser::CArchiveTag& /*rootTag*/)
+	:m_rootTag("", "", iser::CArchiveTag::TT_GROUP),
 	m_rootTagEnabled(false),
 	m_serializeHeader(serializeHeader)
 {
@@ -369,4 +369,3 @@ bool CJsonReadArchiveBase::HelperIterator::isArray()
 
 
 } // namespace iser
-

@@ -8,11 +8,8 @@ namespace iser
 
 // public methods
 
-CJsonMemReadArchive::CJsonMemReadArchive(
-			const QByteArray& data,
-			bool serializeHeader,
-			const iser::CArchiveTag& rootTag)
-	:BaseClass(serializeHeader, rootTag)
+CJsonMemReadArchive::CJsonMemReadArchive(const QByteArray& data, bool serializeHeader)
+	:BaseClass(serializeHeader)
 {
 	m_buffer.setData(data);
 	m_buffer.open(QIODevice::ReadOnly);
@@ -28,4 +25,3 @@ CJsonMemReadArchive::~CJsonMemReadArchive()
 
 
 } // namespace iser
-

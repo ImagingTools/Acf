@@ -8,11 +8,8 @@ namespace ifile
 
 // public methods
 
-CJsonFileReadArchive::CJsonFileReadArchive(
-			const QString& filePath,
-			bool serializeHeader,
-			const iser::CArchiveTag& rootTag)
-	:BaseClass(serializeHeader, rootTag)
+CJsonFileReadArchive::CJsonFileReadArchive(const QString& filePath, bool serializeHeader)
+	:BaseClass(serializeHeader)
 {
 	OpenFile(filePath);
 }
@@ -40,4 +37,3 @@ bool CJsonFileReadArchive::OpenFile(const QString &filePath)
 
 
 } // namespace ifile
-

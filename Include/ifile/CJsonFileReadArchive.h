@@ -18,10 +18,7 @@ class CJsonFileReadArchive: public iser::CJsonReadArchiveBase
 public:
 	typedef iser::CJsonReadArchiveBase BaseClass;
 
-	CJsonFileReadArchive(
-				const QString& filePath = "",
-				bool serializeHeader = true,
-				const iser::CArchiveTag& rootTag = s_acfRootTag);
+	CJsonFileReadArchive(const QString& filePath = "", bool serializeHeader = true);
 
 	bool OpenFile(const QString& filePath);
 
@@ -31,4 +28,3 @@ private:
 
 
 } // namespace ifile
-

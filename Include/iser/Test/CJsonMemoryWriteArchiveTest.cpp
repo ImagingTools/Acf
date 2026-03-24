@@ -125,9 +125,8 @@ void CJsonMemoryWriteArchiveTest::ObjectContainerSerializeTest()
 }
 
 
-void CJsonMemoryWriteArchiveTest::CustomRootTagAndEscapingTest()
+void CJsonMemoryWriteArchiveTest::EscapingTest()
 {
-	static iser::CArchiveTag rootTag("CustomRoot", "Custom JSON root", iser::CArchiveTag::TT_GROUP);
 	static iser::CArchiveTag valueTag("Value", "Serialized value");
 
 	QByteArray value;
@@ -140,11 +139,10 @@ void CJsonMemoryWriteArchiveTest::CustomRootTagAndEscapingTest()
 	value += char(0x01);
 	const QByteArray originalValue = value;
 
-	iser::CJsonMemWriteArchive writeArchive(nullptr, false, rootTag);
+	iser::CJsonMemWriteArchive writeArchive(nullptr, false);
 	QVERIFY(writeArchive.BeginTag(valueTag));
 	QVERIFY(writeArchive.Process(value));
 	QVERIFY(writeArchive.EndTag(valueTag));
-
 	QVERIFY(value == originalValue);
 
 	const QByteArray buffer = writeArchive.GetData();
@@ -154,10 +152,10 @@ void CJsonMemoryWriteArchiveTest::CustomRootTagAndEscapingTest()
 	QVERIFY2(jsonParseError.error == QJsonParseError::NoError,
 			 QString("Saved JSON is NOT valid. Error: '%1' at '%2'. \n DATA: \n %3").arg(jsonParseError.errorString(), QString::number(jsonParseError.offset), qPrintable(buffer)).toLocal8Bit());
 	QVERIFY(jsonDocument.isObject());
-	QVERIFY(jsonDocument.object().contains(rootTag.GetId()));
+	QVERIFY(jsonDocument.object().contains(valueTag.GetId()));
 
 	QByteArray restoredValue;
-	iser::CJsonMemReadArchive readArchive(buffer, false, rootTag);
+	iser::CJsonMemReadArchive readArchive(buffer, false);
 	QVERIFY(readArchive.BeginTag(valueTag));
 	QVERIFY(readArchive.Process(restoredValue));
 	QVERIFY(readArchive.EndTag(valueTag));

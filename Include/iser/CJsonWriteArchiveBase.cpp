@@ -76,11 +76,11 @@ QByteArray EscapeJsonString(const QByteArray& value)
 CJsonWriteArchiveBase::CJsonWriteArchiveBase(
 			const iser::IVersionInfo* versionInfoPtr,
 			bool serializeHeader,
-			const iser::CArchiveTag& rootTag)
+			const iser::CArchiveTag& /*rootTag*/)
 	:BaseClass(versionInfoPtr),
 	m_serializeHeader(serializeHeader),
 	m_jsonFormat(QJsonDocument::Indented),
-	m_rootTag(rootTag)
+	m_rootTag("", "", iser::CArchiveTag::TT_GROUP)
 {
 }
 
