@@ -62,6 +62,7 @@ public:
 
 	// reimplemented (icomp::IComponentEnvironmentManager)
 	virtual QString GetConfigFilePath() const override;
+	virtual QStringList GetProjectTargets() const override;
 
 	// reimplemented (icomp::IPackagesManager)
 	virtual bool LoadPackages(const QString& configFilePath = QString()) override;
@@ -145,6 +146,7 @@ private:
 	mutable PathList m_usedFilesList;
 
 	QString m_configFilePath;
+	QStringList m_projectTargets;
 
 	I_REF(ifile::IFilePersistence, m_registryLoaderCompPtr);
 	I_REF(ifile::IFileNameParam, m_configFilePathCompPtr);
