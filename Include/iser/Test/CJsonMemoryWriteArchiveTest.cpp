@@ -165,8 +165,8 @@ void CJsonMemoryWriteArchiveTest::EscapingTest()
 
 void CJsonMemoryWriteArchiveTest::InvalidReadStateTest()
 {
-	static iser::CArchiveTag valueTag("Value", "Serialized value");
-	static iser::CArchiveTag multipleTag("Items", "Serialized list", iser::CArchiveTag::TT_MULTIPLE);
+	iser::CArchiveTag valueTag("Value", "Serialized value");
+	iser::CArchiveTag multipleTag("Items", "Serialized list", iser::CArchiveTag::TT_MULTIPLE);
 
 	iser::CJsonMemReadArchive readArchive("{}", false);
 	QByteArray restoredValue;
