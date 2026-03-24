@@ -154,7 +154,7 @@ void CJsonMemoryWriteArchiveTest::EscapingTest()
 	QVERIFY(jsonDocument.isObject());
 	QVERIFY(jsonDocument.object().contains(valueTag.GetId()));
 
-	QByteArray restoredValue;
+	QString restoredValue;
 	iser::CJsonMemReadArchive readArchive(buffer, false);
 	QVERIFY(readArchive.BeginTag(valueTag));
 	QVERIFY(readArchive.Process(restoredValue));
