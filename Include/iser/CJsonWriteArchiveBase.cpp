@@ -21,12 +21,14 @@ namespace
 QByteArray EscapeJsonString(const QByteArray& value)
 {
 	QByteArray escapedValue;
-	escapedValue.reserve(value.size());
+	escapedValue.reserve(value.size() * 2);
 
 	static const char hexDigits[] = "0123456789ABCDEF";
 
-	for (unsigned char character : value){
-		switch (character){
+	for (char currentByte : value){
+		const unsigned char byte = static_cast<unsigned char>(currentByte);
+
+		switch (currentByte){
 			case '\\':
 				escapedValue += "\\\\";
 				break;
@@ -49,13 +51,14 @@ QByteArray EscapeJsonString(const QByteArray& value)
 				escapedValue += "\\t";
 				break;
 			default:
-				if (character < 0x20){
+				// Escape ASCII control characters (0x00-0x1F).
+				if (byte < 0x20){
 					escapedValue += "\\u00";
-					escapedValue += hexDigits[character >> 4];
-					escapedValue += hexDigits[character & 0x0F];
+					escapedValue += hexDigits[byte >> 4];
+					escapedValue += hexDigits[byte & 0x0F];
 				}
 				else{
-					escapedValue += char(character);
+					escapedValue += currentByte;
 				}
 				break;
 		}
@@ -318,4 +321,3 @@ bool CJsonWriteArchiveBase::WriteTextNode(const QByteArray &text)
 
 
 } // namespace iser
-

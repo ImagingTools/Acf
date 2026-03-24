@@ -136,6 +136,7 @@ void CJsonMemoryWriteArchiveTest::CustomRootTagAndEscapingTest()
 	value += '\f';
 	value += '\t';
 	value += "\\\"";
+	// Check escaping of generic ASCII control characters too (0x01 / SOH).
 	value += char(0x01);
 	const QByteArray originalValue = value;
 
