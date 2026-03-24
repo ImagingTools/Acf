@@ -18,6 +18,7 @@ class CEnvironmentManagerBase:
 public:
 	// reimplemented (icomp::IComponentEnvironmentManager)
 	virtual QString GetConfigFilePath() const override;
+	virtual QStringList GetProjectTargets() const override;
 
 	// reimplemented (icomp::IPackagesManager)
 	virtual bool LoadPackages(const QString& configFilePath = QString()) override;
