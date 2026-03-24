@@ -163,6 +163,20 @@ void CJsonMemoryWriteArchiveTest::EscapingTest()
 }
 
 
+void CJsonMemoryWriteArchiveTest::InvalidReadStateTest()
+{
+	static iser::CArchiveTag valueTag("Value", "Serialized value");
+	static iser::CArchiveTag multipleTag("Items", "Serialized list", iser::CArchiveTag::TT_MULTIPLE);
+
+	iser::CJsonMemReadArchive readArchive("{}", false);
+	QByteArray restoredValue;
+	int count = 0;
+
+	QVERIFY(!readArchive.Process(restoredValue));
+	QVERIFY(!readArchive.BeginMultiTag(multipleTag, valueTag, count));
+}
+
+
 void CJsonMemoryWriteArchiveTest::DoTest()
 {
 	m_buffer.clear();

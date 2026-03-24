@@ -32,6 +32,10 @@ bool CJsonReadArchiveBase::BeginTag(const iser::CArchiveTag& tag)
 	}
 
 	if (m_iterators.isEmpty()){
+		if (!tagId.isEmpty() && !retVal){
+			return false;
+		}
+
 		HelperIterator newHelperIterator;
 		QJsonObject jsonObject = m_document.object();
 		newHelperIterator.SetValue(jsonObject);
@@ -93,6 +97,11 @@ bool CJsonReadArchiveBase::BeginTag(const iser::CArchiveTag& tag)
 bool CJsonReadArchiveBase::BeginMultiTag(const iser::CArchiveTag& tag, const iser::CArchiveTag& /*subTag*/, int& count)
 {
 	QString tagId(tag.GetId());
+
+	if (m_iterators.isEmpty()){
+		return false;
+	}
+
 	HelperIterator helperIterator = m_iterators.last();
 
 	QJsonValue jsonValue = helperIterator.GetJsonValue();
@@ -215,9 +224,19 @@ bool CJsonReadArchiveBase::ReadStringNode(QString &text)
 {
 	bool openFakeTag = false;
 
+	if (m_iterators.isEmpty() || m_tags.isEmpty()){
+		return false;
+	}
+
 	if (m_iterators.last().isObject()){
 		openFakeTag = true;
-		BeginTag(*m_tags.last());
+		if (!BeginTag(*m_tags.last())){
+			return false;
+		}
+	}
+
+	if (m_iterators.isEmpty()){
+		return false;
 	}
 
 	HelperIterator helperIterator = m_iterators.last();
