@@ -36,9 +36,14 @@ CJsonFileWriteArchive::~CJsonFileWriteArchive()
 
 bool CJsonFileWriteArchive::OpenFile(const QString &filePath)
 {
+	if (m_file.isOpen()){
+		Flush();
+		m_file.close();
+	}
+
 	m_file.setFileName(filePath);
 
-	if (m_file.open(QIODevice::WriteOnly)){
+	if (m_file.open(QIODevice::WriteOnly | QIODevice::Text)){
 		InitArchive(&m_file);
 
 		return true;
@@ -49,5 +54,4 @@ bool CJsonFileWriteArchive::OpenFile(const QString &filePath)
 
 
 } // namespace ifile
-
 

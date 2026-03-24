@@ -8,8 +8,11 @@ namespace ifile
 
 // public methods
 
-CJsonFileReadArchive::CJsonFileReadArchive(const QString& filePath, bool serializeHeader)
-	:BaseClass(serializeHeader)
+CJsonFileReadArchive::CJsonFileReadArchive(
+			const QString& filePath,
+			bool serializeHeader,
+			const iser::CArchiveTag& rootTag)
+	:BaseClass(serializeHeader, rootTag)
 {
 	OpenFile(filePath);
 }
@@ -17,13 +20,17 @@ CJsonFileReadArchive::CJsonFileReadArchive(const QString& filePath, bool seriali
 
 bool CJsonFileReadArchive::OpenFile(const QString &filePath)
 {
-	QFile file(filePath);
-	if (!file.open(QIODevice::ReadOnly | QIODevice::Text)){
+	if (m_file.isOpen()){
+		m_file.close();
+	}
+
+	m_file.setFileName(filePath);
+	if (!m_file.open(QIODevice::ReadOnly | QIODevice::Text)){
 		return false;
 	}
 
-	if (!BaseClass::SetContent(&file)){
-		file.close();
+	if (!BaseClass::SetContent(&m_file)){
+		m_file.close();
 
 		return false;
 	}
@@ -32,6 +39,5 @@ bool CJsonFileReadArchive::OpenFile(const QString &filePath)
 }
 
 
-} // namespace iser
-
+} // namespace ifile
 

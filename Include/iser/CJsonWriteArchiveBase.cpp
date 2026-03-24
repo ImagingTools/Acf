@@ -14,16 +14,70 @@ namespace iser
 {
 
 
+namespace
+{
+
+
+QByteArray EscapeJsonString(const QByteArray& value)
+{
+	QByteArray escapedValue;
+	escapedValue.reserve(value.size());
+
+	static const char hexDigits[] = "0123456789ABCDEF";
+
+	for (unsigned char character : value){
+		switch (character){
+			case '\\':
+				escapedValue += "\\\\";
+				break;
+			case '\"':
+				escapedValue += "\\\"";
+				break;
+			case '\b':
+				escapedValue += "\\b";
+				break;
+			case '\f':
+				escapedValue += "\\f";
+				break;
+			case '\n':
+				escapedValue += "\\n";
+				break;
+			case '\r':
+				escapedValue += "\\r";
+				break;
+			case '\t':
+				escapedValue += "\\t";
+				break;
+			default:
+				if (character < 0x20){
+					escapedValue += "\\u00";
+					escapedValue += hexDigits[character >> 4];
+					escapedValue += hexDigits[character & 0x0F];
+				}
+				else{
+					escapedValue += char(character);
+				}
+				break;
+		}
+	}
+
+	return escapedValue;
+}
+
+
+} // namespace
+
+
 // protected methods
 
 CJsonWriteArchiveBase::CJsonWriteArchiveBase(
 			const iser::IVersionInfo* versionInfoPtr,
 			bool serializeHeader,
-			const iser::CArchiveTag& /*rootTag*/)
+			const iser::CArchiveTag& rootTag)
 	:BaseClass(versionInfoPtr),
 	m_serializeHeader(serializeHeader),
 	m_jsonFormat(QJsonDocument::Indented),
-	m_rootTag("", "", iser::CArchiveTag::TT_GROUP)
+	m_rootTag(rootTag)
 {
 }
 
@@ -98,7 +152,7 @@ bool CJsonWriteArchiveBase::EndTag(const CArchiveTag& /*tag*/)
 	TagsStackItem lastItem = m_tagsStack.last();
 	m_tagsStack.pop_back();
 
-	if (lastItem.m_tagPtr == NULL){
+	if (lastItem.m_tagPtr == nullptr){
 		return false;
 	}
 
@@ -129,16 +183,9 @@ bool CJsonWriteArchiveBase::Process(QString &value)
 
 bool CJsonWriteArchiveBase::Process(QByteArray &value)
 {
-	value.replace('\\', "\\\\");
-	value.replace('\"', "\\\"");
-	value.replace('\n', "\\n");
-	value.replace('\r', "\\r");
-	value.replace('\t', "\\t");
-
-
 	m_quotationMarksRequired = true;
 
-	return WriteTextNode(value);
+	return WriteTextNode(EscapeJsonString(value));
 }
 
 
@@ -271,5 +318,4 @@ bool CJsonWriteArchiveBase::WriteTextNode(const QByteArray &text)
 
 
 } // namespace iser
-
 

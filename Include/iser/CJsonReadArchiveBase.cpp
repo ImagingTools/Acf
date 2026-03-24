@@ -10,8 +10,8 @@ namespace iser
 
 CJsonReadArchiveBase::CJsonReadArchiveBase(
 			bool serializeHeader,
-			const iser::CArchiveTag& /*rootTag*/)
-	:m_rootTag("", "", iser::CArchiveTag::TT_GROUP),
+			const iser::CArchiveTag& rootTag)
+	:m_rootTag(rootTag),
 	m_rootTagEnabled(false),
 	m_serializeHeader(serializeHeader)
 {
@@ -190,13 +190,15 @@ bool CJsonReadArchiveBase::SetContent(QIODevice* devicePtr)
 	QJsonParseError error;
 	m_document = QJsonDocument::fromJson(jsonData, &error);
 
-	if (error.error != QJsonParseError::NoError && IsLogConsumed()) {
-		SendLogMessage(
-			istd::IInformationProvider::IC_ERROR,
-			MI_TAG_ERROR,
-			error.errorString(),
-			"CJsonReadArchiveBase",
-			istd::IInformationProvider::ITF_SYSTEM);
+	if (error.error != QJsonParseError::NoError) {
+		if (IsLogConsumed()) {
+			SendLogMessage(
+				istd::IInformationProvider::IC_ERROR,
+				MI_TAG_ERROR,
+				error.errorString(),
+				"CJsonReadArchiveBase",
+				istd::IInformationProvider::ITF_SYSTEM);
+		}
 
 		return false;
 	}
@@ -367,5 +369,4 @@ bool CJsonReadArchiveBase::HelperIterator::isArray()
 
 
 } // namespace iser
-
 

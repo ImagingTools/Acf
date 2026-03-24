@@ -44,6 +44,34 @@ void CJsonFileArchiveTest::DoBasicReadWriteTest()
 }
 
 
+void CJsonFileArchiveTest::DoCustomRootTagTest()
+{
+	static iser::CArchiveTag rootTag("CustomRoot", "Custom JSON root", iser::CArchiveTag::TT_GROUP);
+
+	QString testFilePath = "./JsonFileCustomRootTest.json";
+	QString path = "./Test/JsonFileCustomRoot.test";
+
+	imod::TModelWrap<ifile::CFileNameParam> filePathParam;
+	filePathParam.SetPath(path);
+
+	{
+		ifile::CJsonFileWriteArchive writeArchive(testFilePath, nullptr, true, rootTag);
+		bool retVal = filePathParam.Serialize(writeArchive);
+		QVERIFY(retVal);
+	}
+
+	ifile::CFileNameParam filePathParam2;
+	ifile::CJsonFileReadArchive readArchive(testFilePath, true, rootTag);
+	bool retVal = filePathParam2.Serialize(readArchive);
+	QVERIFY(retVal);
+
+	QVERIFY(filePathParam.IsEqual(filePathParam2));
+	QVERIFY(filePathParam2.GetPath() == path);
+
+	QFile::remove(testFilePath);
+}
+
+
 void CJsonFileArchiveTest::DoFilePathTest()
 {
 	QString testFilePath = "./JsonFilePathTest.json";
@@ -106,5 +134,4 @@ void CJsonFileArchiveTest::DoPersistenceComponentTest()
 
 
 I_ADD_TEST(CJsonFileArchiveTest);
-
 
