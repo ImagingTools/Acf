@@ -22,12 +22,14 @@ CJsonReadArchiveBase::CJsonReadArchiveBase(
 
 bool CJsonReadArchiveBase::BeginTag(const iser::CArchiveTag& tag)
 {
-	bool retVal = true;
 	QString tagId(tag.GetId());
 	int tagType = tag.GetTagType();
 
 	if (m_iterators.isEmpty() && !tagId.isEmpty()){
-		retVal = retVal && BeginTag(m_rootTag);
+		if (!BeginTag(m_rootTag)){
+			return false;
+		}
+
 		m_rootTagEnabled = true;
 	}
 
@@ -40,7 +42,7 @@ bool CJsonReadArchiveBase::BeginTag(const iser::CArchiveTag& tag)
 		m_iterators.push_back(newHelperIterator);
 		m_tags.push_back(&tag);
 
-		return retVal;
+		return true;
 	}
 
 	HelperIterator helperIterator = m_iterators.last();
@@ -86,13 +88,18 @@ bool CJsonReadArchiveBase::BeginTag(const iser::CArchiveTag& tag)
 		}
 	}
 
-	return retVal;
+	return true;
 }
 
 
 bool CJsonReadArchiveBase::BeginMultiTag(const iser::CArchiveTag& tag, const iser::CArchiveTag& /*subTag*/, int& count)
 {
 	QString tagId(tag.GetId());
+
+	if (m_iterators.isEmpty()){
+		return false;
+	}
+
 	HelperIterator helperIterator = m_iterators.last();
 
 	QJsonValue jsonValue = helperIterator.GetJsonValue();
@@ -215,9 +222,16 @@ bool CJsonReadArchiveBase::ReadStringNode(QString &text)
 {
 	bool openFakeTag = false;
 
+	if (m_iterators.isEmpty() || m_tags.isEmpty()){
+		return false;
+	}
+
 	if (m_iterators.last().isObject()){
+		if (!BeginTag(*m_tags.last())){
+			return false;
+		}
+
 		openFakeTag = true;
-		BeginTag(*m_tags.last());
 	}
 
 	HelperIterator helperIterator = m_iterators.last();

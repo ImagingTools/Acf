@@ -42,6 +42,7 @@ private slots:
 	void ParamsSetSerializeTest();
 	void ObjectContainerSerializeTest();
 	void EscapingTest();
+	void InvalidReadStateTest();
 	void DoTest();
 
 private:
