@@ -36,7 +36,7 @@ class AcfConan(ConanFile):
     author = "Witold Gantzke & Kirill Lepskiy"
     topics = ("qt", "component-framework", "model-observer", "undo-redo", "serialization", "gui", "imaging")
     generators = "CMakeDeps"
-    python_requires = "conantools/0.2.0@gmg/stable"
+    python_requires = "conantools/0.2.4.rev.0@gmg/stable"
 
     @property
     def _gmgtools(self):
