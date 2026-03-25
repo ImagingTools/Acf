@@ -24,7 +24,7 @@ public:
 
 	CJsonFileWriteArchive(
 				const QString& filePath,
-				const iser::IVersionInfo* versionInfoPtr = NULL,
+				const iser::IVersionInfo* versionInfoPtr = nullptr,
 				bool serializeHeader = true,
 				const iser::CArchiveTag& rootTag = s_acfRootTag);
 	~CJsonFileWriteArchive();
@@ -37,5 +37,4 @@ private:
 
 
 } // namespace ifile
-
 

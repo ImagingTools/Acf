@@ -25,5 +25,3 @@ CJsonMemReadArchive::~CJsonMemReadArchive()
 
 
 } // namespace iser
-
-

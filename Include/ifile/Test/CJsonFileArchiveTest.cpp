@@ -106,5 +106,3 @@ void CJsonFileArchiveTest::DoPersistenceComponentTest()
 
 
 I_ADD_TEST(CJsonFileArchiveTest);
-
-
