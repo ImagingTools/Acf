@@ -22,6 +22,11 @@ public:
 		If no config file was used, it returns empty string.
 	*/
 	virtual QString GetConfigFilePath() const = 0;
+
+	/**
+		Get the list of project targets. A project target is a file path to the root registry of an executable, defined in the environment configuration.
+	*/
+	virtual QStringList GetProjectTargets() const = 0;
 };
 
 
