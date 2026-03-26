@@ -421,7 +421,9 @@ bool CPackagesLoaderComp::LoadConfigFile(const QString& configFile)
 	for (int i = 0; i < projectTargetsCount; ++i) {
 		QString projectTarget = istd::CSystem::GetEnrolledPath(configurationData.GetRegistryFile(i));
 
-		m_projectTargets.push_back(projectTarget);
+		QString projectTargetPath = baseDir.absoluteFilePath(projectTarget);
+
+		m_projectTargets.push_back(projectTargetPath);
 	}
 
 	int configFilesCount = configurationData.GetConfigFilesCount();
