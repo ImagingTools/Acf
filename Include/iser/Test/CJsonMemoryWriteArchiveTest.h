@@ -41,6 +41,8 @@ private slots:
 	void ReadTest();
 	void ParamsSetSerializeTest();
 	void ObjectContainerSerializeTest();
+	void EscapingTest();
+	void InvalidReadStateTest();
 	void DoTest();
 
 private:
@@ -48,5 +50,3 @@ private:
 	QByteArray m_buffer = "";
 	const QByteArray m_id = "12345678";
 };
-
-
