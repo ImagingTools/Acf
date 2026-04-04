@@ -26,8 +26,8 @@ CModelBase::~CModelBase()
 
 	// Set up destroying state: the CF_DESTROYING flag is added to the cumulated changes
 	// so that observers (via DetachAllObservers -> AfterUpdate) see that the model is
-	// being destroyed. CChangeScope ensures m_blockCounter is properly decremented when
-	// the destructor scope exits, maintaining the symmetric Begin/End invariant.
+	// being destroyed. CChangeScope increments m_blockCounter here; its destructor will
+	// decrement it when this function returns, maintaining the symmetric Begin/End invariant.
 	m_cumulatedChangeIds += istd::IChangeable::CF_DESTROYING;
 	CChangeScope scope(*this);
 	m_isDuringChanges = true;
