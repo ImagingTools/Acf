@@ -71,6 +71,12 @@ protected:
 private:
 	Q_DISABLE_COPY(CModelBase);
 
+	/**
+		Non-virtual implementation of DetachAllObservers.
+		Must be called with m_mutex already held.
+	*/
+	void DoDetachAllObservers();
+
 	void CleanupObserverState();
 
 	/**

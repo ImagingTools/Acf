@@ -25,19 +25,19 @@ CModelBase::~CModelBase()
 	QMutexLocker lock(&m_mutex);
 
 	// Set up destroying state: the CF_DESTROYING flag is added to the cumulated changes
-	// so that observers (via DetachAllObservers -> AfterUpdate) see that the model is
+	// so that observers (via DoDetachAllObservers -> AfterUpdate) see that the model is
 	// being destroyed. CChangeScope increments m_blockCounter here; its destructor will
 	// decrement it when this function returns, maintaining the symmetric Begin/End invariant.
+	// If an observer callback throws, CChangeScope still decrements the counter (exception safety).
 	m_cumulatedChangeIds += istd::IChangeable::CF_DESTROYING;
 	CChangeScope scope(*this);
 	m_isDuringChanges = true;
 
-	// Note: The mutex is recursive, so DetachAllObservers() can safely re-lock it.
-	// We intentionally keep the lock held (no unlock before DetachAllObservers) to
-	// prevent a race condition window where another thread could observe the partially
-	// modified state (m_blockCounter incremented, m_isDuringChanges = true) before
-	// DetachAllObservers() completes.
-	DetachAllObservers();
+	// Use the non-virtual helper directly to avoid calling a virtual method in
+	// the destructor (the vtable is already unwound to CModelBase at this point,
+	// so virtual dispatch would silently skip any derived-class override).
+	// The lock is already held, so no additional locking is needed.
+	DoDetachAllObservers();
 }
 
 
@@ -138,6 +138,12 @@ void CModelBase::DetachAllObservers()
 {
 	QMutexLocker lock(&m_mutex);
 
+	DoDetachAllObservers();
+}
+
+
+void CModelBase::DoDetachAllObservers()
+{
 	for (ObserversMap::Iterator iter = m_observers.begin(); iter != m_observers.end(); ++iter){
 		IObserver* observerPtr = iter.key();
 		Q_ASSERT(observerPtr != NULL);
