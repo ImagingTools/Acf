@@ -297,6 +297,27 @@ void CModelBase::NotifyAfterChange(const istd::IChangeable::ChangeSet& changeSet
 
 // private methods
 
+CModelBase::CChangeScope::CChangeScope(CModelBase& model)
+:	m_modelPtr(&model)
+{
+	++m_modelPtr->m_blockCounter;
+}
+
+
+CModelBase::CChangeScope::~CChangeScope()
+{
+	if (m_modelPtr != nullptr){
+		--m_modelPtr->m_blockCounter;
+	}
+}
+
+
+void CModelBase::CChangeScope::Release()
+{
+	m_modelPtr = nullptr;
+}
+
+
 void CModelBase::CleanupObserverState()
 {
 	ObserversMap::Iterator iter = m_observers.begin();

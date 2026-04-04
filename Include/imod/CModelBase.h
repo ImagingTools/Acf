@@ -96,15 +96,15 @@ private:
 	{
 		Q_DISABLE_COPY(CChangeScope);
 	public:
-		explicit CChangeScope(CModelBase& model) : m_modelPtr(&model) { ++m_modelPtr->m_blockCounter; }
-		~CChangeScope() { if (m_modelPtr != nullptr) { --m_modelPtr->m_blockCounter; } }
+		explicit CChangeScope(CModelBase& model);
+		~CChangeScope();
 
 		/**
 			Release ownership of the counter increment.
 			After calling this, the destructor will NOT decrement m_blockCounter.
 			Used on the success path where the decrement will be handled by NotifyAfterChange.
 		*/
-		void Release() { m_modelPtr = nullptr; }
+		void Release();
 	private:
 		CModelBase* m_modelPtr;
 	};
