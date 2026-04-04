@@ -26,8 +26,9 @@ IModel* CModelUpdateBridge::GetObservedModel(int modelIndex) const
 {
 	QReadLocker lock(&m_modelListMutex);
 
-	Q_ASSERT(modelIndex >= 0);
-	Q_ASSERT(modelIndex < m_models.count());
+	if (modelIndex < 0 || modelIndex >= m_models.count()){
+		return NULL;
+	}
 
 	return m_models.at(modelIndex);
 }
@@ -87,10 +88,22 @@ bool CModelUpdateBridge::OnModelDetached(IModel* modelPtr)
 {
 	QWriteLocker lock(&m_modelListMutex);
 
+	// If BeginChanges was called for this model but EndChanges hasn't been called yet,
+	// we must call EndChanges to maintain the symmetry on the target changeable.
+	bool wasPending = m_pendingModels.remove(modelPtr);
+
 	Models::iterator iter = std::find(m_models.begin(), m_models.end(), modelPtr);
 	if (iter != m_models.end()){
 		m_models.erase(iter);
-		
+
+		if (wasPending && m_changeablePtr != NULL){
+			istd::IChangeable::ChangeSet changes = CreateEndChangeSet(istd::IChangeable::GetNoChanges());
+
+			lock.unlock();
+
+			m_changeablePtr->EndChanges(changes);
+		}
+
 		return true;
 	}
 
@@ -100,13 +113,16 @@ bool CModelUpdateBridge::OnModelDetached(IModel* modelPtr)
 
 void CModelUpdateBridge::BeforeUpdate(IModel* modelPtr)
 {
-	QReadLocker lock(&m_modelListMutex);
+	QWriteLocker lock(&m_modelListMutex);
+
+	if (m_changeablePtr == NULL){
+		return;
+	}
 
 	if (IsAttached(modelPtr)){
-		istd::IChangeable::ChangeSet changeSet = istd::IChangeable::GetAnyChange();
-		if (m_updateFlags & UF_DELEGATED){
-			changeSet = istd::IChangeable::GetDelegatedChanges();
-		}
+		istd::IChangeable::ChangeSet changeSet = CreateBeginChangeSet();
+
+		m_pendingModels.insert(modelPtr);
 
 		lock.unlock();
 
@@ -117,17 +133,15 @@ void CModelUpdateBridge::BeforeUpdate(IModel* modelPtr)
 
 void CModelUpdateBridge::AfterUpdate(IModel* modelPtr, const istd::IChangeable::ChangeSet& changeSet)
 {
-	QReadLocker lock(&m_modelListMutex);
+	QWriteLocker lock(&m_modelListMutex);
 
-	if (IsAttached(modelPtr)){
-		istd::IChangeable::ChangeSet changes(changeSet.GetDescription());
-		if (m_updateFlags & UF_DELEGATED){
-			changes += istd::IChangeable::GetDelegatedChanges();
-		}
+	if (m_changeablePtr == NULL){
+		m_pendingModels.remove(modelPtr);
+		return;
+	}
 
-		if (m_updateFlags & UF_SOURCE){
-			changes += changeSet;
-		}
+	if (m_pendingModels.remove(modelPtr)){
+		istd::IChangeable::ChangeSet changes = CreateEndChangeSet(changeSet);
 
 		lock.unlock();
 
@@ -146,6 +160,38 @@ bool CModelUpdateBridge::IsAttached(const imod::IModel* modelPtr) const
 	}
 
 	return !m_models.isEmpty();
+}
+
+
+istd::IChangeable::ChangeSet CModelUpdateBridge::CreateBeginChangeSet() const
+{
+	istd::IChangeable::ChangeSet changeSet;
+
+	if (m_updateFlags & UF_DELEGATED){
+		changeSet += istd::IChangeable::GetDelegatedChanges();
+	}
+
+	if (!(m_updateFlags & UF_DELEGATED)){
+		changeSet = istd::IChangeable::GetAnyChange();
+	}
+
+	return changeSet;
+}
+
+
+istd::IChangeable::ChangeSet CModelUpdateBridge::CreateEndChangeSet(const istd::IChangeable::ChangeSet& sourceChangeSet) const
+{
+	istd::IChangeable::ChangeSet changes(sourceChangeSet.GetDescription());
+
+	if (m_updateFlags & UF_DELEGATED){
+		changes += istd::IChangeable::GetDelegatedChanges();
+	}
+
+	if (m_updateFlags & UF_SOURCE){
+		changes += sourceChangeSet;
+	}
+
+	return changes;
 }
 
 
