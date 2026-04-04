@@ -73,6 +73,36 @@ private:
 
 	void CleanupObserverState();
 
+	/**
+		\brief RAII scope guard for m_blockCounter management.
+
+		Increments m_blockCounter on construction and decrements on destruction,
+		ensuring the counter is always properly balanced even when exceptions occur
+		during observer notifications or circular model dependency chains
+		(e.g. via CModelUpdateBridge A->B->A).
+
+		Call Release() on the normal (non-exception) path to transfer counter
+		ownership to the matching NotifyAfterChange call.
+
+		\sa m_blockCounter, NotifyBeforeChange, NotifyAfterChange
+	*/
+	class CChangeScope
+	{
+		Q_DISABLE_COPY(CChangeScope);
+	public:
+		explicit CChangeScope(CModelBase& model) : m_modelPtr(&model) { ++m_modelPtr->m_blockCounter; }
+		~CChangeScope() { if (m_modelPtr != nullptr) { --m_modelPtr->m_blockCounter; } }
+
+		/**
+			Release ownership of the counter increment.
+			After calling this, the destructor will NOT decrement m_blockCounter.
+			Used on the success path where the decrement will be handled by NotifyAfterChange.
+		*/
+		void Release() { m_modelPtr = nullptr; }
+	private:
+		CModelBase* m_modelPtr;
+	};
+
 private:
 	/**
 		Observer connection state.
@@ -112,8 +142,41 @@ private:
 	typedef QMap<IObserver*, ObserverInfo> ObserversMap;
 	ObserversMap m_observers;
 
+	/**
+		\brief Nesting depth of change transactions.
+
+		Tracks the number of nested BeginChanges/EndChanges calls. When it reaches 0
+		in NotifyAfterChange, the outermost transaction is complete and observer
+		AfterUpdate notifications are sent. Managed via CChangeScope for exception safety.
+
+		\note The type is intentionally \c int rather than \c unsigned \c int because
+		unsigned underflow in the expression \c --m_blockCounter \c > \c 0 would silently
+		produce a very large value instead of the expected comparison result.
+
+		\invariant m_blockCounter >= 0
+		\invariant (m_blockCounter > 0) || !m_isDuringChanges
+
+		\sa m_isDuringChanges, CChangeScope
+	*/
 	int m_blockCounter;
+
+	/**
+		\brief Flag indicating whether observer BeforeUpdate notifications have been sent.
+
+		Set to \c true when the first non-group change begins and observer BeforeUpdate
+		notifications are sent. Reset to \c false in NotifyAfterChange when the outermost
+		transaction completes (m_blockCounter reaches 0).
+
+		\sa m_blockCounter
+	*/
 	bool m_isDuringChanges;
+
+	/**
+		\brief Accumulated change flags for the current transaction.
+
+		Collects all change IDs from nested BeginChanges/EndChanges calls.
+		Reset when the outermost transaction completes.
+	*/
 	istd::IChangeable::ChangeSet m_cumulatedChangeIds;
 
 #if QT_VERSION >= 0x060000
