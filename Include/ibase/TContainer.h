@@ -39,8 +39,15 @@ public:
 	ItemClass& InsertAt(const ItemClass& item, int index);
 	void PopBack();
 	void PopFront();
+	
+	const Container& GetItems() const
+	{
+		return m_items;
+	}
 
 	// methods with names compatible to standard containers
+
+	using value_type = ItemClass;
 
 	inline void push_back(const ItemClass& item)
 	{
@@ -106,6 +113,12 @@ public:
 
 		m_items.resize(size);
 #endif
+	}
+
+
+	void clear()
+	{
+		Reset();
 	}
 
 
