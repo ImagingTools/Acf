@@ -11,21 +11,30 @@ namespace ibase
 {
 
 
-/**
-	Base implementation for observing a list.
-	Routes ChangeSet change infos to specific virtual method
-*/
-class CListObserver: public imod::CSingleModelObserverBase
+class CListObserverDispatcher
 {
 public:
-	// reimplemented (imod::CSingleModelObserverBase)
-	virtual void OnUpdate(const istd::IChangeable::ChangeSet& changeSet) override;
+	virtual ~CListObserverDispatcher() = default;
 
 protected:
+	void DispatchListChange(const istd::IChangeable::ChangeSet& changeSet);
+
 	virtual void OnListReset() = 0;
 	virtual void OnBeforeElementRemoved(qsizetype index) = 0;
 	virtual void OnAfterElementAdded(qsizetype index) = 0;
 	virtual void OnAfterElementUpdated(qsizetype index) = 0;
+};
+
+
+/**
+	Base implementation for observing a list.
+	Routes ChangeSet change infos to specific virtual method
+*/
+class CListObserver: public imod::CSingleModelObserverBase, public CListObserverDispatcher
+{
+public:
+	// reimplemented (imod::CSingleModelObserverBase)
+	virtual void OnUpdate(const istd::IChangeable::ChangeSet& changeSet) override;
 };
 
 
