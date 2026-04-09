@@ -32,14 +32,17 @@ CLogCompBase::CLogCompBase()
 void CLogCompBase::AddMessage(const MessagePtr& messagePtr)
 {
 	if (messagePtr.IsValid() && IsMessageSupported(messagePtr->GetInformationCategory())){
-		QCoreApplication* applicationPtr = QCoreApplication::instance();
-		bool isMainThread = (applicationPtr == NULL) || (QThread::currentThread() == applicationPtr->thread());
-		if (!isMainThread){
-			Q_EMIT EmitAddMessage(messagePtr);
+		if (*m_useMainThreadAttrPtr){
+			QCoreApplication* applicationPtr = QCoreApplication::instance();
+			bool isMainThread = (applicationPtr == NULL) || (QThread::currentThread() == applicationPtr->thread());
+			if (!isMainThread){
+				Q_EMIT EmitAddMessage(messagePtr);
+
+				return;
+			}
 		}
-		else{
-			OnAddMessage(messagePtr);
-		}
+
+		OnAddMessage(messagePtr);
 	}
 }
 
