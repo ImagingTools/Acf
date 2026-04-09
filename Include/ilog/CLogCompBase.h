@@ -29,11 +29,22 @@ namespace ilog
 	
 	\ingroup Logging
 	
+	\par Configuration
+	Component attributes:
+	- **UseMainThread**: Controls whether messages from non-main threads are routed
+	  to the main thread via the Qt event queue before processing (default: true).
+	  When enabled (default), messages are delivered asynchronously on the main thread.
+	  When disabled, messages are processed directly on the calling thread, which can
+	  improve performance but requires the derived class to be thread-safe.
+	
 	\par Thread Safety
-	AddMessage() is thread-safe and can be called from any thread. The message
-	is queued via Qt's signal/slot mechanism and processed on the component's
-	thread. This makes it safe to log from worker threads to a UI-based log
-	viewer or any other thread-sensitive consumer.
+	AddMessage() is thread-safe and can be called from any thread. When UseMainThread
+	is enabled, the message is queued via Qt's signal/slot mechanism and processed on
+	the component's thread. This makes it safe to log from worker threads to a
+	UI-based log viewer or any other thread-sensitive consumer.
+	When UseMainThread is disabled, messages are processed synchronously on the
+	calling thread. Derived classes must ensure their WriteMessageToLog()
+	implementation is thread-safe in this case.
 	
 	\par Message Delegation
 	Inherits from TMessageDelegatorComp, so messages can be forwarded to a
@@ -83,6 +94,7 @@ public:
 	typedef QObject BaseClass2;
 
 	I_BEGIN_BASE_COMPONENT(CLogCompBase);
+		I_ASSIGN(m_useMainThreadAttrPtr, "UseMainThread", "If enabled, messages from non-main threads will be routed to the main thread via Qt event queue before processing", true, true);
 	I_END_COMPONENT;
 
 	/**
@@ -157,6 +169,9 @@ Q_SIGNALS:
 		\param	messagePtr	Shared pointer to message being added
 	*/
 	void EmitAddMessage(const MessagePtr& messagePtr);
+
+private:
+	I_ATTR(bool, m_useMainThreadAttrPtr);
 };
 
 
