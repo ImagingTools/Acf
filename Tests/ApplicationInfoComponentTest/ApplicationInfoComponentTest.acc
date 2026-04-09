@@ -1,0 +1,46 @@
+// SPDX-License-Identifier: LGPL-2.1-or-later OR GPL-2.0-or-later OR GPL-3.0-or-later OR LicenseRef-ACF-Commercial
+
+
+ComponentStructure CApplicationInfoComponentTest
+{
+	// Default ApplicationInfo component with default values
+	Component ApplicationInfo
+	{
+		TypeId = "ImagingTools/BasePck/ApplicationInfo"
+		Attribute VersionInfo = "VersionInfo"
+	}
+	
+	// Custom ApplicationInfo component with specific values
+	Component CustomApplicationInfo
+	{
+		TypeId = "ImagingTools/BasePck/ApplicationInfo"
+		Attribute CompanyName = "ImagingTools"
+		Attribute ProductName = "ACF"
+		Attribute ProductEdition = "Professional"
+		Attribute ApplicationId = "AppInfoTestApp"
+		Attribute ApplicationName = "ApplicationInfoTest"
+		Attribute ApplicationSubname = "Unit Tests"
+		Attribute ApplicationType = "Test"
+		Attribute LegalCopyright = "© 2024 ImagingTools"
+		Attribute MainVersionId = 42
+		Attribute VersionInfo = "TestVersionInfo"
+	}
+	
+	// Version info component for default ApplicationInfo
+	Component VersionInfo
+	{
+		TypeId = "ImagingTools/BasePck/VersionInfo"
+		Attribute VersionId = 0
+		Attribute VersionNumber = 1
+		Attribute VersionIdDesc = "Default Version"
+	}
+	
+	// Version info component for custom ApplicationInfo
+	Component TestVersionInfo
+	{
+		TypeId = "ImagingTools/BasePck/VersionInfo"
+		Attribute VersionId = 42
+		Attribute VersionNumber = 12345
+		Attribute VersionIdDesc = "Test Version"
+	}
+}
