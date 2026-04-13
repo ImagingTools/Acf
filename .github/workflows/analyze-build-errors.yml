@@ -21,7 +21,7 @@ jobs:
     steps:
       - name: Get PR and TeamCity Workflow Information
         id: get_info
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         with:
           script: |
             const prNumber = ${{ github.event.inputs.pr_number }};
@@ -181,7 +181,7 @@ jobs:
           echo "EOF" >> "$GITHUB_OUTPUT"
 
       - name: Post Comment with Errors
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         with:
           script: |
             const info = JSON.parse('${{ steps.get_info.outputs.result }}');

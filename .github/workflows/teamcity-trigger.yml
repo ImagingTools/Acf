@@ -418,7 +418,7 @@ jobs:
 
       - name: Post Error Analysis to PR
         if: steps.analyze.outputs.ERRORS != ''
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         env:
           BUILD_ERRORS: ${{ steps.analyze.outputs.ERRORS }}
           BUILD_IDS: ${{ steps.extract_ids.outputs.build_ids }}
