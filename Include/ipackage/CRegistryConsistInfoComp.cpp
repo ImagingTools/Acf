@@ -33,6 +33,9 @@ bool CRegistryConsistInfoComp::ValidateElements(
 			QSet<icomp::CComponentAddress>& visitedAddresses) const
 {
 	if (!m_packagesManagerCompPtr.IsValid() || !m_registriesManagerCompPtr.IsValid()){
+		SendErrorMessage(
+					MI_UNDEFINED_PACKAGE,
+					QObject::tr("Consistency check cannot be performed: required manager references are not set"));
 		return false;
 	}
 
