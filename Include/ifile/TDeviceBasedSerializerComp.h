@@ -24,6 +24,7 @@ public:
 	typedef ilog::CLoggerComponentBase BaseClass;
 
 	I_BEGIN_COMPONENT(TDeviceBasedSerializerComp);
+		I_REGISTER_INTERFACE(IDeviceBasedPersistence);
 		I_ASSIGN(m_versionInfoCompPtr, "VersionInfo", "Provide information about archive versions", false, "VersionInfo");
 	I_END_COMPONENT;
 

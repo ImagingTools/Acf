@@ -67,6 +67,7 @@ CGuiComponentDialog::CGuiComponentDialog(
 			connect(m_buttonsBox, SIGNAL(accepted()), this, SLOT(accept()));
 			connect(m_buttonsBox, SIGNAL(rejected()), this, SLOT(reject()));
 
+			dialogLayout->addSpacing(8);
 			dialogLayout->addWidget(m_buttonsBox);
 		}
 	}
