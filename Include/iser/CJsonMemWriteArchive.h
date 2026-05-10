@@ -19,7 +19,7 @@ public:
 	typedef CJsonWriteArchiveBase BaseClass;
 
 	CJsonMemWriteArchive(
-				const iser::IVersionInfo* versionInfoPtr = NULL,
+				const iser::IVersionInfo* versionInfoPtr = nullptr,
 				bool serializeHeader = true,
 				const iser::CArchiveTag& rootTag = s_acfRootTag);
 
@@ -34,5 +34,4 @@ private:
 
 
 } // namespace iser
-
 

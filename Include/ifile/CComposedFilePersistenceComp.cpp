@@ -98,7 +98,7 @@ bool CComposedFilePersistenceComp::IsDeviceOperationSupported(
 }
 
 
-int CComposedFilePersistenceComp::ReadFromDevice(
+ifile::IDeviceBasedPersistence::OperationState CComposedFilePersistenceComp::ReadFromDevice(
 			istd::IChangeable& data,
 			QIODevice& device,
 			ibase::IProgressManager* progressManagerPtr) const
@@ -116,7 +116,7 @@ int CComposedFilePersistenceComp::ReadFromDevice(
 }
 
 
-int CComposedFilePersistenceComp::WriteToDevice(
+ifile::IDeviceBasedPersistence::OperationState CComposedFilePersistenceComp::WriteToDevice(
 			const istd::IChangeable& data,
 			QIODevice& device,
 			ibase::IProgressManager* progressManagerPtr) const

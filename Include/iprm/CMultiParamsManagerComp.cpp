@@ -70,7 +70,7 @@ bool CMultiParamsManagerComp::Serialize(iser::IArchive& archive)
 
 			EnsureParamsSetModelDetached(parameterSetToRemove->paramSetPtr.GetPtr());
 
-			m_paramSets.removeLast();
+			m_paramSets.pop_back();
 		}
 	}
 
@@ -283,8 +283,8 @@ bool CMultiParamsManagerComp::CopyFrom(const istd::IChangeable& object, istd::IC
 		if (i >= m_fixedParamSetsCompPtr.GetCount()){
 			int paramIndex = i - m_fixedParamSetsCompPtr.GetCount();
 
-			Q_ASSERT(paramIndex < m_paramSets.count());
-			Q_ASSERT(m_paramSets[paramIndex].IsValid());
+			Q_ASSERT(paramIndex < m_paramSets.size());
+			Q_ASSERT(m_paramSets[paramIndex].get() != nullptr);
 
 			m_paramSets[paramIndex]->uuid = QUuid::createUuid().toByteArray();
 		}
@@ -419,7 +419,7 @@ bool CMultiParamsManagerComp::EnsureParamExist(int index, const QByteArray& type
 		paramsSetPtr->parentPtr = this;
 
 		m_paramSets.push_back(ParamSetPtr());
-		m_paramSets.back().TakeOver(paramsSetPtr);
+		m_paramSets.back() = std::move(paramsSetPtr);
 
 		imod::IModel* paramsModelPtr = dynamic_cast<imod::IModel*>(m_paramSets.back()->paramSetPtr.GetPtr());
 		if (paramsModelPtr != NULL){
@@ -442,7 +442,7 @@ bool CMultiParamsManagerComp::IsParameterCreationSupported() const
 
 int CMultiParamsManagerComp::GetCreatedParamsSetsCount() const
 {
-	return m_paramSets.count();
+	return m_paramSets.size();
 }
 
 

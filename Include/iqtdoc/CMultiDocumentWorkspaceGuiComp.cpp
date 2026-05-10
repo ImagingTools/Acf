@@ -570,6 +570,15 @@ void CMultiDocumentWorkspaceGuiComp::OnEndChanges(const ChangeSet& changeSet)
 		UpdateAllTitles();
 	}
 
+	if (changeSet.Contains(CF_DOCUMENT_COUNT_CHANGED)){
+		const istd::IChangeable::ChangeSet optionsChangeSet(iprm::IOptionsList::CF_OPTIONS_CHANGED);
+		istd::CChangeNotifier notifier(&m_documentSelectionInfo, &optionsChangeSet);
+	}
+	if (changeSet.Contains(CF_DOCUMENT_RENAMED)){
+		const istd::IChangeable::ChangeSet optionsChangeSet(iprm::IOptionsList::CF_OPTION_RENAMED);
+		istd::CChangeNotifier notifier(&m_documentSelectionInfo, &optionsChangeSet);
+	}
+
 	idoc::CMultiDocumentManagerBase::SingleDocumentData* activeDocumentInfoPtr = GetActiveDocumentInfo();
 	if (activeDocumentInfoPtr == NULL){
 		m_documentSelectionInfo.SetSelectedOptionIndex(iprm::ISelectionParam::NO_SELECTION);

@@ -78,7 +78,7 @@ bool CTextFileLoaderComp::IsDeviceOperationSupported(
 }
 
 
-int CTextFileLoaderComp::ReadFromDevice(
+ifile::IDeviceBasedPersistence::OperationState CTextFileLoaderComp::ReadFromDevice(
 			istd::IChangeable& data,
 			QIODevice& device,
 			ibase::IProgressManager* /*progressManagerPtr*/) const
@@ -101,14 +101,14 @@ int CTextFileLoaderComp::ReadFromDevice(
 
 	QTextStream stream(&device);
 	QString documentText = stream.readAll();
-	
+
 	documentPtr->SetText(documentText);
 
 	return ifile::IDeviceBasedPersistence::Successful;
 }
 
 
-int CTextFileLoaderComp::WriteToDevice(
+ifile::IDeviceBasedPersistence::OperationState CTextFileLoaderComp::WriteToDevice(
 			const istd::IChangeable& data,
 			QIODevice& device,
 			ibase::IProgressManager* /*progressManagerPtr*/) const

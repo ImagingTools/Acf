@@ -17,6 +17,12 @@ QString CEnvironmentManagerBase::GetConfigFilePath() const
 }
 
 
+QStringList CEnvironmentManagerBase::GetProjectTargets() const
+{
+	return QStringList();
+}
+
+
 // reimplemented (icomp::IPackagesManager)
 
 bool CEnvironmentManagerBase::LoadPackages(const QString& /*configFilePath*/)

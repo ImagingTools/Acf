@@ -1,6 +1,5 @@
 _codeql_detected_source_root
 # Build artifacts
-build/
 AuxInclude/*
 Bin/*
 Lib/*
@@ -21,6 +20,12 @@ moc_*.cpp
 ui_*.h
 qrc_*.cpp
 
+# CMake
+CMakeUserPresets.json
+
+# IDE
+.vscode/
+
 # Generated version files
 Config/QMake/AcfVersion.pri
 Include/istd/AcfVersion.h
@@ -38,7 +43,6 @@ __pycache__/
 .Python
 *.egg-info/
 dist/
-build/
 *.egg
 
 # OS-specific

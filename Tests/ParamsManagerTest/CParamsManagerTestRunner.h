@@ -30,6 +30,7 @@ private slots:
 	void GetSetParamsSetDescriptionTest();
 	void SerializeTest();
 	void CopyTest();
+	void ParamsInfoProviderTest();
 
 	void cleanupTestCase();
 

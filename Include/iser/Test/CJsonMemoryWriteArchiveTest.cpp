@@ -125,6 +125,58 @@ void CJsonMemoryWriteArchiveTest::ObjectContainerSerializeTest()
 }
 
 
+void CJsonMemoryWriteArchiveTest::EscapingTest()
+{
+	static iser::CArchiveTag valueTag("Value", "Serialized value");
+
+	QByteArray value;
+	value += "Line 1\n";
+	value += '\b';
+	value += '\f';
+	value += '\t';
+	value += "\\\"";
+	// Check escaping of generic ASCII control characters too (0x01 / SOH).
+	value += char(0x01);
+	const QByteArray originalValue = value;
+
+	iser::CJsonMemWriteArchive writeArchive(nullptr, false);
+	QVERIFY(writeArchive.BeginTag(valueTag));
+	QVERIFY(writeArchive.Process(value));
+	QVERIFY(writeArchive.EndTag(valueTag));
+	QVERIFY(value == originalValue);
+
+	const QByteArray buffer = writeArchive.GetData();
+
+	QJsonParseError jsonParseError;
+	QJsonDocument jsonDocument = QJsonDocument::fromJson(buffer, &jsonParseError);
+	QVERIFY2(jsonParseError.error == QJsonParseError::NoError,
+			 QString("Saved JSON is NOT valid. Error: '%1' at '%2'. \n DATA: \n %3").arg(jsonParseError.errorString(), QString::number(jsonParseError.offset), qPrintable(buffer)).toLocal8Bit());
+	QVERIFY(jsonDocument.isObject());
+	QVERIFY(jsonDocument.object().contains(valueTag.GetId()));
+
+	QString restoredValue;
+	iser::CJsonMemReadArchive readArchive(buffer, false);
+	QVERIFY(readArchive.BeginTag(valueTag));
+	QVERIFY(readArchive.Process(restoredValue));
+	QVERIFY(readArchive.EndTag(valueTag));
+	QVERIFY(restoredValue == originalValue);
+}
+
+
+void CJsonMemoryWriteArchiveTest::InvalidReadStateTest()
+{
+	iser::CArchiveTag valueTag("Value", "Serialized value");
+	iser::CArchiveTag multipleTag("Items", "Serialized list", iser::CArchiveTag::TT_MULTIPLE);
+
+	iser::CJsonMemReadArchive readArchive("{}", false);
+	QString restoredValue;
+	int count = 0;
+
+	QVERIFY(!readArchive.Process(restoredValue));
+	QVERIFY(!readArchive.BeginMultiTag(multipleTag, valueTag, count));
+}
+
+
 void CJsonMemoryWriteArchiveTest::DoTest()
 {
 	m_buffer.clear();

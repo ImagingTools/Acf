@@ -38,5 +38,3 @@ typedef ipackage::CRegistryCodeSaverComp RegistryCodeSaver;
 } // namespace PackagePck
 
 
-
-

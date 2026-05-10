@@ -19,5 +19,3 @@ private Q_SLOTS:
 	void DoFilePathTest();
 	void DoPersistenceComponentTest();
 };
-
-

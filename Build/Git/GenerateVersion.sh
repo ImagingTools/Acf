@@ -9,6 +9,6 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$SCRIPT_DIR"
 
 # Call UpdateVersion.sh for each template file
-./UpdateVersion.sh ../../Config/QMake/AcfVersion.pri.xtrsvn
-./UpdateVersion.sh ../../Partitura/AcfVoce.arp/VersionInfo.acc.xtrsvn
-./UpdateVersion.sh ../../Include/istd/AcfVersion.h.xtrsvn
+./UpdateVersion.sh Config/QMake/AcfVersion.pri.xtrsvn "$1"
+./UpdateVersion.sh Partitura/AcfVoce.arp/VersionInfo.acc.xtrsvn "$1"
+./UpdateVersion.sh Include/istd/AcfVersion.h.xtrsvn "$1"

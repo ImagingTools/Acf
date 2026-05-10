@@ -50,6 +50,17 @@ iser::ISerializable* CParamsSetDelegatorComp::GetEditableParameter(const QByteAr
 }
 
 
+const IParamsInfoProvider* CParamsSetDelegatorComp::GetParamsInfoProvider() const
+{
+	// Delegate to the slave parameter set
+	if (m_slaveParamsSetCompPtr.IsValid()){
+		return m_slaveParamsSetCompPtr->GetParamsInfoProvider();
+	}
+
+	return nullptr;
+}
+
+
 // reimplemented (iser::IObject)
 
 QByteArray CParamsSetDelegatorComp::GetFactoryId() const

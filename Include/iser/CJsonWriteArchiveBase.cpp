@@ -14,6 +14,63 @@ namespace iser
 {
 
 
+namespace
+{
+
+
+QByteArray EscapeJsonString(const QByteArray& value)
+{
+	QByteArray escapedValue;
+	escapedValue.reserve(value.size() * 2);
+
+	static const char hexDigits[] = "0123456789ABCDEF";
+
+	for (char currentByte : value){
+		const unsigned char byte = static_cast<unsigned char>(currentByte);
+
+		switch (currentByte){
+			case '\\':
+				escapedValue += "\\\\";
+				break;
+			case '\"':
+				escapedValue += "\\\"";
+				break;
+			case '\b':
+				escapedValue += "\\b";
+				break;
+			case '\f':
+				escapedValue += "\\f";
+				break;
+			case '\n':
+				escapedValue += "\\n";
+				break;
+			case '\r':
+				escapedValue += "\\r";
+				break;
+			case '\t':
+				escapedValue += "\\t";
+				break;
+			default:
+				// Escape ASCII control characters (0x00-0x1F).
+				if (byte < 0x20){
+					escapedValue += "\\u00";
+					escapedValue += hexDigits[byte >> 4];
+					escapedValue += hexDigits[byte & 0x0F];
+				}
+				else{
+					escapedValue += currentByte;
+				}
+				break;
+		}
+	}
+
+	return escapedValue;
+}
+
+
+} // namespace
+
+
 // protected methods
 
 CJsonWriteArchiveBase::CJsonWriteArchiveBase(
@@ -98,7 +155,7 @@ bool CJsonWriteArchiveBase::EndTag(const CArchiveTag& /*tag*/)
 	TagsStackItem lastItem = m_tagsStack.last();
 	m_tagsStack.pop_back();
 
-	if (lastItem.m_tagPtr == NULL){
+	if (lastItem.m_tagPtr == nullptr){
 		return false;
 	}
 
@@ -129,16 +186,9 @@ bool CJsonWriteArchiveBase::Process(QString &value)
 
 bool CJsonWriteArchiveBase::Process(QByteArray &value)
 {
-	value.replace('\\', "\\\\");
-	value.replace('\"', "\\\"");
-	value.replace('\n', "\\n");
-	value.replace('\r', "\\r");
-	value.replace('\t', "\\t");
-
-
 	m_quotationMarksRequired = true;
 
-	return WriteTextNode(value);
+	return WriteTextNode(EscapeJsonString(value));
 }
 
 
@@ -271,5 +321,3 @@ bool CJsonWriteArchiveBase::WriteTextNode(const QByteArray &text)
 
 
 } // namespace iser
-
-

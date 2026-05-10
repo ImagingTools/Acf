@@ -6,6 +6,7 @@
 #include <istd/TIHierarchical.h>
 #include <icomp/CComponentBase.h>
 #include <iprm/CParamsSet.h>
+#include <iprm/IParamsInfoProvider.h>
 
 
 namespace iprm
@@ -19,7 +20,8 @@ namespace iprm
 class CComposedParamsSetComp:
 			public icomp::CComponentBase,
 			public CParamsSet,
-			virtual public istd::IHierarchical
+			virtual public istd::IHierarchical,
+			virtual public IParamsInfoProvider
 {
 public:
 	typedef icomp::CComponentBase BaseClass;
@@ -29,15 +31,22 @@ public:
 		I_REGISTER_INTERFACE(istd::IHierarchical);
 		I_REGISTER_INTERFACE(iser::ISerializable);
 		I_REGISTER_INTERFACE(IParamsSet);
+		I_REGISTER_INTERFACE(IParamsInfoProvider);
 		I_ASSIGN_MULTI_0(m_slaveParamsCompPtr, "SlaveSets", "List of slave parameter sets", false);
 		I_ASSIGN_MULTI_0(m_parametersCompPtr, "Parameters", "Parameters", true);
-		I_ASSIGN_MULTI_0(m_parametersIdAttrPtr, "ParametersId", "ID of each paremeter in 'Parameters'", true);
+		I_ASSIGN_MULTI_0(m_parametersIdAttrPtr, "ParametersId", "ID of each parameter in 'Parameters'", true);
+		I_ASSIGN_MULTI_0(m_parameterNameAttrPtr, "ParametersName", "Name of each parameter in 'Parameters'", true);
+		I_ASSIGN_MULTI_0(m_parameterDescriptionAttrPtr, "ParametersDescription", "Description of each parameter in 'Parameters'", true);
 		I_ASSIGN(m_typeIdAttrPtr, "TypeId", "ID of this parameter set", true, "Default");
 	I_END_COMPONENT;
 
 	// reimplemented (iprm::IParamsSet)
 	virtual Ids GetParamIds(bool editableOnly = false) const override;
 	virtual const iser::ISerializable* GetParameter(const QByteArray& id) const override;
+	virtual const IParamsInfoProvider* GetParamsInfoProvider() const override;
+
+	// reimplemented (iprm::IParamsInfoProvider)
+	virtual std::unique_ptr<ParamInfo> GetParamInfo(const QByteArray& paramId) const override;
 
 	// reimplemented (istd::IHierarchical)
 	virtual int GetHierarchicalFlags() const override;
@@ -61,6 +70,8 @@ private:
 	I_MULTIREF(IParamsSet, m_slaveParamsCompPtr);
 	I_MULTIREF(iser::ISerializable, m_parametersCompPtr);
 	I_MULTIATTR(QByteArray, m_parametersIdAttrPtr);
+	I_MULTIATTR(QString, m_parameterNameAttrPtr);
+	I_MULTIATTR(QString, m_parameterDescriptionAttrPtr);
 	I_ATTR(QByteArray, m_typeIdAttrPtr);
 };
 

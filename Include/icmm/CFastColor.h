@@ -67,6 +67,15 @@ public:
 	{
 	}
 
+	/**
+		Constructor from iterator pair.
+	*/
+	#if __cplusplus >= 202002L
+	template <typename Iterator>
+	requires std::input_iterator<Iterator>  // Require C++20 iterator concept to disambiguate from other constructors
+	CFastColor(Iterator first, Iterator last);
+	#endif // __cplusplus >= 202002L
+
 	CFastColor(const icmm::CVarColor& color);
 
 	icmm::CLab GetAsLab() const;
@@ -203,6 +212,21 @@ inline CFastColor::CFastColor(std::initializer_list<double> values)
 	}
 #endif // COLOR_COMPONENTS_COUNT
 }
+
+
+#if __cplusplus >= 202002L
+template <typename Iterator>
+requires std::input_iterator<Iterator>  // Require C++20 iterator concept to disambiguate from other constructors
+inline CFastColor::CFastColor(Iterator first, Iterator last)
+{
+	const size_t size = last - first;
+	if (EnsureElementsCount(size)) {
+		for (size_t i = 0; i < size; ++i, ++first) {
+			operator[](i) = *first;
+		}
+	}
+}
+#endif // __cplusplus >= 202002L
 
 
 inline bool CFastColor::EnsureElementsCount(int count, double value)

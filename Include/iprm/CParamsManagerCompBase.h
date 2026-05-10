@@ -183,6 +183,7 @@ protected:
 		virtual Ids GetParamIds(bool editableOnly = false) const override;
 		virtual const iser::ISerializable* GetParameter(const QByteArray& id) const override;
 		virtual iser::ISerializable* GetEditableParameter(const QByteArray& id) override;
+		virtual const IParamsInfoProvider* GetParamsInfoProvider() const override;
 
 		// reimplemented (iprm::ISelectionParam)
 		virtual const IOptionsList* GetSelectionConstraints() const override;
@@ -224,6 +225,7 @@ protected:
 		virtual Ids GetParamIds(bool editableOnly = false) const override;
 		virtual const iser::ISerializable* GetParameter(const QByteArray& id) const override;
 		virtual iser::ISerializable* GetEditableParameter(const QByteArray& id) override;
+		virtual const IParamsInfoProvider* GetParamsInfoProvider() const override;
 
 		// reimplemented (iser::IObject)
 		virtual QByteArray GetFactoryId() const override;
@@ -234,9 +236,10 @@ protected:
 		CParamsManagerCompBase* parentPtr;
 	};
 
-	typedef istd::TDelPtr<ParamSet> ParamSetPtr;
+	typedef std::unique_ptr<ParamSet> ParamSetPtr;
 
-	typedef QList<ParamSetPtr> ParamSets;
+	typedef std::vector<ParamSetPtr> ParamSets;
+
 
 	ParamSets m_paramSets;
 

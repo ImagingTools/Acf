@@ -40,6 +40,7 @@ public:
 	virtual Ids GetParamIds(bool editableOnly = false) const override;
 	virtual const iser::ISerializable* GetParameter(const QByteArray& id) const override;
 	virtual iser::ISerializable* GetEditableParameter(const QByteArray& id) override;
+	virtual const IParamsInfoProvider* GetParamsInfoProvider() const override;
 
 	// reimplemented (iser::IObject)
 	virtual QByteArray GetFactoryId() const override;

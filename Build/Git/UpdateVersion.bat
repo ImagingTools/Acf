@@ -1,23 +1,26 @@
 @echo off
 setlocal enabledelayedexpansion
 
-REM --- Проверка параметра ---
+cd /d "%~dp0\..\.."
+
+REM --- Validate input parameter ---
 if "%~1"=="" (
-    echo Usage: %~nx0 path\to\template.xtrsvn
+    echo Usage: %~nx0 path\to\template.xtrsvn [path\to\backupdir]
     exit /b 1
 )
 
 set "FILE=%~1"
+set "BACKUPDIR=%~2"
 
 if not exist "%FILE%" (
     echo File "%FILE%" does not exist.
     exit /b 1
 )
 
-REM --- Получаем ревизию ---
+REM --- Compute revision ---
 git fetch --prune --unshallow 2>nul
 
-for /f "usebackq delims=" %%i in (`git rev-list --count origin/master 2^>nul`) do set REV=%%i
+for /f "usebackq delims=" %%i in (`git rev-list --count origin/main 2^>nul`) do set REV=%%i
 if not defined REV (
     for /f "usebackq delims=" %%i in (`git rev-list --count HEAD 2^>nul`) do set REV=%%i
 )
@@ -26,7 +29,7 @@ if not defined REV (
     exit /b 1
 )
 
-REM --- Проверка грязного состояния ---
+REM --- Check dirty working tree state ---
 git diff-index --quiet HEAD --
 if %errorlevel%==0 (
     set DIRTY=0
@@ -37,15 +40,47 @@ if %errorlevel%==0 (
 echo Git revision: %REV%, dirty: %DIRTY%
 echo Processing file: %FILE%
 
-REM --- Выходной файл (убираем .xtrsvn) ---
+REM --- Output file path (strip .xtrsvn) ---
 set "OUT=%FILE:.xtrsvn=%"
+set "TMP=%OUT%.tmp"
+
+REM --- Restore file from backup, useful for the CI scenario where git clean removes the generated file
+if not "%BACKUPDIR%"=="" (
+    set "BACKUPFILE=%BACKUPDIR%\%OUT%"
+    if not exist "%OUT%" (
+        if exist "!BACKUPFILE!" (
+            copy /y "!BACKUPFILE!" "%OUT%" >nul
+            echo Restored %OUT% from backup !BACKUPFILE!
+        )
+    )
+)
 
 (for /f "usebackq delims=" %%L in ("%FILE%") do (
     set "line=%%L"
     set "line=!line:$WCREV$=%REV%!"
     set "line=!line:$WCMODS?1:0$=%DIRTY%!"
     echo(!line!
-)) > "%OUT%"
+)) > "%TMP%"
 
-echo Wrote %OUT% with WCREV=%REV% and WCMODS=%DIRTY%
+if exist "%OUT%" (
+    fc /b "%TMP%" "%OUT%" >nul
+    if errorlevel 1 (
+        move /y "%TMP%" "%OUT%" >nul
+        echo Wrote %OUT% with WCREV=%REV% and WCMODS=%DIRTY%
+    ) else (
+        del "%TMP%" >nul 2>&1
+        echo No changes in %OUT%, file not rewritten
+    )
+) else (
+    move /y "%TMP%" "%OUT%" >nul
+    echo Wrote %OUT% with WCREV=%REV% and WCMODS=%DIRTY%
+)
+
+if not "%BACKUPDIR%"=="" (
+    for %%D in ("!BACKUPFILE!") do if not exist "%%~dpD" mkdir "%%~dpD" >nul 2>&1
+    copy /y "%OUT%" "!BACKUPFILE!" >nul
+    echo Backed up %OUT% to !BACKUPFILE!
+)
+
 endlocal
+exit /b 0

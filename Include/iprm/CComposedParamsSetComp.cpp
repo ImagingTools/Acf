@@ -53,6 +53,52 @@ const iser::ISerializable* CComposedParamsSetComp::GetParameter(const QByteArray
 }
 
 
+const IParamsInfoProvider* CComposedParamsSetComp::GetParamsInfoProvider() const
+{
+	return this;
+}
+
+
+// reimplemented (iprm::IParamsInfoProvider)
+
+std::unique_ptr<IParamsInfoProvider::ParamInfo> CComposedParamsSetComp::GetParamInfo(const QByteArray& paramId) const
+{
+	// Check if all multi-attributes are valid
+	if (!m_parametersIdAttrPtr.IsValid() ||
+		!m_parameterNameAttrPtr.IsValid() ||
+		!m_parameterDescriptionAttrPtr.IsValid()){
+		return nullptr;
+	}
+
+	// Find the index of the parameter ID
+	int paramIndex = -1;
+	for (int i = 0; i < m_parametersIdAttrPtr.GetCount(); ++i){
+		if (m_parametersIdAttrPtr[i] == paramId){
+			paramIndex = i;
+			break;
+		}
+	}
+
+	// If parameter ID not found, return nullptr
+	if (paramIndex < 0){
+		return nullptr;
+	}
+
+	// Check if the index is within bounds for name and description arrays
+	if (paramIndex >= m_parameterNameAttrPtr.GetCount() ||
+		paramIndex >= m_parameterDescriptionAttrPtr.GetCount())	{
+		return nullptr;
+	}
+
+	// Create and fill the ParamInfo structure
+	auto info = std::make_unique<ParamInfo>();
+	info->name = m_parameterNameAttrPtr[paramIndex];
+	info->description = m_parameterDescriptionAttrPtr[paramIndex];
+
+	return info;
+}
+
+
 // reimplemented (istd::IHierarchical)
 
 int CComposedParamsSetComp::GetHierarchicalFlags() const
@@ -86,7 +132,7 @@ istd::IPolymorphic* CComposedParamsSetComp::GetParent() const
 
 int CComposedParamsSetComp::GetSupportedOperations() const
 {
-    return SO_COPY | SO_COMPARE;
+	return SO_COPY | SO_COMPARE;
 }
 
 

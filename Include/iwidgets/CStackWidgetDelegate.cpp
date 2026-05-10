@@ -16,6 +16,10 @@
 #include <QtGui/QGroupBox>
 #endif
 
+// Acf includes
+#include <iwidgets/CStackWidgetDelegate.h>
+#include <iwidgets/CCurrentPageStackedWidget.h>
+
 
 namespace iwidgets
 {
@@ -26,8 +30,8 @@ namespace iwidgets
 // reimplemented (iwidgets::IMultiPageWidgetDelegate)
 
 QWidget* CStackWidgetDelegate::CreateContainerWidget(QWidget* parentWidgetPtr, int /*containerGuiFlags*/, int /*orientation*/)
-{	
-	return new QStackedWidget(parentWidgetPtr);
+{
+	return new CCurrentPageStackedWidget(parentWidgetPtr);
 }
 
 

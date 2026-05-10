@@ -58,6 +58,11 @@ QString CPackagesLoaderComp::GetConfigFilePath() const
 	return m_configFilePath;
 }
 
+QStringList CPackagesLoaderComp::GetProjectTargets() const
+{
+	return m_projectTargets;
+}
+
 
 // reimplemented (icomp::IPackagesManager)
 
@@ -95,6 +100,7 @@ bool CPackagesLoaderComp::LoadPackages(const QString& configFilePath)
 	m_compositePackagesMap.clear();
 	m_realPackagesMap.clear();
 	m_libraryToInfoFuncMap.clear();
+	m_projectTargets.clear();
 
 	bool retVal = LoadConfigFile(m_configFilePath);
 
@@ -410,6 +416,15 @@ bool CPackagesLoaderComp::LoadConfigFile(const QString& configFile)
 	}
 
 	bool retVal = true;
+
+	int projectTargetsCount = configurationData.GetRegistryFilesCount();
+	for (int i = 0; i < projectTargetsCount; ++i) {
+		QString projectTarget = istd::CSystem::GetEnrolledPath(configurationData.GetRegistryFile(i));
+
+		QString projectTargetPath = baseDir.absoluteFilePath(projectTarget);
+
+		m_projectTargets.push_back(projectTargetPath);
+	}
 
 	int configFilesCount = configurationData.GetConfigFilesCount();
 	for (int i = 0; i < configFilesCount; ++i){

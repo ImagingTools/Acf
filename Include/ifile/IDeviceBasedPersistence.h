@@ -105,7 +105,7 @@ public:
 		This function loads data \c data from the given I/O-device \c device
 		\returns State of the reading operation. \sa OperationState
 	*/
-	virtual int ReadFromDevice(
+	virtual OperationState ReadFromDevice(
 				istd::IChangeable& data,
 				QIODevice& device,
 				ibase::IProgressManager* progressManagerPtr = nullptr) const = 0;
@@ -114,7 +114,7 @@ public:
 		This function writes data \c data to the given I/O-device \c device
 		\returns State of the writing operation. \sa OperationState
 	*/
-	virtual int WriteToDevice(
+	virtual OperationState WriteToDevice(
 				const istd::IChangeable& data,
 				QIODevice& device,
 				ibase::IProgressManager* progressManagerPtr = nullptr) const = 0;
