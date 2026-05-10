@@ -54,6 +54,7 @@
 #include <iqtprm/CCheckableOptionsEditorComp.h>
 #include <iqtprm/CExtComposedParamsSetGuiComp.h>
 #include <iqtprm/CExtParamsManagerGuiComp.h>
+#include <iqtprm/CGenericParamsSetGuiComp.h>
 
 // DocumentGuiPck
 #include <iqtdoc/CMainWindowGuiComp.h>
@@ -133,6 +134,7 @@ typedef iqtprm::CButtonBasedSelectionParamGuiComp ButtonBasedSelectionEditor;
 typedef iqtprm::CMultiParamsManagerGuiComp MultiParamsManagerGui;
 typedef ibase::TModelObserverCompWrap<iqtprm::CExtComposedParamsSetGuiComp> ExtComposedParamsSetGui;
 typedef iqtprm::CExtParamsManagerGuiComp ExtParamsManagerGui;
+typedef iqtprm::CGenericParamsSetGuiComp GenericParamsSetGui;
 
 typedef iqtdoc::CMainWindowGuiComp MainWindowGui;
 typedef icomp::TModelCompWrap<iqtdoc::CSingleDocumentWorkspaceGuiComp> SingleDocWorkspaceGui;
