@@ -12,10 +12,8 @@
 #include <QtGui/QDesktopServices>
 #include <QtCore>
 #endif
-#include <QtCore/QTemporaryDir>
 
 // ACF includes
-#include <istd/CSystem.h>
 #include <ifile/IFileNameParam.h>
 
 
@@ -114,7 +112,7 @@ bool CAutoPersistenceComp::StoreObject(const istd::IChangeable& object)
 
 				QString tempFilePath;
 				if (!filePath.isEmpty()){
-					tempFilePath = QDir::tempPath() + "/" + QFileInfo(filePath).fileName();
+					tempFilePath = filePath + ".tmp";
 				}
 
 				int operationState = m_fileLoaderCompPtr->SaveToFile(object, tempFilePath);
@@ -122,12 +120,12 @@ bool CAutoPersistenceComp::StoreObject(const istd::IChangeable& object)
 					retVal = true;
 
 					if (!filePath.isEmpty()){
-						QString targetFolder = QFileInfo(filePath).absolutePath();
-						if (istd::CSystem::FileMove(tempFilePath, targetFolder, true)){
+						QFile::remove(filePath);
+						if (QFile::rename(tempFilePath, filePath)){
 							m_isLoadedFromFile = true;
 						}
 						else{
-							SendErrorMessage(0, tr("File could not be moved to the target location '%1'").arg(targetFolder));
+							SendErrorMessage(0, tr("File could not be moved to the target location '%1'").arg(filePath));
 
 							retVal = false;
 						}
