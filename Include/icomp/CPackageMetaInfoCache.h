@@ -10,7 +10,7 @@
 #include <icomp/CPackageStaticInfo.h>
 
 
-class QJsonObject;
+class QDataStream;
 
 
 namespace icomp
@@ -22,32 +22,32 @@ class CCachedAttributeStaticInfo;
 
 
 /**
-	Provides file-based JSON caching of package meta-information.
+	Provides file-based binary caching of package meta-information.
 	This cache allows skipping DLL loading when only component
 	meta-information (descriptions, keywords, interfaces, attributes) is needed.
 
+	Uses QDataStream binary format for fast serialization/deserialization.
 	The cache is invalidated when the DLL file's timestamp or size changes.
+	A fast filesystem-based pre-check (modification time comparison) is used
+	before opening the cache file for full validation.
 */
 class CPackageMetaInfoCache
 {
 public:
 	/**
-		Check if a cache file exists and is still valid for the given package file.
-		Validation is based on last-modified timestamp and file size.
-	*/
-	static bool IsCacheValid(const QString& packageFilePath, const QString& cacheFilePath);
-
-	/**
-		Load package meta-info from a JSON cache file.
+		Load package meta-info from cache if the cache is valid.
+		Combines validation and loading in a single pass to avoid
+		opening and parsing the cache file twice.
+		Uses a fast filesystem timestamp pre-check before reading cache contents.
 		Returns a newly created CPackageStaticInfo with CCachedComponentStaticInfo instances,
-		or NULL if loading fails.
+		or NULL if the cache is invalid or loading fails.
 		The caller takes ownership of the returned object.
 	*/
-	static CPackageStaticInfo* LoadFromCache(const QString& cacheFilePath);
+	static CPackageStaticInfo* LoadFromCacheIfValid(const QString& packageFilePath, const QString& cacheFilePath);
 
 	/**
-		Save package meta-info to a JSON cache file.
-		Serializes the package and its embedded components to JSON.
+		Save package meta-info to a binary cache file.
+		Serializes the package and its embedded components using QDataStream.
 		Uses atomic write (temp file + rename) for safety.
 	*/
 	static bool SaveToCache(const QString& cacheFilePath, const QString& packageFilePath, const CPackageStaticInfo* packageInfo);
@@ -59,11 +59,11 @@ public:
 	static QString GetCacheFilePath(const QString& packageFilePath, const QString& cacheDir = QString());
 
 private:
-	static QJsonObject SerializeComponent(const IComponentStaticInfo* componentInfo);
-	static QJsonObject SerializeAttribute(const IAttributeStaticInfo* attributeInfo);
+	static void SerializeComponent(QDataStream& stream, const IComponentStaticInfo* componentInfo);
+	static void SerializeAttribute(QDataStream& stream, const IAttributeStaticInfo* attributeInfo);
 
-	static CCachedComponentStaticInfo* DeserializeComponent(const QJsonObject& json);
-	static CCachedAttributeStaticInfo* DeserializeAttribute(const QByteArray& attributeId, const QJsonObject& json);
+	static CCachedComponentStaticInfo* DeserializeComponent(QDataStream& stream);
+	static CCachedAttributeStaticInfo* DeserializeAttribute(QDataStream& stream, const QByteArray& attributeId);
 };
 
 

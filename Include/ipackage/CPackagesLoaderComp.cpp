@@ -552,20 +552,20 @@ bool CPackagesLoaderComp::TryLoadFromCache(const QFileInfo& fileInfo, const QByt
 		cacheDir = *m_cacheDirAttrPtr;
 	}
 
+	// Strategy 2: Cache canonicalFilePath() to avoid redundant syscalls
+	const QString canonicalPath = fileInfo.canonicalFilePath();
+
 	QString cacheFilePath = icomp::CPackageMetaInfoCache::GetCacheFilePath(
-				fileInfo.canonicalFilePath(),
+				canonicalPath,
 				cacheDir);
 
-	if (!icomp::CPackageMetaInfoCache::IsCacheValid(fileInfo.canonicalFilePath(), cacheFilePath)){
-		return false;
-	}
-
-	icomp::CPackageStaticInfo* cachedInfo = icomp::CPackageMetaInfoCache::LoadFromCache(cacheFilePath);
+	// Strategy 1: Combined validation + loading in a single file read
+	icomp::CPackageStaticInfo* cachedInfo = icomp::CPackageMetaInfoCache::LoadFromCacheIfValid(canonicalPath, cacheFilePath);
 	if (cachedInfo == NULL){
 		return false;
 	}
 
-	m_realPackagesMap[packageId] = fileInfo.canonicalFilePath();
+	m_realPackagesMap[packageId] = canonicalPath;
 	m_ownedPackageInfos.append(cachedInfo);
 
 	RegisterEmbeddedComponentInfo(packageId, cachedInfo);
@@ -583,11 +583,14 @@ void CPackagesLoaderComp::SavePackageToCache(const QFileInfo& fileInfo, const ic
 		cacheDir = *m_cacheDirAttrPtr;
 	}
 
+	// Strategy 2: Cache canonicalFilePath() to avoid redundant syscalls
+	const QString canonicalPath = fileInfo.canonicalFilePath();
+
 	QString cacheFilePath = icomp::CPackageMetaInfoCache::GetCacheFilePath(
-				fileInfo.canonicalFilePath(),
+				canonicalPath,
 				cacheDir);
 
-	if (icomp::CPackageMetaInfoCache::SaveToCache(cacheFilePath, fileInfo.canonicalFilePath(), packageInfo)){
+	if (icomp::CPackageMetaInfoCache::SaveToCache(cacheFilePath, canonicalPath, packageInfo)){
 		SendVerboseMessage(tr("Saved package meta-info to cache: %1").arg(cacheFilePath));
 	}
 	else{
