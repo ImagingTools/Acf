@@ -87,6 +87,7 @@ int main(int argc, char *argv[])
 				checkRealPackages = true;
 			}
 			else if (option == "strong-check"){
+				std::cout << "Strong check active" << std::endl;
 				strongCheck = true;
 			}
 			else if (index < argc - 1){
