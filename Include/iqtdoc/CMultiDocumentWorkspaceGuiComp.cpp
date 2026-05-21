@@ -738,6 +738,29 @@ bool CMultiDocumentWorkspaceGuiComp::DocumentSelectionInfo::Serialize(iser::IArc
 }
 
 
+// reimplemented (TQtDocumentManagerWrap)
+
+QString CMultiDocumentWorkspaceGuiComp::GetLastDirectory() const
+{
+	if (m_lastDirectoryParamCompPtr.IsValid()){
+		return m_lastDirectoryParamCompPtr->GetPath();
+	}
+
+	return BaseClass::GetLastDirectory();
+}
+
+
+void CMultiDocumentWorkspaceGuiComp::SetLastDirectory(const QString& dirPath) const
+{
+	if (m_lastDirectoryParamCompPtr.IsValid()){
+		m_lastDirectoryParamCompPtr->SetPath(dirPath);
+	}
+	else{
+		BaseClass::SetLastDirectory(dirPath);
+	}
+}
+
+
 } // namespace iqtdoc
 
 
