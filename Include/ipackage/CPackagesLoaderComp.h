@@ -56,7 +56,7 @@ public:
 		I_ASSIGN(m_registryLoaderCompPtr, "RegistryLoader", "Loader used to read registry", true, "RegistryLoader");
 		I_ASSIGN(m_configFilePathCompPtr, "ConfigFilePath", "Path of packages configuration file will be loaded, if enabled", false, "ConfigFilePath");
 		I_ASSIGN(m_cacheEnabledAttrPtr, "CacheEnabled", "Enable package meta-info caching to avoid loading DLLs for meta-info extraction", true, true);
-		I_ASSIGN(m_cacheDirAttrPtr, "CacheDir", "Directory for cache files, if empty cache files are stored next to the packages", false, "");
+		I_ASSIGN(m_cacheDirAttrPtr, "CacheDir", "Directory for cache files, if empty cache files are stored in .acf.cache subdirectory next to the packages", false, "");
 	I_END_COMPONENT;
 
 	// reimplemented (icomp::IRegistryLoader)
