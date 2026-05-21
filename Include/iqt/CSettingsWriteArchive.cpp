@@ -24,6 +24,17 @@ CSettingsWriteArchive::CSettingsWriteArchive(
 	SerializeAcfHeader();
 }
 
+ 
+CSettingsWriteArchive::CSettingsWriteArchive(
+			const QSettings& settings,
+			const QString& rootKey,
+			const iser::IVersionInfo* versionInfoPtr)
+:	BaseClass(versionInfoPtr),
+	BaseClass2(settings, rootKey)
+{
+	SerializeAcfHeader();
+}
+
 
 // reimplemented (iser::IArchive)
 
@@ -86,5 +97,4 @@ bool CSettingsWriteArchive::WriteTextNode(const QByteArray& text)
 
 
 } // namespace iqt
-
 

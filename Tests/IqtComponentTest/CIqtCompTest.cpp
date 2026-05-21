@@ -8,6 +8,8 @@
 // ACF includes
 #include <iprm/ISelectionParam.h>
 #include <iprm/IOptionsList.h>
+#include <iqt/CSettingsReadArchive.h>
+#include <iqt/CSettingsWriteArchive.h>
 
 
 // protected slots
@@ -73,6 +75,33 @@ void CIqtCompTest::testApplicationSettingsProviderReadWrite()
 }
 
 
+void CIqtCompTest::testApplicationSettingsProviderWithSettingsArchive()
+{
+	QSettings& settings = m_applicationSettingsProviderPtr->GetSettings();
+	const QString rootKey = "IqtComponentTest/ApplicationSettingsProviderWithSettingsArchive";
+	const QString expectedValue = "ArchiveValue";
+
+	settings.remove(rootKey);
+	settings.sync();
+
+	{
+		iqt::CSettingsWriteArchive archive(settings, rootKey);
+		QString value = expectedValue;
+		QVERIFY(archive.Process(value));
+	}
+
+	{
+		iqt::CSettingsReadArchive archive(settings, rootKey);
+		QString value;
+		QVERIFY(archive.Process(value));
+		QCOMPARE(value, expectedValue);
+	}
+
+	settings.remove(rootKey);
+	settings.sync();
+}
+
+
 // Tests for CIniSettingsProviderComp
 
 void CIqtCompTest::testIniSettingsProviderCreation()
@@ -111,6 +140,33 @@ void CIqtCompTest::testIniSettingsProviderReadWrite()
 	
 	// Clean up
 	settings.remove("IniTestKey");
+	settings.sync();
+}
+
+
+void CIqtCompTest::testIniSettingsProviderWithSettingsArchive()
+{
+	QSettings& settings = m_iniSettingsProviderPtr->GetSettings();
+	const QString rootKey = "IqtComponentTest/IniSettingsProviderWithSettingsArchive";
+	const QString expectedValue = "ArchiveIniValue";
+
+	settings.remove(rootKey);
+	settings.sync();
+
+	{
+		iqt::CSettingsWriteArchive archive(settings, rootKey);
+		QString value = expectedValue;
+		QVERIFY(archive.Process(value));
+	}
+
+	{
+		iqt::CSettingsReadArchive archive(settings, rootKey);
+		QString value;
+		QVERIFY(archive.Process(value));
+		QCOMPARE(value, expectedValue);
+	}
+
+	settings.remove(rootKey);
 	settings.sync();
 }
 

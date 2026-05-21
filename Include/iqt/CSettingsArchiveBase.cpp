@@ -23,6 +23,16 @@ CSettingsArchiveBase::CSettingsArchiveBase(
 {
 }
 
+ 
+CSettingsArchiveBase::CSettingsArchiveBase(
+			const QSettings& settings,
+			const QString& rootKey)
+	:BaseClass(settings.fileName(), settings.format()),
+	m_rootKey(rootKey),
+	m_valuesCount(0)
+{
+}
+
 
 // protected methods
 
@@ -96,5 +106,3 @@ QString CSettingsArchiveBase::GetBaseKey() const
 
 
 } // namespace iqt
-
-
