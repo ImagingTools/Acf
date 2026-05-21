@@ -304,7 +304,7 @@ ifile::IFileNameParam* CSingleDocumentWorkspaceGuiComp::GetLastDirectoryParam() 
 		return m_lastDirectoryParamCompPtr.GetPtr();
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 

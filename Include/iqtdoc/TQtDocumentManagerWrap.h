@@ -56,7 +56,7 @@ protected:
 	/**
 		Override in descendant components to provide an optional ifile::IFileNameParam
 		for persistent storage of the last used directory.
-		\return pointer to the IFileNameParam or NULL if not available.
+		\return pointer to the IFileNameParam or nullptr if not available.
 	*/
 	virtual ifile::IFileNameParam* GetLastDirectoryParam() const;
 
@@ -72,7 +72,7 @@ private:
 template <class Base, class Gui>
 void TQtDocumentManagerWrap<Base, Gui>::OnRestoreSettings(const QSettings& settings)
 {
-	if (GetLastDirectoryParam() != NULL){
+	if (GetLastDirectoryParam() != nullptr){
 		return;
 	}
 
@@ -89,7 +89,7 @@ void TQtDocumentManagerWrap<Base, Gui>::OnRestoreSettings(const QSettings& setti
 template <class Base, class Gui>
 void TQtDocumentManagerWrap<Base, Gui>::OnSaveSettings(QSettings& settings) const
 {
-	if (GetLastDirectoryParam() != NULL){
+	if (GetLastDirectoryParam() != nullptr){
 		return;
 	}
 
@@ -170,7 +170,7 @@ void TQtDocumentManagerWrap<Base, Gui>::UpdateLastDirectory(const QString& fileP
 	QString dirPath = fileInfo.dir().absolutePath();
 
 	ifile::IFileNameParam* lastDirParamPtr = GetLastDirectoryParam();
-	if (lastDirParamPtr != NULL){
+	if (lastDirParamPtr != nullptr){
 		lastDirParamPtr->SetPath(dirPath);
 	}
 	else{
@@ -199,7 +199,7 @@ template <class Base, class Gui>
 QString TQtDocumentManagerWrap<Base, Gui>::GetLastDirectory() const
 {
 	ifile::IFileNameParam* lastDirParamPtr = GetLastDirectoryParam();
-	if (lastDirParamPtr != NULL){
+	if (lastDirParamPtr != nullptr){
 		return lastDirParamPtr->GetPath();
 	}
 
@@ -210,7 +210,7 @@ QString TQtDocumentManagerWrap<Base, Gui>::GetLastDirectory() const
 template <class Base, class Gui>
 ifile::IFileNameParam* TQtDocumentManagerWrap<Base, Gui>::GetLastDirectoryParam() const
 {
-	return NULL;
+	return nullptr;
 }
 
 

@@ -746,7 +746,7 @@ ifile::IFileNameParam* CMultiDocumentWorkspaceGuiComp::GetLastDirectoryParam() c
 		return m_lastDirectoryParamCompPtr.GetPtr();
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
