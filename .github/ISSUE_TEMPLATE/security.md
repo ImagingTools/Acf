@@ -1,13 +1,13 @@
 ---
-name: Security Vulnerability Report
-about: Report a security vulnerability (DO NOT use this for public reports)
-title: '[SECURITY] '
+name: Security Policy Question (Public)
+about: Ask a public security-related question (NOT for vulnerability reports)
+title: '[SECURITY QUESTION] '
 labels: 'security'
 assignees: ''
 
 ---
 
-⚠️ **WARNING: Do not use this template for actual security vulnerabilities!** ⚠️
+⚠️ **WARNING: This form is public and must not be used for actual security vulnerabilities.** ⚠️
 
 For security vulnerabilities, please use one of these private reporting methods:
 
@@ -24,7 +24,7 @@ See our [Security Policy](../SECURITY.md) for complete instructions.
 
 ---
 
-**This template is for security-related questions or discussions ONLY, not vulnerability reports.**
+**This template is for public security-related questions/discussions ONLY, not vulnerability reports.**
 
 If you're here for a different reason:
 
