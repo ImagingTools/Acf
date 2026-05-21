@@ -32,6 +32,8 @@ CPackageStaticInfo::CPackageStaticInfo(
 void CPackageStaticInfo::Reset()
 {
 	m_embeddedComponentInfos.clear();
+	qDeleteAll(m_ownedComponentInfos);
+	m_ownedComponentInfos.clear();
 }
 
 
@@ -54,6 +56,13 @@ bool CPackageStaticInfo::SerializeMeta(iser::IArchive& archive)
 void CPackageStaticInfo::RegisterEmbeddedComponentInfo(const QByteArray& embeddedId, const IComponentStaticInfo* componentInfoPtr)
 {
 	m_embeddedComponentInfos[embeddedId] = componentInfoPtr;
+}
+
+
+void CPackageStaticInfo::RegisterCachedComponentInfo(const QByteArray& embeddedId, IComponentStaticInfo* componentInfoPtr)
+{
+	m_embeddedComponentInfos[embeddedId] = componentInfoPtr;
+	m_ownedComponentInfos.append(componentInfoPtr);
 }
 
 
