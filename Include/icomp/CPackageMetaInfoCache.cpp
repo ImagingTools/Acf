@@ -243,37 +243,29 @@ QJsonObject CPackageMetaInfoCache::SerializeAttribute(const IAttributeStaticInfo
 		// Get all related IDs regardless of flags (use 0, 0 to match everything)
 		IElementStaticInfo::Ids relatedIds = attributeInfo->GetRelatedMetaIds(metaGroupId, 0, 0);
 		if (!relatedIds.isEmpty()){
+			// Pre-fetch flag-specific ID sets for this meta group
+			IElementStaticInfo::Ids refIds = attributeInfo->GetRelatedMetaIds(metaGroupId, IAttributeStaticInfo::AF_REFERENCE, IAttributeStaticInfo::AF_REFERENCE);
+			IElementStaticInfo::Ids factIds = attributeInfo->GetRelatedMetaIds(metaGroupId, IAttributeStaticInfo::AF_FACTORY, IAttributeStaticInfo::AF_FACTORY);
+			IElementStaticInfo::Ids oblIds = attributeInfo->GetRelatedMetaIds(metaGroupId, iattr::IAttributeMetaInfo::AF_OBLIGATORY, iattr::IAttributeMetaInfo::AF_OBLIGATORY);
+			IElementStaticInfo::Ids nullIds = attributeInfo->GetRelatedMetaIds(metaGroupId, iattr::IAttributeMetaInfo::AF_NULLABLE, iattr::IAttributeMetaInfo::AF_NULLABLE);
+
 			QJsonObject groupObj;
 			for (		IElementStaticInfo::Ids::const_iterator it = relatedIds.constBegin();
 						it != relatedIds.constEnd();
 						++it){
-				// Try to determine flags for this specific ID
 				int idFlags = 0;
 
-				// Test common flag combinations to reconstruct the flags
-				if (!attributeInfo->GetRelatedMetaIds(metaGroupId, IAttributeStaticInfo::AF_REFERENCE, IAttributeStaticInfo::AF_REFERENCE).isEmpty()){
-					IElementStaticInfo::Ids refIds = attributeInfo->GetRelatedMetaIds(metaGroupId, IAttributeStaticInfo::AF_REFERENCE, IAttributeStaticInfo::AF_REFERENCE);
-					if (refIds.contains(*it)){
-						idFlags |= IAttributeStaticInfo::AF_REFERENCE;
-					}
+				if (refIds.contains(*it)){
+					idFlags |= IAttributeStaticInfo::AF_REFERENCE;
 				}
-				if (!attributeInfo->GetRelatedMetaIds(metaGroupId, IAttributeStaticInfo::AF_FACTORY, IAttributeStaticInfo::AF_FACTORY).isEmpty()){
-					IElementStaticInfo::Ids factIds = attributeInfo->GetRelatedMetaIds(metaGroupId, IAttributeStaticInfo::AF_FACTORY, IAttributeStaticInfo::AF_FACTORY);
-					if (factIds.contains(*it)){
-						idFlags |= IAttributeStaticInfo::AF_FACTORY;
-					}
+				if (factIds.contains(*it)){
+					idFlags |= IAttributeStaticInfo::AF_FACTORY;
 				}
-				if (!attributeInfo->GetRelatedMetaIds(metaGroupId, iattr::IAttributeMetaInfo::AF_OBLIGATORY, iattr::IAttributeMetaInfo::AF_OBLIGATORY).isEmpty()){
-					IElementStaticInfo::Ids oblIds = attributeInfo->GetRelatedMetaIds(metaGroupId, iattr::IAttributeMetaInfo::AF_OBLIGATORY, iattr::IAttributeMetaInfo::AF_OBLIGATORY);
-					if (oblIds.contains(*it)){
-						idFlags |= iattr::IAttributeMetaInfo::AF_OBLIGATORY;
-					}
+				if (oblIds.contains(*it)){
+					idFlags |= iattr::IAttributeMetaInfo::AF_OBLIGATORY;
 				}
-				if (!attributeInfo->GetRelatedMetaIds(metaGroupId, iattr::IAttributeMetaInfo::AF_NULLABLE, iattr::IAttributeMetaInfo::AF_NULLABLE).isEmpty()){
-					IElementStaticInfo::Ids nullIds = attributeInfo->GetRelatedMetaIds(metaGroupId, iattr::IAttributeMetaInfo::AF_NULLABLE, iattr::IAttributeMetaInfo::AF_NULLABLE);
-					if (nullIds.contains(*it)){
-						idFlags |= iattr::IAttributeMetaInfo::AF_NULLABLE;
-					}
+				if (nullIds.contains(*it)){
+					idFlags |= iattr::IAttributeMetaInfo::AF_NULLABLE;
 				}
 
 				groupObj[QString::fromUtf8(*it)] = idFlags;
