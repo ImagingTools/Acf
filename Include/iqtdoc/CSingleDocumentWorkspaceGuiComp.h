@@ -106,6 +106,7 @@ public:
 		I_ASSIGN(m_defaultDocumentTitleAttrPtr, "DefaultDocumentTitle", "Name of the untitled document", true, "<no name>");
 		I_ASSIGN(m_documentTemplateCompPtr, "DocumentTemplate", "Document template", true, "DocumentTemplate");
 		I_ASSIGN(m_rememberOpenDocumentParamPtr, "RememberOpenDocumentOnExit", "If enabled, restores open document from previous session", false, "RememberOpenDocumentOnExit");
+		I_ASSIGN(m_lastDirectoryParamCompPtr, "LastDirectoryParam", "Optional parameter for persistent storage of the last used directory", false, "LastDirectoryParam");
 	I_END_COMPONENT;
 
 	enum GroupId
@@ -155,10 +156,14 @@ protected:
 	// reimplemented (TRestorableGuiWrap)
 	virtual void OnRestoreSettings(const QSettings& settings) override;
 
+	// reimplemented (TQtDocumentManagerWrap)
+	virtual ifile::IFileNameParam* GetLastDirectoryParam() const override;
+
 protected:
 	I_TEXTATTR(m_defaultDocumentTitleAttrPtr);
 	I_REF(idoc::IDocumentTemplate, m_documentTemplateCompPtr);
 	I_REF(iprm::IEnableableParam, m_rememberOpenDocumentParamPtr);
+	I_REF(ifile::IFileNameParam, m_lastDirectoryParamCompPtr);
 
 	iqtgui::IGuiObject* m_lastViewPtr;
 

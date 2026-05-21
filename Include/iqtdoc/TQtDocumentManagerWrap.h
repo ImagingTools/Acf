@@ -30,10 +30,6 @@ public:
 	typedef Base BaseClass;
 	typedef typename BaseClass::Ids Ids;
 
-	I_BEGIN_BASE_COMPONENT(TQtDocumentManagerWrap);
-		I_ASSIGN(m_lastDirectoryParamCompPtr, "LastDirectoryParam", "Optional parameter for persistent storage of the last used directory", false, "LastDirectoryParam");
-	I_END_COMPONENT;
-
 	// pseudo-reimplemented (iqtgui::TRestorableGuiWrap)
 	virtual void OnRestoreSettings(const QSettings& settings) override;
 	virtual void OnSaveSettings(QSettings& settings) const override;
@@ -53,11 +49,16 @@ protected:
 
 	/**
 		Get the last used directory path.
-		If the IFileNameParam reference is valid, returns its path; otherwise returns the internally stored path.
+		If GetLastDirectoryParam() returns a valid pointer, returns its path; otherwise returns the internally stored path.
 	*/
 	QString GetLastDirectory() const;
 
-	I_REF(ifile::IFileNameParam, m_lastDirectoryParamCompPtr);
+	/**
+		Override in descendant components to provide an optional ifile::IFileNameParam
+		for persistent storage of the last used directory.
+		\return pointer to the IFileNameParam or NULL if not available.
+	*/
+	virtual ifile::IFileNameParam* GetLastDirectoryParam() const;
 
 private:
 	mutable QString m_lastDirectory;
@@ -71,7 +72,7 @@ private:
 template <class Base, class Gui>
 void TQtDocumentManagerWrap<Base, Gui>::OnRestoreSettings(const QSettings& settings)
 {
-	if (m_lastDirectoryParamCompPtr.IsValid()){
+	if (GetLastDirectoryParam() != NULL){
 		return;
 	}
 
@@ -88,7 +89,7 @@ void TQtDocumentManagerWrap<Base, Gui>::OnRestoreSettings(const QSettings& setti
 template <class Base, class Gui>
 void TQtDocumentManagerWrap<Base, Gui>::OnSaveSettings(QSettings& settings) const
 {
-	if (m_lastDirectoryParamCompPtr.IsValid()){
+	if (GetLastDirectoryParam() != NULL){
 		return;
 	}
 
@@ -168,8 +169,9 @@ void TQtDocumentManagerWrap<Base, Gui>::UpdateLastDirectory(const QString& fileP
 
 	QString dirPath = fileInfo.dir().absolutePath();
 
-	if (m_lastDirectoryParamCompPtr.IsValid()){
-		m_lastDirectoryParamCompPtr->SetPath(dirPath);
+	ifile::IFileNameParam* lastDirParamPtr = GetLastDirectoryParam();
+	if (lastDirParamPtr != NULL){
+		lastDirParamPtr->SetPath(dirPath);
 	}
 	else{
 		m_lastDirectory = dirPath;
@@ -196,11 +198,19 @@ QStringList TQtDocumentManagerWrap<Base, Gui>::GetOpenFilePathesFromDialog(const
 template <class Base, class Gui>
 QString TQtDocumentManagerWrap<Base, Gui>::GetLastDirectory() const
 {
-	if (m_lastDirectoryParamCompPtr.IsValid()){
-		return m_lastDirectoryParamCompPtr->GetPath();
+	ifile::IFileNameParam* lastDirParamPtr = GetLastDirectoryParam();
+	if (lastDirParamPtr != NULL){
+		return lastDirParamPtr->GetPath();
 	}
 
 	return m_lastDirectory;
+}
+
+
+template <class Base, class Gui>
+ifile::IFileNameParam* TQtDocumentManagerWrap<Base, Gui>::GetLastDirectoryParam() const
+{
+	return NULL;
 }
 
 

@@ -169,6 +169,7 @@ public:
 		I_ASSIGN(m_rememberOpenDocumentsParamPtr, "RememberOpenDocumentsOnExit", "If enabled, restores open documents from previous session", false, "RememberOpenDocumentsOnExit");
 		I_ASSIGN(m_workspaceBackgroundColorAttrPtr, "WorkspaceBackgroundColor", "Background color of the MDI workspace", false, "");
 		I_ASSIGN(m_defaultCreatedDocumentTypeIdAttrPtr, "DefaultCreatedDocumentTypeId", "Type-ID of the document that should be created if the workspace is empty", false, "");
+		I_ASSIGN(m_lastDirectoryParamCompPtr, "LastDirectoryParam", "Optional parameter for persistent storage of the last used directory", false, "LastDirectoryParam");
 	I_END_COMPONENT;
 
 	enum GroupId
@@ -237,6 +238,9 @@ protected:
 	// reimplemented (TRestorableGuiWrap)
 	virtual void OnRestoreSettings(const QSettings& settings) override;
 	virtual void OnSaveSettings(QSettings& settings) const override;
+
+	// reimplemented (TQtDocumentManagerWrap)
+	virtual ifile::IFileNameParam* GetLastDirectoryParam() const override;
 
 	// reimplemented (idoc::CMultiDocumentManagerBase)
 	virtual void CloseAllDocuments() override;
@@ -321,6 +325,7 @@ private:
 
 	I_REF(idoc::IDocumentTemplate, m_documentTemplateCompPtr);
 	I_REF(iprm::IEnableableParam, m_rememberOpenDocumentsParamPtr);
+	I_REF(ifile::IFileNameParam, m_lastDirectoryParamCompPtr);
 	I_ATTR(bool, m_showMaximizedAttrPtr);
 	I_ATTR(bool, m_showPathAsTipAttrPtr);
 	I_ATTR(bool, m_allowViewRepeatingAttrPtr);

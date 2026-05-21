@@ -296,6 +296,18 @@ void CSingleDocumentWorkspaceGuiComp::OnRestoreSettings(const QSettings& setting
 }
 
 
+// reimplemented (TQtDocumentManagerWrap)
+
+ifile::IFileNameParam* CSingleDocumentWorkspaceGuiComp::GetLastDirectoryParam() const
+{
+	if (m_lastDirectoryParamCompPtr.IsValid()){
+		return m_lastDirectoryParamCompPtr.GetPtr();
+	}
+
+	return NULL;
+}
+
+
 } // namespace iqtdoc
 
 
