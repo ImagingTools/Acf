@@ -23,6 +23,15 @@ CSettingsReadArchive::CSettingsReadArchive(
 	SerializeAcfHeader();
 }
 
+ 
+CSettingsReadArchive::CSettingsReadArchive(
+			const QSettings& settings,
+			const QString& rootKey)
+:	BaseClass2(settings, rootKey)
+{
+	SerializeAcfHeader();
+}
+
 
 // reimplemented (iser::IArchive)
 
@@ -102,4 +111,3 @@ bool CSettingsReadArchive::ReadTextNode(QByteArray& text)
 
 
 } // namespace iqt
-

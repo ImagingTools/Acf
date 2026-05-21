@@ -23,11 +23,13 @@ private slots:
 	void testApplicationSettingsProviderCreation();
 	void testApplicationSettingsProviderGetSettings();
 	void testApplicationSettingsProviderReadWrite();
+	void testApplicationSettingsProviderWithSettingsArchive();
 
 	// Tests for CIniSettingsProviderComp
 	void testIniSettingsProviderCreation();
 	void testIniSettingsProviderGetSettings();
 	void testIniSettingsProviderReadWrite();
+	void testIniSettingsProviderWithSettingsArchive();
 
 	// Tests for CClipboardSerializerComp
 	void testClipboardSerializerCreation();

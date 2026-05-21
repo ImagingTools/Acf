@@ -35,6 +35,16 @@ public:
 				const QString& rootKey,
 				QSettings::Scope settingsScope = QSettings::UserScope);
 
+	/**
+		Constructor.
+		
+		\param	settings	Reference to existing Qt settings instance.
+		\param	rootKey		The root key.
+	*/
+	CSettingsReadArchive(
+				const QSettings& settings,
+				const QString& rootKey);
+
 	// reimplemented (iser::IArchive)
 	using BaseClass::Process;
 
@@ -52,7 +62,6 @@ protected:
 
 
 } // namespace iqt
-
 
 
 
