@@ -55,6 +55,8 @@ public:
 		I_REGISTER_INTERFACE(icomp::IMetaInfoManager);
 		I_ASSIGN(m_registryLoaderCompPtr, "RegistryLoader", "Loader used to read registry", true, "RegistryLoader");
 		I_ASSIGN(m_configFilePathCompPtr, "ConfigFilePath", "Path of packages configuration file will be loaded, if enabled", false, "ConfigFilePath");
+		I_ASSIGN(m_cacheEnabledAttrPtr, "CacheEnabled", "Enable package meta-info caching to avoid loading DLLs for meta-info extraction", true, true);
+		I_ASSIGN(m_cacheDirAttrPtr, "CacheDir", "Directory for cache files, if empty cache files are stored next to the packages", false, "");
 	I_END_COMPONENT;
 
 	// reimplemented (icomp::IRegistryLoader)
@@ -108,6 +110,17 @@ protected:
 	*/
 	bool CheckAndMarkPath(const QDir& directory, const QString& path, QString& resultPath) const;
 
+	/**
+		Try to load package meta-info from cache.
+		\return true if cache was valid and meta-info was loaded successfully.
+	*/
+	bool TryLoadFromCache(const QFileInfo& fileInfo, const QByteArray& packageId);
+
+	/**
+		Save package meta-info to cache file.
+	*/
+	void SavePackageToCache(const QFileInfo& fileInfo, const icomp::CPackageStaticInfo* packageInfo);
+
 private:
 	typedef QMap<QString, icomp::GetPackageInfoFunc> LibraryToInfoFuncMap;
 	LibraryToInfoFuncMap m_libraryToInfoFuncMap;
@@ -150,6 +163,15 @@ private:
 
 	I_REF(ifile::IFilePersistence, m_registryLoaderCompPtr);
 	I_REF(ifile::IFileNameParam, m_configFilePathCompPtr);
+
+	I_ATTR(bool, m_cacheEnabledAttrPtr);
+	I_ATTR(QString, m_cacheDirAttrPtr);
+
+	/**
+		Owned package static info objects created from cache.
+	*/
+	typedef QList<icomp::CPackageStaticInfo*> OwnedPackageInfos;
+	OwnedPackageInfos m_ownedPackageInfos;
 };
 
 
