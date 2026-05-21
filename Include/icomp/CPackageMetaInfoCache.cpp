@@ -127,6 +127,15 @@ bool CPackageMetaInfoCache::SaveToCache(const QString& cacheFilePath, const QStr
 
 	QFileInfo packageFileInfo(packageFilePath);
 
+	// Ensure cache directory exists
+	QFileInfo cacheFileInfo(cacheFilePath);
+	QDir cacheDir = cacheFileInfo.absoluteDir();
+	if (!cacheDir.exists()){
+		if (!cacheDir.mkpath(".")){
+			return false;
+		}
+	}
+
 	// Write atomically using QSaveFile
 	QSaveFile saveFile(cacheFilePath);
 	if (!saveFile.open(QIODevice::WriteOnly)){
@@ -184,7 +193,7 @@ QString CPackageMetaInfoCache::GetCacheFilePath(const QString& packageFilePath, 
 	QString cacheFileName = fileInfo.fileName() + ".cache.bin";
 
 	if (cacheDir.isEmpty()){
-		return fileInfo.absolutePath() + QDir::separator() + cacheFileName;
+		return fileInfo.absolutePath() + QDir::separator() + ".acf.cache" + QDir::separator() + cacheFileName;
 	}
 	else{
 		return cacheDir + QDir::separator() + cacheFileName;

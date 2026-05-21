@@ -54,7 +54,8 @@ public:
 
 	/**
 		Compute the cache file path for a given package file.
-		If cacheDir is empty, the cache file is placed next to the package file.
+		If cacheDir is empty, the cache file is placed in a .acf.cache
+		subdirectory next to the package file.
 	*/
 	static QString GetCacheFilePath(const QString& packageFilePath, const QString& cacheDir = QString());
 
