@@ -12,6 +12,7 @@
 
 // ACF includes
 #include <idoc/IDocumentManager.h>
+#include <ifile/IFileNameParam.h>
 #include <ifilegui/CFileDialogLoaderComp.h>
 
 
@@ -28,6 +29,10 @@ class TQtDocumentManagerWrap: public Base, public Gui
 public:
 	typedef Base BaseClass;
 	typedef typename BaseClass::Ids Ids;
+
+	I_BEGIN_BASE_COMPONENT(TQtDocumentManagerWrap);
+		I_ASSIGN(m_lastDirectoryParamCompPtr, "LastDirectoryParam", "Optional parameter for persistent storage of the last used directory", false, "LastDirectoryParam");
+	I_END_COMPONENT;
 
 	// pseudo-reimplemented (iqtgui::TRestorableGuiWrap)
 	virtual void OnRestoreSettings(const QSettings& settings) override;
@@ -46,6 +51,14 @@ protected:
 	void UpdateLastDirectory(const QString& filePath) const;
 	virtual QStringList GetOpenFilePathesFromDialog(const QByteArray* documentTypeIdPtr) const;
 
+	/**
+		Get the last used directory path.
+		If the IFileNameParam reference is valid, returns its path; otherwise returns the internally stored path.
+	*/
+	QString GetLastDirectory() const;
+
+	I_REF(ifile::IFileNameParam, m_lastDirectoryParamCompPtr);
+
 private:
 	mutable QString m_lastDirectory;
 };
@@ -58,6 +71,10 @@ private:
 template <class Base, class Gui>
 void TQtDocumentManagerWrap<Base, Gui>::OnRestoreSettings(const QSettings& settings)
 {
+	if (m_lastDirectoryParamCompPtr.IsValid()){
+		return;
+	}
+
 	QVariant valueNotSet = QVariant(-1);
 
 	QVariant lastDirectory = settings.value("Workspace/LastOpenDocumentDirectory", valueNotSet);
@@ -71,6 +88,10 @@ void TQtDocumentManagerWrap<Base, Gui>::OnRestoreSettings(const QSettings& setti
 template <class Base, class Gui>
 void TQtDocumentManagerWrap<Base, Gui>::OnSaveSettings(QSettings& settings) const
 {
+	if (m_lastDirectoryParamCompPtr.IsValid()){
+		return;
+	}
+
 	settings.setValue("Workspace/LastOpenDocumentDirectory", m_lastDirectory);
 }
 
@@ -93,7 +114,7 @@ QString TQtDocumentManagerWrap<Base, Gui>::GetSaveFilePath(const QByteArray& doc
 	QString filePath = QFileDialog::getSaveFileName(
 				Gui::GetWidget(),
 				Gui::tr("Save..."),
-				currentFilePath.isEmpty()? m_lastDirectory: currentFilePath, filters.join(";;"),
+				currentFilePath.isEmpty()? GetLastDirectory(): currentFilePath, filters.join(";;"),
 				&defaultFilter);
 
 	if (!filePath.isEmpty()){
@@ -145,7 +166,14 @@ void TQtDocumentManagerWrap<Base, Gui>::UpdateLastDirectory(const QString& fileP
 {
 	QFileInfo fileInfo(filePath);
 
-	m_lastDirectory = fileInfo.dir().absolutePath();
+	QString dirPath = fileInfo.dir().absolutePath();
+
+	if (m_lastDirectoryParamCompPtr.IsValid()){
+		m_lastDirectoryParamCompPtr->SetPath(dirPath);
+	}
+	else{
+		m_lastDirectory = dirPath;
+	}
 }
 
 
@@ -154,7 +182,7 @@ QStringList TQtDocumentManagerWrap<Base, Gui>::GetOpenFilePathesFromDialog(const
 {
 	QStringList filters = CreateFileDialogFilters(documentTypeIdPtr, NULL, ifile::IFilePersistence::QF_FILE | ifile::IFilePersistence::QF_LOAD);
 
-	QString lastUsedDirectory = m_lastDirectory;
+	QString lastUsedDirectory = GetLastDirectory();
 
 	QFileInfo fileInfo(lastUsedDirectory);
 	if (!fileInfo.exists()){
@@ -162,6 +190,17 @@ QStringList TQtDocumentManagerWrap<Base, Gui>::GetOpenFilePathesFromDialog(const
 	}
 
 	return QFileDialog::getOpenFileNames(Gui::GetWidget(), Gui::tr("Open Files..."), lastUsedDirectory, filters.join(";;"));
+}
+
+
+template <class Base, class Gui>
+QString TQtDocumentManagerWrap<Base, Gui>::GetLastDirectory() const
+{
+	if (m_lastDirectoryParamCompPtr.IsValid()){
+		return m_lastDirectoryParamCompPtr->GetPath();
+	}
+
+	return m_lastDirectory;
 }
 
 
