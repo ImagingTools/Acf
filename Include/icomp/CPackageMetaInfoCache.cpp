@@ -7,6 +7,7 @@
 #include <QtCore/QFile>
 #include <QtCore/QFileInfo>
 #include <QtCore/QDataStream>
+#include <QtCore/QPair>
 #include <QtCore/QSaveFile>
 
 // ACF includes
@@ -146,24 +147,27 @@ bool CPackageMetaInfoCache::SaveToCache(const QString& cacheFilePath, const QStr
 	stream << packageInfo->GetDescription();
 	stream << packageInfo->GetKeywords();
 
-	// Write components
+	// Write components - only count non-NULL entries
 	IElementStaticInfo::Ids componentIds = packageInfo->GetMetaIds(IComponentStaticInfo::MGI_EMBEDDED_COMPONENTS);
-	stream << qint32(componentIds.size());
 
+	// Pre-collect valid components to write accurate count
+	QList<QPair<QByteArray, const IComponentStaticInfo*>> validComponents;
 	for (		IElementStaticInfo::Ids::const_iterator it = componentIds.constBegin();
 				it != componentIds.constEnd();
 				++it){
-		stream << *it;
-
 		const IComponentStaticInfo* componentInfo = packageInfo->GetEmbeddedComponentInfo(*it);
 		if (componentInfo != NULL){
-			SerializeComponent(stream, componentInfo);
+			validComponents.append(qMakePair(*it, componentInfo));
 		}
-		else{
-			// Write empty component placeholder
-			stream << QString() << QString() << qint32(IComponentStaticInfo::CT_REAL);
-			stream << qint32(0) << qint32(0) << qint32(0);
-		}
+	}
+
+	stream << qint32(validComponents.size());
+
+	for (		QList<QPair<QByteArray, const IComponentStaticInfo*>>::const_iterator it = validComponents.constBegin();
+				it != validComponents.constEnd();
+				++it){
+		stream << it->first;
+		SerializeComponent(stream, it->second);
 	}
 
 	if (stream.status() != QDataStream::Ok){
@@ -214,22 +218,25 @@ void CPackageMetaInfoCache::SerializeComponent(QDataStream& stream, const ICompo
 		stream << *it;
 	}
 
-	// Attributes
+	// Attributes - only write non-NULL entries
 	iattr::IAttributesProvider::AttributeIds attributeIds = componentInfo->GetAttributeMetaIds();
-	stream << qint32(attributeIds.size());
+
+	QList<QPair<QByteArray, const IAttributeStaticInfo*>> validAttributes;
 	for (		iattr::IAttributesProvider::AttributeIds::const_iterator it = attributeIds.constBegin();
 				it != attributeIds.constEnd();
 				++it){
-		stream << *it;
-
 		const IAttributeStaticInfo* attrInfo = componentInfo->GetAttributeInfo(*it);
 		if (attrInfo != NULL){
-			SerializeAttribute(stream, attrInfo);
+			validAttributes.append(qMakePair(*it, attrInfo));
 		}
-		else{
-			// Write empty attribute placeholder
-			stream << QString() << QByteArray() << qint32(0) << qint32(0);
-		}
+	}
+
+	stream << qint32(validAttributes.size());
+	for (		QList<QPair<QByteArray, const IAttributeStaticInfo*>>::const_iterator it = validAttributes.constBegin();
+				it != validAttributes.constEnd();
+				++it){
+		stream << it->first;
+		SerializeAttribute(stream, it->second);
 	}
 }
 
