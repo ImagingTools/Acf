@@ -157,7 +157,8 @@ protected:
 	virtual void OnRestoreSettings(const QSettings& settings) override;
 
 	// reimplemented (TQtDocumentManagerWrap)
-	virtual ifile::IFileNameParam* GetLastDirectoryParam() const override;
+	virtual QString GetLastDirectory() const override;
+	virtual void SetLastDirectory(const QString& dirPath) const override;
 
 protected:
 	I_TEXTATTR(m_defaultDocumentTitleAttrPtr);

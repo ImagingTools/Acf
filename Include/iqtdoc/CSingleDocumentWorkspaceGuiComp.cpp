@@ -298,13 +298,24 @@ void CSingleDocumentWorkspaceGuiComp::OnRestoreSettings(const QSettings& setting
 
 // reimplemented (TQtDocumentManagerWrap)
 
-ifile::IFileNameParam* CSingleDocumentWorkspaceGuiComp::GetLastDirectoryParam() const
+QString CSingleDocumentWorkspaceGuiComp::GetLastDirectory() const
 {
 	if (m_lastDirectoryParamCompPtr.IsValid()){
-		return m_lastDirectoryParamCompPtr.GetPtr();
+		return m_lastDirectoryParamCompPtr->GetPath();
 	}
 
-	return nullptr;
+	return BaseClass::GetLastDirectory();
+}
+
+
+void CSingleDocumentWorkspaceGuiComp::SetLastDirectory(const QString& dirPath) const
+{
+	if (m_lastDirectoryParamCompPtr.IsValid()){
+		m_lastDirectoryParamCompPtr->SetPath(dirPath);
+	}
+	else{
+		BaseClass::SetLastDirectory(dirPath);
+	}
 }
 
 

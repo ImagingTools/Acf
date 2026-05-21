@@ -240,7 +240,8 @@ protected:
 	virtual void OnSaveSettings(QSettings& settings) const override;
 
 	// reimplemented (TQtDocumentManagerWrap)
-	virtual ifile::IFileNameParam* GetLastDirectoryParam() const override;
+	virtual QString GetLastDirectory() const override;
+	virtual void SetLastDirectory(const QString& dirPath) const override;
 
 	// reimplemented (idoc::CMultiDocumentManagerBase)
 	virtual void CloseAllDocuments() override;
