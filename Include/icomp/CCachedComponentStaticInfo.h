@@ -18,9 +18,12 @@ namespace icomp
 {
 
 
+class CCachedElementStaticInfo;
+
+
 /**
 	Lightweight implementation of IComponentStaticInfo for cached component meta-info.
-	This class stores component metadata loaded from a JSON cache file,
+	This class stores component metadata loaded from a binary cache file,
 	avoiding the need to load the actual DLL package.
 
 	\note This class does not support component instantiation (CreateComponent)
@@ -42,9 +45,18 @@ public:
 	void AddInterfaceId(const QByteArray& interfaceId);
 
 	/**
-		Add a subelement ID to this cached component's subelement list.
+		Register a cached subelement info with ownership transfer.
+		\param	subelementId		ID of the subelement.
+		\param	subelementInfoPtr	subelement info object. Ownership is transferred.
 	*/
-	void AddSubelementId(const QByteArray& subelementId);
+	void RegisterSubelementInfo(const QByteArray& subelementId, CCachedElementStaticInfo* subelementInfoPtr);
+
+	/**
+		Register a cached embedded component info with ownership transfer.
+		\param	embeddedId			ID of the embedded component.
+		\param	componentInfoPtr	embedded component info object. Ownership is transferred.
+	*/
+	void RegisterEmbeddedComponentInfo(const QByteArray& embeddedId, CCachedComponentStaticInfo* componentInfoPtr);
 
 	/**
 		Register a cached attribute static info.
@@ -55,11 +67,13 @@ public:
 	// reimplemented (icomp::IComponentStaticInfo)
 	virtual int GetComponentType() const override;
 	virtual const IAttributeStaticInfo* GetAttributeInfo(const QByteArray& attributeId) const override;
+	virtual const IComponentStaticInfo* GetEmbeddedComponentInfo(const QByteArray& embeddedId) const override;
 	virtual const QString& GetDescription() const override;
 	virtual const QString& GetKeywords() const override;
 
 	// reimplemented (icomp::IElementStaticInfo)
 	virtual Ids GetMetaIds(int metaGroupId) const override;
+	virtual const IElementStaticInfo* GetSubelementInfo(const QByteArray& subcomponentId) const override;
 
 	// reimplemented (iattr::IAttributesMetaInfoProvider)
 	virtual iattr::IAttributesProvider::AttributeIds GetAttributeMetaIds() const override;
@@ -71,7 +85,12 @@ private:
 	int m_componentType;
 
 	Ids m_interfaceIds;
-	Ids m_subelementIds;
+
+	typedef QMap<QByteArray, istd::TDelPtr<CCachedElementStaticInfo>> SubelementInfos;
+	SubelementInfos m_subelementInfos;
+
+	typedef QMap<QByteArray, istd::TDelPtr<CCachedComponentStaticInfo>> EmbeddedComponentInfos;
+	EmbeddedComponentInfos m_embeddedComponentInfos;
 
 	typedef QMap<QByteArray, istd::TDelPtr<CCachedAttributeStaticInfo>> AttributeInfos;
 	AttributeInfos m_attributeInfos;

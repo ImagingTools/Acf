@@ -2,6 +2,10 @@
 #include <icomp/CCachedComponentStaticInfo.h>
 
 
+// ACF includes
+#include <icomp/CCachedElementStaticInfo.h>
+
+
 namespace icomp
 {
 
@@ -25,9 +29,15 @@ void CCachedComponentStaticInfo::AddInterfaceId(const QByteArray& interfaceId)
 }
 
 
-void CCachedComponentStaticInfo::AddSubelementId(const QByteArray& subelementId)
+void CCachedComponentStaticInfo::RegisterSubelementInfo(const QByteArray& subelementId, CCachedElementStaticInfo* subelementInfoPtr)
 {
-	m_subelementIds.insert(subelementId);
+	m_subelementInfos[subelementId].SetPtr(subelementInfoPtr);
+}
+
+
+void CCachedComponentStaticInfo::RegisterEmbeddedComponentInfo(const QByteArray& embeddedId, CCachedComponentStaticInfo* componentInfoPtr)
+{
+	m_embeddedComponentInfos[embeddedId].SetPtr(componentInfoPtr);
 }
 
 
@@ -56,6 +66,17 @@ const IAttributeStaticInfo* CCachedComponentStaticInfo::GetAttributeInfo(const Q
 }
 
 
+const IComponentStaticInfo* CCachedComponentStaticInfo::GetEmbeddedComponentInfo(const QByteArray& embeddedId) const
+{
+	EmbeddedComponentInfos::ConstIterator foundIter = m_embeddedComponentInfos.constFind(embeddedId);
+	if (foundIter != m_embeddedComponentInfos.constEnd()){
+		return foundIter.value().GetPtr();
+	}
+
+	return NULL;
+}
+
+
 const QString& CCachedComponentStaticInfo::GetDescription() const
 {
 	return m_description;
@@ -76,10 +97,36 @@ IElementStaticInfo::Ids CCachedComponentStaticInfo::GetMetaIds(int metaGroupId) 
 		return m_interfaceIds;
 	}
 	else if (metaGroupId == MGI_SUBELEMENTS){
-		return m_subelementIds;
+		Ids retVal;
+		for (		SubelementInfos::const_iterator iter = m_subelementInfos.begin();
+					iter != m_subelementInfos.end();
+					++iter){
+			retVal.insert(iter.key());
+		}
+		return retVal;
+	}
+	else if (metaGroupId == MGI_EMBEDDED_COMPONENTS){
+		Ids retVal;
+		for (		EmbeddedComponentInfos::const_iterator iter = m_embeddedComponentInfos.begin();
+					iter != m_embeddedComponentInfos.end();
+					++iter){
+			retVal.insert(iter.key());
+		}
+		return retVal;
 	}
 
 	return Ids();
+}
+
+
+const IElementStaticInfo* CCachedComponentStaticInfo::GetSubelementInfo(const QByteArray& subcomponentId) const
+{
+	SubelementInfos::ConstIterator foundIter = m_subelementInfos.constFind(subcomponentId);
+	if (foundIter != m_subelementInfos.constEnd()){
+		return foundIter.value().GetPtr();
+	}
+
+	return NULL;
 }
 
 

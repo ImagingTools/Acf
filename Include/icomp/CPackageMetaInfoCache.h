@@ -19,6 +19,7 @@ namespace icomp
 
 class CCachedComponentStaticInfo;
 class CCachedAttributeStaticInfo;
+class CCachedElementStaticInfo;
 
 
 /**
@@ -62,9 +63,11 @@ public:
 private:
 	static void SerializeComponent(QDataStream& stream, const IComponentStaticInfo* componentInfo);
 	static void SerializeAttribute(QDataStream& stream, const IAttributeStaticInfo* attributeInfo);
+	static void SerializeSubelement(QDataStream& stream, const IElementStaticInfo* subelementInfo);
 
 	static CCachedComponentStaticInfo* DeserializeComponent(QDataStream& stream);
 	static CCachedAttributeStaticInfo* DeserializeAttribute(QDataStream& stream, const QByteArray& attributeId);
+	static CCachedElementStaticInfo* DeserializeSubelement(QDataStream& stream);
 };
 
 
