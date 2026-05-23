@@ -12,6 +12,7 @@
 
 // ACF includes
 #include <icomp/CCachedComponentStaticInfo.h>
+#include <icomp/CCachedElementStaticInfo.h>
 #include <icomp/CCachedAttributeStaticInfo.h>
 #include <icomp/IAttributeStaticInfo.h>
 
@@ -23,7 +24,7 @@ namespace icomp
 // static constants
 
 static const quint32 s_cacheMagic = 0x41434643; // "ACFC"
-static const qint32 s_cacheVersion = 2;
+static const qint32 s_cacheVersion = 3;
 
 
 // public static methods
@@ -218,13 +219,36 @@ void CPackageMetaInfoCache::SerializeComponent(QDataStream& stream, const ICompo
 		stream << *it;
 	}
 
-	// Subelements
+	// Subelements (IDs and their info)
 	IElementStaticInfo::Ids subelementIds = componentInfo->GetMetaIds(IElementStaticInfo::MGI_SUBELEMENTS);
 	stream << qint32(subelementIds.size());
 	for (		IElementStaticInfo::Ids::const_iterator it = subelementIds.constBegin();
 				it != subelementIds.constEnd();
 				++it){
 		stream << *it;
+		const IElementStaticInfo* subelementInfo = componentInfo->GetSubelementInfo(*it);
+		SerializeSubelement(stream, subelementInfo);
+	}
+
+	// Embedded components (IDs and their info)
+	IElementStaticInfo::Ids embeddedIds = componentInfo->GetMetaIds(IComponentStaticInfo::MGI_EMBEDDED_COMPONENTS);
+
+	QList<QPair<QByteArray, const IComponentStaticInfo*>> validEmbedded;
+	for (		IElementStaticInfo::Ids::const_iterator it = embeddedIds.constBegin();
+				it != embeddedIds.constEnd();
+				++it){
+		const IComponentStaticInfo* embeddedInfo = componentInfo->GetEmbeddedComponentInfo(*it);
+		if (embeddedInfo != NULL){
+			validEmbedded.append(qMakePair(*it, embeddedInfo));
+		}
+	}
+
+	stream << qint32(validEmbedded.size());
+	for (		QList<QPair<QByteArray, const IComponentStaticInfo*>>::const_iterator it = validEmbedded.constBegin();
+				it != validEmbedded.constEnd();
+				++it){
+		stream << it->first;
+		SerializeComponent(stream, it->second);
 	}
 
 	// Attributes - only write non-NULL entries
@@ -329,13 +353,40 @@ CCachedComponentStaticInfo* CPackageMetaInfoCache::DeserializeComponent(QDataStr
 		componentInfo->AddInterfaceId(interfaceId);
 	}
 
-	// Subelements
+	// Subelements (IDs and their info)
 	qint32 subelementCount;
 	stream >> subelementCount;
 	for (qint32 i = 0; i < subelementCount; ++i){
 		QByteArray subelementId;
 		stream >> subelementId;
-		componentInfo->AddSubelementId(subelementId);
+
+		CCachedElementStaticInfo* subelementInfo = DeserializeSubelement(stream);
+		if (subelementInfo != NULL && stream.status() == QDataStream::Ok){
+			componentInfo->RegisterSubelementInfo(subelementId, subelementInfo);
+		}
+		else{
+			delete subelementInfo;
+			delete componentInfo;
+			return NULL;
+		}
+	}
+
+	// Embedded components
+	qint32 embeddedCount;
+	stream >> embeddedCount;
+	for (qint32 i = 0; i < embeddedCount; ++i){
+		QByteArray embeddedId;
+		stream >> embeddedId;
+
+		CCachedComponentStaticInfo* embeddedInfo = DeserializeComponent(stream);
+		if (embeddedInfo != NULL && stream.status() == QDataStream::Ok){
+			componentInfo->RegisterEmbeddedComponentInfo(embeddedId, embeddedInfo);
+		}
+		else{
+			delete embeddedInfo;
+			delete componentInfo;
+			return NULL;
+		}
 	}
 
 	// Attributes
@@ -392,6 +443,76 @@ CCachedAttributeStaticInfo* CPackageMetaInfoCache::DeserializeAttribute(QDataStr
 	}
 
 	return attrInfo;
+}
+
+
+void CPackageMetaInfoCache::SerializeSubelement(QDataStream& stream, const IElementStaticInfo* subelementInfo)
+{
+	// Interfaces
+	IElementStaticInfo::Ids interfaceIds;
+	if (subelementInfo != NULL){
+		interfaceIds = subelementInfo->GetMetaIds(IElementStaticInfo::MGI_INTERFACES);
+	}
+	stream << qint32(interfaceIds.size());
+	for (		IElementStaticInfo::Ids::const_iterator it = interfaceIds.constBegin();
+				it != interfaceIds.constEnd();
+				++it){
+		stream << *it;
+	}
+
+	// Nested subelements
+	IElementStaticInfo::Ids nestedSubelementIds;
+	if (subelementInfo != NULL){
+		nestedSubelementIds = subelementInfo->GetMetaIds(IElementStaticInfo::MGI_SUBELEMENTS);
+	}
+	stream << qint32(nestedSubelementIds.size());
+	for (		IElementStaticInfo::Ids::const_iterator it = nestedSubelementIds.constBegin();
+				it != nestedSubelementIds.constEnd();
+				++it){
+		stream << *it;
+		const IElementStaticInfo* nestedInfo = (subelementInfo != NULL) ? subelementInfo->GetSubelementInfo(*it) : NULL;
+		SerializeSubelement(stream, nestedInfo);
+	}
+}
+
+
+CCachedElementStaticInfo* CPackageMetaInfoCache::DeserializeSubelement(QDataStream& stream)
+{
+	CCachedElementStaticInfo* subelementInfo = new CCachedElementStaticInfo();
+
+	// Interfaces
+	qint32 interfaceCount;
+	stream >> interfaceCount;
+	for (qint32 i = 0; i < interfaceCount; ++i){
+		QByteArray interfaceId;
+		stream >> interfaceId;
+		subelementInfo->AddInterfaceId(interfaceId);
+	}
+
+	// Nested subelements
+	qint32 nestedCount;
+	stream >> nestedCount;
+	for (qint32 i = 0; i < nestedCount; ++i){
+		QByteArray nestedId;
+		stream >> nestedId;
+
+		CCachedElementStaticInfo* nestedInfo = DeserializeSubelement(stream);
+		if (nestedInfo != NULL && stream.status() == QDataStream::Ok){
+			subelementInfo->RegisterSubelementInfo(nestedId, nestedInfo);
+		}
+		else{
+			delete nestedInfo;
+			delete subelementInfo;
+			return NULL;
+		}
+	}
+
+	if (stream.status() != QDataStream::Ok){
+		delete subelementInfo;
+		return NULL;
+	}
+
+	return subelementInfo;
 }
 
 
