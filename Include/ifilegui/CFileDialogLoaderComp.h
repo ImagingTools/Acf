@@ -10,6 +10,8 @@
 // ACF includes
 #include <icomp/CComponentBase.h>
 #include <ilog/TLoggerCompWrap.h>
+#include <imod/IModel.h>
+#include <imod/CSingleModelObserverBase.h>
 #include <ifile/IFilePersistence.h>
 #include <ifile/IFilePersistenceInfo.h>
 #include <ifile/IFileNameParam.h>
@@ -45,7 +47,11 @@ public:
 		I_ASSIGN(m_useNativeAttrPtr, "UseNative", "Use native system file dialog", true, true);
 		I_ASSIGN_MULTI_0(m_loadersCompPtr, "Loaders", "List of file serializers will be used as slaves", true);
 		I_ASSIGN(m_statupDirectoryCompPtr, "StartupDirectory", "Initial directory path for the file loader dialog", false, "StartupDirectory");
+		I_ASSIGN_TO(m_statupDirectoryModelCompPtr, m_statupDirectoryCompPtr, false);
+		I_ASSIGN(m_isDirectoryObserverActiveAttrPtr, "IsDirectoryObserverActive", "Enable observing of the startup directory changes", true, false);
 	I_END_COMPONENT;
+
+	CFileDialogLoaderComp();
 
 	// reimplemented (ifile::IFilePersistence)
 	virtual bool IsOperationSupported(
@@ -93,11 +99,31 @@ protected:
 
 	// reimplemented (icomp::CComponentBase)
 	virtual void OnComponentCreated() override;
+	virtual void OnComponentDestroyed() override;
 
 private:
 	I_ATTR(bool, m_useNativeAttrPtr);
 	I_MULTIREF(ifile::IFilePersistence, m_loadersCompPtr);
 	I_REF(ifile::IFileNameParam, m_statupDirectoryCompPtr);
+	I_REF(imod::IModel, m_statupDirectoryModelCompPtr);
+	I_ATTR(bool, m_isDirectoryObserverActiveAttrPtr);
+
+	class StartupDirectoryObserver: public imod::CSingleModelObserverBase
+	{
+	public:
+		typedef imod::CSingleModelObserverBase BaseClass;
+
+		explicit StartupDirectoryObserver(CFileDialogLoaderComp& parent);
+
+	protected:
+		// reimplemented (imod::CSingleModelObserverBase)
+		virtual void OnUpdate(const istd::IChangeable::ChangeSet& changeSet) override;
+
+	private:
+		CFileDialogLoaderComp& m_parent;
+	};
+
+	StartupDirectoryObserver m_startupDirectoryObserver;
 
 	mutable QFileInfo m_lastOpenInfo;
 	mutable QFileInfo m_lastSaveInfo;

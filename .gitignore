@@ -1,5 +1,7 @@
 _codeql_detected_source_root
 # Build artifacts
+Build/CMake/.vs
+Build/CMake/out
 AuxInclude/*
 Bin/*
 Lib/*
@@ -21,6 +23,7 @@ ui_*.h
 qrc_*.cpp
 
 # CMake
+CMakePresets.json
 CMakeUserPresets.json
 
 # IDE
