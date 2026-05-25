@@ -22,6 +22,14 @@ namespace ifilegui
 {
 
 
+// public methods
+
+CFileDialogLoaderComp::CFileDialogLoaderComp()
+	:m_startupDirectoryObserver(*this)
+{
+}
+
+
 // reimplemented (ifile::IFilePersistence)
 
 bool CFileDialogLoaderComp::IsOperationSupported(
@@ -359,6 +367,47 @@ void CFileDialogLoaderComp::OnComponentCreated()
 
 		m_lastOpenInfo.setFile(lastDirectoryPath);
 		m_lastSaveInfo.setFile(lastDirectoryPath);
+	}
+
+	if (*m_isDirectoryObserverActiveAttrPtr){
+		if (m_statupDirectoryModelCompPtr.IsValid()){
+			m_statupDirectoryModelCompPtr->AttachObserver(&m_startupDirectoryObserver);
+		}
+	}
+}
+
+
+void CFileDialogLoaderComp::OnComponentDestroyed()
+{
+	if (m_statupDirectoryModelCompPtr.IsValid() && m_statupDirectoryModelCompPtr->IsAttached(&m_startupDirectoryObserver)){
+		m_statupDirectoryModelCompPtr->DetachObserver(&m_startupDirectoryObserver);
+	}
+
+	BaseClass::OnComponentDestroyed();
+}
+
+
+// embedded class StartupDirectoryObserver
+
+// public methods
+
+CFileDialogLoaderComp::StartupDirectoryObserver::StartupDirectoryObserver(CFileDialogLoaderComp& parent)
+	:m_parent(parent)
+{
+}
+
+
+// protected methods
+
+// reimplemented (imod::CSingleModelObserverBase)
+
+void CFileDialogLoaderComp::StartupDirectoryObserver::OnUpdate(const istd::IChangeable::ChangeSet& /*changeSet*/)
+{
+	if (m_parent.m_statupDirectoryCompPtr.IsValid()){
+		QString lastDirectoryPath = m_parent.m_statupDirectoryCompPtr->GetPath();
+
+		m_parent.m_lastOpenInfo.setFile(lastDirectoryPath);
+		m_parent.m_lastSaveInfo.setFile(lastDirectoryPath);
 	}
 }
 
