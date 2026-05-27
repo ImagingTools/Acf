@@ -32,11 +32,11 @@ void CHtmlHelpViewerComp::ShowHelp(const QString& contextText, const istd::IPoly
 
 		QUrl url = QUrl::fromLocalFile(filePath);
 
-		if (m_helpWidgetPtr == nullptr){
-			m_helpWidgetPtr.reset(new QTextBrowser(NULL));
+		if (!m_helpWidgetPtr.IsValid()){
+			m_helpWidgetPtr.SetPtr(new QTextBrowser(NULL));
 			m_helpWidgetPtr->showMaximized();
 		}
-		Q_ASSERT(m_helpWidgetPtr != nullptr);
+		Q_ASSERT(m_helpWidgetPtr.IsValid());
 
 		m_helpWidgetPtr->setSource(url);
 		m_helpWidgetPtr->setVisible(true);

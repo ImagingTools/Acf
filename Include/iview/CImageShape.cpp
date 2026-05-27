@@ -6,7 +6,7 @@
 #include <QtGui/QPainter>
 
 // ACF includes
-#include <memory>
+#include <istd/TDelPtr.h>
 #include <imod/IModel.h>
 #include <icmm/CVarColor.h>
 #include <icmm/CRgbToHsvTranformation.h>
@@ -68,12 +68,12 @@ bool CImageShape::OnModelAttached(imod::IModel* modelPtr, istd::IChangeable::Cha
 void CImageShape::AfterUpdate(imod::IModel* modelPtr, const istd::IChangeable::ChangeSet& changeSet)
 {
 	const iimg::IQImageProvider* providerPtr = dynamic_cast<const iimg::IQImageProvider*>(modelPtr);
-	std::unique_ptr<iimg::CBitmap> qtBitmapPtr;
+	istd::TDelPtr<iimg::CBitmap> qtBitmapPtr;
 	m_ignoreTransformation = false;
 
 	if (providerPtr == NULL){
-		qtBitmapPtr.reset(new iimg::CBitmap);
-		providerPtr = qtBitmapPtr.get();
+		qtBitmapPtr.SetPtr(new iimg::CBitmap);
+		providerPtr = qtBitmapPtr.GetPtr();
 		iimg::IBitmap* bitmapPtr = dynamic_cast<iimg::IBitmap*>(modelPtr);
 		Q_ASSERT(bitmapPtr != NULL);
 

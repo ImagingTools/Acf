@@ -7,7 +7,7 @@
 #include <QtCore/QSet>
 
 // ACF includes
-#include <memory>
+#include <istd/TDelPtr.h>
 #include <iser/ISerializable.h>
 #include <iser/IObject.h>
 #include <iattr/IAttributesProvider.h>
@@ -31,7 +31,7 @@ class IRegistryElement:
 			virtual public iser::ISerializable
 {
 public:
-	typedef std::unique_ptr<iser::IObject> AttributePtr;
+	typedef istd::TDelPtr<iser::IObject> AttributePtr;
 
 	enum ChangeFlags
 	{

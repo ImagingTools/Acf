@@ -39,7 +39,7 @@ protected:
 private:
 	I_ATTR(QByteArray, m_iniFilePathAttrPtr);
 
-	std::unique_ptr<QSettings> m_settingsPtr;
+	istd::TDelPtr<QSettings> m_settingsPtr;
 };
 
 

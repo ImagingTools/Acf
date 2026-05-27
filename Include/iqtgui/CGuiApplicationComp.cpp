@@ -100,20 +100,20 @@ int CGuiApplicationComp::Execute(int argc, char** argv)
 
 		if (m_mainGuiCompPtr.IsValid()){
 			if (m_frameSpaceSizeAttrPtr.IsValid()){
-				m_mainWidgetPtr.reset(new QWidget());
+				m_mainWidgetPtr.SetPtr(new QWidget());
 
-				QVBoxLayout* frameLayout = new QVBoxLayout(m_mainWidgetPtr.get());
+				QVBoxLayout* frameLayout = new QVBoxLayout(m_mainWidgetPtr.GetPtr());
 
 				int space = *m_frameSpaceSizeAttrPtr;
 				frameLayout->setContentsMargins(space, space, space, space);
 
 				// Create application's main widget:
-				m_mainGuiCompPtr->CreateGui(m_mainWidgetPtr.get());
+				m_mainGuiCompPtr->CreateGui(m_mainWidgetPtr.GetPtr());
 			}
 			else{
 				m_mainGuiCompPtr->CreateGui(NULL);
 
-				m_mainWidgetPtr.reset(m_mainGuiCompPtr->GetWidget());
+				m_mainWidgetPtr.SetPtr(m_mainGuiCompPtr->GetWidget());
 			}
 
 
@@ -131,7 +131,7 @@ int CGuiApplicationComp::Execute(int argc, char** argv)
 		HideSplashScreen();
 
 		if (*m_useTrayIconAttrPtr){
-			m_trayIconPtr.reset(new QSystemTrayIcon);
+			m_trayIconPtr.SetPtr(new QSystemTrayIcon);
 #if QT_VERSION >= 0x050000
 			m_trayIconPtr->setIcon(QGuiApplication::windowIcon());
 #else
@@ -161,7 +161,7 @@ int CGuiApplicationComp::Execute(int argc, char** argv)
 			m_trayIconPtr->setVisible(true);
 		}
 
-		if (m_mainWidgetPtr != nullptr){
+		if (m_mainWidgetPtr.IsValid()){
 			m_defaultWidgetFlags = m_mainWidgetPtr->windowFlags();
 
 			m_mainWidgetPtr->installEventFilter(this);
@@ -182,10 +182,10 @@ int CGuiApplicationComp::Execute(int argc, char** argv)
 			Q_ASSERT(m_mainGuiCompPtr.IsValid());
 			m_mainGuiCompPtr->DestroyGui();
 
-			m_mainWidgetPtr.reset();
+			m_mainWidgetPtr.Reset();
 		}
 		else{
-			if (m_trayIconPtr != nullptr){
+			if (m_trayIconPtr.IsValid()){
 				Q_EMIT OnEventLoopStartedSignal();
 
 				// Start application loop:
@@ -196,14 +196,14 @@ int CGuiApplicationComp::Execute(int argc, char** argv)
 		}
 	}
 
-	if (m_trayIconPtr != nullptr){
+	if (m_trayIconPtr.IsValid()){
 		QMenu* trayMenuPtr = m_trayIconPtr->contextMenu();
 		if (trayMenuPtr != NULL){
 			delete trayMenuPtr;
 		}
 	}
 
-	m_trayIconPtr.reset();
+	m_trayIconPtr.Reset();
 
 	return retVal;
 }
@@ -221,7 +221,7 @@ QString CGuiApplicationComp::GetHelpText() const
 
 void CGuiApplicationComp::OnUpdate(const istd::IChangeable::ChangeSet& /*changeSet*/)
 {
-	if (m_mainWidgetPtr != nullptr){
+	if (m_mainWidgetPtr.IsValid()){
 		m_lastWidgetGeometry = m_mainWidgetPtr->geometry();
 
 		Qt::WindowStates state = m_mainWidgetPtr->windowState();
@@ -268,7 +268,7 @@ bool CGuiApplicationComp::eventFilter(QObject* obj, QEvent* event)
 {
 #if QT_VERSION >= 0x060000
 #if defined(Q_OS_WIN)
-	Q_ASSERT(m_mainWidgetPtr != nullptr);
+	Q_ASSERT(m_mainWidgetPtr.IsValid());
 	if (event->type() == QEvent::WindowStateChange){
 		const Qt::WindowStates windowStates = m_mainWidgetPtr->windowState();
 		if (windowStates.testFlag(Qt::WindowState::WindowFullScreen)){
@@ -292,7 +292,7 @@ bool CGuiApplicationComp::eventFilter(QObject* obj, QEvent* event)
 
 void CGuiApplicationComp::UpdateMainWidgetDecorations()
 {
-	if (m_allowApplicationCloseCompPtr.IsValid() && m_mainWidgetPtr != nullptr){
+	if (m_allowApplicationCloseCompPtr.IsValid() && m_mainWidgetPtr.IsValid()){
 		Qt::WindowFlags windowFlags = m_defaultWidgetFlags;
 
 		if (!m_allowApplicationCloseCompPtr->IsEnabled()){
@@ -308,7 +308,7 @@ void CGuiApplicationComp::UpdateMainWidgetDecorations()
 
 void CGuiApplicationComp::ShowWindow()
 {
-	Q_ASSERT(m_mainWidgetPtr != nullptr);
+	Q_ASSERT(m_mainWidgetPtr.IsValid());
 
 	int uiStartMode = 0;
 	if (m_uiStartModeAttrPtr.IsValid()){
@@ -389,7 +389,7 @@ void CGuiApplicationComp::OnEventLoopStarted()
 
 void CGuiApplicationComp::OnQuit()
 {
-	if (m_mainWidgetPtr != nullptr){
+	if (m_mainWidgetPtr.IsValid()){
 		m_mainWidgetPtr->close();
 	}
 	else{
@@ -413,13 +413,13 @@ bool CGuiApplicationComp::TrayMessages::IsMessageSupported(
 			int /*messageId*/,
 			const istd::IInformationProvider* /*messagePtr*/) const
 {
-	return m_parent.m_trayIconPtr != nullptr;
+	return m_parent.m_trayIconPtr.IsValid();
 }
 
 
 void CGuiApplicationComp::TrayMessages::AddMessage(const MessagePtr& messagePtr)
 {
-	if (m_parent.m_trayIconPtr != nullptr){
+	if (m_parent.m_trayIconPtr.IsValid()){
 		QSystemTrayIcon::MessageIcon severityIcon = QSystemTrayIcon::NoIcon;
 
 		switch (messagePtr->GetInformationCategory()){

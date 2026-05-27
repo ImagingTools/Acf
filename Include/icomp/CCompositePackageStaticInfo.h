@@ -6,7 +6,7 @@
 #include <QtCore/QMap>
 
 // ACF includes
-#include <memory>
+#include <istd/TDelPtr.h>
 
 #include <icomp/CPackageStaticInfo.h>
 #include <icomp/CCompositeComponentStaticInfo.h>
@@ -42,7 +42,7 @@ private:
 	{
 		ComponentInfo():isInitialized(false){}
 
-		std::unique_ptr<icomp::CCompositeComponentStaticInfo> componentInfoPtr;
+		istd::TDelPtr<icomp::CCompositeComponentStaticInfo> componentInfoPtr;
 		bool isInitialized;
 	};
 

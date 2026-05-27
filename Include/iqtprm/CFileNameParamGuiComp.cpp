@@ -305,19 +305,19 @@ void CFileNameParamGuiComp::MakeSelectionHint(const QString& text) const
 
 		QString filePath = text;
 
-		std::unique_ptr<QFileInfo> validFileInfoPtr;
+		istd::TDelPtr<QFileInfo> validFileInfoPtr;
 
 		while(!filePath.isEmpty()){
-			validFileInfoPtr.reset(new QFileInfo(filePath));
+			validFileInfoPtr.SetPtr(new QFileInfo(filePath));
 			if (validFileInfoPtr->exists()){
 				break;
 			}
 
-			validFileInfoPtr.reset();
+			validFileInfoPtr.Reset();
 			filePath = filePath.left(filePath.length() - 1);
 		}
 
-		if (validFileInfoPtr != nullptr){
+		if (validFileInfoPtr.IsValid()){
 			QString directory;
 			if (!validFileInfoPtr->isDir()){
 				directory = validFileInfoPtr->absoluteDir().absolutePath();

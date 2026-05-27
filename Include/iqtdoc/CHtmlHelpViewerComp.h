@@ -13,7 +13,7 @@
 #endif
 
 // ACF includes
-#include <memory>
+#include <istd/TDelPtr.h>
 #include <icomp/CComponentBase.h>
 #include <idoc/IHelpViewer.h>
 #include <idoc/IHelpFileProvider.h>
@@ -45,7 +45,7 @@ public:
 private:
 	I_REF(idoc::IHelpFileProvider, m_helpFileProviderCompPtr);
 
-	std::unique_ptr<QTextBrowser> m_helpWidgetPtr;
+	istd::TDelPtr<QTextBrowser> m_helpWidgetPtr;
 };
 
 

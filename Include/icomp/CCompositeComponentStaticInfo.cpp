@@ -41,7 +41,7 @@ CCompositeComponentStaticInfo::CCompositeComponentStaticInfo(
 			continue;
 		}
 
-		m_embeddedComponentInfos[embeddedComponentId].reset(new icomp::CCompositeComponentStaticInfo(*embeddedRegistryPtr, manager, this));
+		m_embeddedComponentInfos[embeddedComponentId].SetPtr(new icomp::CCompositeComponentStaticInfo(*embeddedRegistryPtr, manager, this));
 	}
 
 	// register exported subcomponents
@@ -73,7 +73,7 @@ CCompositeComponentStaticInfo::CCompositeComponentStaticInfo(
 			//  get embedded component
 			EmbeddedComponentInfos::ConstIterator findEmbeddIter = m_embeddedComponentInfos.constFind(elementInfoPtr->address.GetComponentId());
 			if (findEmbeddIter != m_embeddedComponentInfos.constEnd()){
-				subMetaInfoPtr = findEmbeddIter.value().get();
+				subMetaInfoPtr = findEmbeddIter.value().GetPtr();
 			}
 		}
 
@@ -111,7 +111,7 @@ CCompositeComponentStaticInfo::CCompositeComponentStaticInfo(
 		else{
 			EmbeddedComponentInfos::ConstIterator findEmbeddedIter = m_embeddedComponentInfos.constFind(elementInfoPtr->address.GetComponentId());
 			if (findEmbeddedIter != m_embeddedComponentInfos.constEnd()){
-				subMetaInfoPtr = findEmbeddedIter.value().get();
+				subMetaInfoPtr = findEmbeddedIter.value().GetPtr();
 			}
 		}
 		if (subMetaInfoPtr == NULL){
@@ -131,14 +131,14 @@ CCompositeComponentStaticInfo::CCompositeComponentStaticInfo(
 
 			const IAttributeStaticInfo* attributeInfoPtr = subMetaInfoPtr->GetAttributeInfo(attrId);
 			if (attributeInfoPtr != NULL){
-				if (attrInfoPtr->attributePtr != nullptr){
+				if (attrInfoPtr->attributePtr.IsValid()){
 					// attribute was obligatory, but it was defined -> now it is optional
 					AttrMetaInfoPtr& replaceAttrPtr = m_attrReplacers[attributeInfoPtr];
-					if (replaceAttrPtr == nullptr){
-						replaceAttrPtr.reset(new AttrAsOptionalDelegator(attributeInfoPtr, attrInfoPtr->attributePtr.get()));
+					if (!replaceAttrPtr.IsValid()){
+						replaceAttrPtr.SetPtr(new AttrAsOptionalDelegator(attributeInfoPtr, attrInfoPtr->attributePtr.GetPtr()));
 					}
 
-					RegisterAttributeInfo(attrInfoPtr->exportId, replaceAttrPtr.get());
+					RegisterAttributeInfo(attrInfoPtr->exportId, replaceAttrPtr.GetPtr());
 				}
 				else{
 					RegisterAttributeInfo(attrInfoPtr->exportId, attributeInfoPtr);
@@ -190,7 +190,7 @@ const IComponentStaticInfo* CCompositeComponentStaticInfo::GetEmbeddedComponentI
 {
 	EmbeddedComponentInfos::iterator infoIter = m_embeddedComponentInfos.find(embeddedId);
 	if (infoIter != m_embeddedComponentInfos.end()){
-		return infoIter.value().get();
+		return infoIter.value().GetPtr();
 	}
 
 	return NULL;

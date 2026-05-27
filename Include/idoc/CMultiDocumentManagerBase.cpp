@@ -204,8 +204,8 @@ bool CMultiDocumentManagerBase::InsertNewDocument(
 			bool beQuiet,
 			bool* ignoredPtr)
 {
-	std::unique_ptr<SingleDocumentData> newInfoPtr(CreateUnregisteredDocument(documentTypeId, createView, viewTypeId, true, beQuiet, ignoredPtr));
-	if (newInfoPtr != nullptr && RegisterDocument(newInfoPtr.release())){
+	istd::TDelPtr<SingleDocumentData> newInfoPtr(CreateUnregisteredDocument(documentTypeId, createView, viewTypeId, true, beQuiet, ignoredPtr));
+	if (newInfoPtr.IsValid() && RegisterDocument(newInfoPtr.PopPtr())){
 		SingleDocumentData* newDocumentDataPtr = m_documentInfos.GetAt(m_documentInfos.GetCount() - 1);
 		Q_ASSERT(newDocumentDataPtr != NULL);
 
@@ -599,8 +599,8 @@ istd::IChangeableSharedPtr CMultiDocumentManagerBase::OpenSingleDocument(
 
 	if (!documentIds.isEmpty()){
 		documentTypeId = documentIds.front();
-		std::unique_ptr<SingleDocumentData> infoPtr(CreateUnregisteredDocument(documentTypeId, createView, viewTypeId, false, beQuiet, ignoredPtr));
-		if (infoPtr != nullptr){
+		istd::TDelPtr<SingleDocumentData> infoPtr(CreateUnregisteredDocument(documentTypeId, createView, viewTypeId, false, beQuiet, ignoredPtr));
+		if (infoPtr.IsValid()){
 			Q_ASSERT(infoPtr->documentPtr.IsValid());
 
 			infoPtr->filePath = filePath;
@@ -612,11 +612,11 @@ istd::IChangeableSharedPtr CMultiDocumentManagerBase::OpenSingleDocument(
 			ifile::IFilePersistence* loaderPtr = documentTemplatePtr->GetFileLoader(documentTypeId);
 			if (		(loaderPtr != NULL) &&
 						(loaderPtr->LoadFromFile(*infoPtr->documentPtr, filePath, progressManagerPtr) == ifile::IFilePersistence::OS_OK)){
-				RegisterDocument(infoPtr.get());
+				RegisterDocument(infoPtr.GetPtr());
 
 				infoPtr->isDirty = false;
 
-				return infoPtr.release()->documentPtr;
+				return infoPtr.PopPtr()->documentPtr;
 			}
 		}
 	}
@@ -729,7 +729,7 @@ CMultiDocumentManagerBase::SingleDocumentData* CMultiDocumentManagerBase::Create
 		DocumentPtr documentPtr;
 		documentPtr.FromUnique(documentInstancePtr);
 
-		std::unique_ptr<SingleDocumentData> infoPtr(new SingleDocumentData(
+		istd::TDelPtr<SingleDocumentData> infoPtr(new SingleDocumentData(
 					const_cast<CMultiDocumentManagerBase*>(this),
 					realDocumentTypeId,
 					documentPtr));
@@ -756,7 +756,7 @@ CMultiDocumentManagerBase::SingleDocumentData* CMultiDocumentManagerBase::Create
 				newViewInfo.viewTypeId = viewTypeId;
 			}
 
-			return infoPtr.release();
+			return infoPtr.PopPtr();
 		}
 	}
 

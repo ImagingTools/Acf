@@ -7,7 +7,7 @@
 
 // ACF includes
 #include <istd/IChangeable.h>
-#include <memory>
+#include <istd/TDelPtr.h>
 #include <imod/IModel.h>
 #include <imod/CSingleModelObserverBase.h>
 
@@ -81,7 +81,7 @@ protected:
 	virtual void OnModelChanged(int modelId, const istd::IChangeable::ChangeSet& changeSet) = 0;
 
 private:
-	typedef std::unique_ptr<ObserverProxy> ObserverProxyPtr;
+	typedef istd::TDelPtr<ObserverProxy> ObserverProxyPtr;
 	typedef QMap<int, ObserverProxyPtr> ModelMap;
 
 	ModelMap m_modelMap;
@@ -94,7 +94,7 @@ template <class Object>
 Object* CMultiModelDispatcherBase::GetObjectAt(int modelId) const
 {
 	typename ModelMap::ConstIterator foundIter = m_modelMap.constFind(modelId);
-	if ((foundIter != m_modelMap.constEnd()) && foundIter.value() != nullptr){
+	if ((foundIter != m_modelMap.constEnd()) && foundIter.value().IsValid()){
 		return dynamic_cast<Object*>(foundIter.value()->GetObservedModel());
 	}
 

@@ -91,11 +91,11 @@ IRegistry::ElementInfo* CRegistry::InsertElementInfo(
 		return NULL;
 	}
 
-	std::unique_ptr<IRegistryElement> registryElementPtr;
+	istd::TDelPtr<IRegistryElement> registryElementPtr;
 	if (ensureElementCreated){
-		registryElementPtr.reset(CreateRegistryElement(elementId, address));
+		registryElementPtr.SetPtr(CreateRegistryElement(elementId, address));
 
-		if (registryElementPtr == nullptr){
+		if (!registryElementPtr.IsValid()){
 			return NULL;
 		}
 	}
@@ -105,7 +105,7 @@ IRegistry::ElementInfo* CRegistry::InsertElementInfo(
 
 	ElementInfo& newElement = m_componentsMap[elementId];
 	newElement.address = address;
-	newElement.elementPtr = std::move(registryElementPtr);
+	newElement.elementPtr.TakeOver(registryElementPtr);
 
 	// NOTE: Returning a pointer to an element in the map.
 	// The caller must ensure no other thread modifies the map while using this pointer.
@@ -182,9 +182,9 @@ IRegistry* CRegistry::GetEmbeddedRegistry(const QByteArray& registryId) const
 
 	EmbeddedRegistriesMap::ConstIterator iter = m_embeddedRegistriesMap.constFind(registryId);
 	if (iter != m_embeddedRegistriesMap.constEnd()){
-		Q_ASSERT(iter.value() != nullptr);
+		Q_ASSERT(iter.value().IsValid());
 
-		return iter.value().get();
+		return iter.value().GetPtr();
 	}
 
 	return NULL;
@@ -196,16 +196,16 @@ IRegistry* CRegistry::InsertEmbeddedRegistry(const QByteArray& registryId)
 	QMutexLocker lock(&m_mutex);
 
 	RegistryPtr newRegistryPtr;
-	newRegistryPtr.reset(new CRegistry());
+	newRegistryPtr.SetPtr(new CRegistry());
 
 	RegistryPtr& registryPtr = m_embeddedRegistriesMap[registryId];
-	if (registryPtr != nullptr){
+	if (registryPtr.IsValid()){
 		return NULL;	// such ID exists yet!
 	}
 
-	registryPtr = std::move(newRegistryPtr);
+	registryPtr.TakeOver(newRegistryPtr);
 
-	return registryPtr.get();
+	return registryPtr.GetPtr();
 }
 
 
@@ -235,11 +235,11 @@ bool CRegistry::RenameEmbeddedRegistry(const QByteArray& oldRegistryId, const QB
 	}
 
 	RegistryPtr& newRegistryPtr = m_embeddedRegistriesMap[newRegistryId];
-	if (newRegistryPtr != nullptr){
+	if (newRegistryPtr.IsValid()){
 		return false;	// such ID exists yet!
 	}
 
-	newRegistryPtr = std::move(oldIter.value());
+	newRegistryPtr.TakeOver(oldIter.value());
 
 	m_embeddedRegistriesMap.erase(oldIter);
 
@@ -365,12 +365,12 @@ bool CRegistry::RenameElement(const QByteArray& oldElementId, const QByteArray& 
 	ComponentsMap::iterator oldElementIter = m_componentsMap.find(oldElementId);
 
 	CComponentAddress oldAdress = oldElementIter.value().address;
-	IRegistryElement* oldElementPtr = oldElementIter.value().elementPtr.get();
+	IRegistryElement* oldElementPtr = oldElementIter.value().elementPtr.GetPtr();
 
 	if (InsertElementInfo(newElementId, oldAdress)){
 		ElementInfo& newElement = m_componentsMap[newElementId];
 
-		if (iser::CMemoryReadArchive::CloneObjectByArchive(*oldElementPtr, *newElement.elementPtr.get())){
+		if (iser::CMemoryReadArchive::CloneObjectByArchive(*oldElementPtr, *newElement.elementPtr.GetPtr())){
 			m_exportedComponentsMap = newExportedComponentsMap;
 			m_exportedInterfacesMap = newExportedInterfacesMap;
 
@@ -384,7 +384,7 @@ bool CRegistry::RenameElement(const QByteArray& oldElementId, const QByteArray& 
 				if (infoPtr == NULL){
 					continue;
 				}
-				const IRegistryElement* elementPtr = infoPtr->elementPtr.get();
+				const IRegistryElement* elementPtr = infoPtr->elementPtr.GetPtr();
 				if (elementPtr == NULL){
 					continue;
 				}
@@ -426,7 +426,7 @@ bool CRegistry::RenameElement(const QByteArray& oldElementId, const QByteArray& 
 			RemoveElementInfo(oldElementId);
 
 			// trigger update for the element observer:
-			istd::CChangeNotifier elementChangePtr(newElement.elementPtr.get());
+			istd::CChangeNotifier elementChangePtr(newElement.elementPtr.GetPtr());
 		}
 
 		return true;
@@ -589,7 +589,7 @@ bool CRegistry::SerializeComponents(iser::IArchive& archive)
 
 			retVal = retVal && archive.BeginTag(s_dataTag);
 
-			bool isEnabled = element.elementPtr != nullptr;
+			bool isEnabled = element.elementPtr.IsValid();
 			retVal = retVal && archive.BeginTag(s_isEnabledTag);
 			retVal = retVal && archive.Process(isEnabled);
 			retVal = retVal && archive.EndTag(s_isEnabledTag);
@@ -634,7 +634,7 @@ bool CRegistry::SerializeComponents(iser::IArchive& archive)
 			}
 
 			if (isEnabled){
-				if (newInfoPtr->elementPtr != nullptr){
+				if (newInfoPtr->elementPtr.IsValid()){
 					retVal = retVal && newInfoPtr->elementPtr->Serialize(archive);
 				}
 				else{
@@ -688,7 +688,7 @@ bool CRegistry::SerializeEmbeddedRegistries(iser::IArchive& archive)
 					iter != m_embeddedRegistriesMap.end();
 					++iter){
 			RegistryPtr& registryPtr = iter.value();
-			Q_ASSERT(registryPtr != nullptr);
+			Q_ASSERT(registryPtr.IsValid());
 
 			retVal = retVal && archive.BeginTag(registryTag);
 

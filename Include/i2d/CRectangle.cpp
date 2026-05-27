@@ -6,7 +6,7 @@
 #include <QtCore/QObject>
 
 // ACF includes
-#include <memory>
+#include <istd/TDelPtr.h>
 #include <istd/CChangeNotifier.h>
 #include <istd/CClassInfo.h>
 #include <iser/IArchive.h>

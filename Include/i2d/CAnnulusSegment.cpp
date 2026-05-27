@@ -7,7 +7,7 @@
 #include <iser/IArchive.h>
 #include <iser/CArchiveTag.h>
 #include <i2d/CRectangle.h>
-#include <memory>
+#include <istd/TDelPtr.h>
 
 
 namespace i2d

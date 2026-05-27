@@ -97,8 +97,8 @@ ifile::IFilePersistence::OperationState CClipboardSerializerComp::SaveToFile(
 			return OS_CANCELED;
 		}
 
-		std::unique_ptr<QMimeData> mimeDataPtr(new QMimeData);
-		if (mimeDataPtr != nullptr){
+		istd::TDelPtr<QMimeData> mimeDataPtr(new QMimeData);
+		if (mimeDataPtr.IsValid()){
 			iser::ISerializable* serializablePtr = CompCastPtr<iser::ISerializable>(const_cast<istd::IChangeable*>(&data));
 			Q_ASSERT(serializablePtr != NULL);	// it was checked in IsOperationSupported
 
@@ -107,7 +107,7 @@ ifile::IFilePersistence::OperationState CClipboardSerializerComp::SaveToFile(
 				QString mimeType = *m_mimeTypeAttrPtr;
 				mimeDataPtr->setData(mimeType, QByteArray((const char*)archive.GetBuffer(), archive.GetBufferSize()));
 
-				clipboardPtr->setMimeData(mimeDataPtr.release());
+				clipboardPtr->setMimeData(mimeDataPtr.PopPtr());
 
 				return OS_OK;
 			}

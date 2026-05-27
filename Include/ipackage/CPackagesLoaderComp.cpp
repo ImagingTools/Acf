@@ -34,17 +34,17 @@ const icomp::IRegistry* CPackagesLoaderComp::GetRegistryFromFile(const QString& 
 
 	RegistriesMap::ConstIterator iter = m_registriesMap.constFind(correctedPath);
 	if (iter != m_registriesMap.constEnd()){
-		return iter.value().get();
+		return iter.value().GetPtr();
 	}
 
 	RegistryPtr& mapValue = m_registriesMap[correctedPath];
 	if (m_registryLoaderCompPtr.IsValid()){
-		std::unique_ptr<icomp::IRegistry> newRegistryPtr(new LogingRegistry(const_cast<CPackagesLoaderComp*>(this)));
+		istd::TDelPtr<icomp::IRegistry> newRegistryPtr(new LogingRegistry(const_cast<CPackagesLoaderComp*>(this)));
 		if (m_registryLoaderCompPtr->LoadFromFile(*newRegistryPtr, correctedPath) == ifile::IFilePersistence::OS_OK){
-			mapValue = std::move(newRegistryPtr);
-			m_invRegistriesMap[mapValue.get()] = fileInfo;
+			mapValue.TakeOver(newRegistryPtr);
+			m_invRegistriesMap[mapValue.GetPtr()] = fileInfo;
 
-			return mapValue.get();
+			return mapValue.GetPtr();
 		}
 	}
 
@@ -341,7 +341,7 @@ bool CPackagesLoaderComp::RegisterPackageFile(const QString& file)
 				packageInfo.componentIdToRegistryFileMap[componentId] = fullPath;
 			}
 
-			packageInfo.staticInfoPtr.reset(infoPtr);
+			packageInfo.staticInfoPtr.SetPtr(infoPtr);
 			packageInfo.directory = packageDir;
 
 			QString metaInfoFile(packageDir.absoluteFilePath("General.xml"));

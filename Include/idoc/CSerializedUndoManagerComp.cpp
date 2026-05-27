@@ -66,7 +66,7 @@ void CSerializedUndoManagerComp::ResetUndo()
 
 	m_undoList.clear();
 	m_redoList.clear();
-	m_beginStateArchivePtr.reset();
+	m_beginStateArchivePtr.Reset();
 }
 
 
@@ -121,7 +121,7 @@ bool CSerializedUndoManagerComp::DoListShift(int steps, UndoList& fromList, Undo
 	bool retVal = false;
 
 	UndoArchivePtr currentStateArchivePtr(new iser::CMemoryWriteArchive());
-	if ((steps > 0) && (fromList.size() >= steps) && currentStateArchivePtr != nullptr){
+	if ((steps > 0) && (fromList.size() >= steps) && currentStateArchivePtr.IsValid()){
 		istd::CChangeNotifier notifier(this);
 		Q_UNUSED(notifier);
 
@@ -143,12 +143,12 @@ bool CSerializedUndoManagerComp::DoListShift(int steps, UndoList& fromList, Undo
 
 				UndoStepInfo& currentStep = toList.back();
 
-				currentStep.archivePtr = std::move(currentStateArchivePtr);
+				currentStep.archivePtr.TakeOver(currentStateArchivePtr);
 				lastDescriptionPtr = &currentStep.description;
 			}
 
 			const UndoArchivePtr& writeArchivePtr = fromList[fromList.size() - steps].archivePtr;
-			Q_ASSERT(writeArchivePtr != nullptr);
+			Q_ASSERT(writeArchivePtr.IsValid());
 
 			iser::CMemoryReadArchive readArchive(*writeArchivePtr);
 
@@ -159,7 +159,7 @@ bool CSerializedUndoManagerComp::DoListShift(int steps, UndoList& fromList, Undo
 					}
 
 					toList.push_back(UndoStepInfo());
-					toList.back().archivePtr = std::move(fromList.back().archivePtr);
+					toList.back().archivePtr.TakeOver(fromList.back().archivePtr);
 					lastDescriptionPtr = &toList.back().description;
 
 					fromList.pop_back();
@@ -198,15 +198,15 @@ void CSerializedUndoManagerComp::BeforeUpdate(imod::IModel* modelPtr)
 {
 	BaseClass2::BeforeUpdate(modelPtr);
 
-	if (!m_isBlocked && m_beginStateArchivePtr == nullptr){
+	if (!m_isBlocked && !m_beginStateArchivePtr.IsValid()){
 		iser::ISerializable* objectPtr = GetObservedObject();
 		if (objectPtr != NULL){
 			UndoArchivePtr archivePtr(new iser::CMemoryWriteArchive());
 
-			if (		archivePtr != nullptr &&
+			if (		archivePtr.IsValid() &&
 						objectPtr->Serialize(*archivePtr) &&
 						(m_undoList.isEmpty() || *archivePtr != *(m_undoList.back().archivePtr))){
-				m_beginStateArchivePtr = std::move(archivePtr);
+				m_beginStateArchivePtr.TakeOver(archivePtr);
 			}
 		}
 	}
@@ -223,7 +223,7 @@ void CSerializedUndoManagerComp::AfterUpdate(imod::IModel* modelPtr, const istd:
 
 	if (		!m_isBlocked &&
 				!skipUndo &&
-				m_beginStateArchivePtr != nullptr){
+				m_beginStateArchivePtr.IsValid()){
 		iser::ISerializable* objectPtr = GetObservedObject();
 		if (objectPtr != NULL){
 			UndoArchivePtr archivePtr(new iser::CMemoryWriteArchive());
@@ -234,7 +234,7 @@ void CSerializedUndoManagerComp::AfterUpdate(imod::IModel* modelPtr, const istd:
 					Q_UNUSED(notifier);
 
 					m_undoList.push_back(UndoStepInfo());
-					m_undoList.back().archivePtr = std::move(m_beginStateArchivePtr);
+					m_undoList.back().archivePtr.TakeOver(m_beginStateArchivePtr);
 					m_undoList.back().description = changeSet.GetDescription();
 
 					if (m_maxBufferSizeAttrPtr.IsValid() && (GetUsedMemorySize() > *m_maxBufferSizeAttrPtr * (1 << 20))){
@@ -249,7 +249,7 @@ void CSerializedUndoManagerComp::AfterUpdate(imod::IModel* modelPtr, const istd:
 			}
 		}
 
-		m_beginStateArchivePtr.reset();
+		m_beginStateArchivePtr.Reset();
 	}
 
 	BaseClass2::AfterUpdate(modelPtr, changeSet);

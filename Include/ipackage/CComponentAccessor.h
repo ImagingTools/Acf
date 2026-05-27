@@ -3,7 +3,7 @@
 
 
 // ACF includes
-#include <memory>
+#include <istd/TDelPtr.h>
 #include <icomp/IComponentStaticInfo.h>
 #include <icomp/IComponentContext.h>
 #include <icomp/CCompositeComponent.h>
@@ -47,7 +47,7 @@ public:
 private:
 	icomp::CCompositeComponent m_mainComponent;
 
-	std::unique_ptr<icomp::IComponentStaticInfo> m_mainComponentStaticInfoPtr;
+	istd::TDelPtr<icomp::IComponentStaticInfo> m_mainComponentStaticInfoPtr;
 	icomp::IComponentContextSharedPtr m_mainComponentContextPtr;
 };
 

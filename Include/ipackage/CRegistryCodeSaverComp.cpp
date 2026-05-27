@@ -373,7 +373,7 @@ bool CRegistryCodeSaverComp::WriteHeader(
 	NextLine(stream);
 	stream << "// ACF includes";
 	NextLine(stream);
-	stream << "#include <memory>";
+	stream << "#include <istd/TDelPtr.h>";
 	NextLine(stream);
 	stream << "#include <icomp/CRegistry.h>";
 	NextLine(stream);
@@ -593,7 +593,7 @@ bool CRegistryCodeSaverComp::WriteHeader(
 		ChangeIndent(1);
 
 		NextLine(stream);
-		stream << "typedef std::unique_ptr<icomp::IRegistry> RegistryPtr;";
+		stream << "typedef istd::TDelPtr<icomp::IRegistry> RegistryPtr;";
 		NextLine(stream);
 		stream << "typedef QMap<icomp::CComponentAddress, RegistryPtr> RegistriesMap;";
 		stream << "\n";
@@ -633,7 +633,7 @@ bool CRegistryCodeSaverComp::WriteHeader(
 				QByteArray packageName = GetPackageName(packageId);
 
 				NextLine(stream);
-				stream << "std::unique_ptr<icomp::IComponentStaticInfo> m_package" << packageId << "InfoPtr;";
+				stream << "istd::TDelPtr<icomp::IComponentStaticInfo> m_package" << packageId << "InfoPtr;";
 			}
 
 			stream << "\n";
@@ -940,7 +940,7 @@ bool CRegistryCodeSaverComp::WriteClassDefinitions(
 				NextLine(stream);
 				stream << "m_registriesMap[icomp::CComponentAddress(\"" <<
 						address.GetPackageId() << "\", \"" <<
-						address.GetComponentId() << "\")].reset(new C" <<
+						address.GetComponentId() << "\")].SetPtr(new C" <<
 						GetValidIdentifier(GetPackageName(address.GetPackageId())) <<
 						"::C" << GetValidIdentifier(address.GetComponentId()) << "Registry());";
 			}
@@ -966,12 +966,12 @@ bool CRegistryCodeSaverComp::WriteClassDefinitions(
 				QByteArray packageName = GetPackageName(packageId);
 
 				NextLine(stream);
-				stream << "m_package" << packageId << "InfoPtr.reset(new C" << packageName << "(this));";
+				stream << "m_package" << packageId << "InfoPtr.SetPtr(new C" << packageName << "(this));";
 				NextLine(stream);
-				stream << "if (m_package" << packageId << "InfoPtr != nullptr){";
+				stream << "if (m_package" << packageId << "InfoPtr.IsValid()){";
 				ChangeIndent(1);
 				NextLine(stream);
-				stream << "RegisterEmbeddedComponentInfo(\"" << packageId << "\", m_package" << packageId << "InfoPtr.get());";
+				stream << "RegisterEmbeddedComponentInfo(\"" << packageId << "\", m_package" << packageId << "InfoPtr.GetPtr());";
 				ChangeIndent(-1);
 				NextLine(stream);
 				stream << "}";
@@ -1002,7 +1002,7 @@ bool CRegistryCodeSaverComp::WriteClassDefinitions(
 		ChangeIndent(1);
 
 		NextLine(stream);
-		stream << "return findIter.value().get();";
+		stream << "return findIter.value().GetPtr();";
 
 		ChangeIndent(-1);
 		NextLine(stream);
@@ -1241,7 +1241,7 @@ bool CRegistryCodeSaverComp::WriteComponentInfo(
 {
 	QByteArray elementInfoName = "info" + GetValidIdentifier(componentId) + "Ptr";
 
-	if (componentInfo.elementPtr != nullptr){
+	if (componentInfo.elementPtr.IsValid()){
 		icomp::IRegistryElement& component = *componentInfo.elementPtr;
 		iattr::IAttributesProvider::AttributeIds attributeIds = component.GetAttributeIds();
 
@@ -1263,7 +1263,7 @@ bool CRegistryCodeSaverComp::WriteComponentInfo(
 
 		if (!attributeIds.isEmpty() || (componentFlags != 0)){
 			NextLine(stream);
-			stream << "if ((" << elementInfoName << " != NULL) && " << elementInfoName << "->elementPtr != nullptr){";
+			stream << "if ((" << elementInfoName << " != NULL) && " << elementInfoName << "->elementPtr.IsValid()){";
 			ChangeIndent(1);
 
 			if (componentFlags != 0){
@@ -1292,7 +1292,7 @@ bool CRegistryCodeSaverComp::WriteComponentInfo(
 					if (attrInfoPtr != NULL){
 						QByteArray attributeInfoName = "attrInfo" + attributeId + "Ptr";
 
-						bool isAttributeValid = attrInfoPtr->attributePtr != nullptr;
+						bool isAttributeValid = attrInfoPtr->attributePtr.IsValid();
 
 						NextLine(stream);
 						stream << "icomp::IRegistryElement::AttributeInfo* " << attributeInfoName << " = ";
@@ -1345,14 +1345,14 @@ bool CRegistryCodeSaverComp::WriteAttribute(
 
 	if (GetAttributeValue(attribute, valueString, attributeType)){
 		NextLine(stream);
-		stream << attributeInfoName << "->attributePtr.reset(new " << attributeType << ");";
+		stream << attributeInfoName << "->attributePtr.SetPtr(new " << attributeType << ");";
 
 		NextLine(stream);
-		stream << "Q_ASSERT(" << attributeInfoName << "->attributePtr != nullptr);";
+		stream << "Q_ASSERT(" << attributeInfoName << "->attributePtr.IsValid());";
 		stream << "\n";
 
 		NextLine(stream);
-		stream << attributeType << "* " << attributeName << " = dynamic_cast<" << attributeType << "*>(" << attributeInfoName << "->attributePtr.get());";
+		stream << attributeType << "* " << attributeName << " = dynamic_cast<" << attributeType << "*>(" << attributeInfoName << "->attributePtr.GetPtr());";
 		NextLine(stream);
 		stream << "Q_ASSERT(" << attributeName << " != NULL);";
 		NextLine(stream);
@@ -1360,15 +1360,15 @@ bool CRegistryCodeSaverComp::WriteAttribute(
 	}
 	else if (GetMultiAttributeValue(attribute, valueStrings, attributeType)){
 		NextLine(stream);
-		stream << attributeInfoName << "->attributePtr.reset(new " << attributeType << ");";
+		stream << attributeInfoName << "->attributePtr.SetPtr(new " << attributeType << ");";
 
 		NextLine(stream);
-		stream << "Q_ASSERT(" << attributeInfoName << "->attributePtr != nullptr);";
+		stream << "Q_ASSERT(" << attributeInfoName << "->attributePtr.IsValid());";
 		stream << "\n";
 
 		if (!valueStrings.isEmpty()){
 			NextLine(stream);
-			stream << attributeType << "* n" << attributeInfoName << " = dynamic_cast<" << attributeType << "*>(" << attributeInfoName << "->attributePtr.get());";
+			stream << attributeType << "* n" << attributeInfoName << " = dynamic_cast<" << attributeType << "*>(" << attributeInfoName << "->attributePtr.GetPtr());";
 			NextLine(stream);
 			stream << "Q_ASSERT(n" << attributeInfoName << " != NULL);";
 			stream << "\n";
@@ -1462,7 +1462,7 @@ bool CRegistryCodeSaverComp::WriteComponentTranslation(
 			bool& translationFound,
 			QTextStream& stream) const
 {
-	if (componentInfo.elementPtr != nullptr){
+	if (componentInfo.elementPtr.IsValid()){
 		icomp::IRegistryElement& component = *componentInfo.elementPtr;
 		iattr::IAttributesProvider::AttributeIds attributeIds = component.GetAttributeIds();
 
@@ -1477,8 +1477,8 @@ bool CRegistryCodeSaverComp::WriteComponentTranslation(
 
 					const icomp::IRegistryElement::AttributeInfo* attrInfoPtr = component.GetAttributeInfo(attributeId);
 
-					if ((attrInfoPtr != NULL) && attrInfoPtr->attributePtr != nullptr){
-						const icomp::CTextAttribute* localizableAttributePtr = dynamic_cast<const icomp::CTextAttribute*>(attrInfoPtr->attributePtr.get());
+					if ((attrInfoPtr != NULL) && attrInfoPtr->attributePtr.IsValid()){
+						const icomp::CTextAttribute* localizableAttributePtr = dynamic_cast<const icomp::CTextAttribute*>(attrInfoPtr->attributePtr.GetPtr());
 						if (localizableAttributePtr != NULL){
 							if (!translationFound){
 								NextLine(stream);
@@ -1494,7 +1494,7 @@ bool CRegistryCodeSaverComp::WriteComponentTranslation(
 							continue;
 						}
 
-						const icomp::CMultiTextAttribute* localizableMultiAttributePtr = dynamic_cast<const icomp::CMultiTextAttribute*>(attrInfoPtr->attributePtr.get());
+						const icomp::CMultiTextAttribute* localizableMultiAttributePtr = dynamic_cast<const icomp::CMultiTextAttribute*>(attrInfoPtr->attributePtr.GetPtr());
 						if (localizableMultiAttributePtr != NULL){
 							for (int index = 0; index < localizableMultiAttributePtr->GetValuesCount(); index++){
 								if (!translationFound){

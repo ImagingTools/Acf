@@ -63,7 +63,7 @@ CMultiPageWidget::CMultiPageWidget(
 
 QWidget* CMultiPageWidget::GetContainerWidgetPtr() const
 {
-	return m_guiContainerPtr.get();
+	return m_guiContainerPtr.GetPtr();
 }
 
 
@@ -73,7 +73,7 @@ void CMultiPageWidget::SetDesignMode(int designMode)
 		// TODO: reparent all pages and add to the new container.
 	}
 	else{
-		m_guiContainerPtr.reset();
+		m_guiContainerPtr.Reset();
 		m_designMode = designMode;
 
 		CreateContainerGui();
@@ -87,7 +87,7 @@ void CMultiPageWidget::SetContainerGuiFlags(int containerGuiFlags)
 		// TODO: reparent all pages and add to the new container.
 	}
 	else{
-		m_guiContainerPtr.reset();
+		m_guiContainerPtr.Reset();
 		m_containerGuiFlags = containerGuiFlags;
 
 		CreateContainerGui();
@@ -101,7 +101,7 @@ void CMultiPageWidget::SetLayoutOrientation(Qt::Orientation orientation)
 		// TODO: reparent all pages and add to the new container.
 	}
 	else{
-		m_guiContainerPtr.reset();
+		m_guiContainerPtr.Reset();
 		m_orientation = orientation;
 
 		CreateContainerGui();
@@ -111,7 +111,7 @@ void CMultiPageWidget::SetLayoutOrientation(Qt::Orientation orientation)
 
 void CMultiPageWidget::ResetPages()
 {
-	if (m_guiContainerPtr != nullptr){
+	if (m_guiContainerPtr.IsValid()){
 		m_pageSwitchingBlocked = true;
 
 		MultiPageWidgetDelegatePtr delegatePtr = GetCurrentDelegate();
@@ -130,7 +130,7 @@ void CMultiPageWidget::ResetPages()
 
 void CMultiPageWidget::SetPageHeaderPosition(PageHeaderPosition pageHeaderPosition)
 {
-	if (m_guiContainerPtr != nullptr){
+	if (m_guiContainerPtr.IsValid()){
 		MultiPageWidgetDelegatePtr delegatePtr = GetCurrentDelegate();
 		if (delegatePtr.IsValid()){
 			delegatePtr->SetPageHeaderPosition(*m_guiContainerPtr, pageHeaderPosition);
@@ -144,7 +144,7 @@ int CMultiPageWidget::InsertPage(
 			const QString& pageTitle,
 			int pageIndex)
 {
-	if (m_guiContainerPtr != nullptr){
+	if (m_guiContainerPtr.IsValid()){
 		MultiPageWidgetDelegatePtr delegatePtr = GetCurrentDelegate();
 		if (delegatePtr.IsValid()){
 			return delegatePtr->InsertPage(*m_guiContainerPtr, pageWidgetPtr, pageTitle, pageIndex);
@@ -157,7 +157,7 @@ int CMultiPageWidget::InsertPage(
 
 void CMultiPageWidget::RemovePage(int pageIndex)
 {
-	if (m_guiContainerPtr != nullptr){
+	if (m_guiContainerPtr.IsValid()){
 		MultiPageWidgetDelegatePtr delegatePtr = GetCurrentDelegate();
 		if (delegatePtr.IsValid()){
 			delegatePtr->RemovePage(*m_guiContainerPtr, pageIndex);
@@ -168,7 +168,7 @@ void CMultiPageWidget::RemovePage(int pageIndex)
 
 int CMultiPageWidget::GetPagesCount() const
 {
-	if (m_guiContainerPtr != nullptr){
+	if (m_guiContainerPtr.IsValid()){
 		MultiPageWidgetDelegatePtr delegatePtr = GetCurrentDelegate();
 		if (delegatePtr.IsValid()){
 			return delegatePtr->GetPagesCount(*m_guiContainerPtr);
@@ -181,7 +181,7 @@ int CMultiPageWidget::GetPagesCount() const
 
 QWidget* CMultiPageWidget::GetPageWidgetPtr(int pageIndex) const
 {
-	if (m_guiContainerPtr != nullptr){
+	if (m_guiContainerPtr.IsValid()){
 		MultiPageWidgetDelegatePtr delegatePtr = GetCurrentDelegate();
 		if (delegatePtr.IsValid()){
 			return delegatePtr->GetPageWidgetPtr(*m_guiContainerPtr, pageIndex);
@@ -194,7 +194,7 @@ QWidget* CMultiPageWidget::GetPageWidgetPtr(int pageIndex) const
 
 int CMultiPageWidget::GetCurrentPage() const
 {
-	if (m_guiContainerPtr != nullptr){
+	if (m_guiContainerPtr.IsValid()){
 		MultiPageWidgetDelegatePtr delegatePtr = GetCurrentDelegate();
 		if (delegatePtr.IsValid()){
 			return delegatePtr->GetCurrentPage(*m_guiContainerPtr);
@@ -207,7 +207,7 @@ int CMultiPageWidget::GetCurrentPage() const
 
 bool CMultiPageWidget::SetCurrentPage(int pageIndex)
 {
-	if (m_guiContainerPtr != nullptr){
+	if (m_guiContainerPtr.IsValid()){
 		MultiPageWidgetDelegatePtr delegatePtr = GetCurrentDelegate();
 		if (delegatePtr.IsValid()){
 			return delegatePtr->SetCurrentPage(*m_guiContainerPtr, pageIndex);
@@ -220,7 +220,7 @@ bool CMultiPageWidget::SetCurrentPage(int pageIndex)
 
 QString CMultiPageWidget::GetPageTitle(int pageIndex) const
 {
-	if (m_guiContainerPtr != nullptr){
+	if (m_guiContainerPtr.IsValid()){
 		MultiPageWidgetDelegatePtr delegatePtr = GetCurrentDelegate();
 		if (delegatePtr.IsValid()){
 			return delegatePtr->GetPageTitle(*m_guiContainerPtr, pageIndex);
@@ -233,7 +233,7 @@ QString CMultiPageWidget::GetPageTitle(int pageIndex) const
 
 void CMultiPageWidget::SetPageTitle(int pageIndex, const QString& pageTitle)
 {
-	if (m_guiContainerPtr != nullptr){
+	if (m_guiContainerPtr.IsValid()){
 		MultiPageWidgetDelegatePtr delegatePtr = GetCurrentDelegate();
 		if (delegatePtr.IsValid()){
 			delegatePtr->SetPageTitle(*m_guiContainerPtr, pageIndex, pageTitle);
@@ -244,7 +244,7 @@ void CMultiPageWidget::SetPageTitle(int pageIndex, const QString& pageTitle)
 
 QIcon CMultiPageWidget::GetPageIcon(int pageIndex) const
 {
-	if (m_guiContainerPtr != nullptr){
+	if (m_guiContainerPtr.IsValid()){
 		MultiPageWidgetDelegatePtr delegatePtr = GetCurrentDelegate();
 		if (delegatePtr.IsValid()){
 			return delegatePtr->GetPageIcon(*m_guiContainerPtr, pageIndex);
@@ -257,7 +257,7 @@ QIcon CMultiPageWidget::GetPageIcon(int pageIndex) const
 
 void CMultiPageWidget::SetPageIcon(int pageIndex, const QIcon& pageIcon)
 {
-	if (m_guiContainerPtr != nullptr){
+	if (m_guiContainerPtr.IsValid()){
 		MultiPageWidgetDelegatePtr delegatePtr = GetCurrentDelegate();
 		if (delegatePtr.IsValid()){
 			delegatePtr->SetPageIcon(*m_guiContainerPtr, pageIndex, pageIcon);
@@ -268,7 +268,7 @@ void CMultiPageWidget::SetPageIcon(int pageIndex, const QIcon& pageIcon)
 
 QString CMultiPageWidget::GetPageToolTip(int pageIndex) const
 {
-	if (m_guiContainerPtr != nullptr){
+	if (m_guiContainerPtr.IsValid()){
 		MultiPageWidgetDelegatePtr delegatePtr = GetCurrentDelegate();
 		if (delegatePtr.IsValid()){
 			return delegatePtr->GetPageToolTip(*m_guiContainerPtr, pageIndex);
@@ -281,7 +281,7 @@ QString CMultiPageWidget::GetPageToolTip(int pageIndex) const
 
 void CMultiPageWidget::SetPageToolTip(int pageIndex, const QString& pageToolTip)
 {
-	if (m_guiContainerPtr != nullptr){
+	if (m_guiContainerPtr.IsValid()){
 		MultiPageWidgetDelegatePtr delegatePtr = GetCurrentDelegate();
 		if (delegatePtr.IsValid()){
 			delegatePtr->SetPageToolTip(*m_guiContainerPtr, pageIndex, pageToolTip);
@@ -292,7 +292,7 @@ void CMultiPageWidget::SetPageToolTip(int pageIndex, const QString& pageToolTip)
 
 bool CMultiPageWidget::IsPageEnabled(int pageIndex) const
 {
-	if (m_guiContainerPtr != nullptr){
+	if (m_guiContainerPtr.IsValid()){
 		MultiPageWidgetDelegatePtr delegatePtr = GetCurrentDelegate();
 		if (delegatePtr.IsValid()){
 			return delegatePtr->IsPageEnabled(*m_guiContainerPtr, pageIndex);
@@ -305,7 +305,7 @@ bool CMultiPageWidget::IsPageEnabled(int pageIndex) const
 
 bool CMultiPageWidget::SetPageEnabled(int pageIndex, bool isEnabled)
 {
-	if (m_guiContainerPtr != nullptr){
+	if (m_guiContainerPtr.IsValid()){
 		MultiPageWidgetDelegatePtr delegatePtr = GetCurrentDelegate();
 		if (delegatePtr.IsValid()){
 			return delegatePtr->SetPageEnabled(*m_guiContainerPtr, pageIndex, isEnabled);
@@ -318,7 +318,7 @@ bool CMultiPageWidget::SetPageEnabled(int pageIndex, bool isEnabled)
 
 bool CMultiPageWidget::IsPageVisible(int pageIndex) const
 {
-	if (m_guiContainerPtr != nullptr){
+	if (m_guiContainerPtr.IsValid()){
 		MultiPageWidgetDelegatePtr delegatePtr = GetCurrentDelegate();
 		if (delegatePtr.IsValid()){
 			return delegatePtr->IsPageVisible(*m_guiContainerPtr, pageIndex);
@@ -331,7 +331,7 @@ bool CMultiPageWidget::IsPageVisible(int pageIndex) const
 
 bool CMultiPageWidget::SetPageVisible(int pageIndex, bool isVisible)
 {
-	if (m_guiContainerPtr != nullptr){
+	if (m_guiContainerPtr.IsValid()){
 		MultiPageWidgetDelegatePtr delegatePtr = GetCurrentDelegate();
 		if (delegatePtr.IsValid()){
 			return delegatePtr->SetPageVisible(*m_guiContainerPtr, pageIndex, isVisible);
@@ -344,7 +344,7 @@ bool CMultiPageWidget::SetPageVisible(int pageIndex, bool isVisible)
 
 QSize CMultiPageWidget::GetPageIconSize() const
 {
-	if (m_guiContainerPtr != nullptr){
+	if (m_guiContainerPtr.IsValid()){
 		MultiPageWidgetDelegatePtr delegatePtr = GetCurrentDelegate();
 		if (delegatePtr.IsValid()){
 			return delegatePtr->GetPageIconSize(*m_guiContainerPtr);
@@ -357,7 +357,7 @@ QSize CMultiPageWidget::GetPageIconSize() const
 
 bool CMultiPageWidget::SetPageIconSize(const QSize& pageIconSize)
 {
-	if (m_guiContainerPtr != nullptr){
+	if (m_guiContainerPtr.IsValid()){
 		MultiPageWidgetDelegatePtr delegatePtr = GetCurrentDelegate();
 		if (delegatePtr.IsValid()){
 			return delegatePtr->SetPageIconSize(*m_guiContainerPtr, pageIconSize);
@@ -416,19 +416,19 @@ bool CMultiPageWidget::CreateContainerGui()
 
 	layoutPtr->setContentsMargins(0,0,0,0);
 
-	m_guiContainerPtr.reset(delegatePtr->CreateContainerWidget(this, m_containerGuiFlags, m_orientation));
-	if (m_guiContainerPtr == nullptr){
+	m_guiContainerPtr.SetPtr(delegatePtr->CreateContainerWidget(this, m_containerGuiFlags, m_orientation));
+	if (!m_guiContainerPtr.IsValid()){
 		return false;
 	}
 
 	m_guiContainerPtr->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
-	layoutPtr->addWidget(m_guiContainerPtr.get());
+	layoutPtr->addWidget(m_guiContainerPtr.GetPtr());
 
-	delegatePtr->ConnectPageIndexListener(*m_guiContainerPtr.get(), this, SLOT(OnPageIndexChanged(int)));
+	delegatePtr->ConnectPageIndexListener(*m_guiContainerPtr.GetPtr(), this, SLOT(OnPageIndexChanged(int)));
 
 	if (!m_pageIconSize.isNull() && m_pageIconSize.isValid() && !m_pageIconSize.isEmpty()){
-		delegatePtr->SetPageIconSize(*m_guiContainerPtr.get(), m_pageIconSize);
+		delegatePtr->SetPageIconSize(*m_guiContainerPtr.GetPtr(), m_pageIconSize);
 	}
 
 	if (m_containerGuiFlags & IMultiPageWidgetDelegate::CGF_COMPACT){
@@ -452,16 +452,16 @@ bool CMultiPageWidget::CreateContainerGui()
 	}
 
 	if (m_containerGuiFlags & IMultiPageWidgetDelegate::CGF_FILTER_WHEEL_EVENTS){
-		m_widgetWheelEventBlockerPtr = new CWidgetWheelEventBlocker((m_guiContainerPtr.get()));
+		m_widgetWheelEventBlockerPtr = new CWidgetWheelEventBlocker((m_guiContainerPtr.GetPtr()));
 	}
 
-	return m_guiContainerPtr != nullptr;
+	return m_guiContainerPtr.IsValid();
 }
 
 
 CMultiPageWidget::MultiPageWidgetDelegatePtr CMultiPageWidget::GetCurrentDelegate() const
 {
-	if (m_guiContainerPtr == nullptr){
+	if (!m_guiContainerPtr.IsValid()){
 		qWarning("Container GUI was not created");
 
 		return MultiPageWidgetDelegatePtr();

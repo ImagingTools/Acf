@@ -182,7 +182,7 @@ bool CMainWindowGuiComp::OpenFile(const QString& fileName, const QByteArray* doc
 
 		bool ignoredFlag = false;
 
-		if (m_persistenceProgressDialogPtr != nullptr){
+		if (m_persistenceProgressDialogPtr.IsValid()){
 			m_persistenceProgressDialogPtr->setWindowTitle(QString(tr("Loading '%1'...")).arg(fileName));
 		}
 
@@ -195,7 +195,7 @@ bool CMainWindowGuiComp::OpenFile(const QString& fileName, const QByteArray* doc
 					&fileMap,
 					false,
 					&ignoredFlag,
-					m_persistenceProgressPtr.get());
+					m_persistenceProgressPtr.GetPtr());
 		if (retVal){
 			UpdateRecentFileList(fileMap);
 		}
@@ -216,13 +216,13 @@ bool CMainWindowGuiComp::SaveActiveDocument()
 {
 	bool retVal = false;
 
-	if (m_persistenceProgressDialogPtr != nullptr){
+	if (m_persistenceProgressDialogPtr.IsValid()){
 		m_persistenceProgressDialogPtr->setWindowTitle(tr("Saving the document..."));
 	}
 
 	bool ignoredFlag = false;
 	idoc::IDocumentManager::FileToTypeMap fileMap;
-	retVal = m_documentManagerCompPtr->SaveDocument(-1, false, &fileMap, false, &ignoredFlag, m_persistenceProgressPtr.get());
+	retVal = m_documentManagerCompPtr->SaveDocument(-1, false, &fileMap, false, &ignoredFlag, m_persistenceProgressPtr.GetPtr());
 	if (retVal){
 		UpdateRecentFileList(fileMap);
 	}
@@ -731,7 +731,7 @@ void CMainWindowGuiComp::OnGuiCreated()
 	}
 
 	if (m_persistenceProgressCompPtr.IsValid() && m_persistenceProgressGuiCompPtr.IsValid()){
-		m_persistenceProgressDialogPtr.reset(
+		m_persistenceProgressDialogPtr.SetPtr(
 					new iqtgui::CGuiComponentDialog(
 								m_persistenceProgressGuiCompPtr.GetPtr(),
 								QDialogButtonBox::NoButton,
@@ -740,7 +740,7 @@ void CMainWindowGuiComp::OnGuiCreated()
 		m_persistenceProgressDialogPtr->setWindowFlags(((m_persistenceProgressDialogPtr->windowFlags() | Qt::CustomizeWindowHint) & ~(Qt::WindowCloseButtonHint | Qt::WindowSystemMenuHint)));
 		m_persistenceProgressDialogPtr->SetDialogGeometry(0.3, 0.05);
 
-		m_persistenceProgressPtr.reset(new ProgressObserver(*this, m_persistenceProgressCompPtr.GetPtr()));
+		m_persistenceProgressPtr.SetPtr (new ProgressObserver(*this, m_persistenceProgressCompPtr.GetPtr()));
 	}
 
 	UpdateUndoMenu();
@@ -774,9 +774,9 @@ void CMainWindowGuiComp::OnGuiDestroyed()
 {
 	BaseClass::OnGuiDestroyed();
 
-	m_persistenceProgressDialogPtr.reset();
+	m_persistenceProgressDialogPtr.Reset();
 
-	m_persistenceProgressPtr.reset();
+	m_persistenceProgressPtr.Reset();
 }
 
 

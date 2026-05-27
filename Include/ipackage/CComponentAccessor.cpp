@@ -88,14 +88,14 @@ CComponentAccessor::CComponentAccessor(
 	if (registryPtr != NULL){
 		static icomp::CRegistryElement dummyElement;
 
-		m_mainComponentStaticInfoPtr.reset(new icomp::CCompositeComponentStaticInfo(
+		m_mainComponentStaticInfoPtr.SetPtr(new icomp::CCompositeComponentStaticInfo(
 					*registryPtr,
 					*loader.packagesLoaderComp,
 					NULL));
 
 		m_mainComponentContextPtr.reset(new icomp::CCompositeComponentContext(
 					&dummyElement,
-					m_mainComponentStaticInfoPtr.get(),
+					m_mainComponentStaticInfoPtr.GetPtr(),
 					registryPtr,
 					&(*loader.packagesLoaderComp),
 					NULL,

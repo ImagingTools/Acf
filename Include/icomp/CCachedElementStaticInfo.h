@@ -7,7 +7,7 @@
 #include <QtCore/QMap>
 
 // ACF includes
-#include <memory>
+#include <istd/TDelPtr.h>
 #include <icomp/IElementStaticInfo.h>
 
 
@@ -43,7 +43,7 @@ public:
 private:
 	Ids m_interfaceIds;
 
-	typedef QMap<QByteArray, std::unique_ptr<CCachedElementStaticInfo>> SubelementInfos;
+	typedef QMap<QByteArray, istd::TDelPtr<CCachedElementStaticInfo>> SubelementInfos;
 	SubelementInfos m_subelementInfos;
 };
 

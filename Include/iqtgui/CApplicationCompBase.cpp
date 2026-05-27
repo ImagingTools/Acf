@@ -65,10 +65,10 @@ bool CApplicationCompBase::InitializeApplication(int argc, char** argv)
 		qDebug() << QString::fromLocal8Bit(argv[argIndex]);
 	}
 
-	if (m_applicationPtr == nullptr){
+	if (!m_applicationPtr.IsValid()){
 		s_argc = argc;
-		m_applicationPtr.reset(new QApplication(s_argc, argv));
-		if (m_applicationPtr == nullptr){
+		m_applicationPtr.SetPtr(new QApplication(s_argc, argv));
+		if (!m_applicationPtr.IsValid()){
 			return false;
 		}
 
@@ -91,7 +91,7 @@ QStringList CApplicationCompBase::GetApplicationArguments() const
 
 QApplication* CApplicationCompBase::GetQtApplication() const
 {
-	return m_applicationPtr.get();
+	return m_applicationPtr.GetPtr();
 }
 
 
@@ -144,7 +144,7 @@ void CApplicationCompBase::HideSplashScreen()
 void CApplicationCompBase::InitializeComponentApplication()
 {
 	Q_ASSERT(IsComponentActive());
-	Q_ASSERT(m_applicationPtr != nullptr);
+	Q_ASSERT(m_applicationPtr.IsValid());
 
 	if (m_styleSheetFile.isEmpty() && m_styleSheetAttrPtr.IsValid()){
 		m_styleSheetFile = *m_styleSheetAttrPtr;
@@ -216,7 +216,7 @@ void CApplicationCompBase::ApplyStyleSheet()
 {
 	// Set up style sheet:
 	if (!m_styleSheetFile.isEmpty()){
-		if (!iqtgui::SetStyleSheetFromFile(m_applicationPtr.get(), m_styleSheetFile)){
+		if (!iqtgui::SetStyleSheetFromFile(m_applicationPtr.GetPtr(), m_styleSheetFile)){
 			qDebug("Style sheet file could not be set: %s", m_styleSheetFile.toLocal8Bit().constData());
 		}
 	}
@@ -242,7 +242,7 @@ void CApplicationCompBase::OnComponentCreated()
 {
 	BaseClass::OnComponentCreated();
 
-	if (m_applicationPtr != nullptr){
+	if (m_applicationPtr.IsValid()){
 		InitializeComponentApplication();
 	}
 }

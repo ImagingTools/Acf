@@ -3,7 +3,7 @@
 
 
 // ACF includes
-#include <memory>
+#include <istd/TDelPtr.h>
 #include <istd/CChangeGroup.h>
 #include <istd/CClassInfo.h>
 

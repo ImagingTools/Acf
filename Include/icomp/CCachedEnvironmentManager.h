@@ -50,7 +50,7 @@ private:
 
 	struct PackageInfo
 	{
-		std::unique_ptr<CCompositePackageStaticInfo> staticInfoPtr;
+		istd::TDelPtr<CCompositePackageStaticInfo> staticInfoPtr;
 		RegistriesMap registriesMap;
 	};
 	typedef QMap<QByteArray, PackageInfo> PackagesMap;

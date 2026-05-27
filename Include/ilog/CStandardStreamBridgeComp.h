@@ -87,8 +87,8 @@ protected:
 	virtual void OnComponentDestroyed() override;
 
 private:
-	std::unique_ptr<CStandardStreamBridge> m_coutBridgePtr;
-	std::unique_ptr<CStandardStreamBridge> m_cerrBridgePtr;
+	istd::TDelPtr<CStandardStreamBridge> m_coutBridgePtr;
+	istd::TDelPtr<CStandardStreamBridge> m_cerrBridgePtr;
 
 	I_REF(ilog::IMessageConsumer, m_slaveMessageConsumerCompPtr);
 };

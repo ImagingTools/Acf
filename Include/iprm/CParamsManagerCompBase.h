@@ -6,7 +6,7 @@
 #include <QtCore/QVector>
 
 // ACF includes
-#include <memory>
+#include <istd/TDelPtr.h>
 #include <imod/TModelWrap.h>
 #include <imod/CModelUpdateBridge.h>
 #include <icomp/CComponentBase.h>

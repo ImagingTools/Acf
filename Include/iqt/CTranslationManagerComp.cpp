@@ -231,7 +231,7 @@ void CTranslationManagerComp::LoadTranslations()
 
 			QString translatorFile = translationsPath + QString("/") + translationFilePrefix + QString("_") + languageId;
 
-			std::unique_ptr<QTranslator> qtTranslatorPtr(new QTranslator(qApp));
+			istd::TDelPtr<QTranslator> qtTranslatorPtr(new QTranslator(qApp));
 
 			if (!qtTranslatorPtr->load(translatorFile)){
 				SendVerboseMessage(QString("Cannot load translator for: %1").arg(translatorFile), "TranslationManager");
@@ -239,7 +239,7 @@ void CTranslationManagerComp::LoadTranslations()
 
 			Translator translator;
 
-			translator.translatorPtr.reset(qtTranslatorPtr.release());
+			translator.translatorPtr.SetPtr(qtTranslatorPtr.PopPtr());
 			translator.languageId = languageId;
 
 			if (translatorIndex < m_languageNamesAttrPtr.GetCount()){

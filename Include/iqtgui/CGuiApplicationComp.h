@@ -146,13 +146,13 @@ protected:
 		For the main widget the deffered deleting in CGuiComponentBase::DestroyGui doesn't work, 
 		because it is called after leaving the main loop.
 	*/
-	std::unique_ptr<QWidget> m_mainWidgetPtr;
+	istd::TDelPtr<QWidget> m_mainWidgetPtr;
 	Qt::WindowFlags m_defaultWidgetFlags;
 	QRect m_lastWidgetGeometry;
 
 	TrayMessages m_trayMessages;
 	
-	std::unique_ptr<QSystemTrayIcon> m_trayIconPtr;
+	istd::TDelPtr<QSystemTrayIcon> m_trayIconPtr;
 };
 
 

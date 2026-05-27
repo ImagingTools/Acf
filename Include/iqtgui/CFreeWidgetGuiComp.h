@@ -39,7 +39,7 @@ protected:
 	I_REF(iqtgui::IGuiObject, m_slaveGuiCompPtr);
 	I_TEXTATTR(m_titleAttrPtr);
 
-	std::unique_ptr<QMainWindow> m_mainWindowPtr;
+	istd::TDelPtr<QMainWindow> m_mainWindowPtr;
 };
 
 

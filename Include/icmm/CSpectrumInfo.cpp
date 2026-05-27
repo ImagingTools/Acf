@@ -7,7 +7,7 @@
 #include <iser/CPrimitiveTypesSerializer.h>
 #include <iser/IArchive.h>
 #include <istd/CChangeNotifier.h>
-#include <memory>
+#include <istd/TDelPtr.h>
 
 
 namespace icmm

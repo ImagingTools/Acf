@@ -34,10 +34,10 @@ CDialogGuiComp::CDialogGuiComp()
 
 int CDialogGuiComp::ExecuteDialog(IGuiObject* parentPtr)
 {
-	std::unique_ptr<iqtgui::CGuiComponentDialog> dialogPtr(CreateComponentDialog(*m_dialogButtonsAttrPtr, parentPtr));
-	if (dialogPtr != nullptr){
+	istd::TDelPtr<iqtgui::CGuiComponentDialog> dialogPtr(CreateComponentDialog(*m_dialogButtonsAttrPtr, parentPtr));
+	if (dialogPtr.IsValid()){
 		if (*m_isModalAttrPtr){
-			m_dialogPtr = dialogPtr.get();
+			m_dialogPtr = dialogPtr.GetPtr();
 		
 			int retVal = dialogPtr->exec();
 		
@@ -46,7 +46,7 @@ int CDialogGuiComp::ExecuteDialog(IGuiObject* parentPtr)
 			return retVal;
 		}
 		else{
-			m_dialogPtr = dialogPtr.get();
+			m_dialogPtr = dialogPtr.GetPtr();
 
 			dialogPtr->setModal(false);
 			m_dialogCommand.SetEnabled(false);
@@ -57,7 +57,7 @@ int CDialogGuiComp::ExecuteDialog(IGuiObject* parentPtr)
 
 			dialogPtr->show();
 
-			dialogPtr.release();
+			dialogPtr.PopPtr();
 
 			return QDialog::Accepted;
 		}
@@ -71,12 +71,12 @@ int CDialogGuiComp::ExecuteDialog(IGuiObject* parentPtr)
 
 iqtgui::CGuiComponentDialog* CDialogGuiComp::CreateComponentDialog(int buttons, IGuiObject* parentPtr) const
 {
-	std::unique_ptr<iqtgui::CGuiComponentDialog> dialogPtr;
+	istd::TDelPtr<iqtgui::CGuiComponentDialog> dialogPtr;
 
 	if (m_guiCompPtr.IsValid()){
 		QWidget* parentWidgetPtr = (parentPtr != NULL)? parentPtr->GetWidget(): NULL;
 
-		dialogPtr.reset(
+		dialogPtr.SetPtr(
 					new iqtgui::CGuiComponentDialog(
 								m_guiCompPtr.GetPtr(),
 								buttons,
@@ -124,14 +124,14 @@ iqtgui::CGuiComponentDialog* CDialogGuiComp::CreateComponentDialog(int buttons, 
 					if (!(*m_defaultButtonPropertyAttrPtr).isEmpty()){
 						pushButtonPtr->setProperty(*m_defaultButtonPropertyAttrPtr, true);
 
-						qApp->style()->polish(dialogPtr.get());
+						qApp->style()->polish(dialogPtr.GetPtr());
 					}
 				}
 			}
 		}
 	}
 
-	return dialogPtr.release();
+	return dialogPtr.PopPtr();
 }
 
 

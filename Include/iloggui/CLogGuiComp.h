@@ -11,7 +11,7 @@
 #endif
 
 // ACF includes
-#include <memory>
+#include <istd/TDelPtr.h>
 #include <ibase/ICommandsProvider.h>
 #include <ifile/IFilePersistence.h>
 #include <iprm/CEnableableParam.h>
@@ -219,13 +219,13 @@ protected:
 	QAction* m_diagnosticModeActionPtr;
 
 	// commands
-	std::unique_ptr<iqtgui::CHierarchicalCommand> m_rootCommands;
-	std::unique_ptr<iqtgui::CHierarchicalCommand> m_infoCommand;
-	std::unique_ptr<iqtgui::CHierarchicalCommand> m_warningCommand;
-	std::unique_ptr<iqtgui::CHierarchicalCommand> m_errorCommand;
-	std::unique_ptr<iqtgui::CHierarchicalCommand> m_clearCommand;
-	std::unique_ptr<iqtgui::CHierarchicalCommand> m_exportCommand;
-	std::unique_ptr<iqtgui::CHierarchicalCommand> m_diagnosticCommand;
+	istd::TDelPtr<iqtgui::CHierarchicalCommand> m_rootCommands;
+	istd::TDelPtr < iqtgui::CHierarchicalCommand> m_infoCommand;
+	istd::TDelPtr < iqtgui::CHierarchicalCommand> m_warningCommand;
+	istd::TDelPtr < iqtgui::CHierarchicalCommand> m_errorCommand;
+	istd::TDelPtr < iqtgui::CHierarchicalCommand> m_clearCommand;
+	istd::TDelPtr < iqtgui::CHierarchicalCommand> m_exportCommand;
+	istd::TDelPtr < iqtgui::CHierarchicalCommand> m_diagnosticCommand;
 
 private:
 	// static template methods for subelement access

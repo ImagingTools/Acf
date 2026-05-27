@@ -24,14 +24,14 @@ void CFreeWidgetGuiComp::OnComponentCreated()
 	BaseClass::OnComponentCreated();
 
 	if (m_slaveGuiCompPtr.IsValid()){
-		m_mainWindowPtr.reset(new QMainWindow);
+		m_mainWindowPtr.SetPtr(new QMainWindow);
 
-		if (m_mainWindowPtr != nullptr){
-			QVBoxLayout* layoutPtr = new QVBoxLayout(m_mainWindowPtr.get());
+		if (m_mainWindowPtr.IsValid()){
+			QVBoxLayout* layoutPtr = new QVBoxLayout(m_mainWindowPtr.GetPtr());
 			m_mainWindowPtr->setLayout(layoutPtr);
 			m_mainWindowPtr->setWindowTitle(*m_titleAttrPtr);
 
-			if (m_slaveGuiCompPtr->CreateGui(m_mainWindowPtr.get())){
+			if (m_slaveGuiCompPtr->CreateGui(m_mainWindowPtr.GetPtr())){
 				m_mainWindowPtr->setCentralWidget(m_slaveGuiCompPtr->GetWidget());
 				m_mainWindowPtr->show();
 			}
@@ -48,7 +48,7 @@ void CFreeWidgetGuiComp::OnComponentDestroyed()
 		m_slaveGuiCompPtr->DestroyGui();
 	}
 
-	m_mainWindowPtr.reset();
+	m_mainWindowPtr.Reset();
 }
 
 

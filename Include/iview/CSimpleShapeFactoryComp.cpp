@@ -34,10 +34,10 @@ IShape* CSimpleShapeFactoryComp::CreateShape(const istd::IChangeable* objectPtr,
 		return NULL;
 	}
 
-	std::unique_ptr<CShapeBase> shapePtr(CreateShapeInstance(*objectPtr));
+	istd::TDelPtr<CShapeBase> shapePtr(CreateShapeInstance(*objectPtr));
 
-	if (shapePtr != nullptr){
-		CInteractiveShapeBase* interactiveShapePtr = dynamic_cast<CInteractiveShapeBase*>(shapePtr.get());
+	if (shapePtr.IsValid()){
+		CInteractiveShapeBase* interactiveShapePtr = dynamic_cast<CInteractiveShapeBase*>(shapePtr.GetPtr());
 		if (interactiveShapePtr != NULL){
 			interactiveShapePtr->SetEditablePosition(*m_useInteractiveShapesAttrPtr);
 		}
@@ -53,14 +53,14 @@ IShape* CSimpleShapeFactoryComp::CreateShape(const istd::IChangeable* objectPtr,
 		if (connectToModel){
 			imod::IModel* modelPtr = dynamic_cast<imod::IModel*>(const_cast<istd::IChangeable*>(objectPtr));
 			if (modelPtr != NULL){
-				if (!modelPtr->AttachObserver(shapePtr.get())){
+				if (!modelPtr->AttachObserver(shapePtr.GetPtr())){
 					return NULL;
 				}
 			}
 		}
 	}
 
-	return shapePtr.release();
+	return shapePtr.PopPtr();
 }
 
 

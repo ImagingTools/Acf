@@ -13,14 +13,14 @@ namespace imod
 bool CMultiModelDispatcherBase::RegisterModel(IModel* modelPtr, int modelId, const istd::IChangeable::ChangeSet& relevantFlags)
 {
 	ObserverProxyPtr& proxyPtr = m_modelMap[modelId];
-	if (proxyPtr == nullptr){
-		proxyPtr.reset(new ObserverProxy(this, modelId, relevantFlags));
+	if (!proxyPtr.IsValid()){
+		proxyPtr.SetPtr(new ObserverProxy(this, modelId, relevantFlags));
 	}
 
 	if (!proxyPtr->IsModelAttached(modelPtr)){
 		proxyPtr->EnsureModelDetached();
 
-		if (!modelPtr->AttachObserver(proxyPtr.get())){
+		if (!modelPtr->AttachObserver(proxyPtr.GetPtr())){
 			m_modelMap.remove(modelId);
 
 			return false;

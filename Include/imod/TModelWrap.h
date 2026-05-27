@@ -2,7 +2,7 @@
 #pragma once
 
 
-#include <memory>
+#include <istd/TDelPtr.h>
 #include <istd/IChangeable.h>
 #include <iser/TCopySerializedWrap.h>
 #include <imod/CModelBase.h>

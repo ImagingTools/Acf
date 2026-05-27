@@ -102,10 +102,10 @@ int main(int argc, char *argv[])
 
 	int exitCode = 0;
 
-	std::unique_ptr<QCoreApplication> coreAppPtr;
+	istd::TDelPtr<QCoreApplication> coreAppPtr;
 
 	if (isConsoleMode){
-		coreAppPtr.reset(new QCoreApplication(argc, argv));
+		coreAppPtr.SetPtr(new QCoreApplication(argc, argv));
 	}
 
 	// Save current working directory:
