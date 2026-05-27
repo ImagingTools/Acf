@@ -3,7 +3,7 @@
 
 
 // ACF includes
-#include <istd/TDelPtr.h>
+#include <memory>
 
 
 // Mock implementation of IOptionsList for testing

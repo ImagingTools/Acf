@@ -4,7 +4,7 @@
 
 // ACF includes
 #include <istd/TInterfaceFactory.h>
-#include <istd/TDelPtr.h>
+#include <memory>
 
 #include <icomp/TAttributeMember.h>
 #include <icomp/CInterfaceManipBase.h>

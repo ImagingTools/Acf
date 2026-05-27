@@ -443,7 +443,7 @@ void CSelectionParamGuiComp::UpdateRadioButtonView()
 
 	m_radioButtons.Reset();
 	m_radioButtonGroups.Reset();
-	m_radioButtonFramePtr.Reset();
+	m_radioButtonFramePtr.reset();
 
 	for (		iprm::ISelectionParam* selectionPtr = GetObservedObject();
 				selectionPtr != NULL;
@@ -457,13 +457,13 @@ void CSelectionParamGuiComp::UpdateRadioButtonView()
 
 		m_radioButtonFramePtr = new QFrame(SelectionFrame);
 		m_radioButtonFramePtr->setFrameShape(QFrame::NoFrame);
-		mainLayoutPtr->addWidget(m_radioButtonFramePtr.GetPtr());
+		mainLayoutPtr->addWidget(m_radioButtonFramePtr.get());
 		QLayout* buttonLayoutPtr = NULL;
 		if (useVerticalLayout){
-			buttonLayoutPtr = new QVBoxLayout(m_radioButtonFramePtr.GetPtr());
+			buttonLayoutPtr = new QVBoxLayout(m_radioButtonFramePtr.get());
 		}
 		else{
-			buttonLayoutPtr = new QHBoxLayout(m_radioButtonFramePtr.GetPtr());
+			buttonLayoutPtr = new QHBoxLayout(m_radioButtonFramePtr.get());
 		}
 
 		buttonLayoutPtr->setContentsMargins(0, 0, 0, 0);
@@ -487,7 +487,7 @@ void CSelectionParamGuiComp::UpdateRadioButtonView()
 							name,
 							description,
 							groupPtr,
-							*m_radioButtonFramePtr.GetPtr());
+							*m_radioButtonFramePtr.get());
 
 				buttonLayoutPtr->addWidget(radioButtonWidget);
 
@@ -601,7 +601,7 @@ void CSelectionParamGuiComp::UpdateSelectorLabel()
 				}
 			}
 
-			selectorLayoutPtr->addWidget(m_selectorLabelPtr.GetPtr());
+			selectorLayoutPtr->addWidget(m_selectorLabelPtr.get());
 		}
 		else{
 			m_selectorLabelPtr->setText(*m_optionsLabelAttrPtr);
@@ -617,8 +617,8 @@ void CSelectionParamGuiComp::ResetWidgets()
 	m_comboBoxes.Reset();
 	m_radioButtons.Reset();
 	m_radioButtonGroups.Reset();
-	m_radioButtonFramePtr.Reset();
-	m_selectorLabelPtr.Reset();
+	m_radioButtonFramePtr.reset();
+	m_selectorLabelPtr.reset();
 	m_descriptionLabelList.clear();
 	m_optionsLabelList.clear();
 	m_optionInfoLabelList.clear();

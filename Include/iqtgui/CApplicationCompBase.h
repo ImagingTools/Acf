@@ -112,7 +112,7 @@ protected:
 	bool m_useSplashScreen;
 	istd::CGeneralTimeStamp m_splashScreenTimer;
 
-	istd::TDelPtr<QApplication> m_applicationPtr;
+	std::unique_ptr<QApplication> m_applicationPtr;
 
 	QStringList m_applicationArguments;
 

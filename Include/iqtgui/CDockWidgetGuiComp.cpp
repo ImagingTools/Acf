@@ -128,13 +128,13 @@ void CDockWidgetGuiComp::OnGuiCreated()
 		dockWidgetPtr->setTitleBarWidget(new QWidget(dockWidgetPtr));
 	}
 
-	istd::TDelPtr<QWidget> containerWidgetPtr(new QWidget(NULL));
-	QVBoxLayout* layoutPtr = new QVBoxLayout(containerWidgetPtr.GetPtr());
+	std::unique_ptr<QWidget> containerWidgetPtr(new QWidget(NULL));
+	QVBoxLayout* layoutPtr = new QVBoxLayout(containerWidgetPtr.get());
 	layoutPtr->setContentsMargins(1, 1, 1, 1);
 	containerWidgetPtr->setLayout(layoutPtr);
 
-	if (m_slaveGuiCompPtr.IsValid() && m_slaveGuiCompPtr->CreateGui(containerWidgetPtr.GetPtr())){
-		dockWidgetPtr->setWidget(containerWidgetPtr.PopPtr());
+	if (m_slaveGuiCompPtr.IsValid() && m_slaveGuiCompPtr->CreateGui(containerWidgetPtr.get())){
+		dockWidgetPtr->setWidget(containerWidgetPtr.release());
 	}
 
 	if (m_dockFeaturesAttrPtr.IsValid()){

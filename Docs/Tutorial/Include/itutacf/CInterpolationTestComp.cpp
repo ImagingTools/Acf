@@ -44,7 +44,7 @@ void CInterpolationTestComp::OnUpdate(const istd::IChangeable::ChangeSet& /*chan
 		Q_ASSERT(positions.size() == values.size());
 
 		if (positions.size() >= 2){
-			istd::TDelPtr<imath::IDoubleFunction> interpolationFunctionPtr;
+			std::unique_ptr<imath::IDoubleFunction> interpolationFunctionPtr;
 
 			switch (*m_interpolatorTypeAttrPtr){
 			case 0:
@@ -59,7 +59,7 @@ void CInterpolationTestComp::OnUpdate(const istd::IChangeable::ChangeSet& /*chan
 				break;
 			}
 
-			if (interpolationFunctionPtr.IsValid()){
+			if (interpolationFunctionPtr != nullptr){
 				istd::CRange positionRange(positions.first(), positions.last());
 
 				int interpolatedNodesCount = *m_interpolatedNodesCountAttrPtr;

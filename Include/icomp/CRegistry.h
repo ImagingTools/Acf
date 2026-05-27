@@ -89,7 +89,7 @@ protected:
 	virtual bool SerializeExportedInterfaces(iser::IArchive& archive);
 	virtual bool SerializeExportedComponents(iser::IArchive& archive);
 
-	typedef istd::TDelPtr<IRegistry> RegistryPtr;
+	typedef std::unique_ptr<IRegistry> RegistryPtr;
 	typedef QMap<QByteArray, RegistryPtr> EmbeddedRegistriesMap;
 	EmbeddedRegistriesMap m_embeddedRegistriesMap;
 

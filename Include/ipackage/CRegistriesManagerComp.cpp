@@ -210,16 +210,16 @@ const icomp::IRegistry* CRegistriesManagerComp::GetRegistryFromFile(const QStrin
 
 	RegistriesMap::ConstIterator iter = m_registriesMap.constFind(correctedPath);
 	if (iter != m_registriesMap.constEnd()){
-		return iter.value().GetPtr();
+		return iter.value().get();
 	}
 
 	RegistryPtr& mapValue = m_registriesMap[correctedPath];
 	if (m_registryLoaderCompPtr.IsValid()){
-		istd::TDelPtr<icomp::IRegistry> newRegistryPtr(new icomp::CRegistry());
+		std::unique_ptr<icomp::IRegistry> newRegistryPtr(new icomp::CRegistry());
 		if (m_registryLoaderCompPtr->LoadFromFile(*newRegistryPtr, correctedPath) == ifile::IFilePersistence::OS_OK){
-			mapValue.TakeOver(newRegistryPtr);
+			mapValue = std::move(newRegistryPtr);
 
-			return mapValue.GetPtr();
+			return mapValue.get();
 		}
 	}
 

@@ -399,12 +399,12 @@ private:
 	iqtgui::CHierarchicalCommand m_copyPathToClipboardCommand;
 	iqtgui::CHierarchicalCommand m_openDocumentFolderCommand;
 
-	typedef istd::TDelPtr<iqtgui::CHierarchicalCommand> RecentGroupCommandPtr;
+	typedef std::unique_ptr<iqtgui::CHierarchicalCommand> RecentGroupCommandPtr;
 	typedef QMap<QByteArray, RecentGroupCommandPtr> RecentFilesMap;
 	RecentFilesMap m_recentFilesMap;
 
-	istd::TDelPtr<iqtgui::CGuiComponentDialog> m_persistenceProgressDialogPtr;
-	istd::TDelPtr<ProgressObserver> m_persistenceProgressPtr;
+	std::unique_ptr<iqtgui::CGuiComponentDialog> m_persistenceProgressDialogPtr;
+	std::unique_ptr<ProgressObserver> m_persistenceProgressPtr;
 };
 
 

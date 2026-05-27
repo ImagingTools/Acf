@@ -3,7 +3,7 @@
 
 
 // ACF includes
-#include <istd/TDelPtr.h>
+#include <memory>
 #include <iser/CMemoryReadArchive.h>
 #include <iser/CMemoryWriteArchive.h>
 

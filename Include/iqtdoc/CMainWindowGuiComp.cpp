@@ -182,7 +182,7 @@ bool CMainWindowGuiComp::OpenFile(const QString& fileName, const QByteArray* doc
 
 		bool ignoredFlag = false;
 
-		if (m_persistenceProgressDialogPtr.IsValid()){
+		if (m_persistenceProgressDialogPtr != nullptr){
 			m_persistenceProgressDialogPtr->setWindowTitle(QString(tr("Loading '%1'...")).arg(fileName));
 		}
 
@@ -195,7 +195,7 @@ bool CMainWindowGuiComp::OpenFile(const QString& fileName, const QByteArray* doc
 					&fileMap,
 					false,
 					&ignoredFlag,
-					m_persistenceProgressPtr.GetPtr());
+					m_persistenceProgressPtr.get());
 		if (retVal){
 			UpdateRecentFileList(fileMap);
 		}
@@ -216,13 +216,13 @@ bool CMainWindowGuiComp::SaveActiveDocument()
 {
 	bool retVal = false;
 
-	if (m_persistenceProgressDialogPtr.IsValid()){
+	if (m_persistenceProgressDialogPtr != nullptr){
 		m_persistenceProgressDialogPtr->setWindowTitle(tr("Saving the document..."));
 	}
 
 	bool ignoredFlag = false;
 	idoc::IDocumentManager::FileToTypeMap fileMap;
-	retVal = m_documentManagerCompPtr->SaveDocument(-1, false, &fileMap, false, &ignoredFlag, m_persistenceProgressPtr.GetPtr());
+	retVal = m_documentManagerCompPtr->SaveDocument(-1, false, &fileMap, false, &ignoredFlag, m_persistenceProgressPtr.get());
 	if (retVal){
 		UpdateRecentFileList(fileMap);
 	}
@@ -731,7 +731,7 @@ void CMainWindowGuiComp::OnGuiCreated()
 	}
 
 	if (m_persistenceProgressCompPtr.IsValid() && m_persistenceProgressGuiCompPtr.IsValid()){
-		m_persistenceProgressDialogPtr.SetPtr(
+		m_persistenceProgressDialogPtr.reset(
 					new iqtgui::CGuiComponentDialog(
 								m_persistenceProgressGuiCompPtr.GetPtr(),
 								QDialogButtonBox::NoButton,
@@ -774,9 +774,9 @@ void CMainWindowGuiComp::OnGuiDestroyed()
 {
 	BaseClass::OnGuiDestroyed();
 
-	m_persistenceProgressDialogPtr.Reset();
+	m_persistenceProgressDialogPtr.reset();
 
-	m_persistenceProgressPtr.Reset();
+	m_persistenceProgressPtr.reset();
 }
 
 

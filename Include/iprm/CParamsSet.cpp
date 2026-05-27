@@ -5,7 +5,7 @@
 // ACF includes
 #include <istd/CChangeNotifier.h>
 #include <istd/CChangeGroup.h>
-#include <istd/TDelPtr.h>
+#include <memory>
 #include <istd/CIdManipBase.h>
 
 #include <iser/IArchive.h>

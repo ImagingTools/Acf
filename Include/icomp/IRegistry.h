@@ -8,7 +8,7 @@
 #include <QtCore/QMap>
 
 // ACF includes
-#include <istd/TDelPtr.h>
+#include <memory>
 #include <iser/ISerializable.h>
 #include <icomp/IRegistryElement.h>
 #include <icomp/CComponentAddress.h>
@@ -48,7 +48,7 @@ class IRegistry: virtual public iser::ISerializable
 {
 public:
 	typedef QSet<QByteArray> Ids;
-	typedef istd::TDelPtr<IRegistryElement> ElementPtr;
+	typedef std::unique_ptr<IRegistryElement> ElementPtr;
 
 	/**
 		Change flags.

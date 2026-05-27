@@ -14,7 +14,7 @@
 #endif
 
 // ACF includes
-#include <istd/TDelPtr.h>
+#include <memory>
 
 #include <iwidgets/iwidgets.h>
 

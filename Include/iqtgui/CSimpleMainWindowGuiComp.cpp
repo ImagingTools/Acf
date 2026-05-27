@@ -72,7 +72,7 @@ void CSimpleMainWindowGuiComp::UpdateMenuActions()
 		return;
 	}
 
-	if (!m_menuBarPtr.IsValid() && !m_standardToolBarPtr.IsValid()){
+	if (m_menuBarPtr == nullptr && m_standardToolBarPtr == nullptr){
 		// if there are no visible menu items: add the command directly to the widget
 		if (m_helpFilePathPtr.IsValid()){
 			GetQtWidget()->addAction(&m_manualCommand);
@@ -91,12 +91,12 @@ void CSimpleMainWindowGuiComp::UpdateMenuActions()
 
 	AppendMenuActions(m_menuCommands);
 
-	if (m_menuBarPtr.IsValid()){
+	if (m_menuBarPtr != nullptr){
 		m_menuBarPtr->clear();
 		CCommandTools::CreateMenu(m_menuCommands, *m_menuBarPtr);
 	}
 
-	if (m_standardToolBarPtr.IsValid()){
+	if (m_standardToolBarPtr != nullptr){
 		m_standardToolBarPtr->clear();
 
 		CCommandTools::SetupToolbar(m_menuCommands, *m_standardToolBarPtr);
@@ -108,7 +108,7 @@ void CSimpleMainWindowGuiComp::UpdateMenuActions()
 
 void CSimpleMainWindowGuiComp::SetupMainWindowComponents(QMainWindow& mainWindow)
 {
-	if (m_standardToolBarPtr.IsValid()){
+	if (m_standardToolBarPtr != nullptr){
 		Qt::ToolBarArea toolBarArea = Qt::TopToolBarArea;
 		if (m_toolBarAreaAttrPtr.IsValid()){
 			switch (*m_toolBarAreaAttrPtr){
@@ -131,13 +131,13 @@ void CSimpleMainWindowGuiComp::SetupMainWindowComponents(QMainWindow& mainWindow
 			}
 		}
 
-		mainWindow.addToolBar(toolBarArea, m_standardToolBarPtr.GetPtr());
+		mainWindow.addToolBar(toolBarArea, m_standardToolBarPtr.get());
 
-		m_toolBarsList.PushBack(m_standardToolBarPtr.GetPtr(), false);
+		m_toolBarsList.PushBack(m_standardToolBarPtr.get(), false);
 	}
 
-	if (m_menuBarPtr.IsValid()){
-		mainWindow.setMenuBar(m_menuBarPtr.GetPtr());
+	if (m_menuBarPtr != nullptr){
+		mainWindow.setMenuBar(m_menuBarPtr.get());
 	}
 
 	for (int componentIndex = 0; componentIndex < m_mainWindowComponentsCompPtr.GetCount(); componentIndex++){
@@ -187,7 +187,7 @@ void CSimpleMainWindowGuiComp::AddMainComponent(int componentIndex, iqtgui::IMai
 		if (toolBarComponentPtr != NULL){
 			m_toolBarsList.PushBack(toolBarComponentPtr, false);
 
-			if (m_standardToolBarPtr.IsValid()){
+			if (m_standardToolBarPtr != nullptr){
 				toolBarComponentPtr->setToolButtonStyle(m_standardToolBarPtr->toolButtonStyle());
 			}
 		}
@@ -210,7 +210,7 @@ void CSimpleMainWindowGuiComp::CreateMenuBar()
 	if (*m_isMenuVisibleAttrPtr){
 		QMainWindow* mainWindowPtr = GetQtWidget();
 		if (mainWindowPtr != NULL){
-			m_menuBarPtr.SetPtr(new QMenuBar(mainWindowPtr));
+			m_menuBarPtr.reset(new QMenuBar(mainWindowPtr));
 		}
 	}
 }
@@ -222,7 +222,7 @@ void CSimpleMainWindowGuiComp::CreateDefaultToolBar()
 	if (*m_isToolbarVisibleAttrPtr){
 		QMainWindow* mainWindowPtr = GetQtWidget();
 		if (mainWindowPtr != NULL){
-			m_standardToolBarPtr.SetPtr(new QToolBar(mainWindowPtr));
+			m_standardToolBarPtr.reset(new QToolBar(mainWindowPtr));
 
 			m_standardToolBarPtr->setWindowTitle(tr("Standard"));
 			m_standardToolBarPtr->setObjectName("StandardToolBar");
@@ -538,8 +538,8 @@ void CSimpleMainWindowGuiComp::OnGuiDestroyed()
 	m_helpCommand.ResetChilds();
 	m_fixedCommands.ResetChilds();
 
-	m_menuBarPtr.Reset();
-	m_standardToolBarPtr.Reset();
+	m_menuBarPtr.reset();
+	m_standardToolBarPtr.reset();
 
 	BaseClass::OnGuiDestroyed();
 }

@@ -12,7 +12,7 @@
 
 // ACF includes
 #include <iser/CTextWriteArchiveBase.h>
-#include <istd/TDelPtr.h>
+#include <memory>
 
 
 namespace iser

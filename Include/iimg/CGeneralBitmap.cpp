@@ -7,7 +7,7 @@
 
 // ACF includes
 #include <istd/CChangeNotifier.h>
-#include <istd/TDelPtr.h>
+#include <memory>
 
 
 namespace iimg

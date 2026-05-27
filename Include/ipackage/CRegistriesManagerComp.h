@@ -7,7 +7,7 @@
 #include <QtCore/QDir>
 
 // ACF includes
-#include <istd/TDelPtr.h>
+#include <memory>
 #include <icomp/IExtPackagesManager.h>
 #include <icomp/IRegistriesManager.h>
 #include <icomp/IRegistryLoader.h>
@@ -104,7 +104,7 @@ private:
 	typedef QMap<QByteArray, CompositePackageInfo> CompositePackagesMap;
 	CompositePackagesMap m_compositePackagesMap;
 
-	typedef istd::TDelPtr<icomp::IRegistry> RegistryPtr;
+	typedef std::unique_ptr<icomp::IRegistry> RegistryPtr;
 	typedef QMap<QString, RegistryPtr> RegistriesMap;
 
 	mutable RegistriesMap m_registriesMap;

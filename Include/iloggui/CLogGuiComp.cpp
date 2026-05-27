@@ -104,7 +104,7 @@ void CLogGuiComp::OnGuiRetranslate()
 const ibase::IHierarchicalCommand* CLogGuiComp::GetCommands() const
 {
 	if (!*m_showPanelAttrPtr){
-		return m_rootCommands.GetPtr();
+		return m_rootCommands.get();
 	}
 
 	return NULL;
@@ -220,24 +220,24 @@ void CLogGuiComp::SetupCommands()
 	m_errorCommand->setData(MM_ERROR);
 	m_errorCommand->setCheckable(true);
 
-	connect(m_infoCommand.GetPtr(), SIGNAL(toggled(bool)), this, SLOT(OnMessageModeChanged()), Qt::QueuedConnection);
-	connect(m_warningCommand.GetPtr(), SIGNAL(toggled(bool)), this, SLOT(OnMessageModeChanged()), Qt::QueuedConnection);
-	connect(m_errorCommand.GetPtr(), SIGNAL(toggled(bool)), this, SLOT(OnMessageModeChanged()), Qt::QueuedConnection);
-	connect(m_clearCommand.GetPtr(), SIGNAL(triggered()), this, SLOT(OnClearAction()), Qt::QueuedConnection);
-	connect(m_exportCommand.GetPtr(), SIGNAL(triggered()), this, SLOT(OnExportAction()), Qt::QueuedConnection);
-	connect(m_diagnosticCommand.GetPtr(), SIGNAL(toggled(bool)), this, SLOT(EnableDiagnosticMessages(bool)));
+	connect(m_infoCommand.get(), SIGNAL(toggled(bool)), this, SLOT(OnMessageModeChanged()), Qt::QueuedConnection);
+	connect(m_warningCommand.get(), SIGNAL(toggled(bool)), this, SLOT(OnMessageModeChanged()), Qt::QueuedConnection);
+	connect(m_errorCommand.get(), SIGNAL(toggled(bool)), this, SLOT(OnMessageModeChanged()), Qt::QueuedConnection);
+	connect(m_clearCommand.get(), SIGNAL(triggered()), this, SLOT(OnClearAction()), Qt::QueuedConnection);
+	connect(m_exportCommand.get(), SIGNAL(triggered()), this, SLOT(OnExportAction()), Qt::QueuedConnection);
+	connect(m_diagnosticCommand.get(), SIGNAL(toggled(bool)), this, SLOT(EnableDiagnosticMessages(bool)));
 
-	m_rootCommands->InsertChild(m_infoCommand.GetPtr());
-	m_rootCommands->InsertChild(m_warningCommand.GetPtr());
-	m_rootCommands->InsertChild(m_errorCommand.GetPtr());
-	m_rootCommands->InsertChild(m_clearCommand.GetPtr());
+	m_rootCommands->InsertChild(m_infoCommand.get());
+	m_rootCommands->InsertChild(m_warningCommand.get());
+	m_rootCommands->InsertChild(m_errorCommand.get());
+	m_rootCommands->InsertChild(m_clearCommand.get());
 
 	if (m_fileLoaderCompPtr.IsValid()){
-		m_rootCommands->InsertChild(m_exportCommand.GetPtr());
+		m_rootCommands->InsertChild(m_exportCommand.get());
 	}
 
 	if (*m_allowDiagnosticMessagesAttrPtr){
-		m_rootCommands->InsertChild(m_diagnosticCommand.GetPtr());
+		m_rootCommands->InsertChild(m_diagnosticCommand.get());
 	}
 
 	switch (*m_defaultModeAttrPtr){
@@ -333,13 +333,13 @@ void CLogGuiComp::ClearMessages()
 
 void CLogGuiComp::OnGuiCreated()
 {
-	m_rootCommands.SetPtr(new iqtgui::CHierarchicalCommand());
-	m_infoCommand.SetPtr(new iqtgui::CHierarchicalCommand());
-	m_warningCommand.SetPtr(new iqtgui::CHierarchicalCommand());
-	m_errorCommand.SetPtr(new iqtgui::CHierarchicalCommand());
-	m_clearCommand.SetPtr(new iqtgui::CHierarchicalCommand());
-	m_exportCommand.SetPtr(new iqtgui::CHierarchicalCommand());
-	m_diagnosticCommand.SetPtr(new iqtgui::CHierarchicalCommand());
+	m_rootCommands.reset(new iqtgui::CHierarchicalCommand());
+	m_infoCommand.reset(new iqtgui::CHierarchicalCommand());
+	m_warningCommand.reset(new iqtgui::CHierarchicalCommand());
+	m_errorCommand.reset(new iqtgui::CHierarchicalCommand());
+	m_clearCommand.reset(new iqtgui::CHierarchicalCommand());
+	m_exportCommand.reset(new iqtgui::CHierarchicalCommand());
+	m_diagnosticCommand.reset(new iqtgui::CHierarchicalCommand());
 
 	m_infoCommand->setData(MM_INFO);
 	m_infoCommand->setCheckable(true);
@@ -718,7 +718,7 @@ void CLogGuiComp::DiagnosticStateObserver::OnUpdate(const istd::IChangeable::Cha
 
 	bool isEnabled = enablerPtr->IsEnabled();
 
-	if (m_parent.m_diagnosticCommand.IsValid()){
+	if (m_parent.m_diagnosticCommand != nullptr){
 		m_parent.m_diagnosticCommand->setChecked(isEnabled);
 	}
 

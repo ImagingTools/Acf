@@ -9,7 +9,7 @@
 #include <QtCore/QString>
 
 // ACF includes
-#include <istd/TDelPtr.h>
+#include <memory>
 #include <icomp/CComponentStaticInfoBase.h>
 #include <icomp/CCachedAttributeStaticInfo.h>
 
@@ -86,13 +86,13 @@ private:
 
 	Ids m_interfaceIds;
 
-	typedef QMap<QByteArray, istd::TDelPtr<CCachedElementStaticInfo>> SubelementInfos;
+	typedef QMap<QByteArray, std::unique_ptr<CCachedElementStaticInfo>> SubelementInfos;
 	SubelementInfos m_subelementInfos;
 
-	typedef QMap<QByteArray, istd::TDelPtr<CCachedComponentStaticInfo>> EmbeddedComponentInfos;
+	typedef QMap<QByteArray, std::unique_ptr<CCachedComponentStaticInfo>> EmbeddedComponentInfos;
 	EmbeddedComponentInfos m_embeddedComponentInfos;
 
-	typedef QMap<QByteArray, istd::TDelPtr<CCachedAttributeStaticInfo>> AttributeInfos;
+	typedef QMap<QByteArray, std::unique_ptr<CCachedAttributeStaticInfo>> AttributeInfos;
 	AttributeInfos m_attributeInfos;
 };
 

@@ -11,7 +11,7 @@
 
 // ACF includes
 #include <istd/CChangeNotifier.h>
-#include <istd/TDelPtr.h>
+#include <memory>
 #include <istd/CClassInfo.h>
 #include <icmm/CRgbColorModel.h>
 #include <icmm/CRgbaColorModel.h>
@@ -291,7 +291,7 @@ bool CBitmap::CopyImageFrom(const QImage& image)
 {
 	istd::CChangeNotifier changePtr(this);
 
-	m_colorModelPtr.Reset();
+	m_colorModelPtr.reset();
 
 	m_externalBuffer.Reset();
 
@@ -330,7 +330,7 @@ bool CBitmap::CreateBitmap(PixelFormat pixelFormat, const istd::CIndex2d& size, 
 	istd::CChangeNotifier notifier(this);
 	Q_UNUSED(notifier);
 
-	m_colorModelPtr.Reset();
+	m_colorModelPtr.reset();
 
 	if (size.IsSizeEmpty()){
 		ResetImage();
@@ -370,7 +370,7 @@ bool CBitmap::CreateBitmap(PixelFormat pixelFormat, const istd::CIndex2d& size, 
 {
 	istd::CChangeNotifier changePtr(this);
 
-	m_colorModelPtr.Reset();
+	m_colorModelPtr.reset();
 
 	QImage::Format imageFormat = CalcQtFormat(pixelFormat);
 	if (imageFormat != QImage::Format_Invalid){
@@ -483,7 +483,7 @@ bool CBitmap::CopyFrom(const istd::IChangeable& object, CompatibilityMode /*mode
 	istd::CChangeNotifier notifier(this);
 	Q_UNUSED(notifier);
 
-	m_colorModelPtr.Reset();
+	m_colorModelPtr.reset();
 
 	const CBitmap* bitmapImplPtr = dynamic_cast<const CBitmap*>(&object);
 	if (bitmapImplPtr != NULL){
@@ -681,14 +681,14 @@ bool CBitmap::SetQImage(const QImage& image)
 
 void CBitmap::InitializeColorModel()
 {
-	m_colorModelPtr.Reset();
+	m_colorModelPtr.reset();
 
 	if (!m_image.isNull()){
 		if (m_image.hasAlphaChannel()){
-			m_colorModelPtr.SetPtr(new icmm::CRgbaColorModel);
+			m_colorModelPtr.reset(new icmm::CRgbaColorModel);
 		}
 		else {
-			m_colorModelPtr.SetPtr(new icmm::CRgbColorModel);
+			m_colorModelPtr.reset(new icmm::CRgbColorModel);
 		}
 	}
 }
@@ -702,7 +702,7 @@ void CBitmap::Reset()
 
 	m_image = QImage();
 
-	m_colorModelPtr.Reset();
+	m_colorModelPtr.reset();
 
 	m_image.setDotsPerMeterX(1000);
 	m_image.setDotsPerMeterY(1000);

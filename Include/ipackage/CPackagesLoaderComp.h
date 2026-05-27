@@ -9,7 +9,7 @@
 #include <QtCore/QLibrary>
 
 // ACF includes
-#include <istd/TDelPtr.h>
+#include <memory>
 #include <icomp/IRegistryLoader.h>
 #include <icomp/CRegistry.h>
 #include <icomp/CEnvironmentManagerBase.h>
@@ -128,7 +128,7 @@ private:
 	typedef QMap<QByteArray, QString> ComponentIdToRegistryFileMap;
 	struct CompositePackageInfo
 	{
-		istd::TDelPtr<icomp::CCompositePackageStaticInfo> staticInfoPtr;
+		std::unique_ptr<icomp::CCompositePackageStaticInfo> staticInfoPtr;
 
 		QDir directory;
 		ComponentIdToRegistryFileMap componentIdToRegistryFileMap;
@@ -145,7 +145,7 @@ private:
 	typedef QMap<QByteArray, CompositePackageInfo> CompositePackagesMap;
 	CompositePackagesMap m_compositePackagesMap;
 
-	typedef istd::TDelPtr<icomp::IRegistry> RegistryPtr;
+	typedef std::unique_ptr<icomp::IRegistry> RegistryPtr;
 	typedef QMap<QString, RegistryPtr> RegistriesMap;
 	typedef QMap<const icomp::IRegistry*, QFileInfo> InvRegistriesMap;
 

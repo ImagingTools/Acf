@@ -3,7 +3,7 @@
 
 
 // ACF includes
-#include <istd/TDelPtr.h>
+#include <memory>
 #include <iser/CJsonMemReadArchive.h>
 #include <iser/CJsonMemWriteArchive.h>
 #include <itest/CStandardTestExecutor.h>

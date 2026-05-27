@@ -8,7 +8,7 @@ namespace iview
 
 void CDrawBuffer::Reset()
 {
-	m_drawContextPtr.Reset();
+	m_drawContextPtr.reset();
 
 	BaseClass::operator=(QPixmap());
 }
@@ -24,7 +24,7 @@ bool CDrawBuffer::IsCreated() const
 
 void CDrawBuffer::Create(const QPaintDevice& /*device*/, ibase::CSize size)
 {
-	m_drawContextPtr.Reset();
+	m_drawContextPtr.reset();
 
 	BaseClass::operator=(QPixmap(iqt::GetQSize(size)));
 }
@@ -34,7 +34,7 @@ void CDrawBuffer::CopyRectTo(const i2d::CRect& source, QPaintDevice& device, ist
 {
 	Q_ASSERT(!hasAlpha());
 
-	m_drawContextPtr.Reset();
+	m_drawContextPtr.reset();
 
 	QPainter painter(&device);
 
@@ -44,7 +44,7 @@ void CDrawBuffer::CopyRectTo(const i2d::CRect& source, QPaintDevice& device, ist
 
 void CDrawBuffer::CopyRectTo(const i2d::CRect& source, QPainter& drawContext, istd::CIndex2d contextPos) const
 {
-	m_drawContextPtr.Reset();
+	m_drawContextPtr.reset();
 
 	Q_ASSERT(!hasAlpha());
 
@@ -56,8 +56,8 @@ void CDrawBuffer::CopyRectTo(const i2d::CRect& source, QPainter& drawContext, is
 
 void CDrawBuffer::EnsureDrawContext()
 {
-	if (!m_drawContextPtr.IsValid()){
-		m_drawContextPtr.SetPtr(new QPainter(this));
+	if (m_drawContextPtr == nullptr){
+		m_drawContextPtr.reset(new QPainter(this));
 
 		m_drawContextPtr->setRenderHint(QPainter::Antialiasing, true);
 	}

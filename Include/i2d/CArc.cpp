@@ -8,7 +8,7 @@
 #include <i2d/CRectangle.h>
 #include <iser/IArchive.h>
 #include <iser/CArchiveTag.h>
-#include <istd/TDelPtr.h>
+#include <memory>
 
 
 namespace i2d

@@ -31,19 +31,19 @@ void CCachedComponentStaticInfo::AddInterfaceId(const QByteArray& interfaceId)
 
 void CCachedComponentStaticInfo::RegisterSubelementInfo(const QByteArray& subelementId, CCachedElementStaticInfo* subelementInfoPtr)
 {
-	m_subelementInfos[subelementId].SetPtr(subelementInfoPtr);
+	m_subelementInfos[subelementId].reset(subelementInfoPtr);
 }
 
 
 void CCachedComponentStaticInfo::RegisterEmbeddedComponentInfo(const QByteArray& embeddedId, CCachedComponentStaticInfo* componentInfoPtr)
 {
-	m_embeddedComponentInfos[embeddedId].SetPtr(componentInfoPtr);
+	m_embeddedComponentInfos[embeddedId].reset(componentInfoPtr);
 }
 
 
 void CCachedComponentStaticInfo::RegisterAttributeInfo(const QByteArray& attributeId, CCachedAttributeStaticInfo* attributeInfoPtr)
 {
-	m_attributeInfos[attributeId].SetPtr(attributeInfoPtr);
+	m_attributeInfos[attributeId].reset(attributeInfoPtr);
 }
 
 
@@ -59,7 +59,7 @@ const IAttributeStaticInfo* CCachedComponentStaticInfo::GetAttributeInfo(const Q
 {
 	AttributeInfos::ConstIterator foundIter = m_attributeInfos.constFind(attributeId);
 	if (foundIter != m_attributeInfos.constEnd()){
-		return foundIter.value().GetPtr();
+		return foundIter.value().get();
 	}
 
 	return NULL;
@@ -70,7 +70,7 @@ const IComponentStaticInfo* CCachedComponentStaticInfo::GetEmbeddedComponentInfo
 {
 	EmbeddedComponentInfos::ConstIterator foundIter = m_embeddedComponentInfos.constFind(embeddedId);
 	if (foundIter != m_embeddedComponentInfos.constEnd()){
-		return foundIter.value().GetPtr();
+		return foundIter.value().get();
 	}
 
 	return NULL;
@@ -123,7 +123,7 @@ const IElementStaticInfo* CCachedComponentStaticInfo::GetSubelementInfo(const QB
 {
 	SubelementInfos::ConstIterator foundIter = m_subelementInfos.constFind(subcomponentId);
 	if (foundIter != m_subelementInfos.constEnd()){
-		return foundIter.value().GetPtr();
+		return foundIter.value().get();
 	}
 
 	return NULL;

@@ -7,7 +7,7 @@
 #include <QtCore/QString>
 
 // ACF includes
-#include <istd/TDelPtr.h>
+#include <memory>
 #include <iser/IArchive.h>
 #include <imod/CSingleModelObserverBase.h>
 #include <idoc/IDocumentTemplate.h>

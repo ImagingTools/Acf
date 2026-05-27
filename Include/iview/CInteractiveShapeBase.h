@@ -4,7 +4,7 @@
 
 // ACF includes
 #include <istd/CChangeGroup.h>
-#include <istd/TDelPtr.h>
+#include <memory>
 #include <imod/IModel.h>
 #include <iview/IInteractiveShape.h>
 #include <iview/IDraggable.h>
@@ -92,7 +92,7 @@ private:
 	bool m_isSelected;
 	bool m_isEditablePosition;
 
-	istd::TDelPtr<istd::CChangeGroup> m_dragNotifierPtr;
+	std::unique_ptr<istd::CChangeGroup> m_dragNotifierPtr;
 };
 
 

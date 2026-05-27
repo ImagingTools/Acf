@@ -8,7 +8,7 @@
 #include <QtCore/QString>
 
 // ACF includes
-#include <istd/TDelPtr.h>
+#include <memory>
 #include <icomp/IAttributeStaticInfo.h>
 
 
@@ -55,7 +55,7 @@ private:
 	QString m_description;
 	QByteArray m_typeId;
 	int m_attributeFlags;
-	istd::TDelPtr<const iser::IObject> m_defaultValuePtr;
+	std::unique_ptr<const iser::IObject> m_defaultValuePtr;
 
 	typedef QMap<QByteArray, int> IdsToFlagsMap;
 	typedef QMap<int, IdsToFlagsMap> RelatedIdsMap;

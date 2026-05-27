@@ -22,14 +22,14 @@ struct TPointVisualObject : public Shape
 
 	typedef imod::TModelWrap<Object> PositionModel;
 
-	istd::TDelPtr<PositionModel> model;
+	std::unique_ptr<PositionModel> model;
 };
 
 
 template<class Object, class Shape>
 TPointVisualObject<Object, Shape>::TPointVisualObject(bool editable)
 {
-	model.SetPtr(new PositionModel);
+	model.reset(new PositionModel);
 
 	BaseClass::SetEditablePosition(editable);
 
@@ -49,14 +49,14 @@ struct TVisualObject: public Shape
 
 	typedef imod::TModelWrap<Object> PositionModel;
 
-	istd::TDelPtr<PositionModel> model;
+	std::unique_ptr<PositionModel> model;
 };
 
 
 template<class Object, class Shape>
 TVisualObject<Object, Shape>::TVisualObject(bool editable)
 {
-	model.SetPtr(new PositionModel);
+	model.reset(new PositionModel);
 
 	BaseClass::SetEditablePosition(editable);
 	BaseClass::SetEditableRadius(editable);
@@ -74,22 +74,22 @@ struct TBitmapVisualObject
 
 	typedef imod::TModelWrap<Object> ImageModel;
 
-	istd::TDelPtr<ImageModel> model;
-	istd::TDelPtr<BitmapShape> shape;
+	std::unique_ptr<ImageModel> model;
+	std::unique_ptr<BitmapShape> shape;
 };
 
 
 template<class Object, class BitmapShape>
 TBitmapVisualObject<Object, BitmapShape>::TBitmapVisualObject(const Object* imagePtr)
 {
-	model.SetPtr(new ImageModel);
+	model.reset(new ImageModel);
 	if (imagePtr != NULL){
 		model->SetBaseObject(*imagePtr);
 	}
 	
-	shape.SetPtr(new BitmapShape);
+	shape.reset(new BitmapShape);
 
-	model->AttachObserver(shape.GetPtr());
+	model->AttachObserver(shape.get());
 }
 
 

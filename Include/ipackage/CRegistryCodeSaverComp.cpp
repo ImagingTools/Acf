@@ -373,7 +373,7 @@ bool CRegistryCodeSaverComp::WriteHeader(
 	NextLine(stream);
 	stream << "// ACF includes";
 	NextLine(stream);
-	stream << "#include <istd/TDelPtr.h>";
+	stream << "#include <memory>";
 	NextLine(stream);
 	stream << "#include <icomp/CRegistry.h>";
 	NextLine(stream);
@@ -593,7 +593,7 @@ bool CRegistryCodeSaverComp::WriteHeader(
 		ChangeIndent(1);
 
 		NextLine(stream);
-		stream << "typedef istd::TDelPtr<icomp::IRegistry> RegistryPtr;";
+		stream << "typedef std::unique_ptr<icomp::IRegistry> RegistryPtr;";
 		NextLine(stream);
 		stream << "typedef QMap<icomp::CComponentAddress, RegistryPtr> RegistriesMap;";
 		stream << "\n";
@@ -633,7 +633,7 @@ bool CRegistryCodeSaverComp::WriteHeader(
 				QByteArray packageName = GetPackageName(packageId);
 
 				NextLine(stream);
-				stream << "istd::TDelPtr<icomp::IComponentStaticInfo> m_package" << packageId << "InfoPtr;";
+				stream << "std::unique_ptr<icomp::IComponentStaticInfo> m_package" << packageId << "InfoPtr;";
 			}
 
 			stream << "\n";
