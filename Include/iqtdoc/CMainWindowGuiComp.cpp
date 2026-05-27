@@ -740,7 +740,7 @@ void CMainWindowGuiComp::OnGuiCreated()
 		m_persistenceProgressDialogPtr->setWindowFlags(((m_persistenceProgressDialogPtr->windowFlags() | Qt::CustomizeWindowHint) & ~(Qt::WindowCloseButtonHint | Qt::WindowSystemMenuHint)));
 		m_persistenceProgressDialogPtr->SetDialogGeometry(0.3, 0.05);
 
-		m_persistenceProgressPtr.SetPtr (new ProgressObserver(*this, m_persistenceProgressCompPtr.GetPtr()));
+		m_persistenceProgressPtr.reset(new ProgressObserver(*this, m_persistenceProgressCompPtr.GetPtr()));
 	}
 
 	UpdateUndoMenu();

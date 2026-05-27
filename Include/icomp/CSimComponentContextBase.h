@@ -100,17 +100,17 @@ public:
 
 		const IRegistryElement::AttributeInfo* existingInfoPtr = m_registryElement.GetAttributeInfo(attributeId);
 		if (existingInfoPtr != NULL){
-			multiAttrPtr = dynamic_cast<iattr::TMultiAttribute<Attribute>*>(existingInfoPtr->attributePtr.GetPtr());
+			multiAttrPtr = dynamic_cast<iattr::TMultiAttribute<Attribute>*>(existingInfoPtr->attributePtr.get());
 		}
 		else{
 			IRegistryElement::AttributeInfo* newInfoPtr = m_registryElement.InsertAttributeInfo(attributeId, istd::CClassInfo::GetName<iattr::TMultiAttribute<Attribute> >());
 			if (newInfoPtr != NULL){
 				IRegistryElement::AttributePtr& attributePtr = newInfoPtr->attributePtr;
-				if (!attributePtr.IsValid()){
-					attributePtr.SetPtr(new iattr::TMultiAttribute<Attribute>);
+				if (attributePtr == nullptr){
+					attributePtr.reset(new iattr::TMultiAttribute<Attribute>);
 				}
 
-				multiAttrPtr = dynamic_cast<iattr::TMultiAttribute<Attribute>*>(attributePtr.GetPtr());
+				multiAttrPtr = dynamic_cast<iattr::TMultiAttribute<Attribute>*>(attributePtr.get());
 			}
 		}
 

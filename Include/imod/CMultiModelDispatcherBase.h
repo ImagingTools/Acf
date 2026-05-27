@@ -94,7 +94,7 @@ template <class Object>
 Object* CMultiModelDispatcherBase::GetObjectAt(int modelId) const
 {
 	typename ModelMap::ConstIterator foundIter = m_modelMap.constFind(modelId);
-	if ((foundIter != m_modelMap.constEnd()) && foundIter.value().IsValid()){
+	if ((foundIter != m_modelMap.constEnd()) && foundIter.value() != nullptr){
 		return dynamic_cast<Object*>(foundIter.value()->GetObservedModel());
 	}
 

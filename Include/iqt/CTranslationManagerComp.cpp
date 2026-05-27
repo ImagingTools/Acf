@@ -239,7 +239,7 @@ void CTranslationManagerComp::LoadTranslations()
 
 			Translator translator;
 
-			translator.translatorPtr.SetPtr(qtTranslatorPtr.release());
+			translator.translatorPtr.reset(qtTranslatorPtr.release());
 			translator.languageId = languageId;
 
 			if (translatorIndex < m_languageNamesAttrPtr.GetCount()){
