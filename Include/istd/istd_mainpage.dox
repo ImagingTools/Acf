@@ -35,7 +35,7 @@ automatic memory management with different ownership semantics:
 - **istd::TUniqueInterfacePtr**: Unique ownership smart pointer for interfaces
 - **istd::TSharedInterfacePtr**: Shared ownership smart pointer for interfaces
 - **istd::TOptInterfacePtr**: Flexible smart pointer supporting both managed and unmanaged pointers
-- **istd::TDelPtr**: Unique ownership pointer with automatic deletion (deprecated, use TUniqueInterfacePtr)
+- **istd::TDelPtr**: Deprecated type alias for std::unique_ptr (use std::unique_ptr directly)
 - **istd::TOptDelPtr**: Optional deletion pointer (deprecated, use TOptInterfacePtr)
 - **istd::TSmartPtr**: Transfer smart pointer (deprecated, use std::shared_ptr)
 
