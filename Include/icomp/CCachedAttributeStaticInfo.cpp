@@ -27,6 +27,12 @@ void CCachedAttributeStaticInfo::AddRelatedMetaId(int metaGroupId, const QByteAr
 }
 
 
+void CCachedAttributeStaticInfo::SetDefaultValue(iser::IObject* defaultValuePtr)
+{
+	m_defaultValuePtr.SetPtr(defaultValuePtr);
+}
+
+
 // reimplemented (icomp::IAttributeStaticInfo)
 
 IElementStaticInfo::Ids CCachedAttributeStaticInfo::GetRelatedMetaIds(int metaGroupId, int flags, int flagsMask) const
@@ -62,7 +68,7 @@ QString CCachedAttributeStaticInfo::GetAttributeDescription() const
 
 const iser::IObject* CCachedAttributeStaticInfo::GetAttributeDefaultValue() const
 {
-	return NULL;
+	return m_defaultValuePtr.GetPtr();
 }
 
 

@@ -8,6 +8,7 @@
 #include <QtCore/QString>
 
 // ACF includes
+#include <istd/TDelPtr.h>
 #include <icomp/IAttributeStaticInfo.h>
 
 
@@ -34,6 +35,12 @@ public:
 	*/
 	void AddRelatedMetaId(int metaGroupId, const QByteArray& id, int flags);
 
+	/**
+		Set default value for this attribute.
+		Takes ownership of the object.
+	*/
+	void SetDefaultValue(iser::IObject* defaultValuePtr);
+
 	// reimplemented (icomp::IAttributeStaticInfo)
 	virtual IElementStaticInfo::Ids GetRelatedMetaIds(int metaGroupId, int flags, int flagsMask) const override;
 
@@ -48,6 +55,7 @@ private:
 	QString m_description;
 	QByteArray m_typeId;
 	int m_attributeFlags;
+	istd::TDelPtr<const iser::IObject> m_defaultValuePtr;
 
 	typedef QMap<QByteArray, int> IdsToFlagsMap;
 	typedef QMap<int, IdsToFlagsMap> RelatedIdsMap;
