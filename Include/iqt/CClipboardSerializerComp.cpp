@@ -97,7 +97,7 @@ ifile::IFilePersistence::OperationState CClipboardSerializerComp::SaveToFile(
 			return OS_CANCELED;
 		}
 
-		istd::TDelPtr<QMimeData> mimeDataPtr(new QMimeData);
+		std::unique_ptr<QMimeData> mimeDataPtr(new QMimeData);
 		if (mimeDataPtr.IsValid()){
 			iser::ISerializable* serializablePtr = CompCastPtr<iser::ISerializable>(const_cast<istd::IChangeable*>(&data));
 			Q_ASSERT(serializablePtr != NULL);	// it was checked in IsOperationSupported

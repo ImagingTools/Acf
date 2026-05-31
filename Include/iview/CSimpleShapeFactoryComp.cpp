@@ -34,7 +34,7 @@ IShape* CSimpleShapeFactoryComp::CreateShape(const istd::IChangeable* objectPtr,
 		return NULL;
 	}
 
-	istd::TDelPtr<CShapeBase> shapePtr(CreateShapeInstance(*objectPtr));
+	std::unique_ptr<CShapeBase> shapePtr(CreateShapeInstance(*objectPtr));
 
 	if (shapePtr.IsValid()){
 		CInteractiveShapeBase* interactiveShapePtr = dynamic_cast<CInteractiveShapeBase*>(shapePtr.GetPtr());

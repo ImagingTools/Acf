@@ -7,7 +7,7 @@
 
 // ACF includes
 #include <istd/IChangeable.h>
-#include <istd/TDelPtr.h>
+#include <memory>
 #include <imod/IModel.h>
 #include <imod/CSingleModelObserverBase.h>
 
@@ -81,7 +81,7 @@ protected:
 	virtual void OnModelChanged(int modelId, const istd::IChangeable::ChangeSet& changeSet) = 0;
 
 private:
-	typedef istd::TDelPtr<ObserverProxy> ObserverProxyPtr;
+	typedef std::unique_ptr<ObserverProxy> ObserverProxyPtr;
 	typedef QMap<int, ObserverProxyPtr> ModelMap;
 
 	ModelMap m_modelMap;

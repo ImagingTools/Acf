@@ -185,11 +185,11 @@ private:
 		QButtonGroup* m_buttonGroupPtr;
 	};
 
-	istd::TDelPtr<QLabel> m_selectorLabelPtr;
+	std::unique_ptr<QLabel> m_selectorLabelPtr;
 	istd::TPointerVector<QComboBox> m_comboBoxes;
 	istd::TPointerVector<RadioButtonWidget> m_radioButtons;
 	istd::TPointerVector<QButtonGroup> m_radioButtonGroups;
-	istd::TDelPtr<QFrame> m_radioButtonFramePtr;
+	std::unique_ptr<QFrame> m_radioButtonFramePtr;
 	QList<QLabel*> m_descriptionLabelList;
 	QList<QLabel*> m_optionsLabelList;
 	QList<QLabel*> m_optionInfoLabelList;

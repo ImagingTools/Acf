@@ -204,7 +204,7 @@ bool CMultiDocumentManagerBase::InsertNewDocument(
 			bool beQuiet,
 			bool* ignoredPtr)
 {
-	istd::TDelPtr<SingleDocumentData> newInfoPtr(CreateUnregisteredDocument(documentTypeId, createView, viewTypeId, true, beQuiet, ignoredPtr));
+	std::unique_ptr<SingleDocumentData> newInfoPtr(CreateUnregisteredDocument(documentTypeId, createView, viewTypeId, true, beQuiet, ignoredPtr));
 	if (newInfoPtr.IsValid() && RegisterDocument(newInfoPtr.PopPtr())){
 		SingleDocumentData* newDocumentDataPtr = m_documentInfos.GetAt(m_documentInfos.GetCount() - 1);
 		Q_ASSERT(newDocumentDataPtr != NULL);
@@ -599,7 +599,7 @@ istd::IChangeableSharedPtr CMultiDocumentManagerBase::OpenSingleDocument(
 
 	if (!documentIds.isEmpty()){
 		documentTypeId = documentIds.front();
-		istd::TDelPtr<SingleDocumentData> infoPtr(CreateUnregisteredDocument(documentTypeId, createView, viewTypeId, false, beQuiet, ignoredPtr));
+		std::unique_ptr<SingleDocumentData> infoPtr(CreateUnregisteredDocument(documentTypeId, createView, viewTypeId, false, beQuiet, ignoredPtr));
 		if (infoPtr.IsValid()){
 			Q_ASSERT(infoPtr->documentPtr.IsValid());
 
@@ -729,7 +729,7 @@ CMultiDocumentManagerBase::SingleDocumentData* CMultiDocumentManagerBase::Create
 		DocumentPtr documentPtr;
 		documentPtr.FromUnique(documentInstancePtr);
 
-		istd::TDelPtr<SingleDocumentData> infoPtr(new SingleDocumentData(
+		std::unique_ptr<SingleDocumentData> infoPtr(new SingleDocumentData(
 					const_cast<CMultiDocumentManagerBase*>(this),
 					realDocumentTypeId,
 					documentPtr));

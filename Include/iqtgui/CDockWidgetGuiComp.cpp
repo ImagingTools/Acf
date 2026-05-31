@@ -128,7 +128,7 @@ void CDockWidgetGuiComp::OnGuiCreated()
 		dockWidgetPtr->setTitleBarWidget(new QWidget(dockWidgetPtr));
 	}
 
-	istd::TDelPtr<QWidget> containerWidgetPtr(new QWidget(NULL));
+	std::unique_ptr<QWidget> containerWidgetPtr(new QWidget(NULL));
 	QVBoxLayout* layoutPtr = new QVBoxLayout(containerWidgetPtr.GetPtr());
 	layoutPtr->setContentsMargins(1, 1, 1, 1);
 	containerWidgetPtr->setLayout(layoutPtr);

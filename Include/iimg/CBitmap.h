@@ -7,7 +7,7 @@
 
 // ACF includes
 #include <istd/TOptDelPtr.h>
-#include <istd/TDelPtr.h>
+#include <istd/TInterfacePtr.h>
 #include <i2d/ICalibrationProvider.h>
 #include <iimg/CBitmapBase.h>
 #include <iimg/IQImageProvider.h>
@@ -82,7 +82,7 @@ private:
 	static QVector<QRgb> s_colorTableGray;
 	static QMutex s_colorTableLock;
 
-	istd::TDelPtr<icmm::IColorModel> m_colorModelPtr;
+	istd::TUniqueInterfacePtr<icmm::IColorModel> m_colorModelPtr;
 };
 
 

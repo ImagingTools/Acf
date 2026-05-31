@@ -102,7 +102,7 @@ private:
 		Flag to indicate that the option text is currently editing.
 	*/
 	bool m_isEditingFlag;
-	istd::TDelPtr<QLabel> m_selectorLabelPtr;
+	std::unique_ptr<QLabel> m_selectorLabelPtr;
 
 	bool m_isUpdateBlocked;
 };
