@@ -205,7 +205,7 @@ bool CMultiDocumentManagerBase::InsertNewDocument(
 			bool* ignoredPtr)
 {
 	std::unique_ptr<SingleDocumentData> newInfoPtr(CreateUnregisteredDocument(documentTypeId, createView, viewTypeId, true, beQuiet, ignoredPtr));
-	if (newInfoPtr.IsValid() && RegisterDocument(newInfoPtr.PopPtr())){
+	if (newInfoPtr && RegisterDocument(newInfoPtr.release())){
 		SingleDocumentData* newDocumentDataPtr = m_documentInfos.GetAt(m_documentInfos.GetCount() - 1);
 		Q_ASSERT(newDocumentDataPtr != NULL);
 
@@ -600,7 +600,7 @@ istd::IChangeableSharedPtr CMultiDocumentManagerBase::OpenSingleDocument(
 	if (!documentIds.isEmpty()){
 		documentTypeId = documentIds.front();
 		std::unique_ptr<SingleDocumentData> infoPtr(CreateUnregisteredDocument(documentTypeId, createView, viewTypeId, false, beQuiet, ignoredPtr));
-		if (infoPtr.IsValid()){
+		if (infoPtr){
 			Q_ASSERT(infoPtr->documentPtr.IsValid());
 
 			infoPtr->filePath = filePath;
@@ -612,11 +612,11 @@ istd::IChangeableSharedPtr CMultiDocumentManagerBase::OpenSingleDocument(
 			ifile::IFilePersistence* loaderPtr = documentTemplatePtr->GetFileLoader(documentTypeId);
 			if (		(loaderPtr != NULL) &&
 						(loaderPtr->LoadFromFile(*infoPtr->documentPtr, filePath, progressManagerPtr) == ifile::IFilePersistence::OS_OK)){
-				RegisterDocument(infoPtr.GetPtr());
+				RegisterDocument(infoPtr.get());
 
 				infoPtr->isDirty = false;
 
-				return infoPtr.PopPtr()->documentPtr;
+				return infoPtr.release()->documentPtr;
 			}
 		}
 	}
@@ -756,7 +756,7 @@ CMultiDocumentManagerBase::SingleDocumentData* CMultiDocumentManagerBase::Create
 				newViewInfo.viewTypeId = viewTypeId;
 			}
 
-			return infoPtr.PopPtr();
+			return infoPtr.release();
 		}
 	}
 
@@ -970,5 +970,3 @@ void CMultiDocumentManagerBase::SingleDocumentData::OnModelChanged(int modelId, 
 
 
 } // namespace idoc
-
-

@@ -280,7 +280,7 @@ istd::IChangeable* TExtMessage<Element>::CloneMe(CompatibilityMode mode) const
 {
 	std::unique_ptr<TExtMessage<Element> > clonedPtr(new TExtMessage<Element>);
 	if (clonedPtr->CopyFrom(*this, mode)){
-		return clonedPtr.PopPtr();
+		return clonedPtr.release();
 	}
 
 	return NULL;
@@ -375,7 +375,6 @@ TExtMessageModel<Element>::TExtMessageModel(
 
 
 } // namespace ilog
-
 
 
 

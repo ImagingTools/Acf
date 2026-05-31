@@ -36,8 +36,8 @@ IShape* CSimpleShapeFactoryComp::CreateShape(const istd::IChangeable* objectPtr,
 
 	std::unique_ptr<CShapeBase> shapePtr(CreateShapeInstance(*objectPtr));
 
-	if (shapePtr.IsValid()){
-		CInteractiveShapeBase* interactiveShapePtr = dynamic_cast<CInteractiveShapeBase*>(shapePtr.GetPtr());
+	if (shapePtr){
+		CInteractiveShapeBase* interactiveShapePtr = dynamic_cast<CInteractiveShapeBase*>(shapePtr.get());
 		if (interactiveShapePtr != NULL){
 			interactiveShapePtr->SetEditablePosition(*m_useInteractiveShapesAttrPtr);
 		}
@@ -53,14 +53,14 @@ IShape* CSimpleShapeFactoryComp::CreateShape(const istd::IChangeable* objectPtr,
 		if (connectToModel){
 			imod::IModel* modelPtr = dynamic_cast<imod::IModel*>(const_cast<istd::IChangeable*>(objectPtr));
 			if (modelPtr != NULL){
-				if (!modelPtr->AttachObserver(shapePtr.GetPtr())){
+				if (!modelPtr->AttachObserver(shapePtr.get())){
 					return NULL;
 				}
 			}
 		}
 	}
 
-	return shapePtr.PopPtr();
+	return shapePtr.release();
 }
 
 
@@ -181,5 +181,4 @@ CShapeBase* CSimpleShapeFactoryComp::CreateShapeInstance(const istd::IChangeable
 
 
 } // namespace iview
-
 

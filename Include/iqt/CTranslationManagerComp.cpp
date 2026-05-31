@@ -239,7 +239,7 @@ void CTranslationManagerComp::LoadTranslations()
 
 			Translator translator;
 
-			translator.translatorPtr.SetPtr(qtTranslatorPtr.PopPtr());
+			translator.translatorPtr.SetPtr(qtTranslatorPtr.release());
 			translator.languageId = languageId;
 
 			if (translatorIndex < m_languageNamesAttrPtr.GetCount()){
@@ -285,5 +285,4 @@ void CTranslationManagerComp::LanguageSelectionObserver::OnUpdate(const istd::IC
 
 
 } // namespace iqt
-
 
