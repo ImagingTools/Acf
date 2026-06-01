@@ -410,6 +410,6 @@ bool TNullableValue<T>::operator!=(const T& value) const
 
 
 template <class T>
-inline unsigned int qHash(const istd::TNullableValue<T> &key, unsigned int seed){
+inline size_t qHash(const istd::TNullableValue<T> &key, size_t seed){
 	return qHash(*key, seed);
 }
