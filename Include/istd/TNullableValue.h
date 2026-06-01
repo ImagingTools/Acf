@@ -39,11 +39,11 @@ public:
 
 	bool isValid() const
 	{
-		return false;
+		return IsValid();
 	}
 	bool isNull() const
 	{
-		return true;
+		return IsNull();
 	}
 
 	// operators
@@ -358,7 +358,9 @@ T& TNullableValue<T>::emplace()
 template<class T>
 T& TNullableValue<T>::emplace(T&& value)&&
 {
-	return m_dataPtr->emplace();
+	*m_dataPtr = std::move(value);
+
+	return m_dataPtr->GetValue();
 }
 
 
@@ -411,4 +413,3 @@ template <class T>
 inline unsigned int qHash(const istd::TNullableValue<T> &key, unsigned int seed){
 	return qHash(*key, seed);
 }
-
