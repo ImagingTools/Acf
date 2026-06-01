@@ -15,17 +15,17 @@ namespace istd
 
 
 /**
-	This is a comfort wrap for \c TNullable that allows several \c TSharedNullable objects to own the same object.
+	This is a comfort wrap for \c TNullable that allows several \c TNullableValue objects to own the same object.
 	In other words this is equivalent for \c std::shared_ptr<TNullable<T>>
 */
 template <class T>
-class TSharedNullable
+class TNullableValue
 {
 public:
-	TSharedNullable();
-	TSharedNullable(const T& value);
-	TSharedNullable(T&& value);
-	~TSharedNullable();
+	TNullableValue();
+	TNullableValue(const T& value);
+	TNullableValue(T&& value);
+	~TNullableValue();
 	bool IsValid() const;
 	bool IsNull() const;
 	bool HasValue() const;
@@ -47,8 +47,8 @@ public:
 	}
 
 	// operators
-	TSharedNullable& operator=(const T& value);
-	TSharedNullable& operator=(T&& value);
+	TNullableValue& operator=(const T& value);
+	TNullableValue& operator=(T&& value);
 
 	// STL-compatibility methods
 	// access operators
@@ -60,8 +60,8 @@ public:
 	T&& operator*() &&;
 
 	// set operators
-	TSharedNullable& operator=( std::nullptr_t );
-	TSharedNullable& operator=(const TSharedNullable& other);
+	TNullableValue& operator=( std::nullptr_t );
+	TNullableValue& operator=(const TNullableValue& other);
 
 	explicit operator bool() const;
 	bool has_value() const;
@@ -73,20 +73,20 @@ public:
 	const T&& value() const &&;
 	T value_or(const T& default_value) const;
 
-	void swap(TSharedNullable& other );
+	void swap(TNullableValue& other );
 	void reset();
 	T& emplace();
 	T& emplace(T&& value)&&;
 
-	//Compare two TSharedNullable objects
-	bool operator==(const TSharedNullable& other) const;
-	bool operator!=(const TSharedNullable& other) const;
+	//Compare two TNullableValue objects
+	bool operator==(const TNullableValue& other) const;
+	bool operator!=(const TNullableValue& other) const;
 
-	//Compare a TSharedNullable object with a nullptr
+	//Compare a TNullableValue object with a nullptr
 	bool operator==(std::nullptr_t) const;
 	bool operator!=(std::nullptr_t) const;
 
-	//Compare a TSharedNullable object with a value
+	//Compare a TNullableValue object with a value
 	bool operator==(const T& value) const;
 	bool operator!=(const T& value) const;
 
@@ -95,7 +95,7 @@ private:
 };
 
 template <class T>
-bool Less(const istd::TSharedNullable<T> &lhs, const istd::TSharedNullable<T> &rhs)
+bool Less(const istd::TNullableValue<T> &lhs, const istd::TNullableValue<T> &rhs)
 {
 	return *lhs < *rhs;
 }
@@ -104,14 +104,14 @@ bool Less(const istd::TSharedNullable<T> &lhs, const istd::TSharedNullable<T> &r
 // public methods
 
 template <class T>
-TSharedNullable<T>::TSharedNullable()
+TNullableValue<T>::TNullableValue()
 	:m_dataPtr(new TNullable<T>())
 {
 }
 
 
 template<class T>
-inline TSharedNullable<T>::TSharedNullable(const T& value)
+inline TNullableValue<T>::TNullableValue(const T& value)
 	:m_dataPtr(new TNullable<T>())
 {
 	*m_dataPtr = value;
@@ -119,7 +119,7 @@ inline TSharedNullable<T>::TSharedNullable(const T& value)
 
 
 template<class T>
-inline TSharedNullable<T>::TSharedNullable(T&& value)
+inline TNullableValue<T>::TNullableValue(T&& value)
 	:m_dataPtr(new TNullable<T>())
 {
 	*m_dataPtr = std::move(value);
@@ -127,76 +127,76 @@ inline TSharedNullable<T>::TSharedNullable(T&& value)
 
 
 template <class T>
-TSharedNullable<T>::~TSharedNullable()
+TNullableValue<T>::~TNullableValue()
 {
 }
 
 
 template<class T>
-inline bool TSharedNullable<T>::IsValid() const
+inline bool TNullableValue<T>::IsValid() const
 {
 	return m_dataPtr->IsValid();
 }
 
 
 template<class T>
-bool TSharedNullable<T>::IsNull() const
+bool TNullableValue<T>::IsNull() const
 {
 	return m_dataPtr->IsNull();
 }
 
 
 template<class T>
-bool TSharedNullable<T>::HasValue() const
+bool TNullableValue<T>::HasValue() const
 {
 	return m_dataPtr->HasValue();
 }
 
 
 template<class T>
-const T* TSharedNullable<T>::GetPtr() const
+const T* TNullableValue<T>::GetPtr() const
 {
 	return m_dataPtr->GetPtr();
 }
 
 
 template<class T>
-T* TSharedNullable<T>::GetPtr()
+T* TNullableValue<T>::GetPtr()
 {
 	return m_dataPtr->GetPtr();
 }
 
 
 template<class T>
-T& TSharedNullable<T>::GetValue()
+T& TNullableValue<T>::GetValue()
 {
 	return m_dataPtr->GetValue();
 }
 
 
 template<class T>
-const T& TSharedNullable<T>::GetValue() const
+const T& TNullableValue<T>::GetValue() const
 {
 	return m_dataPtr->GetValue();
 }
 
 
 template<class T>
-void TSharedNullable<T>::Reset()
+void TNullableValue<T>::Reset()
 {
 	return m_dataPtr.reset(new TNullable<T>);
 }
 
 
 template<class T>
-T& TSharedNullable<T>::Emplace()
+T& TNullableValue<T>::Emplace()
 {
 	return m_dataPtr->Emplace();
 }
 
 
 template<class T>
-inline void TSharedNullable<T>::SetNull()
+inline void TNullableValue<T>::SetNull()
 {
 	m_dataPtr->SetNull();
 }
@@ -205,7 +205,7 @@ inline void TSharedNullable<T>::SetNull()
 // operators
 
 template<class T>
-TSharedNullable<T>& TSharedNullable<T>::operator=(const T& value)
+TNullableValue<T>& TNullableValue<T>::operator=(const T& value)
 {
 	m_dataPtr->operator=(value);
 
@@ -214,7 +214,7 @@ TSharedNullable<T>& TSharedNullable<T>::operator=(const T& value)
 
 
 template<class T>
-TSharedNullable<T>& TSharedNullable<T>::operator=(T&& value)
+TNullableValue<T>& TNullableValue<T>::operator=(T&& value)
 {
 	m_dataPtr->operator=(std::move(value));
 
@@ -226,49 +226,49 @@ TSharedNullable<T>& TSharedNullable<T>::operator=(T&& value)
 // access operators
 
 template<class T>
-const T* TSharedNullable<T>::operator->() const
+const T* TNullableValue<T>::operator->() const
 {
 	return m_dataPtr->operator->();
 }
 
 
 template<class T>
-T* TSharedNullable<T>::operator->()
+T* TNullableValue<T>::operator->()
 {
 	return m_dataPtr->operator->();
 }
 
 
 template<class T>
-const T& TSharedNullable<T>::operator*() const &
+const T& TNullableValue<T>::operator*() const &
 {
 	return m_dataPtr->operator*();
 }
 
 
 template<class T>
-T& TSharedNullable<T>::operator*() &
+T& TNullableValue<T>::operator*() &
 {
 	return m_dataPtr->operator*();
 }
 
 
 template<class T>
-const T&& TSharedNullable<T>::operator*() const &&
+const T&& TNullableValue<T>::operator*() const &&
 {
 	return m_dataPtr->operator*();
 }
 
 
 template<class T>
-T&& TSharedNullable<T>::operator*() &&
+T&& TNullableValue<T>::operator*() &&
 {
 	return m_dataPtr->operator*();
 }
 
 
 template<class T>
-TSharedNullable<T>& TSharedNullable<T>::operator=( std::nullptr_t )
+TNullableValue<T>& TNullableValue<T>::operator=( std::nullptr_t )
 {
 	m_dataPtr->operator=(nullptr);
 
@@ -277,7 +277,7 @@ TSharedNullable<T>& TSharedNullable<T>::operator=( std::nullptr_t )
 
 
 template<class T>
-TSharedNullable<T>& TSharedNullable<T>::operator=(const TSharedNullable& other)
+TNullableValue<T>& TNullableValue<T>::operator=(const TNullableValue& other)
 {
 	m_dataPtr = other.m_dataPtr;
 
@@ -286,119 +286,119 @@ TSharedNullable<T>& TSharedNullable<T>::operator=(const TSharedNullable& other)
 
 
 template<class T>
-TSharedNullable<T>::operator bool() const
+TNullableValue<T>::operator bool() const
 {
 	return m_dataPtr->operator bool();
 }
 
 
 template<class T>
-bool TSharedNullable<T>::has_value() const
+bool TNullableValue<T>::has_value() const
 {
 	return m_dataPtr->has_value();
 }
 
 
 template<class T>
-T& TSharedNullable<T>::value() &
+T& TNullableValue<T>::value() &
 {
 	return m_dataPtr->value();
 }
 
 
 template<class T>
-const T& TSharedNullable<T>::value() const &
+const T& TNullableValue<T>::value() const &
 {
 	return m_dataPtr->value();
 }
 
 
 template<class T>
-T&& TSharedNullable<T>::value() &&
+T&& TNullableValue<T>::value() &&
 {
 	return m_dataPtr->value();
 }
 
 
 template<class T>
-const T&& TSharedNullable<T>::value() const &&
+const T&& TNullableValue<T>::value() const &&
 {
 	return m_dataPtr->value();
 }
 
 
 template<class T>
-T TSharedNullable<T>::value_or(const T& default_value) const
+T TNullableValue<T>::value_or(const T& default_value) const
 {
 	return m_dataPtr->value_or(default_value);
 }
 
 
 template<class T>
-void TSharedNullable<T>::swap(TSharedNullable& other )
+void TNullableValue<T>::swap(TNullableValue& other )
 {
 	m_dataPtr.swap(other.m_dataPtr);
 }
 
 
 template<class T>
-void TSharedNullable<T>::reset()
+void TNullableValue<T>::reset()
 {
 	Reset();
 }
 
 
 template<class T>
-T& TSharedNullable<T>::emplace()
+T& TNullableValue<T>::emplace()
 {
 	return Emplace();
 }
 
 
 template<class T>
-T& TSharedNullable<T>::emplace(T&& value)&&
+T& TNullableValue<T>::emplace(T&& value)&&
 {
 	return m_dataPtr->emplace();
 }
 
 
 template<class T>
-bool TSharedNullable<T>::operator==(const TSharedNullable& other) const
+bool TNullableValue<T>::operator==(const TNullableValue& other) const
 {
 	return m_dataPtr.get() == other.m_dataPtr.get();
 }
 
 
 template<class T>
-bool TSharedNullable<T>::operator!=(const TSharedNullable& other) const
+bool TNullableValue<T>::operator!=(const TNullableValue& other) const
 {
 	return (!operator==(other));
 }
 
 
 template<class T>
-bool TSharedNullable<T>::operator==(std::nullptr_t) const
+bool TNullableValue<T>::operator==(std::nullptr_t) const
 {
 	return m_dataPtr->operator==(nullptr);
 }
 
 
 template<class T>
-bool TSharedNullable<T>::operator!=(std::nullptr_t) const
+bool TNullableValue<T>::operator!=(std::nullptr_t) const
 {
 	return m_dataPtr->operator!=(nullptr);
 }
 
 
 template<class T>
-bool TSharedNullable<T>::operator==(const T& value) const
+bool TNullableValue<T>::operator==(const T& value) const
 {
 	return m_dataPtr->operator==(value);
 }
 
 
 template<class T>
-bool TSharedNullable<T>::operator!=(const T& value) const
+bool TNullableValue<T>::operator!=(const T& value) const
 {
 	return m_dataPtr->operator!=(value);
 }
@@ -408,7 +408,7 @@ bool TSharedNullable<T>::operator!=(const T& value) const
 
 
 template <class T>
-inline unsigned int qHash(const istd::TSharedNullable<T> &key, unsigned int seed){
+inline unsigned int qHash(const istd::TNullableValue<T> &key, unsigned int seed){
 	return qHash(*key, seed);
 }
 
