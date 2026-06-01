@@ -76,7 +76,7 @@ public:
 	void swap(TNullableValue& other );
 	void reset();
 	T& emplace();
-	T& emplace(T&& value)&&;
+	T&& emplace(T&& value)&&;
 
 	//Compare two TNullableValue objects
 	bool operator==(const TNullableValue& other) const;
@@ -256,14 +256,14 @@ T& TNullableValue<T>::operator*() &
 template<class T>
 const T&& TNullableValue<T>::operator*() const &&
 {
-	return m_dataPtr->operator*();
+	return std::move(*m_dataPtr).operator*();
 }
 
 
 template<class T>
 T&& TNullableValue<T>::operator*() &&
 {
-	return m_dataPtr->operator*();
+	return std::move(*m_dataPtr).operator*();
 }
 
 
@@ -316,14 +316,14 @@ const T& TNullableValue<T>::value() const &
 template<class T>
 T&& TNullableValue<T>::value() &&
 {
-	return m_dataPtr->value();
+	return std::move(*m_dataPtr).value();
 }
 
 
 template<class T>
 const T&& TNullableValue<T>::value() const &&
 {
-	return m_dataPtr->value();
+	return std::move(*m_dataPtr).value();
 }
 
 
@@ -356,11 +356,11 @@ T& TNullableValue<T>::emplace()
 
 
 template<class T>
-T& TNullableValue<T>::emplace(T&& value)&&
+T&& TNullableValue<T>::emplace(T&& value)&&
 {
 	*m_dataPtr = std::move(value);
 
-	return m_dataPtr->GetValue();
+	return std::move(m_dataPtr->GetValue());
 }
 
 
