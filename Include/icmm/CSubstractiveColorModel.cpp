@@ -117,6 +117,9 @@ bool CSubstractiveColorModel::MoveColorant(const ColorantId& colorantId, int ind
 	}
 
 	ColorantInfo colorantInfo = m_colorants[fromIndex];
+
+	istd::CChangeNotifier changeNotifier(this, &ElementMoveChanges(fromIndex, index));
+
 	m_colorants.remove(fromIndex);
 	m_colorants.insert(index, colorantInfo);
 
@@ -211,6 +214,8 @@ bool CSubstractiveColorModel::AppendColorModel(const ISubstractiveColorModel& ot
 	}
 
 	if (m_colorants != temp.m_colorants){
+		istd::CChangeNotifier changeNotifier(this, &istd::IChangeable::GetAllChanges());
+
 		m_colorants.SetBaseObject(temp.m_colorants);
 	}
 
@@ -394,6 +399,8 @@ bool CSubstractiveColorModel::CopyFrom(const istd::IChangeable& object, Compatib
 {
 	const CSubstractiveColorModel* sourceModelPtr = dynamic_cast<const CSubstractiveColorModel*>(&object);
 	if (sourceModelPtr != nullptr){
+		istd::CChangeNotifier changeNotifier(this, &istd::IChangeable::GetAllChanges());
+
 		bool retVal = m_colorants.CopyFrom(sourceModelPtr->m_colorants);
 		retVal = retVal && m_previewSpec.CopyFrom(sourceModelPtr->m_previewSpec);
 
