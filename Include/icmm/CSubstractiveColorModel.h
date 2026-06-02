@@ -52,6 +52,12 @@ public:
 	bool InsertColorant(const ColorantId& colorantId, ColorantUsage usage, int index = -1);
 
 	/**
+		Move a colorant to the given position.
+		\return Returns \c true, if the operation was succesful or \c false otherwise.
+	*/
+	bool MoveColorant(const ColorantId& colorantId, int index);
+
+	/**
 		Remove a colorant with the given ID.
 		\return Returns \c true, if the operation was succesful or \c false otherwise.
 	*/
