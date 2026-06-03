@@ -95,7 +95,7 @@ private:
 	I_REF(ibase::IApplication, m_slaveApplicationCompPtr);
 	I_REF(iqtgui::IGuiApplication, m_slaveGuiApplicationCompPtr);
 
-	istd::TDelPtr<QSharedMemory> m_processDataPtr;
+	std::unique_ptr<QSharedMemory> m_processDataPtr;
 	bool m_isAlreadyRunning;
 	QTimer m_documentUpdateTimer;
 

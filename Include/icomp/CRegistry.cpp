@@ -91,7 +91,7 @@ IRegistry::ElementInfo* CRegistry::InsertElementInfo(
 		return NULL;
 	}
 
-	istd::TDelPtr<IRegistryElement> registryElementPtr;
+	istd::TUniqueInterfacePtr<IRegistryElement> registryElementPtr;
 	if (ensureElementCreated){
 		registryElementPtr.SetPtr(CreateRegistryElement(elementId, address));
 

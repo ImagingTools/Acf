@@ -222,8 +222,8 @@ private:
 		return &parent.m_visibleWindowsManager;
 	}
 
-	istd::TDelPtr<QMenuBar> m_menuBarPtr;
-	istd::TDelPtr<QToolBar> m_standardToolBarPtr;
+	std::unique_ptr<QMenuBar> m_menuBarPtr;
+	std::unique_ptr<QToolBar> m_standardToolBarPtr;
 
 	istd::TOptPointerVector<QToolBar> m_toolBarsList;
 

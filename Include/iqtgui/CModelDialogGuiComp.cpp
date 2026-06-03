@@ -30,8 +30,8 @@ int CModelDialogGuiComp::ExecuteDialog(IGuiObject* parentPtr)
 		return QDialog::Rejected;
 	}
 
-	istd::TDelPtr<iqtgui::CGuiComponentDialog> dialogPtr(CreateComponentDialog(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, parentPtr));
-	if (!dialogPtr.IsValid()){
+	std::unique_ptr<iqtgui::CGuiComponentDialog> dialogPtr(CreateComponentDialog(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, parentPtr));
+	if (!dialogPtr){
 		return QDialog::Rejected;
 	}
 
@@ -67,5 +67,4 @@ int CModelDialogGuiComp::ExecuteDialog(IGuiObject* parentPtr)
 
 
 } // namespace iqtgui
-
 

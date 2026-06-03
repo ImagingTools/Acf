@@ -6,7 +6,6 @@
 #include <QtCore/QString>
 
 // ACF includes
-#include <istd/TDelPtr.h>
 #include <icomp/CPackageStaticInfo.h>
 
 

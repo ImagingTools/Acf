@@ -11,6 +11,8 @@
 #include <QtGui/QApplication>
 #endif
 
+#include <memory>
+
 // ACF includes
 #include <ipackage/CComponentAccessor.h>
 #include <ibase/IApplication.h>
@@ -102,10 +104,10 @@ int main(int argc, char *argv[])
 
 	int exitCode = 0;
 
-	istd::TDelPtr<QCoreApplication> coreAppPtr;
+	std::unique_ptr<QCoreApplication> coreAppPtr;
 
 	if (isConsoleMode){
-		coreAppPtr.SetPtr(new QCoreApplication(argc, argv));
+		coreAppPtr = std::make_unique<QCoreApplication>(argc, argv);
 	}
 
 	// Save current working directory:
@@ -149,5 +151,3 @@ int main(int argc, char *argv[])
 
 	return exitCode;
 }
-
-
