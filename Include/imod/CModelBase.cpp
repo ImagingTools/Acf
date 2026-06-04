@@ -24,13 +24,20 @@ CModelBase::~CModelBase()
 {
 	QMutexLocker lock(&m_mutex);
 
+	// Set up destroying state: the CF_DESTROYING flag is added to the cumulated changes
+	// so that observers (via DoDetachAllObservers -> AfterUpdate) see that the model is
+	// being destroyed. CChangeScope increments m_blockCounter here; its destructor will
+	// decrement it when this function returns, maintaining the symmetric Begin/End invariant.
+	// If an observer callback throws, CChangeScope still decrements the counter (exception safety).
 	m_cumulatedChangeIds += istd::IChangeable::CF_DESTROYING;
-	m_blockCounter++;
+	CChangeScope scope(*this);
 	m_isDuringChanges = true;
 
-	lock.unlock();
-
-	DetachAllObservers();
+	// Use the non-virtual helper directly to avoid calling a virtual method in
+	// the destructor (the vtable is already unwound to CModelBase at this point,
+	// so virtual dispatch would silently skip any derived-class override).
+	// The lock is already held, so no additional locking is needed.
+	DoDetachAllObservers();
 }
 
 
@@ -131,6 +138,12 @@ void CModelBase::DetachAllObservers()
 {
 	QMutexLocker lock(&m_mutex);
 
+	DoDetachAllObservers();
+}
+
+
+void CModelBase::DoDetachAllObservers()
+{
 	for (ObserversMap::Iterator iter = m_observers.begin(); iter != m_observers.end(); ++iter){
 		IObserver* observerPtr = iter.key();
 		Q_ASSERT(observerPtr != NULL);
@@ -185,13 +198,19 @@ void CModelBase::NotifyBeforeChange(const istd::IChangeable::ChangeSet& changeSe
 		m_cumulatedChangeIds += changeSet.GetIds();
 	}
 
-	m_blockCounter++;
+	// Use RAII scope guard for m_blockCounter to ensure it is decremented
+	// if an observer callback throws an exception during notification.
+	// On the success path, Release() transfers ownership to the matching
+	// NotifyAfterChange call.
+	CChangeScope scope(*this);
 
 	if (changeSet.IsEmpty()){
+		scope.Release();
 		return;
 	}
 
 	if (isGroup){
+		scope.Release();
 		return;
 	}
 
@@ -213,6 +232,8 @@ void CModelBase::NotifyBeforeChange(const istd::IChangeable::ChangeSet& changeSe
 	if (isFirstChange){
 		OnBeginGlobalChanges();
 	}
+
+	scope.Release();
 }
 
 
@@ -220,7 +241,13 @@ void CModelBase::NotifyAfterChange(const istd::IChangeable::ChangeSet& changeSet
 {
 	QMutexLocker lock(&m_mutex);
 
-	Q_ASSERT(m_blockCounter > 0);
+	// Defensive guard: protect against unpaired NotifyAfterChange calls in Release builds
+	// where Q_ASSERT is inactive. Without this, a negative m_blockCounter would cause
+	// observer notifications to be permanently skipped.
+	if (m_blockCounter <= 0){
+		Q_ASSERT(false);
+		return;
+	}
 
 	if (changeSet.Contains(istd::IChangeable::CF_ALL_DATA)){
 		const istd::IChangeable::ChangeInfoMap emptyInfoMap;
@@ -258,6 +285,10 @@ void CModelBase::NotifyAfterChange(const istd::IChangeable::ChangeSet& changeSet
 		}
 	}
 
+	// Symmetric invariant: when m_blockCounter is 0, m_isDuringChanges must be false.
+	// This mirrors the assertion in NotifyBeforeChange.
+	Q_ASSERT((m_blockCounter > 0) || !m_isDuringChanges);
+
 	m_cumulatedChangeIds.Reset();	// we leave the outer block with clean state
 
 	CleanupObserverState();
@@ -265,6 +296,27 @@ void CModelBase::NotifyAfterChange(const istd::IChangeable::ChangeSet& changeSet
 
 
 // private methods
+
+CModelBase::CChangeScope::CChangeScope(CModelBase& model)
+:	m_modelPtr(&model)
+{
+	++m_modelPtr->m_blockCounter;
+}
+
+
+CModelBase::CChangeScope::~CChangeScope()
+{
+	if (m_modelPtr != nullptr){
+		--m_modelPtr->m_blockCounter;
+	}
+}
+
+
+void CModelBase::CChangeScope::Release()
+{
+	m_modelPtr = nullptr;
+}
+
 
 void CModelBase::CleanupObserverState()
 {
