@@ -14,29 +14,30 @@ macro(get_target_name target_name)
 	if(${MSVC})
 		if(${MSVC_TOOLSET_VERSION} STREQUAL 100)
 			set(COMPILER_NAME "VC10")
-		endif()
-		if(${MSVC_TOOLSET_VERSION} STREQUAL 110)
+
+		elseif(${MSVC_TOOLSET_VERSION} STREQUAL 110)
 			set(COMPILER_NAME "VC11")
-		endif()
 
-		if(${MSVC_TOOLSET_VERSION} STREQUAL 120)
-			set(COMPILER_NAME}"VC12")
-		endif()
+		elseif(${MSVC_TOOLSET_VERSION} STREQUAL 120)
+			set(COMPILER_NAME "VC12")
 
-		if(${MSVC_TOOLSET_VERSION} STREQUAL 140)
+		elseif(${MSVC_TOOLSET_VERSION} STREQUAL 140)
 			set(COMPILER_NAME "VC14")
-		endif()
 
-		if(${MSVC_TOOLSET_VERSION} STREQUAL 141)
+		elseif(${MSVC_TOOLSET_VERSION} STREQUAL 141)
 			set(COMPILER_NAME "VC15")
-		endif()
 
-		if(${MSVC_TOOLSET_VERSION} STREQUAL 142)
+		elseif(${MSVC_TOOLSET_VERSION} STREQUAL 142)
 			set(COMPILER_NAME "VC16")
-		endif()
 
-		if(${MSVC_TOOLSET_VERSION} STREQUAL 143)
+		elseif(${MSVC_TOOLSET_VERSION} STREQUAL 143)
 			set(COMPILER_NAME "VC17")
+
+		elseif(${MSVC_TOOLSET_VERSION} STREQUAL 145)
+			set(COMPILER_NAME "VC18")
+
+		else()
+			message(FATAL_ERROR "Found unexpected MSVC_TOOLSET_VERSION: ${MSVC_TOOLSET_VERSION}")
 		endif()
 
 		add_compile_definitions(COMPILER_NAME=${COMPILER_NAME})
@@ -48,6 +49,7 @@ macro(get_target_name target_name)
 		else()
 			add_compile_definitions(PLATFORM_CODE)
 		endif()
+
 	elseif(${ANDROID})
 		set(COMPILER_CODE "ClangAndroid_${CMAKE_ANDROID_ARCH_ABI}")
 		add_compile_definitions(COMPILER_NAME=ClangAndroid)
