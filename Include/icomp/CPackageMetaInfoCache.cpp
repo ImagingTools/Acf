@@ -15,6 +15,16 @@
 #include <icomp/CCachedElementStaticInfo.h>
 #include <icomp/CCachedAttributeStaticInfo.h>
 #include <icomp/IAttributeStaticInfo.h>
+#include <icomp/CReferenceAttribute.h>
+#include <icomp/CFactoryAttribute.h>
+#include <icomp/CMultiReferenceAttribute.h>
+#include <icomp/CMultiFactoryAttribute.h>
+#include <icomp/TAttributeMember.h>
+#include <icomp/TMultiAttributeMember.h>
+#include <iattr/TAttribute.h>
+#include <iattr/TMultiAttribute.h>
+#include <iser/CMemoryWriteArchive.h>
+#include <iser/CMemoryReadArchive.h>
 
 
 namespace icomp
@@ -24,7 +34,62 @@ namespace icomp
 // static constants
 
 static const quint32 s_cacheMagic = 0x41434643; // "ACFC"
-static const qint32 s_cacheVersion = 3;
+static const qint32 s_cacheVersion = 4;
+
+
+static iser::IObject* CreateAttributeByTypeId(const QByteArray& typeId)
+{
+	if (typeId == iattr::CIntegerAttribute::GetTypeName()){
+		return new iattr::CIntegerAttribute();
+	}
+	else if (typeId == iattr::CRealAttribute::GetTypeName()){
+		return new iattr::CRealAttribute();
+	}
+	else if (typeId == iattr::CBooleanAttribute::GetTypeName()){
+		return new iattr::CBooleanAttribute();
+	}
+	else if (typeId == iattr::CStringAttribute::GetTypeName()){
+		return new iattr::CStringAttribute();
+	}
+	else if (typeId == iattr::CIdAttribute::GetTypeName()){
+		return new iattr::CIdAttribute();
+	}
+	else if (typeId == icomp::CTextAttribute::GetTypeName()){
+		return new icomp::CTextAttribute();
+	}
+	else if (typeId == iattr::CIntegerListAttribute::GetTypeName()){
+		return new iattr::CIntegerListAttribute();
+	}
+	else if (typeId == iattr::CRealListAttribute::GetTypeName()){
+		return new iattr::CRealListAttribute();
+	}
+	else if (typeId == iattr::CBooleanListAttribute::GetTypeName()){
+		return new iattr::CBooleanListAttribute();
+	}
+	else if (typeId == iattr::CStringListAttribute::GetTypeName()){
+		return new iattr::CStringListAttribute();
+	}
+	else if (typeId == iattr::CIdListAttribute::GetTypeName()){
+		return new iattr::CIdListAttribute();
+	}
+	else if (typeId == icomp::CMultiTextAttribute::GetTypeName()){
+		return new icomp::CMultiTextAttribute();
+	}
+	else if (typeId == icomp::CReferenceAttribute::GetTypeName()){
+		return new icomp::CReferenceAttribute();
+	}
+	else if (typeId == icomp::CMultiReferenceAttribute::GetTypeName()){
+		return new icomp::CMultiReferenceAttribute();
+	}
+	else if (typeId == icomp::CFactoryAttribute::GetTypeName()){
+		return new icomp::CFactoryAttribute();
+	}
+	else if (typeId == icomp::CMultiFactoryAttribute::GetTypeName()){
+		return new icomp::CMultiFactoryAttribute();
+	}
+
+	return NULL;
+}
 
 
 // public static methods
@@ -280,6 +345,25 @@ void CPackageMetaInfoCache::SerializeAttribute(QDataStream& stream, const IAttri
 	stream << attributeInfo->GetAttributeTypeId();
 	stream << qint32(attributeInfo->GetAttributeFlags());
 
+	// Default value
+	const iser::IObject* defaultValuePtr = attributeInfo->GetAttributeDefaultValue();
+	bool hasDefaultValue = (defaultValuePtr != NULL);
+	stream << hasDefaultValue;
+
+	if (hasDefaultValue){
+		iser::CMemoryWriteArchive writeArchive;
+		bool serialized = const_cast<iser::IObject*>(defaultValuePtr)->Serialize(writeArchive);
+
+		if (serialized){
+			QByteArray blob(reinterpret_cast<const char*>(writeArchive.GetBuffer()), writeArchive.GetBufferSize());
+			stream << blob;
+		}
+		else{
+			QByteArray emptyBlob;
+			stream << emptyBlob;
+		}
+	}
+
 	// Collect related meta groups that have data
 	QList<int> activeGroups;
 	for (int metaGroupId = IElementStaticInfo::MGI_INTERFACES; metaGroupId <= IComponentStaticInfo::MGI_LAST; ++metaGroupId){
@@ -423,6 +507,28 @@ CCachedAttributeStaticInfo* CPackageMetaInfoCache::DeserializeAttribute(QDataStr
 	}
 
 	CCachedAttributeStaticInfo* attrInfo = new CCachedAttributeStaticInfo(attributeId, description, typeId, flags);
+
+	// Default value
+	bool hasDefaultValue;
+	stream >> hasDefaultValue;
+
+	if (hasDefaultValue){
+		QByteArray blob;
+		stream >> blob;
+
+		if (stream.status() == QDataStream::Ok && !blob.isEmpty()){
+			iser::IObject* defaultValue = CreateAttributeByTypeId(typeId);
+			if (defaultValue != NULL){
+				iser::CMemoryReadArchive readArchive(blob.constData(), blob.size());
+				if (defaultValue->Serialize(readArchive)){
+					attrInfo->SetDefaultValue(defaultValue);
+				}
+				else{
+					delete defaultValue;
+				}
+			}
+		}
+	}
 
 	// Related meta groups
 	qint32 groupCount;
