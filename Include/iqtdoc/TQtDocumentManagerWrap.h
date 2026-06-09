@@ -46,6 +46,20 @@ protected:
 	void UpdateLastDirectory(const QString& filePath) const;
 	virtual QStringList GetOpenFilePathesFromDialog(const QByteArray* documentTypeIdPtr) const;
 
+	/**
+		Get the last used directory path.
+		Override in descendant components to provide custom storage of the last used directory.
+		Default implementation returns the internally stored path.
+	*/
+	virtual QString GetLastDirectory() const;
+
+	/**
+		Set the last used directory path.
+		Override in descendant components to provide custom storage of the last used directory.
+		Default implementation stores the path internally.
+	*/
+	virtual void SetLastDirectory(const QString& dirPath) const;
+
 private:
 	mutable QString m_lastDirectory;
 };
@@ -93,7 +107,7 @@ QString TQtDocumentManagerWrap<Base, Gui>::GetSaveFilePath(const QByteArray& doc
 	QString filePath = QFileDialog::getSaveFileName(
 				Gui::GetWidget(),
 				Gui::tr("Save..."),
-				currentFilePath.isEmpty()? m_lastDirectory: currentFilePath, filters.join(";;"),
+				currentFilePath.isEmpty()? GetLastDirectory(): currentFilePath, filters.join(";;"),
 				&defaultFilter);
 
 	if (!filePath.isEmpty()){
@@ -145,7 +159,9 @@ void TQtDocumentManagerWrap<Base, Gui>::UpdateLastDirectory(const QString& fileP
 {
 	QFileInfo fileInfo(filePath);
 
-	m_lastDirectory = fileInfo.dir().absolutePath();
+	QString dirPath = fileInfo.dir().absolutePath();
+
+	SetLastDirectory(dirPath);
 }
 
 
@@ -154,7 +170,7 @@ QStringList TQtDocumentManagerWrap<Base, Gui>::GetOpenFilePathesFromDialog(const
 {
 	QStringList filters = CreateFileDialogFilters(documentTypeIdPtr, NULL, ifile::IFilePersistence::QF_FILE | ifile::IFilePersistence::QF_LOAD);
 
-	QString lastUsedDirectory = m_lastDirectory;
+	QString lastUsedDirectory = GetLastDirectory();
 
 	QFileInfo fileInfo(lastUsedDirectory);
 	if (!fileInfo.exists()){
@@ -162,6 +178,20 @@ QStringList TQtDocumentManagerWrap<Base, Gui>::GetOpenFilePathesFromDialog(const
 	}
 
 	return QFileDialog::getOpenFileNames(Gui::GetWidget(), Gui::tr("Open Files..."), lastUsedDirectory, filters.join(";;"));
+}
+
+
+template <class Base, class Gui>
+QString TQtDocumentManagerWrap<Base, Gui>::GetLastDirectory() const
+{
+	return m_lastDirectory;
+}
+
+
+template <class Base, class Gui>
+void TQtDocumentManagerWrap<Base, Gui>::SetLastDirectory(const QString& dirPath) const
+{
+	m_lastDirectory = dirPath;
 }
 
 

@@ -37,6 +37,15 @@ public:
 				const QString& rootKey,
 				QSettings::Scope settingsScope = QSettings::UserScope);
 
+	/**
+	Constructor.
+		\param	settings	Reference to existing Qt settings instance.
+		\param	rootKey		The root key.
+	*/
+	CSettingsArchiveBase(
+				const QSettings& settings,
+				const QString& rootKey);
+
 protected:
 	bool EnterTag(const QByteArray& tagId);
 	bool LeaveTag(const QByteArray& tagId);
@@ -66,6 +75,5 @@ protected:
 
 
 } // namespace iqt
-
 
 

@@ -89,9 +89,36 @@ bool CSubstractiveColorModel::InsertColorant(const ColorantId & colorantId, Colo
 		return false;
 	}
 
+	if (index > m_colorants.size()){
+		return false;
+	}
+
 	int insertPosition = index >= 0 ? index : m_colorants.size();
 
 	m_colorants.insert(insertPosition, { colorantId, usage });
+
+	return true;
+}
+
+
+bool CSubstractiveColorModel::MoveColorant(const ColorantId& colorantId, int index)
+{
+	if (index < 0 || index >= (int)m_colorants.size()){
+		return false;
+	}
+
+	int fromIndex = FindColorantIndex(colorantId);
+	if (fromIndex < 0){
+		return false;
+	}
+
+	if (fromIndex == index){
+		return true;
+	}
+
+	ColorantInfo colorantInfo = m_colorants[fromIndex];
+	m_colorants.remove(fromIndex);
+	m_colorants.insert(index, colorantInfo);
 
 	return true;
 }

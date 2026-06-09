@@ -38,6 +38,18 @@ public:
 				QSettings::Scope settingsScope = QSettings::UserScope,
 				const iser::IVersionInfo* versionInfoPtr = NULL);
 
+	/**
+		Constructor.
+		
+		\param	settings		Reference to existing Qt settings instance.
+		\param	rootKey			The root key.
+		\param	versionInfoPtr	(Optional) pointer to the version information instance.
+	*/
+	CSettingsWriteArchive(
+				const QSettings& settings,
+				const QString& rootKey,
+				const iser::IVersionInfo* versionInfoPtr = NULL);
+
 	// reimplemented (iser::IArchive)
 	using BaseClass::Process;
 	virtual bool BeginTag(const iser::CArchiveTag& tag) override;
@@ -52,7 +64,6 @@ protected:
 
 
 } // namespace iqt
-
 
 
 

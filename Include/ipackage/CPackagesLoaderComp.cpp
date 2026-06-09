@@ -12,6 +12,7 @@
 #include <istd/CChangeNotifier.h>
 #include <istd/CSystem.h>
 #include <icomp/CXpcModel.h>
+#include <icomp/CPackageMetaInfoCache.h>
 #include <ifile/CSimpleXmlFileReadArchive.h>
 #include <ifile/CCompactXmlFileReadArchive.h>
 
@@ -101,6 +102,8 @@ bool CPackagesLoaderComp::LoadPackages(const QString& configFilePath)
 	m_realPackagesMap.clear();
 	m_libraryToInfoFuncMap.clear();
 	m_projectTargets.clear();
+	qDeleteAll(m_ownedPackageInfos);
+	m_ownedPackageInfos.clear();
 
 	bool retVal = LoadConfigFile(m_configFilePath);
 
@@ -263,6 +266,11 @@ bool CPackagesLoaderComp::RegisterPackageFile(const QString& file)
 
 		RealPackagesMap::ConstIterator foundIter = m_realPackagesMap.constFind(packageId);
 		if (foundIter == m_realPackagesMap.constEnd()){
+			// Try loading from cache first to avoid DLL loading
+			if (m_cacheEnabledAttrPtr.IsValid() && *m_cacheEnabledAttrPtr && TryLoadFromCache(fileInfo, packageId)){
+				return true;
+			}
+
 			icomp::GetPackageInfoFunc getInfoPtr = GetPackageFunction(fileInfo);
 			if (getInfoPtr != NULL){
 				icomp::CPackageStaticInfo* infoPtr = getInfoPtr();
@@ -270,6 +278,11 @@ bool CPackagesLoaderComp::RegisterPackageFile(const QString& file)
 					m_realPackagesMap[packageId] = fileInfo.canonicalFilePath();
 
 					RegisterEmbeddedComponentInfo(packageId, infoPtr);
+
+					// Save to cache for next time
+					if (m_cacheEnabledAttrPtr.IsValid() && *m_cacheEnabledAttrPtr){
+						SavePackageToCache(fileInfo, infoPtr);
+					}
 
 					return true;
 				}
@@ -529,6 +542,62 @@ bool CPackagesLoaderComp::CheckAndMarkPath(const QDir& directory, const QString&
 	}
 
 	return false;
+}
+
+
+bool CPackagesLoaderComp::TryLoadFromCache(const QFileInfo& fileInfo, const QByteArray& packageId)
+{
+	QString cacheDir;
+	if (m_cacheDirAttrPtr.IsValid()){
+		cacheDir = *m_cacheDirAttrPtr;
+	}
+
+	// Strategy 2: Cache canonicalFilePath() to avoid redundant syscalls
+	const QString canonicalPath = fileInfo.canonicalFilePath();
+
+	QString cacheFilePath = icomp::CPackageMetaInfoCache::GetCacheFilePath(
+				canonicalPath,
+				cacheDir);
+
+	// Strategy 1: Combined validation + loading in a single file read
+	icomp::CPackageStaticInfo* cachedInfo = icomp::CPackageMetaInfoCache::LoadFromCacheIfValid(canonicalPath, cacheFilePath);
+	if (cachedInfo == NULL){
+		return false;
+	}
+
+	m_realPackagesMap[packageId] = canonicalPath;
+	m_ownedPackageInfos.append(cachedInfo);
+
+	RegisterEmbeddedComponentInfo(packageId, cachedInfo);
+
+	SendVerboseMessage(tr("Loaded package meta-info from cache: %1").arg(cacheFilePath));
+
+	return true;
+}
+
+
+void CPackagesLoaderComp::SavePackageToCache(const QFileInfo& fileInfo, const icomp::CPackageStaticInfo* packageInfo)
+{
+	QString cacheDir;
+	if (m_cacheDirAttrPtr.IsValid()){
+		cacheDir = *m_cacheDirAttrPtr;
+	}
+
+	// Strategy 2: Cache canonicalFilePath() to avoid redundant syscalls
+	const QString canonicalPath = fileInfo.canonicalFilePath();
+
+	QString cacheFilePath = icomp::CPackageMetaInfoCache::GetCacheFilePath(
+				canonicalPath,
+				cacheDir);
+
+	if (icomp::CPackageMetaInfoCache::SaveToCache(cacheFilePath, canonicalPath, packageInfo)){
+		SendVerboseMessage(tr("Saved package meta-info to cache: %1").arg(cacheFilePath));
+	}
+	else{
+		SendWarningMessage(
+					MI_CANNOT_REGISTER,
+					tr("Failed to save package meta-info cache: %1").arg(cacheFilePath));
+	}
 }
 
 

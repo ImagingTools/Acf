@@ -2,6 +2,10 @@
 #pragma once
 
 
+// Qt includes
+#include <QtCore/QList>
+
+// ACF includes
 #include <icomp/CComponentStaticInfoBase.h>
 
 
@@ -39,6 +43,15 @@ public:
 	*/
 	virtual void RegisterEmbeddedComponentInfo(const QByteArray& embeddedId, const IComponentStaticInfo* componentInfoPtr);
 
+	/**
+		Register cached component static info with ownership transfer.
+		This variant takes ownership of the componentInfoPtr, which will be
+		deleted when this package info is destroyed or Reset() is called.
+		\param	embeddedId			ID of this embedded component.
+		\param	componentInfoPtr	cached component static info object. Ownership is transferred.
+	*/
+	virtual void RegisterCachedComponentInfo(const QByteArray& embeddedId, IComponentStaticInfo* componentInfoPtr);
+
 	// reimplemented (icomp::IElementStaticInfo)
 	virtual Ids GetMetaIds(int metaGroupId) const override;
 	virtual const IComponentStaticInfo* GetEmbeddedComponentInfo(const QByteArray& embeddedId) const override;
@@ -50,6 +63,9 @@ public:
 private:
 	typedef QMap<QByteArray, const IComponentStaticInfo*> EmbeddedComponentInfos;
 	EmbeddedComponentInfos m_embeddedComponentInfos;
+
+	typedef QList<IComponentStaticInfo*> OwnedComponentInfos;
+	OwnedComponentInfos m_ownedComponentInfos;
 
 	QString m_description;
 	QString m_keywords;
