@@ -319,6 +319,11 @@ I_EXPORT_COMPONENT(
 			"Model Observer Parameter Set" IM_TAG("Editor Composition"));
 
 I_EXPORT_COMPONENT(
+			GenericParamsSetGui,
+			"Generic parameter set editor with dynamic UI file binding",
+			"Model Observer Parameter Set" IM_TAG("Generic Editor"));
+
+I_EXPORT_COMPONENT(
 			MessageBoxBasedLog,
 			"Logging component use a dialog for message visualization",
 			"Message Log Dialog");
