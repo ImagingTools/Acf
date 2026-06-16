@@ -4,6 +4,7 @@
 
 // Qt includes
 #include <QtCore/QVector>
+#include <QtCore/QSet>
 #include <QtCore/QReadWriteLock>
 
 // ACF includes
@@ -70,11 +71,33 @@ public:
 	virtual void AfterUpdate(imod::IModel* modelPtr, const istd::IChangeable::ChangeSet& changeSet) override;
 
 private:
+	Q_DISABLE_COPY(CModelUpdateBridge)
+
 	bool IsAttached(const imod::IModel* modelPtr) const;
+
+	/**
+		Constructs the change set to pass to BeginChanges() based on the current update flags.
+		This mirrors the change set construction in AfterUpdate() but without the source
+		change set (which is not available in BeforeUpdate()).
+	*/
+	istd::IChangeable::ChangeSet CreateBeginChangeSet() const;
+
+	/**
+		Constructs the change set to pass to EndChanges() based on update flags and the
+		source change set from the observed model.
+	*/
+	istd::IChangeable::ChangeSet CreateEndChangeSet(const istd::IChangeable::ChangeSet& sourceChangeSet) const;
 
 private:
 	typedef QVector<imod::IModel*> Models;
 	Models m_models;
+
+	/**
+		Models for which BeginChanges() has been called on the target but EndChanges()
+		has not yet been called. Used to guarantee BeginChanges/EndChanges symmetry
+		even if a model detaches without a prior AfterUpdate() call.
+	*/
+	QSet<imod::IModel*> m_pendingModels;
 
 	istd::IChangeable* m_changeablePtr;
 
