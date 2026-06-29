@@ -11,7 +11,7 @@ namespace ibase
 istd::IChangeable::ChangeSet CObservableListBase::ElementAddChanges(qsizetype index)
 {
 	istd::IChangeable::ChangeSet changeSet(CF_ELEMENT_ADDED);
-	changeSet.SetChangeInfo(s_CN_INDEX_ID, index);
+	changeSet.SetChangeInfo(CN_INDEX_ID, index);
 
 	return changeSet;
 }
@@ -20,7 +20,7 @@ istd::IChangeable::ChangeSet CObservableListBase::ElementAddChanges(qsizetype in
 istd::IChangeable::ChangeSet CObservableListBase::ElementRemoveChanges(qsizetype index)
 {
 	istd::IChangeable::ChangeSet changeSet(CF_ELEMENT_REMOVED);
-	changeSet.SetChangeInfo(s_CN_INDEX_ID, index);
+	changeSet.SetChangeInfo(CN_INDEX_ID, index);
 
 	return changeSet;
 }
@@ -29,7 +29,7 @@ istd::IChangeable::ChangeSet CObservableListBase::ElementRemoveChanges(qsizetype
 istd::IChangeable::ChangeSet CObservableListBase::ElementUpdatedChanges(qsizetype index)
 {
 	istd::IChangeable::ChangeSet changeSet(CF_ELEMENT_UPDATED);
-	changeSet.SetChangeInfo(s_CN_INDEX_ID, index);
+	changeSet.SetChangeInfo(CN_INDEX_ID, index);
 
 	return changeSet;
 }
@@ -38,8 +38,8 @@ istd::IChangeable::ChangeSet CObservableListBase::ElementUpdatedChanges(qsizetyp
 istd::IChangeable::ChangeSet CObservableListBase::ElementMoveChanges(qsizetype fromIndex, qsizetype toIndex)
 {
 	istd::IChangeable::ChangeSet changeSet(CF_ELEMENT_MOVED);
-	changeSet.SetChangeInfo(s_CN_INDEX_FROM_ID, fromIndex);
-	changeSet.SetChangeInfo(s_CN_INDEX_TO_ID, toIndex);
+	changeSet.SetChangeInfo(CN_INDEX_FROM_ID, fromIndex);
+	changeSet.SetChangeInfo(CN_INDEX_TO_ID, toIndex);
 
 	return changeSet;
 }

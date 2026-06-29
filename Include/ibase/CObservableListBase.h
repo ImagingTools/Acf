@@ -28,9 +28,9 @@ public:
 		CF_RESET
 	};
 
-	inline static const QByteArray s_CN_INDEX_ID = QByteArrayLiteral("INDEX");
-	inline static const QByteArray s_CN_INDEX_FROM_ID = QByteArrayLiteral("INDEX_FROM");
-	inline static const QByteArray s_CN_INDEX_TO_ID = QByteArrayLiteral("INDEX_TO");
+	inline static const QByteArray CN_INDEX_ID = QByteArrayLiteral("INDEX");
+	inline static const QByteArray CN_INDEX_FROM_ID = QByteArrayLiteral("INDEX_FROM");
+	inline static const QByteArray CN_INDEX_TO_ID = QByteArrayLiteral("INDEX_TO");
 
 protected:
 	static istd::IChangeable::ChangeSet ElementAddChanges(qsizetype index);
