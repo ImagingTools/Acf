@@ -61,6 +61,7 @@ private:
 
 	typedef QMap<QByteArray, const idoc::IDocumentTemplate*> IdToTemplateMap;
 	IdToTemplateMap m_idToTemplateMap;
+	Ids m_documentTypeIds;
 };
 
 
