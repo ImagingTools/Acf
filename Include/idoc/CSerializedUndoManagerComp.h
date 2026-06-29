@@ -6,7 +6,7 @@
 #include <QtCore/QList>
 
 // ACF includes
-#include <memory>
+#include <istd/TDelPtr.h>
 #include <iser/ISerializable.h>
 #include <iser/CMemoryWriteArchive.h>
 #include <imod/TSingleModelObserverBase.h>
@@ -133,7 +133,7 @@ public:
 	virtual bool OnModelDetached(imod::IModel* modelPtr) override;
 
 protected:
-	typedef std::unique_ptr<iser::CMemoryWriteArchive> UndoArchivePtr;
+	typedef istd::TDelPtr<iser::CMemoryWriteArchive> UndoArchivePtr;
 	struct UndoStepInfo
 	{
 		UndoArchivePtr archivePtr;

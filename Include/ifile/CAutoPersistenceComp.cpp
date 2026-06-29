@@ -405,8 +405,8 @@ bool CAutoPersistenceComp::LockFile(const QString& filePath, bool store) const
 	if (lockRequired){
 		QString lockFilePath = filePath + ".lock";
 
-		if (!m_lockFilePtr.IsValid()){
-			m_lockFilePtr.SetPtr(new QLockFile(lockFilePath));
+		if (!m_lockFilePtr){
+			m_lockFilePtr.reset(new QLockFile(lockFilePath));
 			int staleLockTime = int(*m_staleLockTimeAttrPtr * 1000.0);
 			m_lockFilePtr->setStaleLockTime(staleLockTime);
 		}
@@ -415,7 +415,7 @@ bool CAutoPersistenceComp::LockFile(const QString& filePath, bool store) const
 			SendWarningMessage(0, tr("Possible deadlock conditions: %1").arg(filePath));
 		}
 
-		Q_ASSERT(m_lockFilePtr.IsValid());
+		Q_ASSERT(m_lockFilePtr);
 		int timeout = int(*m_tryLockTimeoutAttrPtr * 1000.0);
 		return m_lockFilePtr->tryLock(timeout);
 	}
@@ -433,10 +433,10 @@ void CAutoPersistenceComp::UnlockFile() const
 	QMutexLocker lock(&m_fileLockMutex);
 
 #if QT_VERSION >= 0x050000
-	if (m_lockFilePtr.IsValid()){
+	if (m_lockFilePtr){
 		m_lockFilePtr->unlock();
 
-		m_lockFilePtr.Reset();
+		m_lockFilePtr.reset();
 	}
 #endif
 }

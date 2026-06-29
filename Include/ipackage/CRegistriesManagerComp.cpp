@@ -215,7 +215,7 @@ const icomp::IRegistry* CRegistriesManagerComp::GetRegistryFromFile(const QStrin
 
 	RegistryPtr& mapValue = m_registriesMap[correctedPath];
 	if (m_registryLoaderCompPtr.IsValid()){
-		istd::TUniqueInterfacePtr<icomp::IRegistry> newRegistryPtr(new icomp::CRegistry());
+		istd::TDelPtr<icomp::IRegistry> newRegistryPtr(new icomp::CRegistry());
 		if (m_registryLoaderCompPtr->LoadFromFile(*newRegistryPtr, correctedPath) == ifile::IFilePersistence::OS_OK){
 			mapValue.TakeOver(newRegistryPtr);
 

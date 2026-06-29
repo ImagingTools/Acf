@@ -6,8 +6,7 @@
 #include <QtCore/QMap>
 
 // ACF includes
-#include <memory>
-#include <istd/TInterfacePtr.h>
+#include <istd/TDelPtr.h>
 
 #include <icomp/IAttributeStaticInfo.h>
 #include <icomp/IRegistry.h>
@@ -72,11 +71,11 @@ protected:
 	};
 
 private:
-	typedef istd::TUniqueInterfacePtr<IAttributeStaticInfo> AttrMetaInfoPtr;
+	typedef istd::TDelPtr<IAttributeStaticInfo> AttrMetaInfoPtr;
 	typedef QMap<const IAttributeStaticInfo*, AttrMetaInfoPtr> AttrReplacers;
 	AttrReplacers m_attrReplacers;
 
-	typedef std::unique_ptr<icomp::CCompositeComponentStaticInfo> ComponentInfoPtr;
+	typedef istd::TDelPtr<icomp::CCompositeComponentStaticInfo> ComponentInfoPtr;
 	typedef QMap<QByteArray, ComponentInfoPtr> EmbeddedComponentInfos;
 	mutable EmbeddedComponentInfos m_embeddedComponentInfos;
 

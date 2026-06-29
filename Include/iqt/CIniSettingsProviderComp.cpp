@@ -11,9 +11,9 @@ namespace iqt
 
 QSettings& CIniSettingsProviderComp::GetSettings() const
 {
-	Q_ASSERT(m_settingsPtr.IsValid());
+	Q_ASSERT((m_settingsPtr != nullptr));
 
-	return *m_settingsPtr.GetPtr();
+	return *m_settingsPtr.get();
 }
 
 
@@ -25,7 +25,7 @@ void CIniSettingsProviderComp::OnComponentCreated()
 {
 	BaseClass::OnComponentCreated();
 
-	m_settingsPtr.SetPtr(new QSettings(*m_iniFilePathAttrPtr, QSettings::IniFormat));
+	m_settingsPtr.reset(new QSettings(*m_iniFilePathAttrPtr, QSettings::IniFormat));
 }
 
 
