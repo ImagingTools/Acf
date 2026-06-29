@@ -3,6 +3,8 @@
 
 
 // ACF includes
+#include <memory>
+
 #include <imod/TModelWrap.h>
 #include <iview/CImageShape.h>
 
@@ -22,14 +24,14 @@ struct TPointVisualObject : public Shape
 
 	typedef imod::TModelWrap<Object> PositionModel;
 
-	istd::TDelPtr<PositionModel> model;
+	std::unique_ptr<PositionModel> model;
 };
 
 
 template<class Object, class Shape>
 TPointVisualObject<Object, Shape>::TPointVisualObject(bool editable)
 {
-	model.SetPtr(new PositionModel);
+	model = std::make_unique<PositionModel>();
 
 	BaseClass::SetEditablePosition(editable);
 
@@ -49,14 +51,14 @@ struct TVisualObject: public Shape
 
 	typedef imod::TModelWrap<Object> PositionModel;
 
-	istd::TDelPtr<PositionModel> model;
+	std::unique_ptr<PositionModel> model;
 };
 
 
 template<class Object, class Shape>
 TVisualObject<Object, Shape>::TVisualObject(bool editable)
 {
-	model.SetPtr(new PositionModel);
+	model = std::make_unique<PositionModel>();
 
 	BaseClass::SetEditablePosition(editable);
 	BaseClass::SetEditableRadius(editable);
@@ -74,25 +76,23 @@ struct TBitmapVisualObject
 
 	typedef imod::TModelWrap<Object> ImageModel;
 
-	istd::TDelPtr<ImageModel> model;
-	istd::TDelPtr<BitmapShape> shape;
+	std::unique_ptr<ImageModel> model;
+	std::unique_ptr<BitmapShape> shape;
 };
 
 
 template<class Object, class BitmapShape>
 TBitmapVisualObject<Object, BitmapShape>::TBitmapVisualObject(const Object* imagePtr)
 {
-	model.SetPtr(new ImageModel);
+	model = std::make_unique<ImageModel>();
 	if (imagePtr != NULL){
 		model->SetBaseObject(*imagePtr);
 	}
 	
-	shape.SetPtr(new BitmapShape);
+	shape = std::make_unique<BitmapShape>();
 
-	model->AttachObserver(shape.GetPtr());
+	model->AttachObserver(shape.get());
 }
 
 
 } // namespace iview
-
-

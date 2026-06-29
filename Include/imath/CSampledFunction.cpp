@@ -4,7 +4,6 @@
 
 // ACF includes
 #include <istd/CChangeNotifier.h>
-#include <istd/TDelPtr.h>
 
 
 namespace imath

@@ -278,9 +278,9 @@ bool TExtMessage<Element>::CopyFrom(const istd::IChangeable& object, Compatibili
 template<class Element>
 istd::IChangeable* TExtMessage<Element>::CloneMe(CompatibilityMode mode) const
 {
-	istd::TDelPtr<TExtMessage<Element> > clonedPtr(new TExtMessage<Element>);
+	std::unique_ptr<TExtMessage<Element> > clonedPtr(new TExtMessage<Element>);
 	if (clonedPtr->CopyFrom(*this, mode)){
-		return clonedPtr.PopPtr();
+		return clonedPtr.release();
 	}
 
 	return NULL;
@@ -375,7 +375,6 @@ TExtMessageModel<Element>::TExtMessageModel(
 
 
 } // namespace ilog
-
 
 
 

@@ -4,7 +4,6 @@
 
 // ACF includes
 #include <i2d/CSplineSegment.h>
-#include <istd/TDelPtr.h>
 #include <istd/CChangeNotifier.h>
 
 namespace i2d
