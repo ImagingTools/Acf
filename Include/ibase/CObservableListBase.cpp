@@ -35,6 +35,16 @@ istd::IChangeable::ChangeSet CObservableListBase::ElementUpdatedChanges(qsizetyp
 }
 
 
+istd::IChangeable::ChangeSet CObservableListBase::ElementMoveChanges(qsizetype fromIndex, qsizetype toIndex)
+{
+	istd::IChangeable::ChangeSet changeSet(CF_ELEMENT_MOVED);
+	changeSet.SetChangeInfo(CN_INDEX_FROM_ID, fromIndex);
+	changeSet.SetChangeInfo(CN_INDEX_TO_ID, toIndex);
+
+	return changeSet;
+}
+
+
 } // namespace ibase
 
 
