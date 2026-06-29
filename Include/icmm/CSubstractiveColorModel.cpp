@@ -118,7 +118,8 @@ bool CSubstractiveColorModel::MoveColorant(const ColorantId& colorantId, int ind
 
 	ColorantInfo colorantInfo = m_colorants[fromIndex];
 
-	istd::CChangeNotifier changeNotifier(this, &ElementMoveChanges(fromIndex, index));
+	auto moveChanges = ElementMoveChanges(fromIndex, index);
+	istd::CChangeNotifier changeNotifier(this, &moveChanges);
 
 	m_colorants.remove(fromIndex);
 	m_colorants.insert(index, colorantInfo);
