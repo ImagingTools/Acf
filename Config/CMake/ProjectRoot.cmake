@@ -39,6 +39,20 @@ macro(get_target_name target_name)
 			set(COMPILER_NAME "VC17")
 		endif()
 
+		if(${MSVC_TOOLSET_VERSION} STREQUAL 144)
+			set(COMPILER_NAME "VC18")
+		endif()
+
+		if(${MSVC_TOOLSET_VERSION} STREQUAL 145)
+			set(COMPILER_NAME "VC18")
+		endif()
+
+		if(COMPILER_NAME STREQUAL "Clang")
+			# Fallback for unrecognized MSVC toolset versions
+			set(COMPILER_NAME "VC${MSVC_TOOLSET_VERSION}")
+			message(WARNING "Unrecognized MSVC_TOOLSET_VERSION: ${MSVC_TOOLSET_VERSION}, using ${COMPILER_NAME}")
+		endif()
+
 		add_compile_definitions(COMPILER_NAME=${COMPILER_NAME})
 		set(COMPILER_CODE "${COMPILER_NAME}")
 

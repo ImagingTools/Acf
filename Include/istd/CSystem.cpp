@@ -509,7 +509,19 @@ QString CSystem::GetCompilerInfo()
 	QString compilerName("C/C++ compiler");
 
 #if defined(_MSC_VER)
+#if _MSC_VER >= 1950
+	compilerName = QString("Microsoft Visual C++ compiler %1.%2.%3 (Visual Studio 2026)").arg(_MSC_VER / 100).arg(_MSC_VER % 100).arg(_MSC_FULL_VER % 100000);
+#elif _MSC_VER >= 1930
+	compilerName = QString("Microsoft Visual C++ compiler %1.%2.%3 (Visual Studio 2022)").arg(_MSC_VER / 100).arg(_MSC_VER % 100).arg(_MSC_FULL_VER % 100000);
+#elif _MSC_VER >= 1920
+	compilerName = QString("Microsoft Visual C++ compiler %1.%2.%3 (Visual Studio 2019)").arg(_MSC_VER / 100).arg(_MSC_VER % 100).arg(_MSC_FULL_VER % 100000);
+#elif _MSC_VER >= 1910
+	compilerName = QString("Microsoft Visual C++ compiler %1.%2.%3 (Visual Studio 2017)").arg(_MSC_VER / 100).arg(_MSC_VER % 100).arg(_MSC_FULL_VER % 100000);
+#elif _MSC_VER >= 1900
+	compilerName = QString("Microsoft Visual C++ compiler %1.%2.%3 (Visual Studio 2015)").arg(_MSC_VER / 100).arg(_MSC_VER % 100).arg(_MSC_FULL_VER % 100000);
+#else
 	compilerName = QString("Microsoft Visual C++ compiler %1.%2.%3").arg(_MSC_VER / 100).arg(_MSC_VER % 100).arg(_MSC_FULL_VER % 100000);
+#endif
 #endif
 
 #if defined(__INTEL_COMPILER)
