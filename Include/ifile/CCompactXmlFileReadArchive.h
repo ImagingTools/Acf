@@ -37,6 +37,7 @@ public:
 				const iser::CArchiveTag& rootTag = s_acfRootTag);
 
 	bool OpenFile(const QString& filePath);
+	bool IsOpen() const override;
 
 protected:
 	// reimplemented (istd::ILogger)

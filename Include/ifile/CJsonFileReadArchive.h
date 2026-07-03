@@ -21,6 +21,7 @@ public:
 	CJsonFileReadArchive(const QString& filePath = "", bool serializeHeader = true);
 
 	bool OpenFile(const QString& filePath);
+	bool IsOpen() const override;
 
 private:
 	QFile m_file;

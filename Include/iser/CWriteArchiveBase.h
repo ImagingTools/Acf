@@ -21,6 +21,7 @@ class CWriteArchiveBase: public CArchiveBase
 public:
 	// reimplemented (iser::IArchive)
 	virtual bool IsStoring() const override;
+	virtual bool IsOpen() const override;
 	virtual const IVersionInfo& GetVersionInfo() const override;
 	virtual bool ProcessBits(void* dataPtr, int bitsCount, int bytesCount) override;
 

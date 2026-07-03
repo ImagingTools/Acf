@@ -30,6 +30,7 @@ public:
 	~CJsonFileWriteArchive();
 
 	bool OpenFile(const QString& filePath);
+	bool IsOpen() const override;
 
 private:
 	QFile m_file;

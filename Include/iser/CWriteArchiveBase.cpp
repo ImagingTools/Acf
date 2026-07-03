@@ -18,6 +18,12 @@ bool CWriteArchiveBase::IsStoring() const
 }
 
 
+bool CWriteArchiveBase::IsOpen() const
+{
+	return true;
+}
+
+
 const IVersionInfo& CWriteArchiveBase::GetVersionInfo() const
 {
 	if (m_versionInfoPtr != NULL){

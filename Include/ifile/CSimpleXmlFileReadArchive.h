@@ -34,6 +34,8 @@ public:
 	explicit CSimpleXmlFileReadArchive(const QString& filePath, bool serializeHeader = true, const iser::CArchiveTag& rootTag = s_acfRootTag);
 	virtual ~CSimpleXmlFileReadArchive();
 
+	bool IsOpen() const override;
+
 protected:
 	// reimplemented (istd::ILogger)
 	virtual void DecorateMessage(

@@ -37,6 +37,8 @@ public:
 				const iser::CArchiveTag& rootTag = s_acfRootTag);
 	virtual ~CSimpleXmlFileWriteArchive();
 
+	bool IsOpen() const override;
+
 protected:
 	// reimplemented (iser::CXmlWriteArchiveBase)
 	virtual bool WriteString(const QByteArray& value) override;

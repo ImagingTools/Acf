@@ -42,6 +42,12 @@ CSimpleXmlFileWriteArchive::~CSimpleXmlFileWriteArchive()
 }
 
 
+bool CSimpleXmlFileWriteArchive::IsOpen() const
+{
+	return m_file.isOpen();
+}
+
+
 // protected methods
 
 // reimplemented (iser::CXmlWriteArchiveBase)

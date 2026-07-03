@@ -205,6 +205,20 @@ public:
 	virtual bool IsStoring() const = 0;
 
 	/**
+		Checks if the archive was successfully opened and is ready for use.
+
+		For file-based archives this reflects whether the underlying file was opened
+		successfully. For in-memory archives (string buffers, etc.) this always
+		returns true because there is no external resource that can fail to open.
+
+		Always check IsOpen() before calling Serialize() on a file-based archive to
+		avoid serializing into an archive that has no backing device.
+
+		\return true if the archive is ready for use, false if it failed to open
+	*/
+	virtual bool IsOpen() const = 0;
+
+	/**
 		Checks if skipping to the end of a tag on EndTag() is supported.
 		
 		Some archive types (like XML) support skipping unread content within a tag,
