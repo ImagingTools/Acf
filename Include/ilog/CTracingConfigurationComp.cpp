@@ -35,7 +35,7 @@ void CTracingConfigurationComp::SetTracingLevel(int tracingLevel)
 // reimplemented (iser::ISerializable)
 bool CTracingConfigurationComp::Serialize(iser::IArchive& archive)
 {
-	static iser::CArchiveTag tacingLevelTag("TacingLevel", "Level of tracing messages", iser::CArchiveTag::TT_LEAF);
+	static iser::CArchiveTag tacingLevelTag("TracingLevel", "Level of tracing messages", iser::CArchiveTag::TT_LEAF);
 
 	istd::CChangeNotifier notifier(archive.IsStoring()? NULL: this);
 	Q_UNUSED(notifier);
