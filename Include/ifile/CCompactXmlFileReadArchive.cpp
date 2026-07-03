@@ -48,6 +48,12 @@ bool CCompactXmlFileReadArchive::OpenFile(const QString& filePath)
 }
 
 
+bool CCompactXmlFileReadArchive::IsOpen() const
+{
+	return !m_openFileName.isEmpty();
+}
+
+
 // protected methods
 
 // reimplemented (istd::ILogger)

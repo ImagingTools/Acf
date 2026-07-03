@@ -45,6 +45,12 @@ bool CCompactXmlFileWriteArchive::OpenFile(const QString& filePath)
 }
 
 
+bool CCompactXmlFileWriteArchive::IsOpen() const
+{
+	return m_file.isOpen();
+}
+
+
 bool CCompactXmlFileWriteArchive::Flush()
 {
 	BaseClass::Flush();

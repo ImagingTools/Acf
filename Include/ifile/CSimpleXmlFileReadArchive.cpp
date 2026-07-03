@@ -23,6 +23,12 @@ CSimpleXmlFileReadArchive::CSimpleXmlFileReadArchive(const QString& filePath, bo
 }
 
 
+bool CSimpleXmlFileReadArchive::IsOpen() const
+{
+	return m_file.isOpen();
+}
+
+
 CSimpleXmlFileReadArchive::~CSimpleXmlFileReadArchive()
 {
 	if (m_file.isOpen()){

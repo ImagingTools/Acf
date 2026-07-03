@@ -40,6 +40,7 @@ public:
 	~CCompactXmlFileWriteArchive();
 
 	bool OpenFile(const QString& filePath);
+	bool IsOpen() const override;
 
 	bool Flush();
 

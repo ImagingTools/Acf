@@ -14,6 +14,12 @@ bool CReadArchiveBase::IsStoring() const
 }
 
 
+bool CReadArchiveBase::IsOpen() const
+{
+	return true;
+}
+
+
 const IVersionInfo& CReadArchiveBase::GetVersionInfo() const
 {
 	return m_versionInfo;

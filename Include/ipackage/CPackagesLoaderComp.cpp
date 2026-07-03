@@ -346,12 +346,14 @@ bool CPackagesLoaderComp::RegisterPackageFile(const QString& file)
 
 			QString metaInfoFile(packageDir.absoluteFilePath("General.xml"));
 			ifile::CSimpleXmlFileReadArchive archive(metaInfoFile);
-			if (!infoPtr->SerializeMeta(archive)){
-				SendWarningMessage(
-							ifile::IFilePersistence::MI_CANNOT_LOAD,
-							QObject::tr("Cannot load meta description for registry %1 (%2)")
-										.arg(QString(packageId))
-										.arg(metaInfoFile));
+			if (archive.IsOpen()){
+				if (!infoPtr->SerializeMeta(archive)){
+					SendWarningMessage(
+								ifile::IFilePersistence::MI_CANNOT_LOAD,
+								QObject::tr("Cannot load meta description for registry %1 (%2)")
+											.arg(QString(packageId))
+											.arg(metaInfoFile));
+				}
 			}
 
 			RegisterEmbeddedComponentInfo(packageId, infoPtr);

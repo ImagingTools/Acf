@@ -36,4 +36,10 @@ bool CJsonFileReadArchive::OpenFile(const QString &filePath)
 }
 
 
+bool CJsonFileReadArchive::IsOpen() const
+{
+	return m_file.isOpen();
+}
+
+
 } // namespace ifile

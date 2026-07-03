@@ -48,4 +48,10 @@ bool CJsonFileWriteArchive::OpenFile(const QString &filePath)
 }
 
 
+bool CJsonFileWriteArchive::IsOpen() const
+{
+	return m_file.isOpen();
+}
+
+
 } // namespace ifile
