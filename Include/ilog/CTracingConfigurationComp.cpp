@@ -13,13 +13,14 @@ namespace ilog
 
 // public methods
 
-CTracingConfigurationComp::CTracingConfigurationComp(): m_tracingLevel(-1)
+CTracingConfigurationComp::CTracingConfigurationComp()
+	: m_tracingLevel(-1)
 {
-
 }
 
 
 // reimplemented (ilog::ITracingConfiguration)
+
 int CTracingConfigurationComp::GetTracingLevel() const
 {
 	return m_tracingLevel;
@@ -33,31 +34,43 @@ void CTracingConfigurationComp::SetTracingLevel(int tracingLevel)
 
 
 // reimplemented (iser::ISerializable)
+
 bool CTracingConfigurationComp::Serialize(iser::IArchive& archive)
 {
-	static iser::CArchiveTag tacingLevelTag("TacingLevel", "Level of tracing messages", iser::CArchiveTag::TT_LEAF);
+	const iser::IVersionInfo& versionInfo = archive.GetVersionInfo();
 
-	istd::CChangeNotifier notifier(archive.IsStoring()? NULL: this);
+	QByteArray tracingLevelTagName = QByteArrayLiteral("TracingLevel");
+
+	quint32 frameworkVersion = 0;
+	if (versionInfo.GetVersionNumber(iser::IVersionInfo::AcfVersionId, frameworkVersion) && (frameworkVersion < 6447)){
+		tracingLevelTagName = QByteArrayLiteral("TacingLevel");
+	}
+
+	static iser::CArchiveTag tracingLevelTag(tracingLevelTagName, "Level of message tracing", iser::CArchiveTag::TT_LEAF);
+
+	istd::CChangeNotifier notifier(archive.IsStoring() ? nullptr : this);
 	Q_UNUSED(notifier);
 
 	bool retVal = true;
 
-	retVal = retVal && archive.BeginTag(tacingLevelTag);
+	retVal = retVal && archive.BeginTag(tracingLevelTag);
 	retVal = retVal && archive.Process(m_tracingLevel);
-	retVal = retVal && archive.EndTag(tacingLevelTag);
+	retVal = retVal && archive.EndTag(tracingLevelTag);
 
 	return retVal;
 }
 
+
 // protected methods
+
 // reimplemented (icomp::CComponentBase)
+
 void CTracingConfigurationComp::OnComponentCreated()
 {
 	if (m_defaultTracingLevel.IsValid()){
 		m_tracingLevel = *m_defaultTracingLevel;
 	}
 }
-
 
 
 } // namespace ilog

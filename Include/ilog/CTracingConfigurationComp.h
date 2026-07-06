@@ -34,9 +34,9 @@ namespace ilog
 	\par Configuration
 	Component attributes:
 	- **DefaulTracingtLevel**: Initial tracing level (default: -1 = disabled)
-	  - -1: Tracing disabled
-	  - 0: Enable all verbose messages
-	  - 1+: Enable messages with level <= value
+		- -1: Tracing disabled
+		- 0: Enable all verbose messages
+		- 1+: Enable messages with level <= value
 	
 	Component interfaces:
 	- Implements ITracingConfiguration for level access
@@ -46,14 +46,14 @@ namespace ilog
 	\code{.cpp}
 	// Create tracing configuration
 	istd::TSharedInterfacePtr<ilog::CTracingConfigurationComp> tracing(
-	    new ilog::CTracingConfigurationComp);
+		new ilog::CTracingConfigurationComp);
 	
 	// Configure default level (or via .acc: DefaulTracingtLevel: 1)
 	tracing->SetTracingLevel(1); // Enable levels 0 and 1
 	
 	// Components reference this for tracing control
 	// In .acc for components:
-	//   <Reference Id="TracingConfiguration" Value="GlobalTracing"/>
+	//	<Reference Id="TracingConfiguration" Value="GlobalTracing"/>
 	
 	// Runtime control
 	tracing->SetTracingLevel(0);  // Enable all tracing
@@ -63,11 +63,11 @@ namespace ilog
 	\par Component Configuration
 	\code{.xml}
 	<Component Id="GlobalTracing" Class="ilog::CTracingConfigurationComp">
-	    <Attribute Id="DefaulTracingtLevel" Value="1"/>
+		<Attribute Id="DefaulTracingtLevel" Value="1"/>
 	</Component>
 	
 	<Component Id="MyComponent" Class="MyComponentClass">
-	    <Reference Id="TracingConfiguration" Value="GlobalTracing"/>
+		<Reference Id="TracingConfiguration" Value="GlobalTracing"/>
 	</Component>
 	\endcode
 	
@@ -77,15 +77,15 @@ namespace ilog
 	class MyComp : public ilog::CLoggerComponentBase
 	{
 	public:
-	    void Process() {
-	        // Only logged if tracing level >= 0
-	        SendVerboseMessage("Processing started", QString(), 0);
-	        
-	        // Only logged if tracing level >= 1
-	        if (IsVerboseEnabled(1)) {
-	            SendVerboseMessage("Detailed step", QString(), 1);
-	        }
-	    }
+		void Process() {
+			// Only logged if tracing level >= 0
+			SendVerboseMessage("Processing started", QString(), 0);
+
+			// Only logged if tracing level >= 1
+			if (IsVerboseEnabled(1)) {
+				SendVerboseMessage("Detailed step", QString(), 1);
+			}
+		}
 	};
 	\endcode
 	
