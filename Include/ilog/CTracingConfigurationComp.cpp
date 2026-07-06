@@ -37,7 +37,16 @@ void CTracingConfigurationComp::SetTracingLevel(int tracingLevel)
 
 bool CTracingConfigurationComp::Serialize(iser::IArchive& archive)
 {
-	static iser::CArchiveTag tracingLevelTag("TracingLevel", "Level of message tracing", iser::CArchiveTag::TT_LEAF);
+	const iser::IVersionInfo& versionInfo = archive.GetVersionInfo();
+
+	QByteArray tracingLevelTagName = QByteArrayLiteral("TracingLevel");
+
+	quint32 frameworkVersion = 0;
+	if (versionInfo.GetVersionNumber(iser::IVersionInfo::AcfVersionId, frameworkVersion) && (frameworkVersion < 6447)){
+		tracingLevelTagName = QByteArrayLiteral("TacingLevel");
+	}
+
+	static iser::CArchiveTag tracingLevelTag(tracingLevelTagName, "Level of message tracing", iser::CArchiveTag::TT_LEAF);
 
 	istd::CChangeNotifier notifier(archive.IsStoring() ? nullptr : this);
 	Q_UNUSED(notifier);
