@@ -5,7 +5,7 @@ message(VERBOSE ${CMAKE_CURRENT_LIST_DIR})
 project(Acf)
 
 find_package(QT NAMES Qt6 Qt5 COMPONENTS Core)
-find_package("Qt${QT_VERSION_MAJOR}" COMPONENTS Core Widgets Core Gui Xml Network Svg Concurrent REQUIRED)
+find_package("Qt${QT_VERSION_MAJOR}" COMPONENTS Core Widgets Gui Xml Network Svg SvgWidgets Concurrent REQUIRED)
 
 set(ACFDIR "${CMAKE_CURRENT_LIST_DIR}/../../../Acf")
 
