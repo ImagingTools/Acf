@@ -39,6 +39,10 @@ endif()
 set(ACF_LIB_OUTPUT_DIR "${BUILDDIR}/Acf/Lib/${CMAKE_BUILD_TYPE}_${TARGETNAME}")
 set(ACF_PACKAGE_BUILD_DIR "${ACF_LIB_OUTPUT_DIR}/cmake")
 
+# Ensure the output directory exists before writing export/config files into it,
+# otherwise export()/configure_package_config_file() can fail on a fresh build tree.
+file(MAKE_DIRECTORY "${ACF_PACKAGE_BUILD_DIR}")
+
 # --- Build-tree export ------------------------------------------------------
 export(EXPORT ${ACF_EXPORT_SET}
 	NAMESPACE Acf::
