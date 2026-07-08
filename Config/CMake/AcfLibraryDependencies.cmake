@@ -49,7 +49,9 @@ acf_declare_library_dependencies(ilog		icomp imod iser istd)
 acf_declare_library_dependencies(iprm		iattr icomp ilog imod iser istd)
 
 if(${MSVC})
-	acf_declare_library_dependencies(istd Mpr)
+	if(TARGET istd)
+		target_link_libraries(istd ${ACF_LIBRARY_LINK_SCOPE} Mpr)
+	endif()
 endif()
 
 # --- Core data models -------------------------------------------------------
