@@ -64,6 +64,15 @@ add_subdirectory("${INCLUDE_DIR}/ipackage/CMake" "${AUX_INCLUDE_DIR}/ipackage")
 
 add_subdirectory("${INCLUDE_DIR}/itest/CMake" "${AUX_INCLUDE_DIR}/itest")
 
+# Declare the clean, target-based inter-library dependency graph so include
+# paths and link order propagate transitively between the ACF libraries.
+include("${ACFDIR}/Config/CMake/AcfLibraryDependencies.cmake")
+
+# Export the ACF libraries as a find_package(Acf) package (build tree + install
+# tree) so downstream modules (AcfSln, IAcf, ImtCore) can consume them through
+# Acf::<lib> imported targets instead of environment variables and manual paths.
+include("${ACFDIR}/Config/CMake/AcfPackageExport.cmake")
+
 # Impl
 if(NOT ANDROID)
 add_subdirectory("${IMPL_DIR}/BasePck/CMake" "${AUX_INCLUDE_DIR}/BasePck")

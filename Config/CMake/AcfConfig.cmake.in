@@ -1,0 +1,27 @@
+@PACKAGE_INIT@
+
+# ---------------------------------------------------------------------------
+# CMake package configuration for the ACF module.
+#
+# Usage in a consuming project:
+#
+#     find_package(Acf REQUIRED)
+#     target_link_libraries(myTarget PUBLIC Acf::icomp Acf::iqtgui)
+#
+# All ACF libraries are exposed as imported targets under the "Acf::" namespace
+# and carry their include directories and inter-library dependencies as
+# transitive usage requirements.
+# ---------------------------------------------------------------------------
+
+include(CMakeFindDependencyMacro)
+
+# ACF was built against a specific Qt major version; pin the very same one so the
+# Qt imported targets referenced by the exported ACF targets (Qt@ACF_QT_VERSION_MAJOR@::*)
+# resolve to a compatible Qt installation.
+set(ACF_QT_VERSION_MAJOR "@ACF_QT_VERSION_MAJOR@")
+find_dependency(Qt${ACF_QT_VERSION_MAJOR}
+	COMPONENTS Core Gui Widgets Xml Network Svg Concurrent)
+
+include("${CMAKE_CURRENT_LIST_DIR}/AcfTargets.cmake")
+
+check_required_components(Acf)

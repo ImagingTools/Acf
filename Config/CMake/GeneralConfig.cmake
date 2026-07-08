@@ -138,6 +138,70 @@ function(acf_use_qt_graphics_modules)
 endfunction()
 
 
+# ---------------------------------------------------------------------------
+# Modern, target-based packaging support
+#
+# The helpers below turn every ACF static library into a first-class,
+# relocatable target that carries its own usage requirements (include paths
+# and link dependencies) and can be consumed through find_package(Acf).
+#
+# They are additive: the legacy global include_directories()/link_directories()
+# calls are kept as a backward-compatibility shim so the existing in-tree build
+# keeps working unchanged while downstream modules migrate to find_package.
+# ---------------------------------------------------------------------------
+
+# Name of the export set that aggregates all installable ACF library targets.
+if(NOT DEFINED ACF_EXPORT_SET)
+	set(ACF_EXPORT_SET "AcfTargets")
+endif()
+
+# Register an ACF library target so that:
+#  * it exposes the ACF source roots as transitive include directories,
+#  * it is available under the namespaced "Acf::<target>" alias, and
+#  * it becomes part of the exported/installable "Acf" package.
+#
+# This is called from StaticConfig.cmake right after the library is created.
+function(acf_register_library target)
+	# Transitive include directories: consumers (in-tree via the alias or
+	# downstream via find_package) inherit the ACF header search paths without
+	# having to know the internal directory layout.
+	target_include_directories(${target}
+		PUBLIC
+			$<BUILD_INTERFACE:${INCLUDE_DIR}>
+			$<BUILD_INTERFACE:${IMPL_DIR}>
+			$<INSTALL_INTERFACE:include>
+	)
+
+	# Namespaced alias so the same "Acf::<lib>" spelling works both in-tree and
+	# for downstream consumers of the exported package.
+	if(NOT TARGET Acf::${target})
+		add_library(Acf::${target} ALIAS ${target})
+	endif()
+
+	# Register the target for installation and export. The actual
+	# install(EXPORT ...) / package-config generation happens once, centrally,
+	# in AcfPackageExport.cmake.
+	install(TARGETS ${target}
+		EXPORT ${ACF_EXPORT_SET}
+		ARCHIVE DESTINATION "lib/${CMAKE_BUILD_TYPE}_${TARGETNAME}"
+		LIBRARY DESTINATION "lib/${CMAKE_BUILD_TYPE}_${TARGETNAME}"
+		RUNTIME DESTINATION "bin/${CMAKE_BUILD_TYPE}_${TARGETNAME}"
+		INCLUDES DESTINATION "include")
+
+	# Install the public headers preserving the "<lib>/<header>.h" layout that
+	# the #include directives rely on. PROJECT_SOURCE_DIR points at the library's
+	# CMake/ directory, so its parent is the library source root.
+	install(DIRECTORY "${PROJECT_SOURCE_DIR}/../"
+		DESTINATION "include/${target}"
+		FILES_MATCHING
+			PATTERN "*.h"
+			PATTERN "*.hpp"
+			PATTERN "*.hxx"
+			PATTERN "CMake" EXCLUDE
+			PATTERN "Test" EXCLUDE)
+endfunction()
+
+
 function (mac_deploy_qt)
 	if (NOT APPLE)
 		return()
