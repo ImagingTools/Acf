@@ -12,5 +12,3 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
 	imath
 )
 
-acf_use_qt_graphics_modules()
-

@@ -8,7 +8,6 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
 	ifilegui
 )
 
-acf_use_qt_graphics_modules()
 
 if(WIN32)
 	set(files \"${AUX_INCLUDE_DIR}/../../../Bin/${CMAKE_BUILD_TYPE}_${TARGETNAME}/${PROJECT_NAME}.arp\")
