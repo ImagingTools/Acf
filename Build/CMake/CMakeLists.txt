@@ -16,6 +16,9 @@ set(IMPL_DIR "${CMAKE_CURRENT_LIST_DIR}/../../Impl")
 
 set(BUILD_TESTING ON CACHE BOOL "Configures projects for testing")
 
+set(ACF_PACKAGE_NAME "Acf")
+set(ACF_QT_MODULE_LINK_SCOPE PRIVATE)
+
 message(${INCLUDE_DIR})
 
 subdirlist(INCLUDE_DIRS ${INCLUDE_DIR})

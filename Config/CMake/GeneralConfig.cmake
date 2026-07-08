@@ -124,17 +124,28 @@ if(${MSVC})
 	link_libraries("Mpr.lib")
 endif()
 
+
+# Legacy global variable that controls the link scope of Qt libraries.
+# If set to PUBLIC, all Qt libraries are linked with PUBLIC scope so that
+# downstream consumers of the library also inherit the Qt link dependencies.
+# If set to PRIVATE, Qt libraries are linked with PRIVATE scope so that
+# downstream consumers do not inherit the Qt link dependencies.
+# The default (unset) is plain for backward compatibility with the original Acf repository.
+if(NOT DEFINED ACF_QT_MODULE_LINK_SCOPE)
+	set(ACF_QT_MODULE_LINK_SCOPE "")
+endif()
+
 function(acf_use_qt_base_modules)
-	target_link_libraries(${PROJECT_NAME} PRIVATE Qt${QT_VERSION_MAJOR}::Core)
-	target_link_libraries(${PROJECT_NAME} PRIVATE Qt${QT_VERSION_MAJOR}::Xml)
-	target_link_libraries(${PROJECT_NAME} PRIVATE Qt${QT_VERSION_MAJOR}::Network)
-	target_link_libraries(${PROJECT_NAME} PRIVATE Qt${QT_VERSION_MAJOR}::Concurrent)
+	target_link_libraries(${PROJECT_NAME} ${ACF_QT_MODULE_LINK_SCOPE} Qt${QT_VERSION_MAJOR}::Core)
+	target_link_libraries(${PROJECT_NAME} ${ACF_QT_MODULE_LINK_SCOPE} Qt${QT_VERSION_MAJOR}::Xml)
+	target_link_libraries(${PROJECT_NAME} ${ACF_QT_MODULE_LINK_SCOPE} Qt${QT_VERSION_MAJOR}::Network)
+	target_link_libraries(${PROJECT_NAME} ${ACF_QT_MODULE_LINK_SCOPE} Qt${QT_VERSION_MAJOR}::Concurrent)
 endfunction()
 
 function(acf_use_qt_graphics_modules)
-	target_link_libraries(${PROJECT_NAME} PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
-	target_link_libraries(${PROJECT_NAME} PRIVATE Qt${QT_VERSION_MAJOR}::Gui)
-	target_link_libraries(${PROJECT_NAME} PRIVATE Qt${QT_VERSION_MAJOR}::Svg)
+	target_link_libraries(${PROJECT_NAME} ${ACF_QT_MODULE_LINK_SCOPE} Qt${QT_VERSION_MAJOR}::Widgets)
+	target_link_libraries(${PROJECT_NAME} ${ACF_QT_MODULE_LINK_SCOPE} Qt${QT_VERSION_MAJOR}::Gui)
+	target_link_libraries(${PROJECT_NAME} ${ACF_QT_MODULE_LINK_SCOPE} Qt${QT_VERSION_MAJOR}::Svg)
 endfunction()
 
 
@@ -147,23 +158,31 @@ endfunction()
 #
 # They are additive: the legacy global include_directories()/link_directories()
 # calls are kept as a backward-compatibility shim so the existing in-tree build
-# keeps working unchanged while downstream modules migrate to find_package.
+# keeps working unchanged while downstream modules migrate to find_packae.
 # ---------------------------------------------------------------------------
 
-# Name of the export set that aggregates all installable ACF library targets.
-if(NOT DEFINED ACF_EXPORT_SET)
-	set(ACF_EXPORT_SET "AcfTargets")
+# Name of the export set that aggregates all installable library targets for the
+# current repository.  Each repo sets ACF_PACKAGE_NAME before including this
+# file so that its targets are exported under the correct package/namespace
+# (e.g. "Acf", "AcfSln", "IAcf", "ImtCore").  Defaults to "Acf" for backward
+# compatibility with the original Acf repository.
+if(NOT DEFINED ACF_PACKAGE_NAME)
+	set(ACF_PACKAGE_NAME "Acf")
 endif()
 
-# Register an ACF library target so that:
-#  * it exposes the ACF source roots as transitive include directories,
-#  * it is available under the namespaced "Acf::<target>" alias, and
-#  * it becomes part of the exported/installable "Acf" package.
+if(NOT DEFINED ACF_EXPORT_SET)
+	set(ACF_EXPORT_SET "${ACF_PACKAGE_NAME}Targets")
+endif()
+
+# Register a library target so that:
+#  * it exposes the source roots as transitive include directories,
+#  * it is available under the namespaced "${ACF_PACKAGE_NAME}::<target>" alias,
+#  * it becomes part of the exported/installable package.
 #
 # This is called from StaticConfig.cmake right after the library is created.
 function(acf_register_library target)
 	# Transitive include directories: consumers (in-tree via the alias or
-	# downstream via find_package) inherit the ACF header search paths without
+	# downstream via find_package) inherit the header search paths without
 	# having to know the internal directory layout.
 	target_include_directories(${target}
 		PUBLIC
@@ -172,15 +191,15 @@ function(acf_register_library target)
 			$<INSTALL_INTERFACE:include>
 	)
 
-	# Namespaced alias so the same "Acf::<lib>" spelling works both in-tree and
-	# for downstream consumers of the exported package.
-	if(NOT TARGET Acf::${target})
-		add_library(Acf::${target} ALIAS ${target})
+	# Namespaced alias so the same "<Package>::<lib>" spelling works both
+	# in-tree and for downstream consumers of the exported package.
+	if(NOT TARGET ${ACF_PACKAGE_NAME}::${target})
+		add_library(${ACF_PACKAGE_NAME}::${target} ALIAS ${target})
 	endif()
 
 	# Register the target for installation and export. The actual
 	# install(EXPORT ...) / package-config generation happens once, centrally,
-	# in AcfPackageExport.cmake.
+	# in the repo's PackageExport cmake module.
 	install(TARGETS ${target}
 		EXPORT ${ACF_EXPORT_SET}
 		ARCHIVE DESTINATION "lib/${CMAKE_BUILD_TYPE}_${TARGETNAME}"
