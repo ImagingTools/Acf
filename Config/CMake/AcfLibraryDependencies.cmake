@@ -8,11 +8,11 @@
 # automatic, both for the in-tree build and for downstream consumers that use
 # find_package(Acf) and link a single Acf::<lib> target.
 #
-# The plain target_link_libraries() signature is used deliberately: the rest of
-# the ACF CMake files use the plain signature too, and CMake forbids mixing the
-# plain and keyword signatures on the same target. For static libraries the
-# plain signature still records the dependency in the target's link interface,
-# so it propagates transitively to consumers.
+# The target_link_libraries() signature is controlled by ACF_LIBRARY_LINK_SCOPE:
+#  * when empty, the plain signature is used (matching legacy ACF CMake),
+#  * when set to PUBLIC/PRIVATE/INTERFACE, the keyword signature is used.
+# Avoid mixing plain and keyword signatures for the same target (CMake forbids it).
+# For static libraries, the dependency still propagates transitively to consumers.
 #
 # The dependencies below are derived from the #include graph of each library.
 # A couple of the libraries are mutually dependent (ibase <-> iqt and
