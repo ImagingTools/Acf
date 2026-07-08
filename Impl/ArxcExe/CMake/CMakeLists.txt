@@ -7,12 +7,6 @@ include(${ACFDIR}/Config/CMake/WindeployQt.cmake)
 include(${ACFDIR}/Config/CMake/ApplicationConfig.cmake)
 
 target_link_libraries(${PROJECT_NAME} ${ACF_APPLICATION_LINK_SCOPE}
-	QtPck
-	BasePck
-	FilePck
-	PackagePck
-	icomp
-	istd
 	ipackage
 )
 
