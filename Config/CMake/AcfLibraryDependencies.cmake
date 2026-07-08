@@ -33,7 +33,7 @@ function(acf_declare_library_dependencies target)
 
 	foreach(dependency IN LISTS ARGN)
 		if(TARGET ${dependency})
-			target_link_libraries(${target} PUBLIC ${dependency})
+			target_link_libraries(${target} ${ACF_LIBRARY_LINK_SCOPE} ${dependency})
 		endif()
 	endforeach()
 endfunction()
@@ -47,6 +47,10 @@ acf_declare_library_dependencies(iattr		imod iser istd)
 acf_declare_library_dependencies(icomp		iattr imod iser istd)
 acf_declare_library_dependencies(ilog		icomp imod iser istd)
 acf_declare_library_dependencies(iprm		iattr icomp ilog imod iser istd)
+
+if(${MSVC})
+	acf_declare_library_dependencies(istd Mpr)
+endif()
 
 # --- Core data models -------------------------------------------------------
 acf_declare_library_dependencies(ibase		icomp ilog imod iprm iqt iser istd)

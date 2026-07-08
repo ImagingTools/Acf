@@ -120,19 +120,26 @@ function(acf_wrap_ui outfiles)
 	set("${outfiles}" "${${outfiles}}" PARENT_SCOPE)
 endfunction()
 
-if(${MSVC})
-	link_libraries("Mpr.lib")
-endif()
-
-
-# Legacy global variable that controls the link scope of Qt libraries.
-# If set to PUBLIC, all Qt libraries are linked with PUBLIC scope so that
-# downstream consumers of the library also inherit the Qt link dependencies.
-# If set to PRIVATE, Qt libraries are linked with PRIVATE scope so that
-# downstream consumers do not inherit the Qt link dependencies.
-# The default (unset) is plain for backward compatibility with the original Acf repository.
+# ---------------------------------------------------------------------------
+# Configurable link-scope variables.
+#
+# These are normally defined by the top-level CMakeLists.txt via
+# acf_define_link_scope_var() (which creates validated CACHE entries).
+# The guards below provide safe defaults when GeneralConfig.cmake is included
+# without a prior call (e.g. by downstream repos that include individual
+# library CMakeLists directly).
+# ---------------------------------------------------------------------------
 if(NOT DEFINED ACF_QT_MODULE_LINK_SCOPE)
 	set(ACF_QT_MODULE_LINK_SCOPE "")
+endif()
+if(NOT DEFINED ACF_LIBRARY_LINK_SCOPE)
+	set(ACF_LIBRARY_LINK_SCOPE "")
+endif()
+if(NOT DEFINED ACF_PACKAGE_LINK_SCOPE)
+	set(ACF_PACKAGE_LINK_SCOPE "")
+endif()
+if(NOT DEFINED ACF_APPLICATION_LINK_SCOPE)
+	set(ACF_APPLICATION_LINK_SCOPE "")
 endif()
 
 function(acf_use_qt_base_modules)
@@ -158,7 +165,7 @@ endfunction()
 #
 # They are additive: the legacy global include_directories()/link_directories()
 # calls are kept as a backward-compatibility shim so the existing in-tree build
-# keeps working unchanged while downstream modules migrate to find_packae.
+# keeps working unchanged while downstream modules migrate to find_package.
 # ---------------------------------------------------------------------------
 
 # Name of the export set that aggregates all installable library targets for the

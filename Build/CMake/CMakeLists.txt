@@ -17,7 +17,11 @@ set(IMPL_DIR "${CMAKE_CURRENT_LIST_DIR}/../../Impl")
 set(BUILD_TESTING ON CACHE BOOL "Configures projects for testing")
 
 set(ACF_PACKAGE_NAME "Acf")
-set(ACF_QT_MODULE_LINK_SCOPE PRIVATE)
+
+acf_define_link_scope_var(ACF_QT_MODULE_LINK_SCOPE "PRIVATE" "Link scope used by acf_use_qt_base_modules and acf_use_qt_graphics_modules")
+acf_define_link_scope_var(ACF_LIBRARY_LINK_SCOPE "PUBLIC" "Link scope used by ACF inter-library dependencies")
+acf_define_link_scope_var(ACF_PACKAGE_LINK_SCOPE "PRIVATE" "Link scope used by package (Pck) libraries linking their dependencies")
+acf_define_link_scope_var(ACF_APPLICATION_LINK_SCOPE "PRIVATE" "Link scope used by executables linking their dependencies")
 
 message(${INCLUDE_DIR})
 

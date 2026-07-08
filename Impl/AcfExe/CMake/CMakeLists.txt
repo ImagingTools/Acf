@@ -5,14 +5,14 @@ set(ARX_ENABLE_GENERATE_DEPENDENCIES_LIST OFF)
 
 include(${ACFDIR}/Config/CMake/ApplicationConfig.cmake)
 
-target_link_libraries(${PROJECT_NAME} PRIVATE
+target_link_libraries(${PROJECT_NAME} ${ACF_APPLICATION_LINK_SCOPE}
 	ipackage
 	ibase
 	Qt${QT_VERSION_MAJOR}::Widgets
 )
 
 if(WIN32)
-	target_link_libraries(${PROJECT_NAME} PRIVATE user32)
+	target_link_libraries(${PROJECT_NAME} ${ACF_APPLICATION_LINK_SCOPE} user32)
 endif()
 
 if(WIN32)
