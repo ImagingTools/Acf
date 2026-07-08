@@ -64,7 +64,7 @@ acf_declare_library_dependencies(ipackage	ibase icomp ifile ilog iprm iser istd)
 
 # --- Qt integration and GUI -------------------------------------------------
 acf_declare_library_dependencies(iqt		i2d ibase icomp ifile ilog imod iprm iser istd)
-acf_declare_library_dependencies(iwidgets	iqt istd)
+acf_declare_library_dependencies(iwidgets	iqt istd Qt${QT_VERSION_MAJOR}::Widgets)
 acf_declare_library_dependencies(iqtgui		i2d iattr ibase icomp ifile iimg ilog imod iprm iqt iser istd iwidgets)
 acf_declare_library_dependencies(ifilegui	icomp ifile ilog imod iqt iqtgui istd iwidgets Qt${QT_VERSION_MAJOR}::Concurrent Qt${QT_VERSION_MAJOR}::SvgWidgets)
 acf_declare_library_dependencies(iloggui	ibase icomp ifile ilog iprm iqt iqtgui istd iwidgets)

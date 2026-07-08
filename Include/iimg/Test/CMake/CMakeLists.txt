@@ -5,8 +5,12 @@ include(${ACFDIR}/Config/CMake/WindeployQt.cmake)
 
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core Test Gui)
 
-target_link_libraries(${PROJECT_NAME} itest iimg icmm i2d imath ibase imod iser istd iprm idoc)
-target_link_libraries(${PROJECT_NAME} Qt${QT_VERSION_MAJOR}::Test Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Gui)
+target_link_libraries(${PROJECT_NAME} ${ACF_APPLICATION_LINK_SCOPE}
+	iimg
+	itest
+	Qt${QT_VERSION_MAJOR}::Test
+	Qt${QT_VERSION_MAJOR}::Gui
+)
 
 
 if(WIN32)
