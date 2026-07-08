@@ -33,7 +33,7 @@ function(acf_declare_library_dependencies target)
 
 	foreach(dependency IN LISTS ARGN)
 		if(TARGET ${dependency})
-			target_link_libraries(${target} ${dependency})
+			target_link_libraries(${target} PUBLIC ${dependency})
 		endif()
 	endforeach()
 endfunction()

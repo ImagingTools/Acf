@@ -125,16 +125,16 @@ if(${MSVC})
 endif()
 
 function(acf_use_qt_base_modules)
-	target_link_libraries(${PROJECT_NAME} Qt${QT_VERSION_MAJOR}::Core)
-	target_link_libraries(${PROJECT_NAME} Qt${QT_VERSION_MAJOR}::Xml)
-	target_link_libraries(${PROJECT_NAME} Qt${QT_VERSION_MAJOR}::Network)
-	target_link_libraries(${PROJECT_NAME} Qt${QT_VERSION_MAJOR}::Concurrent)
+	target_link_libraries(${PROJECT_NAME} PRIVATE Qt${QT_VERSION_MAJOR}::Core)
+	target_link_libraries(${PROJECT_NAME} PRIVATE Qt${QT_VERSION_MAJOR}::Xml)
+	target_link_libraries(${PROJECT_NAME} PRIVATE Qt${QT_VERSION_MAJOR}::Network)
+	target_link_libraries(${PROJECT_NAME} PRIVATE Qt${QT_VERSION_MAJOR}::Concurrent)
 endfunction()
 
 function(acf_use_qt_graphics_modules)
-	target_link_libraries(${PROJECT_NAME} Qt${QT_VERSION_MAJOR}::Widgets)
-	target_link_libraries(${PROJECT_NAME} Qt${QT_VERSION_MAJOR}::Gui)
-	target_link_libraries(${PROJECT_NAME} Qt${QT_VERSION_MAJOR}::Svg)
+	target_link_libraries(${PROJECT_NAME} PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+	target_link_libraries(${PROJECT_NAME} PRIVATE Qt${QT_VERSION_MAJOR}::Gui)
+	target_link_libraries(${PROJECT_NAME} PRIVATE Qt${QT_VERSION_MAJOR}::Svg)
 endfunction()
 
 
