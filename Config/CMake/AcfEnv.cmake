@@ -32,10 +32,16 @@ else()
 	set(ACFDIR_BUILD ${ACFDIR})
 endif()
 
+# AuxInclude for generated files — always needed (build-tree-specific, not
+# carried by imported targets).
 include_directories("${ACFDIR_BUILD}/AuxInclude/${TARGETNAME}")
-include_directories("${ACFDIR}/Include")
-include_directories("${ACFDIR}/Impl")
 
-link_directories(${ACFDIR_BUILD}/Lib/${CMAKE_BUILD_TYPE}_${TARGETNAME})
+# Legacy mode: global include/link dirs for repos that haven't migrated to
+# find_package(Acf) + target-based deps yet. Skipped when ACF_MODERN_CMAKE is ON.
+if(NOT ACF_MODERN_CMAKE)
+	include_directories("${ACFDIR}/Include")
+	include_directories("${ACFDIR}/Impl")
+	link_directories(${ACFDIR_BUILD}/Lib/${CMAKE_BUILD_TYPE}_${TARGETNAME})
+endif()
 
-message(VERBOSE "Acf link_directories ${ACFSLNDIR_BUILD}/Lib/${CMAKE_BUILD_TYPE}_${TARGETNAME}")
+message(VERBOSE "Acf link_directories ${ACFDIR_BUILD}/Lib/${CMAKE_BUILD_TYPE}_${TARGETNAME}")

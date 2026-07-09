@@ -36,7 +36,7 @@ endif()
 
 # Build-tree location: alongside the produced libraries, mirroring the existing
 # Lib/${CMAKE_BUILD_TYPE}_${TARGETNAME} layout.
-set(ACF_LIB_OUTPUT_DIR "${BUILDDIR}/Acf/Lib/${CMAKE_BUILD_TYPE}_${TARGETNAME}")
+set(ACF_LIB_OUTPUT_DIR "${ACFDIR_BUILD}/Lib/${CMAKE_BUILD_TYPE}_${TARGETNAME}")
 set(ACF_PACKAGE_BUILD_DIR "${ACF_LIB_OUTPUT_DIR}/cmake")
 
 # Ensure the output directory exists before writing export/config files into it,
