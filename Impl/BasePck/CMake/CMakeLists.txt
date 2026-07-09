@@ -8,7 +8,6 @@ target_link_libraries(${PROJECT_NAME} ${ACF_PACKAGE_LINK_SCOPE}
 	i2d
 	ilog
 	ibase
-	icomp
 	imath
 )
 

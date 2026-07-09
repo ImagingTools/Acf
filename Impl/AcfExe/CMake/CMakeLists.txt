@@ -7,7 +7,6 @@ include(${ACFDIR}/Config/CMake/ApplicationConfig.cmake)
 
 target_link_libraries(${PROJECT_NAME} ${ACF_APPLICATION_LINK_SCOPE}
 	ipackage
-	ibase
 	Qt${QT_VERSION_MAJOR}::Widgets
 )
 
