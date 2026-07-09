@@ -4,11 +4,13 @@ project(Acf)
 
 
 find_package(QT NAMES Qt6 Qt5 COMPONENTS Core)
+
+set(ACF_QT_COMPONENTS Core Widgets Gui Xml Network Svg Concurrent)
 if(QT_VERSION_MAJOR EQUAL 6)
-	find_package("Qt${QT_VERSION_MAJOR}" COMPONENTS Core Widgets Gui Xml Network Svg SvgWidgets Concurrent REQUIRED)
-else()
-	find_package("Qt${QT_VERSION_MAJOR}" COMPONENTS Core Widgets Gui Xml Network Svg Concurrent REQUIRED)
+	list(APPEND ACF_QT_COMPONENTS SvgWidgets)
 endif()
+
+find_package("Qt${QT_VERSION_MAJOR}" COMPONENTS ${ACF_QT_COMPONENTS} REQUIRED)
 
 set(BUILD_TESTING ON CACHE BOOL "Configures projects for testing")
 
