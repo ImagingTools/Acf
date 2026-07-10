@@ -651,6 +651,21 @@
         </div>
 
         <div class="section">
+            <h2>🔗 Library Dependency Graph</h2>
+            <p class="section-description">Interactive dependency graph based on source code #include analysis. Click a node to highlight its connections.</p>
+            <div id="dep-graph-container" style="position:relative; width:100%; height:600px; border:1px solid #e9ecef; border-radius:8px; overflow:hidden; background:#fafbfc;">
+                <svg id="dep-graph-svg" width="100%" height="100%"></svg>
+                <div id="dep-graph-info" style="position:absolute;top:10px;right:10px;background:white;border-radius:8px;padding:12px 16px;box-shadow:0 2px 8px rgba(0,0,0,0.15);font-size:0.85em;display:none;max-width:250px;z-index:10;">
+                    <div id="dep-graph-info-title" style="font-weight:bold;margin-bottom:6px;color:#667eea;"></div>
+                    <div id="dep-graph-info-details" style="color:#555;"></div>
+                </div>
+                <div style="position:absolute;bottom:10px;left:10px;background:rgba(255,255,255,0.9);border-radius:6px;padding:8px 12px;font-size:0.75em;color:#666;">
+                    <strong>Tip:</strong> Click a node to highlight connections. Click background to reset. Drag nodes to rearrange.
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
             <h2>📚 Libraries</h2>
             <p class="section-description small">Static libraries in the Include directory</p>
             <div class="library-list" id="library-list">
@@ -1017,6 +1032,212 @@
                 `;
                 packageList.appendChild(item);
             });
+
+            // Render dependency graph
+            renderDependencyGraph(stats.library_dependency_graph);
+        }
+    </script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script>
+        function renderDependencyGraph(graphData) {
+            if (!graphData || !graphData.nodes || !graphData.edges) return;
+
+            const container = document.getElementById('dep-graph-container');
+            const svg = d3.select('#dep-graph-svg');
+            const width = container.clientWidth;
+            const height = container.clientHeight;
+
+            svg.attr('width', width).attr('height', height);
+
+            // Clear any previous content
+            svg.selectAll('*').remove();
+
+            const g = svg.append('g');
+
+            // Zoom behavior
+            const zoom = d3.zoom()
+                .scaleExtent([0.3, 4])
+                .on('zoom', (event) => g.attr('transform', event.transform));
+            svg.call(zoom);
+
+            // Color scale based on total_lines
+            const maxLines = d3.max(graphData.nodes, d => d.total_lines) || 1;
+            const colorScale = d3.scaleSequential(d3.interpolateViridis)
+                .domain([0, maxLines]);
+
+            // Node size scale based on file_count
+            const maxFiles = d3.max(graphData.nodes, d => d.file_count) || 1;
+            const sizeScale = d3.scaleSqrt().domain([0, maxFiles]).range([8, 28]);
+
+            // Build adjacency lookup for highlighting
+            const linkedByIndex = {};
+            graphData.edges.forEach(e => {
+                linkedByIndex[e.source + ',' + e.target] = true;
+            });
+            function isConnected(a, b) {
+                return linkedByIndex[a + ',' + b] || linkedByIndex[b + ',' + a] || a === b;
+            }
+
+            // Create force simulation
+            const simulation = d3.forceSimulation(graphData.nodes)
+                .force('link', d3.forceLink(graphData.edges)
+                    .id(d => d.id)
+                    .distance(100))
+                .force('charge', d3.forceManyBody().strength(-300))
+                .force('center', d3.forceCenter(width / 2, height / 2))
+                .force('collision', d3.forceCollide().radius(d => sizeScale(d.file_count) + 5));
+
+            // Arrow marker for directed edges
+            svg.append('defs').append('marker')
+                .attr('id', 'arrowhead')
+                .attr('viewBox', '0 -5 10 10')
+                .attr('refX', 20)
+                .attr('refY', 0)
+                .attr('markerWidth', 6)
+                .attr('markerHeight', 6)
+                .attr('orient', 'auto')
+                .append('path')
+                .attr('d', 'M0,-5L10,0L0,5')
+                .attr('fill', '#999');
+
+            svg.append('defs').append('marker')
+                .attr('id', 'arrowhead-highlight')
+                .attr('viewBox', '0 -5 10 10')
+                .attr('refX', 20)
+                .attr('refY', 0)
+                .attr('markerWidth', 6)
+                .attr('markerHeight', 6)
+                .attr('orient', 'auto')
+                .append('path')
+                .attr('d', 'M0,-5L10,0L0,5')
+                .attr('fill', '#667eea');
+
+            // Draw edges
+            const link = g.append('g')
+                .selectAll('line')
+                .data(graphData.edges)
+                .join('line')
+                .attr('stroke', '#ccc')
+                .attr('stroke-width', 1.5)
+                .attr('stroke-opacity', 0.6)
+                .attr('marker-end', 'url(#arrowhead)');
+
+            // Draw nodes
+            const node = g.append('g')
+                .selectAll('circle')
+                .data(graphData.nodes)
+                .join('circle')
+                .attr('r', d => sizeScale(d.file_count))
+                .attr('fill', d => colorScale(d.total_lines))
+                .attr('stroke', '#fff')
+                .attr('stroke-width', 2)
+                .style('cursor', 'pointer')
+                .call(d3.drag()
+                    .on('start', dragstarted)
+                    .on('drag', dragged)
+                    .on('end', dragended));
+
+            // Draw labels
+            const label = g.append('g')
+                .selectAll('text')
+                .data(graphData.nodes)
+                .join('text')
+                .text(d => d.id)
+                .attr('font-size', '11px')
+                .attr('font-family', 'monospace')
+                .attr('font-weight', 'bold')
+                .attr('text-anchor', 'middle')
+                .attr('dy', d => sizeScale(d.file_count) + 14)
+                .attr('fill', '#333')
+                .style('pointer-events', 'none');
+
+            // Info panel
+            const infoPanel = document.getElementById('dep-graph-info');
+            const infoTitle = document.getElementById('dep-graph-info-title');
+            const infoDetails = document.getElementById('dep-graph-info-details');
+
+            // Click on node to highlight
+            let selectedNode = null;
+
+            node.on('click', function(event, d) {
+                event.stopPropagation();
+                selectedNode = d.id;
+
+                // Highlight connected nodes and edges
+                node.attr('opacity', o => isConnected(d.id, o.id) ? 1 : 0.15)
+                    .attr('stroke', o => o.id === d.id ? '#667eea' : '#fff')
+                    .attr('stroke-width', o => o.id === d.id ? 3 : 2);
+
+                link.attr('stroke', l => (l.source.id === d.id || l.target.id === d.id) ? '#667eea' : '#eee')
+                    .attr('stroke-width', l => (l.source.id === d.id || l.target.id === d.id) ? 2.5 : 1)
+                    .attr('stroke-opacity', l => (l.source.id === d.id || l.target.id === d.id) ? 1 : 0.1)
+                    .attr('marker-end', l => (l.source.id === d.id || l.target.id === d.id) ? 'url(#arrowhead-highlight)' : 'url(#arrowhead)');
+
+                label.attr('opacity', o => isConnected(d.id, o.id) ? 1 : 0.15);
+
+                // Show info panel
+                const outgoing = graphData.edges.filter(e => (e.source.id || e.source) === d.id).map(e => e.target.id || e.target);
+                const incoming = graphData.edges.filter(e => (e.target.id || e.target) === d.id).map(e => e.source.id || e.source);
+
+                infoTitle.textContent = d.id;
+                infoDetails.innerHTML = `
+                    <div>Files: ${d.file_count} | Lines: ${d.total_lines.toLocaleString()}</div>
+                    <div style="margin-top:6px;"><strong>Depends on (${outgoing.length}):</strong><br>${outgoing.join(', ') || 'none'}</div>
+                    <div style="margin-top:4px;"><strong>Used by (${incoming.length}):</strong><br>${incoming.join(', ') || 'none'}</div>
+                `;
+                infoPanel.style.display = 'block';
+            });
+
+            // Click background to reset
+            svg.on('click', function() {
+                selectedNode = null;
+                node.attr('opacity', 1).attr('stroke', '#fff').attr('stroke-width', 2);
+                link.attr('stroke', '#ccc').attr('stroke-width', 1.5).attr('stroke-opacity', 0.6)
+                    .attr('marker-end', 'url(#arrowhead)');
+                label.attr('opacity', 1);
+                infoPanel.style.display = 'none';
+            });
+
+            // Hover effect (only when no node is selected)
+            node.on('mouseover', function(event, d) {
+                if (selectedNode) return;
+                d3.select(this).attr('stroke', '#667eea').attr('stroke-width', 3);
+            }).on('mouseout', function(event, d) {
+                if (selectedNode) return;
+                d3.select(this).attr('stroke', '#fff').attr('stroke-width', 2);
+            });
+
+            // Simulation tick
+            simulation.on('tick', () => {
+                link
+                    .attr('x1', d => d.source.x)
+                    .attr('y1', d => d.source.y)
+                    .attr('x2', d => d.target.x)
+                    .attr('y2', d => d.target.y);
+                node
+                    .attr('cx', d => d.x)
+                    .attr('cy', d => d.y);
+                label
+                    .attr('x', d => d.x)
+                    .attr('y', d => d.y);
+            });
+
+            function dragstarted(event, d) {
+                if (!event.active) simulation.alphaTarget(0.3).restart();
+                d.fx = d.x;
+                d.fy = d.y;
+            }
+
+            function dragged(event, d) {
+                d.fx = event.x;
+                d.fy = event.y;
+            }
+
+            function dragended(event, d) {
+                if (!event.active) simulation.alphaTarget(0);
+                d.fx = null;
+                d.fy = null;
+            }
         }
     </script>
 </body>

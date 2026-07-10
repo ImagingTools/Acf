@@ -557,6 +557,74 @@ class RepositoryStats:
                     'total_lines': total_lines
                 }
     
+    def analyze_library_dependencies(self):
+        """Analyze inter-library dependencies based on #include directives.
+        
+        Builds a graph of library-to-library dependencies by examining which
+        libraries each library's source files include from other libraries.
+        Only considers internal ACF libraries (directories under Include/).
+        """
+        include_path = self.repo_path / 'Include'
+        if not include_path.exists():
+            return
+        
+        # Get the set of known library names
+        known_libs = set()
+        for lib_dir in include_path.iterdir():
+            if lib_dir.is_dir() and not lib_dir.name.startswith('.'):
+                known_libs.add(lib_dir.name)
+        
+        # Build dependency graph: for each library, find which other libraries it depends on
+        lib_deps = {}  # lib_name -> set of dependency lib names
+        for lib_dir in include_path.iterdir():
+            if not lib_dir.is_dir() or lib_dir.name.startswith('.'):
+                continue
+            lib_name = lib_dir.name
+            deps = set()
+            
+            # Scan all source files in this library
+            for file_path in lib_dir.rglob('*'):
+                if file_path.is_file() and file_path.suffix in ['.h', '.hpp', '.cpp', '.cc', '.c']:
+                    try:
+                        with open(file_path, 'r', encoding='utf-8', errors='ignore') as f:
+                            content = f.read()
+                        # Match #include <libname/...> or #include "libname/..."
+                        include_pattern = r'#include\s+[<"]([a-zA-Z][a-zA-Z0-9]*)/[^>"]+[>"]'
+                        for match in re.finditer(include_pattern, content):
+                            dep_lib = match.group(1)
+                            if dep_lib in known_libs and dep_lib != lib_name:
+                                deps.add(dep_lib)
+                    except Exception:
+                        pass
+            
+            lib_deps[lib_name] = sorted(deps)
+        
+        # Store as graph data structure suitable for visualization
+        # Nodes: list of libraries with metadata
+        # Edges: list of {source, target} pairs
+        nodes = []
+        edges = []
+        
+        for lib_name in sorted(known_libs):
+            lib_info = self.stats['libraries'].get(lib_name, {})
+            nodes.append({
+                'id': lib_name,
+                'file_count': lib_info.get('file_count', 0),
+                'total_lines': lib_info.get('total_lines', 0),
+            })
+        
+        for lib_name, deps in lib_deps.items():
+            for dep in deps:
+                edges.append({
+                    'source': lib_name,
+                    'target': dep,
+                })
+        
+        self.stats['library_dependency_graph'] = {
+            'nodes': nodes,
+            'edges': edges,
+        }
+
     def analyze_tests(self):
         """Analyze test files and calculate test coverage."""
         tests_path = self.repo_path / 'Tests'
@@ -890,6 +958,9 @@ class RepositoryStats:
         
         print("Analyzing package structure...")
         self.analyze_packages()
+        
+        print("Analyzing library dependencies...")
+        self.analyze_library_dependencies()
         
         print("Analyzing tests...")
         self.analyze_tests()
