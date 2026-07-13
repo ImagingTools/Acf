@@ -37,3 +37,9 @@ set_target_properties( ${PROJECT_NAME}
 
 acf_use_qt_base_modules()
 
+# Turn this library into a first-class, exportable target: attach transitive
+# include directories, define the ${ACF_PACKAGE_NAME}::<lib> alias and register
+# it for the find_package(<PackageName>) export. Inter-library link dependencies
+# are declared centrally in the repo's LibraryDependencies cmake module.
+acf_register_library(${PROJECT_NAME})
+

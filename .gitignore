@@ -2,6 +2,7 @@ _codeql_detected_source_root
 # Build artifacts
 Build/CMake/.vs
 Build/CMake/out
+Build/CMake/build
 AuxInclude/*
 Bin/*
 Lib/*

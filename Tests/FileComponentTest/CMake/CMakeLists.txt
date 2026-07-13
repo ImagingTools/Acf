@@ -9,19 +9,12 @@ include(${ACFDIR}/Config/CMake/CustomBuild.cmake)
 include(${ACFDIR}/Config/CMake/ApplicationConfig.cmake)
 include(${ACFDIR}/Config/CMake/WindeployQt.cmake)
 
-include(${ACFDIR}/Config/CMake/AcfQt.cmake)
-include(${ACFDIR}/Config/CMake/AcfStdGui.cmake)
-include(${ACFDIR}/Config/CMake/AcfStd.cmake)
-
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core Test)
 
-target_link_libraries(${PROJECT_NAME}
+target_link_libraries(${PROJECT_NAME} ${ACF_APPLICATION_LINK_SCOPE}
 	ifile
-	ilog
-	iser
 	itest
 	Qt${QT_VERSION_MAJOR}::Test
-	Qt${QT_VERSION_MAJOR}::Core
 )
 
 
