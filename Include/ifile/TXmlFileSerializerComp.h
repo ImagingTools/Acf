@@ -54,9 +54,10 @@ protected:
 					bool serializeHeader,
 					const iser::CArchiveTag& rootTag,
 					const TXmlFileSerializerComp* loggerPtr)
-		:	ReadArchive(filePath, serializeHeader, rootTag),
+		:	ReadArchive(QString(), serializeHeader, rootTag),
 			m_loggerPtr(loggerPtr)
 		{
+			this->OpenFile(filePath);
 		}
 
 	protected:
@@ -252,5 +253,4 @@ void TXmlFileSerializerComp<ReadArchive, WriteArchive>::OnReadError(
 
 
 } // namespace ifile
-
 

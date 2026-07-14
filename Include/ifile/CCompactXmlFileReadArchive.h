@@ -25,6 +25,11 @@ class CCompactXmlFileReadArchive:
 			public ifile::CFileArchiveInfo
 {
 public:
+	enum MessageId
+	{
+		MI_FILE_OPEN_ERROR = 0x3f320c0
+	};
+
 	typedef iser::CCompactXmlReadArchiveBase BaseClass;
 	typedef ifile::CFileArchiveInfo BaseClass2;
 
@@ -54,5 +59,4 @@ private:
 
 
 } // namespace ifile
-
 
