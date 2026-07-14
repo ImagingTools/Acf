@@ -4,6 +4,7 @@
 
 // Qt includes
 #include <QtCore/QFile>
+#include <QtCore/QTemporaryDir>
 
 // ACF includes
 #include <icomp/TSimComponentWrap.h>
@@ -107,11 +108,14 @@ void CCompactXmlFileArchiveTest::DoFilePathTest()
 
 void CCompactXmlFileArchiveTest::DoOpenErrorDiagnosticTest()
 {
-	const QString testFilePath = "./MissingCompactXmlArchive/Archive.xml";
+	QTemporaryDir temporaryDirectory;
+	QVERIFY(temporaryDirectory.isValid());
+
+	const QString testFilePath = temporaryDirectory.filePath("Archive.xml");
 	CLoggableCompactXmlFileReadArchive readArchive;
 
 	QVERIFY(!readArchive.OpenFile(testFilePath));
-	QCOMPARE(readArchive.messageCategory, istd::IInformationProvider::IC_ERROR);
+	QVERIFY(readArchive.messageCategory == istd::IInformationProvider::IC_ERROR);
 	QCOMPARE(readArchive.messageId, int(ifile::CCompactXmlFileReadArchive::MI_FILE_OPEN_ERROR));
 	QVERIFY(readArchive.message.contains(testFilePath));
 	QVERIFY(!readArchive.IsOpen());
@@ -150,4 +154,3 @@ void CCompactXmlFileArchiveTest::DoPersistenceComponentTest()
 
 
 I_ADD_TEST(CCompactXmlFileArchiveTest);
-
