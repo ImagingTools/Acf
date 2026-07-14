@@ -28,14 +28,23 @@ CCompressedXmlFileReadArchive::CCompressedXmlFileReadArchive(
 
 bool CCompressedXmlFileReadArchive::OpenFile(const QString& filePath)
 {
-	m_openFileName = "";
+	m_openFileName = filePath;
 
 	QFile file(filePath);
 	if (!file.open(QIODevice::ReadOnly)){
+		if (IsLogConsumed()){
+			SendLogMessage(
+						istd::IInformationProvider::IC_ERROR,
+						MI_FILE_OPEN_ERROR,
+						QString("Cannot open file: %1").arg(file.errorString()),
+						"CompressedXmlReader",
+						istd::IInformationProvider::ITF_SYSTEM);
+		}
+
+		m_openFileName = "";
+
 		return false;
 	}
-
-	m_openFileName = filePath;
 
 	QByteArray uncompressedData = qUncompress(file.readAll());
 
@@ -43,11 +52,18 @@ bool CCompressedXmlFileReadArchive::OpenFile(const QString& filePath)
 
 	if (!BaseClass::SetContent(&m_buffer)){
 		file.close();
+		m_openFileName = "";
 
 		return false;
 	}
 
 	return true;
+}
+
+
+bool CCompressedXmlFileReadArchive::IsOpen() const
+{
+	return !m_openFileName.isEmpty();
 }
 
 
@@ -69,5 +85,4 @@ void CCompressedXmlFileReadArchive::DecorateMessage(
 
 
 } // namespace ifile
-
 

@@ -20,7 +20,7 @@ private Q_SLOTS:
 	void StringSerializationTest();
 	void TagSkippingTest();
 	void InvalidFilePathTest();
+	void OpenErrorDiagnosticTest();
 	void MultipleObjectsTest();
 };
-
 

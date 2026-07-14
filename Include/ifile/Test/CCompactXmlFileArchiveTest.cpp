@@ -13,48 +13,7 @@
 #include <ifile/CCompactXmlFileReadArchive.h>
 #include <ifile/CCompactXmlFileWriteArchive.h>
 #include <ifile/TFileSerializerComp.h>
-
-
-namespace
-{
-
-
-class CLoggableCompactXmlFileReadArchive : public ifile::CCompactXmlFileReadArchive
-{
-public:
-	mutable istd::IInformationProvider::InformationCategory messageCategory = istd::IInformationProvider::IC_NONE;
-	mutable int messageId = 0;
-	mutable QString message;
-
-protected:
-	virtual bool IsLogConsumed(
-				const istd::IInformationProvider::InformationCategory* /*categoryPtr*/,
-				const int* /*flagsPtr*/) const override
-	{
-		return true;
-	}
-
-	virtual bool SendLogMessage(
-				istd::IInformationProvider::InformationCategory category,
-				int id,
-				const QString& messageText,
-				const QString& messageSource,
-				int flags = 0) const override
-	{
-		QString decoratedMessage = messageText;
-		QString decoratedMessageSource = messageSource;
-		DecorateMessage(category, id, flags, decoratedMessage, decoratedMessageSource);
-
-		messageCategory = category;
-		messageId = id;
-		message = decoratedMessage;
-
-		return true;
-	}
-};
-
-
-} // namespace
+#include <ifile/Test/TLoggableFileReadArchive.h>
 
 
 void CCompactXmlFileArchiveTest::DoBasicReadWriteTest()
@@ -112,12 +71,15 @@ void CCompactXmlFileArchiveTest::DoOpenErrorDiagnosticTest()
 	QVERIFY(temporaryDirectory.isValid());
 
 	const QString testFilePath = temporaryDirectory.filePath("Archive.xml");
-	CLoggableCompactXmlFileReadArchive readArchive;
+	TLoggableFileReadArchive<ifile::CCompactXmlFileReadArchive> readArchive;
+	QFile file(testFilePath);
 
 	QVERIFY(!readArchive.OpenFile(testFilePath));
+	QVERIFY(!file.open(QIODevice::ReadOnly));
 	QVERIFY(readArchive.messageCategory == istd::IInformationProvider::IC_ERROR);
 	QCOMPARE(readArchive.messageId, int(ifile::CCompactXmlFileReadArchive::MI_FILE_OPEN_ERROR));
 	QVERIFY(readArchive.message.contains(testFilePath));
+	QVERIFY(readArchive.message.contains(file.errorString()));
 	QVERIFY(!readArchive.IsOpen());
 }
 

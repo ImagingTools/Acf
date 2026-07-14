@@ -11,7 +11,9 @@ namespace ifile
 CJsonFileReadArchive::CJsonFileReadArchive(const QString& filePath, bool serializeHeader)
 	:BaseClass(serializeHeader)
 {
-	OpenFile(filePath);
+	if (!filePath.isEmpty()){
+		OpenFile(filePath);
+	}
 }
 
 
@@ -23,6 +25,15 @@ bool CJsonFileReadArchive::OpenFile(const QString &filePath)
 
 	m_file.setFileName(filePath);
 	if (!m_file.open(QIODevice::ReadOnly | QIODevice::Text)){
+		if (IsLogConsumed()){
+			SendLogMessage(
+						istd::IInformationProvider::IC_ERROR,
+						MI_FILE_OPEN_ERROR,
+						QString("Cannot open file: %1").arg(m_file.errorString()),
+						"JsonReader",
+						istd::IInformationProvider::ITF_SYSTEM);
+		}
+
 		return false;
 	}
 
@@ -39,6 +50,23 @@ bool CJsonFileReadArchive::OpenFile(const QString &filePath)
 bool CJsonFileReadArchive::IsOpen() const
 {
 	return m_file.isOpen();
+}
+
+
+// protected methods
+
+// reimplemented (istd::ILogger)
+
+void CJsonFileReadArchive::DecorateMessage(
+			istd::IInformationProvider::InformationCategory category,
+			int id,
+			int flags,
+			QString& message,
+			QString& messageSource) const
+{
+	BaseClass::DecorateMessage(category, id, flags, message, messageSource);
+
+	message = m_file.fileName() + " : " + message;
 }
 
 

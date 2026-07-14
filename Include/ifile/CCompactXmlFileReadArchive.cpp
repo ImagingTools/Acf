@@ -49,6 +49,7 @@ bool CCompactXmlFileReadArchive::OpenFile(const QString& filePath)
 
 	if (!BaseClass::SetContent(&file)){
 		file.close();
+		m_openFileName = "";
 
 		return false;
 	}
@@ -87,4 +88,3 @@ void CCompactXmlFileReadArchive::DecorateMessage(
 
 
 } // namespace ifile
-

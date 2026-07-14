@@ -4,6 +4,7 @@
 
 // Qt includes
 #include <QtCore/QFile>
+#include <QtCore/QTemporaryDir>
 
 // ACF includes
 #include <icomp/TSimComponentWrap.h>
@@ -12,6 +13,7 @@
 #include <ifile/CJsonFileReadArchive.h>
 #include <ifile/CJsonFileWriteArchive.h>
 #include <ifile/TFileSerializerComp.h>
+#include <ifile/Test/TLoggableFileReadArchive.h>
 
 
 void CJsonFileArchiveTest::DoBasicReadWriteTest()
@@ -71,6 +73,25 @@ void CJsonFileArchiveTest::DoFilePathTest()
 
 	// Clean up
 	QFile::remove(testFilePath);
+}
+
+
+void CJsonFileArchiveTest::DoOpenErrorDiagnosticTest()
+{
+	QTemporaryDir temporaryDirectory;
+	QVERIFY(temporaryDirectory.isValid());
+
+	const QString testFilePath = temporaryDirectory.filePath("Archive.json");
+	TLoggableFileReadArchive<ifile::CJsonFileReadArchive> readArchive;
+	QFile file(testFilePath);
+
+	QVERIFY(!readArchive.OpenFile(testFilePath));
+	QVERIFY(!file.open(QIODevice::ReadOnly));
+	QVERIFY(readArchive.messageCategory == istd::IInformationProvider::IC_ERROR);
+	QCOMPARE(readArchive.messageId, int(ifile::CJsonFileReadArchive::MI_FILE_OPEN_ERROR));
+	QVERIFY(readArchive.message.contains(testFilePath));
+	QVERIFY(readArchive.message.contains(file.errorString()));
+	QVERIFY(!readArchive.IsOpen());
 }
 
 

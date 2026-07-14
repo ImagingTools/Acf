@@ -4,6 +4,7 @@
 
 // Qt includes
 #include <QtCore/QFile>
+#include <QtCore/QTemporaryDir>
 
 // ACF includes
 #include <icomp/TSimComponentWrap.h>
@@ -12,6 +13,7 @@
 #include <ifile/CCompressedXmlFileReadArchive.h>
 #include <ifile/CCompressedXmlFileWriteArchive.h>
 #include <ifile/TFileSerializerComp.h>
+#include <ifile/Test/TLoggableFileReadArchive.h>
 
 
 void CCompressedXmlFileArchiveTest::DoBasicReadWriteTest()
@@ -61,6 +63,25 @@ void CCompressedXmlFileArchiveTest::DoFilePathTest()
 }
 
 
+void CCompressedXmlFileArchiveTest::DoOpenErrorDiagnosticTest()
+{
+	QTemporaryDir temporaryDirectory;
+	QVERIFY(temporaryDirectory.isValid());
+
+	const QString testFilePath = temporaryDirectory.filePath("Archive.xml");
+	TLoggableFileReadArchive<ifile::CCompressedXmlFileReadArchive> readArchive;
+	QFile file(testFilePath);
+
+	QVERIFY(!readArchive.OpenFile(testFilePath));
+	QVERIFY(!file.open(QIODevice::ReadOnly));
+	QVERIFY(readArchive.messageCategory == istd::IInformationProvider::IC_ERROR);
+	QCOMPARE(readArchive.messageId, int(ifile::CCompressedXmlFileReadArchive::MI_FILE_OPEN_ERROR));
+	QVERIFY(readArchive.message.contains(testFilePath));
+	QVERIFY(readArchive.message.contains(file.errorString()));
+	QVERIFY(!readArchive.IsOpen());
+}
+
+
 void CCompressedXmlFileArchiveTest::DoPersistenceComponentTest()
 {
 	typedef icomp::TSimComponentWrap<
@@ -93,5 +114,3 @@ void CCompressedXmlFileArchiveTest::DoPersistenceComponentTest()
 
 
 I_ADD_TEST(CCompressedXmlFileArchiveTest);
-
-
