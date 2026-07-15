@@ -32,6 +32,13 @@ class T22 : public IInterface22
 {
 };
 
+static_assert(std::is_constructible_v<
+	istd::TUniqueInterfacePtr<IInterface2>,
+	istd::TUniqueInterfacePtr<IInterface22>&&>);
+static_assert(!std::is_constructible_v<
+	istd::TUniqueInterfacePtr<IInterface1>,
+	istd::TUniqueInterfacePtr<IInterface2>&&>);
+
 class TCompositeRoot : public istd::IPolymorphic
 {
 public:
@@ -349,5 +356,4 @@ void CInterfacePtrTest::DoOptionalInterfaceTest()
 
 
 I_ADD_TEST(CInterfacePtrTest);
-
 
