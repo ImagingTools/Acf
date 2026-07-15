@@ -320,10 +320,9 @@ public:
 	/**
 		Move constructor from unique pointer for the derived or same type.
 	*/
-	template <typename DerivedType>
+	template <typename DerivedType, std::enable_if_t<std::is_base_of_v<InterfaceType, DerivedType>, int> = 0>
 	TUniqueInterfacePtr(TUniqueInterfacePtr<DerivedType>&& ptr) noexcept
 	{
-		static_assert(std::is_base_of_v<InterfaceType, DerivedType>, "DerivedType must extend InterfaceType");
 		BaseClass::m_rootPtr = std::move(ptr.m_rootPtr);
 		BaseClass::m_interfacePtr = std::exchange(ptr.m_interfacePtr, nullptr);
 	}
@@ -769,5 +768,4 @@ public:
 
 
 } // namespace istd
-
 
