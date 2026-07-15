@@ -167,7 +167,7 @@ istd::IPolymorphic* CMultiDocumentManagerBase::AddViewToDocument(const istd::ICh
 			info.views.push_back(ViewInfo());
 
 			ViewInfo& newViewInfo = info.views.back();
-			newViewInfo.viewPtr.FromUnique(viewPtr);
+			newViewInfo.viewPtr.FromUnique(std::move(viewPtr));
 			newViewInfo.viewTypeId = viewTypeId;
 
 			OnViewRegistered(newViewInfo.viewPtr.GetPtr(), info);
@@ -569,10 +569,10 @@ istd::IChangeableSharedPtr CMultiDocumentManagerBase::OpenSingleDocument(
 				existingInfoPtr->views.push_back(ViewInfo());
 
 				ViewInfo& newViewInfo = existingInfoPtr->views.back();
-				newViewInfo.viewPtr.FromUnique(viewPtr);
+				newViewInfo.viewPtr.FromUnique(std::move(viewPtr));
 				newViewInfo.viewTypeId = viewTypeId;
 
-				OnViewRegistered(viewPtr.GetPtr(), *existingInfoPtr);
+				OnViewRegistered(newViewInfo.viewPtr.GetPtr(), *existingInfoPtr);
 			}
 		}
 		else{
@@ -727,7 +727,7 @@ CMultiDocumentManagerBase::SingleDocumentData* CMultiDocumentManagerBase::Create
 
 		istd::IChangeableUniquePtr documentInstancePtr = documentTemplatePtr->CreateDocument(realDocumentTypeId, initialize, beQuiet, ignoredPtr);
 		DocumentPtr documentPtr;
-		documentPtr.FromUnique(documentInstancePtr);
+		documentPtr.FromUnique(std::move(documentInstancePtr));
 
 		istd::TDelPtr<SingleDocumentData> infoPtr(new SingleDocumentData(
 					const_cast<CMultiDocumentManagerBase*>(this),
@@ -752,7 +752,7 @@ CMultiDocumentManagerBase::SingleDocumentData* CMultiDocumentManagerBase::Create
 				infoPtr->views.push_back(ViewInfo());
 
 				ViewInfo& newViewInfo = infoPtr->views.back();
-				newViewInfo.viewPtr.FromUnique(viewPtr);
+				newViewInfo.viewPtr.FromUnique(std::move(viewPtr));
 				newViewInfo.viewTypeId = viewTypeId;
 			}
 
@@ -778,7 +778,7 @@ bool CMultiDocumentManagerBase::RegisterDocument(SingleDocumentData* infoPtr)
 	if (documentTemplatePtr != NULL){
 		idoc::IUndoManagerUniquePtr undoManagerPtr = documentTemplatePtr->CreateUndoManager(infoPtr->documentTypeId, infoPtr->documentPtr.GetPtr());
 
-		infoPtr->undoManagerPtr.FromUnique(undoManagerPtr);
+		infoPtr->undoManagerPtr.FromUnique(std::move(undoManagerPtr));
 
 		if (infoPtr->undoManagerPtr.IsValid()){
 			// connect undo manager to single document descriptor to provide general dirty flag
