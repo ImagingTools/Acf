@@ -458,11 +458,6 @@ public:
 		return false;
 	}
 
-	template<class SourceInterfaceType>
-	[[deprecated]] bool MoveCastedPtr(TUniqueInterfacePtr<SourceInterfaceType>& source) noexcept
-	{
-		return MoveCastedPtr(std::move(source));
-	}
 };
 
 
@@ -652,11 +647,6 @@ public:
 		return *this;
 	}
 
-	[[deprecated]] TSharedInterfacePtr& FromUnique(TUniqueInterfacePtr<InterfaceType>& uniquePtr) noexcept
-	{
-		return FromUnique(std::move(uniquePtr));
-	}
-
 	/**
 		Create a shared pointer from unique pointer of other type by transferring ownership if dynamic_cast succeeds.
 	*/
@@ -690,11 +680,6 @@ public:
 		return retVal;
 	}
 
-	[[deprecated]] static TSharedInterfacePtr CreateFromUnique(TUniqueInterfacePtr<InterfaceType>& uniquePtr) noexcept
-	{
-		return CreateFromUnique(std::move(uniquePtr));
-	}
-
 	/**
 		Move-cast from unique: transfer ownership if dynamic_cast succeeds
 	*/
@@ -716,12 +701,6 @@ public:
 		}
 
 		return false;
-	}
-
-	template<class SourceInterfaceType>
-	[[deprecated]] bool MoveCastedPtr(TUniqueInterfacePtr<SourceInterfaceType>& source) noexcept
-	{
-		return MoveCastedPtr(std::move(source));
 	}
 
 	/**
@@ -768,4 +747,3 @@ public:
 
 
 } // namespace istd
-

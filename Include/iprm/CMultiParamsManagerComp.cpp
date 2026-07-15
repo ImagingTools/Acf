@@ -369,7 +369,7 @@ bool CMultiParamsManagerComp::EnsureParamExist(int index, const QByteArray& type
 			istd::CChangeNotifier notifier(this, &s_optionTypeChangeSet);
 			Q_UNUSED(notifier);
 
-			paramSet.paramSetPtr.FromUnique(newParamsSetPtr);
+			paramSet.paramSetPtr.FromUnique(std::move(newParamsSetPtr));
 
 			imod::IModel* modelPtr = dynamic_cast<imod::IModel*>(paramSet.paramSetPtr.GetPtr());
 			if (modelPtr != NULL){
@@ -412,7 +412,7 @@ bool CMultiParamsManagerComp::EnsureParamExist(int index, const QByteArray& type
 
 		ParamSetPtr paramsSetPtr(new imod::TModelWrap<ParamSet>());
 
-		paramsSetPtr->paramSetPtr.FromUnique(newParamsSetPtr);
+		paramsSetPtr->paramSetPtr.FromUnique(std::move(newParamsSetPtr));
 		paramsSetPtr->name = name.isEmpty() ? CalculateNewDefaultName(typeInfo.factoryIndex) : name;
 		paramsSetPtr->uuid = uuid;
 		paramsSetPtr->isEnabled = isEnabled;
@@ -583,5 +583,4 @@ bool CMultiParamsManagerComp::TypeInfoList::IsOptionEnabled(int /*index*/) const
 
 
 } // namespace iprm
-
 

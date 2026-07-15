@@ -37,12 +37,6 @@ public:
 	*/
 	ModelInterface* GetObservedObject() const;
 	/**
-		Get instance of observed object.
-		\deprecated use \c GetObservedObject instead.
-	*/
-	ModelInterface* GetObjectPtr() const;
-
-	/**
 		Attach to model of object or set object pointer, if no connection is possible.
 	*/
 	bool AttachOrSetObject(ModelInterface* objectPtr);
@@ -70,13 +64,6 @@ TSingleModelObserverBase<ModelInterface>::TSingleModelObserverBase()
 
 template <class ModelInterface>
 ModelInterface* TSingleModelObserverBase<ModelInterface>::GetObservedObject() const
-{
-	return m_observedObjectPtr;
-}
-
-
-template <class ModelInterface>
-ModelInterface* TSingleModelObserverBase<ModelInterface>::GetObjectPtr() const
 {
 	return m_observedObjectPtr;
 }
@@ -151,7 +138,6 @@ ModelInterface* TSingleModelObserverBase<ModelInterface>::CastFromModel(imod::IM
 
 
 } // namespace imod
-
 
 
 

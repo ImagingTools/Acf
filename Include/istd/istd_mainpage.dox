@@ -165,13 +165,13 @@ istd::TSharedInterfacePtr<IMyInterface> sharedPtr1(std::move(uniquePtr));
 // Method 2: Using FromUnique() method
 istd::TUniqueInterfacePtr<IMyInterface> uniquePtr2 = CreateAnotherObject();
 istd::TSharedInterfacePtr<IMyInterface> sharedPtr2;
-sharedPtr2.FromUnique(uniquePtr2);
+sharedPtr2.FromUnique(std::move(uniquePtr2));
 // uniquePtr2 is now invalid, sharedPtr2 owns the object
 
 // Method 3: Using CreateFromUnique() static method
 istd::TUniqueInterfacePtr<IMyInterface> uniquePtr3 = CreateThirdObject();
 istd::TSharedInterfacePtr<IMyInterface> sharedPtr3 = 
-    istd::TSharedInterfacePtr<IMyInterface>::CreateFromUnique(uniquePtr3);
+    istd::TSharedInterfacePtr<IMyInterface>::CreateFromUnique(std::move(uniquePtr3));
 // uniquePtr3 is now invalid, sharedPtr3 owns the object
 
 // Now you can share ownership

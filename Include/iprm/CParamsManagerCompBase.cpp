@@ -82,7 +82,7 @@ int CParamsManagerCompBase::InsertParamsSet(int typeIndex, int index)
 
 	ParamSetPtr paramsSetPtr(new imod::TModelWrap<ParamSet>());
 
-	paramsSetPtr->paramSetPtr.FromUnique(newParamsSetPtr);
+	paramsSetPtr->paramSetPtr.FromUnique(std::move(newParamsSetPtr));
 	paramsSetPtr->name = CalculateNewDefaultName(typeIndex);
 #if QT_VERSION >= 0x050000
 	paramsSetPtr->uuid = QUuid::createUuid().toByteArray();
@@ -235,7 +235,7 @@ iprm::IParamsSetUniquePtr CParamsManagerCompBase::CreateParameterSet(int typeInd
 	}
 
 	ParamSet* retVal = new imod::TModelWrap<ParamSet>();
-	retVal->paramSetPtr.FromUnique(newParamsSetPtr);
+	retVal->paramSetPtr.FromUnique(std::move(newParamsSetPtr));
 	retVal->isEnabled = true;
 #if QT_VERSION >= 0x050000
 	retVal->uuid = QUuid::createUuid().toByteArray();
@@ -933,5 +933,4 @@ bool CParamsManagerCompBase::SelectedParams::Serialize(iser::IArchive& /*archive
 
 
 } // namespace iprm
-
 

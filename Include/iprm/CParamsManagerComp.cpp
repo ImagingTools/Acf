@@ -57,7 +57,7 @@ bool CParamsManagerComp::SetSetsCount(int count)
 
 				ParamSetPtr paramsSetPtr(new imod::TModelWrap<ParamSet>());
 
-				paramsSetPtr->paramSetPtr.FromUnique(newParamsSetPtr);
+				paramsSetPtr->paramSetPtr.FromUnique(std::move(newParamsSetPtr));
 				paramsSetPtr->name = CalculateNewDefaultName();
 				paramsSetPtr->parentPtr = this;
 
@@ -426,5 +426,4 @@ void CParamsManagerComp::OnComponentDestroyed()
 
 
 } // namespace iprm
-
 

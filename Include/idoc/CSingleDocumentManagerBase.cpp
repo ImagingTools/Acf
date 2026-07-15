@@ -116,7 +116,7 @@ istd::IPolymorphic* CSingleDocumentManagerBase::AddViewToDocument(const istd::IC
 						m_documentPtr.GetPtr(),
 						viewTypeId);
 			if (viewPtr.IsValid()){
-				m_viewPtr.FromUnique(viewPtr);
+				m_viewPtr.FromUnique(std::move(viewPtr));
 
 				m_viewTypeId = viewTypeId;
 
@@ -417,9 +417,9 @@ bool CSingleDocumentManagerBase::OpenSingleDocument(
 							m_documentPtr.GetPtr(),
 							viewTypeId);
 				if (viewPtr.IsValid()){
-					m_viewPtr.FromUnique(viewPtr);
+					m_viewPtr.FromUnique(std::move(viewPtr));
 
-					OnViewRegistered(viewPtr.GetPtr());
+					OnViewRegistered(m_viewPtr.GetPtr());
 
 					m_viewTypeId = viewTypeId;
 				}
@@ -506,12 +506,12 @@ bool CSingleDocumentManagerBase::NewDocument(
 					return false;
 				}
 
-				m_viewPtr.FromUnique(viewPtr);
+				m_viewPtr.FromUnique(std::move(viewPtr));
 
 				m_viewTypeId = viewTypeId;
 			}
 
-			m_documentPtr.FromUnique(documentPtr);
+			m_documentPtr.FromUnique(std::move(documentPtr));
 
 			m_documentTypeId = realDocumentTypeId;
 
@@ -535,7 +535,7 @@ bool CSingleDocumentManagerBase::RegisterDocument()
 	if (documentTemplatePtr != NULL){
 		idoc::IUndoManagerUniquePtr undoManagerPtr = documentTemplatePtr->CreateUndoManager(m_documentTypeId, m_documentPtr.GetPtr());
 
-		m_undoManagerPtr.FromUnique(undoManagerPtr);
+		m_undoManagerPtr.FromUnique(std::move(undoManagerPtr));
 
 		if (m_undoManagerPtr.IsValid()){
 			m_undoManagerPtr->StoreDocumentState();
@@ -677,5 +677,3 @@ void CSingleDocumentManagerBase::UndoManagerObserver::OnUpdate(const istd::IChan
 
 
 } // namespace idoc
-
-

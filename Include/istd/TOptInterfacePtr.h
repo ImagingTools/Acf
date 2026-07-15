@@ -96,7 +96,7 @@ public:
 
 	explicit TOptInterfacePtr(UniqueInterfacePtr& managedPtr)
 	{
-		m_sharedPtr.FromUnique(managedPtr);
+		m_sharedPtr.FromUnique(std::move(managedPtr));
 	}
 
 
@@ -400,5 +400,3 @@ private:
 
 
 } // namespace istd
-
-

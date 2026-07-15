@@ -38,12 +38,6 @@ public:
 	IModel* GetObservedModel(int modelIndex) const;
 
 	/**
-		Get access to connected model with the index \c index.
-		\deprecated use \c GetObservedModel instead.
-	*/
-	IModel* GetModelPtr(int modelIndex) const;
-
-	/**
 		Ensure all attached models are detached.
 		If there are some attached models they will be detached and removed from observed list.
 	*/
@@ -85,6 +79,5 @@ private:
 
 
 } // namespace imod
-
 
 
