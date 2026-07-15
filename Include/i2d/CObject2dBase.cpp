@@ -44,7 +44,10 @@ CObject2dBase& CObject2dBase::operator=(const CObject2dBase& object2d)
 			m_calibrationPtr = object2d.m_calibrationPtr;
 		}
 		else{
-			m_calibrationPtr.TakeOver(object2d.m_calibrationPtr->CloneMe(CM_WITH_REFS));
+			istd::TSharedInterfacePtr<ICalibration2d> calibrationPtr;
+			if (calibrationPtr.MoveCastedPtr(object2d.m_calibrationPtr->CloneMe(CM_WITH_REFS))){
+				m_calibrationPtr.SetManagedPtr(calibrationPtr);
+			}
 		}
 	}
 
@@ -141,7 +144,10 @@ bool CObject2dBase::CopyFrom(const istd::IChangeable& object, CompatibilityMode 
 					m_calibrationPtr = object2dPtr->m_calibrationPtr;
 				}
 				else{
-					m_calibrationPtr.TakeOver(object2dPtr->m_calibrationPtr->CloneMe(CM_WITH_REFS));
+					istd::TSharedInterfacePtr<ICalibration2d> calibrationPtr;
+					if (calibrationPtr.MoveCastedPtr(object2dPtr->m_calibrationPtr->CloneMe(CM_WITH_REFS))){
+						m_calibrationPtr.SetManagedPtr(calibrationPtr);
+					}
 				}
 			}
 			else{
@@ -180,5 +186,4 @@ bool CObject2dBase::ResetData(CompatibilityMode mode)
 
 
 } // namespace i2d
-
 
