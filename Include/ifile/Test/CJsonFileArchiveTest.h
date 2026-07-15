@@ -17,5 +17,6 @@ class CJsonFileArchiveTest : public QObject
 private Q_SLOTS:
 	void DoBasicReadWriteTest();
 	void DoFilePathTest();
+	void DoOpenErrorDiagnosticTest();
 	void DoPersistenceComponentTest();
 };

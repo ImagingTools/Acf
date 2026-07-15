@@ -172,6 +172,12 @@ ifile::IFilePersistence::OperationState TXmlFileSerializerComp<ReadArchive, Writ
 
 		Q_ASSERT(!archive.IsStoring());
 
+		if (!archive.IsOpen()){
+			SendErrorMessage(MI_CANNOT_LOAD, QObject::tr("Cannot open file: '%1'").arg(filePath));
+
+			return OS_FAILED;
+		}
+
 		/**
 			\todo Change CompCastPtr to be sure that firstly the data will be casted to the interface, but NOT the first ISerializable in the composition.
 		*/
@@ -252,5 +258,3 @@ void TXmlFileSerializerComp<ReadArchive, WriteArchive>::OnReadError(
 
 
 } // namespace ifile
-
-

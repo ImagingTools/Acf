@@ -16,14 +16,42 @@ namespace ifile
 
 CFileReadArchive::CFileReadArchive(const QString& filePath, bool supportTagSkipping, bool serializeHeader)
 :	BaseClass2(filePath),
-	m_file(filePath),
 	m_supportTagSkipping(supportTagSkipping)
 {
-	m_file.open(QIODevice::ReadOnly);
-
-	if (serializeHeader){
+	if (!filePath.isEmpty() && OpenFile(filePath) && serializeHeader){
 		SerializeAcfHeader();
 	}
+}
+
+
+bool CFileReadArchive::OpenFile(const QString& filePath)
+{
+	if (m_file.isOpen()){
+		m_file.close();
+	}
+
+	m_filePath = filePath;
+	m_file.setFileName(filePath);
+	if (!m_file.open(QIODevice::ReadOnly)){
+		if (IsLogConsumed()){
+			SendLogMessage(
+						istd::IInformationProvider::IC_ERROR,
+						MI_FILE_OPEN_ERROR,
+						QString("Cannot open file: %1").arg(m_file.errorString()),
+						"BinaryReader",
+						istd::IInformationProvider::ITF_SYSTEM);
+		}
+
+		return false;
+	}
+
+	return true;
+}
+
+
+bool CFileReadArchive::IsOpen() const
+{
+	return m_file.isOpen();
 }
 
 
@@ -127,5 +155,4 @@ int CFileReadArchive::GetMaxStringLength() const
 
 
 } // namespace ifile
-
 

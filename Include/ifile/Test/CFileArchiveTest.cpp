@@ -4,11 +4,13 @@
 
 // Qt includes
 #include <QtCore/QTemporaryFile>
+#include <QtCore/QTemporaryDir>
 #include <QtCore/QDir>
 
 // ACF includes
 #include <ifile/CFileReadArchive.h>
 #include <ifile/CFileWriteArchive.h>
+#include <ifile/Test/TLoggableFileReadArchive.h>
 #include <iser/ISerializable.h>
 #include <iser/IArchive.h>
 #include <iser/CArchiveTag.h>
@@ -219,6 +221,25 @@ void CFileArchiveTest::InvalidFilePathTest()
 }
 
 
+void CFileArchiveTest::OpenErrorDiagnosticTest()
+{
+	QTemporaryDir temporaryDirectory;
+	QVERIFY(temporaryDirectory.isValid());
+
+	const QString testFilePath = temporaryDirectory.filePath("Archive.dat");
+	TLoggableFileReadArchive<ifile::CFileReadArchive> readArchive;
+	QFile file(testFilePath);
+
+	QVERIFY(!readArchive.OpenFile(testFilePath));
+	QVERIFY(!file.open(QIODevice::ReadOnly));
+	QVERIFY(readArchive.messageCategory == istd::IInformationProvider::IC_ERROR);
+	QCOMPARE(readArchive.messageId, int(ifile::CFileReadArchive::MI_FILE_OPEN_ERROR));
+	QVERIFY(readArchive.message.contains(testFilePath));
+	QVERIFY(readArchive.message.contains(file.errorString()));
+	QVERIFY(!readArchive.IsOpen());
+}
+
+
 void CFileArchiveTest::MultipleObjectsTest()
 {
 	// Create temporary file
@@ -268,5 +289,3 @@ void CFileArchiveTest::MultipleObjectsTest()
 
 
 I_ADD_TEST(CFileArchiveTest);
-
-
