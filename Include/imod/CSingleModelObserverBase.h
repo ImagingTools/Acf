@@ -33,6 +33,12 @@ public:
 	*/
 	imod::IModel* GetObservedModel() const;
 	/**
+		Get access to observed model.
+		\deprecated use \c GetObservedModel instead.
+		\return	pointer to observed model, or NULL if no model is connected.
+	*/
+	imod::IModel* GetModelPtr() const;
+	/**
 		Make sure this observer is detached.
 		It calls model method DetachObserver() if model is available.
 	*/
@@ -82,6 +88,12 @@ inline imod::IModel* CSingleModelObserverBase::GetObservedModel() const
 }
 
 
+inline imod::IModel* CSingleModelObserverBase::GetModelPtr() const
+{
+	return m_modelPtr;
+}
+
+
 // reimplemented (imod::IObserver)
 
 inline bool CSingleModelObserverBase::IsModelAttached(const imod::IModel* modelPtr) const
@@ -103,6 +115,7 @@ inline void CSingleModelObserverBase::SetModelPtr(imod::IModel* modelPtr)
 
 
 } // namespace imod
+
 
 
 

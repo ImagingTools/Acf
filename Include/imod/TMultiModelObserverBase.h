@@ -30,6 +30,12 @@ public:
 		\param	objectIndex index of object
 	*/
 	ModelInterface* GetObservedObject(int objectIndex) const;
+	/**
+		Get instance of observed object.
+		\deprecated use \c GetObservedObject instead.
+	*/
+	ModelInterface* GetObjectPtr(int objectIndex) const;
+
 	// reimplemented (imod::IObserver)
 	virtual bool OnModelAttached(imod::IModel* modelPtr, istd::IChangeable::ChangeSet& changeMask) override;
 };
@@ -39,6 +45,16 @@ public:
 
 template<class ModelInterface>
 ModelInterface* TMultiModelObserverBase<ModelInterface>::GetObservedObject(int objectIndex) const
+{
+	Q_ASSERT(objectIndex >= 0);
+	Q_ASSERT(objectIndex < GetModelCount());
+
+	return dynamic_cast<ModelInterface*>(GetObservedModel(objectIndex));
+}
+
+
+template<class ModelInterface>
+ModelInterface* TMultiModelObserverBase<ModelInterface>::GetObjectPtr(int objectIndex) const
 {
 	Q_ASSERT(objectIndex >= 0);
 	Q_ASSERT(objectIndex < GetModelCount());
@@ -62,5 +78,6 @@ bool TMultiModelObserverBase<ModelInterface>::OnModelAttached(imod::IModel* mode
 
 
 } // namespace imod
+
 
 

@@ -970,3 +970,5 @@ void CMultiDocumentManagerBase::SingleDocumentData::OnModelChanged(int modelId, 
 
 
 } // namespace idoc
+
+

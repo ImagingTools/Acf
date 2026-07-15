@@ -39,6 +39,12 @@ IModel* CMultiModelObserverBase::GetObservedModel(int modelIndex) const
 }
 
 
+IModel* CMultiModelObserverBase::GetModelPtr(int modelIndex) const
+{
+	return GetObservedModel(modelIndex);
+}
+
+
 int CMultiModelObserverBase::GetModelCount() const
 {
 	QMutexLocker lock(&m_mutex);
@@ -145,3 +151,4 @@ void CMultiModelObserverBase::OnUpdate(imod::IModel* /*modelPtr*/, const istd::I
 
 
 } // namespace imod
+
