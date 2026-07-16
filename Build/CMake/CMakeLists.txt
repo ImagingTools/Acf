@@ -20,11 +20,7 @@ set(BUILD_TESTING ON CACHE BOOL "Configures projects for testing")
 set(ACF_MODERN_CMAKE ON CACHE BOOL "Enable modern target-based architecture for AcfSln and Acf libraries")
 
 if(NOT DEFINED ACFDIR)
-	file(TO_CMAKE_PATH "$ENV{ACFDIR}" ACFDIR)
-	if(ACFDIR STREQUAL "")
-		message("ACFDIR not defined. Using default path: ${CMAKE_CURRENT_LIST_DIR}/../../../Acf")
-		set(ACFDIR "${CMAKE_CURRENT_LIST_DIR}/../../../Acf")
-	endif()
+	set(ACFDIR "${CMAKE_CURRENT_LIST_DIR}/../../../Acf")
 endif()
 
 include(${ACFDIR}/Config/CMake/AcfEnv.cmake)
@@ -32,6 +28,8 @@ include(${ACFDIR}/Config/CMake/AcfEnv.cmake)
 if(NOT DEFINED ACFDIR_BUILD)
 	set(ACFDIR_BUILD "${ACFDIR}")
 endif()
+
+file(TO_CMAKE_PATH "${ACFDIR_BUILD}" ACFDIR_BUILD)
 
 # Collect Acf libraries in an export set so they can be used as find_package(Acf) targets.
 # Read by Acf's shared StaticConfig.cmake / acf_register_library() when registering each lib.
@@ -44,8 +42,8 @@ if(ACF_MODERN_CMAKE)
 	acf_define_link_scope_var(ACF_APPLICATION_LINK_SCOPE "PRIVATE" "Link scope used by executables linking their dependencies")
 endif()
 
-set(INCLUDE_DIR "${ACFDIR_BUILD}/Include")
-set(IMPL_DIR "${ACFDIR_BUILD}/Impl")
+set(INCLUDE_DIR "${ACFDIR}/Include")
+set(IMPL_DIR "${ACFDIR}/Impl")
 set(AUX_INCLUDE_DIR "${ACFDIR_BUILD}/AuxInclude/${TARGETNAME}/GeneratedFiles")
 set(ACF_BIN_DIR "${ACFDIR_BUILD}/Bin/${CMAKE_BUILD_TYPE}_${TARGETNAME}")
 
