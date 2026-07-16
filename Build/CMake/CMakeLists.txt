@@ -42,10 +42,10 @@ if(ACF_MODERN_CMAKE)
 	acf_define_link_scope_var(ACF_APPLICATION_LINK_SCOPE "PRIVATE" "Link scope used by executables linking their dependencies")
 endif()
 
-set(INCLUDE_DIR "${ACFDIR}/Include")
-set(IMPL_DIR "${ACFDIR}/Impl")
+set(INCLUDE_DIR		"${ACFDIR}/Include")
+set(IMPL_DIR		"${ACFDIR}/Impl")
 set(AUX_INCLUDE_DIR "${ACFDIR_BUILD}/AuxInclude/${TARGETNAME}/GeneratedFiles")
-set(ACF_BIN_DIR "${ACFDIR_BUILD}/Bin/${CMAKE_BUILD_TYPE}_${TARGETNAME}")
+set(ACF_BIN_DIR		"${ACFDIR_BUILD}/Bin/${CMAKE_BUILD_TYPE}_${TARGETNAME}")
 
 
 # Include
