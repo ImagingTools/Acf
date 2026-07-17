@@ -502,7 +502,7 @@ bool COptionsManager::CopyFrom(const IChangeable& object, CompatibilityMode /*mo
 			m_options.push_back(option);
 		}
 
-		return true;
+		return BaseClass::CopyFrom(object);
 	}
 
 	return false;
