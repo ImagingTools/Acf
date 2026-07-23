@@ -137,14 +137,14 @@ public:
 	template <typename T>
 	bool AdoptCastedRawPtr(T* rawPtr)
 	{
-		if (rawPtr == nullptr) {
+		if (rawPtr == nullptr){
 			Reset();
 
 			return true;
 		}
 
 		InterfaceType* castedPtr = dynamic_cast<InterfaceType*> (rawPtr);
-		if (castedPtr != nullptr) {
+		if (castedPtr != nullptr){
 			AdoptRawPtr(castedPtr);
 
 			return true;
@@ -157,14 +157,14 @@ public:
 	template <class T>
 	bool SetCastedPtr(TSharedInterfacePtr<T>& source)
 	{
-		if (!source.IsValid()) {
+		if (!source.IsValid()){
 			Reset();
 
 			return true;
 		}
 
 		SharedInterfacePtr sharedPtr;
-		if (sharedPtr.SetCastedPtr(source)) {
+		if (sharedPtr.SetCastedPtr(source)){
 			m_sharedPtr = sharedPtr;
 
 			m_unmanagedPtr = nullptr;
@@ -192,7 +192,7 @@ public:
 	template <class T>
 	bool TakeOver(TUniqueInterfacePtr<T>& source)
 	{
-		if (!source.IsValid()) {
+		if (!source.IsValid()){
 			Reset();
 
 			AssertInvariant();
@@ -200,8 +200,14 @@ public:
 			return true;
 		}
 
-		SharedInterfacePtr sharedPtr = SharedInterfacePtr::CreateFromUnique(source);
-		if (sharedPtr.IsValid()) {
+		SharedInterfacePtr sharedPtr;
+		if constexpr (std::is_same_v<T, InterfaceType>){
+			sharedPtr = SharedInterfacePtr::CreateFromUnique(std::move(source));
+		}
+		else{
+			sharedPtr = SharedInterfacePtr::CreateFromUnique(source);
+		}
+		if (sharedPtr.IsValid()){
 			m_sharedPtr = sharedPtr;
 			m_unmanagedPtr = nullptr;
 
@@ -219,7 +225,7 @@ public:
 	template <class T>
 	bool TakeOver(TUniqueInterfacePtr<T>&& source)
 	{
-		if (!source.IsValid()) {
+		if (!source.IsValid()){
 			Reset();
 
 			AssertInvariant();
@@ -228,7 +234,7 @@ public:
 		}
 
 		SharedInterfacePtr sharedPtr = SharedInterfacePtr::CreateFromUnique(source);
-		if (sharedPtr.IsValid()) {
+		if (sharedPtr.IsValid()){
 			m_sharedPtr = sharedPtr;
 			m_unmanagedPtr = nullptr;
 			Q_ASSERT(!source.IsValid());
@@ -299,17 +305,17 @@ public:
 		AssertInvariant();
 	
 		Interface* retVal = nullptr;
-		if (m_unmanagedPtr) {
+		if (m_unmanagedPtr){
 			retVal = m_unmanagedPtr;
 		}
-		else if (m_sharedPtr.IsValid()) {
+		else if (m_sharedPtr.IsValid()){
 			retVal = m_sharedPtr.GetPtr(); // should be non-const getter
 		}
 		else {
 			return nullptr;
 		}
 
-		if constexpr (std::is_same_v<InterfaceCast, InterfaceType>) {
+		if constexpr (std::is_same_v<InterfaceCast, InterfaceType>){
 			return retVal;
 		}
 		else {
@@ -388,7 +394,7 @@ private:
 private:
 
 	/**
-		Managed memory
+		Managed memory.
 	*/
 	SharedInterfacePtr m_sharedPtr;
 

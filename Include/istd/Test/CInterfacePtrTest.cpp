@@ -334,6 +334,16 @@ void CInterfacePtrTest::DoOptionalInterfaceTest()
 		QVERIFY(!t1tr.IsValid());
 	}
 
+	// Incompatible interfaces
+	{
+		istd::TUniqueInterfacePtr<IInterface22> t2Unique(new T22);
+		QVERIFY(t2Unique.IsValid());
+		istd::TOptInterfacePtr<IInterface1> optInterface1;
+		QVERIFY(!optInterface1.TakeOver(t2Unique));
+		QVERIFY(!optInterface1.IsValid());
+		QVERIFY(t2Unique.IsValid());
+	}
+
 	// Compatible interfaces
 	{
 		istd::TSharedInterfacePtr<IInterface22> t2Ptr(new T22);

@@ -13,6 +13,10 @@ class CIcmmTest: public QObject
 
 private Q_SLOTS:
 	void IsCmykTest();
+	void CmySerializeTest();
+	void CmykSerializeTest();
+	void HsvSerializeTest();
+	void LabSerializeTest();
+	void RgbSerializeTest();
 };
-
 
