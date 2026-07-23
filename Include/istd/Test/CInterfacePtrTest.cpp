@@ -306,6 +306,16 @@ void CInterfacePtrTest::DoOptionalInterfaceTest()
 	QVERIFY(opt2.IsUnmanaged());
 	QVERIFY(!opt2.IsManaged());
 
+	// Incompatible interfaces
+	{
+		istd::TUniqueInterfacePtr<IInterface2> t2Ptr(new T2);
+		QVERIFY(t2Ptr.IsValid());
+		istd::TOptInterfacePtr<IInterface1> optInterface1;
+		QVERIFY(!optInterface1.TakeOver(t2Ptr));
+		QVERIFY(!optInterface1.IsValid());
+		QVERIFY(t2Ptr.IsValid());
+	}
+
 	// Same interfaces
 	{
 		istd::TUniqueInterfacePtr<IInterface1> t1tr(new T1);
