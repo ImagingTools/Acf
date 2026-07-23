@@ -243,7 +243,7 @@ inline TComposedColor<Size>::TComposedColor(const imath::CVarVector& vector)
 template <int Size>
 inline bool TComposedColor<Size>::IsSimilar(const TComposedColor<Size>& color, double tolerance) const
 {
-	return GetDistance(color) <= tolerance;
+	return this->GetDistance(color) <= tolerance;
 }
 
 
