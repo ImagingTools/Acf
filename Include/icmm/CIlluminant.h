@@ -42,7 +42,7 @@ public:
 	virtual StandardIlluminant GetIlluminantType() const override;
 	virtual void SetIlluminantType(const StandardIlluminant& illuminantType) override;
 
-	// reimplemented (istd::IObject)
+	// reimplemented (iser::IObject)
 	virtual QByteArray GetFactoryId() const override;
 
 	// reimplemented (iser::ISerializable)
@@ -65,5 +65,4 @@ private:
 
 
 } // namespace icmm
-
 

@@ -200,7 +200,13 @@ public:
 			return true;
 		}
 
-		SharedInterfacePtr sharedPtr = SharedInterfacePtr::CreateFromUnique(std::move(source));
+		SharedInterfacePtr sharedPtr;
+		if constexpr (std::is_same_v<T, InterfaceType>){
+			sharedPtr = SharedInterfacePtr::CreateFromUnique(std::move(source));
+		}
+		else{
+			sharedPtr = SharedInterfacePtr::CreateFromUnique(source);
+		}
 		if (sharedPtr.IsValid()){
 			m_sharedPtr = sharedPtr;
 			m_unmanagedPtr = nullptr;
@@ -400,5 +406,4 @@ private:
 
 
 } // namespace istd
-
 

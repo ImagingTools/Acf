@@ -98,7 +98,7 @@ void CIlluminant::SetIlluminantType(const StandardIlluminant& illuminantType)
 }
 
 
-// reimplemented (istd::IObject)
+// reimplemented (iser::IObject)
 
 QByteArray CIlluminant::GetFactoryId() const
 {
@@ -227,5 +227,4 @@ void CIlluminant::InitFromStandardIlluminant(StandardIlluminant illuminantType)
 
 
 } // namespace icmm
-
 

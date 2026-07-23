@@ -19,8 +19,8 @@ CTristimulusSpecification::CTristimulusSpecification(
 			AstmTableType method,
 			std::shared_ptr<ISpectralColorSpecification> baseSpec)
 	:m_observerType(observerType),
-	m_illuminantPtr(illuminantPtr),
 	m_method(method),
+	m_illuminantPtr(illuminantPtr),
 	m_baseSpecPtr(baseSpec)
 {
 }
@@ -93,7 +93,7 @@ bool CTristimulusSpecification::CopyFrom(const IChangeable& object, Compatibilit
 		m_method = objectPtr->m_method;
 		m_illuminantPtr = objectPtr->m_illuminantPtr;
 
-		// Only copy external resources if mode is CM_WITH_REFS
+		// Only copy base specification external resource if mode is CM_WITH_REFS
 		if (mode == CM_WITH_REFS){
 			m_baseSpecPtr = objectPtr->m_baseSpecPtr;
 		}
@@ -187,5 +187,4 @@ const icmm::CTristimulusSpecification& CTristimulusSpecification::GetD50TwoDegre
 
 
 } // namespace icmm
-
 
