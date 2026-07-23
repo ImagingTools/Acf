@@ -17,7 +17,7 @@ class CTristimulusSpecification: virtual public ITristimulusSpecification
 public:
 	CTristimulusSpecification(
 				ObserverType observerType = ObserverType::TwoDegree,
-				std::shared_ptr<IIlluminant> illuminantPtr = std::make_shared<icmm::CIlluminant>(icmm::StandardIlluminant::D50),
+				std::shared_ptr<IIlluminant> illuminantPtr = nullptr,
 				AstmTableType method = AstmTableType::Unknown,
 				std::shared_ptr<ISpectralColorSpecification> baseSpec = nullptr);
 
@@ -57,5 +57,4 @@ private:
 
 
 } // namespace icmm
-
 

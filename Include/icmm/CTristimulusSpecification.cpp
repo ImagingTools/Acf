@@ -20,7 +20,7 @@ CTristimulusSpecification::CTristimulusSpecification(
 			std::shared_ptr<ISpectralColorSpecification> baseSpec)
 	:m_observerType(observerType),
 	m_method(method),
-	m_illuminantPtr(illuminantPtr),
+	m_illuminantPtr(illuminantPtr ? illuminantPtr : std::make_shared<icmm::CIlluminant>(icmm::StandardIlluminant::D50)),
 	m_baseSpecPtr(baseSpec)
 {
 }
@@ -187,4 +187,3 @@ const icmm::CTristimulusSpecification& CTristimulusSpecification::GetD50TwoDegre
 
 
 } // namespace icmm
-
