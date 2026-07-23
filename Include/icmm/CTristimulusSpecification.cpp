@@ -118,12 +118,13 @@ bool CTristimulusSpecification::IsEqual(const IChangeable& other) const
 
 istd::IChangeableUniquePtr CTristimulusSpecification::CloneMe(CompatibilityMode mode) const
 {
-	istd::IChangeableUniquePtr clonePtr(new CTristimulusSpecification());
-	if (clonePtr->CopyFrom(*this, mode)){
-		return clonePtr;
+	if (mode == CM_WITH_REFS){
+		return istd::IChangeableUniquePtr(
+			new CTristimulusSpecification(m_observerType, m_illuminantPtr, m_method, m_baseSpecPtr));
 	}
 
-	return istd::IChangeableUniquePtr();
+	return istd::IChangeableUniquePtr(
+		new CTristimulusSpecification(m_observerType, m_illuminantPtr, m_method, nullptr));
 }
 
 
