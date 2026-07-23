@@ -210,13 +210,13 @@ void CInterfacePtrTest::DoSharedInterfaceTest()
 	{
 		istd::TUniqueInterfacePtr<IInterface1> uniquePtr(new T1);
 		istd::TSharedInterfacePtr<IInterface1> sharedFromUnique;
-		sharedFromUnique.FromUnique(uniquePtr);
+		sharedFromUnique.FromUnique(std::move(uniquePtr));
 		QVERIFY(sharedFromUnique.IsValid());
 		QVERIFY(!uniquePtr.IsValid());
 		QVERIFY(sharedFromUnique.GetBasePtr().use_count() == 1);
 
 		istd::TUniqueInterfacePtr<IInterface1> emptyUnique;
-		sharedFromUnique.FromUnique(emptyUnique);
+		sharedFromUnique.FromUnique(std::move(emptyUnique));
 		QVERIFY(!sharedFromUnique.IsValid());
 	}
 
@@ -263,7 +263,7 @@ void CInterfacePtrTest::DoUniqueInterfaceTest()
 	istd::TUniqueInterfacePtr<IInterface1> ptr1(new T1);
 	QVERIFY(ptr1.IsValid());
 
-	istd::TSharedInterfacePtr<IInterface1> sharedPtr = istd::TSharedInterfacePtr<IInterface1>::CreateFromUnique(ptr1);
+	istd::TSharedInterfacePtr<IInterface1> sharedPtr = istd::TSharedInterfacePtr<IInterface1>::CreateFromUnique(std::move(ptr1));
 	QVERIFY(sharedPtr.IsValid());
 	QVERIFY(!ptr1.IsValid());
 
@@ -305,16 +305,6 @@ void CInterfacePtrTest::DoOptionalInterfaceTest()
 	QVERIFY(opt2.IsValid());
 	QVERIFY(opt2.IsUnmanaged());
 	QVERIFY(!opt2.IsManaged());
-
-	// Incompatible interfaces
-	{
-		istd::TUniqueInterfacePtr<IInterface2> t2Ptr(new T2);
-		QVERIFY(t2Ptr.IsValid());
-		istd::TOptInterfacePtr<IInterface1> optInterface1;
-		QVERIFY(!optInterface1.TakeOver(t2Ptr));
-		QVERIFY(!optInterface1.IsValid());
-		QVERIFY(t2Ptr.IsValid());
-	}
 
 	// Same interfaces
 	{

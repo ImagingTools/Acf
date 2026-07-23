@@ -15,19 +15,19 @@ namespace icmm
 
 CTristimulusSpecification::CTristimulusSpecification(
 			ObserverType observerType,
-			AstmTableType method,
 			std::shared_ptr<IIlluminant> illuminantPtr,
+			AstmTableType method,
 			std::shared_ptr<ISpectralColorSpecification> baseSpec)
-:	m_observerType(observerType),
-	m_method(method),
+	:m_observerType(observerType),
 	m_illuminantPtr(illuminantPtr),
+	m_method(method),
 	m_baseSpecPtr(baseSpec)
 {
 }
 
 
 CTristimulusSpecification::CTristimulusSpecification(const ITristimulusSpecification& other)
-:	m_observerType(other.GetObserverType()),
+	:m_observerType(other.GetObserverType()),
 	m_method(other.GetMethod()),
 	m_illuminantPtr(other.GetIlluminant()),
 	m_baseSpecPtr(other.GetBaseSpecification())
@@ -91,10 +91,10 @@ bool CTristimulusSpecification::CopyFrom(const IChangeable& object, Compatibilit
 
 		m_observerType = objectPtr->m_observerType;
 		m_method = objectPtr->m_method;
+		m_illuminantPtr = objectPtr->m_illuminantPtr;
 
 		// Only copy external resources if mode is CM_WITH_REFS
 		if (mode == CM_WITH_REFS){
-			m_illuminantPtr = objectPtr->m_illuminantPtr;
 			m_baseSpecPtr = objectPtr->m_baseSpecPtr;
 		}
 
@@ -131,7 +131,7 @@ istd::IChangeableUniquePtr CTristimulusSpecification::CloneMe(CompatibilityMode 
 
 bool CTristimulusSpecification::Serialize(iser::IArchive& archive)
 {
-	if (m_illuminantPtr == nullptr) {
+	if (m_illuminantPtr == nullptr){
 		return false;
 	}
 
@@ -179,8 +179,8 @@ const icmm::CTristimulusSpecification& CTristimulusSpecification::GetD50TwoDegre
 {
 	static const icmm::CTristimulusSpecification spec(
 		icmm::ObserverType::TwoDegree,
-		icmm::AstmTableType::Unknown,
-		std::make_shared<icmm::CIlluminant>(icmm::StandardIlluminant::D50));
+		std::make_shared<icmm::CIlluminant>(icmm::StandardIlluminant::D50),
+		icmm::AstmTableType::Unknown);
 
 	return spec;
 }
