@@ -44,7 +44,7 @@ void CInterpolationTestComp::OnUpdate(const istd::IChangeable::ChangeSet& /*chan
 		Q_ASSERT(positions.size() == values.size());
 
 		if (positions.size() >= 2){
-			istd::TDelPtr<imath::IDoubleFunction> interpolationFunctionPtr;
+			istd::TUniqueInterfacePtr<imath::IDoubleFunction> interpolationFunctionPtr;
 
 			switch (*m_interpolatorTypeAttrPtr){
 			case 0:

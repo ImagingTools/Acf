@@ -16,7 +16,7 @@
 
 // ACF includes
 #include <istd/TSmartPtr.h>
-#include <istd/TDelPtr.h>
+#include <memory>
 #include <iwidgets/IMultiPageWidgetDelegate.h>
 #include <iwidgets/CWidgetWheelEventBlocker.h>
 
@@ -263,7 +263,7 @@ private:
 	/**
 		A container that depends on \c DesignType, i.e. QWidget, QToolBox or QTabWidget
 	*/
-	istd::TDelPtr<QWidget> m_guiContainerPtr;
+	std::unique_ptr<QWidget> m_guiContainerPtr;
 
 	int m_designMode;
 
@@ -278,7 +278,7 @@ private:
 	*/
 	bool m_pageSwitchingBlocked;
 	
-	istd::TDelPtr<CWidgetWheelEventBlocker> m_widgetWheelEventBlockerPtr;
+	std::unique_ptr<CWidgetWheelEventBlocker> m_widgetWheelEventBlockerPtr;
 
 };
 

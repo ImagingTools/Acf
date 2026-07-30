@@ -3,7 +3,6 @@
 
 
 // ACF includes
-#include <istd/TDelPtr.h>
 
 
 namespace iqtgui

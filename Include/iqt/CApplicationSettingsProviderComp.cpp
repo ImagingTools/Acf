@@ -12,9 +12,9 @@ namespace iqt
 
 QSettings& CApplicationSettingsProviderComp::GetSettings() const
 {
-	Q_ASSERT(m_settingsPtr.IsValid());
+	Q_ASSERT((m_settingsPtr != nullptr));
 
-	return *m_settingsPtr.GetPtr();
+	return *m_settingsPtr.get();
 }
 
 
@@ -38,7 +38,7 @@ void CApplicationSettingsProviderComp::OnComponentCreated()
 		}
 	}
 
-	m_settingsPtr.SetPtr(new QSettings(QSettings::UserScope, companyName, applicationName));
+	m_settingsPtr.reset(new QSettings(QSettings::UserScope, companyName, applicationName));
 }
 
 

@@ -13,6 +13,8 @@
 #include <QtGui/QApplication>
 #endif
 
+#include <memory>
+
 
 
 
@@ -34,10 +36,10 @@ CDialogGuiComp::CDialogGuiComp()
 
 int CDialogGuiComp::ExecuteDialog(IGuiObject* parentPtr)
 {
-	istd::TDelPtr<iqtgui::CGuiComponentDialog> dialogPtr(CreateComponentDialog(*m_dialogButtonsAttrPtr, parentPtr));
-	if (dialogPtr.IsValid()){
+	std::unique_ptr<iqtgui::CGuiComponentDialog> dialogPtr(CreateComponentDialog(*m_dialogButtonsAttrPtr, parentPtr));
+	if (dialogPtr){
 		if (*m_isModalAttrPtr){
-			m_dialogPtr = dialogPtr.GetPtr();
+			m_dialogPtr = dialogPtr.get();
 		
 			int retVal = dialogPtr->exec();
 		
@@ -46,7 +48,7 @@ int CDialogGuiComp::ExecuteDialog(IGuiObject* parentPtr)
 			return retVal;
 		}
 		else{
-			m_dialogPtr = dialogPtr.GetPtr();
+			m_dialogPtr = dialogPtr.get();
 
 			dialogPtr->setModal(false);
 			m_dialogCommand.SetEnabled(false);
@@ -57,7 +59,7 @@ int CDialogGuiComp::ExecuteDialog(IGuiObject* parentPtr)
 
 			dialogPtr->show();
 
-			dialogPtr.PopPtr();
+			dialogPtr.release();
 
 			return QDialog::Accepted;
 		}
@@ -71,17 +73,16 @@ int CDialogGuiComp::ExecuteDialog(IGuiObject* parentPtr)
 
 iqtgui::CGuiComponentDialog* CDialogGuiComp::CreateComponentDialog(int buttons, IGuiObject* parentPtr) const
 {
-	istd::TDelPtr<iqtgui::CGuiComponentDialog> dialogPtr;
+	std::unique_ptr<iqtgui::CGuiComponentDialog> dialogPtr;
 
 	if (m_guiCompPtr.IsValid()){
 		QWidget* parentWidgetPtr = (parentPtr != NULL)? parentPtr->GetWidget(): NULL;
 
-		dialogPtr.SetPtr(
-					new iqtgui::CGuiComponentDialog(
-								m_guiCompPtr.GetPtr(),
-								buttons,
-								true,
-								parentWidgetPtr));
+		dialogPtr = std::make_unique<iqtgui::CGuiComponentDialog>(
+			m_guiCompPtr.GetPtr(),
+			buttons,
+			true,
+			parentWidgetPtr);
 
 		dialogPtr->setWindowFlags((Qt::WindowFlags)*m_windowFlagsAttrPtr);
 
@@ -124,14 +125,14 @@ iqtgui::CGuiComponentDialog* CDialogGuiComp::CreateComponentDialog(int buttons, 
 					if (!(*m_defaultButtonPropertyAttrPtr).isEmpty()){
 						pushButtonPtr->setProperty(*m_defaultButtonPropertyAttrPtr, true);
 
-						qApp->style()->polish(dialogPtr.GetPtr());
+						qApp->style()->polish(dialogPtr.get());
 					}
 				}
 			}
 		}
 	}
 
-	return dialogPtr.PopPtr();
+	return dialogPtr.release();
 }
 
 
@@ -254,5 +255,3 @@ const ibase::IHierarchicalCommand* CDialogGuiComp::CommandsProvider::GetCommands
 
 
 } // namespace iqtgui
-
-

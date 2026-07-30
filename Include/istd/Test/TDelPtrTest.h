@@ -7,7 +7,6 @@
 #include <QtTest/QtTest>
 
 // ACF includes
-#include <istd/TDelPtr.h>
 #include <itest/CStandardTestExecutor.h>
 
 // Test class with destructor counter

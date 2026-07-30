@@ -3,7 +3,6 @@
 
 
 // ACF includes
-#include <istd/TDelPtr.h>
 #include <imod/IModel.h>
 #include <imod/TModelWrap.h>
 #include <idoc/IUndoManager.h>

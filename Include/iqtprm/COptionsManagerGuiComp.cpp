@@ -64,7 +64,7 @@ void COptionsManagerGuiComp::OnGuiModelDetached()
 {
 	UnregisterAllModels();
 
-	m_selectorLabelPtr.Reset();
+	m_selectorLabelPtr.reset();
 
 	BaseClass::OnGuiModelDetached();
 }
@@ -138,11 +138,11 @@ void COptionsManagerGuiComp::OnGuiCreated()
 
 		selectorLayoutPtr->setContentsMargins(0, 0, 0, 0);
 
-		m_selectorLabelPtr = new QLabel(SelectionFrame);
+		m_selectorLabelPtr.reset(new QLabel(SelectionFrame));
 		m_selectorLabelPtr->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Preferred);
 		m_selectorLabelPtr->setText(*m_optionsLabelAttrPtr);
 
-		selectorLayoutPtr->addWidget(m_selectorLabelPtr.GetPtr());
+		selectorLayoutPtr->addWidget(m_selectorLabelPtr.get());
 		selectorLayoutPtr->addWidget(SelectorLayout->parentWidget());
 	}
 
@@ -152,7 +152,7 @@ void COptionsManagerGuiComp::OnGuiCreated()
 
 void COptionsManagerGuiComp::OnGuiDestroyed()
 {
-	m_selectorLabelPtr.Reset();
+	m_selectorLabelPtr.reset();
 
 	BaseClass::OnGuiDestroyed();
 }

@@ -8,7 +8,7 @@
 
 
 // ACF includes
-#include <istd/TDelPtr.h>
+#include <memory>
 
 #include <iqt/iqt.h>
 
@@ -60,7 +60,7 @@ protected:
 	void EnsureDrawContext();
 
 private:
-	mutable istd::TDelPtr<QPainter> m_drawContextPtr;
+	mutable std::unique_ptr<QPainter> m_drawContextPtr;
 };
 
 
@@ -75,13 +75,12 @@ inline QPainter& CDrawBuffer::GetDrawContext()
 {
 	EnsureDrawContext();
 
-	Q_ASSERT(m_drawContextPtr.IsValid());
+	Q_ASSERT(m_drawContextPtr != nullptr);
 
 	return *m_drawContextPtr;
 }
 
 
 } // namespace iview
-
 
 

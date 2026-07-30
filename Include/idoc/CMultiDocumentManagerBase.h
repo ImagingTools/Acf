@@ -7,7 +7,6 @@
 
 // ACF includes
 #include <istd/TPointerVector.h>
-#include <istd/TDelPtr.h>
 #include <imod/CMultiModelDispatcherBase.h>
 #include <idoc/IUndoManager.h>
 #include <idoc/IDocumentTemplate.h>

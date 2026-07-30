@@ -39,7 +39,7 @@ protected:
 private:
 	I_REF(ibase::IApplicationInfo, m_applicationInfoCompPtr);
 
-	istd::TDelPtr<QSettings> m_settingsPtr;
+	std::unique_ptr<QSettings> m_settingsPtr;
 };
 
 

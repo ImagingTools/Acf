@@ -11,7 +11,7 @@
 
 // ACF includes
 #include <istd/CChangeNotifier.h>
-#include <istd/TDelPtr.h>
+#include <istd/TInterfacePtr.h>
 #include <istd/CClassInfo.h>
 #include <icmm/CRgbColorModel.h>
 #include <icmm/CRgbaColorModel.h>

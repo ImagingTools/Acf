@@ -3,7 +3,6 @@
 
 
 // ACF includes
-#include <istd/TDelPtr.h>
 #include <istd/CChangeNotifier.h>
 #include <i2d/CAffine2d.h>
 #include <i2d/CRectangle.h>

@@ -593,7 +593,7 @@ bool CRegistryCodeSaverComp::WriteHeader(
 		ChangeIndent(1);
 
 		NextLine(stream);
-		stream << "typedef istd::TDelPtr<icomp::IRegistry> RegistryPtr;";
+		stream << "typedef istd::TUniqueInterfacePtr<icomp::IRegistry> RegistryPtr;";
 		NextLine(stream);
 		stream << "typedef QMap<icomp::CComponentAddress, RegistryPtr> RegistriesMap;";
 		stream << "\n";
@@ -633,7 +633,7 @@ bool CRegistryCodeSaverComp::WriteHeader(
 				QByteArray packageName = GetPackageName(packageId);
 
 				NextLine(stream);
-				stream << "istd::TDelPtr<icomp::IComponentStaticInfo> m_package" << packageId << "InfoPtr;";
+				stream << "istd::TUniqueInterfacePtr<icomp::IComponentStaticInfo> m_package" << packageId << "InfoPtr;";
 			}
 
 			stream << "\n";

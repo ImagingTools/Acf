@@ -3,7 +3,7 @@
 
 
 // ACF includes
-#include <istd/TDelPtr.h>
+#include <istd/TInterfacePtr.h>
 
 #include <icomp/TMultiAttributeMember.h>
 #include <icomp/CInterfaceManipBase.h>

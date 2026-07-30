@@ -110,7 +110,7 @@ void CSingletonDocApplicationComp::OnComponentCreated()
 					.arg(m_applicationInfoCompPtr->GetApplicationAttribute(ibase::IApplicationInfo::AA_APPLICATION_NAME, false))
 					.arg(m_applicationInfoCompPtr->GetApplicationAttribute(ibase::IApplicationInfo::AA_APPLICATION_SUBNAME, false));
 
-		m_processDataPtr.SetPtr(new QSharedMemory(applicationId));
+		m_processDataPtr.reset(new QSharedMemory(applicationId));
 
 		m_isAlreadyRunning = false;
 
