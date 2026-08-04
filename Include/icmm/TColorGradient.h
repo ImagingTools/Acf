@@ -3,6 +3,7 @@
 
 
 // ACF includes
+#include <istd/TRange.h>
 #include <imath/TIMathFunction.h>
 #include <icmm/IColorTransformation.h>
 

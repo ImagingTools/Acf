@@ -17,11 +17,11 @@ namespace icmm
 
 bool CRgbToCmykTransformation::GetValueAt(const ArgumentType& argument, ResultType& result) const
 {
-	if (argument.GetElementsCount() != icmm::CCmyk::GetElementsCount()){
+	if (argument.GetElementsCount() != icmm::CRgb::GetElementsCount()){
 		return false;
 	}
 
-	if (result.GetElementsCount() != icmm::CRgb::GetElementsCount()){
+	if (result.GetElementsCount() != icmm::CCmyk::GetElementsCount()){
 		return false;
 	}
 

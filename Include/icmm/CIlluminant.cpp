@@ -13,6 +13,14 @@ namespace icmm
 {
 
 
+// public static methods
+
+QByteArray CIlluminant::GetTypeId()
+{
+	return QByteArrayLiteral("icmm::CIlluminant");
+}
+
+
 // public methods
 
 CIlluminant::CIlluminant(StandardIlluminant illuminantType)
@@ -90,6 +98,42 @@ void CIlluminant::SetIlluminantType(const StandardIlluminant& illuminantType)
 }
 
 
+// reimplemented (iser::IObject)
+
+QByteArray CIlluminant::GetFactoryId() const
+{
+	return GetTypeId();
+}
+
+
+// reimplemented (iser::ISerializable)
+
+bool CIlluminant::Serialize(iser::IArchive& archive)
+{
+	istd::CChangeNotifier notifier(archive.IsStoring() ? nullptr : this, &GetAllChanges());
+	Q_UNUSED(notifier);
+
+	bool retVal = true;
+
+	iser::CArchiveTag illuminantTypeTag("IlluminantType", "Illuminant", iser::CArchiveTag::TT_LEAF);
+	retVal = retVal && archive.BeginTag(illuminantTypeTag);
+	retVal = retVal && iser::CPrimitiveTypesSerializer::SerializeQEnum(archive, m_illuminantType);
+	retVal = retVal && archive.EndTag(illuminantTypeTag);
+
+	iser::CArchiveTag illuminantNameTag("IlluminantName", "Name of the illuminant", iser::CArchiveTag::TT_LEAF);
+	retVal = retVal && archive.BeginTag(illuminantNameTag);
+	retVal = retVal && archive.Process(m_illuminantName);
+	retVal = retVal && archive.EndTag(illuminantNameTag);
+
+	iser::CArchiveTag whitePointTag("WhitePoint", "White point of the illuminant", iser::CArchiveTag::TT_GROUP);
+	retVal = retVal && archive.BeginTag(whitePointTag);
+	retVal = retVal && m_whitePoint.Serialize(archive);
+	retVal = retVal && archive.EndTag(whitePointTag);
+
+	return retVal;
+}
+
+
 // reimplemented (istd::IChangeable)
 
 int CIlluminant::GetSupportedOperations() const
@@ -141,35 +185,6 @@ istd::IChangeableUniquePtr CIlluminant::CloneMe(CompatibilityMode mode) const
 }
 
 
-
-// reimplemented (iser::ISerializable)
-
-bool CIlluminant::Serialize(iser::IArchive& archive)
-{
-	istd::CChangeNotifier notifier(archive.IsStoring() ? nullptr : this, &GetAllChanges());
-	Q_UNUSED(notifier);
-
-	bool retVal = true;
-
-	iser::CArchiveTag illuminantTypeTag("IlluminantType", "Illuminant", iser::CArchiveTag::TT_LEAF);
-	retVal = retVal && archive.BeginTag(illuminantTypeTag);
-	retVal = retVal && iser::CPrimitiveTypesSerializer::SerializeQEnum(archive, m_illuminantType);
-	retVal = retVal && archive.EndTag(illuminantTypeTag);
-
-	iser::CArchiveTag illuminantNameTag("IlluminantName", "Name of the illuminant", iser::CArchiveTag::TT_LEAF);
-	retVal = retVal && archive.BeginTag(illuminantNameTag);
-	retVal = retVal && archive.Process(m_illuminantName);
-	retVal = retVal && archive.EndTag(illuminantNameTag);
-
-	iser::CArchiveTag whitePointTag("WhitePoint", "White point of the illuminant", iser::CArchiveTag::TT_GROUP);
-	retVal = retVal && archive.BeginTag(whitePointTag);
-	retVal = retVal && m_whitePoint.Serialize(archive);
-	retVal = retVal && archive.EndTag(whitePointTag);
-
-	return retVal;
-}
-
-
 // protected methods
 
 void CIlluminant::InitFromStandardIlluminant(StandardIlluminant illuminantType)
@@ -212,5 +227,4 @@ void CIlluminant::InitFromStandardIlluminant(StandardIlluminant illuminantType)
 
 
 } // namespace icmm
-
 

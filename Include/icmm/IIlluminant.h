@@ -3,6 +3,7 @@
 
 
 // ACF includes
+#include <iser/IObject.h>
 #include <icmm/IWhitePointProvider.h>
 
 
@@ -175,7 +176,8 @@ namespace icmm
 
 	\ingroup Color
 */
-class IIlluminant: virtual public IWhitePointProvider, virtual public iser::ISerializable
+class IIlluminant: virtual public IWhitePointProvider, virtual public iser::IObject
+
 {
 public:
 	/**
