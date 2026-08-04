@@ -118,6 +118,66 @@ inline void CCmy::SetY(double value)
 
 // operators
 
+inline CCmy CCmy::operator+(const CCmy& color) const
+{
+	CCmy retVal = *this;
+
+	retVal += color;
+
+	return retVal;
+}
+
+
+inline CCmy CCmy::operator-(const CCmy& color) const
+{
+	CCmy retVal = *this;
+
+	retVal -= color;
+
+	return retVal;
+}
+
+
+inline CCmy CCmy::operator*(const CCmy& color) const
+{
+	CCmy retVal = *this;
+
+	retVal *= color;
+
+	return retVal;
+}
+
+
+inline CCmy CCmy::operator/(const CCmy& color) const
+{
+	CCmy retVal = *this;
+
+	retVal /= color;
+
+	return retVal;
+}
+
+
+inline CCmy CCmy::operator*(double value) const
+{
+	CCmy retVal = *this;
+
+	retVal *= value;
+
+	return retVal;
+}
+
+
+inline CCmy CCmy::operator/(double value) const
+{
+	CCmy retVal = *this;
+
+	retVal /= value;
+
+	return retVal;
+}
+
+
 inline CCmy& CCmy::operator=(const CCmy& color)
 {
 	BaseClass::operator=(color);

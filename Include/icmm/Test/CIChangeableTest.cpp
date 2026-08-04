@@ -56,10 +56,10 @@ void CIChangeableTest::CTristimulusSpecificationTest()
 {
 	// Test GetSupportedOperations
 	icmm::CTristimulusSpecification spec1(
-		icmm::ObserverType::TwoDegree,
-		icmm::AstmTableType::E308Table5,
-		std::make_shared<icmm::CIlluminant>(icmm::StandardIlluminant::D50)
-	);
+				icmm::ObserverType::TwoDegree,
+				std::make_shared<icmm::CIlluminant>(icmm::StandardIlluminant::D50),
+				icmm::AstmTableType::E308Table5);
+
 	int operations = spec1.GetSupportedOperations();
 	QVERIFY((operations & istd::IChangeable::SO_CLONE) != 0);
 	QVERIFY((operations & istd::IChangeable::SO_COMPARE) != 0);

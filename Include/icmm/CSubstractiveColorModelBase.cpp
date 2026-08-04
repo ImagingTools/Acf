@@ -15,7 +15,7 @@ namespace icmm
 // public methods
 
 CSubstractiveColorModelBase::CSubstractiveColorModelBase()
-	:m_previewSpec(ObserverType::TwoDegree, AstmTableType::Unknown, std::make_shared<CIlluminant>())
+	:m_previewSpec(ObserverType::TwoDegree, std::make_shared<CIlluminant>(), AstmTableType::Unknown)
 {
 }
 
