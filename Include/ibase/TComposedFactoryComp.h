@@ -44,7 +44,7 @@ istd::TUniqueInterfacePtr<Interface> TComposedFactoryComp<Interface>::CreateInst
 		auto factoryPtr = m_slaveFactoriesCompPtr[i];
 		if (factoryPtr != nullptr) {
 			if (factoryPtr->GetFactoryKeys().contains(keyId)) {
-				return factoryPtr->CreateInstance();
+				return factoryPtr->CreateInstance(keyId);
 			}
 		}
 	}
