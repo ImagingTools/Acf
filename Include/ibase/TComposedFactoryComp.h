@@ -10,44 +10,63 @@
 namespace ibase
 {
 
-// TODO: check if this class should be removed from ACF project
 template <class Interface>
-class TComposedFactoryComp: public icomp::CComponentBase, public istd::TComposedFactory<Interface>
+class TComposedFactoryComp: public icomp::CComponentBase, public istd::TIFactory<Interface>
 {
 public:
 	typedef icomp::CComponentBase BaseClass;
-	typedef istd::TComposedFactory<Interface> BaseClass2;
 
 	I_BEGIN_COMPONENT(TComposedFactoryComp);
-		I_REGISTER_INTERFACE(FactoryInterface);
+		I_REGISTER_INTERFACE( istd::TIFactory<Interface>);
 		I_ASSIGN_MULTI_0(m_slaveFactoriesCompPtr, "SlaveFactories", "Slave factories", true);
 	I_END_COMPONENT;
 
 protected:
-	// reimplemented (icomp::CComponentBase)
-	virtual void OnComponentCreated() override;
+	// reimplemented (istd::TIFactory)
+	virtual istd::TUniqueInterfacePtr<Interface> CreateInstance(const QByteArray& keyId = "") const override;
+	
+	// reimplemented (istd::IFactoryInfo)
+	virtual istd::IFactoryInfo::KeyList GetFactoryKeys() const override;
 
 private:
-	I_MULTIREF(FactoryInterface, m_slaveFactoriesCompPtr);
+	I_MULTIREF( istd::TIFactory<Interface>, m_slaveFactoriesCompPtr);
 };
 
 
 // protected methods
 
-// reimplemented (icomp::CComponentBase)
+// reimplemented (istd::TIFactory)
 
 template <class Interface>
-void TComposedFactoryComp<Interface>::OnComponentCreated()
+istd::TUniqueInterfacePtr<Interface> TComposedFactoryComp<Interface>::CreateInstance(const QByteArray& keyId) const
 {
-	BaseClass::OnComponentCreated();
-
-	int slaveFactoriesCount = m_slaveFactoriesCompPtr.GetCount();
-
-	for (int factoryIndex = 0; factoryIndex < slaveFactoriesCount; ++factoryIndex){
-		Q_ASSERT(m_slaveFactoriesCompPtr.IsValid(factoryIndex));	// isObligatory was set to true
-
-		RegisterFactory(m_slaveFactoriesCompPtr[factoryIndex]);
+	for (int i = 0; i < m_slaveFactoriesCompPtr.GetCount(); ++i) {
+		auto factoryPtr = m_slaveFactoriesCompPtr[i];
+		if (factoryPtr != nullptr) {
+			if (factoryPtr->GetFactoryKeys().contains(keyId)) {
+				return factoryPtr->CreateInstance();
+			}
+		}
 	}
+
+	return nullptr;
+}
+
+
+// reimplemented (istd::IFactoryInfo)
+
+template <class Interface>
+istd::IFactoryInfo::KeyList TComposedFactoryComp<Interface>::GetFactoryKeys() const
+{
+	istd::IFactoryInfo::KeyList retVal;
+	for (int i = 0; i < m_slaveFactoriesCompPtr.GetCount(); ++i) {
+		auto factoryPtr = m_slaveFactoriesCompPtr[i];
+		if (factoryPtr != nullptr) {
+			retVal += factoryPtr->GetFactoryKeys();
+		}
+	}
+
+	return retVal;
 }
 
 
