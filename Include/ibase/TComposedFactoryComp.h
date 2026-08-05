@@ -3,7 +3,7 @@
 
 
 // ACF includes
-#include <istd/TComposedFactory.h>
+#include <istd/TIFactory.h>
 #include <icomp/CComponentBase.h>
 
 
@@ -17,11 +17,10 @@ public:
 	typedef icomp::CComponentBase BaseClass;
 
 	I_BEGIN_COMPONENT(TComposedFactoryComp);
-		I_REGISTER_INTERFACE( istd::TIFactory<Interface>);
+		I_REGISTER_INTERFACE(istd::TIFactory<Interface>);
 		I_ASSIGN_MULTI_0(m_slaveFactoriesCompPtr, "SlaveFactories", "Slave factories", true);
 	I_END_COMPONENT;
 
-protected:
 	// reimplemented (istd::TIFactory)
 	virtual istd::TUniqueInterfacePtr<Interface> CreateInstance(const QByteArray& keyId = "") const override;
 	
@@ -29,7 +28,7 @@ protected:
 	virtual istd::IFactoryInfo::KeyList GetFactoryKeys() const override;
 
 private:
-	I_MULTIREF( istd::TIFactory<Interface>, m_slaveFactoriesCompPtr);
+	I_TMULTIREF( istd::TIFactory<Interface>, m_slaveFactoriesCompPtr);
 };
 
 
@@ -43,13 +42,15 @@ istd::TUniqueInterfacePtr<Interface> TComposedFactoryComp<Interface>::CreateInst
 	for (int i = 0; i < m_slaveFactoriesCompPtr.GetCount(); ++i) {
 		auto factoryPtr = m_slaveFactoriesCompPtr[i];
 		if (factoryPtr != nullptr) {
-			if (factoryPtr->GetFactoryKeys().contains(keyId)) {
-				return factoryPtr->CreateInstance(keyId);
+			istd::TUniqueInterfacePtr<Interface> createdPtr = factoryPtr->CreateInstance(keyId);
+
+			if (createdPtr.IsValid()){
+				return createdPtr;
 			}
 		}
 	}
 
-	return nullptr;
+	return istd::TUniqueInterfacePtr<Interface>();
 }
 
 
