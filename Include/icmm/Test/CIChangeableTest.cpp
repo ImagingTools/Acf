@@ -11,7 +11,7 @@
 #include <icmm/CCieLabColorModel.h>
 #include <icmm/CSpectralColorModel.h>
 #include <icmm/CSpectralColorSpecificationBase.h>
-#include <icmm/CSubstractiveColorModelBase.h>
+#include <icmm/CSubtractiveColorModelBase.h>
 #include <icmm/CCmyColorModel.h>
 #include <icmm/CCmykColorModel.h>
 #include <icmm/CVarColor.h>
@@ -210,7 +210,7 @@ void CIChangeableTest::CSpectralColorSpecificationBaseTest()
 }
 
 
-void CIChangeableTest::CSubstractiveColorModelBaseTest()
+void CIChangeableTest::CSubtractiveColorModelBaseTest()
 {
 	// Create a derived class instance for testing
 	// Using CCmyColorModel which is a concrete class derived from the base

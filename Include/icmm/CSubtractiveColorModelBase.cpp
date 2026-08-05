@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later OR GPL-2.0-or-later OR GPL-3.0-or-later OR LicenseRef-ACF-Commercial
-#include <icmm/CSubstractiveColorModelBase.h>
+#include <icmm/CSubtractiveColorModelBase.h>
 
 
 // ACF includes
@@ -14,19 +14,19 @@ namespace icmm
 
 // public methods
 
-CSubstractiveColorModelBase::CSubstractiveColorModelBase()
+CSubtractiveColorModelBase::CSubtractiveColorModelBase()
 	:m_previewSpec(ObserverType::TwoDegree, std::make_shared<CIlluminant>(), AstmTableType::Unknown)
 {
 }
 
 
-const icmm::CTristimulusSpecification& CSubstractiveColorModelBase::GetPreviewSpec() const
+const icmm::CTristimulusSpecification& CSubtractiveColorModelBase::GetPreviewSpec() const
 {
 	return m_previewSpec;
 }
 
 
-void CSubstractiveColorModelBase::SetPreviewSpec(const ITristimulusSpecification& previewSpec)
+void CSubtractiveColorModelBase::SetPreviewSpec(const ITristimulusSpecification& previewSpec)
 {
 	istd::CChangeNotifier changeNotifier(this);
 
@@ -34,7 +34,7 @@ void CSubstractiveColorModelBase::SetPreviewSpec(const ITristimulusSpecification
 }
 
 
-void CSubstractiveColorModelBase::SetColorantPreview(const ColorantId& colorantId, const icmm::CLab& preview)
+void CSubtractiveColorModelBase::SetColorantPreview(const ColorantId& colorantId, const icmm::CLab& preview)
 {
 	istd::CChangeNotifier changeNotifier(this);
 
@@ -44,31 +44,31 @@ void CSubstractiveColorModelBase::SetColorantPreview(const ColorantId& colorantI
 
 // reimplemented (icmm::IColorModel)
 
-IColorModel::ModelType CSubstractiveColorModelBase::GetModelType() const
+IColorModel::ModelType CSubtractiveColorModelBase::GetModelType() const
 {
 	return MT_COLORANTS;
 }
 
 
-IColorModel::ModelClass CSubstractiveColorModelBase::GetModelClass() const
+IColorModel::ModelClass CSubtractiveColorModelBase::GetModelClass() const
 {
 	return MC_DEVICE_DEPENDENT;
 }
 
 
-IColorModel::ColorSpaceClass CSubstractiveColorModelBase::GetColorSpaceClass() const
+IColorModel::ColorSpaceClass CSubtractiveColorModelBase::GetColorSpaceClass() const
 {
 	return CSC_SUBSTRACTIVE;
 }
 
 
-int CSubstractiveColorModelBase::GetColorSpaceDimensionality() const
+int CSubtractiveColorModelBase::GetColorSpaceDimensionality() const
 {
 	return GetColorantIds().count();
 }
 
 
-const imath::IUnitInfo* CSubstractiveColorModelBase::GetColorSpaceComponentInfo(int /*componentIndex*/) const
+const imath::IUnitInfo* CSubtractiveColorModelBase::GetColorSpaceComponentInfo(int /*componentIndex*/) const
 {
 	static const imath::CGeneralUnitInfo unitInfoBase(imath::IUnitInfo::UnitType::UT_RELATIVE, "", 100.0, istd::CRange(0, 1.0));
 
@@ -76,7 +76,7 @@ const imath::IUnitInfo* CSubstractiveColorModelBase::GetColorSpaceComponentInfo(
 }
 
 
-QString CSubstractiveColorModelBase::GetColorSpaceComponentName(int componentIndex) const
+QString CSubtractiveColorModelBase::GetColorSpaceComponentName(int componentIndex) const
 {
 	ColorantIds colorantIds = GetColorantIds();
 
@@ -87,7 +87,7 @@ QString CSubstractiveColorModelBase::GetColorSpaceComponentName(int componentInd
 }
 
 
-const icmm::IColorTransformation* CSubstractiveColorModelBase::CreateColorTranformation(
+const icmm::IColorTransformation* CSubtractiveColorModelBase::CreateColorTranformation(
 	const IColorModel& /*otherColorModel*/,
 	const QByteArray& /*transformationId*/) const
 {
@@ -95,7 +95,7 @@ const icmm::IColorTransformation* CSubstractiveColorModelBase::CreateColorTranfo
 }
 
 
-bool CSubstractiveColorModelBase::GetColorantVisualInfo(const ColorantId& colorantId, icmm::ICieLabColor& preview) const
+bool CSubtractiveColorModelBase::GetColorantVisualInfo(const ColorantId& colorantId, icmm::ICieLabColor& preview) const
 {
 	if (m_colorantPreviewMap.contains(colorantId)){
 		return preview.Initialize(m_colorantPreviewMap[colorantId], m_previewSpec);
@@ -107,15 +107,15 @@ bool CSubstractiveColorModelBase::GetColorantVisualInfo(const ColorantId& colora
 
 // reimplemented (istd::IChangeable)
 
-int CSubstractiveColorModelBase::GetSupportedOperations() const
+int CSubtractiveColorModelBase::GetSupportedOperations() const
 {
 	return SO_CLONE | SO_COMPARE | SO_COPY;
 }
 
 
-bool CSubstractiveColorModelBase::CopyFrom(const IChangeable& object, CompatibilityMode /*mode*/)
+bool CSubtractiveColorModelBase::CopyFrom(const IChangeable& object, CompatibilityMode /*mode*/)
 {
-	const CSubstractiveColorModelBase* objectPtr = dynamic_cast<const CSubstractiveColorModelBase*>(&object);
+	const CSubtractiveColorModelBase* objectPtr = dynamic_cast<const CSubtractiveColorModelBase*>(&object);
 	if (objectPtr != nullptr){
 		istd::CChangeNotifier notifier(this);
 

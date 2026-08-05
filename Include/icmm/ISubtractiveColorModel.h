@@ -17,7 +17,7 @@ namespace icmm
 class ICieLabColor;
 
 
-class ISubstractiveColorModel: virtual public icmm::IColorModel, virtual public icmm::IColorantList
+class ISubtractiveColorModel: virtual public icmm::IColorModel, virtual public icmm::IColorantList
 {
 public:
 	/**
@@ -28,7 +28,7 @@ public:
 	/**
 		Create ColorModel of the subspace
 	*/
-	virtual std::unique_ptr<ISubstractiveColorModel> CreateSubspaceModel(const QStringList& colorantIds) const = 0;
+	virtual std::unique_ptr<ISubtractiveColorModel> CreateSubspaceModel(const QStringList& colorantIds) const = 0;
 };
 
 

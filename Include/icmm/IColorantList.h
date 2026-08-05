@@ -12,7 +12,7 @@ namespace icmm
 
 
 /**
-	Common interface for a colorant list used in a substractive color model.
+	Common interface for a colorant list used in a subtractive color model.
 */
 class IColorantList: virtual public istd::IChangeable
 {

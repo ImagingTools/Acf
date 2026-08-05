@@ -62,7 +62,7 @@ namespace icmm
 	}
 
 	// Example 4: Creating subspace models
-	icmm::ISubstractiveColorModel* CreateCmyOnly()
+	icmm::ISubtractiveColorModel* CreateCmyOnly()
 	{
 		icmm::CCmykColorModel cmykModel;
 		
@@ -70,7 +70,7 @@ namespace icmm
 		QStringList cmyColorants;
 		cmyColorants << "Cyan" << "Magenta" << "Yellow";
 		
-		std::unique_ptr<icmm::ISubstractiveColorModel> cmyModel = 
+		std::unique_ptr<icmm::ISubtractiveColorModel> cmyModel = 
 			cmykModel.CreateSubspaceModel(cmyColorants);
 		
 		return cmyModel.release();
@@ -177,7 +177,7 @@ namespace icmm
 	- Use ICC profiles for accurate RGB->CMYK conversion
 	- Check registration and trapping requirements
 
-	\sa icmm::CCmyColorModel, icmm::ISubstractiveColorModel, icmm::CCmyk,
+	\sa icmm::CCmyColorModel, icmm::ISubtractiveColorModel, icmm::CCmyk,
 	    icmm::CRgbToCmykTransformation, icmm::IColorantList
 
 	\ingroup Color
@@ -204,8 +204,8 @@ public:
 	virtual ColorantIds GetColorantIds() const override;
 	virtual icmm::ColorantUsage GetColorantUsage(const ColorantId& colorantId) const override;
 
-	// reimplemented ISubstractiveColorModel
-	virtual std::unique_ptr<ISubstractiveColorModel> CreateSubspaceModel(const QStringList& colorantIds) const override;
+	// reimplemented ISubtractiveColorModel
+	virtual std::unique_ptr<ISubtractiveColorModel> CreateSubspaceModel(const QStringList& colorantIds) const override;
 
 	// reimplemented (istd::IChangeable)
 	virtual istd::IChangeableUniquePtr CloneMe(CompatibilityMode mode = CM_WITHOUT_REFS) const override;

@@ -21,7 +21,7 @@ private slots:
 	void CCieLabColorModelTest();
 	void CSpectralColorModelTest();
 	void CSpectralColorSpecificationBaseTest();
-	void CSubstractiveColorModelBaseTest();
+	void CSubtractiveColorModelBaseTest();
 	void CCmyColorModelTest();
 	void CCmykColorModelTest();
 

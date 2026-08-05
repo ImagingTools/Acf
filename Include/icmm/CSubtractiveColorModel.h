@@ -5,7 +5,7 @@
 // ACF includes
 #include <iser/ISerializable.h>
 #include <iser/CArchiveTag.h>
-#include <icmm/CSubstractiveColorModelBase.h>
+#include <icmm/CSubtractiveColorModelBase.h>
 #include <ibase/TContainer.h>
 #include <imod/TModelWrap.h>
 #include <imod/CModelUpdateBridge.h>
@@ -16,27 +16,27 @@ namespace icmm
 
 
 /**
-	Common implementation of the general device-based, substractive color model based on the list of colorants.
+	Common implementation of the general device-based, subtractive color model based on the list of colorants.
 	All kinds of colorants (Process, ECG and Spot) can be combined in this color model.
 */
-class CSubstractiveColorModel:
-			public CSubstractiveColorModelBase,
+class CSubtractiveColorModel:
+			public CSubtractiveColorModelBase,
 			public ibase::CObservableListBase,
 			virtual public iser::ISerializable
 {
 public:
-	typedef CSubstractiveColorModelBase BaseClass;
+	typedef CSubtractiveColorModelBase BaseClass;
 	typedef CObservableListBase BaseClass2;
 
-	CSubstractiveColorModel();
-	CSubstractiveColorModel(const ColorantIds& colorantIds);
-	CSubstractiveColorModel(const CSubstractiveColorModel& other);
-	CSubstractiveColorModel(const ISubstractiveColorModel& other);
+	CSubtractiveColorModel();
+	CSubtractiveColorModel(const ColorantIds& colorantIds);
+	CSubtractiveColorModel(const CSubtractiveColorModel& other);
+	CSubtractiveColorModel(const ISubtractiveColorModel& other);
 
-	CSubstractiveColorModel& operator=(const CSubstractiveColorModel& other);
+	CSubtractiveColorModel& operator=(const CSubtractiveColorModel& other);
 
-	bool operator==(const CSubstractiveColorModel& ref) const;
-	bool operator!=(const CSubstractiveColorModel& ref) const;
+	bool operator==(const CSubtractiveColorModel& ref) const;
+	bool operator!=(const CSubtractiveColorModel& ref) const;
 
 	/**
 		Returns \c true if the colorant with the given ID exists in the color model.
@@ -77,7 +77,7 @@ public:
 		Append colorants from from another model to this one.
 		\return Returns \c true, if the operation was succesful or \c false otherwise.
 	*/
-	bool AppendColorModel(const ISubstractiveColorModel& other);
+	bool AppendColorModel(const ISubtractiveColorModel& other);
 
 	/**
 		Check if the color model contains process colorants.
@@ -109,8 +109,8 @@ public:
 	*/
 	ColorantIds GetSpotColorants() const;
 
-	// reimplemented ISubstractiveColorModel
-	virtual std::unique_ptr<ISubstractiveColorModel> CreateSubspaceModel(const QStringList& colorantIds) const override;
+	// reimplemented ISubtractiveColorModel
+	virtual std::unique_ptr<ISubtractiveColorModel> CreateSubspaceModel(const QStringList& colorantIds) const override;
 
 	// reimplemented (icmm::IColorantList)
 	virtual ColorantIds GetColorantIds() const override;
@@ -124,7 +124,7 @@ public:
 	virtual bool CopyFrom(const istd::IChangeable& object, CompatibilityMode mode = CM_WITHOUT_REFS) override;
 	virtual istd::TUniqueInterfacePtr<istd::IChangeable> CloneMe(CompatibilityMode mode = CM_WITHOUT_REFS) const override;
 
-	static std::unique_ptr<ISubstractiveColorModel> CreateSubspaceModelFrom(const CSubstractiveColorModelBase& model, const QStringList& colorantIds);
+	static std::unique_ptr<ISubtractiveColorModel> CreateSubspaceModelFrom(const CSubtractiveColorModelBase& model, const QStringList& colorantIds);
 
 protected:
 	struct ColorantInfo
