@@ -41,7 +41,7 @@ istd::TUniqueInterfacePtr<Interface> TComposedFactoryComp<Interface>::CreateInst
 {
 	for (int i = 0; i < m_slaveFactoriesCompPtr.GetCount(); ++i) {
 		auto factoryPtr = m_slaveFactoriesCompPtr[i];
-		if (factoryPtr != nullptr) {
+		if (factoryPtr != nullptr && (keyId.isEmpty() || factoryPtr->GetFactoryKeys().contains(keyId))) {
 			istd::TUniqueInterfacePtr<Interface> createdPtr = factoryPtr->CreateInstance(keyId);
 
 			if (createdPtr.IsValid()){
