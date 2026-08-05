@@ -19,8 +19,8 @@ CTristimulusSpecification::CTristimulusSpecification(
 			AstmTableType method,
 			std::shared_ptr<ISpectralColorSpecification> baseSpec)
 	:m_observerType(observerType),
-	m_method(method),
 	m_illuminantPtr(illuminantPtr ? illuminantPtr : std::make_shared<icmm::CIlluminant>(icmm::StandardIlluminant::D50)),
+	m_method(method),
 	m_baseSpecPtr(baseSpec)
 {
 }
@@ -28,8 +28,8 @@ CTristimulusSpecification::CTristimulusSpecification(
 
 CTristimulusSpecification::CTristimulusSpecification(const ITristimulusSpecification& other)
 	:m_observerType(other.GetObserverType()),
-	m_method(other.GetMethod()),
 	m_illuminantPtr(other.GetIlluminant()),
+	m_method(other.GetMethod()),
 	m_baseSpecPtr(other.GetBaseSpecification())
 {
 }
