@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later OR GPL-2.0-or-later OR GPL-3.0-or-later OR LicenseRef-ACF-Commercial
 #include <icmm/CCmyColorModel.h>
-#include <icmm/CSubstractiveColorModel.h>
+#include <icmm/CSubtractiveColorModel.h>
 
 
 namespace icmm
@@ -54,9 +54,9 @@ icmm::ColorantUsage CCmyColorModel::GetColorantUsage(const ColorantId& colorantI
 	return CU_NONE;
 }
 
-std::unique_ptr<ISubstractiveColorModel> CCmyColorModel::CreateSubspaceModel(const QStringList& colorantIds) const
+std::unique_ptr<ISubtractiveColorModel> CCmyColorModel::CreateSubspaceModel(const QStringList& colorantIds) const
 {
-	return CSubstractiveColorModel::CreateSubspaceModelFrom(*this, colorantIds);
+	return CSubtractiveColorModel::CreateSubspaceModelFrom(*this, colorantIds);
 }
 
 

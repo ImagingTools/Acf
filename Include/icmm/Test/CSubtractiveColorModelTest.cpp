@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later OR GPL-2.0-or-later OR GPL-3.0-or-later OR LicenseRef-ACF-Commercial
-#include <icmm/Test/CSubstractiveColorModelTest.h>
+#include <icmm/Test/CSubtractiveColorModelTest.h>
 
 
 // ACF includes
@@ -7,12 +7,12 @@
 #include <iser/CJsonMemReadArchive.h>
 #include <iser/CJsonMemWriteArchive.h>
 #include <itest/CStandardTestExecutor.h>
-#include <icmm/CSubstractiveColorModel.h>
+#include <icmm/CSubtractiveColorModel.h>
 
 
-void CSubstractiveColorModelTest::DoSerializeTest()
+void CSubtractiveColorModelTest::DoSerializeTest()
 {
-	icmm::CSubstractiveColorModel model;
+	icmm::CSubtractiveColorModel model;
 	model.InsertColorant("Cyan", icmm::CU_CYAN);
 	model.InsertColorant("Magenta", icmm::CU_MAGENTA);
 	model.InsertColorant("Yellow", icmm::CU_YELLOW);
@@ -23,16 +23,16 @@ void CSubstractiveColorModelTest::DoSerializeTest()
 	QByteArray data = writeArchive.GetData();
 
 	iser::CJsonMemReadArchive readArchive(data);
-	icmm::CSubstractiveColorModel model2;
+	icmm::CSubtractiveColorModel model2;
 	QVERIFY(model2.Serialize(readArchive));
 
 	QVERIFY(model2.GetColorantIds() == model.GetColorantIds());
 }
 
 
-void CSubstractiveColorModelTest::DoAppendColorantTest()
+void CSubtractiveColorModelTest::DoAppendColorantTest()
 {
-	icmm::CSubstractiveColorModel model;
+	icmm::CSubtractiveColorModel model;
 	model.InsertColorant("Cyan", icmm::CU_CYAN);
 	QVERIFY(model.ContainsColorant("Cyan"));
 	QVERIFY(model.HasProcessColorants());
@@ -50,40 +50,40 @@ void CSubstractiveColorModelTest::DoAppendColorantTest()
 }
 
 
-void CSubstractiveColorModelTest::DoCreateModelFromNamesTest()
+void CSubtractiveColorModelTest::DoCreateModelFromNamesTest()
 {
 	QStringList colorants = {"Cyan", "Magenta", "Violet", "Red", "Blue", "Green", "Orange"};
 
-	icmm::CSubstractiveColorModel model(colorants);
+	icmm::CSubtractiveColorModel model(colorants);
 	QVERIFY(!model.HasSpot());
 	QVERIFY(model.HasEcg());
 	QVERIFY(model.HasProcessColorants());
 
 	// Create with spot color:
 	QStringList colorants2 = { "Cyan2", "Magenta", "Violet", "Red", "Blue", "Green", "Orange" };
-	icmm::CSubstractiveColorModel model2(colorants2);
+	icmm::CSubtractiveColorModel model2(colorants2);
 	QVERIFY(model2.HasSpot());
 	QVERIFY(model2.HasEcg());
 	QVERIFY(model2.HasProcessColorants());
 }
 
 
-void CSubstractiveColorModelTest::DoAppendModelTest()
+void CSubtractiveColorModelTest::DoAppendModelTest()
 {
-	icmm::CSubstractiveColorModel model;
+	icmm::CSubtractiveColorModel model;
 	model.InsertColorant("Cyan", icmm::CU_CYAN);
 	model.InsertColorant("Magenta", icmm::CU_MAGENTA);
 	model.InsertColorant("Yellow", icmm::CU_YELLOW);
 	model.InsertColorant("Black", icmm::CU_BLACK);
 
-	icmm::CSubstractiveColorModel ecgColors;
+	icmm::CSubtractiveColorModel ecgColors;
 	ecgColors.InsertColorant("Orange", icmm::CU_ECG);
 	ecgColors.InsertColorant("Violet", icmm::CU_ECG);
 
 	QVERIFY(model.AppendColorModel(ecgColors));
 
 	// Try to add incompatible model:
-	icmm::CSubstractiveColorModel ecgColor2;
+	icmm::CSubtractiveColorModel ecgColor2;
 	ecgColor2.InsertColorant("Green", icmm::CU_ECG);
 	ecgColor2.InsertColorant("Violet", icmm::CU_SPOT);
 	QVERIFY(!model.AppendColorModel(ecgColor2));
@@ -92,7 +92,7 @@ void CSubstractiveColorModelTest::DoAppendModelTest()
 	QVERIFY(model.Serialize(writeArchive));
 	QByteArray data = writeArchive.GetData();
 
-	icmm::CSubstractiveColorModel targetModel;
+	icmm::CSubtractiveColorModel targetModel;
 	targetModel.InsertColorant("Cyan", icmm::CU_CYAN);
 	targetModel.InsertColorant("Magenta", icmm::CU_MAGENTA);
 	targetModel.InsertColorant("Yellow", icmm::CU_YELLOW);
@@ -107,9 +107,9 @@ void CSubstractiveColorModelTest::DoAppendModelTest()
 }
 
 
-void CSubstractiveColorModelTest::CheckColorantsTest()
+void CSubtractiveColorModelTest::CheckColorantsTest()
 {
-	icmm::CSubstractiveColorModel model;
+	icmm::CSubtractiveColorModel model;
 	QVERIFY(!model.HasProcessColorants());
 	QVERIFY(!model.HasEcg());
 	QVERIFY(!model.HasSpot());
@@ -142,9 +142,9 @@ void CSubstractiveColorModelTest::CheckColorantsTest()
 }
 
 
-void CSubstractiveColorModelTest::RemoveColorantTest()
+void CSubtractiveColorModelTest::RemoveColorantTest()
 {
-	icmm::CSubstractiveColorModel model;
+	icmm::CSubtractiveColorModel model;
 	model.InsertColorant("Cyan", icmm::CU_CYAN);
 	model.InsertColorant("Magenta", icmm::CU_MAGENTA);
 	model.InsertColorant("Yellow", icmm::CU_YELLOW);
@@ -155,15 +155,15 @@ void CSubstractiveColorModelTest::RemoveColorantTest()
 }
 
 
-void CSubstractiveColorModelTest::EqualTest()
+void CSubtractiveColorModelTest::EqualTest()
 {
-	icmm::CSubstractiveColorModel model;
+	icmm::CSubtractiveColorModel model;
 	model.InsertColorant("Cyan", icmm::CU_CYAN);
 	model.InsertColorant("Magenta", icmm::CU_MAGENTA);
 	model.InsertColorant("Yellow", icmm::CU_YELLOW);
 	model.InsertColorant("Black", icmm::CU_BLACK);
 
-	icmm::CSubstractiveColorModel model2;
+	icmm::CSubtractiveColorModel model2;
 	model2.InsertColorant("Cyan", icmm::CU_CYAN);
 	model2.InsertColorant("Magenta", icmm::CU_MAGENTA);
 	model2.InsertColorant("Yellow", icmm::CU_YELLOW);
@@ -179,6 +179,6 @@ void CSubstractiveColorModelTest::EqualTest()
 }
 
 
-I_ADD_TEST(CSubstractiveColorModelTest);
+I_ADD_TEST(CSubtractiveColorModelTest);
 
 

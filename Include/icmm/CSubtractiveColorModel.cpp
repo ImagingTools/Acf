@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later OR GPL-2.0-or-later OR GPL-3.0-or-later OR LicenseRef-ACF-Commercial
-#include <icmm/CSubstractiveColorModel.h>
+#include <icmm/CSubtractiveColorModel.h>
 
 
 // ACF includes
@@ -15,15 +15,15 @@ namespace icmm
 
 // public methods
 
-CSubstractiveColorModel::CSubstractiveColorModel()
+CSubtractiveColorModel::CSubtractiveColorModel()
 	: m_bridge(this, imod::CModelUpdateBridge::UF_SOURCE)
 {
 	m_colorants.AttachObserver(&m_bridge);
 }
 
 
-CSubstractiveColorModel::CSubstractiveColorModel(const ColorantIds& colorantIds)
-	: CSubstractiveColorModel()
+CSubtractiveColorModel::CSubtractiveColorModel(const ColorantIds& colorantIds)
+	: CSubtractiveColorModel()
 {
 	for (const ColorantId& colorantId : colorantIds){
 		ColorantUsage usage = GetDefaultUsageFromColorantName(colorantId);
@@ -33,16 +33,16 @@ CSubstractiveColorModel::CSubstractiveColorModel(const ColorantIds& colorantIds)
 }
 
 
-CSubstractiveColorModel::CSubstractiveColorModel(const CSubstractiveColorModel& other)
-	: CSubstractiveColorModel()
+CSubtractiveColorModel::CSubtractiveColorModel(const CSubtractiveColorModel& other)
+	: CSubtractiveColorModel()
 {
-	CSubstractiveColorModelBase::operator=(other);
+	CSubtractiveColorModelBase::operator=(other);
 	m_colorants.SetBaseObject(other.m_colorants);
 }
 
 
-CSubstractiveColorModel::CSubstractiveColorModel(const ISubstractiveColorModel& other)
-	: CSubstractiveColorModel()
+CSubtractiveColorModel::CSubtractiveColorModel(const ISubtractiveColorModel& other)
+	: CSubtractiveColorModel()
 {
 	for (const ColorantId& colorantId : other.GetColorantIds()){
 		ColorantUsage usage = other.GetColorantUsage(colorantId);
@@ -56,33 +56,33 @@ CSubstractiveColorModel::CSubstractiveColorModel(const ISubstractiveColorModel& 
 }
 
 
-CSubstractiveColorModel& CSubstractiveColorModel::operator=(const CSubstractiveColorModel& other)
+CSubtractiveColorModel& CSubtractiveColorModel::operator=(const CSubtractiveColorModel& other)
 {
-	CSubstractiveColorModelBase::operator=(other);
+	CSubtractiveColorModelBase::operator=(other);
 	m_colorants.SetBaseObject(other.m_colorants);
 	return *this;
 }
 
 
-bool CSubstractiveColorModel::operator==(const CSubstractiveColorModel& ref) const
+bool CSubtractiveColorModel::operator==(const CSubtractiveColorModel& ref) const
 {
 	return m_colorants == ref.m_colorants;
 }
 
 
-bool CSubstractiveColorModel::operator!=(const CSubstractiveColorModel& ref) const
+bool CSubtractiveColorModel::operator!=(const CSubtractiveColorModel& ref) const
 {
 	return !operator==(ref);
 }
 
 
-bool CSubstractiveColorModel::ContainsColorant(const ColorantId& colorantId) const
+bool CSubtractiveColorModel::ContainsColorant(const ColorantId& colorantId) const
 {
 	return FindColorantIndex(colorantId) >= 0;
 }
 
 
-bool CSubstractiveColorModel::InsertColorant(const ColorantId & colorantId, ColorantUsage usage, int index)
+bool CSubtractiveColorModel::InsertColorant(const ColorantId & colorantId, ColorantUsage usage, int index)
 {
 	int existingIndex = FindColorantIndex(colorantId);
 	if (existingIndex >= 0){
@@ -101,7 +101,7 @@ bool CSubstractiveColorModel::InsertColorant(const ColorantId & colorantId, Colo
 }
 
 
-bool CSubstractiveColorModel::MoveColorant(const ColorantId& colorantId, int index)
+bool CSubtractiveColorModel::MoveColorant(const ColorantId& colorantId, int index)
 {
 	if (index < 0 || index >= (int)m_colorants.size()){
 		return false;
@@ -128,7 +128,7 @@ bool CSubstractiveColorModel::MoveColorant(const ColorantId& colorantId, int ind
 }
 
 
-bool CSubstractiveColorModel::RemoveColorant(const ColorantId & colorantId)
+bool CSubtractiveColorModel::RemoveColorant(const ColorantId & colorantId)
 {
 	for (qsizetype i = 0; i < m_colorants.size(); ++i){
 		if (m_colorants[i].id == colorantId){
@@ -141,7 +141,7 @@ bool CSubstractiveColorModel::RemoveColorant(const ColorantId & colorantId)
 }
 
 
-bool CSubstractiveColorModel::SetColorantUsage(const ColorantId& colorantId, ColorantUsage usage)
+bool CSubtractiveColorModel::SetColorantUsage(const ColorantId& colorantId, ColorantUsage usage)
 {
 	int colorantIndex = FindColorantIndex(colorantId);
 	if (colorantIndex >= 0){
@@ -155,13 +155,13 @@ bool CSubstractiveColorModel::SetColorantUsage(const ColorantId& colorantId, Col
 		return true;
 	}
 
-	Q_ASSERT_X(false, "CSubstractiveColorModel::SetColorantUsage", "Trying to change a non-existing colorant");
+	Q_ASSERT_X(false, "CSubtractiveColorModel::SetColorantUsage", "Trying to change a non-existing colorant");
 
 	return false;
 }
 
 
-bool CSubstractiveColorModel::SetColorantId(const ColorantId& colorantId, const ColorantId& newColorantId)
+bool CSubtractiveColorModel::SetColorantId(const ColorantId& colorantId, const ColorantId& newColorantId)
 {
 	if (colorantId == newColorantId){
 		return true;
@@ -177,15 +177,15 @@ bool CSubstractiveColorModel::SetColorantId(const ColorantId& colorantId, const 
 		return true;
 	}
 
-	Q_ASSERT_X(false, "CSubstractiveColorModel::SetColorantId", "Trying to change a non-existing colorant");
+	Q_ASSERT_X(false, "CSubtractiveColorModel::SetColorantId", "Trying to change a non-existing colorant");
 
 	return false;
 }
 
 
-bool CSubstractiveColorModel::AppendColorModel(const ISubstractiveColorModel& other)
+bool CSubtractiveColorModel::AppendColorModel(const ISubtractiveColorModel& other)
 {
-	CSubstractiveColorModel temp(*this);
+	CSubtractiveColorModel temp(*this);
 	
 	ColorantIds otherColorantIds = other.GetColorantIds();
 	for (const ColorantId& otherColorantId : otherColorantIds){
@@ -224,7 +224,7 @@ bool CSubstractiveColorModel::AppendColorModel(const ISubstractiveColorModel& ot
 }
 
 
-bool CSubstractiveColorModel::HasProcessColorants() const
+bool CSubtractiveColorModel::HasProcessColorants() const
 {
 	for (const ColorantInfo& colorant : m_colorants){
 		if ((colorant.usage != icmm::CU_ECG) && (colorant.usage != icmm::CU_SPOT)){
@@ -236,7 +236,7 @@ bool CSubstractiveColorModel::HasProcessColorants() const
 }
 
 
-bool CSubstractiveColorModel::HasEcg() const
+bool CSubtractiveColorModel::HasEcg() const
 {
 	for (const ColorantInfo& colorant : m_colorants){
 		if (colorant.usage == icmm::CU_ECG){
@@ -248,7 +248,7 @@ bool CSubstractiveColorModel::HasEcg() const
 }
 
 
-bool CSubstractiveColorModel::HasSpot() const
+bool CSubtractiveColorModel::HasSpot() const
 {
 	for (const ColorantInfo& colorant : m_colorants){
 		if (colorant.usage == icmm::CU_SPOT){
@@ -260,7 +260,7 @@ bool CSubstractiveColorModel::HasSpot() const
 }
 
 
-IColorantList::ColorantIds CSubstractiveColorModel::GetProcessColorants() const
+IColorantList::ColorantIds CSubtractiveColorModel::GetProcessColorants() const
 {
 	ColorantIds processColorants;
 
@@ -274,7 +274,7 @@ IColorantList::ColorantIds CSubstractiveColorModel::GetProcessColorants() const
 }
 
 
-IColorantList::ColorantIds CSubstractiveColorModel::GetEcgColorants() const
+IColorantList::ColorantIds CSubtractiveColorModel::GetEcgColorants() const
 {
 	ColorantIds ecgColorants;
 
@@ -288,7 +288,7 @@ IColorantList::ColorantIds CSubstractiveColorModel::GetEcgColorants() const
 }
 
 
-IColorantList::ColorantIds CSubstractiveColorModel::GetSpotColorants() const
+IColorantList::ColorantIds CSubtractiveColorModel::GetSpotColorants() const
 {
 	ColorantIds spotColorants;
 
@@ -302,9 +302,9 @@ IColorantList::ColorantIds CSubstractiveColorModel::GetSpotColorants() const
 }
 
 
-// reimplemented ISubstractiveColorModel
+// reimplemented ISubtractiveColorModel
 
-std::unique_ptr<ISubstractiveColorModel> CSubstractiveColorModel::CreateSubspaceModel(const QStringList& colorantIds) const
+std::unique_ptr<ISubtractiveColorModel> CSubtractiveColorModel::CreateSubspaceModel(const QStringList& colorantIds) const
 {
 	return CreateSubspaceModelFrom(*this, colorantIds);
 }
@@ -312,7 +312,7 @@ std::unique_ptr<ISubstractiveColorModel> CSubstractiveColorModel::CreateSubspace
 
 // reimplemented (icmm::IColorantList)
 
-IColorantList::ColorantIds CSubstractiveColorModel::GetColorantIds() const
+IColorantList::ColorantIds CSubtractiveColorModel::GetColorantIds() const
 {
 	ColorantIds retVal;
 
@@ -324,7 +324,7 @@ IColorantList::ColorantIds CSubstractiveColorModel::GetColorantIds() const
 }
 
 
-icmm::ColorantUsage CSubstractiveColorModel::GetColorantUsage(const ColorantId& colorantId) const
+icmm::ColorantUsage CSubtractiveColorModel::GetColorantUsage(const ColorantId& colorantId) const
 {
 	for (const ColorantInfo& colorant : m_colorants){
 		if (colorantId == colorant.id){
@@ -338,7 +338,7 @@ icmm::ColorantUsage CSubstractiveColorModel::GetColorantUsage(const ColorantId& 
 
 // reimplemented (iser::ISerializable)
 
-bool CSubstractiveColorModel::Serialize(iser::IArchive& archive)
+bool CSubtractiveColorModel::Serialize(iser::IArchive& archive)
 {
 	bool retVal = true;
 
@@ -390,15 +390,15 @@ bool CSubstractiveColorModel::Serialize(iser::IArchive& archive)
 
 // reimplemented (istd::IChangeable)
 
-int CSubstractiveColorModel::GetSupportedOperations() const
+int CSubtractiveColorModel::GetSupportedOperations() const
 {
 	return SO_CLONE | SO_COPY | SO_RESET;
 }
 
 
-bool CSubstractiveColorModel::CopyFrom(const istd::IChangeable& object, CompatibilityMode /*mode*/)
+bool CSubtractiveColorModel::CopyFrom(const istd::IChangeable& object, CompatibilityMode /*mode*/)
 {
-	const CSubstractiveColorModel* sourceModelPtr = dynamic_cast<const CSubstractiveColorModel*>(&object);
+	const CSubtractiveColorModel* sourceModelPtr = dynamic_cast<const CSubtractiveColorModel*>(&object);
 	if (sourceModelPtr != nullptr){
 		istd::CChangeNotifier changeNotifier(this, &istd::IChangeable::GetAllChanges());
 
@@ -416,15 +416,15 @@ bool CSubstractiveColorModel::CopyFrom(const istd::IChangeable& object, Compatib
 }
 
 
-istd::IChangeableUniquePtr CSubstractiveColorModel::CloneMe(CompatibilityMode /*mode*/) const
+istd::IChangeableUniquePtr CSubtractiveColorModel::CloneMe(CompatibilityMode /*mode*/) const
 {
-	return new CSubstractiveColorModel(*this);
+	return new CSubtractiveColorModel(*this);
 }
 
 
 // protected static methods
 
-icmm::ColorantUsage CSubstractiveColorModel::GetDefaultUsageFromColorantName(const ColorantId& colorantId)
+icmm::ColorantUsage CSubtractiveColorModel::GetDefaultUsageFromColorantName(const ColorantId& colorantId)
 {
 	if (colorantId == icmm::CCmykColorModel::GetCyan()){
 		return icmm::CU_CYAN;
@@ -458,37 +458,37 @@ icmm::ColorantUsage CSubstractiveColorModel::GetDefaultUsageFromColorantName(con
 }
 
 
-icmm::IColorantList::ColorantId CSubstractiveColorModel::GetEcgGreen()
+icmm::IColorantList::ColorantId CSubtractiveColorModel::GetEcgGreen()
 {
 	return "Green";
 }
 
 
-icmm::IColorantList::ColorantId CSubstractiveColorModel::GetEcgOrange()
+icmm::IColorantList::ColorantId CSubtractiveColorModel::GetEcgOrange()
 {
 	return "Orange";
 }
 
 
-icmm::IColorantList::ColorantId CSubstractiveColorModel::GetEcgViolet()
+icmm::IColorantList::ColorantId CSubtractiveColorModel::GetEcgViolet()
 {
 	return "Violet";
 }
 
 
-icmm::IColorantList::ColorantId CSubstractiveColorModel::GetEcgRed()
+icmm::IColorantList::ColorantId CSubtractiveColorModel::GetEcgRed()
 {
 	return "Red";
 }
 
 
-icmm::IColorantList::ColorantId CSubstractiveColorModel::GetEcgBlue()
+icmm::IColorantList::ColorantId CSubtractiveColorModel::GetEcgBlue()
 {
 	return "Blue";
 }
 
 
-int CSubstractiveColorModel::FindColorantIndex(const ColorantId& colorantId) const
+int CSubtractiveColorModel::FindColorantIndex(const ColorantId& colorantId) const
 {
 	for (int index = 0; index < m_colorants.size(); ++index){
 		if (m_colorants[index].id == colorantId){
@@ -500,7 +500,7 @@ int CSubstractiveColorModel::FindColorantIndex(const ColorantId& colorantId) con
 }
 
 
-bool CSubstractiveColorModel::SerializeColorantInfo(
+bool CSubtractiveColorModel::SerializeColorantInfo(
 			iser::IArchive& archive,
 			ColorantInfo& colorantInfo,
 			const iser::CArchiveTag* parentTagPtr) const
@@ -522,9 +522,9 @@ bool CSubstractiveColorModel::SerializeColorantInfo(
 
 // static methods
 
-std::unique_ptr<ISubstractiveColorModel> CSubstractiveColorModel::CreateSubspaceModelFrom(const CSubstractiveColorModelBase& model, const QStringList& colorantIds) 
+std::unique_ptr<ISubtractiveColorModel> CSubtractiveColorModel::CreateSubspaceModelFrom(const CSubtractiveColorModelBase& model, const QStringList& colorantIds) 
 {
-	auto subModel = std::make_unique<imod::TModelWrap<CSubstractiveColorModel>>();
+	auto subModel = std::make_unique<imod::TModelWrap<CSubtractiveColorModel>>();
 	subModel->SetPreviewSpec(model.GetPreviewSpec());
 
 	auto modelIds = model.GetColorantIds();

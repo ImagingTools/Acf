@@ -3,14 +3,14 @@
 
 
 // ACF includes
-#include <icmm/CSubstractiveColorModelBase.h>
+#include <icmm/CSubtractiveColorModelBase.h>
 
 
 namespace icmm
 {
 
 
-class CCmyColorModel: public CSubstractiveColorModelBase
+class CCmyColorModel: public CSubtractiveColorModelBase
 {
 public:
 	static ColorantId GetCyan();
@@ -21,8 +21,8 @@ public:
 	virtual ColorantIds GetColorantIds() const override;
 	virtual ColorantUsage GetColorantUsage(const ColorantId& colorantId) const override;
 
-	// reimplemented ISubstractiveColorModel
-	virtual std::unique_ptr<ISubstractiveColorModel> CreateSubspaceModel(const QStringList& colorantIds) const override;
+	// reimplemented ISubtractiveColorModel
+	virtual std::unique_ptr<ISubtractiveColorModel> CreateSubspaceModel(const QStringList& colorantIds) const override;
 
 	// reimplemented (istd::IChangeable)
 	virtual istd::IChangeableUniquePtr CloneMe(CompatibilityMode mode = CM_WITHOUT_REFS) const override;

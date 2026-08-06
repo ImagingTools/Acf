@@ -3,7 +3,7 @@
 
 
 // ACF includes
-#include <icmm/ISubstractiveColorModel.h>
+#include <icmm/ISubtractiveColorModel.h>
 #include <icmm/CCieLabColor.h>
 #include <icmm/CTristimulusSpecification.h>
 
@@ -15,10 +15,10 @@ namespace icmm
 class CCieLabColor;
 
 
-class CSubstractiveColorModelBase: virtual public icmm::ISubstractiveColorModel
+class CSubtractiveColorModelBase: virtual public icmm::ISubtractiveColorModel
 {
 public:
-	CSubstractiveColorModelBase();
+	CSubtractiveColorModelBase();
 
 	const icmm::CTristimulusSpecification& GetPreviewSpec() const;
 	void SetPreviewSpec(const ITristimulusSpecification& previewSpec);
@@ -35,7 +35,7 @@ public:
 				const IColorModel& otherColorModel,
 				const QByteArray& transformationId = QByteArray()) const override;
 
-	// reimplemented (icmm::ISubstractiveColorModel)
+	// reimplemented (icmm::ISubtractiveColorModel)
 	virtual bool GetColorantVisualInfo(const ColorantId& colorantId, icmm::ICieLabColor& preview) const override;
 
 	// reimplemented (istd::IChangeable)
