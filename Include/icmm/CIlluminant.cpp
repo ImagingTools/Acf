@@ -39,8 +39,8 @@ CIlluminant::CIlluminant(const QString& illuminantName, const icmm::CSpectrum& s
 
 
 CIlluminant::CIlluminant(const CIlluminant & other)
-	:m_spectralPowerDistribution(other.m_spectralPowerDistribution),
-	m_illuminantName(other.m_illuminantName),
+	:m_illuminantName(other.m_illuminantName),
+	m_spectralPowerDistribution(other.m_spectralPowerDistribution),
 	m_illuminantType(other.m_illuminantType)
 {
 }
