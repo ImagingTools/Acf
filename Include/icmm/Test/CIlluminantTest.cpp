@@ -7,19 +7,37 @@
 #include <iser/CJsonMemWriteArchive.h>
 #include <itest/CStandardTestExecutor.h>
 #include <icmm/CIlluminant.h>
+#include <icmm/CVarColor.h>
 
 
 namespace
 {
 
-icmm::CVarColor MakeWhitePoint(double x, double y, double z)
+//! Relative radiant power of CIE illuminant D65, sampled from 380nm to 730nm in 10nm steps.
+icmm::CSpectrum MakeD65Spd()
 {
-	icmm::CVarColor whitePoint(3);
-	whitePoint.SetElement(0, x);
-	whitePoint.SetElement(1, y);
-	whitePoint.SetElement(2, z);
+	return icmm::CSpectrum(
+			380,
+			730,
+			{49.98, 54.65, 82.75, 91.49, 93.43, 86.68, 104.87, 117.01,
+			 117.81, 114.86, 115.92, 108.81, 109.35, 107.80, 104.79, 107.69,
+			 104.41, 104.05, 100.00, 96.33, 95.79, 88.69, 90.01, 89.60,
+			 87.70, 83.29, 83.70, 80.03, 80.21, 82.28, 78.28, 69.72,
+			 71.61, 74.35, 61.60, 69.89});
+}
 
-	return whitePoint;
+
+//! Relative radiant power of CIE illuminant A, on the same grid as MakeD65Spd().
+icmm::CSpectrum MakeIlluminantASpd()
+{
+	return icmm::CSpectrum(
+			380,
+			730,
+			{9.80, 12.09, 14.71, 17.68, 20.99, 24.67, 28.70, 33.09,
+			 37.81, 42.87, 48.24, 53.91, 59.86, 66.06, 72.50, 79.13,
+			 85.95, 92.91, 100.00, 107.18, 114.44, 121.73, 129.04, 136.35,
+			 143.62, 150.84, 157.98, 165.03, 171.96, 178.77, 185.43, 191.93,
+			 198.26, 204.41, 210.36, 216.12});
 }
 
 }
@@ -58,29 +76,32 @@ void CIlluminantTest::StandardIlluminantConstructorTest()
 
 void CIlluminantTest::CustomIlluminantConstructorTest()
 {
-	icmm::CVarColor whitePoint = MakeWhitePoint(0.9505, 1.0, 1.089);
+	icmm::CSpectrum spd = MakeD65Spd();
 
-	icmm::CIlluminant illuminant("MyIlluminant", whitePoint);
+	icmm::CIlluminant illuminant("MyIlluminant", spd);
 	QCOMPARE(illuminant.GetIlluminantType(), icmm::StandardIlluminant::Custom);
 	QCOMPARE(illuminant.GetIlluminantName(), QString("MyIlluminant"));
-	QVERIFY(illuminant.GetWhitePoint() == whitePoint);
+	QVERIFY(illuminant.GetSpectralPowerDistribution().IsEqual(spd));
+	QCOMPARE(illuminant.GetSpectralPowerDistribution().GetSamplesCount(), 36);
+	QCOMPARE(illuminant.GetSpectralPowerDistribution().GetSpectralRange(), istd::CIntRange(380, 730));
+	QCOMPARE(illuminant.GetSpectralPowerDistribution().GetStep(), 10);
 
-	// Custom illuminant with an empty name and empty white point
-	icmm::CIlluminant emptyIlluminant{QString(), icmm::CVarColor()};
+	// Custom illuminant with an empty name and empty spectrum
+	icmm::CIlluminant emptyIlluminant{QString(), icmm::CSpectrum()};
 	QCOMPARE(emptyIlluminant.GetIlluminantType(), icmm::StandardIlluminant::Custom);
 	QVERIFY(emptyIlluminant.GetIlluminantName().isEmpty());
-	QCOMPARE(emptyIlluminant.GetWhitePoint().GetElementsCount(), 0);
+	QCOMPARE(emptyIlluminant.GetSpectralPowerDistribution().GetSamplesCount(), 0);
 }
 
 
 void CIlluminantTest::CopyConstructorTest()
 {
-	icmm::CIlluminant source("Source", MakeWhitePoint(0.5, 0.6, 0.7));
+	icmm::CIlluminant source("Source", MakeD65Spd());
 
 	icmm::CIlluminant copy(source);
 	QCOMPARE(copy.GetIlluminantType(), source.GetIlluminantType());
 	QCOMPARE(copy.GetIlluminantName(), source.GetIlluminantName());
-	QVERIFY(copy.GetWhitePoint() == source.GetWhitePoint());
+	QVERIFY(copy.GetSpectralPowerDistribution().IsEqual(source.GetSpectralPowerDistribution()));
 	QVERIFY(copy.IsEqual(source));
 }
 
@@ -95,9 +116,13 @@ void CIlluminantTest::SettersTest()
 	illuminant.SetIlluminantName("NewName");
 	QCOMPARE(illuminant.GetIlluminantName(), QString("NewName"));
 
-	icmm::CVarColor whitePoint = MakeWhitePoint(0.1, 0.2, 0.3);
-	illuminant.SetWhitePoint(whitePoint);
-	QVERIFY(illuminant.GetWhitePoint() == whitePoint);
+	icmm::CSpectrum spd = MakeD65Spd();
+	illuminant.SetSpectralPowerDistribution(spd);
+	QVERIFY(illuminant.GetSpectralPowerDistribution().IsEqual(spd));
+
+	icmm::CSpectrum otherSpd = MakeIlluminantASpd();
+	illuminant.SetSpectralPowerDistribution(otherSpd);
+	QVERIFY(illuminant.GetSpectralPowerDistribution().IsEqual(otherSpd));
 }
 
 
@@ -127,9 +152,9 @@ void CIlluminantTest::SerializeTest()
 		QCOMPARE(restored.GetIlluminantName(), QString("D65"));
 	}
 
-	// Custom illuminant with white point round trip
+	// Custom illuminant with spectral power distribution round trip
 	{
-		icmm::CIlluminant source("Custom Illuminant", MakeWhitePoint(0.9505, 1.0, 1.089));
+		icmm::CIlluminant source("Custom Illuminant", MakeD65Spd());
 
 		iser::CJsonMemWriteArchive writeArchive;
 		QVERIFY(source.Serialize(writeArchive));
@@ -141,7 +166,7 @@ void CIlluminantTest::SerializeTest()
 		QVERIFY(restored.IsEqual(source));
 		QCOMPARE(restored.GetIlluminantType(), icmm::StandardIlluminant::Custom);
 		QCOMPARE(restored.GetIlluminantName(), QString("Custom Illuminant"));
-		QVERIFY(restored.GetWhitePoint() == source.GetWhitePoint());
+		QVERIFY(restored.GetSpectralPowerDistribution().IsEqual(source.GetSpectralPowerDistribution()));
 	}
 }
 
@@ -162,10 +187,15 @@ void CIlluminantTest::IsEqualTest()
 	differentName.SetIlluminantName("Other");
 	QVERIFY(!illuminant1.IsEqual(differentName));
 
-	// Different white point
-	icmm::CIlluminant differentWhitePoint(icmm::StandardIlluminant::D50);
-	differentWhitePoint.SetWhitePoint(MakeWhitePoint(0.1, 0.2, 0.3));
-	QVERIFY(!illuminant1.IsEqual(differentWhitePoint));
+	// Spectral power distribution set against none
+	icmm::CIlluminant withD65Spd(icmm::StandardIlluminant::D50);
+	withD65Spd.SetSpectralPowerDistribution(MakeD65Spd());
+	QVERIFY(!illuminant1.IsEqual(withD65Spd));
+
+	// Different values on the same wavelength grid
+	icmm::CIlluminant withASpd(icmm::StandardIlluminant::D50);
+	withASpd.SetSpectralPowerDistribution(MakeIlluminantASpd());
+	QVERIFY(!withD65Spd.IsEqual(withASpd));
 
 	// Comparison with an incompatible object type
 	icmm::CVarColor otherObject(3);
@@ -175,11 +205,16 @@ void CIlluminantTest::IsEqualTest()
 
 void CIlluminantTest::CopyFromTest()
 {
-	icmm::CIlluminant source("Source", MakeWhitePoint(0.4, 0.5, 0.6));
+	icmm::CIlluminant source("Source", MakeD65Spd());
 
 	icmm::CIlluminant target;
 	QVERIFY(target.CopyFrom(source));
 	QVERIFY(target.IsEqual(source));
+
+	// Copying replaces an already set distribution
+	icmm::CIlluminant other("Other", MakeIlluminantASpd());
+	QVERIFY(target.CopyFrom(other));
+	QVERIFY(target.IsEqual(other));
 
 	// Copying from an incompatible object fails
 	icmm::CVarColor otherObject(3);
@@ -189,7 +224,7 @@ void CIlluminantTest::CopyFromTest()
 
 void CIlluminantTest::CloneMeTest()
 {
-	icmm::CIlluminant source("Source", MakeWhitePoint(0.4, 0.5, 0.6));
+	icmm::CIlluminant source("Source", MakeD65Spd());
 
 	istd::IChangeableUniquePtr clonePtr = source.CloneMe();
 	QVERIFY(clonePtr.GetPtr() != nullptr);

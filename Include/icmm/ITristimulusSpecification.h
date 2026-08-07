@@ -52,7 +52,6 @@ namespace icmm
 		std::shared_ptr<icmm::IIlluminant> illuminant = spec->GetIlluminant();
 		if (illuminant) {
 			QString name = illuminant->GetIlluminantName();  // "D65", "D50", etc.
-			icmm::CVarColor whitePoint = illuminant->GetWhitePoint();
 			qDebug() << "Illuminant:" << name;
 		}
 		
@@ -179,7 +178,7 @@ namespace icmm
 	- Check for spectral base when accuracy is critical
 	- Cache specifications for repeated conversions
 
-	\sa icmm::IColorSpecification, icmm::IIlluminant, icmm::IWhitePointProvider,
+	\sa icmm::IColorSpecification, icmm::IIlluminant,
 	    icmm::ISpectralColorSpecification, icmm::CTristimulusSpecification
 
 	\ingroup Color
@@ -190,12 +189,11 @@ public:
 	/**
 		Gets the illuminant (light source) used by this specification.
 		
-		The illuminant defines the reference white point and viewing conditions.
 		Common illuminants include D65 (daylight), D50 (print), and A (tungsten).
 		
 		\return Shared pointer to IIlluminant, or nullptr if not set
 		
-		\sa IIlluminant, IWhitePointProvider
+		\sa IIlluminant
 	*/
 	virtual std::shared_ptr<IIlluminant> GetIlluminant() const = 0;
 	

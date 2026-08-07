@@ -30,38 +30,36 @@ CIlluminant::CIlluminant(StandardIlluminant illuminantType)
 }
 
 
-CIlluminant::CIlluminant(const QString& illuminantName, const icmm::CVarColor& whitePoint)
+CIlluminant::CIlluminant(const QString& illuminantName, const icmm::CSpectrum& spectralPowerDistribution)
 	:m_illuminantType(icmm::StandardIlluminant::Custom),
 	m_illuminantName(illuminantName),
-	m_whitePoint(whitePoint)
+	m_spectralPowerDistribution(spectralPowerDistribution)
 {
 }
 
 
 CIlluminant::CIlluminant(const CIlluminant & other)
-	:m_whitePoint(other.m_whitePoint),
+	:m_spectralPowerDistribution(other.m_spectralPowerDistribution),
 	m_illuminantName(other.m_illuminantName),
 	m_illuminantType(other.m_illuminantType)
 {
 }
 
 
-// reimplemented (IWhitePointProvider)
+// reimplemented (IIluminant)
 
-icmm::CVarColor icmm::CIlluminant::GetWhitePoint() const
+const icmm::CSpectrum& CIlluminant::GetSpectralPowerDistribution() const
 {
-	return m_whitePoint;
+	return m_spectralPowerDistribution;
 }
 
 
-// reimplemented (IIluminant)
-
-void CIlluminant::SetWhitePoint(const icmm::CVarColor& whitePoint)
+void CIlluminant::SetSpectralPowerDistribution(const icmm::CSpectrum& spectrum)
 {
-	if (m_whitePoint != whitePoint){
+	if (!m_spectralPowerDistribution.IsEqual(spectrum)){
 		istd::CChangeNotifier changeNotifier(this);
 
-		m_whitePoint = whitePoint;
+		m_spectralPowerDistribution.CopyFrom(spectrum);
 	}
 }
 
@@ -125,10 +123,11 @@ bool CIlluminant::Serialize(iser::IArchive& archive)
 	retVal = retVal && archive.Process(m_illuminantName);
 	retVal = retVal && archive.EndTag(illuminantNameTag);
 
-	iser::CArchiveTag whitePointTag("WhitePoint", "White point of the illuminant", iser::CArchiveTag::TT_GROUP);
-	retVal = retVal && archive.BeginTag(whitePointTag);
-	retVal = retVal && m_whitePoint.Serialize(archive);
-	retVal = retVal && archive.EndTag(whitePointTag);
+	iser::CArchiveTag spectrumTag(
+				"SpectralPowerDistribution", "Spectral power distribution of the illuminant", iser::CArchiveTag::TT_GROUP);
+	retVal = retVal && archive.BeginTag(spectrumTag);
+	retVal = retVal && m_spectralPowerDistribution.Serialize(archive);
+	retVal = retVal && archive.EndTag(spectrumTag);
 
 	return retVal;
 }
@@ -150,7 +149,7 @@ bool CIlluminant::CopyFrom(const IChangeable& object, CompatibilityMode /*mode*/
 
 		m_illuminantType = objectPtr->m_illuminantType;
 		m_illuminantName = objectPtr->m_illuminantName;
-		m_whitePoint = objectPtr->m_whitePoint;
+		m_spectralPowerDistribution.CopyFrom(objectPtr->m_spectralPowerDistribution);
 
 		return true;
 	}
@@ -170,7 +169,7 @@ bool CIlluminant::IsEqual(const IChangeable& other) const
 	return
 				m_illuminantType == objectPtr->GetIlluminantType() &&
 				m_illuminantName == objectPtr->GetIlluminantName() &&
-				m_whitePoint == objectPtr->GetWhitePoint();
+				m_spectralPowerDistribution.IsEqual(objectPtr->GetSpectralPowerDistribution());
 }
 
 
@@ -189,7 +188,7 @@ istd::IChangeableUniquePtr CIlluminant::CloneMe(CompatibilityMode mode) const
 
 void CIlluminant::InitFromStandardIlluminant(StandardIlluminant illuminantType)
 {
-	/// \todo Implement white point for each standard illuminant types.
+	/// \todo Implement spectral power distribution for each standard illuminant types.
 
 	switch (illuminantType){
 	case icmm::StandardIlluminant::A:
