@@ -46,7 +46,7 @@ CIlluminant::CIlluminant(const CIlluminant & other)
 }
 
 
-// reimplemented (IIluminant)
+// reimplemented (IIlluminant)
 
 const icmm::CSpectrum& CIlluminant::GetSpectralPowerDistribution() const
 {

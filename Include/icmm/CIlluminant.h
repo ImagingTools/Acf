@@ -32,7 +32,7 @@ public:
 	*/
 	CIlluminant(const CIlluminant& other);
 
-	// reimplemented (IIluminant)
+	// reimplemented (IIlluminant)
 	virtual const icmm::CSpectrum& GetSpectralPowerDistribution() const override;
 	virtual void SetSpectralPowerDistribution(const icmm::CSpectrum& spectrum) override;
 	virtual QString GetIlluminantName() const override;
