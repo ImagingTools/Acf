@@ -5,7 +5,9 @@
 #include <atomic>
 
 // Qt includes
+#include <QtCore/QCoreApplication>
 #include <QtCore/QMutex>
+#include <QtCore/QThread>
 
 // ACF includes
 #include <icomp/IComponent.h>
@@ -136,6 +138,14 @@ bool TReferenceMember<Interface>::EnsureInitialized() const
 				QByteArray baseId;
 				QByteArray subId;
 				BaseClass2::SplitId(componentId, baseId, subId);
+
+				// Resolving this reference can create its component and enter the composite creation lock.
+				// A worker resolving it while the main thread builds or tears down the component tree can deadlock.
+				// Only this initial resolution must run on the main thread; an already resolved reference is thread-safe to use
+				Q_ASSERT_X(
+					(qApp == nullptr) || (QThread::currentThread() == qApp->thread()),
+					"icomp::TReferenceMember::EnsureInitialized",
+					"component references must be resolved on the main thread");
 
 				m_componentPtr = parentPtr->GetSubcomponent(baseId);
 				if (m_componentPtr != nullptr) {
