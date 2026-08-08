@@ -5,8 +5,11 @@
 // Qt includes
 #include <QtCore/QByteArray>
 #include <QtCore/QMap>
+#include <QtCore/QMutex>
 #include <QtCore/QReadWriteLock>
+#if QT_VERSION >= 0x060000
 #include <QtCore/QRecursiveMutex>
+#endif
 #include <QtCore/QWaitCondition>
 
 // ACF includes
@@ -83,6 +86,20 @@ private:
 				ComponentInfo& componentInfo,
 				bool isOwned) const;
 
+	/**
+		Get the lock guarding subcomponent creation. All composites share one lock on purpose:
+		creating or destroying a subcomponent locks other composites too - a parent locks its
+		children to auto-init them, a child locks its parent to detach - so per-composite locks
+		get taken in both orders and two threads can end up waiting for each other.
+	*/
+#if QT_VERSION >= 0x060000
+	typedef QRecursiveMutex CreationMutex;
+#else
+	typedef QMutex CreationMutex;
+#endif
+
+	static CreationMutex& GetCreationMutex();
+
 
 private:
 	enum ComponentState
@@ -135,12 +152,6 @@ private:
 
 	mutable bool m_autoInitialized;
 	mutable IRegistry::Ids m_autoInitComponentIds;
-
-#if QT_VERSION >= 0x060000
-	mutable QRecursiveMutex m_mutex;
-#else
-	mutable QMutex m_mutex;
-#endif
 };
 
 
