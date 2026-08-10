@@ -483,7 +483,7 @@ int COptionsManager::GetSupportedOperations() const
 }
 
 
-bool COptionsManager::CopyFrom(const IChangeable& object, CompatibilityMode /*mode*/)
+bool COptionsManager::CopyFrom(const IChangeable& object, CompatibilityMode mode)
 {
 	const iprm::COptionsManager* sourcePtr = dynamic_cast<const iprm::COptionsManager*>(&object);
 	if (sourcePtr != NULL){
@@ -502,7 +502,7 @@ bool COptionsManager::CopyFrom(const IChangeable& object, CompatibilityMode /*mo
 			m_options.push_back(option);
 		}
 
-		return BaseClass::CopyFrom(object);
+		return BaseClass::CopyFrom(object, mode);
 	}
 
 	return false;
