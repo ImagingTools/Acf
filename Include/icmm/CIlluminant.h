@@ -25,18 +25,16 @@ public:
 	*/
 	CIlluminant(
 		const QString& illuminantName,
-		const icmm::CVarColor& whitePoint);
+		const icmm::CSpectrum& spectralPowerDistribution);
 
 	/**
 		Copy constructor
 	*/
 	CIlluminant(const CIlluminant& other);
 
-	// reimplemented (IWhitePointProvider)
-	virtual icmm::CVarColor GetWhitePoint() const override;
-
-	// reimplemented (IIluminant)
-	virtual void SetWhitePoint(const icmm::CVarColor& whitePoint) override;
+	// reimplemented (IIlluminant)
+	virtual const icmm::CSpectrum& GetSpectralPowerDistribution() const override;
+	virtual void SetSpectralPowerDistribution(const icmm::CSpectrum& spectrum) override;
 	virtual QString GetIlluminantName() const override;
 	virtual void SetIlluminantName(const QString& illuminantName) override;
 	virtual StandardIlluminant GetIlluminantType() const override;
@@ -60,7 +58,7 @@ protected:
 private:
 	StandardIlluminant m_illuminantType = StandardIlluminant::D50;
 	QString m_illuminantName = "D50";
-	icmm::CVarColor m_whitePoint;
+	icmm::CSpectrum m_spectralPowerDistribution;
 };
 
 

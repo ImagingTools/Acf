@@ -69,8 +69,8 @@ namespace icmm
 				dynamic_cast<const icmm::ITristimulusSpecification*>(spec.get());
 			
 			if (tristim) {
-				// Access primaries, white point, gamma, etc.
-				icmm::CVarColor whitePoint = tristim->GetWhitePoint();
+				// Access illuminant, observer and calculation method
+				icmm::ObserverType observer = tristim->GetObserverType();
 			}
 		}
 	}
@@ -160,7 +160,7 @@ namespace icmm
 	- Use appropriate specification for intended output (display vs. print)
 
 	\sa icmm::ITristimulusSpecification, icmm::ISpectralColorSpecification,
-	    icmm::IColorModel, icmm::IWhitePointProvider
+	    icmm::IColorModel
 
 	\ingroup Color
 */
