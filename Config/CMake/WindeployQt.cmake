@@ -9,14 +9,19 @@ function(windeploy target listOptions listFiles)
 
 	message("windeployqt_executable ${windeployqt_executable} ${listOptions} ${listFiles}")
 
+	set(deployArgs ${listOptions} ${listFiles})
+
+	# All targets deploy into the same output directory, windeployqt is not safe to run
+	# concurrently on it, therefore the calls are serialized by RunWindeployQt.cmake.
 	add_custom_command(
 		TARGET ${target} POST_BUILD
-		COMMAND "${windeployqt_executable}"
-		${listOptions}
-		${listFiles}
-		> NUL # Redirect stdout to NUL (skip spam output - dll up to date etc.)
-		# > NUL 2>&1 ## skip all output (stderr included)
+		COMMAND ${CMAKE_COMMAND}
+		"-DTOOL=${windeployqt_executable}"
+		"-DARGS=${deployArgs}"
+		"-DLOCK_FILE=${CMAKE_BINARY_DIR}/windeployqt.lock"
+		-P "${CMAKE_CURRENT_FUNCTION_LIST_DIR}/RunWindeployQt.cmake"
 		COMMENT "Deploying Qt libraries using windeployqt for compilation target '${target}' ..."
+		VERBATIM
 		)
 endfunction()
 
