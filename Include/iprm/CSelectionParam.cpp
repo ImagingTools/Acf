@@ -228,7 +228,7 @@ bool CSelectionParam::CopyFrom(const istd::IChangeable& object, CompatibilityMod
 			if (m_selectedOptionIndex != optionIndex){
 				return SetSelectedOptionIndex(optionIndex);
 			}
-			break;
+			return true;
 
 		case CM_WITH_REFS:
 			{
