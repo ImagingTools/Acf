@@ -44,9 +44,6 @@ namespace idoc
 	- \b DocumentPersistence (ifile::IFilePersistence) - Persistence used to save/load document states
 	- \b StorageDirectory (ifile::IFileNameParam) - Directory used to store the step files
 
-	\par Component Attributes
-	- \b MaxBufferSize - Maximum size for the undo buffer in megabytes (default: 100 MB)
-
 	\par Registered Interfaces
 	- idoc::IUndoManager - Provides undo/redo operations
 	- idoc::IDocumentStateComparator - Allows state comparison
@@ -73,7 +70,6 @@ public:
 		I_REGISTER_INTERFACE(idoc::IDocumentStateComparator);
 		I_REGISTER_INTERFACE(imod::IObserver);
 		I_REGISTER_INTERFACE(iser::ISerializable);
-		I_ASSIGN(m_maxBufferSizeAttrPtr, "MaxBufferSize", "Maximal size of the Undo-buffer in MByte", false, 100);
 		I_ASSIGN(m_persistenceCompPtr, "DocumentPersistence", "Persistence used to serialize document states to files", true, "DocumentPersistence");
 		I_ASSIGN(m_directoryCompPtr, "StorageDirectory", "Directory where the undo step files are stored", true, "StorageDirectory");
 	I_END_COMPONENT;
@@ -106,12 +102,6 @@ protected:
 	*/
 	class IUndoState: virtual public istd::IPolymorphic
 	{
-	public:
-		/**
-			Approximate size in bytes used to store this state.
-			It is used to limit the total size of the undo buffer.
-		*/
-		virtual qint64 GetStateSize() const = 0;
 	};
 
 	typedef istd::TDelPtr<IUndoState> UndoStatePtr;
@@ -137,9 +127,6 @@ protected:
 		virtual ~CFileUndoState();
 
 		const QString& GetFilePath() const;
-
-		// reimplemented (IUndoState)
-		virtual qint64 GetStateSize() const override;
 
 		// reimplemented (iser::ISerializable)
 		virtual bool Serialize(iser::IArchive& archive) override;
@@ -198,8 +185,6 @@ protected:
 	virtual void OnComponentDestroyed() override;
 
 private:
-	qint64 GetUsedMemorySize() const;
-
 	UndoList m_undoList;
 	UndoList m_redoList;
 
@@ -222,8 +207,6 @@ private:
 
 	mutable DocumentChangeFlag m_stateChangedFlag;
 	mutable bool m_isStateChangedFlagValid;
-
-	I_ATTR(int, m_maxBufferSizeAttrPtr);
 
 	I_REF(ifile::IFilePersistence, m_persistenceCompPtr);
 	I_REF(ifile::IFileNameParam, m_directoryCompPtr);

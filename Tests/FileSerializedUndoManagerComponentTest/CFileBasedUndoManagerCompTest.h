@@ -35,6 +35,7 @@ private slots:
 	void testStorageDirectoryInTemp();
 	void testUndoRedoSingleStep();
 	void testMultipleSteps();
+	void testUndoHistoryIsNotTrimmedByBufferSize();
 	void testReset();
 	void testSerializeRestoresCurrentStep();
 

@@ -144,6 +144,20 @@ void CFileBasedUndoManagerCompTest::testMultipleSteps()
 }
 
 
+void CFileBasedUndoManagerCompTest::testUndoHistoryIsNotTrimmedByBufferSize()
+{
+	// The file-based undo manager no longer limits history by total stored step-file size.
+	const int changesCount = 30;
+	const QString payload(4 * 1024 * 1024, QLatin1Char('x'));
+
+	for (int i = 0; i < changesCount; ++i){
+		m_textDocumentPtr->SetText(QString("%1_%2").arg(i).arg(payload));
+	}
+
+	QCOMPARE(m_undoManagerPtr->GetAvailableUndoSteps(), changesCount);
+}
+
+
 void CFileBasedUndoManagerCompTest::testReset()
 {
 	m_textDocumentPtr->SetText("Change 1");

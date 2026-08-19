@@ -6,7 +6,6 @@
 #include <QtCore/QCryptographicHash>
 #include <QtCore/QDir>
 #include <QtCore/QFile>
-#include <QtCore/QFileInfo>
 
 // ACF includes
 #include <istd/CChangeNotifier.h>
@@ -43,12 +42,6 @@ CFileBasedUndoManagerComp::CFileUndoState::~CFileUndoState()
 const QString& CFileBasedUndoManagerComp::CFileUndoState::GetFilePath() const
 {
 	return m_filePath;
-}
-
-
-qint64 CFileBasedUndoManagerComp::CFileUndoState::GetStateSize() const
-{
-	return QFileInfo(m_filePath).size();
 }
 
 
@@ -531,10 +524,6 @@ void CFileBasedUndoManagerComp::AfterUpdate(imod::IModel* modelPtr, const istd::
 					m_undoList.back().statePtr.TakeOver(m_beginStatePtr);
 					m_undoList.back().description = changeSet.GetDescription();
 
-					if (m_maxBufferSizeAttrPtr.IsValid() && (GetUsedMemorySize() > qint64(*m_maxBufferSizeAttrPtr) * (1 << 20))){
-						m_undoList.pop_front();
-					}
-
 					m_redoList.clear();
 				}
 			}
@@ -645,20 +634,5 @@ void CFileBasedUndoManagerComp::OnComponentDestroyed()
 
 	BaseClass::OnComponentDestroyed();
 }
-
-
-// private methods
-
-qint64 CFileBasedUndoManagerComp::GetUsedMemorySize() const
-{
-	qint64 memorySize = 0;
-
-	for (UndoList::ConstIterator iter = m_undoList.constBegin(); iter != m_undoList.constEnd(); ++iter){
-		memorySize += iter->statePtr->GetStateSize();
-	}
-
-	return memorySize;
-}
-
 
 } // namespace idoc
