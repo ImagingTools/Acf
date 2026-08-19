@@ -67,12 +67,11 @@ CFileSerializedUndoManagerComp::CFileSerializedUndoManagerComp()
 bool CFileSerializedUndoManagerComp::Serialize(iser::IArchive& archive)
 {
 	static iser::CArchiveTag currentStepTag("CurrentStep", "Index of the current undo step", iser::CArchiveTag::TT_LEAF);
+	static iser::CArchiveTag hasCurrentStateTag("HasCurrentState", "Flag indicating whether the observed document state at the current step is stored as a step file", iser::CArchiveTag::TT_LEAF);
 	static iser::CArchiveTag stepsTag("Steps", "List of all stored undo and redo steps", iser::CArchiveTag::TT_MULTIPLE);
 	static iser::CArchiveTag stepTag("Step", "Single undo or redo step", iser::CArchiveTag::TT_GROUP, &stepsTag);
 	static iser::CArchiveTag descriptionTag("Description", "Human readable step description", iser::CArchiveTag::TT_LEAF, &stepTag);
 	static iser::CArchiveTag stateTag("State", "Stored document state", iser::CArchiveTag::TT_GROUP, &stepTag);
-	static iser::CArchiveTag hasCurrentStateTag("HasCurrentState", "Flag indicating whether the observed document state at the current step is stored", iser::CArchiveTag::TT_LEAF);
-	static iser::CArchiveTag currentStateTag("CurrentState", "Stored state of the observed document at the current step", iser::CArchiveTag::TT_GROUP);
 
 	UndoList& undoList = m_undoList;
 	UndoList& redoList = m_redoList;
@@ -84,50 +83,71 @@ bool CFileSerializedUndoManagerComp::Serialize(iser::IArchive& archive)
 
 		retVal = retVal && archive.TagAndProcess(currentStepTag, currentStepIndex);
 
-		int stepsCount = undoList.size() + redoList.size();
-
-		retVal = retVal && archive.BeginMultiTag(stepsTag, stepTag, stepsCount);
-
-		for (int listIndex = 0; (listIndex < 2) && retVal; ++listIndex){
-			UndoList& list = (listIndex == 0)? undoList: redoList;
-
-			for (UndoList::iterator iter = list.begin(); iter != list.end(); ++iter){
-				CFileUndoState* fileStatePtr = static_cast<CFileUndoState*>(iter->statePtr.GetPtr());
-				if (fileStatePtr == NULL){
-					return false;
-				}
-
-				retVal = retVal && archive.BeginTag(stepTag);
-				retVal = retVal && archive.TagAndProcess(descriptionTag, iter->description);
-				retVal = retVal && archive.BeginTag(stateTag);
-				retVal = retVal && fileStatePtr->Serialize(archive);
-				retVal = retVal && archive.EndTag(stateTag);
-				retVal = retVal && archive.EndTag(stepTag);
-			}
-		}
-
-		retVal = retVal && archive.EndTag(stepsTag);
-
-		bool hasCurrentState = false;
+		// Instead of writing the observed document into the archive, its state at the current step is
+		// stored in a dedicated step file placed between the undo and the redo steps. On loading it is
+		// restored back from the file corresponding to the current step.
+		m_currentStatePtr.Reset();
 
 		iser::ISerializable* observedObjectPtr = GetObservedObject();
 		if (observedObjectPtr != NULL){
 			IUndoState* currentStatePtr = CreateState(*observedObjectPtr);
 			if (currentStatePtr != NULL){
 				m_currentStatePtr.SetPtr(currentStatePtr);
-				hasCurrentState = true;
 			}
 		}
 
+		bool hasCurrentState = m_currentStatePtr.IsValid();
+
 		retVal = retVal && archive.TagAndProcess(hasCurrentStateTag, hasCurrentState);
+
+		int stepsCount = undoList.size() + redoList.size() + (hasCurrentState? 1: 0);
+
+		retVal = retVal && archive.BeginMultiTag(stepsTag, stepTag, stepsCount);
+
+		// The steps are written as a single flat list ordered as: undo steps, the current step (if any),
+		// then the redo steps, so that the entry at currentStepIndex holds the current document state.
+		for (UndoList::iterator iter = undoList.begin(); (iter != undoList.end()) && retVal; ++iter){
+			CFileUndoState* fileStatePtr = static_cast<CFileUndoState*>(iter->statePtr.GetPtr());
+			if (fileStatePtr == NULL){
+				return false;
+			}
+
+			retVal = retVal && archive.BeginTag(stepTag);
+			retVal = retVal && archive.TagAndProcess(descriptionTag, iter->description);
+			retVal = retVal && archive.BeginTag(stateTag);
+			retVal = retVal && fileStatePtr->Serialize(archive);
+			retVal = retVal && archive.EndTag(stateTag);
+			retVal = retVal && archive.EndTag(stepTag);
+		}
 
 		if (retVal && hasCurrentState){
 			CFileUndoState* currentFileStatePtr = static_cast<CFileUndoState*>(m_currentStatePtr.GetPtr());
 
-			retVal = retVal && archive.BeginTag(currentStateTag);
+			QString currentDescription;
+
+			retVal = retVal && archive.BeginTag(stepTag);
+			retVal = retVal && archive.TagAndProcess(descriptionTag, currentDescription);
+			retVal = retVal && archive.BeginTag(stateTag);
 			retVal = retVal && currentFileStatePtr->Serialize(archive);
-			retVal = retVal && archive.EndTag(currentStateTag);
+			retVal = retVal && archive.EndTag(stateTag);
+			retVal = retVal && archive.EndTag(stepTag);
 		}
+
+		for (UndoList::iterator iter = redoList.begin(); (iter != redoList.end()) && retVal; ++iter){
+			CFileUndoState* fileStatePtr = static_cast<CFileUndoState*>(iter->statePtr.GetPtr());
+			if (fileStatePtr == NULL){
+				return false;
+			}
+
+			retVal = retVal && archive.BeginTag(stepTag);
+			retVal = retVal && archive.TagAndProcess(descriptionTag, iter->description);
+			retVal = retVal && archive.BeginTag(stateTag);
+			retVal = retVal && fileStatePtr->Serialize(archive);
+			retVal = retVal && archive.EndTag(stateTag);
+			retVal = retVal && archive.EndTag(stepTag);
+		}
+
+		retVal = retVal && archive.EndTag(stepsTag);
 	}
 	else{
 		istd::CChangeNotifier notifier(this);
@@ -135,6 +155,9 @@ bool CFileSerializedUndoManagerComp::Serialize(iser::IArchive& archive)
 
 		qint32 currentStepIndex = 0;
 		retVal = retVal && archive.TagAndProcess(currentStepTag, currentStepIndex);
+
+		bool hasCurrentState = false;
+		retVal = retVal && archive.TagAndProcess(hasCurrentStateTag, hasCurrentState);
 
 		int stepsCount = 0;
 		retVal = retVal && archive.BeginMultiTag(stepsTag, stepTag, stepsCount);
@@ -144,6 +167,7 @@ bool CFileSerializedUndoManagerComp::Serialize(iser::IArchive& archive)
 
 		undoList.clear();
 		redoList.clear();
+		m_currentStatePtr.Reset();
 
 		for (int stepIndex = 0; (stepIndex < stepsCount) && retVal; ++stepIndex){
 			QString description;
@@ -159,34 +183,26 @@ bool CFileSerializedUndoManagerComp::Serialize(iser::IArchive& archive)
 			retVal = retVal && archive.EndTag(stepTag);
 
 			if (retVal){
-				UndoList& targetList = (stepIndex < currentStepIndex)? undoList: redoList;
+				if (hasCurrentState && (stepIndex == currentStepIndex)){
+					// The step at the current index holds the observed document state at that step.
+					m_currentStatePtr.TakeOver(statePtr);
+				}
+				else{
+					UndoList& targetList = (stepIndex < currentStepIndex)? undoList: redoList;
 
-				targetList.push_back(UndoStepInfo());
-				targetList.back().description = description;
-				targetList.back().statePtr.TakeOver(statePtr);
+					targetList.push_back(UndoStepInfo());
+					targetList.back().description = description;
+					targetList.back().statePtr.TakeOver(statePtr);
+				}
 			}
 		}
 
 		retVal = retVal && archive.EndTag(stepsTag);
 
-		bool hasCurrentState = false;
-		retVal = retVal && archive.TagAndProcess(hasCurrentStateTag, hasCurrentState);
-
-		m_currentStatePtr.Reset();
-
-		if (retVal && hasCurrentState){
-			CFileUndoState* currentFileStatePtr = new CFileUndoState(QString());
-			UndoStatePtr currentStatePtr(currentFileStatePtr);
-
-			retVal = retVal && archive.BeginTag(currentStateTag);
-			retVal = retVal && currentFileStatePtr->Serialize(archive);
-			retVal = retVal && archive.EndTag(currentStateTag);
-
-			if (retVal){
-				m_currentStatePtr.TakeOver(currentStatePtr);
-
-				RestoreObservedObject(*m_currentStatePtr);
-			}
+		if (retVal && m_currentStatePtr.IsValid()){
+			// Bring the observed document back to the content it had at the current step by loading it
+			// from the file corresponding to that step.
+			RestoreObservedObject(*m_currentStatePtr);
 		}
 	}
 
