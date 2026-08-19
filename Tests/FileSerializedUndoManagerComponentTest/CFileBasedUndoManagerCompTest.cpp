@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later OR GPL-2.0-or-later OR GPL-3.0-or-later OR LicenseRef-ACF-Commercial
-#include "CFileSerializedUndoManagerCompTest.h"
+#include "CFileBasedUndoManagerCompTest.h"
 
 
 // Qt includes
@@ -16,7 +16,7 @@
 
 // protected slots
 
-void CFileSerializedUndoManagerCompTest::initTestCase()
+void CFileBasedUndoManagerCompTest::initTestCase()
 {
 	m_testInstanceCompPtr.reset(new CFileSerializedUndoManagerComponentTest);
 
@@ -47,7 +47,7 @@ void CFileSerializedUndoManagerCompTest::initTestCase()
 }
 
 
-void CFileSerializedUndoManagerCompTest::init()
+void CFileBasedUndoManagerCompTest::init()
 {
 	// Start every test from a clean, attached state.
 	imod::IModel* model = dynamic_cast<imod::IModel*>(m_textDocumentPtr);
@@ -61,7 +61,7 @@ void CFileSerializedUndoManagerCompTest::init()
 }
 
 
-void CFileSerializedUndoManagerCompTest::cleanup()
+void CFileBasedUndoManagerCompTest::cleanup()
 {
 	imod::IModel* model = dynamic_cast<imod::IModel*>(m_textDocumentPtr);
 	imod::IObserver* observer = dynamic_cast<imod::IObserver*>(m_undoManagerPtr);
@@ -72,7 +72,7 @@ void CFileSerializedUndoManagerCompTest::cleanup()
 }
 
 
-void CFileSerializedUndoManagerCompTest::testCreation()
+void CFileBasedUndoManagerCompTest::testCreation()
 {
 	// The component exposes all expected interfaces.
 	QVERIFY(dynamic_cast<idoc::IDocumentStateComparator*>(m_undoManagerPtr) != nullptr);
@@ -85,7 +85,7 @@ void CFileSerializedUndoManagerCompTest::testCreation()
 }
 
 
-void CFileSerializedUndoManagerCompTest::testStorageDirectoryInTemp()
+void CFileBasedUndoManagerCompTest::testStorageDirectoryInTemp()
 {
 	// The configured storage directory has to live below the system temporary directory.
 	QString canonicalTemp = QDir(QDir::tempPath()).canonicalPath();
@@ -105,7 +105,7 @@ void CFileSerializedUndoManagerCompTest::testStorageDirectoryInTemp()
 }
 
 
-void CFileSerializedUndoManagerCompTest::testUndoRedoSingleStep()
+void CFileBasedUndoManagerCompTest::testUndoRedoSingleStep()
 {
 	m_textDocumentPtr->SetText("Initial text");
 	m_textDocumentPtr->SetText("Modified text");
@@ -124,7 +124,7 @@ void CFileSerializedUndoManagerCompTest::testUndoRedoSingleStep()
 }
 
 
-void CFileSerializedUndoManagerCompTest::testMultipleSteps()
+void CFileBasedUndoManagerCompTest::testMultipleSteps()
 {
 	m_textDocumentPtr->SetText("Step 0");
 	m_textDocumentPtr->SetText("Step 1");
@@ -144,7 +144,7 @@ void CFileSerializedUndoManagerCompTest::testMultipleSteps()
 }
 
 
-void CFileSerializedUndoManagerCompTest::testReset()
+void CFileBasedUndoManagerCompTest::testReset()
 {
 	m_textDocumentPtr->SetText("Change 1");
 	m_textDocumentPtr->SetText("Change 2");
@@ -156,7 +156,7 @@ void CFileSerializedUndoManagerCompTest::testReset()
 }
 
 
-void CFileSerializedUndoManagerCompTest::testSerializeRestoresCurrentStep()
+void CFileBasedUndoManagerCompTest::testSerializeRestoresCurrentStep()
 {
 	imod::IModel* model = dynamic_cast<imod::IModel*>(m_textDocumentPtr);
 	imod::IObserver* observer = dynamic_cast<imod::IObserver*>(m_undoManagerPtr);
@@ -210,7 +210,7 @@ void CFileSerializedUndoManagerCompTest::testSerializeRestoresCurrentStep()
 }
 
 
-void CFileSerializedUndoManagerCompTest::cleanupTestCase()
+void CFileBasedUndoManagerCompTest::cleanupTestCase()
 {
 	// Remove all step files created during the tests below the temporary directory.
 	if (!m_tempRootPath.isEmpty()){
@@ -221,4 +221,4 @@ void CFileSerializedUndoManagerCompTest::cleanupTestCase()
 }
 
 
-I_ADD_TEST(CFileSerializedUndoManagerCompTest);
+I_ADD_TEST(CFileBasedUndoManagerCompTest);

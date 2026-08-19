@@ -4,6 +4,7 @@
 
 // Qt includes
 #include <QtCore/QList>
+#include <QtCore/QString>
 
 // ACF includes
 #include <istd/IPolymorphic.h>
@@ -12,6 +13,8 @@
 #include <iser/CMemoryWriteArchive.h>
 #include <imod/TSingleModelObserverBase.h>
 #include <icomp/CComponentBase.h>
+#include <ifile/IFilePersistence.h>
+#include <ifile/IFileNameParam.h>
 #include <idoc/IUndoManager.h>
 
 
@@ -20,15 +23,26 @@ namespace idoc
 
 
 /**
-	Base implementation of a multi-level UNDO mechanism based on storing complete object state at each step.
+	Implements multi-level UNDO mechanism based on storing complete object state at each step in files.
 
-	This component provides the common infrastructure of an undo/redo implementation by capturing
-	a complete snapshot of the document state before each change. It maintains separate undo and redo
-	stacks, observes the document model and integrates with the ACF model/observer pattern.
+	Unlike \ref CSerializedUndoManagerComp, which keeps all undo/redo snapshots in memory, this
+	component persists each document state to a separate file using an external file persistence.
+	This keeps the memory footprint small and is well suited for large documents or long undo histories.
 
-	The way a single document state (undo/redo step) is stored and restored is left abstract, so that
-	derived classes can decide whether to keep the snapshots in memory (\ref CSerializedUndoManagerComp)
-	or persist them into files (\ref CFileSerializedUndoManagerComp).
+	Each undo/redo step is written to a file named \c step_&lt;index&gt;.bin inside the directory
+	referenced by \b StorageDirectory, where \c index reflects the position of the step within the
+	undo history. Files backing steps that are no longer needed (for example when the redo list is
+	cleared after a new change) are removed automatically.
+
+	The complete undo/redo history together with the index of the current step can be persisted and
+	restored using the iser::ISerializable interface. The observed document is not written into the
+	archive itself: instead, its state at the current step is stored as a dedicated step file and,
+	when loading the history, the observed document is brought back to the content it had at the
+	current step by deserializing it from the file corresponding to that step.
+
+	\par Component References
+	- \b DocumentPersistence (ifile::IFilePersistence) - Persistence used to save/load document states
+	- \b StorageDirectory (ifile::IFileNameParam) - Directory used to store the step files
 
 	\par Component Attributes
 	- \b MaxBufferSize - Maximum size for the undo buffer in megabytes (default: 100 MB)
@@ -37,29 +51,34 @@ namespace idoc
 	- idoc::IUndoManager - Provides undo/redo operations
 	- idoc::IDocumentStateComparator - Allows state comparison
 	- imod::IObserver - Observes document changes
+	- iser::ISerializable - Persists the undo/redo history and the current step index
 
-	\note The document must implement iser::ISerializable for this undo manager to work.
+	\note The document must be supported by the referenced file persistence for this undo manager to work.
 
-	\sa CSerializedUndoManagerComp, CFileSerializedUndoManagerComp, IUndoManager, IDocumentStateComparator
+	\sa CSerializedUndoManagerComp, IUndoManager, IDocumentStateComparator
 	\ingroup DocumentBasedFramework
 */
-class CSerializedUndoManagerCompBase:
+class CFileBasedUndoManagerComp:
 			public icomp::CComponentBase,
 			public imod::TSingleModelObserverBase<iser::ISerializable>,
-			virtual public IUndoManager
+			virtual public IUndoManager,
+			virtual public iser::ISerializable
 {
 public:
 	typedef icomp::CComponentBase BaseClass;
 	typedef imod::TSingleModelObserverBase<iser::ISerializable> BaseClass2;
 
-	I_BEGIN_BASE_COMPONENT(CSerializedUndoManagerCompBase);
+	I_BEGIN_COMPONENT(CFileBasedUndoManagerComp);
 		I_REGISTER_INTERFACE(idoc::IUndoManager);
 		I_REGISTER_INTERFACE(idoc::IDocumentStateComparator);
 		I_REGISTER_INTERFACE(imod::IObserver);
+		I_REGISTER_INTERFACE(iser::ISerializable);
 		I_ASSIGN(m_maxBufferSizeAttrPtr, "MaxBufferSize", "Maximal size of the Undo-buffer in MByte", false, 100);
+		I_ASSIGN(m_persistenceCompPtr, "DocumentPersistence", "Persistence used to serialize document states to files", true, "DocumentPersistence");
+		I_ASSIGN(m_directoryCompPtr, "StorageDirectory", "Directory where the undo step files are stored", true, "StorageDirectory");
 	I_END_COMPONENT;
 
-	CSerializedUndoManagerCompBase();
+	CFileBasedUndoManagerComp();
 
 	// reimplemented (idoc::IUndoManager)
 	virtual int GetAvailableUndoSteps() const override;
@@ -73,6 +92,9 @@ public:
 	// reimplemented (imod::IObserver)
 	virtual bool OnModelAttached(imod::IModel* modelPtr, istd::IChangeable::ChangeSet& changeMask) override;
 	virtual bool OnModelDetached(imod::IModel* modelPtr) override;
+
+	// reimplemented (iser::ISerializable)
+	virtual bool Serialize(iser::IArchive& archive) override;
 
 protected:
 	/**
@@ -102,23 +124,47 @@ protected:
 
 	typedef QList<UndoStepInfo> UndoList;
 
+	/**
+		File-based storage of a single document state.
+
+		The backing file is removed when this object is destroyed, so that clearing the undo or redo
+		list automatically deletes the files that are no longer needed.
+	*/
+	class CFileUndoState: public IUndoState, virtual public iser::ISerializable
+	{
+	public:
+		explicit CFileUndoState(const QString& filePath);
+		virtual ~CFileUndoState();
+
+		const QString& GetFilePath() const;
+
+		// reimplemented (IUndoState)
+		virtual qint64 GetStateSize() const override;
+
+		// reimplemented (iser::ISerializable)
+		virtual bool Serialize(iser::IArchive& archive) override;
+
+	private:
+		QString m_filePath;
+	};
+
 	bool DoListShift(int steps, UndoList& fromList, UndoList& toList);
 
 	/**
 		Create a new state object holding a snapshot of the current state of \a object.
 		\return Pointer to a newly allocated state, or \c NULL if the snapshot could not be created.
 	*/
-	virtual IUndoState* CreateState(iser::ISerializable& object) = 0;
+	IUndoState* CreateState(iser::ISerializable& object);
 
 	/**
 		Restore \a object from a previously stored \a state.
 	*/
-	virtual bool RestoreState(const IUndoState& state, iser::ISerializable& object) = 0;
+	bool RestoreState(const IUndoState& state, iser::ISerializable& object);
 
 	/**
 		Check whether two stored states are equal.
 	*/
-	virtual bool AreStatesEqual(const IUndoState& state1, const IUndoState& state2) const = 0;
+	bool AreStatesEqual(const IUndoState& state1, const IUndoState& state2) const;
 
 	/**
 		Restore the currently observed object from the given \a state.
@@ -130,10 +176,10 @@ protected:
 	bool RestoreObservedObject(const IUndoState& state);
 
 	/**
-		Called whenever the number of available undo steps (i.e. the current step position) may have changed.
-		The default implementation does nothing.
+		Build the absolute path of the file used to store the step with the given \a stepIndex.
+		\return The file path, or an empty string if the storage directory is not available.
 	*/
-	virtual void OnUndoPositionChanged();
+	QString CreateStepFilePath(int stepIndex) const;
 
 	// reimplemented (imod::TSingleModelObserverBase<iser::ISerializable>)
 	virtual iser::ISerializable* CastFromModel(imod::IModel* modelPtr) const override;
@@ -151,13 +197,23 @@ protected:
 	// reimplemented (icomp::CComponentBase)
 	virtual void OnComponentDestroyed() override;
 
-	UndoList m_undoList;
-	UndoList m_redoList;
-
 private:
 	qint64 GetUsedMemorySize() const;
 
+	UndoList m_undoList;
+	UndoList m_redoList;
+
 	UndoStatePtr m_beginStatePtr;
+
+	int m_uniqueFileCounter;
+
+	/**
+		State of the observed document at the current undo step.
+
+		It is created while storing and restored while loading, so that after loading the undo
+		history the observed document is brought to the content of the current step.
+	*/
+	UndoStatePtr m_currentStatePtr;
 
 	bool m_hasStoredDocumentState;
 	bool m_isBlocked;
@@ -168,6 +224,9 @@ private:
 	mutable bool m_isStateChangedFlagValid;
 
 	I_ATTR(int, m_maxBufferSizeAttrPtr);
+
+	I_REF(ifile::IFilePersistence, m_persistenceCompPtr);
+	I_REF(ifile::IFileNameParam, m_directoryCompPtr);
 };
 
 

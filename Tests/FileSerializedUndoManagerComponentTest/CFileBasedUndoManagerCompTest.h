@@ -17,13 +17,13 @@
 #include <GeneratedFiles/FileSerializedUndoManagerComponentTest/CFileSerializedUndoManagerComponentTest.h>
 
 /**
-	Component tests dedicated to idoc::CFileSerializedUndoManagerComp (file-based serialized undo manager).
+	Component tests dedicated to idoc::CFileBasedUndoManagerComp (file-based serialized undo manager).
 
 	The undo step files are stored inside a unique directory created below the system temporary
 	directory. This directory is removed again in \ref cleanupTestCase, so that no test artifacts
 	are left behind on the file system.
 */
-class CFileSerializedUndoManagerCompTest: public QObject
+class CFileBasedUndoManagerCompTest: public QObject
 {
 	Q_OBJECT
 private slots:

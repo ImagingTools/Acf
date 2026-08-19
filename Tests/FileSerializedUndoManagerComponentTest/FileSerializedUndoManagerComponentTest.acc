@@ -7,7 +7,7 @@
             <Version Id="1023" Number="395264" Description="Qt Framework"/>
         </VersionInfos>
     </AcfHeader>
-    <Description>Component tests for idoc::CFileSerializedUndoManagerComp</Description>
+    <Description>Component tests for idoc::CFileBasedUndoManagerComp</Description>
     <Keywords>Test Undo Redo File Persistence</Keywords>
     <ElementsList>
         <Element Id="TextDocument" PackageId="BasePck" ComponentId="TextDocument">
