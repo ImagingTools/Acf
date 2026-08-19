@@ -206,10 +206,6 @@ SUBDIRS += DocumentManagementComponentTest
 DocumentManagementComponentTest.file = ../../Tests/DocumentManagementComponentTest/QMake/DocumentManagementComponentTest.pro
 DocumentManagementComponentTest.depends = Arxc idoc iser itest
 
-SUBDIRS += SerializedUndoManagerComponentTest
-SerializedUndoManagerComponentTest.file = ../../Tests/SerializedUndoManagerComponentTest/QMake/SerializedUndoManagerComponentTest.pro
-SerializedUndoManagerComponentTest.depends = Arxc idoc iser itest
-
 SUBDIRS += FileSerializedUndoManagerComponentTest
 FileSerializedUndoManagerComponentTest.file = ../../Tests/FileSerializedUndoManagerComponentTest/QMake/FileSerializedUndoManagerComponentTest.pro
 FileSerializedUndoManagerComponentTest.depends = Arxc idoc ifile iser itest
@@ -236,4 +232,3 @@ SerializationRegressionTest.depends = Arxc i2d i3d icmm imath iser istd iprm ifi
 	TestComposedGui.file = ../../Tests/TestComposedGui/QMake/TestComposedGui.pro
 	TestComposedGui.depends = Arxc Acf
 }
-
