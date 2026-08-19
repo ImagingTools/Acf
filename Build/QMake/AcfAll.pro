@@ -210,6 +210,10 @@ SUBDIRS += SerializedUndoManagerComponentTest
 SerializedUndoManagerComponentTest.file = ../../Tests/SerializedUndoManagerComponentTest/QMake/SerializedUndoManagerComponentTest.pro
 SerializedUndoManagerComponentTest.depends = Arxc idoc iser itest
 
+SUBDIRS += FileSerializedUndoManagerComponentTest
+FileSerializedUndoManagerComponentTest.file = ../../Tests/FileSerializedUndoManagerComponentTest/QMake/FileSerializedUndoManagerComponentTest.pro
+FileSerializedUndoManagerComponentTest.depends = Arxc idoc ifile iser itest
+
 SUBDIRS += IqtComponentTest
 IqtComponentTest.file = ../../Tests/IqtComponentTest/QMake/IqtComponentTest.pro
 IqtComponentTest.depends = Arxc iqt ifile iprm iser itest
