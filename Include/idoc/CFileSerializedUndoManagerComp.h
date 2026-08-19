@@ -29,8 +29,10 @@ namespace idoc
 	cleared after a new change) are removed automatically.
 
 	The complete undo/redo history together with the index of the current step can be persisted and
-	restored using the iser::ISerializable interface. This makes it possible to observe or store the
-	current position within the undo history without an additional external parameter.
+	restored using the iser::ISerializable interface. The state of the observed document at the current
+	step is stored as well, so that after loading the history the observed document is brought back to
+	the content it had at the current step. This makes it possible to observe or store the current
+	position within the undo history without an additional external parameter.
 
 	\par Component References
 	- \b DocumentPersistence (ifile::IFilePersistence) - Persistence used to save/load document states
@@ -106,6 +108,14 @@ protected:
 
 private:
 	int m_uniqueFileCounter;
+
+	/**
+		State of the observed document at the current undo step.
+
+		It is created while storing and restored while loading, so that after loading the undo
+		history the observed document is brought to the content of the current step.
+	*/
+	UndoStatePtr m_currentStatePtr;
 
 	I_REF(ifile::IFilePersistence, m_persistenceCompPtr);
 	I_REF(ifile::IFileNameParam, m_directoryCompPtr);

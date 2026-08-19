@@ -121,6 +121,15 @@ protected:
 	virtual bool AreStatesEqual(const IUndoState& state1, const IUndoState& state2) const = 0;
 
 	/**
+		Restore the currently observed object from the given \a state.
+
+		The observed document is restored without recording the change in the undo/redo history,
+		so it can be used to bring the document in sync with a state loaded from persistent storage.
+		\return \c true if an observed object exists and could be restored from \a state.
+	*/
+	bool RestoreObservedObject(const IUndoState& state);
+
+	/**
 		Called whenever the number of available undo steps (i.e. the current step position) may have changed.
 		The default implementation does nothing.
 	*/

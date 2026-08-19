@@ -71,6 +71,8 @@ bool CFileSerializedUndoManagerComp::Serialize(iser::IArchive& archive)
 	static iser::CArchiveTag stepTag("Step", "Single undo or redo step", iser::CArchiveTag::TT_GROUP, &stepsTag);
 	static iser::CArchiveTag descriptionTag("Description", "Human readable step description", iser::CArchiveTag::TT_LEAF, &stepTag);
 	static iser::CArchiveTag stateTag("State", "Stored document state", iser::CArchiveTag::TT_GROUP, &stepTag);
+	static iser::CArchiveTag hasCurrentStateTag("HasCurrentState", "Flag indicating whether the observed document state at the current step is stored", iser::CArchiveTag::TT_LEAF);
+	static iser::CArchiveTag currentStateTag("CurrentState", "Stored state of the observed document at the current step", iser::CArchiveTag::TT_GROUP);
 
 	UndoList& undoList = m_undoList;
 	UndoList& redoList = m_redoList;
@@ -105,6 +107,27 @@ bool CFileSerializedUndoManagerComp::Serialize(iser::IArchive& archive)
 		}
 
 		retVal = retVal && archive.EndTag(stepsTag);
+
+		bool hasCurrentState = false;
+
+		iser::ISerializable* observedObjectPtr = GetObservedObject();
+		if (observedObjectPtr != NULL){
+			IUndoState* currentStatePtr = CreateState(*observedObjectPtr);
+			if (currentStatePtr != NULL){
+				m_currentStatePtr.SetPtr(currentStatePtr);
+				hasCurrentState = true;
+			}
+		}
+
+		retVal = retVal && archive.TagAndProcess(hasCurrentStateTag, hasCurrentState);
+
+		if (retVal && hasCurrentState){
+			CFileUndoState* currentFileStatePtr = static_cast<CFileUndoState*>(m_currentStatePtr.GetPtr());
+
+			retVal = retVal && archive.BeginTag(currentStateTag);
+			retVal = retVal && currentFileStatePtr->Serialize(archive);
+			retVal = retVal && archive.EndTag(currentStateTag);
+		}
 	}
 	else{
 		istd::CChangeNotifier notifier(this);
@@ -145,6 +168,26 @@ bool CFileSerializedUndoManagerComp::Serialize(iser::IArchive& archive)
 		}
 
 		retVal = retVal && archive.EndTag(stepsTag);
+
+		bool hasCurrentState = false;
+		retVal = retVal && archive.TagAndProcess(hasCurrentStateTag, hasCurrentState);
+
+		m_currentStatePtr.Reset();
+
+		if (retVal && hasCurrentState){
+			CFileUndoState* currentFileStatePtr = new CFileUndoState(QString());
+			UndoStatePtr currentStatePtr(currentFileStatePtr);
+
+			retVal = retVal && archive.BeginTag(currentStateTag);
+			retVal = retVal && currentFileStatePtr->Serialize(archive);
+			retVal = retVal && archive.EndTag(currentStateTag);
+
+			if (retVal){
+				m_currentStatePtr.TakeOver(currentStatePtr);
+
+				RestoreObservedObject(*m_currentStatePtr);
+			}
+		}
 	}
 
 	return retVal;

@@ -194,6 +194,29 @@ void CSerializedUndoManagerCompBase::OnUndoPositionChanged()
 }
 
 
+bool CSerializedUndoManagerCompBase::RestoreObservedObject(const IUndoState& state)
+{
+	iser::ISerializable* objectPtr = GetObservedObject();
+	if (objectPtr == NULL){
+		return false;
+	}
+
+	Q_ASSERT(!m_isBlocked);
+	m_isBlocked = true;
+
+	istd::CChangeNotifier objectNotifier(objectPtr, &s_undoChangeSet);
+	Q_UNUSED(objectNotifier);
+
+	bool retVal = RestoreState(state, *objectPtr);
+
+	objectNotifier.Reset();
+
+	m_isBlocked = false;
+
+	return retVal;
+}
+
+
 // reimplemented (imod::TSingleModelObserverBase<iser::ISerializable>)
 
 iser::ISerializable* CSerializedUndoManagerCompBase::CastFromModel(imod::IModel* modelPtr) const
