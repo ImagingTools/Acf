@@ -206,6 +206,10 @@ SUBDIRS += DocumentManagementComponentTest
 DocumentManagementComponentTest.file = ../../Tests/DocumentManagementComponentTest/QMake/DocumentManagementComponentTest.pro
 DocumentManagementComponentTest.depends = Arxc idoc iser itest
 
+SUBDIRS += SerializedUndoManagerComponentTest
+SerializedUndoManagerComponentTest.file = ../../Tests/SerializedUndoManagerComponentTest/QMake/SerializedUndoManagerComponentTest.pro
+SerializedUndoManagerComponentTest.depends = Arxc idoc iser itest
+
 SUBDIRS += IqtComponentTest
 IqtComponentTest.file = ../../Tests/IqtComponentTest/QMake/IqtComponentTest.pro
 IqtComponentTest.depends = Arxc iqt ifile iprm iser itest
