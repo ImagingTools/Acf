@@ -72,8 +72,8 @@ bool CFileSerializedUndoManagerComp::Serialize(iser::IArchive& archive)
 	static iser::CArchiveTag descriptionTag("Description", "Human readable step description", iser::CArchiveTag::TT_LEAF, &stepTag);
 	static iser::CArchiveTag stateTag("State", "Stored document state", iser::CArchiveTag::TT_GROUP, &stepTag);
 
-	UndoList& undoList = GetUndoList();
-	UndoList& redoList = GetRedoList();
+	UndoList& undoList = m_undoList;
+	UndoList& redoList = m_redoList;
 
 	bool retVal = true;
 
