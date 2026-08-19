@@ -102,6 +102,20 @@ protected:
 
 	typedef QList<UndoStepInfo> UndoList;
 
+	/**
+		Access to the list of available undo steps.
+		The last element corresponds to the state restored by the next undo operation.
+	*/
+	UndoList& GetUndoList();
+	const UndoList& GetUndoList() const;
+
+	/**
+		Access to the list of available redo steps.
+		The last element corresponds to the state restored by the next redo operation.
+	*/
+	UndoList& GetRedoList();
+	const UndoList& GetRedoList() const;
+
 	bool DoListShift(int steps, UndoList& fromList, UndoList& toList);
 
 	/**

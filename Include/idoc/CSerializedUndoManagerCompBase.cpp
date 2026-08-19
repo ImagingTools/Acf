@@ -118,6 +118,30 @@ bool CSerializedUndoManagerCompBase::OnModelDetached(imod::IModel* modelPtr)
 
 // protected methods
 
+CSerializedUndoManagerCompBase::UndoList& CSerializedUndoManagerCompBase::GetUndoList()
+{
+	return m_undoList;
+}
+
+
+const CSerializedUndoManagerCompBase::UndoList& CSerializedUndoManagerCompBase::GetUndoList() const
+{
+	return m_undoList;
+}
+
+
+CSerializedUndoManagerCompBase::UndoList& CSerializedUndoManagerCompBase::GetRedoList()
+{
+	return m_redoList;
+}
+
+
+const CSerializedUndoManagerCompBase::UndoList& CSerializedUndoManagerCompBase::GetRedoList() const
+{
+	return m_redoList;
+}
+
+
 bool CSerializedUndoManagerCompBase::DoListShift(int steps, UndoList& fromList, UndoList& toList)
 {
 	bool retVal = false;

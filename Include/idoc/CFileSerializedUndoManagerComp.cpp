@@ -8,6 +8,11 @@
 #include <QtCore/QFile>
 #include <QtCore/QFileInfo>
 
+// ACF includes
+#include <istd/CChangeNotifier.h>
+#include <iser/IArchive.h>
+#include <iser/CArchiveTag.h>
+
 
 namespace idoc
 {
@@ -41,11 +46,108 @@ qint64 CFileSerializedUndoManagerComp::CFileUndoState::GetStateSize() const
 }
 
 
+bool CFileSerializedUndoManagerComp::CFileUndoState::Serialize(iser::IArchive& archive)
+{
+	static iser::CArchiveTag filePathTag("FilePath", "Path to the file storing the document state", iser::CArchiveTag::TT_LEAF);
+
+	return archive.BeginTag(filePathTag) && archive.Process(m_filePath) && archive.EndTag(filePathTag);
+}
+
+
 // CFileSerializedUndoManagerComp
 
 CFileSerializedUndoManagerComp::CFileSerializedUndoManagerComp()
-:	m_nextStepIndex(0)
+:	m_uniqueFileCounter(0)
 {
+}
+
+
+// reimplemented (iser::ISerializable)
+
+bool CFileSerializedUndoManagerComp::Serialize(iser::IArchive& archive)
+{
+	static iser::CArchiveTag currentStepTag("CurrentStep", "Index of the current undo step", iser::CArchiveTag::TT_LEAF);
+	static iser::CArchiveTag stepsTag("Steps", "List of all stored undo and redo steps", iser::CArchiveTag::TT_MULTIPLE);
+	static iser::CArchiveTag stepTag("Step", "Single undo or redo step", iser::CArchiveTag::TT_GROUP, &stepsTag);
+	static iser::CArchiveTag descriptionTag("Description", "Human readable step description", iser::CArchiveTag::TT_LEAF, &stepTag);
+	static iser::CArchiveTag stateTag("State", "Stored document state", iser::CArchiveTag::TT_GROUP, &stepTag);
+
+	UndoList& undoList = GetUndoList();
+	UndoList& redoList = GetRedoList();
+
+	bool retVal = true;
+
+	if (archive.IsStoring()){
+		qint32 currentStepIndex = qint32(undoList.size());
+
+		retVal = retVal && archive.TagAndProcess(currentStepTag, currentStepIndex);
+
+		int stepsCount = undoList.size() + redoList.size();
+
+		retVal = retVal && archive.BeginMultiTag(stepsTag, stepTag, stepsCount);
+
+		for (int listIndex = 0; (listIndex < 2) && retVal; ++listIndex){
+			UndoList& list = (listIndex == 0)? undoList: redoList;
+
+			for (UndoList::iterator iter = list.begin(); iter != list.end(); ++iter){
+				CFileUndoState* fileStatePtr = static_cast<CFileUndoState*>(iter->statePtr.GetPtr());
+				if (fileStatePtr == NULL){
+					return false;
+				}
+
+				retVal = retVal && archive.BeginTag(stepTag);
+				retVal = retVal && archive.TagAndProcess(descriptionTag, iter->description);
+				retVal = retVal && archive.BeginTag(stateTag);
+				retVal = retVal && fileStatePtr->Serialize(archive);
+				retVal = retVal && archive.EndTag(stateTag);
+				retVal = retVal && archive.EndTag(stepTag);
+			}
+		}
+
+		retVal = retVal && archive.EndTag(stepsTag);
+	}
+	else{
+		istd::CChangeNotifier notifier(this);
+		Q_UNUSED(notifier);
+
+		qint32 currentStepIndex = 0;
+		retVal = retVal && archive.TagAndProcess(currentStepTag, currentStepIndex);
+
+		int stepsCount = 0;
+		retVal = retVal && archive.BeginMultiTag(stepsTag, stepTag, stepsCount);
+		if (!retVal){
+			return false;
+		}
+
+		undoList.clear();
+		redoList.clear();
+
+		for (int stepIndex = 0; (stepIndex < stepsCount) && retVal; ++stepIndex){
+			QString description;
+
+			CFileUndoState* fileStatePtr = new CFileUndoState(QString());
+			UndoStatePtr statePtr(fileStatePtr);
+
+			retVal = retVal && archive.BeginTag(stepTag);
+			retVal = retVal && archive.TagAndProcess(descriptionTag, description);
+			retVal = retVal && archive.BeginTag(stateTag);
+			retVal = retVal && fileStatePtr->Serialize(archive);
+			retVal = retVal && archive.EndTag(stateTag);
+			retVal = retVal && archive.EndTag(stepTag);
+
+			if (retVal){
+				UndoList& targetList = (stepIndex < currentStepIndex)? undoList: redoList;
+
+				targetList.push_back(UndoStepInfo());
+				targetList.back().description = description;
+				targetList.back().statePtr.TakeOver(statePtr);
+			}
+		}
+
+		retVal = retVal && archive.EndTag(stepsTag);
+	}
+
+	return retVal;
 }
 
 
@@ -71,16 +173,23 @@ CSerializedUndoManagerCompBase::IUndoState* CFileSerializedUndoManagerComp::Crea
 		return NULL;
 	}
 
-	QString filePath = CreateStepFilePath(m_nextStepIndex);
+	int currentStepIndex = GetAvailableUndoSteps();
+
+	QString filePath = CreateStepFilePath(currentStepIndex);
 	if (filePath.isEmpty()){
 		return NULL;
+	}
+
+	// The base class temporarily creates additional states for comparison while a state for the
+	// same step already exists, so a unique backing file is chosen to avoid collisions.
+	QDir directory(m_directoryCompPtr->GetPath());
+	while (QFile::exists(filePath)){
+		filePath = directory.filePath(QString("step_%1_%2.bin").arg(currentStepIndex).arg(m_uniqueFileCounter++));
 	}
 
 	if (m_persistenceCompPtr->SaveToFile(object, filePath) != ifile::IFilePersistence::OS_OK){
 		return NULL;
 	}
-
-	++m_nextStepIndex;
 
 	return new CFileUndoState(filePath);
 }
@@ -122,14 +231,6 @@ bool CFileSerializedUndoManagerComp::AreStatesEqual(const IUndoState& state1, co
 	}
 
 	return hash1.result() == hash2.result();
-}
-
-
-void CFileSerializedUndoManagerComp::OnUndoPositionChanged()
-{
-	if (m_currentStepCompPtr.IsValid()){
-		m_currentStepCompPtr->SetSelectedOptionIndex(GetAvailableUndoSteps());
-	}
 }
 
 
