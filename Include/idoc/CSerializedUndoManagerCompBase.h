@@ -6,6 +6,7 @@
 #include <QtCore/QList>
 
 // ACF includes
+#include <istd/IPolymorphic.h>
 #include <istd/TDelPtr.h>
 #include <iser/ISerializable.h>
 #include <iser/CMemoryWriteArchive.h>
@@ -81,11 +82,9 @@ protected:
 		the backing file) in their destructor, so that removing an entry from the undo or redo list
 		automatically releases the associated resources.
 	*/
-	class IUndoState
+	class IUndoState: virtual public istd::IPolymorphic
 	{
 	public:
-		virtual ~IUndoState() {}
-
 		/**
 			Approximate size in bytes used to store this state.
 			It is used to limit the total size of the undo buffer.
