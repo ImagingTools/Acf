@@ -3,6 +3,7 @@
 
 
 // Qt includes
+#include <QtCore/QCryptographicHash>
 #include <QtCore/QDir>
 #include <QtCore/QFile>
 #include <QtCore/QFileInfo>
@@ -113,7 +114,14 @@ bool CFileSerializedUndoManagerComp::AreStatesEqual(const IUndoState& state1, co
 		return false;
 	}
 
-	return file1.readAll() == file2.readAll();
+	QCryptographicHash hash1(QCryptographicHash::Sha256);
+	QCryptographicHash hash2(QCryptographicHash::Sha256);
+
+	if (!hash1.addData(&file1) || !hash2.addData(&file2)){
+		return false;
+	}
+
+	return hash1.result() == hash2.result();
 }
 
 
