@@ -205,6 +205,11 @@ I_EXPORT_COMPONENT(
 			"UNDO REDO Manager Persistence Serialization" IM_TAG("Model Document"));
 
 I_EXPORT_COMPONENT(
+			FileSerializedUndoManager,
+			"Provide UNDO manager based on complete object serialization into files",
+			"UNDO REDO Manager Persistence Serialization File" IM_TAG("Model Document"));
+
+I_EXPORT_COMPONENT(
 			Line,
 			"Line 2D object",
 			"Line Object Parameter" IM_CATEGORY(I_DATA_MODEL) IM_TAG("2D Model"));

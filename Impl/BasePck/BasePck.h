@@ -17,6 +17,7 @@
 #include <idoc/CCompositeDocumentTemplateComp.h>
 #include <idoc/CSelectedDocModelBinderComp.h>
 #include <idoc/CSerializedUndoManagerComp.h>
+#include <idoc/CFileSerializedUndoManagerComp.h>
 #include <idoc/CTextFileLoaderComp.h>
 #include <idoc/CTextDocumentComp.h>
 #include <idoc/CMultiPageDocumentFilePersistenceComp.h>
@@ -119,6 +120,8 @@ typedef idoc::CCompositeDocumentTemplateComp CompositeDocumentTemplate;
 typedef idoc::CSelectedDocModelBinderComp SelectedDocModelBinder;
 typedef ibase::TModelObserverCompWrap<
 			icomp::TModelCompWrap<idoc::CSerializedUndoManagerComp> > SerializedUndoManager;
+typedef ibase::TModelObserverCompWrap<
+			icomp::TModelCompWrap<idoc::CFileSerializedUndoManagerComp> > FileSerializedUndoManager;
 typedef idoc::CTextFileLoaderComp TextFileLoader;
 typedef icomp::TModelCompWrap<idoc::CTextDocumentComp> TextDocument;
 typedef idoc::CMultiPageDocumentFilePersistenceComp MultiPageDocumentFilePersistence;
