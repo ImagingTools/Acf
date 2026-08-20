@@ -17,6 +17,66 @@ macro(acf_define_link_scope_var VAR_NAME DEFAULT_VALUE DOC_STRING)
 	endif()
 endmacro()
 
+if(NOT COMMAND acf_declare_target_dependencies)
+	function(acf_declare_target_dependencies target)
+		cmake_parse_arguments(ARG "" "LINK_SCOPE" "" ${ARGN})
+
+		# When callers pass LINK_SCOPE ${SOME_SCOPE_VAR} and the variable is empty,
+		# CMake shifts the first dependency token into LINK_SCOPE. Recover by
+		# treating unknown scope values as dependencies.
+		if(ARG_LINK_SCOPE)
+			string(TOUPPER "${ARG_LINK_SCOPE}" _acf_dep_scope_candidate)
+			if(NOT _acf_dep_scope_candidate MATCHES "^(PUBLIC|PRIVATE|INTERFACE)$")
+				list(INSERT ARG_UNPARSED_ARGUMENTS 0 "${ARG_LINK_SCOPE}")
+				unset(ARG_LINK_SCOPE)
+			endif()
+		endif()
+
+		if(NOT ARG_LINK_SCOPE)
+			if(DEFINED ACF_LIBRARY_LINK_SCOPE AND NOT "${ACF_LIBRARY_LINK_SCOPE}" STREQUAL "")
+				set(ARG_LINK_SCOPE ${ACF_LIBRARY_LINK_SCOPE})
+			else()
+				set(ARG_LINK_SCOPE PUBLIC)
+			endif()
+		endif()
+
+		if(NOT TARGET ${target})
+			return()
+		endif()
+
+		# target_link_libraries() is illegal on ALIAS targets, and can also conflict
+		# with old plain-signature calls from legacy helper templates.
+		# Apply dependencies via target properties to keep behavior deterministic.
+		get_target_property(_acf_dep_aliased ${target} ALIASED_TARGET)
+		if(_acf_dep_aliased)
+			return()
+		endif()
+
+		string(TOUPPER "${ARG_LINK_SCOPE}" _acf_dep_scope)
+		get_target_property(_acf_dep_imported ${target} IMPORTED)
+		get_target_property(_acf_dep_type ${target} TYPE)
+
+		foreach(dependency IN LISTS ARG_UNPARSED_ARGUMENTS)
+			if(TARGET ${dependency})
+				if(_acf_dep_imported)
+					set_property(TARGET ${target} APPEND PROPERTY INTERFACE_LINK_LIBRARIES ${dependency})
+				elseif(_acf_dep_type STREQUAL "INTERFACE_LIBRARY")
+					set_property(TARGET ${target} APPEND PROPERTY INTERFACE_LINK_LIBRARIES ${dependency})
+				elseif(_acf_dep_scope STREQUAL "INTERFACE")
+					set_property(TARGET ${target} APPEND PROPERTY INTERFACE_LINK_LIBRARIES ${dependency})
+				elseif(_acf_dep_scope STREQUAL "PUBLIC")
+					set_property(TARGET ${target} APPEND PROPERTY LINK_LIBRARIES ${dependency})
+					if(NOT _acf_dep_type STREQUAL "EXECUTABLE")
+						set_property(TARGET ${target} APPEND PROPERTY INTERFACE_LINK_LIBRARIES ${dependency})
+					endif()
+				else()
+					set_property(TARGET ${target} APPEND PROPERTY LINK_LIBRARIES ${dependency})
+				endif()
+			endif()
+		endforeach()
+	endfunction()
+endif()
+
 macro(get_target_name target_name)
 	set(COMPILER_NAME "Clang")
 	if(${MSVC})
