@@ -129,7 +129,7 @@ endfunction()
 # Configurable link-scope variables.
 #
 # These are normally defined by the top-level CMakeLists.txt via
-# acf_define_link_scope_var() (which creates validated CACHE entries).
+# validated CACHE entries created by the environment setup.
 # The guards below provide safe defaults when GeneralConfig.cmake is included
 # without a prior call (e.g. by downstream repos that include individual
 # library CMakeLists directly).
