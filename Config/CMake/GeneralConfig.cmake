@@ -1,4 +1,4 @@
-#General base configuration should be included from all ACF-based projects
+# General base configuration should be included in all ACF-based projects
 
 message(VERBOSE "PROJECT_NAME " ${PROJECT_NAME})
 message(VERBOSE "CMAKE_CURRENT_LIST_DIR " ${CMAKE_CURRENT_LIST_DIR})
@@ -88,12 +88,8 @@ set(CMAKE_AUTOMOC ON)
 
 set(AUXINCLUDEDIR "AuxInclude/${TARGETNAME}/GeneratedFiles")
 set(AUXINCLUDEPATH "${PROJECT_SOURCE_DIR}/../../../${AUXINCLUDEDIR}")
-#set(ACF_TRANSLATIONS_OUTDIR "${AUXINCLUDEPATH}/${TARGETNAME}")
-
-#find_package("Qt${QT_VERSION_MAJOR}" COMPONENTS Core Widgets Core Gui Xml Network Svg Concurrent REQUIRED)
 
 include_directories("${PROJECT_SOURCE_DIR}/../../")
-
 include_directories("${INCLUDE_DIR}")
 include_directories("${IMPL_DIR}")
 
@@ -233,47 +229,133 @@ function(acf_register_library target)
 endfunction()
 
 
+#[[==========================================================================
+Configures and deploys a Qt application as a macOS bundle.
+
+Creates a macOS application bundle and deploys the required Qt libraries
+using macdeployqt. A custom Info.plist and application icon can optionally
+be provided.
+
+If INFO_PLIST is not specified, CMake's default Info.plist is used.
+If ICON is not specified, no custom application icon is added.
+
+\param TARGET			(required) Target to configure and deploy.
+
+\param TARGET_FILE_NAME	(optional) Name of the generated .app bundle.
+									Defaults to TARGET.
+
+\param INFO_PLIST		(optional) Path to a custom macOS Info.plist.
+\param ICON				(optional) Path to a macOS .icns application icon.
+\param REMOVE_DEBUGSYM	(optional) Do not preserve debug symbols when
+									deploying a Debug build.
+\param OPTIONS			(optional) Additional options passed directly to macdeployqt.
+
+Usage:
+	mac_deploy_qt(
+		REMOVE_DEBUGSYM
+		TARGET ${PROJECT_NAME}
+		INFO_PLIST "${PROJECT_SOURCE_DIR}/../Mac/Info.plist"
+		ICON "${PROJECT_SOURCE_DIR}/../Mac/ProjectIcon.icns"
+	)
+
+Minimal usage:
+	mac_deploy_qt(TARGET ${PROJECT_NAME})
+==========================================================================]]
 function (mac_deploy_qt)
 	if (NOT APPLE)
 		return()
 	endif()
 
 	set(booleanArgs REMOVE_DEBUGSYM)
-	set(oneValueArgs TARGET TARGET_FILE_NAME)
-	set(multiValueArgs OPTIONS)
-	cmake_parse_arguments(ARG "${booleanArgs}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
 
-	get_target_property(qmake_executable Qt${QT_VERSION_MAJOR}::qmake IMPORTED_LOCATION)
-	get_filename_component(qt_bin_dir "${qmake_executable}" DIRECTORY)
-	set(DEPLOY_QT_EXECUTABLE "NOTFOUND")
+	set(oneValueArgs
+		TARGET
+		TARGET_FILE_NAME
+		INFO_PLIST
+		ICON
+	)
+
+	set(multiValueArgs OPTIONS)
+
+	cmake_parse_arguments(
+		ARG
+		"${booleanArgs}"
+		"${oneValueArgs}"
+		"${multiValueArgs}"
+		${ARGN}
+	)
+
+	if(NOT ARG_TARGET)
+		message(FATAL_ERROR "mac_deploy_qt: TARGET is required")
+	endif()
+
+	if(NOT ARG_TARGET_FILE_NAME)
+		set(ARG_TARGET_FILE_NAME "${ARG_TARGET}")
+	endif()
+
+	get_target_property(QMAKE_EXECUTABLE Qt${QT_VERSION_MAJOR}::qmake IMPORTED_LOCATION)
+	get_filename_component(QT_BIN_DIR "${QMAKE_EXECUTABLE}" DIRECTORY )
+	set(DEPLOY_QT_EXECUTABLE "${QT_BIN_DIR}/macdeployqt")
+	if(NOT EXISTS "${DEPLOY_QT_EXECUTABLE}")
+		message(FATAL_ERROR "Unable to find macdeployqt: ${DEPLOY_QT_EXECUTABLE}")
+	endif()
 
 	set_property(
 		TARGET ${ARG_TARGET}
-		PROPERTY MACOSX_BUNDLE TRUE)
+		PROPERTY MACOSX_BUNDLE TRUE
+	)
 
-	get_property(OUTPUT_DIRECTORY
-		TARGET ${PROJECT_NAME}
-		PROPERTY RUNTIME_OUTPUT_DIRECTORY)
+	# Use a custom Info.plist when provided.
+	# Otherwise CMake generates its default bundle Info.plist.
+	if(ARG_INFO_PLIST)
+		if(NOT EXISTS "${ARG_INFO_PLIST}")
+			message(FATAL_ERROR
+				"mac_deploy_qt: INFO_PLIST does not exist: ${ARG_INFO_PLIST}"
+			)
+		endif()
+
+		set_target_properties(${ARG_TARGET} PROPERTIES
+			MACOSX_BUNDLE_INFO_PLIST "${ARG_INFO_PLIST}"
+		)
+	endif()
+
+	# Use a custom application icon when provided.
+	if(ARG_ICON)
+		if(NOT EXISTS "${ARG_ICON}")
+			message(FATAL_ERROR
+				"mac_deploy_qt: ICON does not exist: ${ARG_ICON}"
+			)
+		endif()
+
+		get_filename_component(ICON_FILE_NAME "${ARG_ICON}" NAME)
+		set_target_properties(${ARG_TARGET} PROPERTIES MACOSX_BUNDLE_ICON_FILE "${ICON_FILE_NAME}")
+		target_sources(${ARG_TARGET} PRIVATE "${ARG_ICON}")
+		set_source_files_properties("${ARG_ICON}" PROPERTIES MACOSX_PACKAGE_LOCATION "Resources" )
+	endif()
+
+	get_target_property(OUTPUT_DIRECTORY
+		${ARG_TARGET}
+		RUNTIME_OUTPUT_DIRECTORY
+	)
 
 	set(BUNDLE_BIN_DIRECTORY "${OUTPUT_DIRECTORY}/${ARG_TARGET_FILE_NAME}.app")
-	set(DEPLOY_QT_EXECUTABLE ${qt_bin_dir}/macdeployqt)
-	set(DEPLOY_OPTIONS "${ARG_OPTIONS}")
+	set(DEPLOY_OPTIONS ${ARG_OPTIONS})
 
-	if (NOT ARG_REMOVE_DEBUGSYM)
-		if (${CMAKE_BUILD_TYPE} STREQUAL "Debug")
-			list(APPEND DEPLOY_OPTIONS "-no-strip")
-		endif()
+	if(NOT ARG_REMOVE_DEBUGSYM AND "${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
+		list(APPEND DEPLOY_OPTIONS "-no-strip")
 	endif()
 
-	if(DEPLOY_QT_EXECUTABLE)
-		add_custom_command(
-			TARGET ${PROJECT_NAME} POST_BUILD
-			COMMAND ${DEPLOY_QT_EXECUTABLE} ${BUNDLE_BIN_DIRECTORY} ${DEPLOY_OPTIONS}
-			DEPENDS ${BUNDLE_BIN_DIRECTORY}
-			COMMENT "Deploying Qt libraries using ${DEPLOY_QT_EXECUTABLE} ${BUNDLE_BIN_DIRECTORY} ${DEPLOY_OPTIONS} ..."
-			)
-	else()
-		message(FATAL_ERROR "Unable to find the DEPLOY_QT_EXECUTABLE programm ")
-	endif()
-
+	add_custom_command(
+		TARGET ${ARG_TARGET}
+		POST_BUILD
+		COMMAND
+			"${DEPLOY_QT_EXECUTABLE}"
+			"${BUNDLE_BIN_DIRECTORY}"
+			${DEPLOY_OPTIONS}
+		DEPENDS ${BUNDLE_BIN_DIRECTORY}
+		COMMENT
+			"Deploying Qt libraries using ${DEPLOY_QT_EXECUTABLE}"
+		VERBATIM
+	)
 endfunction()
+
