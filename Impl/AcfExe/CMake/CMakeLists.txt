@@ -14,11 +14,7 @@ if(WIN32)
 	target_link_libraries(${PROJECT_NAME} ${ACF_APPLICATION_LINK_SCOPE} user32)
 endif()
 
-if(WIN32)
-	set(listFiles \"${AUX_INCLUDE_DIR}/../../../Bin/${CMAKE_BUILD_TYPE}_${TARGETNAME}/${PROJECT_NAME}.exe\")
-	windeploy(${PROJECT_NAME} "" "${listFiles}")
-	unset(listFiles)
-endif()
+windeploy(TARGET ${PROJECT_NAME})
 
 mac_deploy_qt(
 	REMOVE_DEBUGSYM
