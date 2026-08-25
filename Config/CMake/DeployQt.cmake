@@ -1,8 +1,9 @@
 #[[==========================================================================
 Deploys Qt runtime dependencies for a target on supported desktop platforms.
 
-On Windows, uses windeployqt. On macOS, configures an application bundle and
-uses macdeployqt. Other platforms are a no-op.
+On Windows, uses windeployqt. On macOS, uses macdeployqt for targets already
+configured as application bundles. Other platforms and non-bundle macOS
+targets are a no-op.
 
 DEPLOY_QT_QML_DIRS (Project-level optional) List of directories passed to the
 platform deployment tool for QML import discovery. Set this variable before
