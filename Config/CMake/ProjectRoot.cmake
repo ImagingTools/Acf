@@ -21,10 +21,16 @@ function(declare_target_dependencies target)
 	cmake_parse_arguments(ARG "" "LINK_SCOPE" "" ${ARGN})
 
 	if(NOT ARG_LINK_SCOPE)
-		set(ARG_LINK_SCOPE ${ACF_LIBRARY_LINK_SCOPE})
+		set(ARG_LINK_SCOPE PUBLIC)
 	endif()
 
 	if(NOT TARGET ${target})
+		return()
+	endif()
+
+	# Imported targets can be augmented; in-tree aliases cannot and may create cycles.
+	get_target_property(aliased_target ${target} ALIASED_TARGET)
+	if(aliased_target)
 		return()
 	endif()
 
