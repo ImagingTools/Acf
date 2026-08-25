@@ -18,7 +18,7 @@ Usage:
 ==========================================================================]]
 
 if(WIN32)
-	include("${CMAKE_CURRENT_LIST_DIR}/WindeployQt.cmake")
+	include("${CMAKE_CURRENT_LIST_DIR}/WinDeployQt.cmake")
 elseif(APPLE)
 	include("${CMAKE_CURRENT_LIST_DIR}/MacDeployQt.cmake")
 endif()
