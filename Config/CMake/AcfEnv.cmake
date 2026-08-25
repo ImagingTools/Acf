@@ -29,10 +29,10 @@ get_target_name(TARGETNAME)
 # Unified modern link-scope defaults for repositories that opt into
 # target-based CMake (set ACF_MODERN_CMAKE ON before including AcfEnv.cmake).
 if(ACF_MODERN_CMAKE)
-	acf_define_link_scope_var(ACF_QT_MODULE_LINK_SCOPE "PRIVATE" "Link scope used for Qt module dependencies")
-	acf_define_link_scope_var(ACF_LIBRARY_LINK_SCOPE "PUBLIC" "Link scope used by inter-library dependencies")
-	acf_define_link_scope_var(ACF_PACKAGE_LINK_SCOPE "PRIVATE" "Link scope used by package (Pck) libraries linking their dependencies")
-	acf_define_link_scope_var(ACF_APPLICATION_LINK_SCOPE "PRIVATE" "Link scope used by executables linking their dependencies")
+	define_link_scope_var(ACF_QT_MODULE_LINK_SCOPE "PRIVATE" "Link scope used for Qt module dependencies")
+	define_link_scope_var(ACF_LIBRARY_LINK_SCOPE "PUBLIC" "Link scope used by inter-library dependencies")
+	define_link_scope_var(ACF_PACKAGE_LINK_SCOPE "PRIVATE" "Link scope used by package (Pck) libraries linking their dependencies")
+	define_link_scope_var(ACF_APPLICATION_LINK_SCOPE "PRIVATE" "Link scope used by executables linking their dependencies")
 endif()
 
 if(DEFINED ENV{ACFDIR_BUILD})
