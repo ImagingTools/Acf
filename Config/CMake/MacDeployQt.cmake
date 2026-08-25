@@ -1,7 +1,7 @@
 #[[==========================================================================
-Configures and deploys a Qt application as a macOS bundle.
+Deploys Qt runtime dependencies for a macOS application bundle.
 
-Creates a macOS application bundle and deploys the required Qt libraries using macdeployqt. 
+Requires the target to have MACOSX_BUNDLE enabled. Deploys the required Qt libraries using macdeployqt.
 If present, the conventional ../Mac/Info.plist and ../Mac/<target>.icns files are added to the bundle.
 
 If those files are absent, CMake's default Info.plist is used and no custom
@@ -46,17 +46,17 @@ function(mac_deploy_qt)
 		message(FATAL_ERROR "mac_deploy_qt: TARGET is required")
 	endif()
 
+	get_target_property(IS_BUNDLE ${ARG_TARGET} MACOSX_BUNDLE)
+	if(NOT IS_BUNDLE)
+		return()
+	endif()
+
 	get_target_property(QMAKE_EXECUTABLE Qt${QT_VERSION_MAJOR}::qmake IMPORTED_LOCATION)
 	get_filename_component(QT_BIN_DIR "${QMAKE_EXECUTABLE}" DIRECTORY )
 	set(DEPLOY_QT_EXECUTABLE "${QT_BIN_DIR}/macdeployqt")
 	if(NOT EXISTS "${DEPLOY_QT_EXECUTABLE}")
 		message(FATAL_ERROR "Unable to find macdeployqt: ${DEPLOY_QT_EXECUTABLE}")
 	endif()
-
-	set_property(
-		TARGET ${ARG_TARGET}
-		PROPERTY MACOSX_BUNDLE TRUE
-	)
 
 	set(INFO_PLIST "${PROJECT_SOURCE_DIR}/../Mac/Info.plist")
 	if(EXISTS "${INFO_PLIST}")
