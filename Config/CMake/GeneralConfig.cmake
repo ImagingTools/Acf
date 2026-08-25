@@ -1,4 +1,4 @@
-#General base configuration should be included from all ACF-based projects
+# General base configuration should be included in all ACF-based projects
 
 message(VERBOSE "PROJECT_NAME " ${PROJECT_NAME})
 message(VERBOSE "CMAKE_CURRENT_LIST_DIR " ${CMAKE_CURRENT_LIST_DIR})
@@ -19,55 +19,22 @@ if(${MSVC})
 		string(REPLACE "/GD" "" CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS})
 		string(REPLACE "-Gd" "" CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS})
 		string(REPLACE "-GD" "" CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS})
-	endif()
 
-	if(${MSVC_TOOLSET_VERSION} STREQUAL 100)
+	elseif(${MSVC_TOOLSET_VERSION} STREQUAL 100 OR ${MSVC_TOOLSET_VERSION} STREQUAL 110)
 		set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /wd4996")
-	endif()
 
-	if(${MSVC_TOOLSET_VERSION} STREQUAL 110)
-		set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /wd4996")
-	endif()
-
-	if(${MSVC_TOOLSET_VERSION} STREQUAL 120)
+	elseif(${MSVC_TOOLSET_VERSION} STREQUAL 120)
 		add_compile_options(-std=c++11)
 		set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /wd4996 /Qpar /Gy /Gw /FS")
-	endif()
 
-	if(${MSVC_TOOLSET_VERSION} STREQUAL 140)
+	elseif(${MSVC_TOOLSET_VERSION} GREATER_EQUAL 140 AND ${MSVC_TOOLSET_VERSION} LESS_EQUAL 142)
 		set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /Qpar /Gy /Gw /FS /Zc:threadSafeInit-")
 		set(CMAKE_CXX_FLAGS_RELEASE_INIT "${CMAKE_CXX_FLAGS_RELEASE_INIT} /Ot /Oi /Ob2 /GS-")
-		if(${CMAKE_CXX_COMPILER_ARCHITECTURE_ID} STREQUAL x64)
+		if(${MSVC_TOOLSET_VERSION} STREQUAL 140 AND ${CMAKE_CXX_COMPILER_ARCHITECTURE_ID} STREQUAL x64)
 			set(CMAKE_CXX_LINK_LIBRARY_FLAG "${CMAKE_CXX_LINK_LIBRARY_FLAG} /MACHINE:X64")
 		endif()
-	endif()
 
-	if(${MSVC_TOOLSET_VERSION} STREQUAL 141)
-		set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /Qpar /Gy /Gw /FS /Zc:threadSafeInit-")
-		set(CMAKE_CXX_FLAGS_RELEASE_INIT "${CMAKE_CXX_FLAGS_RELEASE_INIT} /Ot /Oi /Ob2 /GS-")
-	endif()
-
-	if(${MSVC_TOOLSET_VERSION} STREQUAL 142)
-		set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /Qpar /Gy /Gw /FS /Zc:threadSafeInit-")
-		set(CMAKE_CXX_FLAGS_RELEASE_INIT "${CMAKE_CXX_FLAGS_RELEASE_INIT} /Ot /Oi /Ob2 /GS-")
-	endif()
-
-	if(${MSVC_TOOLSET_VERSION} STREQUAL 143)
-		set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /Gy /FS /Zc:threadSafeInit-")
-		set(CMAKE_CXX_FLAGS_RELEASE_INIT "${CMAKE_CXX_FLAGS_RELEASE_INIT} /Ot /Oi /Ob2 /GS-")
-	endif()
-
-	if(${MSVC_TOOLSET_VERSION} STREQUAL 144)
-		set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /Gy /FS /Zc:threadSafeInit-")
-		set(CMAKE_CXX_FLAGS_RELEASE_INIT "${CMAKE_CXX_FLAGS_RELEASE_INIT} /Ot /Oi /Ob2 /GS-")
-	endif()
-
-	if(${MSVC_TOOLSET_VERSION} STREQUAL 145)
-		set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /Gy /FS /Zc:threadSafeInit-")
-		set(CMAKE_CXX_FLAGS_RELEASE_INIT "${CMAKE_CXX_FLAGS_RELEASE_INIT} /Ot /Oi /Ob2 /GS-")
-	endif()
-
-	if(MSVC_TOOLSET_VERSION GREATER 145)
+	elseif(${MSVC_TOOLSET_VERSION} GREATER_EQUAL 143)
 		set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /Gy /FS /Zc:threadSafeInit-")
 		set(CMAKE_CXX_FLAGS_RELEASE_INIT "${CMAKE_CXX_FLAGS_RELEASE_INIT} /Ot /Oi /Ob2 /GS-")
 	endif()
@@ -78,7 +45,6 @@ if(${MSVC})
 		message(STATUS "ACF: MSVC_TOOLSET_VERSION=${MSVC_TOOLSET_VERSION}, COMPILER_NAME=${COMPILER_NAME}")
 		set_property(GLOBAL PROPERTY ACF_TOOLSET_MESSAGE_PRINTED TRUE)
 	endif()
-
 endif()
 
 
@@ -88,12 +54,8 @@ set(CMAKE_AUTOMOC ON)
 
 set(AUXINCLUDEDIR "AuxInclude/${TARGETNAME}/GeneratedFiles")
 set(AUXINCLUDEPATH "${PROJECT_SOURCE_DIR}/../../../${AUXINCLUDEDIR}")
-#set(ACF_TRANSLATIONS_OUTDIR "${AUXINCLUDEPATH}/${TARGETNAME}")
-
-#find_package("Qt${QT_VERSION_MAJOR}" COMPONENTS Core Widgets Core Gui Xml Network Svg Concurrent REQUIRED)
 
 include_directories("${PROJECT_SOURCE_DIR}/../../")
-
 include_directories("${INCLUDE_DIR}")
 include_directories("${IMPL_DIR}")
 
@@ -232,48 +194,3 @@ function(acf_register_library target)
 			PATTERN "Test" EXCLUDE)
 endfunction()
 
-
-function (mac_deploy_qt)
-	if (NOT APPLE)
-		return()
-	endif()
-
-	set(booleanArgs REMOVE_DEBUGSYM)
-	set(oneValueArgs TARGET TARGET_FILE_NAME)
-	set(multiValueArgs OPTIONS)
-	cmake_parse_arguments(ARG "${booleanArgs}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
-
-	get_target_property(qmake_executable Qt${QT_VERSION_MAJOR}::qmake IMPORTED_LOCATION)
-	get_filename_component(qt_bin_dir "${qmake_executable}" DIRECTORY)
-	set(DEPLOY_QT_EXECUTABLE "NOTFOUND")
-
-	set_property(
-		TARGET ${ARG_TARGET}
-		PROPERTY MACOSX_BUNDLE TRUE)
-
-	get_property(OUTPUT_DIRECTORY
-		TARGET ${PROJECT_NAME}
-		PROPERTY RUNTIME_OUTPUT_DIRECTORY)
-
-	set(BUNDLE_BIN_DIRECTORY "${OUTPUT_DIRECTORY}/${ARG_TARGET_FILE_NAME}.app")
-	set(DEPLOY_QT_EXECUTABLE ${qt_bin_dir}/macdeployqt)
-	set(DEPLOY_OPTIONS "${ARG_OPTIONS}")
-
-	if (NOT ARG_REMOVE_DEBUGSYM)
-		if (${CMAKE_BUILD_TYPE} STREQUAL "Debug")
-			list(APPEND DEPLOY_OPTIONS "-no-strip")
-		endif()
-	endif()
-
-	if(DEPLOY_QT_EXECUTABLE)
-		add_custom_command(
-			TARGET ${PROJECT_NAME} POST_BUILD
-			COMMAND ${DEPLOY_QT_EXECUTABLE} ${BUNDLE_BIN_DIRECTORY} ${DEPLOY_OPTIONS}
-			DEPENDS ${BUNDLE_BIN_DIRECTORY}
-			COMMENT "Deploying Qt libraries using ${DEPLOY_QT_EXECUTABLE} ${BUNDLE_BIN_DIRECTORY} ${DEPLOY_OPTIONS} ..."
-			)
-	else()
-		message(FATAL_ERROR "Unable to find the DEPLOY_QT_EXECUTABLE programm ")
-	endif()
-
-endfunction()
