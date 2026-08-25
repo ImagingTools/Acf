@@ -11,7 +11,7 @@ if(NOT DEFINED CMAKE_PREFIX_PATH)
 endif()
 
 
-#Acf
+# Acf
 if(NOT DEFINED ACFDIR)
 	set(ACFDIR "$ENV{ACFDIR}")
 endif()
@@ -51,6 +51,7 @@ if(NOT ACF_MODERN_CMAKE)
 	include_directories("${ACFDIR}/Include")
 	include_directories("${ACFDIR}/Impl")
 	link_directories(${ACFDIR_BUILD}/Lib/${CMAKE_BUILD_TYPE}_${TARGETNAME})
+
+	message(VERBOSE "Acf link_directories ${ACFDIR_BUILD}/Lib/${CMAKE_BUILD_TYPE}_${TARGETNAME}")
 endif()
 
-message(VERBOSE "Acf link_directories ${ACFDIR_BUILD}/Lib/${CMAKE_BUILD_TYPE}_${TARGETNAME}")

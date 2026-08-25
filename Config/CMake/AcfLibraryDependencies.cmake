@@ -8,11 +8,7 @@
 # automatic, both for the in-tree build and for downstream consumers that use
 # find_package(Acf) and link a single Acf::<lib> target.
 #
-# The target_link_libraries() signature is controlled by ACF_LIBRARY_LINK_SCOPE:
-#  * when empty, the plain signature is used (matching legacy ACF CMake),
-#  * when set to PUBLIC/PRIVATE/INTERFACE, the keyword signature is used.
-# Avoid mixing plain and keyword signatures for the same target (CMake forbids it).
-# For static libraries, the dependency still propagates transitively to consumers.
+# Library dependencies use PUBLIC so they propagate transitively to consumers.
 #
 # The dependencies below are derived from the #include graph of each library.
 # A couple of the libraries are mutually dependent (ibase <-> iqt and
@@ -23,58 +19,41 @@
 # targets have been created.
 # ---------------------------------------------------------------------------
 
-# Declare the internal ACF dependencies of a library, ignoring any entry whose
-# target does not exist in the current configuration (e.g. platform-specific
-# or feature-gated libraries).
-function(acf_declare_library_dependencies target)
-	if(NOT TARGET ${target})
-		return()
-	endif()
-
-	foreach(dependency IN LISTS ARGN)
-		if(TARGET ${dependency})
-			target_link_libraries(${target} ${ACF_LIBRARY_LINK_SCOPE} ${dependency})
-		endif()
-	endforeach()
-endfunction()
-
 # --- Foundation -------------------------------------------------------------
-acf_declare_library_dependencies(itest		istd)
-acf_declare_library_dependencies(iser		istd)
-acf_declare_library_dependencies(imod		iser)
-acf_declare_library_dependencies(imath		iser)
-acf_declare_library_dependencies(iattr		imod)
-acf_declare_library_dependencies(icomp		iattr)
-acf_declare_library_dependencies(ilog		icomp)
-acf_declare_library_dependencies(iprm		ilog)
+declare_target_dependencies(itest			istd)
+declare_target_dependencies(iser			istd)
+declare_target_dependencies(imod			iser)
+declare_target_dependencies(imath			iser)
+declare_target_dependencies(iattr			imod)
+declare_target_dependencies(icomp			iattr)
+declare_target_dependencies(ilog			icomp)
+declare_target_dependencies(iprm			ilog)
 
 if(${MSVC})
-	if(TARGET istd)
-		target_link_libraries(istd ${ACF_LIBRARY_LINK_SCOPE} Mpr)
-	endif()
+	declare_target_dependencies(istd		Mpr)
 endif()
 
 # --- Core data models -------------------------------------------------------
-acf_declare_library_dependencies(ibase		iprm iqt)
-acf_declare_library_dependencies(icmm		ibase imath)
-acf_declare_library_dependencies(i2d		ibase imath Qt${QT_VERSION_MAJOR}::Gui)
-acf_declare_library_dependencies(i3d		i2d)
-acf_declare_library_dependencies(idoc		ifile)
-acf_declare_library_dependencies(ifile		ibase idoc Qt${QT_VERSION_MAJOR}::Concurrent)
-acf_declare_library_dependencies(iimg		i2d icmm idoc)
-acf_declare_library_dependencies(ipackage	ifile)
+declare_target_dependencies(ibase			iprm iqt)
+declare_target_dependencies(icmm			ibase imath)
+declare_target_dependencies(i2d				ibase imath Qt${QT_VERSION_MAJOR}::Gui)
+declare_target_dependencies(i3d				i2d)
+declare_target_dependencies(idoc			ifile)
+declare_target_dependencies(ifile			ibase idoc Qt${QT_VERSION_MAJOR}::Concurrent)
+declare_target_dependencies(iimg			i2d icmm idoc)
+declare_target_dependencies(ipackage		ifile)
 
 # --- Qt integration and GUI -------------------------------------------------
-acf_declare_library_dependencies(iqt		i2d ifile)
-acf_declare_library_dependencies(iwidgets	iqt Qt${QT_VERSION_MAJOR}::Widgets)
-acf_declare_library_dependencies(iqtgui		iwidgets iimg)
+declare_target_dependencies(iqt				i2d ifile)
+declare_target_dependencies(iwidgets		iqt Qt${QT_VERSION_MAJOR}::Widgets)
+declare_target_dependencies(iqtgui			iwidgets iimg)
 if(QT_VERSION_MAJOR EQUAL 6)
-	acf_declare_library_dependencies(ifilegui	iqtgui Qt${QT_VERSION_MAJOR}::SvgWidgets)
+	declare_target_dependencies(ifilegui	iqtgui Qt${QT_VERSION_MAJOR}::SvgWidgets)
 else()
-	acf_declare_library_dependencies(ifilegui	iqtgui Qt${QT_VERSION_MAJOR}::Svg)
+	declare_target_dependencies(ifilegui	iqtgui Qt${QT_VERSION_MAJOR}::Svg)
 endif()
-acf_declare_library_dependencies(iloggui	iqtgui)
-acf_declare_library_dependencies(iview		iqtgui)
-acf_declare_library_dependencies(iqt2d		iview)
-acf_declare_library_dependencies(iqtdoc		ifilegui)
-acf_declare_library_dependencies(iqtprm		iqt2d ifilegui)
+declare_target_dependencies(iloggui			iqtgui)
+declare_target_dependencies(iview			iqtgui)
+declare_target_dependencies(iqt2d			iview)
+declare_target_dependencies(iqtdoc			ifilegui)
+declare_target_dependencies(iqtprm			iqt2d ifilegui)
