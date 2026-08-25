@@ -46,7 +46,7 @@ macro(get_target_name target_name)
 		endif()
 
 		if(${MSVC_TOOLSET_VERSION} STREQUAL 120)
-			set(COMPILER_NAME}"VC12")
+			set(COMPILER_NAME "VC12")
 		endif()
 
 		if(${MSVC_TOOLSET_VERSION} STREQUAL 140)
