@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Acf>
+    <AcfHeader>
+        <VersionInfos>
+            <Version Id="0" Number="6556" Description="ACF"/>
+            <Version Id="1" Number="2449" Description="ACF-Solutions"/>
+            <Version Id="1023" Number="396033" Description="Qt Framework"/>
+        </VersionInfos>
+    </AcfHeader>
+    <Description></Description>
+    <Keywords></Keywords>
+    <ElementsList>
+        <Element Id="AutoPersistence" PackageId="FilePck" ComponentId="AutoPersistence">
+            <Data IsEnabled="true" Flags="1">
+                <AttributeInfoMap>
+                    <AttributeInfo Id="FileLoader" Type="Reference" ExportId="">
+                        <Data IsEnabled="true" Value="JsonFileSerializer"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="FilePath" Type="Reference" ExportId="">
+                        <Data IsEnabled="true" Value="UndoManagerFileName"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="Object" Type="Reference" ExportId="">
+                        <Data IsEnabled="true" Value="FileSerializedUndoManager"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="StoreOnChange" Type="Boolean" ExportId="">
+                        <Data IsEnabled="true" Value="true"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="StoreOnEnd" Type="Boolean" ExportId="">
+                        <Data IsEnabled="true" Value="false"/>
+                    </AttributeInfo>
+                </AttributeInfoMap>
+            </Data>
+        </Element>
+        <Element Id="BinaryFileSerializer" PackageId="FilePck" ComponentId="BinaryFileSerializer">
+            <Data IsEnabled="true" Flags="0">
+                <AttributeInfoMap/>
+            </Data>
+        </Element>
+        <Element Id="DocumentUndoFolder" PackageId="FilePck" ComponentId="RelativeFileNameParam">
+            <Data IsEnabled="true" Flags="0">
+                <AttributeInfoMap>
+                    <AttributeInfo Id="PathType" Type="Integer" ExportId="">
+                        <Data IsEnabled="true" Value="2"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="ReferencePath" Type="Reference" ExportId="RootFolder">
+                        <Data IsEnabled="false"/>
+                    </AttributeInfo>
+                </AttributeInfoMap>
+            </Data>
+        </Element>
+        <Element Id="FileSerializedUndoManager" PackageId="BasePck" ComponentId="FileSerializedUndoManager">
+            <Data IsEnabled="true" Flags="0">
+                <AttributeInfoMap>
+                    <AttributeInfo Id="DocumentPersistence" Type="Reference" ExportId="">
+                        <Data IsEnabled="true" Value="BinaryFileSerializer"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="StorageDirectory" Type="Reference" ExportId="">
+                        <Data IsEnabled="true" Value="DocumentUndoFolder"/>
+                    </AttributeInfo>
+                </AttributeInfoMap>
+            </Data>
+        </Element>
+        <Element Id="JsonFileSerializer" PackageId="FilePck" ComponentId="JsonFileSerializer">
+            <Data IsEnabled="true" Flags="0">
+                <AttributeInfoMap>
+                    <AttributeInfo Id="AutoCreatePath" Type="Boolean" ExportId="">
+                        <Data IsEnabled="true" Value="true"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="FileExtensions" Type="String[]" ExportId="">
+                        <Data IsEnabled="true">
+                            <Values>
+                                <Value>json</Value>
+                            </Values>
+                        </Data>
+                    </AttributeInfo>
+                </AttributeInfoMap>
+            </Data>
+        </Element>
+        <Element Id="UndoManagerFileName" PackageId="FilePck" ComponentId="RelativeFileNameParam">
+            <Data IsEnabled="true" Flags="0">
+                <AttributeInfoMap>
+                    <AttributeInfo Id="PathType" Type="Integer" ExportId="">
+                        <Data IsEnabled="true" Value="1"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="ReferencePath" Type="Reference" ExportId="RootFolder">
+                        <Data IsEnabled="true" Value="DocumentUndoFolder"/>
+                    </AttributeInfo>
+                </AttributeInfoMap>
+            </Data>
+        </Element>
+    </ElementsList>
+    <EmbeddedRegistriesList/>
+    <ExportedInterfaces>
+        <Interface InterfaceId="idoc::IUndoManager" ComponentId="FileSerializedUndoManager"/>
+        <Interface InterfaceId="ifile::IFileNameParam" ComponentId="DocumentUndoFolder"/>
+        <Interface InterfaceId="ifile::IRelativeFilePath" ComponentId="DocumentUndoFolder"/>
+        <Interface InterfaceId="imod::IModel" ComponentId="FileSerializedUndoManager"/>
+        <Interface InterfaceId="iser::ISerializable" ComponentId="FileSerializedUndoManager"/>
+        <Interface InterfaceId="istd::IChangeable" ComponentId="FileSerializedUndoManager"/>
+    </ExportedInterfaces>
+    <ExportedComponents/>
+</Acf>

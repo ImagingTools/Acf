@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Acf>
+    <AcfHeader>
+        <VersionInfos>
+            <Version Id="0" Number="6556" Description="ACF"/>
+            <Version Id="1" Number="2449" Description="ACF-Solutions"/>
+            <Version Id="1023" Number="396033" Description="Qt Framework"/>
+        </VersionInfos>
+    </AcfHeader>
+    <PositionMap>
+        <Element ComponentName="AutoPersistence" X="575" Y="250" Note=""/>
+        <Element ComponentName="BinaryFileSerializer" X="275" Y="150" Note=""/>
+        <Element ComponentName="DocumentUndoFolder" X="900" Y="150" Note=""/>
+        <Element ComponentName="FileSerializedUndoManager" X="575" Y="150" Note=""/>
+        <Element ComponentName="JsonFileSerializer" X="575" Y="350" Note=""/>
+        <Element ComponentName="UndoManagerFileName" X="900" Y="250" Note=""/>
+    </PositionMap>
+    <EmbeddedRegistries/>
+</Acf>
