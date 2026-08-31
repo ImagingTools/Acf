@@ -7,6 +7,7 @@
 #include <QtCore/QTextStream>
 
 // ACF includes
+#include <istd/IChangeable.h>
 #include <ipackage/CComponentAccessor.h>
 #include <ipackage/CRegistriesManagerComp.h>
 #include <icomp/TSimComponentWrap.h>
@@ -77,6 +78,22 @@ void CPackageTest::testComponentAccessorWithoutPackages()
 	// For now, just verify construction doesn't crash
 	// The test validates that the constructor handles empty registry without crashing
 	QVERIFY(true);
+}
+
+
+void CPackageTest::testComponentAccessorCreateComponentInstance()
+{
+	// Test creation of factory (detached) component instances from an empty registry.
+	// No registry element is defined, so both overloads have to fail gracefully
+	// returning empty pointers.
+	ipackage::CComponentAccessor accessor(QString(), QString(), false, false);
+
+	icomp::IComponentUniquePtr componentPtr = accessor.CreateComponentInstance("UnknownComponent");
+	QVERIFY(componentPtr == nullptr);
+
+	istd::TUniqueInterfacePtr<istd::IChangeable> interfacePtr =
+			accessor.CreateComponentInstance<istd::IChangeable>("UnknownComponent");
+	QVERIFY(!interfacePtr.IsValid());
 }
 
 

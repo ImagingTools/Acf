@@ -105,6 +105,12 @@ CComponentAccessor::CComponentAccessor(
 }
 
 
+icomp::IComponentUniquePtr CComponentAccessor::CreateComponentInstance(const QByteArray& componentId)
+{
+	return m_mainComponent.CreateSubcomponent(componentId);
+}
+
+
 bool CComponentAccessor::EnsureAutoInitComponentsCreated() const
 {
 	return m_mainComponent.EnsureAutoInitComponentsCreated();

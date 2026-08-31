@@ -21,6 +21,7 @@ private Q_SLOTS:
 	// Component accessor tests
 	void testComponentAccessorCreation();
 	void testComponentAccessorWithoutPackages();
+	void testComponentAccessorCreateComponentInstance();
 
 	// Registries manager tests
 	void testRegistriesManagerCreation();
