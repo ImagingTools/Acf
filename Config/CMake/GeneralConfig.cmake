@@ -52,6 +52,21 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_AUTOMOC ON)
 
+# Application version kind selection (done via build pipeline).
+# Possible values: Developer, Beta, ReleaseCandidate, Release.
+# If nothing is selected (e.g. build on a developer PC), the developer version is built.
+set(ACF_VERSION_KIND "Developer" CACHE STRING "Application version kind: Developer, Beta, ReleaseCandidate or Release")
+set_property(CACHE ACF_VERSION_KIND PROPERTY STRINGS "Developer" "Beta" "ReleaseCandidate" "Release")
+if(ACF_VERSION_KIND STREQUAL "Release")
+	add_definitions(-DACF_VERSION_KIND_RELEASE)
+elseif(ACF_VERSION_KIND STREQUAL "ReleaseCandidate")
+	add_definitions(-DACF_VERSION_KIND_RELEASE_CANDIDATE)
+elseif(ACF_VERSION_KIND STREQUAL "Beta")
+	add_definitions(-DACF_VERSION_KIND_BETA)
+elseif(NOT ACF_VERSION_KIND STREQUAL "Developer")
+	message(WARNING "ACF: Unknown ACF_VERSION_KIND '${ACF_VERSION_KIND}', falling back to Developer")
+endif()
+
 set(AUXINCLUDEDIR "AuxInclude/${TARGETNAME}/GeneratedFiles")
 set(AUXINCLUDEPATH "${PROJECT_SOURCE_DIR}/../../../${AUXINCLUDEDIR}")
 
