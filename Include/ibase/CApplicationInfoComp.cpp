@@ -2,6 +2,10 @@
 #include <ibase/CApplicationInfoComp.h>
 
 
+// Qt includes
+#include <QtCore/QCoreApplication>
+
+
 namespace ibase
 {
 
@@ -74,11 +78,51 @@ QString CApplicationInfoComp::GetApplicationAttribute(int attributeId, bool allo
 		}
 		break;
 
+	case AA_VERSION_KIND:
+		switch (GetVersionKind()){
+		case VK_BETA:
+			return allowTranslation?
+						QCoreApplication::translate("ibase::IApplicationInfo", "Beta Version"):
+						QString("Beta Version");
+
+		case VK_RELEASE_CANDIDATE:
+			return allowTranslation?
+						QCoreApplication::translate("ibase::IApplicationInfo", "Release Candidate"):
+						QString("Release Candidate");
+
+		case VK_RELEASE:
+			return allowTranslation?
+						QCoreApplication::translate("ibase::IApplicationInfo", "Release"):
+						QString("Release");
+
+		case VK_DEVELOPER:
+		default:
+			return allowTranslation?
+						QCoreApplication::translate("ibase::IApplicationInfo", "Developer Version"):
+						QString("Developer Version");
+		}
+		break;
+
 	default:
 		break;
 	}
 
 	return QString();
+}
+
+
+IApplicationInfo::VersionKind CApplicationInfoComp::GetVersionKind() const
+{
+#if defined(ACF_VERSION_KIND_RELEASE)
+	return VK_RELEASE;
+#elif defined(ACF_VERSION_KIND_RELEASE_CANDIDATE)
+	return VK_RELEASE_CANDIDATE;
+#elif defined(ACF_VERSION_KIND_BETA)
+	return VK_BETA;
+#else
+	// no version kind was selected via build pipeline (e.g. build on a developer PC)
+	return VK_DEVELOPER;
+#endif
 }
 
 

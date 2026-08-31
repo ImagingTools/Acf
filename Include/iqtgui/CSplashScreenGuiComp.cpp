@@ -138,8 +138,11 @@ void CSplashScreenGuiComp::OnGuiRetranslate()
 	QString applicationType;
 	QString legalCopyright;
 	QString mainVersionText;
+	QString versionKindText;
 
 	if (m_applicationInfoCompPtr.IsValid()){
+		versionKindText = m_applicationInfoCompPtr->GetApplicationAttribute(ibase::IApplicationInfo::AA_VERSION_KIND);
+
 		const iser::IVersionInfo& versionInfo = m_applicationInfoCompPtr->GetVersionInfo();
 
 		if (m_mainVersionId >= 0){
@@ -180,6 +183,13 @@ void CSplashScreenGuiComp::OnGuiRetranslate()
 	}
 
 	ApplicationTypeLabel->setVisible(!applicationSubname.isEmpty() || !applicationType.isEmpty());
+
+	if (!versionKindText.isEmpty()){
+		// make the application version kind (e.g. "Beta Version") visible in the UI
+		mainVersionText = mainVersionText.isEmpty()?
+					versionKindText:
+					mainVersionText + " - " + versionKindText;
+	}
 
 	if (!mainVersionText.isEmpty()){
 		MainVersionLabel->setText(mainVersionText);

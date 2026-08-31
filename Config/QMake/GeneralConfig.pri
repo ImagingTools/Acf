@@ -295,6 +295,23 @@ ACF_TRANSLATIONS_OUTDIR = $$AUXINCLUDEPATH/GeneratedFiles/"$$TARGET"
 # objects directory
 OBJECTS_DIR = $$AUXINCLUDEPATH/GeneratedFiles/$$CONFIGURATION_NAME/"$$TARGET"
 
+# Application version kind selection (done via build pipeline, e.g. qmake "ACF_VERSION_KIND=Release").
+# Possible values: Developer, Beta, ReleaseCandidate, Release.
+# If nothing is selected (e.g. build on a developer PC), the developer version is built.
+isEmpty(ACF_VERSION_KIND): ACF_VERSION_KIND = Developer
+equals(ACF_VERSION_KIND, Release){
+	DEFINES += ACF_VERSION_KIND_RELEASE
+}
+else:equals(ACF_VERSION_KIND, ReleaseCandidate){
+	DEFINES += ACF_VERSION_KIND_RELEASE_CANDIDATE
+}
+else:equals(ACF_VERSION_KIND, Beta){
+	DEFINES += ACF_VERSION_KIND_BETA
+}
+else:!equals(ACF_VERSION_KIND, Developer){
+	warning("Unknown ACF_VERSION_KIND '$$ACF_VERSION_KIND', falling back to Developer")
+}
+
 INCLUDEPATH += $$PWD/../../Include
 INCLUDEPATH += $$PWD/../../$$AUXINCLUDEDIR
 
