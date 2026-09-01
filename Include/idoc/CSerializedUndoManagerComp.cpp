@@ -79,6 +79,12 @@ bool CSerializedUndoManagerComp::DoRedo(int steps)
 }
 
 
+bool CSerializedUndoManagerComp::StoreDocumentState()
+{
+	return BaseClass2::StoreDocumentState();
+}
+
+
 bool CSerializedUndoManagerComp::RestoreDocumentState()
 {
 	if (!HasStoredDocumentState()){

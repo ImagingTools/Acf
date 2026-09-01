@@ -132,6 +132,9 @@ public:
 	virtual bool OnModelDetached(imod::IModel* modelPtr) override;
 
 protected:
+	// reimplemented (idoc::IDocumentStateComparator)
+	virtual bool StoreDocumentState() override;
+
 	typedef istd::TDelPtr<iser::CMemoryWriteArchive> UndoArchivePtr;
 	struct UndoStepInfo
 	{
@@ -167,5 +170,4 @@ private:
 
 
 } // namespace idoc
-
 
