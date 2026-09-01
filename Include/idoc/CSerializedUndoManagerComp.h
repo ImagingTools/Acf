@@ -125,16 +125,12 @@ public:
 	virtual void ResetUndo() override;
 	virtual bool DoUndo(int steps = 1) override;
 	virtual bool DoRedo(int steps = 1) override;
-	virtual bool RestoreDocumentState() override;
 
 	// reimplemented (imod::IObserver)
 	virtual bool OnModelAttached(imod::IModel* modelPtr, istd::IChangeable::ChangeSet& changeMask) override;
 	virtual bool OnModelDetached(imod::IModel* modelPtr) override;
 
 protected:
-	// reimplemented (idoc::IDocumentStateComparator)
-	virtual bool StoreDocumentState() override;
-
 	typedef istd::TDelPtr<iser::CMemoryWriteArchive> UndoArchivePtr;
 	struct UndoStepInfo
 	{
@@ -144,6 +140,10 @@ protected:
 	typedef QList<UndoStepInfo> UndoList;
 
 	bool DoListShift(int steps, UndoList& fromList, UndoList& toList);
+
+	// reimplemented (idoc::IDocumentStateComparator)
+	virtual bool StoreDocumentState() override;
+	virtual bool RestoreDocumentState() override;
 
 	// reimplemented (imod::TSingleModelObserverBase<iser::ISerializable>)
 	virtual iser::ISerializable* CastFromModel(imod::IModel* modelPtr) const override;

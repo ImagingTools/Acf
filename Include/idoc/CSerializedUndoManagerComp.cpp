@@ -79,32 +79,6 @@ bool CSerializedUndoManagerComp::DoRedo(int steps)
 }
 
 
-bool CSerializedUndoManagerComp::StoreDocumentState()
-{
-	return BaseClass2::StoreDocumentState();
-}
-
-
-bool CSerializedUndoManagerComp::RestoreDocumentState()
-{
-	if (!HasStoredDocumentState()){
-		return false;
-	}
-
-	Q_ASSERT(!m_isBlocked);
-	m_isBlocked = true;
-	bool retVal = BaseClass2::RestoreDocumentState();
-	m_isBlocked = false;
-
-	if (!retVal){
-		m_undoList.clear();
-		m_redoList.clear();
-	}
-
-	return retVal;
-}
-
-
 // reimplemented (imod::IObserver)
 
 bool CSerializedUndoManagerComp::OnModelAttached(imod::IModel* modelPtr, istd::IChangeable::ChangeSet& changeMask)
@@ -191,6 +165,34 @@ bool CSerializedUndoManagerComp::DoListShift(int steps, UndoList& fromList, Undo
 
 			m_isBlocked = false;
 		}
+	}
+
+	return retVal;
+}
+
+
+// reimplemented (idoc::IDocumentStateComparator)
+
+bool CSerializedUndoManagerComp::StoreDocumentState()
+{
+	return BaseClass2::StoreDocumentState();
+}
+
+
+bool CSerializedUndoManagerComp::RestoreDocumentState()
+{
+	if (!HasStoredDocumentState()){
+		return false;
+	}
+
+	Q_ASSERT(!m_isBlocked);
+	m_isBlocked = true;
+	bool retVal = BaseClass2::RestoreDocumentState();
+	m_isBlocked = false;
+
+	if (!retVal){
+		m_undoList.clear();
+		m_redoList.clear();
 	}
 
 	return retVal;
