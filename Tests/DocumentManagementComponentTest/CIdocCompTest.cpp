@@ -255,6 +255,10 @@ void CIdocCompTest::testUndoManagerStateComparison()
 	imod::IModel* model = dynamic_cast<imod::IModel*>(m_textDocumentPtr);
 	QVERIFY(model != nullptr);
 	QVERIFY(model->AttachObserver(observer));
+	m_undoManagerPtr->ResetUndo();
+
+	QVERIFY(!comparator->HasStoredDocumentState());
+	QCOMPARE(comparator->GetDocumentChangeFlag(), idoc::IDocumentStateComparator::DCF_UNKNOWN);
 
 	m_textDocumentPtr->SetText("Stored document state");
 	QVERIFY(comparator->StoreDocumentState());
@@ -269,6 +273,7 @@ void CIdocCompTest::testUndoManagerStateComparison()
 	QCOMPARE(comparator->GetDocumentChangeFlag(), idoc::IDocumentStateComparator::DCF_EQUAL);
 
 	model->DetachObserver(observer);
+	m_undoManagerPtr->ResetUndo();
 }
 
 
