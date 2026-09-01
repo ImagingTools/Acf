@@ -11,6 +11,17 @@ namespace iprm
 {
 
 
+//reimplemented (iser::IObject)
+
+QByteArray CComposedParamsSetComp::GetFactoryId() const
+{
+	if (m_typeIdAttrPtr.IsValid())
+		return *m_typeIdAttrPtr;
+
+	return QByteArray();
+}
+
+
 // reimplemented (iprm::IParamsSet)
 
 IParamsSet::Ids CComposedParamsSetComp::GetParamIds(bool editableOnly) const

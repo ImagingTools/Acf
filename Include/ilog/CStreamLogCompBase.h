@@ -4,6 +4,7 @@
 
 // ACF includes
 #include <ilog/CLogCompBase.h>
+#include <iser/IVersionInfo.h>
 
 
 namespace ilog
@@ -77,7 +78,6 @@ namespace ilog
 class CStreamLogCompBase: public CLogCompBase
 {
 public:
-	/// Base class typedef
 	typedef ilog::CLogCompBase BaseClass;
 
 	I_BEGIN_BASE_COMPONENT(CStreamLogCompBase);
@@ -87,6 +87,7 @@ public:
 		I_ASSIGN(m_useCodeAttrPtr, "UseCode", "Use error code for the messsages", true, true);
 		I_ASSIGN(m_useTimeStampAttrPtr, "UseTimeStamp", "Use time stamp for the messsages", true, false);
 		I_ASSIGN(m_timeFormatAttrPtr, "TimeFormat", "Format used for timestamp output", false, "dd.MM hh:mm:ss:zzz");
+		I_ASSIGN(m_versionInfoCompPtr, "VersionInfo", "Version info to log at startup", false, "VersionInfo");
 	I_END_COMPONENT;
 
 	CStreamLogCompBase();
@@ -126,6 +127,8 @@ protected:
 	// reimplemented (icomp::CComponentBase)
 	virtual void OnComponentDestroyed() override;
 
+	void ResetIsVersionInfoWrittenFlag();
+
 private:
 	I_ATTR(int, m_minPriorityAttrPtr);
 	I_ATTR(bool, m_isDotEnabledAttrPtr);
@@ -133,7 +136,9 @@ private:
 	I_ATTR(bool, m_useCodeAttrPtr);
 	I_ATTR(bool, m_useTimeStampAttrPtr);
 	I_ATTR(QByteArray, m_timeFormatAttrPtr); 
+	I_REF(iser::IVersionInfo, m_versionInfoCompPtr);
 
+	bool m_isVersionInfoWritten;
 	bool m_isLastDotShown;
 	istd::IInformationProvider::InformationCategory m_lastDotCategory;
 	istd::IInformationProvider::InformationCategory m_worseCategory;

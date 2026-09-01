@@ -7,6 +7,9 @@
 
 // ACF includes
 #include <istd/IInformationProvider.h>
+#include <iser/IVersionInfo.h>
+#include <iqt/iqt.h>
+#include <ilog/CMessage.h>
 
 
 namespace ilog
@@ -17,6 +20,7 @@ namespace ilog
 
 CStreamLogCompBase::CStreamLogCompBase()
 :	BaseClass(),
+	m_isVersionInfoWritten(false),
 	m_isLastDotShown(false),
 	m_lastDotCategory(istd::IInformationProvider::IC_NONE),
 	m_worseCategory(istd::IInformationProvider::IC_NONE)
@@ -109,6 +113,22 @@ QString CStreamLogCompBase::GenerateMessageText(const istd::IInformationProvider
 
 void CStreamLogCompBase::WriteMessageToLog(const MessagePtr& messagePtr)
 {
+	if (!m_isVersionInfoWritten){
+		m_isVersionInfoWritten = true;
+
+		if (m_versionInfoCompPtr.IsValid()){
+			iser::IVersionInfo::VersionIds versionIds = m_versionInfoCompPtr->GetVersionIds();
+			for (int versionId : versionIds){
+				quint32 versionNumber;
+				if (m_versionInfoCompPtr->GetVersionNumber(versionId, versionNumber)){
+					QString versionDesc = m_versionInfoCompPtr->GetVersionIdDescription(versionId);
+					QString versionName = m_versionInfoCompPtr->GetEncodedVersionName(versionId, versionNumber);
+					WriteText("SW Version - " + versionDesc + ": " + versionName + "\n", istd::IInformationProvider::IC_INFO);
+				}
+			}
+		}
+	}
+
 	if (messagePtr.IsValid()){
 		istd::IInformationProvider::InformationCategory category = messagePtr->GetInformationCategory();
 		if (category >= *m_minPriorityAttrPtr){
@@ -147,6 +167,12 @@ void CStreamLogCompBase::OnComponentDestroyed()
 	}
 
 	m_worseCategory = istd::IInformationProvider::IC_NONE;
+	m_isVersionInfoWritten = false;
+}
+
+void CStreamLogCompBase::ResetIsVersionInfoWrittenFlag()
+{
+	m_isVersionInfoWritten = false;
 }
 
 

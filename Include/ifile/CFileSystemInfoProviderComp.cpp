@@ -5,6 +5,7 @@
 // Qt includes
 #include <QtCore/QDir>
 #include <QtCore/QMetaType>
+#include <QtCore/QTimer>
 
 
 namespace ifile
@@ -103,8 +104,6 @@ void CFileSystemInfoProviderComp::OnComponentCreated()
 		RegisterModel(m_runtimeStatusModelCompPtr.GetPtr(), MI_RUNTIME_STATUS);
 	}
 
-	OnUpdate(CalculateDriveInfos());
-
 	if (m_autoUpdatePeriodAttr.IsValid()){
 		m_sleepInterval = *m_autoUpdatePeriodAttr;
 
@@ -112,8 +111,13 @@ void CFileSystemInfoProviderComp::OnComponentCreated()
 			connect(this, SIGNAL(EmitUpdate(const DriveInfos&)), this, SLOT(OnUpdate(const DriveInfos&)), Qt::QueuedConnection);
 
 			start();
+
+			return;
 		}
 	}
+
+	// else we do single shot only
+	QTimer::singleShot(1, this, [this]() { OnUpdate(CalculateDriveInfos()); });
 }
 
 
@@ -167,12 +171,14 @@ void CFileSystemInfoProviderComp::run()
 
 void CFileSystemInfoProviderComp::OnUpdate(const DriveInfos& driveInfos)
 {
-	istd::CChangeNotifier changeNotifier(this);
+	if (m_driveInfos != driveInfos){
+		istd::CChangeNotifier changeNotifier(this);
 
-	{
-		QMutexLocker locker(&m_lock);
+		{
+			QMutexLocker locker(&m_lock);
 
-		m_driveInfos = driveInfos;
+			m_driveInfos = driveInfos;
+		}
 	}
 }
 

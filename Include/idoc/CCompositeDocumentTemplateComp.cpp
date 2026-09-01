@@ -21,7 +21,18 @@ bool CCompositeDocumentTemplateComp::IsFeatureSupported(int featureFlags, const 
 
 IDocumentTemplate::Ids CCompositeDocumentTemplateComp::GetDocumentTypeIds() const
 {
-	return m_documentTypeIds;
+	Ids retVal;
+
+	for (		IdToTemplateMap::ConstIterator iter = m_idToTemplateMap.constBegin();
+				iter != m_idToTemplateMap.constEnd();
+				++iter){
+		const QByteArray& documentTypeId = iter.key();
+		if (!documentTypeId.isEmpty()){
+			retVal.push_back(iter.key());
+		}
+	}
+
+	return retVal;
 }
 
 
@@ -230,9 +241,6 @@ void CCompositeDocumentTemplateComp::OnComponentCreated()
 			Ids ids = slavePtr->GetDocumentTypeIds();
 			for (Ids::const_iterator idIter = ids.begin(); idIter != ids.end(); ++idIter){
 				const QByteArray& documentTypeId = *idIter;
-				if (!documentTypeId.isEmpty() && !m_idToTemplateMap.contains(documentTypeId)){
-					m_documentTypeIds.push_back(documentTypeId);
-				}
 				m_idToTemplateMap[documentTypeId] = slavePtr;
 			}
 		}
@@ -243,7 +251,6 @@ void CCompositeDocumentTemplateComp::OnComponentCreated()
 void CCompositeDocumentTemplateComp::OnComponentDestroyed()
 {
 	m_idToTemplateMap.clear();
-	m_documentTypeIds.clear();
 
 	BaseClass::OnComponentDestroyed();
 }

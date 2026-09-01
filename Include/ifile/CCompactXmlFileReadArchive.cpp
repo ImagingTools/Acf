@@ -33,14 +33,12 @@ bool CCompactXmlFileReadArchive::OpenFile(const QString& filePath)
 
 	QFile file(filePath);
 	if (!file.open(QIODevice::ReadOnly | QIODevice::Text)){
-		if (IsLogConsumed()){
-			SendLogMessage(
-						istd::IInformationProvider::IC_ERROR,
-						MI_FILE_OPEN_ERROR,
-						QString("Cannot open file: %1").arg(file.errorString()),
-						"CompactXmlReader",
-						istd::IInformationProvider::ITF_SYSTEM);
-		}
+		SendLogMessage(
+			istd::IInformationProvider::IC_ERROR,
+			MI_FILE_OPEN_ERROR,
+			QString("Cannot open file: %1").arg(file.errorString()),
+			"CompactXmlReader",
+			istd::IInformationProvider::ITF_SYSTEM);
 
 		m_openFileName = "";
 

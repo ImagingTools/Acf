@@ -97,6 +97,9 @@ QString CFileTypeInfoComp::GetTypeDescription(const QString* extensionPtr) const
 		}
 #endif // Q_OS_UNIX
 #endif // Q_OS_MAC
+
+		// not found -> bail out
+		return "";
 	}
 
 	if (m_typeDescriptionsAttrPtr.GetCount() > 0){

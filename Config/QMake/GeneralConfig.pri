@@ -29,6 +29,10 @@ win32-msvc*{
 	QMAKE_CXXFLAGS += -D_SCL_SECURE_NO_WARNINGS -D_CRT_SECURE_NO_WARNINGS
 	QMAKE_CXXFLAGS += /bigobj
 
+	CONFIG(release, debug|release){
+		QMAKE_CXXFLAGS += -openmp
+	}
+
 	# Qt-BUG 31516. Remove it after the fix in Qt!!!
 	QMAKE_CXXFLAGS += /wd4718
 

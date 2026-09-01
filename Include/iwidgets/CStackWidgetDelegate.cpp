@@ -177,6 +177,10 @@ QIcon CStackWidgetDelegate::GetPageIcon(const QWidget& containerWidget, int page
 
 void CStackWidgetDelegate::SetPageIcon(QWidget& containerWidget, int pageIndex, const QIcon& pageIcon)
 {
+	if (!m_iconSize.isValid()){
+		return;
+	}
+
 	QWidget* pageWidgetPtr = GetPageWidgetPtr(containerWidget, pageIndex);
 	if (pageWidgetPtr != NULL){
 		QIcon usedIcon = pageIcon;

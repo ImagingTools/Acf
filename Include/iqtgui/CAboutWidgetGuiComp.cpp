@@ -150,6 +150,12 @@ void CAboutWidgetGuiComp::OnGuiRetranslate()
 }
 
 
+void CAboutWidgetGuiComp::OnGuiDesignChanged()
+{
+	MainVersionLabel->setStyleSheet("color: palette(text);");
+}
+
+
 } // namespace iqtgui
 
 

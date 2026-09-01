@@ -377,11 +377,11 @@ void CGuiApplicationComp::ShowFullScreen()
 
 void CGuiApplicationComp::OnEventLoopStarted()
 {
-	m_runtimeStatus.SetRuntimeStatus(ibase::IRuntimeStatusProvider::RS_RUNNING);
+	Q_ASSERT(qApp->startingUp() == false);
 
 	InitializeComponents();
-	
-	Q_ASSERT(qApp->startingUp() == false);
+
+	m_runtimeStatus.SetRuntimeStatus(ibase::IRuntimeStatusProvider::RS_RUNNING);
 }
 
 

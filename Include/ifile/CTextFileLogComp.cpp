@@ -52,6 +52,7 @@ void CTextFileLogComp::WriteText(const QString& text, istd::IInformationProvider
 	if (m_lastDay != day){
 		m_lastDay = day;
 		bool ok = OpenFileStream();
+		BaseClass::ResetIsVersionInfoWrittenFlag();
 		if (!ok){
 			m_tryTimer.start(5 * s_oneMinute);
 		}

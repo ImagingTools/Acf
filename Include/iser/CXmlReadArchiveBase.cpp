@@ -50,7 +50,7 @@ bool CXmlReadArchiveBase::BeginTag(const CArchiveTag& tag)
 	}
 
 	if (tagText.endsWith('/')){	// if the last char is '/'
-		tagText = tagText.left(tagText.size() - 1);
+		tagText.chop(1);
 
 		m_isTagEmpty = true;
 	}
@@ -186,7 +186,7 @@ bool CXmlReadArchiveBase::BeginMultiTag(const CArchiveTag& tag, const CArchiveTa
 	}
 
 	if (tagText.endsWith('/')){	// if the last char is '/'
-		tagText = tagText.left(tagText.size() - 1);
+		tagText.chop(1);
 
 		m_isTagEmpty = true;
 	}

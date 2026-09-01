@@ -266,7 +266,8 @@ bool CGuiComponentBase::eventFilter(QObject* sourcePtr, QEvent* eventPtr)
 {
 	QWidget* widgetPtr = GetWidget();
 	if ((sourcePtr != widgetPtr) || (widgetPtr == NULL)){
-		return false;
+		// standard event processing
+		return QObject::eventFilter(sourcePtr, eventPtr);
 	}
 
 	switch (eventPtr->type()){
@@ -304,7 +305,8 @@ bool CGuiComponentBase::eventFilter(QObject* sourcePtr, QEvent* eventPtr)
 		break;
 	}
 
-	return false;
+	// standard event processing
+	return QObject::eventFilter(sourcePtr, eventPtr);
 }
 
 

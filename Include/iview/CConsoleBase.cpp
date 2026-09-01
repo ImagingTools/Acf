@@ -293,6 +293,7 @@ void CConsoleBase::SetUpdateBlocked(bool isBlocked, int flags)
 	}
 }
 
+
 // private methods
 
 void CConsoleBase::Init()

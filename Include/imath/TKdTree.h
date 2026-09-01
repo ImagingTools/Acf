@@ -11,13 +11,13 @@
 namespace imath
 {
 
-template<typename TPoint, uint8_t Dimensions>
+template<typename TPoint, uint8_t Dimensions, typename TReal = double>
 class TKdTree
 {
 public:
-	typedef std::array<double, Dimensions> Coordinate;
-	typedef std::function<double(const TPoint& p, uint8_t index)> GetComponentFunc;
-	typedef std::function<double(const Coordinate& x, const TPoint& y)> GetDistanceFunc;
+	typedef std::array<TReal, Dimensions> Coordinate;
+	typedef std::function<TReal(const TPoint& p, uint8_t index)> GetComponentFunc;
+	typedef std::function<TReal(const Coordinate& x, const TPoint& y)> GetDistanceFunc;
 
 private:
 	GetComponentFunc m_getComponentFunc;
@@ -41,23 +41,23 @@ private:
 		BoundedPriorityQueue() = delete;
 		BoundedPriorityQueue(size_t bound) : bound(bound) { elements.reserve(bound + 1); };
 
-		void push(const std::pair<double, const Node*>& val)
+		void push(const std::pair<TReal, const Node*>& val)
 		{
 			auto it = std::find_if(std::begin(elements), std::end(elements),
-				[&val](std::pair<double, const Node*> element) { return val.first < element.first; });
+				[&val](std::pair<TReal, const Node*> element) { return val.first < element.first; });
 			elements.insert(it, val);
 
 			if (elements.size() > bound)
 				elements.pop_back();
 		}
 
-		const std::pair<double, const Node*>& back() const { return elements.back(); };
-		const std::pair<double, const Node*>& operator[](size_t index) const { return elements[index]; }
+		const std::pair<TReal, const Node*>& back() const { return elements.back(); };
+		const std::pair<TReal, const Node*>& operator[](size_t index) const { return elements[index]; }
 		size_t size() const { return elements.size(); }
 
 	private:
 		size_t bound;
-		std::vector<std::pair<double, const Node*>> elements;
+		std::vector<std::pair<TReal, const Node*>> elements;
 	};
 
 	Node* m_root;
@@ -93,13 +93,13 @@ private:
 		return &m_nodes[n];
 	}
 
-	void Nearest(const Node* root, const Coordinate& point, uint8_t index, double& bestDistance, const Node*& best, double maxDistance) const
+	void Nearest(const Node* root, const Coordinate& point, uint8_t index, TReal& bestDistance, const Node*& best, TReal maxDistance) const
 	{
 		if (root == nullptr) {
 			return;
 		}
 
-		const double d = m_getDistanceFunc(point, root->m_point);
+		const TReal d = m_getDistanceFunc(point, root->m_point);
 
 		if (d < bestDistance) {
 			bestDistance = d;
@@ -113,7 +113,7 @@ private:
 			return;
 		}
 
-		const double dx = m_getComponentFunc(root->m_point, index) - point[index];
+		const TReal dx = m_getComponentFunc(root->m_point, index) - point[index];
 		index = (index + 1) % Dimensions;
 
 		Nearest(dx > 0 ? root->m_left : root->m_right, point, index, bestDistance, best, maxDistance);
@@ -131,10 +131,10 @@ private:
 			return;
 		}
 
-		const double d = m_getDistanceFunc(point, root->m_point);
+		const TReal d = m_getDistanceFunc(point, root->m_point);
 		queue.push(std::make_pair(d, root));
 
-		const double dx = m_getComponentFunc(root->m_point, index) - point[index];
+		const TReal dx = m_getComponentFunc(root->m_point, index) - point[index];
 		index = (index + 1) % Dimensions;
 
 		KNearest(dx > 0 ? root->m_left : root->m_right, point, index, queue, k);
@@ -143,19 +143,19 @@ private:
 			KNearest(dx > 0 ? root->m_right : root->m_left, point, index, queue, k);
 	}
 
-	void InRadius(const Node* root, const Coordinate& point, const double radius, uint8_t index, std::vector<std::pair<const Node*, double>>& inRadius) const
+	void InRadius(const Node* root, const Coordinate& point, const TReal radius, uint8_t index, std::vector<std::pair<const Node*, TReal>>& inRadius) const
 	{
 		if (root == nullptr) {
 			return;
 		}
 
-		const double d = m_getDistanceFunc(point, root->m_point);
+		const TReal d = m_getDistanceFunc(point, root->m_point);
 
 		if (d < radius) {
 			inRadius.push_back(std::make_pair(root, d));
 		}
 
-		const double dx = m_getComponentFunc(root->m_point, index) - point[index];
+		const TReal dx = m_getComponentFunc(root->m_point, index) - point[index];
 		index = (index + 1) % Dimensions;
 
 		InRadius(dx > 0 ? root->m_left : root->m_right, point, radius, index, inRadius);
@@ -213,14 +213,14 @@ public:
 		return m_nodes.empty();
 	}
 
-	bool Nearest(const Coordinate& pt, TPoint& p, double& resultDistance, double maxDistance = std::numeric_limits<double>::max()) const
+	bool Nearest(const Coordinate& pt, TPoint& p, TReal& resultDistance, TReal maxDistance = std::numeric_limits<TReal>::max()) const
 	{
 		if (m_root == nullptr) {
 			return false;
 		}
 
 		const Node* best = nullptr;
-		double dist = std::numeric_limits<double>::max();
+		TReal dist = std::numeric_limits<TReal>::max();
 		Nearest(m_root, pt, 0, dist, best, maxDistance);
 
 		if (best != nullptr) {
@@ -232,7 +232,7 @@ public:
 		return false;
 	}
 
-	bool KNearest(const Coordinate& pt, std::vector<std::pair<TPoint, double>>& neighborsWithDistance, size_t k) const
+	bool KNearest(const Coordinate& pt, std::vector<std::pair<TPoint, TReal>>& neighborsWithDistance, size_t k) const
 	{
 		if (m_root == nullptr) {
 			return false;
@@ -253,13 +253,13 @@ public:
 		return true;
 	}
 
-	bool InRadius(const Coordinate& pt, double radius, std::vector<std::pair<TPoint, double>>& pointsWithDistance) const
+	bool InRadius(const Coordinate& pt, TReal radius, std::vector<std::pair<TPoint, TReal>>& pointsWithDistance) const
 	{
 		if (m_root == nullptr) {
 			return false;
 		}
 
-		std::vector<std::pair<const Node*, double>> inRadiusNode;
+		std::vector<std::pair<const Node*, TReal>> inRadiusNode;
 		InRadius(m_root, pt, radius, 0, inRadiusNode);
 		pointsWithDistance.resize(inRadiusNode.size());
 

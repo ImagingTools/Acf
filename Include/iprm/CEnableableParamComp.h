@@ -29,7 +29,7 @@ protected:
 	// reimplemented (icomp::CComponentBase)
 	virtual void OnComponentCreated() override;
 
-private:
+protected:
 	I_ATTR(bool, m_defaultIsEnabledAttrPtr);
 };
 
