@@ -4,6 +4,7 @@
 
 // ACF includes
 #include <iser/CMemoryWriteArchive.h>
+#include <iser/ISerializable.h>
 #include <imod/TSingleModelObserverBase.h>
 #include <idoc/IDocumentStateComparator.h>
 
@@ -35,6 +36,8 @@ public:
 	virtual bool OnModelDetached(imod::IModel* modelPtr) override;
 
 protected:
+	virtual void AfterUpdate(imod::IModel* modelPtr, const istd::IChangeable::ChangeSet& changeSet) override;
+
 	// reimplemented (imod::TSingleModelObserverBase<iser::ISerializable>)
 	virtual iser::ISerializable* CastFromModel(imod::IModel* modelPtr) const override;
 

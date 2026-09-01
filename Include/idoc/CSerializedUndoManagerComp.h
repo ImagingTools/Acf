@@ -7,9 +7,6 @@
 
 // ACF includes
 #include <istd/TDelPtr.h>
-#include <iser/ISerializable.h>
-#include <iser/CMemoryWriteArchive.h>
-#include <imod/TSingleModelObserverBase.h>
 #include <icomp/CComponentBase.h>
 #include <idoc/CDocumentStateComparator.h>
 #include <idoc/IUndoManager.h>

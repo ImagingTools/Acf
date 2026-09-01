@@ -128,6 +128,13 @@ bool CDocumentStateComparator::OnModelDetached(imod::IModel* modelPtr)
 
 // protected methods
 
+void CDocumentStateComparator::AfterUpdate(imod::IModel* modelPtr, const istd::IChangeable::ChangeSet& changeSet)
+{
+	m_isStateChangedFlagValid = false;
+	BaseClass::AfterUpdate(modelPtr, changeSet);
+}
+
+
 iser::ISerializable* CDocumentStateComparator::CastFromModel(imod::IModel* modelPtr) const
 {
 	return dynamic_cast<iser::ISerializable*>(modelPtr);
