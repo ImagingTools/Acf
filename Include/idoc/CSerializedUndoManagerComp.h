@@ -7,10 +7,8 @@
 
 // ACF includes
 #include <istd/TDelPtr.h>
-#include <iser/ISerializable.h>
-#include <iser/CMemoryWriteArchive.h>
-#include <imod/TSingleModelObserverBase.h>
 #include <icomp/CComponentBase.h>
+#include <idoc/CDocumentStateComparator.h>
 #include <idoc/IUndoManager.h>
 
 
@@ -103,12 +101,12 @@ namespace idoc
 */
 class CSerializedUndoManagerComp:
 			public icomp::CComponentBase,
-			public imod::TSingleModelObserverBase<iser::ISerializable>,
+			public CDocumentStateComparator,
 			virtual public IUndoManager
 {
 public:
 	typedef icomp::CComponentBase BaseClass;
-	typedef imod::TSingleModelObserverBase<iser::ISerializable> BaseClass2;
+	typedef CDocumentStateComparator BaseClass2;
 
 	I_BEGIN_COMPONENT(CSerializedUndoManagerComp);
 		I_REGISTER_INTERFACE(idoc::IUndoManager);
@@ -128,10 +126,6 @@ public:
 	virtual bool DoUndo(int steps = 1) override;
 	virtual bool DoRedo(int steps = 1) override;
 
-	// reimplemented (imod::IObserver)
-	virtual bool OnModelAttached(imod::IModel* modelPtr, istd::IChangeable::ChangeSet& changeMask) override;
-	virtual bool OnModelDetached(imod::IModel* modelPtr) override;
-
 protected:
 	typedef istd::TDelPtr<iser::CMemoryWriteArchive> UndoArchivePtr;
 	struct UndoStepInfo
@@ -143,18 +137,16 @@ protected:
 
 	bool DoListShift(int steps, UndoList& fromList, UndoList& toList);
 
+	// reimplemented (idoc::IDocumentStateComparator)
+	virtual bool StoreDocumentState() override;
+	virtual bool RestoreDocumentState() override;
+
 	// reimplemented (imod::TSingleModelObserverBase<iser::ISerializable>)
 	virtual iser::ISerializable* CastFromModel(imod::IModel* modelPtr) const override;
 
 	// reimplemented (imod::IObserver)
 	virtual void BeforeUpdate(imod::IModel* modelPtr) override;
 	virtual void AfterUpdate(imod::IModel* modelPtr, const istd::IChangeable::ChangeSet& changeSet) override;
-
-	// reimplemented (idoc::IDocumentStateComparator)
-	virtual bool HasStoredDocumentState() const override;
-	virtual bool StoreDocumentState() override;
-	virtual bool RestoreDocumentState() override;
-	virtual DocumentChangeFlag GetDocumentChangeFlag() const override;
 
 	// reimplemented (icomp::CComponentBase)
 	virtual void OnComponentDestroyed() override;
@@ -167,20 +159,11 @@ private:
 
 	UndoArchivePtr m_beginStateArchivePtr;
 
-	bool m_hasStoredDocumentState;
 	bool m_isBlocked;
-
-	iser::CMemoryWriteArchive m_storedStateArchive;
-
-	mutable DocumentChangeFlag m_stateChangedFlag;
-	mutable bool m_isStateChangedFlagValid;
 
 	I_ATTR(int, m_maxBufferSizeAttrPtr);
 };
 
 
 } // namespace idoc
-
-
-
 
