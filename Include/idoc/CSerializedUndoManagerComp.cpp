@@ -79,28 +79,6 @@ bool CSerializedUndoManagerComp::DoRedo(int steps)
 }
 
 
-// reimplemented (imod::IObserver)
-
-bool CSerializedUndoManagerComp::OnModelAttached(imod::IModel* modelPtr, istd::IChangeable::ChangeSet& changeMask)
-{
-	if (BaseClass2::OnModelAttached(modelPtr, changeMask)){
-		return true;
-	}
-
-	return false;
-}
-
-
-bool CSerializedUndoManagerComp::OnModelDetached(imod::IModel* modelPtr)
-{
-	if (BaseClass2::OnModelDetached(modelPtr)){
-		return true;
-	}
-
-	return false;
-}
-
-
 // protected methods
 
 bool CSerializedUndoManagerComp::DoListShift(int steps, UndoList& fromList, UndoList& toList)

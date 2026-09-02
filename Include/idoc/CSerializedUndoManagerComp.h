@@ -126,10 +126,6 @@ public:
 	virtual bool DoUndo(int steps = 1) override;
 	virtual bool DoRedo(int steps = 1) override;
 
-	// reimplemented (imod::IObserver)
-	virtual bool OnModelAttached(imod::IModel* modelPtr, istd::IChangeable::ChangeSet& changeMask) override;
-	virtual bool OnModelDetached(imod::IModel* modelPtr) override;
-
 protected:
 	typedef istd::TDelPtr<iser::CMemoryWriteArchive> UndoArchivePtr;
 	struct UndoStepInfo
