@@ -264,7 +264,10 @@ int main(int argc, char *argv[])
 			}
 		}
 		else{
-			std::cerr << "Cannot read package include prefixes file '" << includePrefixesFilePath.toLocal8Bit().constData() << "'" << std::endl;
+			std::cerr << "Cannot read package include prefixes file '"
+					  << includePrefixesFilePath.toLocal8Bit().constData()
+					  << "': " << includePrefixesFile.errorString().toLocal8Bit().constData()
+					  << std::endl;
 
 			return 1;
 		}
