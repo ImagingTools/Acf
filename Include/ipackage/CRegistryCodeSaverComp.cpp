@@ -686,6 +686,8 @@ bool CRegistryCodeSaverComp::WriteIncludes(
 
 	Ids packageIds = ExtractPackageIds(addresses);
 	if (!packageIds.isEmpty()){
+		IncludePrefixes includePrefixes = GetIncludePrefixes();
+
 		stream << "\n";
 		stream << "// ACF component includes" << "\n";
 
@@ -705,7 +707,7 @@ bool CRegistryCodeSaverComp::WriteIncludes(
 				continue;
 			}
 
-			stream << "#include <" << packageId << "/" << packageId << ".h>" << "\n";
+			stream << "#include <" << GetPackageIncludePath(packageId, includePrefixes) << ">" << "\n";
 		}
 	}
 
@@ -1858,6 +1860,50 @@ QByteArray CRegistryCodeSaverComp::GetPackageName(const QByteArray& packageId) c
 	else{
 		return packageId + "Pck";
 	}
+}
+
+
+CRegistryCodeSaverComp::IncludePrefixes CRegistryCodeSaverComp::GetIncludePrefixes() const
+{
+	IncludePrefixes retVal;
+
+	int prefixesCount = m_includePrefixesAttrPtr.GetCount();
+	for (int prefixIndex = 0; prefixIndex < prefixesCount; ++prefixIndex){
+		const QString& definition = m_includePrefixesAttrPtr[prefixIndex];
+
+		int separatorPos = definition.indexOf('=');
+		if (separatorPos <= 0){
+			SendErrorMessage(
+					MI_UNKNOWN_PACKAGE,
+					QObject::tr("Package include prefix definition '%1' was ignored, expected form is 'PackageId=Prefix'").arg(definition));
+
+			continue;
+		}
+
+		QByteArray packageId = definition.left(separatorPos).toUtf8();
+		QString prefix = definition.mid(separatorPos + 1);
+
+		if (prefix.isEmpty()){
+			continue;
+		}
+
+		retVal[packageId] = prefix;
+	}
+
+	return retVal;
+}
+
+
+QString CRegistryCodeSaverComp::GetPackageIncludePath(const QByteArray& packageId, const IncludePrefixes& prefixes) const
+{
+	QString packageName = QString::fromUtf8(packageId);
+
+	auto foundIter = prefixes.constFind(packageId);
+	if (foundIter != prefixes.constEnd()){
+		return foundIter.value() + "/" + packageName + ".h";
+	}
+
+	return packageName + "/" + packageName + ".h";
 }
 
 
