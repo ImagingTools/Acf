@@ -1880,8 +1880,8 @@ CRegistryCodeSaverComp::IncludePrefixes CRegistryCodeSaverComp::GetIncludePrefix
 			continue;
 		}
 
-		QByteArray packageId = definition.left(separatorPos).toUtf8();
-		QString prefix = definition.mid(separatorPos + 1);
+		QByteArray packageId = definition.left(separatorPos).trimmed().toUtf8();
+		QString prefix = definition.mid(separatorPos + 1).trimmed();
 
 		if (prefix.isEmpty()){
 			continue;
