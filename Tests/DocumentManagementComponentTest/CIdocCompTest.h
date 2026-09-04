@@ -2,6 +2,9 @@
 #pragma once
 
 
+// STL includes
+#include <optional>
+
 // Qt includes
 #include <QtCore/QObject>
 #include <QtTest/QtTest>
@@ -56,17 +59,30 @@ private:
 			return m_documentChangeFlag;
 		}
 
+		// Sets the document change flag expected to be seen while handling the next
+		// model update notification. The check is performed directly inside OnUpdate(),
+		// so it verifies the state as observed at notification time, not afterwards.
+		void SetExpectedDocumentChangeFlag(idoc::IDocumentStateComparator::DocumentChangeFlag expectedFlag)
+		{
+			m_expectedDocumentChangeFlag = expectedFlag;
+		}
+
 	protected:
 		virtual void OnUpdate(const istd::IChangeable::ChangeSet& /*changeSet*/) override
 		{
 			idoc::IDocumentStateComparator* comparator = dynamic_cast<idoc::IDocumentStateComparator*>(GetObservedModel());
-			if (comparator != nullptr){
-				m_documentChangeFlag = comparator->GetDocumentChangeFlag();
+			QVERIFY(comparator != nullptr);
+
+			m_documentChangeFlag = comparator->GetDocumentChangeFlag();
+
+			if (m_expectedDocumentChangeFlag.has_value()){
+				QCOMPARE(m_documentChangeFlag, *m_expectedDocumentChangeFlag);
 			}
 		}
 
 	private:
 		idoc::IDocumentStateComparator::DocumentChangeFlag m_documentChangeFlag;
+		std::optional<idoc::IDocumentStateComparator::DocumentChangeFlag> m_expectedDocumentChangeFlag;
 	};
 
 	std::shared_ptr<CDocumentManagementComponentTest> m_testInstanceCompPtr;
