@@ -7,6 +7,7 @@
 #include <QtTest/QtTest>
 
 // ACF includes
+#include <imod/CSingleModelObserverBase.h>
 #include <idoc/ITextDocument.h>
 #include <idoc/IUndoManager.h>
 #include <idoc/IDocumentTemplate.h>
@@ -32,6 +33,7 @@ private slots:
 	void testUndoManagerMaxBufferSize();
 	void testUndoManagerReset();
 	void testUndoManagerStateComparison();
+	void testUndoManagerObserverSeesChangedDocumentState();
 
 	// Tests for CSingleDocumentTemplateComp
 	void testDocumentTemplateCreation();
@@ -41,6 +43,32 @@ private slots:
 	void cleanupTestCase();
 
 private:
+	class CDocumentStateObserver: public imod::CSingleModelObserverBase
+	{
+	public:
+		CDocumentStateObserver()
+			: m_documentChangeFlag(idoc::IDocumentStateComparator::DCF_UNKNOWN)
+		{
+		}
+
+		idoc::IDocumentStateComparator::DocumentChangeFlag GetDocumentChangeFlag() const
+		{
+			return m_documentChangeFlag;
+		}
+
+	protected:
+		virtual void OnUpdate(const istd::IChangeable::ChangeSet& /*changeSet*/) override
+		{
+			idoc::IDocumentStateComparator* comparator = dynamic_cast<idoc::IDocumentStateComparator*>(GetObservedModel());
+			if (comparator != nullptr){
+				m_documentChangeFlag = comparator->GetDocumentChangeFlag();
+			}
+		}
+
+	private:
+		idoc::IDocumentStateComparator::DocumentChangeFlag m_documentChangeFlag;
+	};
+
 	std::shared_ptr<CDocumentManagementComponentTest> m_testInstanceCompPtr;
 
 	idoc::ITextDocument* m_textDocumentPtr = nullptr;
