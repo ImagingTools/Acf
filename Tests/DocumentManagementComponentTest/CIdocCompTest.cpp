@@ -277,6 +277,37 @@ void CIdocCompTest::testUndoManagerStateComparison()
 }
 
 
+void CIdocCompTest::testUndoManagerObserverSeesChangedDocumentState()
+{
+	idoc::IDocumentStateComparator* comparator =
+		dynamic_cast<idoc::IDocumentStateComparator*>(m_undoManagerPtr);
+	QVERIFY(comparator != nullptr);
+
+	imod::IObserver* undoManagerObserver = dynamic_cast<imod::IObserver*>(m_undoManagerPtr);
+	QVERIFY(undoManagerObserver != nullptr);
+
+	imod::IModel* documentModel = dynamic_cast<imod::IModel*>(m_textDocumentPtr);
+	QVERIFY(documentModel != nullptr);
+	QVERIFY(documentModel->AttachObserver(undoManagerObserver));
+
+	CDocumentStateObserver stateObserver;
+	imod::IModel* undoManagerModel = dynamic_cast<imod::IModel*>(m_undoManagerPtr);
+	QVERIFY(undoManagerModel != nullptr);
+	QVERIFY(undoManagerModel->AttachObserver(&stateObserver));
+
+	QVERIFY(comparator->StoreDocumentState());
+	QCOMPARE(comparator->GetDocumentChangeFlag(), idoc::IDocumentStateComparator::DCF_EQUAL);
+
+	m_textDocumentPtr->SetText("Changed document state during observer update");
+	QCOMPARE(stateObserver.GetDocumentChangeFlag(), idoc::IDocumentStateComparator::DCF_DIFFERENT);
+	QCOMPARE(comparator->GetDocumentChangeFlag(), idoc::IDocumentStateComparator::DCF_DIFFERENT);
+
+	undoManagerModel->DetachObserver(&stateObserver);
+	documentModel->DetachObserver(undoManagerObserver);
+	m_undoManagerPtr->ResetUndo();
+}
+
+
 // Tests for CSingleDocumentTemplateComp
 
 void CIdocCompTest::testDocumentTemplateCreation()
