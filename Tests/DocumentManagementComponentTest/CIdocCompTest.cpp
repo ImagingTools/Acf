@@ -298,6 +298,7 @@ void CIdocCompTest::testUndoManagerObserverSeesChangedDocumentState()
 	QVERIFY(comparator->StoreDocumentState());
 	QCOMPARE(comparator->GetDocumentChangeFlag(), idoc::IDocumentStateComparator::DCF_EQUAL);
 
+	stateObserver.SetExpectedDocumentChangeFlag(idoc::IDocumentStateComparator::DCF_DIFFERENT);
 	m_textDocumentPtr->SetText("Changed document state during observer update");
 	QCOMPARE(stateObserver.GetDocumentChangeFlag(), idoc::IDocumentStateComparator::DCF_DIFFERENT);
 	QCOMPARE(comparator->GetDocumentChangeFlag(), idoc::IDocumentStateComparator::DCF_DIFFERENT);
