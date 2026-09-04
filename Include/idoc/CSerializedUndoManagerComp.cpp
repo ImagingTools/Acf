@@ -3,6 +3,7 @@
 
 
 // ACF includes
+#include <istd/CChangeGroup.h>
 #include <istd/CChangeNotifier.h>
 #include <icomp/CComponentBase.h>
 #include <iser/CMemoryReadArchive.h>
@@ -209,6 +210,8 @@ void CSerializedUndoManagerComp::BeforeUpdate(imod::IModel* modelPtr)
 void CSerializedUndoManagerComp::AfterUpdate(imod::IModel* modelPtr, const istd::IChangeable::ChangeSet& changeSet)
 {
 	Q_ASSERT(!changeSet.IsEmpty());
+
+	istd::CChangeGroup changeGroup(this);
 
 	bool skipUndo = changeSet.ContainsExplicit(istd::IChangeable::CF_NO_UNDO, true);
 
