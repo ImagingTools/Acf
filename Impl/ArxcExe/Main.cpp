@@ -2,6 +2,8 @@
 // Qt includes
 #include <QtCore/QCoreApplication>
 #include <QtCore/QDir>
+#include <QtCore/QFile>
+#include <QtCore/QTextStream>
 
 // ACF includes
 #include <istd/CSystem.h>
@@ -26,6 +28,7 @@ static void ShowUsage()
 	std::cout << "\t-o outputFile                - output file path" << std::endl;
 	std::cout << "\t-d depfile                   - optional CMake compatible dependency file" << std::endl;
 	std::cout << "\t-config configFile           - specify ACF packages configuration file" << std::endl;
+	std::cout << "\t-include_prefixes file       - file with 'PackageId=Prefix' lines, generating package includes as 'Prefix/PackageId.h'" << std::endl;
 	std::cout << "\t-sources [on|off]            - enables/disables C++ sources output, default is 'on'" << std::endl;
 	std::cout << "\t-v                           - enable verbose mode" << std::endl;
 	std::cout << "\t-check_real                  - check if used real packages exist" << std::endl;
@@ -58,6 +61,7 @@ int main(int argc, char *argv[])
 	QString inputFilePath = argv[1];
 	QString outputFilePath;
 	QString depfilePath;
+	QString includePrefixesFilePath;
 
 	if ((inputFilePath == "-h") || (inputFilePath == "-help")){
 		ShowUsage();
@@ -94,6 +98,10 @@ int main(int argc, char *argv[])
 				}
 				else if ((option == "d") || (option == "depfile")) {
 					depfilePath = QString::fromLocal8Bit(argv[index + 1]);
+					++index;
+				}
+				else if (option == "include_prefixes"){
+					includePrefixesFilePath = QString::fromLocal8Bit(argv[index + 1]);
 					++index;
 				}
 				else if (option == "mode"){
@@ -237,6 +245,32 @@ int main(int argc, char *argv[])
 	codeSaverComp->SetBoolAttr("UseBinaryCode", useBinaryCode);
 	if (!depfilePath.isEmpty()) {
 		codeSaverComp->SetStringAttr("DepfilePath", depfilePath);
+	}
+	if (!includePrefixesFilePath.isEmpty()){
+		QFile includePrefixesFile(includePrefixesFilePath);
+		if (includePrefixesFile.open(QIODevice::ReadOnly | QIODevice::Text)){
+			QTextStream includePrefixesStream(&includePrefixesFile);
+			while (!includePrefixesStream.atEnd()){
+				QString definition = includePrefixesStream.readLine().trimmed();
+				if (definition.isEmpty() || definition.startsWith('#')){
+					continue;
+				}
+
+				codeSaverComp->InsertMultiAttr("PackageIncludePrefixes", definition);
+
+				if (verboseEnabled){
+					std::cout << "Package include prefix: " << definition.toStdString() << std::endl;
+				}
+			}
+		}
+		else{
+			std::cerr << "Cannot read package include prefixes file '"
+					  << includePrefixesFilePath.toLocal8Bit().constData()
+					  << "': " << includePrefixesFile.errorString().toLocal8Bit().constData()
+					  << std::endl;
+
+			return 1;
+		}
 	}
 	codeSaverComp->InitComponent();
 
