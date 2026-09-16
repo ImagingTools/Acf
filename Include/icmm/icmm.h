@@ -176,6 +176,31 @@ enum class SingleAngleConfigurationType
 Q_ENUM_NS(SingleAngleConfigurationType)
 
 
+// Color difference-related
+
+enum class ColorDifferenceMetricType
+{
+	DeltaE76,
+	DeltaE94,
+	DeltaE2000,
+};
+Q_ENUM_NS(ColorDifferenceMetricType)
+
+
+enum class ColorDistanceType
+{
+	// component wise distances
+	DeltaLStar,
+	DeltaAStar,
+	DeltaBStar,
+
+	// deltaE2000 based chromaticity based distances
+	DeltaE2000CPrime,
+	DeltaE2000HPrime
+};
+Q_ENUM_NS(ColorDistanceType)
+
+
 /**
 	Usage of a colorant.
 */
