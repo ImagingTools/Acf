@@ -21,13 +21,15 @@ class AcfConan(ConanFile):
     options = {
         "qt_package": ["system", "conan"],
         "qt_version": "ANY",
-        "BUILD_TESTING": [True, False]
+        "BUILD_TESTING": [True, False],
+        "ACF_VERSION_KIND": ["Developer", "Beta", "ReleaseCandidate", "Release"]
     }
 
     default_options = {
         "qt_package": "conan",
         "qt_version": None,
-        "BUILD_TESTING": False
+        "BUILD_TESTING": False,
+        "ACF_VERSION_KIND": "Developer"
     }
 
     description = "Application Component Framework"
@@ -146,6 +148,7 @@ class AcfConan(ConanFile):
         tc = CMakeToolchain(self, generator='Ninja')
         tc.user_presets_path = 'Build/CMake'
         tc.variables["BUILD_TESTING"] = self.options.BUILD_TESTING
+        tc.variables["ACF_VERSION_KIND"] = str(self.options.ACF_VERSION_KIND)
         tc.variables["QT_VERSION_MAJOR"] = qt_major
         tc.variables["CMAKE_CXX_STANDARD"] = 17
         tc.variables['BUILDDIR'] = self.build_path.as_posix()
