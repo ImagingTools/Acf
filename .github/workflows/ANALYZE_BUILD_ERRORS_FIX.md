@@ -121,7 +121,7 @@ Instead of parsing logs, leverage the existing artifact upload in the TeamCity C
 - name: Fetch and Analyze Build Errors
   env:
     TEAMCITY_URL: ${{ vars.TEAMCITY_URL }}
-    TEAMCITY_TOKEN: ${{ vars.TEAMCITY_TOKEN }}
+    TEAMCITY_TOKEN: ${{ secrets.TEAMCITY_TOKEN }}
   shell: bash
   run: |
     BUILD_IDS='${{ steps.extract_build_ids.outputs.build_ids }}'

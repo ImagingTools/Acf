@@ -5,7 +5,7 @@ This guide explains how to test the auto-fix workflow and its new waiting mechan
 ## Prerequisites
 
 Before testing, ensure:
-- TeamCity integration is configured (TEAMCITY_URL, TEAMCITY_TOKEN, etc.)
+- TeamCity integration is configured (variables `TEAMCITY_URL`, `TEAMCITY_BUILD_TYPE_WINDOWS_PR`, etc., and secret `TEAMCITY_TOKEN`)
 - You have access to create pull requests in the repository
 - You understand basic GitHub Actions workflows
 
@@ -231,7 +231,7 @@ If there have been previous build failures:
 - Issue creation failed (check permissions)
 
 **Solution:**
-- Verify TEAMCITY_URL and TEAMCITY_TOKEN are configured
+- Verify `TEAMCITY_URL` (variable) and `TEAMCITY_TOKEN` (secret) are configured
 - Check workflow logs for error messages
 - Verify workflow has `issues: write` permission
 
