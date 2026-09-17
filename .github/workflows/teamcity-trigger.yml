@@ -24,9 +24,9 @@ jobs:
         platform: [windows, linux]
         include:
           - platform: windows
-            build_type: ${{ vars.TEAMCITY_BUILD_TYPE_WINDOWS }}
+            build_type: ${{ github.event_name == 'pull_request' && vars.TEAMCITY_BUILD_TYPE_WINDOWS_PR || vars.TEAMCITY_BUILD_TYPE_WINDOWS_MAIN }}
           - platform: linux
-            build_type: ${{ vars.TEAMCITY_BUILD_TYPE_LINUX }}
+            build_type: ${{ github.event_name == 'pull_request' && vars.TEAMCITY_BUILD_TYPE_LINUX_PR || vars.TEAMCITY_BUILD_TYPE_LINUX_MAIN }}
 
     steps:
       - name: Checkout repository
@@ -68,7 +68,7 @@ jobs:
         id: teamcity
         env:
           TEAMCITY_URL: ${{ vars.TEAMCITY_URL }}
-          TEAMCITY_TOKEN: ${{ vars.TEAMCITY_TOKEN }}
+          TEAMCITY_TOKEN: ${{ secrets.TEAMCITY_TOKEN }}
           TEAMCITY_BUILD_TYPE: ${{ matrix.build_type }}
           TEAMCITY_BRANCH: ${{ env.TEAMCITY_BRANCH }}
           COMMIT_SHA: ${{ env.COMMIT_SHA }}
@@ -78,12 +78,15 @@ jobs:
 
           # Validate required configuration
           if [ -z "${TEAMCITY_URL:-}" ] || [ -z "${TEAMCITY_TOKEN:-}" ] || [ -z "${TEAMCITY_BUILD_TYPE:-}" ]; then
-            echo "❌ Error: TeamCity configuration not found in repository variables"
+            echo "❌ Error: TeamCity configuration not found in repository variables/secrets"
             echo "Please configure the following repository variables:"
             echo "  - TEAMCITY_URL: Your TeamCity server URL (e.g., https://teamcity.example.com)"
+            echo "  - TEAMCITY_BUILD_TYPE_WINDOWS_PR: TeamCity build configuration ID for Windows pull requests (e.g., Acf_Build_Windows)"
+            echo "  - TEAMCITY_BUILD_TYPE_WINDOWS_MAIN: TeamCity build configuration ID for Windows main branch pushes (e.g., Acf_Build_Windows_Main)"
+            echo "  - TEAMCITY_BUILD_TYPE_LINUX_PR: TeamCity build configuration ID for Linux pull requests (e.g., Acf_Build_Linux)"
+            echo "  - TEAMCITY_BUILD_TYPE_LINUX_MAIN: TeamCity build configuration ID for Linux main branch pushes (e.g., Acf_Build_Linux_Main)"
+            echo "Please configure the following repository secret:"
             echo "  - TEAMCITY_TOKEN: TeamCity access token with build trigger permissions"
-            echo "  - TEAMCITY_BUILD_TYPE_WINDOWS: TeamCity build configuration ID for Windows (e.g., Acf_Build_Windows)"
-            echo "  - TEAMCITY_BUILD_TYPE_LINUX: TeamCity build configuration ID for Linux (e.g., Acf_Build_Linux)"
             exit 1
           fi
 
@@ -152,7 +155,7 @@ jobs:
         timeout-minutes: 90
         env:
           TEAMCITY_URL: ${{ vars.TEAMCITY_URL }}
-          TEAMCITY_TOKEN: ${{ vars.TEAMCITY_TOKEN }}
+          TEAMCITY_TOKEN: ${{ secrets.TEAMCITY_TOKEN }}
           BUILD_ID: ${{ steps.teamcity.outputs.build_id }}
           TRIGGERED_WEB_URL: ${{ steps.teamcity.outputs.web_url }}
         shell: bash
@@ -232,7 +235,7 @@ jobs:
         continue-on-error: true
         env:
           TEAMCITY_URL: ${{ vars.TEAMCITY_URL }}
-          TEAMCITY_TOKEN: ${{ vars.TEAMCITY_TOKEN }}
+          TEAMCITY_TOKEN: ${{ secrets.TEAMCITY_TOKEN }}
           BUILD_ID: ${{ steps.teamcity.outputs.build_id }}
         shell: bash
         run: |
@@ -362,7 +365,7 @@ jobs:
         if: steps.extract_ids.outputs.build_ids != ''
         env:
           TEAMCITY_URL: ${{ vars.TEAMCITY_URL }}
-          TEAMCITY_TOKEN: ${{ vars.TEAMCITY_TOKEN }}
+          TEAMCITY_TOKEN: ${{ secrets.TEAMCITY_TOKEN }}
         shell: bash
         run: |
           BUILD_IDS='${{ steps.extract_ids.outputs.build_ids }}'

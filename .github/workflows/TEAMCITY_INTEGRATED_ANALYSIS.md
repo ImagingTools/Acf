@@ -86,10 +86,14 @@ permissions:
 ## Configuration
 
 ### Repository Variables
-- `TEAMCITY_URL`: TeamCity server URL (e.g., http://217.160.251.80:8111)
+- `TEAMCITY_URL`: TeamCity server URL
+- `TEAMCITY_BUILD_TYPE_WINDOWS_PR`: Windows pull request build configuration ID
+- `TEAMCITY_BUILD_TYPE_WINDOWS_MAIN`: Windows main branch build configuration ID
+- `TEAMCITY_BUILD_TYPE_LINUX_PR`: Linux pull request build configuration ID
+- `TEAMCITY_BUILD_TYPE_LINUX_MAIN`: Linux main branch build configuration ID
+
+### Repository Secret
 - `TEAMCITY_TOKEN`: TeamCity access token
-- `TEAMCITY_BUILD_TYPE_WINDOWS`: Windows build configuration ID
-- `TEAMCITY_BUILD_TYPE_LINUX`: Linux build configuration ID
 
 ### Workflow Conditions
 The error analysis job runs only when:

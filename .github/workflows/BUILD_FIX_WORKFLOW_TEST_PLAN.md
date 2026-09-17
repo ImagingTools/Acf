@@ -28,9 +28,13 @@ This document provides a comprehensive test plan for the "Analyze Build Errors" 
 
 1. Repository variables configured:
    - `TEAMCITY_URL` - TeamCity server URL
+   - `TEAMCITY_BUILD_TYPE_WINDOWS_PR` - Windows pull request build configuration ID
+   - `TEAMCITY_BUILD_TYPE_WINDOWS_MAIN` - Windows main branch build configuration ID
+   - `TEAMCITY_BUILD_TYPE_LINUX_PR` - Linux pull request build configuration ID
+   - `TEAMCITY_BUILD_TYPE_LINUX_MAIN` - Linux main branch build configuration ID
+
+   Repository secret configured:
    - `TEAMCITY_TOKEN` - TeamCity authentication token
-   - `TEAMCITY_BUILD_TYPE_WINDOWS` - Windows build configuration ID
-   - `TEAMCITY_BUILD_TYPE_LINUX` - Linux build configuration ID
 
 2. Permissions:
    - Workflow has `pull-requests: write` permission
@@ -260,7 +264,7 @@ gh pr view <pr-number> --comments
 Use this checklist when performing manual testing:
 
 ### Pre-Test Setup
-- [ ] Repository variables configured (TEAMCITY_URL, TEAMCITY_TOKEN, etc.)
+- [ ] Repository variables configured (TEAMCITY_URL, TEAMCITY_BUILD_TYPE_WINDOWS_PR, etc.) and secret configured (TEAMCITY_TOKEN)
 - [ ] Test PR created with build failures
 - [ ] TeamCity CI workflow completed on test PR
 - [ ] Artifacts uploaded and verified

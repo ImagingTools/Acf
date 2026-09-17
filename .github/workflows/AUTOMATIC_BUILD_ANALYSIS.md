@@ -98,7 +98,7 @@ Check PR conversation for automatic build error analysis comments.
 - Ensure workflow has `pull-requests: write` permission
 
 ### Analysis incomplete
-- Verify TeamCity REST API credentials (vars.TEAMCITY_URL, vars.TEAMCITY_TOKEN)
+- Verify TeamCity REST API credentials (vars.TEAMCITY_URL, secrets.TEAMCITY_TOKEN)
 - Check build IDs are valid integers
 - Ensure TeamCity builds generated logs
 

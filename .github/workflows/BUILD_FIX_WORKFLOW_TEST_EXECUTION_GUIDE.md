@@ -31,17 +31,23 @@ This validates:
 
 Before running manual tests, verify:
 
-1. **Repository Variables Configured**
+1. **Repository Variables and Secrets Configured**
    ```bash
    # Check if variables are set (requires GitHub CLI with proper permissions)
    gh variable list
+   # Check if the token secret is set
+   gh secret list
    ```
    
    Required variables:
    - `TEAMCITY_URL`
+   - `TEAMCITY_BUILD_TYPE_WINDOWS_PR`
+   - `TEAMCITY_BUILD_TYPE_WINDOWS_MAIN`
+   - `TEAMCITY_BUILD_TYPE_LINUX_PR`
+   - `TEAMCITY_BUILD_TYPE_LINUX_MAIN`
+
+   Required secret:
    - `TEAMCITY_TOKEN`
-   - `TEAMCITY_BUILD_TYPE_WINDOWS`
-   - `TEAMCITY_BUILD_TYPE_LINUX`
 
 2. **Test PR Available**
    - PR with build failures is ideal for testing
