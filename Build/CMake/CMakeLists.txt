@@ -17,19 +17,13 @@ set(BUILD_TESTING ON CACHE BOOL "Configures projects for testing")
 # Enable modern target-based architecture:
 # find_package(Acf) provides Acf::<lib> imported targets with transitive include dirs and link deps.
 # Legacy global include_directories()/link_directories() in the Env chain are skipped.
-set(ACF_MODERN_CMAKE ON CACHE BOOL "Enable modern target-based architecture for AcfSln and Acf libraries")
+set(ACF_MODERN_CMAKE ON)
 
 if(NOT DEFINED ACFDIR)
-	set(ACFDIR "${CMAKE_CURRENT_LIST_DIR}/../../../Acf")
+	set(ACFDIR "${CMAKE_CURRENT_LIST_DIR}/../../")
 endif()
 
 include(${ACFDIR}/Config/CMake/AcfEnv.cmake)
-
-if(NOT DEFINED ACFDIR_BUILD)
-	set(ACFDIR_BUILD "${ACFDIR}")
-endif()
-
-file(TO_CMAKE_PATH "${ACFDIR_BUILD}" ACFDIR_BUILD)
 
 # Collect Acf libraries in an export set so they can be used as find_package(Acf) targets.
 # Read by Acf's shared StaticConfig.cmake / acf_register_library() when registering each lib.
