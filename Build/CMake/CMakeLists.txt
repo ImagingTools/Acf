@@ -11,7 +11,7 @@ set(BUILD_TESTING ON CACHE BOOL "Configures projects for testing")
 set(ACF_MODERN_CMAKE ON)
 
 if(NOT DEFINED ACFDIR)
-	set(ACFDIR "${CMAKE_CURRENT_LIST_DIR}/../../")
+	set(ACFDIR "${CMAKE_CURRENT_LIST_DIR}/../..")
 endif()
 
 # Must run before find_package(Qt...): sets CMAKE_PREFIX_PATH from QTDIR when not already defined.
