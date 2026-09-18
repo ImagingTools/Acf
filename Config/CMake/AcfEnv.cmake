@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 3.26)
 
+
 if(NOT DEFINED QTDIR)
 	set(QTDIR "$ENV{QTDIR}")
 endif()
@@ -7,9 +8,7 @@ endif()
 if(NOT DEFINED CMAKE_PREFIX_PATH)
 	set(CMAKE_PREFIX_PATH "${QTDIR}")
 	message("set CMAKE_PREFIX_PATH " ${CMAKE_PREFIX_PATH})
-	message("Qt5Core_DIR " ${Qt5Core_DIR})
 endif()
-
 
 # Acf
 if(NOT DEFINED ACFDIR)
