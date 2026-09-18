@@ -7,15 +7,15 @@ set(BUILD_TESTING ON CACHE BOOL "Configures projects for testing")
 
 # Enable modern target-based architecture:
 # find_package(Acf) provides Acf::<lib> imported targets with transitive include dirs and link deps.
-# Legacy global include_directories()/link_directories() in the Env chain are skipped.
 set(ACF_MODERN_CMAKE ON)
 
 if(NOT DEFINED ACFDIR)
 	set(ACFDIR "${CMAKE_CURRENT_LIST_DIR}/../..")
 endif()
 
-# Must run before find_package(Qt...): sets CMAKE_PREFIX_PATH from QTDIR when not already defined.
-include(${ACFDIR}/Config/CMake/AcfEnv.cmake)
+# AcfEnv.cmake must still be included AFTER find_package(Qt...): it calls get_target_name(),
+# which bakes QT_VERSION_MAJOR into TARGETNAME, so QT_VERSION_MAJOR has to be resolved first.
+include(${ACFDIR}/Config/CMake/AcfQtPrefixPath.cmake)
 
 find_package(QT NAMES Qt6 Qt5 COMPONENTS Core)
 
@@ -26,7 +26,8 @@ endif()
 
 find_package("Qt${QT_VERSION_MAJOR}" COMPONENTS ${ACF_QT_COMPONENTS} REQUIRED)
 
-# Collect Acf libraries in an export set so they can be used as find_package(Acf) targets.
+include(${ACFDIR}/Config/CMake/AcfEnv.cmake)
+
 # Read by Acf's shared StaticConfig.cmake / acf_register_library() when registering each lib.
 set(ACF_PACKAGE_NAME "Acf")
 
