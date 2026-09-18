@@ -6,8 +6,19 @@ if(NOT DEFINED ACFDIR)
 	set(ACFDIR "$ENV{ACFDIR}")
 endif()
 
-# No-op if a caller (e.g. a top-level CMakeLists.txt) already included this before find_package(Qt...).
-include("${ACFDIR}/Config/CMake/AcfQtPrefixPath.cmake")
+if(NOT DEFINED QTDIR)
+	file(TO_CMAKE_PATH "$ENV{QTDIR}" QTDIR)
+endif()
+
+if(NOT DEFINED CMAKE_PREFIX_PATH)
+	set(CMAKE_PREFIX_PATH "${QTDIR}")
+endif()
+
+# Resolves QT_VERSION_MAJOR (needed by get_target_name() below) regardless of whether 
+# the caller's own, fuller find_package(Qt...) call happens before or after including this file.
+if(NOT DEFINED QT_VERSION_MAJOR)
+	find_package(QT NAMES Qt6 Qt5 COMPONENTS Core)
+endif()
 
 if(NOT DEFINED ACFCONFIGDIR)
 	set(ACFCONFIGDIR "$ENV{ACFCONFIGDIR}")

@@ -13,11 +13,7 @@ if(NOT DEFINED ACFDIR)
 	set(ACFDIR "${CMAKE_CURRENT_LIST_DIR}/../..")
 endif()
 
-# AcfEnv.cmake must still be included AFTER find_package(Qt...): it calls get_target_name(),
-# which bakes QT_VERSION_MAJOR into TARGETNAME, so QT_VERSION_MAJOR has to be resolved first.
-include(${ACFDIR}/Config/CMake/AcfQtPrefixPath.cmake)
-
-find_package(QT NAMES Qt6 Qt5 COMPONENTS Core)
+include(${ACFDIR}/Config/CMake/AcfEnv.cmake)
 
 set(ACF_QT_COMPONENTS Core Widgets Gui Xml Network Svg Concurrent)
 if(QT_VERSION_MAJOR EQUAL 6)
@@ -25,8 +21,6 @@ if(QT_VERSION_MAJOR EQUAL 6)
 endif()
 
 find_package("Qt${QT_VERSION_MAJOR}" COMPONENTS ${ACF_QT_COMPONENTS} REQUIRED)
-
-include(${ACFDIR}/Config/CMake/AcfEnv.cmake)
 
 # Read by Acf's shared StaticConfig.cmake / acf_register_library() when registering each lib.
 set(ACF_PACKAGE_NAME "Acf")
