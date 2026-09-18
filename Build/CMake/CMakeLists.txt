@@ -3,15 +3,6 @@ cmake_minimum_required(VERSION 3.26)
 project(Acf)
 
 
-find_package(QT NAMES Qt6 Qt5 COMPONENTS Core)
-
-set(ACF_QT_COMPONENTS Core Widgets Gui Xml Network Svg Concurrent)
-if(QT_VERSION_MAJOR EQUAL 6)
-	list(APPEND ACF_QT_COMPONENTS SvgWidgets)
-endif()
-
-find_package("Qt${QT_VERSION_MAJOR}" COMPONENTS ${ACF_QT_COMPONENTS} REQUIRED)
-
 set(BUILD_TESTING ON CACHE BOOL "Configures projects for testing")
 
 # Enable modern target-based architecture:
@@ -23,7 +14,17 @@ if(NOT DEFINED ACFDIR)
 	set(ACFDIR "${CMAKE_CURRENT_LIST_DIR}/../../")
 endif()
 
+# Must run before find_package(Qt...): sets CMAKE_PREFIX_PATH from QTDIR when not already defined.
 include(${ACFDIR}/Config/CMake/AcfEnv.cmake)
+
+find_package(QT NAMES Qt6 Qt5 COMPONENTS Core)
+
+set(ACF_QT_COMPONENTS Core Widgets Gui Xml Network Svg Concurrent)
+if(QT_VERSION_MAJOR EQUAL 6)
+	list(APPEND ACF_QT_COMPONENTS SvgWidgets)
+endif()
+
+find_package("Qt${QT_VERSION_MAJOR}" COMPONENTS ${ACF_QT_COMPONENTS} REQUIRED)
 
 # Collect Acf libraries in an export set so they can be used as find_package(Acf) targets.
 # Read by Acf's shared StaticConfig.cmake / acf_register_library() when registering each lib.
