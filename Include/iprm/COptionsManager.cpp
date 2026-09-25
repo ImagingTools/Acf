@@ -471,6 +471,12 @@ bool COptionsManager::Serialize(iser::IArchive& archive)
 
 	retVal = retVal && archive.EndTag(optionsTag);
 
+	// The selection is read before the options, so its index could not be resolved against the loaded options.
+	// Resolve it again from the stored option ID now that the options are loaded.
+	if (!isStoring && m_isSelectionSerialized){
+		SyncIndexWithId();
+	}
+
 	return retVal;
 }
 
