@@ -52,6 +52,10 @@ private slots:
 	void testTextParamSerialization();
 	void testEnableableParamSerialization();
 	void testSelectionParamSerialization();
+	void testOptionsManagerSelectionSerialization();
+	void testOptionsManagerSelectionWithFixedOptionsSerialization();
+	void testOptionsManagerSelectionIntoExistingOptionsSerialization();
+	void testOptionsManagerWithoutSelectionSerialization();
 
 	// ifile library tests
 	void testFileNameParamSerialization();
