@@ -164,6 +164,25 @@ void CSpectrumTest::SpectrumInvalidConstructionTest()
 	// A step that does not divide the wavelength range leaves the spectrum empty
 	icmm::CSpectrum invalidStep(400, 700, 7);
 	QCOMPARE(invalidStep.GetSamplesCount(), 0);
+
+	// A non-positive step leaves the spectrum empty
+	icmm::CSpectrum zeroStep(400, 700, 0);
+	QCOMPARE(zeroStep.GetSamplesCount(), 0);
+
+	icmm::CSpectrum negativeStep(400, 700, -10);
+	QCOMPARE(negativeStep.GetSamplesCount(), 0);
+
+	// Fewer than two samples can not define a step and leave the spectrum empty
+	icmm::CSpectrum noSamples(400, 700, std::vector<double>());
+	QCOMPARE(noSamples.GetSamplesCount(), 0);
+	QCOMPARE(noSamples.GetStep(), 0);
+
+	icmm::CSpectrum singleSample(400, 700, std::vector<double>{0.5});
+	QCOMPARE(singleSample.GetSamplesCount(), 0);
+
+	// A samples count that does not divide the wavelength range leaves the spectrum empty
+	icmm::CSpectrum invalidSamplesCount(400, 700, std::vector<double>{0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8});
+	QCOMPARE(invalidSamplesCount.GetSamplesCount(), 0);
 }
 
 
