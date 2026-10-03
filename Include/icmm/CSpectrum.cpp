@@ -36,14 +36,16 @@ CSpectrum::CSpectrum(int startWavelength, int endWavelength, const std::vector<d
 
 
 CSpectrum::CSpectrum(const istd::CIntRange& wavelengthRange, const std::vector<double>& spectrumSamples)
-	:CSampledFunction(int(spectrumSamples.size()))
+	:CSampledFunction()
 {
-	if (wavelengthRange.GetLength() % GetStep() != 0) {
-		qWarning() << "wavelengthRange" << wavelengthRange.GetLength() << "can not be sampled with" << spectrumSamples.size() << "samples";
+	int count = int(spectrumSamples.size());
+	if ((count < 2) || (wavelengthRange.GetLength() % (count - 1) != 0)){
+		qWarning() << "wavelengthRange" << wavelengthRange.GetLength() << "can not be sampled with" << count << "samples";
 		return;
 	}
 
-	int count = int(spectrumSamples.size());
+	static_cast<BaseClass&>(*this) = CSampledFunction(count);
+
 	for (int i = 0; i < count; i++){
 		SetSampleValue(i, spectrumSamples[i]);
 	}
@@ -61,7 +63,7 @@ CSpectrum::CSpectrum(int startWavelength, int endWavelength, int step)
 CSpectrum::CSpectrum(const istd::CIntRange& wavelengthRange, int step)
 	:CSampledFunction()
 {
-	if (wavelengthRange.GetLength() % step != 0) {
+	if ((step <= 0) || (wavelengthRange.GetLength() % step != 0)){
 		qWarning() << "wavelengthRange" << wavelengthRange.GetLength() << "is incompatible with step" << step;
 		return;
 	}
