@@ -16,6 +16,8 @@ class CSpectralColorSpecificationBase: virtual public ISpectralColorSpecificatio
 public:
 	CSpectralColorSpecificationBase(const CSpectralColorSpecificationBase& spec);
 
+	void SetSpectrumType(SpectrumType spectrumType);
+
 	// reimplemented (ISpectrumInfoProvider)
 	virtual const ISpectrumInfo* GetSpectrumInfo() const override;
 	virtual SpectrumType GetSpectrumType() const override;
