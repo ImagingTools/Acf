@@ -15,14 +15,14 @@ namespace icmm
 
 
 CSpectralColorSpecificationBase::CSpectralColorSpecificationBase(const ISpectrumInfo& spectrumInfo)
-	: m_spectrumType(Reflective)
+	: m_spectrumType(NotSet)
 {
 	m_info.CopyFrom(spectrumInfo);
 }
 
 
 CSpectralColorSpecificationBase::CSpectralColorSpecificationBase(istd::CIntRange range, int step)
-	: m_spectrumType(Reflective)
+	: m_spectrumType(NotSet)
 {
 	m_info.SetRange(range);
 	m_info.SetStep(step);
@@ -48,6 +48,16 @@ const ISpectrumInfo* CSpectralColorSpecificationBase::GetSpectrumInfo() const
 ISpectralColorSpecification::SpectrumType CSpectralColorSpecificationBase::GetSpectrumType() const
 {
 	return m_spectrumType;
+}
+
+
+void CSpectralColorSpecificationBase::SetSpectrumType(SpectrumType spectrumType)
+{
+	if (m_spectrumType != spectrumType){
+		istd::CChangeNotifier notifier(this);
+
+		m_spectrumType = spectrumType;
+	}
 }
 
 
