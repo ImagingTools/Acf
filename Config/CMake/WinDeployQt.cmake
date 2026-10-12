@@ -66,8 +66,12 @@ function(win_deploy_qt)
 		)
 	endif()
 
-	# windeployqt waits only 30 s for qmlimportscanner by default, too short on a machine busy with a full build
-	set(DEPLOY_OPTIONS ${ARG_OPTIONS} "--qmlimporttimeout=120000") # 2 minutes
+	set(DEPLOY_OPTIONS ${ARG_OPTIONS})
+	# --qmlimporttimeout is available since Qt 6.11, default is 30 s which is too short on a busy build machine
+	if(Qt${QT_VERSION_MAJOR}_VERSION VERSION_GREATER_EQUAL 6.11)
+		list(APPEND DEPLOY_OPTIONS "--qmlimporttimeout=120000") # 2 minutes
+	endif()
+
 	foreach(QML_DIR IN LISTS DEPLOY_QT_QML_DIRS)
 		list(APPEND DEPLOY_OPTIONS "--qmldir=${QML_DIR}")
 	endforeach()
