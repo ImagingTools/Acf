@@ -41,6 +41,16 @@ QByteArray CTristimulusSpecification::GetTypeId()
 }
 
 
+void CTristimulusSpecification::SetBaseSpecification(std::shared_ptr<ISpectralColorSpecification> baseSpecPtr)
+{
+	if (m_baseSpecPtr != baseSpecPtr){
+		istd::CChangeNotifier notifier(this);
+
+		m_baseSpecPtr = baseSpecPtr;
+	}
+}
+
+
 // reimplemented (ITristimulusSpecification)
 
 std::shared_ptr<IIlluminant> icmm::CTristimulusSpecification::GetIlluminant() const
@@ -156,12 +166,7 @@ bool CTristimulusSpecification::Serialize(iser::IArchive& archive)
 	retVal = retVal && iser::CPrimitiveTypesSerializer::SerializeQEnum(archive, m_method);
 	retVal = retVal && archive.EndTag(astmTableTypeTag);
 
-	iser::CArchiveTag baseSpecTag("BaseSpec", "Base specification", iser::CArchiveTag::TT_WEAK, nullptr, true);
-	retVal = retVal && archive.BeginTag(baseSpecTag);
-	if (m_baseSpecPtr != nullptr) {
-		retVal = retVal && m_baseSpecPtr->Serialize(archive);
-	}
-	retVal = retVal && archive.EndTag(baseSpecTag);
+	// The base specification is a shared reference, the owner serializes it.
 
 	return retVal;
 }
