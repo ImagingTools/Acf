@@ -90,6 +90,11 @@ I_EXPORT_COMPONENT(
 			"Synchronization Data Object" IM_TAG("Model"));
 
 I_EXPORT_COMPONENT(
+			DelayedObjectSynchronizer,
+			"Data object synchronization delayed until the reference object stops changing",
+			"Synchronization Data Object Delay Debounce" IM_TAG("Model"));
+
+I_EXPORT_COMPONENT(
 			ConsoleApplication,
 			"Console application",
 			"Application Service" IM_CATEGORY(I_APPLICATION));
