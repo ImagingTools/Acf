@@ -165,8 +165,9 @@ bool CQtJsonReadArchiveBase::SetContent(QIODevice* devicePtr)
 		m_rootValue = m_document.object();
 		const QString rootTagId = QString::fromUtf8(m_rootTag.GetId());
 		const QJsonObject rootObject = m_document.object();
-		if (!rootTagId.isEmpty() && rootObject.value(rootTagId).isObject()){
-			m_rootValue = rootObject.value(rootTagId);
+		const QJsonValue rootTagValue = rootObject.value(rootTagId);
+		if (!rootTagId.isEmpty() && (rootTagValue.isObject() || rootTagValue.isArray())){
+			m_rootValue = rootTagValue;
 		}
 	}
 	else if (m_document.isArray()){
