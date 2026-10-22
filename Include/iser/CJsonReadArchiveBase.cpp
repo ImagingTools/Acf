@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later OR GPL-2.0-or-later OR GPL-3.0-or-later OR LicenseRef-ACF-Commercial
-#include <iser/CJsonReadArchiveBase.h>
+#include <iser/CQtJsonReadArchiveBase.h>
 
 
 namespace iser
@@ -8,7 +8,7 @@ namespace iser
 
 // public methods
 
-CJsonReadArchiveBase::CJsonReadArchiveBase(
+CQtJsonReadArchiveBase::CQtJsonReadArchiveBase(
 			bool serializeHeader,
 			const iser::CArchiveTag& /*rootTag*/)
 	:m_rootTag("", "", iser::CArchiveTag::TT_GROUP),
@@ -20,7 +20,7 @@ CJsonReadArchiveBase::CJsonReadArchiveBase(
 
 // reimplemented (iser::IArchive)
 
-bool CJsonReadArchiveBase::BeginTag(const iser::CArchiveTag& tag)
+bool CQtJsonReadArchiveBase::BeginTag(const iser::CArchiveTag& tag)
 {
 	QString tagId(tag.GetId());
 	int tagType = tag.GetTagType();
@@ -92,7 +92,7 @@ bool CJsonReadArchiveBase::BeginTag(const iser::CArchiveTag& tag)
 }
 
 
-bool CJsonReadArchiveBase::BeginMultiTag(const iser::CArchiveTag& tag, const iser::CArchiveTag& /*subTag*/, int& count)
+bool CQtJsonReadArchiveBase::BeginMultiTag(const iser::CArchiveTag& tag, const iser::CArchiveTag& /*subTag*/, int& count)
 {
 	QString tagId(tag.GetId());
 
@@ -151,7 +151,7 @@ bool CJsonReadArchiveBase::BeginMultiTag(const iser::CArchiveTag& tag, const ise
 }
 
 
-bool CJsonReadArchiveBase::EndTag(const iser::CArchiveTag& tag)
+bool CQtJsonReadArchiveBase::EndTag(const iser::CArchiveTag& tag)
 {
 	if (m_iterators.isEmpty()){
 		return false;
@@ -180,7 +180,7 @@ bool CJsonReadArchiveBase::EndTag(const iser::CArchiveTag& tag)
 }
 
 
-bool CJsonReadArchiveBase::Process(QString& value)
+bool CQtJsonReadArchiveBase::Process(QString& value)
 {
 	return ReadStringNode(value);
 }
@@ -188,7 +188,7 @@ bool CJsonReadArchiveBase::Process(QString& value)
 
 // protected methods
 
-bool CJsonReadArchiveBase::SetContent(QIODevice* devicePtr)
+bool CQtJsonReadArchiveBase::SetContent(QIODevice* devicePtr)
 {
 	Q_ASSERT(devicePtr != nullptr);
 
@@ -218,7 +218,7 @@ bool CJsonReadArchiveBase::SetContent(QIODevice* devicePtr)
 }
 
 
-bool CJsonReadArchiveBase::ReadStringNode(QString &text)
+bool CQtJsonReadArchiveBase::ReadStringNode(QString &text)
 {
 	bool openFakeTag = false;
 
@@ -254,7 +254,7 @@ bool CJsonReadArchiveBase::ReadStringNode(QString &text)
 }
 
 
-bool CJsonReadArchiveBase::ReadTextNode(QByteArray &text)
+bool CQtJsonReadArchiveBase::ReadTextNode(QByteArray &text)
 {
 	QString stringText;
 
@@ -267,25 +267,25 @@ bool CJsonReadArchiveBase::ReadTextNode(QByteArray &text)
 	return false;
 }
 
-CJsonReadArchiveBase::HelperIterator::HelperIterator()
+CQtJsonReadArchiveBase::HelperIterator::HelperIterator()
 			: activeArrayIndex(0)
 {
 
 }
 
-void CJsonReadArchiveBase::HelperIterator::SetKey(const QString &key)
+void CQtJsonReadArchiveBase::HelperIterator::SetKey(const QString &key)
 {
 	m_key = key;
 }
 
 
-const QString CJsonReadArchiveBase::HelperIterator::GetKey()
+const QString CQtJsonReadArchiveBase::HelperIterator::GetKey()
 {
 	return m_key;
 }
 
 
-QString CJsonReadArchiveBase::HelperIterator::GetValue()
+QString CQtJsonReadArchiveBase::HelperIterator::GetValue()
 {
 	QString retVal;
 	if (m_value.isBool()){
@@ -304,7 +304,7 @@ QString CJsonReadArchiveBase::HelperIterator::GetValue()
 }
 
 
-QJsonObject CJsonReadArchiveBase::HelperIterator::GetObject()
+QJsonObject CQtJsonReadArchiveBase::HelperIterator::GetObject()
 {
 	if (m_value.isObject()){
 
@@ -320,7 +320,7 @@ QJsonObject CJsonReadArchiveBase::HelperIterator::GetObject()
 }
 
 
-QJsonValue CJsonReadArchiveBase::HelperIterator::GetJsonValue()
+QJsonValue CQtJsonReadArchiveBase::HelperIterator::GetJsonValue()
 {
 	if (m_value.isObject()){
 
@@ -336,7 +336,7 @@ QJsonValue CJsonReadArchiveBase::HelperIterator::GetJsonValue()
 }
 
 
-QJsonArray CJsonReadArchiveBase::HelperIterator::GetArray()
+QJsonArray CQtJsonReadArchiveBase::HelperIterator::GetArray()
 {
 	if (isArray()){
 
@@ -347,7 +347,7 @@ QJsonArray CJsonReadArchiveBase::HelperIterator::GetArray()
 }
 
 
-bool CJsonReadArchiveBase::HelperIterator::NextElementArray()
+bool CQtJsonReadArchiveBase::HelperIterator::NextElementArray()
 {
 	if (isArray()){
 		activeArrayIndex++;
@@ -359,7 +359,7 @@ bool CJsonReadArchiveBase::HelperIterator::NextElementArray()
 }
 
 
-void CJsonReadArchiveBase::HelperIterator::SetValue(const QJsonValue value)
+void CQtJsonReadArchiveBase::HelperIterator::SetValue(const QJsonValue value)
 {
 	m_value = value;
 
@@ -370,13 +370,13 @@ void CJsonReadArchiveBase::HelperIterator::SetValue(const QJsonValue value)
 }
 
 
-bool CJsonReadArchiveBase::HelperIterator::isObject()
+bool CQtJsonReadArchiveBase::HelperIterator::isObject()
 {
 	return m_value.isObject();
 }
 
 
-bool CJsonReadArchiveBase::HelperIterator::isArray()
+bool CQtJsonReadArchiveBase::HelperIterator::isArray()
 {
 	return m_value.isArray();
 }
