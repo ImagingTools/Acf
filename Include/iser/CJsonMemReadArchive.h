@@ -6,17 +6,17 @@
 #include <QtCore/QBuffer>
 
 // ACF includes
-#include <iser/CQtJsonReadArchiveBase.h>
+#include <iser/CJsonReadArchiveBase.h>
 
 
 namespace iser
 {
 
 
-class CJsonMemReadArchive : public iser::CQtJsonReadArchiveBase
+class CJsonMemReadArchive : public iser::CJsonReadArchiveBase
 {
 public:
-	typedef CQtJsonReadArchiveBase BaseClass;
+	typedef CJsonReadArchiveBase BaseClass;
 
 	CJsonMemReadArchive(const QByteArray& data, bool serializeHeader = true);
 	~CJsonMemReadArchive();

@@ -4,8 +4,7 @@
 
 // Qt includes
 #include <QtCore/QJsonDocument>
-#include <QtCore/QJsonObject>
-#include <QtCore/QJsonArray>
+#include <QtCore/QJsonValue>
 #include <QtCore/QList>
 #include <QtCore/QIODevice>
 
@@ -18,64 +17,50 @@ namespace iser
 
 
 /**
-	Implementation of an ACF archive deserializing from a JSON string
-
-	\note	As to simplify decoding of some more complicated data structures support
-			for special annotation tags was added. They are used for guiding the
-			deserialization algorithm in some special cases.
+	Reads archive values from a JSON document.
 */
 class CQtJsonReadArchiveBase : public iser::CTextReadArchiveBase
 {
 public:
 	typedef CTextReadArchiveBase BaseClass;
 
-	CQtJsonReadArchiveBase(
+	explicit CQtJsonReadArchiveBase(
 				bool serializeHeader = true,
 				const iser::CArchiveTag& rootTag = s_acfRootTag);
 
 	// reimplemented (iser::IArchive)
+	virtual bool IsTagSkippingSupported() const override;
 	virtual bool BeginTag(const iser::CArchiveTag& tag) override;
 	virtual bool BeginMultiTag(const iser::CArchiveTag& tag, const iser::CArchiveTag& subTag, int& count) override;
 	virtual bool EndTag(const iser::CArchiveTag& tag) override;
 	virtual bool Process(QString& value) override;
+	using BaseClass::Process;
 
 protected:
 	bool SetContent(QIODevice* devicePtr);
-
 	bool ReadStringNode(QString& text);
 
 	// reimplemented (iser::CTextReadArchiveBase)
 	virtual bool ReadTextNode(QByteArray& text) override;
 
-protected:
-	QJsonDocument m_document;
-
-	class HelperIterator
+private:
+	struct Node
 	{
-	public:
-		HelperIterator();
-		void SetKey(const QString& key);
-		const QString GetKey();
-		QString GetValue();
-		QJsonObject GetObject();
-		QJsonValue GetJsonValue();
-		QJsonArray GetArray();
-		bool NextElementArray();
-		void SetValue(const QJsonValue value);
-		bool isObject();
-		bool isArray();
-	private:
-		QJsonArray m_array;
-		QJsonArray::ConstIterator m_arrayIterator;
-		QJsonValue m_value;
-		QString m_key;
-		int activeArrayIndex;
+		const iser::CArchiveTag* tagPtr = nullptr;
+		QJsonValue value;
+		int arrayIndex = 0;
+		bool isArray = false;
+		bool advanceParentArray = false;
 	};
 
-	QList<HelperIterator> m_iterators;
-	QList<const iser::CArchiveTag*> m_tags;
+	QJsonValue GetCurrentValue() const;
+	bool GetScalarText(const QJsonValue& value, QString& text) const;
+	bool ReportTagError(const QString& message);
+
+	QJsonDocument m_document;
+	QJsonValue m_rootValue;
 	iser::CArchiveTag m_rootTag;
-	bool m_rootTagEnabled;
+	QList<Node> m_nodes;
 	bool m_serializeHeader;
 };
 
