@@ -21,6 +21,11 @@ namespace iser
 
 /**
 	Implementation of an ACF Archive serializing to JSON string
+
+	Tags of type TT_LEAF are written as JSON values. Other tags are written as JSON objects
+	as soon as they contain child tags. A non-leaf tag containing only a single primitive value
+	is written as a plain JSON value too, so \c "Name": "value" is produced instead of the
+	\c "Name": {"Name": "value"} layout written by older versions (it is still readable).
 */
 class CJsonWriteArchiveBase: public iser::CTextWriteArchiveBase
 {
@@ -51,9 +56,17 @@ protected:
 	bool InitStream(bool serializeHeader);
 	bool InitArchive(QIODevice* devicePtr);
 	bool InitArchive(QByteArray& inputString);
-	bool WriteTag(const iser::CArchiveTag& tag, QString separator);
 	bool WriteJsonHeader();
 	bool Flush();
+
+	/**
+		Prepare the current tag for a new child element: open its JSON object if needed and write the separator.
+	*/
+	bool BeginChildElement();
+	/**
+		Write the key of a child tag, if the current tag is a JSON object.
+	*/
+	void WriteChildKey(const iser::CArchiveTag& tag);
 
 	// reimplemented (iser::CTextWriteArchiveBase)
 	virtual bool WriteTextNode(const QByteArray& text) override;
@@ -61,18 +74,17 @@ protected:
 protected:
 	QTextStream m_stream;
 	QBuffer m_buffer;
-	bool m_firstTag;
 	QJsonDocument::JsonFormat m_jsonFormat;
 	bool m_serializeHeader;
 	iser::CArchiveTag m_rootTag;
 
-	bool m_isSeparatorNeeded;	// idicate that separator must be added before something is outputted
-	bool m_allowAttribute;		// indicate if attribute outputting is allowed now
-
 	struct TagsStackItem
 	{
-		const iser::CArchiveTag* m_tagPtr;
-		bool m_isMultiTag;
+		const iser::CArchiveTag* m_tagPtr = nullptr;
+		bool m_isMultiTag = false;
+		bool m_isObjectOpened = false;	// opening brace of a non-leaf tag was written
+		bool m_hasElements = false;		// child element written, next one needs a separator
+		bool m_hasValue = false;		// primitive value written directly as value of this tag
 	};
 
 	bool m_quotationMarksRequired = false;
