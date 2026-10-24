@@ -364,10 +364,17 @@ QByteArray CClassInfo::GetUndecoratedName(const QByteArray& rawName)
 #else
 	int status = 0;
 	char* demangledName = abi::__cxa_demangle(rawName.constData(), NULL, NULL, &status);
+	if ((status != 0) || (demangledName == NULL)){
+		// Not a mangled name (e.g. "TestClass"): keep it as it is, like the MSVC branch does.
+		::free(demangledName);
+
+		return rawName;
+	}
+
 	QByteArray retVal(demangledName);
 
 	::free(demangledName);
-	
+
 	return retVal;
 #endif
 }
