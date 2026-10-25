@@ -699,6 +699,9 @@ bool CRegistryCodeSaverComp::WriteIncludes(
 
 		std::sort(sortedList.begin(), sortedList.end());
 
+		Ids declaredPackageIds = GetDeclaredPackageIds();
+		QList<QByteArray> declaredList;
+
 		for (		QList<QByteArray>::ConstIterator packageIter = sortedList.constBegin();
 					packageIter != sortedList.constEnd();
 					++packageIter){
@@ -707,7 +710,38 @@ bool CRegistryCodeSaverComp::WriteIncludes(
 				continue;
 			}
 
+			if (declaredPackageIds.contains(packageId)){
+				declaredList.append(packageId);
+
+				continue;
+			}
+
 			stream << "#include <" << GetPackageIncludePath(packageId, includePrefixes) << ">" << "\n";
+		}
+
+		if (!declaredList.isEmpty()){
+			stream << "#include <icomp/IRealComponentStaticInfo.h>" << "\n";
+
+			stream << "\n";
+			stream << "// ACF component declarations" << "\n";
+
+			for (const QByteArray& packageId : declaredList){
+				Ids componentIds = ExtractComponentIds(addresses, packageId);
+#if QT_VERSION > QT_VERSION_CHECK(5, 15, 0)
+				QList<QByteArray> sortedComponentIds(componentIds.begin(), componentIds.end());
+#else
+				QList<QByteArray> sortedComponentIds = componentIds.toList();
+#endif
+				std::sort(sortedComponentIds.begin(), sortedComponentIds.end());
+
+				stream << "\n";
+				stream << "namespace " << packageId << "\n";
+				stream << "{" << "\n";
+				for (const QByteArray& componentId : sortedComponentIds){
+					stream << "const icomp::IRealComponentStaticInfo& GetComponentInfo_" << componentId << "();" << "\n";
+				}
+				stream << "}" << "\n";
+			}
 		}
 	}
 
@@ -827,6 +861,7 @@ bool CRegistryCodeSaverComp::WriteClassDefinitions(
 	}
 
 	Ids realPackageIds = ExtractPackageIds(realAddresses);
+	Ids declaredPackageIds = GetDeclaredPackageIds();
 
 	for (		Ids::const_iterator packageIter = realPackageIds.begin();
 				packageIter != realPackageIds.end();
@@ -850,6 +885,8 @@ bool CRegistryCodeSaverComp::WriteClassDefinitions(
 		stream << "{";
 		ChangeIndent(1);
 
+		bool isDeclaredPackage = declaredPackageIds.contains(packageId);
+
 		Ids componentIds = ExtractComponentIds(realAddresses, packageId);
 		for (		Ids::const_iterator instanceRegIter = componentIds.begin();
 					instanceRegIter != componentIds.end();
@@ -859,7 +896,12 @@ bool CRegistryCodeSaverComp::WriteClassDefinitions(
 			QByteArray infoName = "info" + componentId;
 
 			NextLine(stream);
-			stream << "const icomp::IComponentStaticInfo& " << infoName << " = " << packageId << "::" << componentId << "::InitStaticInfo(NULL);";
+			if (isDeclaredPackage){
+				stream << "const icomp::IComponentStaticInfo& " << infoName << " = " << packageId << "::GetComponentInfo_" << componentId << "();";
+			}
+			else{
+				stream << "const icomp::IComponentStaticInfo& " << infoName << " = " << packageId << "::" << componentId << "::InitStaticInfo(NULL);";
+			}
 
 			NextLine(stream);
 			stream << "RegisterEmbeddedComponentInfo(\"" << componentId << "\", &" << infoName << ");";
@@ -1904,6 +1946,22 @@ QString CRegistryCodeSaverComp::GetPackageIncludePath(const QByteArray& packageI
 	}
 
 	return packageName + "/" + packageName + ".h";
+}
+
+
+CRegistryCodeSaverComp::Ids CRegistryCodeSaverComp::GetDeclaredPackageIds() const
+{
+	Ids retVal;
+
+	int packagesCount = m_declaredPackagesAttrPtr.GetCount();
+	for (int packageIndex = 0; packageIndex < packagesCount; ++packageIndex){
+		QByteArray packageId = m_declaredPackagesAttrPtr[packageIndex].trimmed().toUtf8();
+		if (!packageId.isEmpty()){
+			retVal.insert(packageId);
+		}
+	}
+
+	return retVal;
 }
 
 
