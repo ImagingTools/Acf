@@ -34,7 +34,7 @@ public:
 	// reimplemented (icomp::IRealComponentStaticInfo)
 	virtual IComponentUniquePtr CreateComponent() const override;
 
-	//	reimplemented (icomp::IComponentStaticInfo)
+	// reimplemented (icomp::IComponentStaticInfo)
 	virtual int GetComponentType() const override;
 	virtual const QString& GetDescription() const override;
 	virtual const QString& GetKeywords() const override;

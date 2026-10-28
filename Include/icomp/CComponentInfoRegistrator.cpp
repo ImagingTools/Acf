@@ -33,7 +33,7 @@ IComponentUniquePtr CComponentInfoRegistrator::CreateComponent() const
 }
 
 
-//	reimplemented (icomp::IComponentStaticInfo)
+// reimplemented (icomp::IComponentStaticInfo)
 
 int CComponentInfoRegistrator::GetComponentType() const
 {
