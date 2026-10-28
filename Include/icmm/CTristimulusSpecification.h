@@ -25,6 +25,13 @@ public:
 
 	static QByteArray GetTypeId();
 
+	/**
+		Set the base spectral specification.
+		The base specification is a shared reference: it is copied only with CM_WITH_REFS and not serialized.
+		The owner serializes it and attaches it again after loading.
+	*/
+	void SetBaseSpecification(std::shared_ptr<ISpectralColorSpecification> baseSpecPtr);
+
 	// reimplemented (ITristimulusSpecification)
 	virtual std::shared_ptr<IIlluminant> GetIlluminant() const override;
 	virtual ObserverType GetObserverType() const override;

@@ -395,6 +395,95 @@ void CSerializationRegressionTestRunner::testSelectionParamSerialization()
 }
 
 
+void CSerializationRegressionTestRunner::testOptionsManagerSelectionSerialization()
+{
+	// Options manager which serializes its own selection, restored into a fresh instance without options
+	iprm::COptionsManager original;
+	original.SetSelectionSerialized(true);
+	original.InsertOption("Option1", "opt1", "First option", -1);
+	original.InsertOption("Option2", "opt2", "Second option", -1);
+	original.InsertOption("Option3", "opt3", "Third option", -1);
+	original.SetSelectedOptionIndex(1);
+
+	iprm::COptionsManager restored;
+	restored.SetSelectionSerialized(true);
+
+	QVERIFY(TestSerializationCycle(original, restored));
+
+	QCOMPARE(restored.GetOptionsCount(), 3);
+	QCOMPARE(restored.GetSelectedOptionIndex(), 1);
+	QCOMPARE(restored.GetOptionId(restored.GetSelectedOptionIndex()), QByteArray("opt2"));
+}
+
+
+void CSerializationRegressionTestRunner::testOptionsManagerSelectionWithFixedOptionsSerialization()
+{
+	// Fixed options come first, the selection points to a dynamic option
+	iprm::COptionsManager fixedOptions;
+	fixedOptions.InsertOption("Fixed1", "fixed1", QString(), -1);
+	fixedOptions.InsertOption("Fixed2", "fixed2", QString(), -1);
+
+	iprm::COptionsManager original;
+	original.SetSelectionSerialized(true);
+	original.SetFixedOptionsList(&fixedOptions);
+	original.InsertOption("Option1", "opt1", QString(), -1);
+	original.InsertOption("Option2", "opt2", QString(), -1);
+	original.SetSelectedOptionIndex(3); // "opt2"
+
+	iprm::COptionsManager restored;
+	restored.SetSelectionSerialized(true);
+	restored.SetFixedOptionsList(&fixedOptions);
+
+	QVERIFY(TestSerializationCycle(original, restored));
+
+	QCOMPARE(restored.GetOptionsCount(), 4);
+	QCOMPARE(restored.GetSelectedOptionIndex(), 3);
+	QCOMPARE(restored.GetOptionId(restored.GetSelectedOptionIndex()), QByteArray("opt2"));
+}
+
+
+void CSerializationRegressionTestRunner::testOptionsManagerSelectionIntoExistingOptionsSerialization()
+{
+	// Restoring into an instance that already has the same options in a different order must resolve the
+	// selection by option ID, not by the old index
+	iprm::COptionsManager original;
+	original.SetSelectionSerialized(true);
+	original.InsertOption("Option1", "opt1", QString(), -1);
+	original.InsertOption("Option2", "opt2", QString(), -1);
+	original.InsertOption("Option3", "opt3", QString(), -1);
+	original.SetSelectedOptionIndex(0); // "opt1"
+
+	iprm::COptionsManager restored;
+	restored.SetSelectionSerialized(true);
+	restored.InsertOption("Option3", "opt3", QString(), -1);
+	restored.InsertOption("Option2", "opt2", QString(), -1);
+	restored.InsertOption("Option1", "opt1", QString(), -1);
+
+	QVERIFY(TestSerializationCycle(original, restored));
+
+	QCOMPARE(restored.GetOptionsCount(), 3);
+	QCOMPARE(restored.GetOptionId(restored.GetSelectedOptionIndex()), QByteArray("opt1"));
+	QCOMPARE(restored.GetSelectedOptionIndex(), 0);
+}
+
+
+void CSerializationRegressionTestRunner::testOptionsManagerWithoutSelectionSerialization()
+{
+	// Without selection serialization only the options are restored, the selection is not touched
+	iprm::COptionsManager original;
+	original.InsertOption("Option1", "opt1", QString(), -1);
+	original.InsertOption("Option2", "opt2", QString(), -1);
+	original.SetSelectedOptionIndex(1);
+
+	iprm::COptionsManager restored;
+
+	QVERIFY(TestSerializationCycle(original, restored));
+
+	QCOMPARE(restored.GetOptionsCount(), 2);
+	QCOMPARE(restored.GetSelectedOptionIndex(), int(iprm::ISelectionParam::NO_SELECTION));
+}
+
+
 // ifile library tests
 
 void CSerializationRegressionTestRunner::testFileNameParamSerialization()

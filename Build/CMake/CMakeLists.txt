@@ -3,7 +3,17 @@ cmake_minimum_required(VERSION 3.26)
 project(Acf)
 
 
-find_package(QT NAMES Qt6 Qt5 COMPONENTS Core)
+set(BUILD_TESTING ON CACHE BOOL "Configures projects for testing")
+
+# Enable modern target-based architecture:
+# find_package(Acf) provides Acf::<lib> imported targets with transitive include dirs and link deps.
+set(ACF_MODERN_CMAKE ON)
+
+if(NOT DEFINED ACFDIR)
+	set(ACFDIR "${CMAKE_CURRENT_LIST_DIR}/../..")
+endif()
+
+include(${ACFDIR}/Config/CMake/AcfEnv.cmake)
 
 set(ACF_QT_COMPONENTS Core Widgets Gui Xml Network Svg Concurrent)
 if(QT_VERSION_MAJOR EQUAL 6)
@@ -12,26 +22,6 @@ endif()
 
 find_package("Qt${QT_VERSION_MAJOR}" COMPONENTS ${ACF_QT_COMPONENTS} REQUIRED)
 
-set(BUILD_TESTING ON CACHE BOOL "Configures projects for testing")
-
-# Enable modern target-based architecture:
-# find_package(Acf) provides Acf::<lib> imported targets with transitive include dirs and link deps.
-# Legacy global include_directories()/link_directories() in the Env chain are skipped.
-set(ACF_MODERN_CMAKE ON CACHE BOOL "Enable modern target-based architecture for AcfSln and Acf libraries")
-
-if(NOT DEFINED ACFDIR)
-	set(ACFDIR "${CMAKE_CURRENT_LIST_DIR}/../../../Acf")
-endif()
-
-include(${ACFDIR}/Config/CMake/AcfEnv.cmake)
-
-if(NOT DEFINED ACFDIR_BUILD)
-	set(ACFDIR_BUILD "${ACFDIR}")
-endif()
-
-file(TO_CMAKE_PATH "${ACFDIR_BUILD}" ACFDIR_BUILD)
-
-# Collect Acf libraries in an export set so they can be used as find_package(Acf) targets.
 # Read by Acf's shared StaticConfig.cmake / acf_register_library() when registering each lib.
 set(ACF_PACKAGE_NAME "Acf")
 

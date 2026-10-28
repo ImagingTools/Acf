@@ -160,7 +160,7 @@ class AcfConan(ConanFile):
         tc.generate()
 
         env = Environment()
-        env.define("ACFDIR_BUILD", os.path.join(self.build_folder, "Acf"))
+        env.define("ACFDIR_BUILD", Path(self.build_folder, "Acf").as_posix())
         env.define("QTDIR", qtDir)
         env = env.vars(self, scope="build")
         env.save_script("acfenv")
