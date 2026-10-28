@@ -722,6 +722,18 @@ bool CRegistryCodeSaverComp::WriteIncludes(
 		if (!declaredList.isEmpty()){
 			stream << "#include <icomp/IRealComponentStaticInfo.h>" << "\n";
 
+			// attribute types written by WriteRegistryInfo, otherwise provided by the package headers
+			if (!*m_useBinaryCodeAttrPtr){
+				stream << "#include <iattr/TAttribute.h>" << "\n";
+				stream << "#include <iattr/TMultiAttribute.h>" << "\n";
+				stream << "#include <icomp/TAttributeMember.h>" << "\n";
+				stream << "#include <icomp/TMultiAttributeMember.h>" << "\n";
+				stream << "#include <icomp/CReferenceAttribute.h>" << "\n";
+				stream << "#include <icomp/CFactoryAttribute.h>" << "\n";
+				stream << "#include <icomp/CMultiReferenceAttribute.h>" << "\n";
+				stream << "#include <icomp/CMultiFactoryAttribute.h>" << "\n";
+			}
+
 			stream << "\n";
 			stream << "// ACF component declarations" << "\n";
 
