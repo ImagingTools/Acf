@@ -186,6 +186,10 @@ SUBDIRS += TextParamComponentTest
 TextParamComponentTest.file = ../../Tests/TextParamComponentTest/QMake/TextParamComponentTest.pro
 TextParamComponentTest.depends = Arxc iprm iser itest
 
+SUBDIRS += ComponentTeardownTest
+ComponentTeardownTest.file = ../../Tests/ComponentTeardownTest/QMake/ComponentTeardownTest.pro
+ComponentTeardownTest.depends = Arxc iprm iser itest
+
 SUBDIRS += IdParamComponentTest
 IdParamComponentTest.file = ../../Tests/IdParamComponentTest/QMake/IdParamComponentTest.pro
 IdParamComponentTest.depends = Arxc iprm iser itest

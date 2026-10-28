@@ -15,6 +15,7 @@ Tests are organized by location:
   - **MultiThreadingComponentTest/** - Tests for multi-threading components
   - **SelectionParamIntegrationTest/** - Integration tests for selection parameters
   - **SelectionParamComponentTest/** - Component tests for CSelectionParamComp with various configurations
+  - **ComponentTeardownTest/** - Regression test for composite teardown: subcomponents must not reach a released parent context
   - **AutoPersistenceTest/** - Tests for CAutoPersistenceComp with various attribute configurations
   - **IdocComponentTest/** - Component tests for idoc library (CTextDocumentComp, CSerializedUndoManagerComp, CSingleDocumentTemplateComp)
   - **SerializationRegressionTest/** - Cross-library regression tests for data model serialization
