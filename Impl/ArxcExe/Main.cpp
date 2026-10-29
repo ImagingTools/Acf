@@ -28,7 +28,8 @@ static void ShowUsage()
 	std::cout << "\t-o outputFile                - output file path" << std::endl;
 	std::cout << "\t-d depfile                   - optional CMake compatible dependency file" << std::endl;
 	std::cout << "\t-config configFile           - specify ACF packages configuration file" << std::endl;
-	std::cout << "\t-include_prefixes file       - file with 'PackageId=Prefix' lines, generating package includes as 'Prefix/PackageId.h'" << std::endl;
+	std::cout << "\t-include_prefixes file       - file with 'PackageId=Prefix' lines, generating package includes as 'Prefix/PackageId.h';" << std::endl;
+	std::cout << "\t                               'declare PackageId' lines declare the component info functions of the package instead of including it" << std::endl;
 	std::cout << "\t-sources [on|off]            - enables/disables C++ sources output, default is 'on'" << std::endl;
 	std::cout << "\t-v                           - enable verbose mode" << std::endl;
 	std::cout << "\t-check_real                  - check if used real packages exist" << std::endl;
@@ -253,6 +254,12 @@ int main(int argc, char *argv[])
 			while (!includePrefixesStream.atEnd()){
 				QString definition = includePrefixesStream.readLine().trimmed();
 				if (definition.isEmpty() || definition.startsWith('#')){
+					continue;
+				}
+
+				if (definition.startsWith("declare ")){
+					codeSaverComp->InsertMultiAttr("DeclaredPackages", definition.mid(8).trimmed());
+
 					continue;
 				}
 
