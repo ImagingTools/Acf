@@ -346,8 +346,8 @@ void CCompositeComponent::SetComponentContext(
 		}
 	}
 	else{
-		m_contextPtr.reset();
-
+		// Deinitialize the subcomponents before releasing the own context:
+		// subcontexts refer to their parent context by raw pointer and may still need it (e.g. for error reporting).
 		for (		ComponentMap::iterator iter = m_componentMap.begin();
 					iter != m_componentMap.end();
 					++iter){
@@ -361,6 +361,8 @@ void CCompositeComponent::SetComponentContext(
 				info.componentState = CS_DESTROYED;
 			}
 		}
+
+		m_contextPtr.reset();
 	}
 }
 
