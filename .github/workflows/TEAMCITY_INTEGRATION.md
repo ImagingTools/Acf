@@ -105,6 +105,18 @@ A build-type variable wins over `build-type-prefix`. A repository whose TeamCity
 
 The limits are `MAX_QUEUED_SECONDS`, `MAX_RUNNING_SECONDS` and `timeout-minutes` in `teamcity-ci.yml`. Change them there, for every repository at once.
 
+## Required checks
+
+Require the commit statuses the workflow writes, not the names of its jobs:
+- `TeamCity CI (windows)`
+- `TeamCity CI (linux)`
+
+A repository that builds one platform requires only that one.
+
+The names of the jobs depend on the calling workflow: a job of a reusable workflow is named `<caller job id> / <job name>`, for example `teamcity / Trigger TeamCity Build (linux)`. A required check with another name, such as the `Trigger TeamCity Build (linux)` of the earlier per-repository workflow, never reports and stays at "Expected - Waiting for status to be reported" although the build passed. The statuses have the same names in every repository, whatever the caller is called.
+
+Change the required checks in the branch protection or the ruleset when a repository switches to the reusable workflow.
+
 ## Troubleshooting
 
 ### "TeamCity configuration not found in repository variables"
