@@ -142,3 +142,4 @@ Per platform there is one configuration for pull requests and one for `main`/`ma
 - The token is a GitHub **secret**, so it is not shown in logs or the Actions UI.
 - Use a dedicated service account with the minimal rights, and rotate or expire the token.
 - A repository that needs another server or a narrower token defines its own `TEAMCITY_URL` or `TEAMCITY_TOKEN`. Nothing in the reusable workflow changes.
+- The Acf trigger passes the commit under test as `acf-ref`, so a change to the workflow or its scripts is tested in its own pull request and runs with the token. A pull request workflow file already has that power, and pull requests from forks get no secrets. Other repositories pin a released ref and run released scripts.
