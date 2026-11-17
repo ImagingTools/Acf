@@ -1,6 +1,6 @@
 name: TeamCity CI (reusable)
 
-# Reusable TeamCity trigger. A repository calls it from a short workflow, see Docs/TeamCityCi.md.
+# Reusable TeamCity trigger. A repository calls it from a short workflow, see .github/workflows/TEAMCITY_INTEGRATION.md.
 on:
   workflow_call:
     inputs:
@@ -149,10 +149,10 @@ jobs:
 
           # Validate required configuration
           if [ -z "${TEAMCITY_URL:-}" ] || [ -z "${TEAMCITY_TOKEN:-}" ] || [ -z "${TEAMCITY_BUILD_TYPE:-}" ]; then
-            echo "❌ Error: TeamCity configuration not found in repository variables"
-            echo "Please configure the following repository variables:"
+            echo "❌ Error: TeamCity configuration not found in repository or organization variables and secrets"
+            echo "Please configure the following (the token as a secret, the rest as variables, or pass build-type-prefix):"
             echo "  - TEAMCITY_URL: Your TeamCity server URL (e.g., https://teamcity.example.com)"
-            echo "  - TEAMCITY_TOKEN: TeamCity access token with build trigger permissions"
+            echo "  - TEAMCITY_TOKEN (secret): TeamCity access token with build trigger permissions"
             echo "  - TEAMCITY_BUILD_TYPE_WINDOWS_PR: TeamCity build configuration ID for Windows PRs (e.g., MyProject_Build_Windows_PR)"
             echo "  - TEAMCITY_BUILD_TYPE_WINDOWS_MAIN: TeamCity build configuration ID for Windows main branch pushes (e.g., MyProject_Build_Windows_Main)"
             echo "  - TEAMCITY_BUILD_TYPE_LINUX_PR: TeamCity build configuration ID for Linux PRs (e.g., MyProject_Build_Linux_PR)"
@@ -393,7 +393,7 @@ jobs:
           echo "- Full logs: $TEAMCITY_URL/downloadBuildLog.html?buildId=$BUILD_ID"
 
       - name: Report Build Status
-        if: always() && steps.teamcity.outputs.build_id
+        if: always()
         uses: actions/github-script@v8
         env:
           BUILD_STATUS: ${{ steps.wait_build.outputs.build_status || 'Unknown' }}

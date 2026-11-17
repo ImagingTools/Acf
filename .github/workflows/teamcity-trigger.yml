@@ -20,5 +20,5 @@ jobs:
     uses: ./.github/workflows/teamcity-ci.yml
     with:
       build-type-prefix: Acf
-      acf-ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      acf-ref: ${{ github.sha }}
     secrets: inherit
