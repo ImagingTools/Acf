@@ -115,7 +115,7 @@ jobs:
               sha: process.env.COMMIT_SHA,
               state: 'pending',
               context: `TeamCity CI (${process.env.PLATFORM})`,
-              description: 'TeamCity build queued...'
+              description: `TeamCity build queued... [run ${context.runId}]`
             });
 
       - name: Cancel superseded TeamCity builds
@@ -436,14 +436,34 @@ jobs:
               desc = `TeamCity build failed (${status})`;
             }
 
+            const statusContext = `TeamCity CI (${platform})`;
+            const wasCancelled = process.env.CANCEL_OUTCOME === 'success' || process.env.CANCEL_OUTCOME === 'failure';
+
+            // A cancelled run must not overwrite the status of a newer run of the same commit, for example a rerun.
+            if (wasCancelled) {
+              const { data: statuses } = await github.rest.repos.listCommitStatusesForRef({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                ref: sha,
+                per_page: 100
+              });
+
+              const latest = statuses.find(item => item.context === statusContext);
+              const latestRun = latest ? Number((/\[run (\d+)\]/.exec(latest.description || '') || [])[1]) : 0;
+              if (latestRun > context.runId) {
+                console.log(`A newer run ${latestRun} owns the status, it is left to it.`);
+                return;
+              }
+            }
+
             await github.rest.repos.createCommitStatus({
               owner: context.repo.owner,
               repo: context.repo.repo,
               sha: sha,
               state: state,
               target_url: buildUrl || undefined,
-              context: `TeamCity CI (${platform})`,
-              description: desc
+              context: statusContext,
+              description: `${desc} [run ${context.runId}]`
             });
 
             core.notice(`TeamCity Build (${platform}): ${status} — ${buildUrl}`);
