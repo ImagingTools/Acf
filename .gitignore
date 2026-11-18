@@ -36,7 +36,6 @@ Include/istd/AcfVersion.h
 Partitura/AcfVoce.arp/VersionInfo.acc
 
 # Generated documentation
-docs/
 Docs/TechnicalDoc/
 
 # Python artifacts
