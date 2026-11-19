@@ -23,7 +23,6 @@ CJsonReadArchiveBase::CJsonReadArchiveBase(
 bool CJsonReadArchiveBase::BeginTag(const iser::CArchiveTag& tag)
 {
 	QString tagId(tag.GetId());
-	int tagType = tag.GetTagType();
 
 	if (m_iterators.isEmpty() && !tagId.isEmpty()){
 		if (!BeginTag(m_rootTag)){
@@ -48,22 +47,13 @@ bool CJsonReadArchiveBase::BeginTag(const iser::CArchiveTag& tag)
 	HelperIterator helperIterator = m_iterators.last();
 
 	if (helperIterator.isArray()){
-		if (tagType == iser::CArchiveTag::TT_LEAF){
-			HelperIterator newHelperIterator;
-			newHelperIterator.SetKey(tagId);
-			QString value = helperIterator.GetValue();
-			newHelperIterator.SetValue(value);
-			m_iterators.push_back(newHelperIterator);
-			m_tags.push_back(&tag);
-		}
-		else{
-			QJsonObject jsonObject = helperIterator.GetObject();
-			HelperIterator newHelperIterator;
-			newHelperIterator.SetValue(jsonObject);
-			newHelperIterator.SetKey(tagId);
-			m_iterators.push_back(newHelperIterator);
-			m_tags.push_back(&tag);
-		}
+		// Array element can be a plain value (leaf tags and, since the JSON writer stores single values directly, also other tags)
+		// or an object (tags with children and single values of non-leaf tags written by older versions).
+		HelperIterator newHelperIterator;
+		newHelperIterator.SetKey(tagId);
+		newHelperIterator.SetValue(helperIterator.GetJsonValue());
+		m_iterators.push_back(newHelperIterator);
+		m_tags.push_back(&tag);
 	}
 	else {
 		QJsonObject jsonObject = helperIterator.GetObject();
