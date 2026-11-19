@@ -11,7 +11,7 @@
 #include <icmm/CLab.h>
 #include <icmm/CRgb.h>
 #include <icmm/CRgbToCmykTransformation.h>
-#include <icmm/CRgbToHsvTranformation.h>
+#include <icmm/CRgbToHsvTransformation.h>
 #include <icmm/CRgbToXyzTransformation.h>
 #include <icmm/CXyzToCieLabTransformation.h>
 #include <icmm/TColorGradient.h>
@@ -37,7 +37,7 @@ icmm::CVarColor MakeColor(std::initializer_list<double> values)
 
 void CColorTransformationTest::RgbToHsvTest()
 {
-	icmm::CRgbToHsvTranformation transformation;
+	icmm::CRgbToHsvTransformation transformation;
 
 	// Pure red: hue 0, full saturation, full value
 	icmm::CVarColor hsv(3);
@@ -66,7 +66,7 @@ void CColorTransformationTest::RgbToHsvTest()
 
 void CColorTransformationTest::RgbToHsvEdgeCasesTest()
 {
-	icmm::CRgbToHsvTranformation transformation;
+	icmm::CRgbToHsvTransformation transformation;
 	icmm::CVarColor hsv(3);
 
 	// Achromatic gray: saturation and hue are 0
@@ -124,7 +124,7 @@ void CColorTransformationTest::HsvToRgbTest()
 
 void CColorTransformationTest::RgbHsvRoundTripTest()
 {
-	icmm::CRgbToHsvTranformation rgbToHsv;
+	icmm::CRgbToHsvTransformation rgbToHsv;
 	icmm::CHsvToRgbTransformation hsvToRgb;
 
 	const QList<icmm::CVarColor> testColors = {
@@ -304,7 +304,7 @@ void CColorTransformationTest::InvalidInputSizeTest()
 	icmm::CVarColor result4(4);
 
 	// Wrong argument size is rejected
-	QVERIFY(!icmm::CRgbToHsvTranformation().GetValueAt(color4, result3));
+	QVERIFY(!icmm::CRgbToHsvTransformation().GetValueAt(color4, result3));
 	QVERIFY(!icmm::CHsvToRgbTransformation().GetValueAt(color2, result3));
 	QVERIFY(!icmm::CRgbToCmykTransformation().GetValueAt(color4, result4));
 	QVERIFY(!icmm::CCmykToRgbTransformation().GetValueAt(color3, result3));
@@ -312,7 +312,7 @@ void CColorTransformationTest::InvalidInputSizeTest()
 	QVERIFY(!icmm::CXyzToCieLabTransformation().GetValueAt(color4, result3));
 
 	// Wrong result size is rejected
-	QVERIFY(!icmm::CRgbToHsvTranformation().GetValueAt(color3, result4));
+	QVERIFY(!icmm::CRgbToHsvTransformation().GetValueAt(color3, result4));
 	QVERIFY(!icmm::CRgbToCmykTransformation().GetValueAt(color3, result3));
 	QVERIFY(!icmm::CCmykToRgbTransformation().GetValueAt(color4, result4));
 }

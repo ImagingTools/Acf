@@ -65,7 +65,7 @@ namespace icmm
 		
 		// Create transformation
 		const icmm::IColorTransformation* transform = 
-			sourceModel->CreateColorTranformation(*targetModel);
+			sourceModel->CreateColorTransformation(*targetModel);
 		
 		if (transform) {
 			// Transform color

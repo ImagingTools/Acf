@@ -5,7 +5,7 @@
 // ACF includes
 #include <istd/CChangeNotifier.h>
 #include <icmm/CCmykColorModel.h>
-#include <icmm/CRgbToHsvTranformation.h>
+#include <icmm/CRgbToHsvTransformation.h>
 #include <icmm/CRgbToXyzTransformation.h>
 #include <icmm/CRgbToCmykTransformation.h>
 
@@ -77,13 +77,13 @@ QString CRgbColorModel::GetColorSpaceComponentName(int componentIndex) const
 }
 
 
-const icmm::IColorTransformation* CRgbColorModel::CreateColorTranformation(const IColorModel& otherColorModel, const QByteArray& /*transformationId*/) const
+const icmm::IColorTransformation* CRgbColorModel::CreateColorTransformation(const IColorModel& otherColorModel, const QByteArray& /*transformationId*/) const
 {
 	switch (otherColorModel.GetModelType()){
 	case MT_XYZ:
 		return new icmm::CRgbToXyzTransformation();
 	case MT_HSV:
-		return new icmm::CRgbToHsvTranformation();
+		return new icmm::CRgbToHsvTransformation();
 	case MT_COLORANTS:
 		{
 			const icmm::CCmykColorModel* cmykModelPtr = dynamic_cast<const icmm::CCmykColorModel*>(&otherColorModel);

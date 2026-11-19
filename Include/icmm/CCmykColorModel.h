@@ -84,7 +84,7 @@ namespace icmm
 		
 		// Create transformation
 		const icmm::IColorTransformation* transform = 
-			rgbModel.CreateColorTranformation(cmykModel);
+			rgbModel.CreateColorTransformation(cmykModel);
 		
 		if (transform) {
 			icmm::CVarColor cmyk;

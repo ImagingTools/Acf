@@ -47,7 +47,7 @@ namespace icmm
 	
 	// Create RGB to HSV transformation
 	const icmm::IColorTransformation* rgbToHsv = 
-		rgbModel.CreateColorTranformation(hsvModel);
+		rgbModel.CreateColorTransformation(hsvModel);
 	
 	if (rgbToHsv) {
 		// Convert RGB color to HSV
@@ -89,7 +89,7 @@ namespace icmm
 		icmm::CCieLabColorModel labModel;
 		
 		const icmm::IColorTransformation* transform = 
-			rgbModel.CreateColorTranformation(labModel);
+			rgbModel.CreateColorTransformation(labModel);
 		
 		if (transform) {
 			icmm::CVarColor labColor;
@@ -126,7 +126,7 @@ namespace icmm
 	- Use Adobe RGB or ProPhoto RGB for photography
 
 	\sa icmm::IColorModel, icmm::CRgb, icmm::ITristimulusSpecification,
-	    icmm::CRgbToHsvTranformation, icmm::CRgbToCmykTransformation
+	    icmm::CRgbToHsvTransformation, icmm::CRgbToCmykTransformation
 
 	\ingroup Color
 */
@@ -148,7 +148,7 @@ public:
 	virtual int GetColorSpaceDimensionality() const override;
 	virtual const imath::IUnitInfo* GetColorSpaceComponentInfo(int componentIndex) const override;
 	virtual QString GetColorSpaceComponentName(int componentIndex) const override;
-	virtual const icmm::IColorTransformation* CreateColorTranformation(const IColorModel& otherColorModel, const QByteArray& transformationId) const override;
+	virtual const icmm::IColorTransformation* CreateColorTransformation(const IColorModel& otherColorModel, const QByteArray& transformationId) const override;
 	virtual IColorSpecification::ConstColorSpecPtr GetSpecification() const override;
 
 	// reimplemented (istd::IChangeable)

@@ -174,7 +174,7 @@ namespace icmm
 	      - Value: 0.0 (black) to 1.0 (bright)
 
 	\sa icmm::TComposedColor, icmm::CRgb, icmm::CHsvToRgbTransformation,
-	    icmm::CRgbToHsvTranformation
+	    icmm::CRgbToHsvTransformation
 
 	\ingroup Color
 */

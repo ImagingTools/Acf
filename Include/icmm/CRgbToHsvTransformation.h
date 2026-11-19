@@ -14,7 +14,7 @@ namespace icmm
 	Implementation of RGB-to-HSV color transformation.
 	
 	\section RgbToHsvPurpose Purpose
-	CRgbToHsvTranformation converts colors from RGB (Red, Green, Blue) color space
+	CRgbToHsvTransformation converts colors from RGB (Red, Green, Blue) color space
 	to HSV (Hue, Saturation, Value) color space. HSV is more intuitive for color
 	selection and manipulation, representing colors in terms of their hue (color type),
 	saturation (color intensity), and value (brightness).
@@ -33,7 +33,7 @@ namespace icmm
 	\section RgbToHsvUsage Usage Examples
 	\code
 	// Example 1: Basic RGB to HSV conversion
-	icmm::CRgbToHsvTranformation rgbToHsv;
+	icmm::CRgbToHsvTransformation rgbToHsv;
 	
 	// Create RGB color (orange)
 	icmm::CVarColor rgb(3);
@@ -53,7 +53,7 @@ namespace icmm
 	QList<icmm::CVarColor> ConvertRgbListToHsv(
 		const QList<icmm::CVarColor>& rgbColors)
 	{
-		icmm::CRgbToHsvTranformation transform;
+		icmm::CRgbToHsvTransformation transform;
 		QList<icmm::CVarColor> hsvColors;
 		
 		for (const icmm::CVarColor& rgb : rgbColors) {
@@ -73,7 +73,7 @@ namespace icmm
 	
 	ColorProperties AnalyzeRgbColor(const icmm::CVarColor& rgb)
 	{
-		icmm::CRgbToHsvTranformation rgbToHsv;
+		icmm::CRgbToHsvTransformation rgbToHsv;
 		icmm::CVarColor hsv = rgbToHsv.GetValueAt(rgb);
 		
 		ColorProperties props;
@@ -109,7 +109,7 @@ namespace icmm
 	// Example 5: Detecting dominant colors
 	QString GetDominantColorName(const icmm::CVarColor& rgb)
 	{
-		icmm::CRgbToHsvTranformation rgbToHsv;
+		icmm::CRgbToHsvTransformation rgbToHsv;
 		icmm::CVarColor hsv = rgbToHsv.GetValueAt(rgb);
 		
 		double hue = hsv.GetElement(0);
@@ -137,7 +137,7 @@ namespace icmm
 	                                 double brightnessFactor)
 	{
 		// Convert to HSV
-		icmm::CRgbToHsvTranformation rgbToHsv;
+		icmm::CRgbToHsvTransformation rgbToHsv;
 		icmm::CVarColor hsv = rgbToHsv.GetValueAt(rgb);
 		
 		// Adjust value (brightness)
@@ -153,7 +153,7 @@ namespace icmm
 	// Example 7: Saturation boost
 	icmm::CVarColor BoostSaturation(const icmm::CVarColor& rgb)
 	{
-		icmm::CRgbToHsvTranformation rgbToHsv;
+		icmm::CRgbToHsvTransformation rgbToHsv;
 		icmm::CVarColor hsv = rgbToHsv.GetValueAt(rgb);
 		
 		// Increase saturation
@@ -192,15 +192,12 @@ namespace icmm
 	- Cache transformation object for batch conversions
 	- Remember: HSV is device-dependent (uses RGB as input)
 
-	\note The name contains a typo "Tranformation" instead of "Transformation" but
-	      is kept for API compatibility.
-
 	\sa icmm::CHsvToRgbTransformation, icmm::IColorTransformation,
 	    icmm::CRgb, icmm::CHsv, icmm::CRgbColorModel
 
 	\ingroup Color
 */
-class CRgbToHsvTranformation: public icmm::IColorTransformation
+class CRgbToHsvTransformation: public icmm::IColorTransformation
 {
 public:
 	// reimplemented (icmm::IColorTransformation)

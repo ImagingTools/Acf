@@ -31,7 +31,7 @@ public:
 	virtual int GetColorSpaceDimensionality() const override;
 	virtual const imath::IUnitInfo* GetColorSpaceComponentInfo(int componentIndex) const override;
 	virtual QString GetColorSpaceComponentName(int componentIndex) const override;
-	virtual const icmm::IColorTransformation* CreateColorTranformation(
+	virtual const icmm::IColorTransformation* CreateColorTransformation(
 				const IColorModel& otherColorModel,
 				const QByteArray& transformationId = QByteArray()) const override;
 
