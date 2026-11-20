@@ -88,7 +88,7 @@ QString CCieLabColorModel::GetColorSpaceComponentName(int componentIndex) const
 }
 
 
-const icmm::IColorTransformation* CCieLabColorModel::CreateColorTranformation(
+const icmm::IColorTransformation* CCieLabColorModel::CreateColorTransformation(
 	const IColorModel& /*otherColorModel*/,
 	const QByteArray& /*transformationId*/) const
 {

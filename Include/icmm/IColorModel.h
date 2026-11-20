@@ -95,7 +95,7 @@ namespace icmm
 	{
 		// Create transformation from RGB to Lab
 		const IColorTransformation* transform = 
-			rgbModel->CreateColorTranformation(*labModel);
+			rgbModel->CreateColorTransformation(*labModel);
 		
 		if (transform) {
 			// Apply transformation
@@ -134,7 +134,7 @@ namespace icmm
 	{
 		// Create transformation
 		const IColorTransformation* transform = 
-			fromModel->CreateColorTranformation(*toModel);
+			fromModel->CreateColorTransformation(*toModel);
 		
 		if (transform) {
 			icmm::CVarColor result;
@@ -153,7 +153,7 @@ namespace icmm
 	bool CanConvert(const IColorModel* from, const IColorModel* to)
 	{
 		const IColorTransformation* transform = 
-			from->CreateColorTranformation(*to);
+			from->CreateColorTransformation(*to);
 		
 		bool canConvert = (transform != nullptr);
 		delete transform;
@@ -363,7 +363,7 @@ public:
 		icmm::CCieLabColorModel labModel;
 		
 		const IColorTransformation* transform = 
-			rgbModel.CreateColorTranformation(labModel);
+			rgbModel.CreateColorTransformation(labModel);
 		
 		if (transform) {
 			// Use transformation
@@ -381,7 +381,7 @@ public:
 		
 		\sa IColorTransformation, CVarColor
 	*/
-	virtual const icmm::IColorTransformation* CreateColorTranformation(
+	virtual const icmm::IColorTransformation* CreateColorTransformation(
 				const IColorModel& otherColorModel,
 				const QByteArray& transformationId = QByteArray()) const = 0;
 

@@ -73,7 +73,7 @@ QString CSpectralColorModel::GetColorSpaceComponentName(int /*componentIndex*/) 
 }
 
 
-const icmm::IColorTransformation* CSpectralColorModel::CreateColorTranformation(
+const icmm::IColorTransformation* CSpectralColorModel::CreateColorTransformation(
 	const IColorModel& /*otherColorModel*/,
 	const QByteArray& /*transformationId*/) const
 {
