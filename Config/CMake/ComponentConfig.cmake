@@ -16,6 +16,13 @@ add_library(${PROJECT_NAME} SHARED ${PROJECT_SRC})
 set(TARGET_EXT ".arp")
 set_target_properties(${PROJECT_NAME} PROPERTIES PREFIX "" SUFFIX ${TARGET_EXT})
 
+# Debug information of component packages is rarely needed and takes a lot of space, 
+# because the linker copies the debug sections of every static library into the shared library.
+option(ACF_DEBUG_ARP "Keep the debug information in component packages (.arp)" OFF)
+if (CMAKE_SYSTEM_NAME STREQUAL "Linux" AND NOT ACF_DEBUG_ARP)
+	target_link_options(${PROJECT_NAME} PRIVATE LINKER:--strip-debug)
+endif()
+
 
 set(outlibdir "${AUX_INCLUDE_DIR}/../../../Bin/${CMAKE_BUILD_TYPE}_${TARGETNAME}")
 
