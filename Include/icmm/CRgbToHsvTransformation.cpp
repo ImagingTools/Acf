@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later OR GPL-2.0-or-later OR GPL-3.0-or-later OR LicenseRef-ACF-Commercial
-#include <icmm/CRgbToHsvTranformation.h>
+#include <icmm/CRgbToHsvTransformation.h>
 
 
 // Qt includes
@@ -23,7 +23,7 @@ namespace icmm
 
 // reimplemented (icmm::IColorTransformation)
 
-bool CRgbToHsvTranformation::GetValueAt(const icmm::CVarColor& argument, icmm::CVarColor& result) const
+bool CRgbToHsvTransformation::GetValueAt(const icmm::CVarColor& argument, icmm::CVarColor& result) const
 {
 	if (argument.GetElementsCount() != icmm::CRgb::GetElementsCount()){
 		return false;
@@ -79,7 +79,7 @@ bool CRgbToHsvTranformation::GetValueAt(const icmm::CVarColor& argument, icmm::C
 }
 
 
-icmm::CVarColor CRgbToHsvTranformation::GetValueAt(const icmm::CVarColor& argument) const
+icmm::CVarColor CRgbToHsvTransformation::GetValueAt(const icmm::CVarColor& argument) const
 {
 	icmm::CVarColor result(3);
 

@@ -87,7 +87,7 @@ QString CSubtractiveColorModelBase::GetColorSpaceComponentName(int componentInde
 }
 
 
-const icmm::IColorTransformation* CSubtractiveColorModelBase::CreateColorTranformation(
+const icmm::IColorTransformation* CSubtractiveColorModelBase::CreateColorTransformation(
 	const IColorModel& /*otherColorModel*/,
 	const QByteArray& /*transformationId*/) const
 {

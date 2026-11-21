@@ -141,7 +141,7 @@ void CColorModelTest::CreateColorTransformationTest()
 	// RGB -> CMYK transformation is available
 	icmm::CCmykColorModel cmykModel;
 	std::unique_ptr<const icmm::IColorTransformation> rgbToCmykPtr(
-		rgbModel.CreateColorTranformation(cmykModel, QByteArray()));
+		rgbModel.CreateColorTransformation(cmykModel, QByteArray()));
 	QVERIFY(rgbToCmykPtr != nullptr);
 
 	// The created transformation converts white to zero ink coverage
@@ -154,10 +154,10 @@ void CColorModelTest::CreateColorTransformationTest()
 
 	// No transformation to unsupported models
 	icmm::CCieLabColorModel labModel;
-	QVERIFY(rgbModel.CreateColorTranformation(labModel, QByteArray()) == nullptr);
+	QVERIFY(rgbModel.CreateColorTransformation(labModel, QByteArray()) == nullptr);
 
 	// CieLab model does not provide any transformations
-	QVERIFY(labModel.CreateColorTranformation(rgbModel, QByteArray()) == nullptr);
+	QVERIFY(labModel.CreateColorTransformation(rgbModel, QByteArray()) == nullptr);
 }
 
 
