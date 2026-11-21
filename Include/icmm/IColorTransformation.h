@@ -39,7 +39,7 @@ namespace icmm
 		
 		// Create transformation
 		const IColorTransformation* transform = 
-			rgbModel.CreateColorTranformation(hsvModel);
+			rgbModel.CreateColorTransformation(hsvModel);
 		
 		if (transform) {
 			// Convert RGB to CVarColor
@@ -72,7 +72,7 @@ namespace icmm
 	{
 		// Create transformation once
 		const IColorTransformation* transform = 
-			sourceModel->CreateColorTranformation(*targetModel);
+			sourceModel->CreateColorTransformation(*targetModel);
 		
 		if (!transform) {
 			qWarning() << "No transformation available";
@@ -104,7 +104,7 @@ namespace icmm
 		
 		// First: RGB to XYZ
 		const IColorTransformation* rgbToXyz = 
-			rgbModel.CreateColorTranformation(xyzModel);
+			rgbModel.CreateColorTransformation(xyzModel);
 		
 		icmm::CVarColor xyz;
 		if (rgbToXyz && rgbToXyz->Calculate(rgb, xyz)) {
@@ -112,7 +112,7 @@ namespace icmm
 			
 			// Second: XYZ to Lab
 			const IColorTransformation* xyzToLab = 
-				xyzModel.CreateColorTranformation(labModel);
+				xyzModel.CreateColorTransformation(labModel);
 			
 			icmm::CVarColor lab;
 			if (xyzToLab && xyzToLab->Calculate(xyz, lab)) {
@@ -167,7 +167,7 @@ namespace icmm
 	- Use device-independent spaces (Lab, XYZ) for accurate color matching
 
 	\sa icmm::IColorModel, icmm::CVarColor, imath::TIMathFunction,
-	    icmm::CRgbToHsvTranformation, icmm::CRgbToCmykTransformation
+	    icmm::CRgbToHsvTransformation, icmm::CRgbToCmykTransformation
 
 	\ingroup Color
 */

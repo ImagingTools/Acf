@@ -9,7 +9,7 @@
 #include <istd/TDelPtr.h>
 #include <imod/IModel.h>
 #include <icmm/CVarColor.h>
-#include <icmm/CRgbToHsvTranformation.h>
+#include <icmm/CRgbToHsvTransformation.h>
 #include <icmm/CRgb.h>
 #include <icmm/CHsv.h>
 #include <iimg/CBitmap.h>
@@ -211,7 +211,7 @@ QString CImageShape::GetShapeDescriptionAt(istd::CIndex2d position) const
 
 			case iimg::IBitmap::PF_RGB24:
 			{
-				icmm::CRgbToHsvTranformation rgbToHsvTransformation;
+				icmm::CRgbToHsvTransformation rgbToHsvTransformation;
 				icmm::CRgb rgb(pixelValue[0], pixelValue[1], pixelValue[2]);
 				icmm::CHsv hsv;
 
@@ -235,7 +235,7 @@ QString CImageShape::GetShapeDescriptionAt(istd::CIndex2d position) const
 
 			case iimg::IBitmap::PF_RGB:
 				{
-					icmm::CRgbToHsvTranformation rgbToHsvTransformation;
+					icmm::CRgbToHsvTransformation rgbToHsvTransformation;
 					icmm::CRgb rgb(pixelValue[2], pixelValue[1], pixelValue[0]);
 					icmm::CHsv hsv;
 
@@ -259,7 +259,7 @@ QString CImageShape::GetShapeDescriptionAt(istd::CIndex2d position) const
 
 			case iimg::IBitmap::PF_RGBA:
 				{
-					icmm::CRgbToHsvTranformation rgbToHsvTransformation;
+					icmm::CRgbToHsvTransformation rgbToHsvTransformation;
 					icmm::CRgb rgb(pixelValue[3], pixelValue[2], pixelValue[1]);
 					icmm::CHsv hsv;
 					double alpha = pixelValue[0];
