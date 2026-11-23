@@ -103,7 +103,7 @@ jobs:
           echo "Commit: $COMMIT_SHA"
 
       - name: Set pending commit status
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         env:
           COMMIT_SHA: ${{ env.COMMIT_SHA }}
           PLATFORM: ${{ matrix.platform }}
@@ -394,7 +394,7 @@ jobs:
 
       - name: Report Build Status
         if: always()
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         env:
           BUILD_STATUS: ${{ steps.wait_build.outputs.build_status || 'Unknown' }}
           BUILD_URL: ${{ steps.wait_build.outputs.build_url || steps.teamcity.outputs.web_url }}
@@ -541,7 +541,7 @@ jobs:
           sparse-checkout: .github/scripts
 
       - name: Mark the analysis comments as outdated
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         with:
           script: |
             const comments = require(`${process.env.GITHUB_WORKSPACE}/.teamcity-ci/.github/scripts/teamcity-comments.js`);
@@ -599,7 +599,7 @@ jobs:
 
       - name: Post the analysis to the pull request
         if: steps.report.outputs.has_report == 'true'
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         with:
           script: |
             const fs = require('fs');
