@@ -372,6 +372,14 @@ MyComponent::~MyComponent()
 - **Always use `OnComponentCreated()`** for initialization that depends on configuration
 - **Always call base class methods** in lifecycle hooks
 - **Clean up in `OnComponentDestroyed()`** before resources are released
+- **Do not call other components from `OnComponentDestroyed()` or the destructor** - when a composite
+  is destroyed, `OnComponentDestroyed()` runs for all its components in one sweep, in an unspecified
+  order, before any of them is deleted. A referenced component may already have released what it uses.
+- **Do not call a component after its `OnComponentDestroyed()`** - doing so is a bug in the caller,
+  even while the object still exists.
+- **Shutdown work that needs other components** (for example, sending a final request or a log message)
+  belongs in a handler of `QCoreApplication::aboutToQuit` or in an explicit shutdown step that runs
+  before the composite is destroyed.
 
 ---
 
@@ -1404,10 +1412,7 @@ void CApplication::OnComponentCreated()
 
 void CApplication::OnComponentDestroyed()
 {
-    if (m_loggerPtr) {
-        m_loggerPtr->LogMessage("Application shutting down");
-    }
-    
+    // No "shutting down" message here: the logger may already be destroyed, see Component Lifecycle.
     m_loggerPtr = nullptr;
     m_docManagerPtr = nullptr;
     
