@@ -3,6 +3,7 @@ _codeql_detected_source_root
 Build/CMake/.vs
 Build/CMake/out
 Build/CMake/build
+Tests/SerializationRegressionTest/Data
 AuxInclude/*
 Bin/*
 Lib/*
