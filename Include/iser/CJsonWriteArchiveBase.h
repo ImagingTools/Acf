@@ -59,8 +59,10 @@ protected:
 	virtual bool WriteTextNode(const QByteArray& text) override;
 
 protected:
-	QTextStream m_stream;
+	// declared before m_stream, so that it outlives the stream: the stream destructor flushes into its device;
+	// derived classes with an own device detach the stream in their destructor
 	QBuffer m_buffer;
+	QTextStream m_stream;
 	bool m_firstTag;
 	QJsonDocument::JsonFormat m_jsonFormat;
 	bool m_serializeHeader;

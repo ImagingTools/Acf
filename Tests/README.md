@@ -76,6 +76,18 @@ void CMyClassTest::myTest()
 I_ADD_TEST(CMyClassTest);
 ```
 
+## Registering Tests with CTest
+
+`Config/CMake/AcfTestRegistration.cmake` defines `add_tests`, which registers test programs under a label and with a timeout, so that `ctest -L <label>` runs the same tests on every platform:
+
+```cmake
+include(${ACFDIR}/Config/CMake/AcfTestRegistration.cmake)
+
+add_tests(LABEL unit TARGETS myLibraryTest TIMEOUT 120)
+```
+
+Without `TIMEOUT` a test runs for 300 seconds at most. `WORKING_DIRECTORY` sets the folder the program runs in. The projects built on ACF use the same function for their own tests.
+
 ## Library Unit Tests
 
 Unit tests for each library are located in `Include/[library]/Test/` directories.
