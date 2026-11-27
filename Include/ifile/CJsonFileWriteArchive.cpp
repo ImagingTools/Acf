@@ -31,6 +31,9 @@ CJsonFileWriteArchive::~CJsonFileWriteArchive()
 
 		m_file.close();
 	}
+
+	// the stream of the base class outlives m_file
+	m_stream.setDevice(nullptr);
 }
 
 

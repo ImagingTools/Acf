@@ -22,6 +22,7 @@ public:
 				const iser::IVersionInfo* versionInfoPtr = nullptr,
 				bool serializeHeader = true,
 				const iser::CArchiveTag& rootTag = s_acfRootTag);
+	~CJsonMemWriteArchive() override;
 
 	/**
 		Close the archive and get the created JSON string.

@@ -20,6 +20,13 @@ CJsonMemWriteArchive::CJsonMemWriteArchive(
 }
 
 
+CJsonMemWriteArchive::~CJsonMemWriteArchive()
+{
+	// the stream of the base class outlives m_textBuffer: detach it while the buffer exists
+	m_stream.setDevice(nullptr);
+}
+
+
 const QByteArray& CJsonMemWriteArchive::GetData() const
 {
 	const_cast<CJsonMemWriteArchive*>(this)->Flush();
