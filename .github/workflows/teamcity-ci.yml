@@ -44,7 +44,7 @@ jobs:
 
     steps:
       - name: Checkout the TeamCity CI scripts
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           repository: ImagingTools/Acf
           ref: ${{ inputs.acf-ref }}
@@ -485,7 +485,7 @@ jobs:
         platform: ${{ fromJSON(inputs.platforms) }}
     steps:
       - name: Checkout the TeamCity CI scripts
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           repository: ImagingTools/Acf
           ref: ${{ inputs.acf-ref }}
@@ -533,7 +533,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the TeamCity CI scripts
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           repository: ImagingTools/Acf
           ref: ${{ inputs.acf-ref }}
@@ -562,7 +562,7 @@ jobs:
     if: always() && github.event_name == 'pull_request' && needs.trigger-teamcity.result == 'failure'
     steps:
       - name: Checkout the TeamCity CI scripts
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           repository: ImagingTools/Acf
           ref: ${{ inputs.acf-ref }}
