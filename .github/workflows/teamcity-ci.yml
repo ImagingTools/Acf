@@ -33,7 +33,7 @@ jobs:
     name: Trigger TeamCity Build
     if: github.event.action != 'closed'
     runs-on: ubuntu-latest
-    # A newer push to the same pull request cancels the older run. Pushes to main keep one group per commit.
+    # A newer push to the same pull request cancels the older run. Pushes to main and merge queue builds keep one group per commit.
     concurrency:
       group: teamcity-${{ github.repository }}-${{ github.event.pull_request.number || github.sha }}-${{ matrix.platform }}
       cancel-in-progress: ${{ github.event_name == 'pull_request' }}
@@ -66,8 +66,9 @@ jobs:
 
           source "$GITHUB_WORKSPACE/.teamcity-ci/.github/scripts/teamcity-build-type.sh"
 
+          # A merge queue build checks a pull request before it reaches main, so it uses the pull request configuration.
           KIND=main
-          if [ "$EVENT_NAME" = "pull_request" ]; then
+          if [ "$EVENT_NAME" = "pull_request" ] || [ "$EVENT_NAME" = "merge_group" ]; then
             KIND=pr
           fi
 
@@ -89,6 +90,7 @@ jobs:
             TEAMCITY_BRANCH="$BRANCH_NAME"
             COMMIT_SHA="$PR_HEAD_SHA"
           else
+            # A push, or a merge queue build on its gh-readonly-queue/... branch.
             BRANCH_NAME="${GITHUB_REF#refs/heads/}"
             TEAMCITY_BRANCH="$BRANCH_NAME"
             COMMIT_SHA="${GITHUB_SHA}"
@@ -227,6 +229,8 @@ jobs:
           TEAMCITY_TOKEN: ${{ secrets.TEAMCITY_TOKEN }}
           BUILD_ID: ${{ steps.teamcity.outputs.build_id }}
           TRIGGERED_WEB_URL: ${{ steps.teamcity.outputs.web_url }}
+          EVENT_NAME: ${{ github.event_name }}
+          GITHUB_TOKEN: ${{ github.token }}
         shell: bash
         run: |
           set -euo pipefail
@@ -262,6 +266,24 @@ jobs:
             echo "State=$STATE Status=$STATUS BranchName=$BRANCH"
             if [ -n "$WEB_URL" ] && [ "$WEB_URL" != "null" ]; then
               echo "TeamCity URL: $WEB_URL"
+            fi
+
+            # When a pull request ahead fails, the merge queue drops the groups behind it, deletes their branches
+            # and builds new ones. The build of a dropped group is not needed, so it gives its agent back.
+            # The branch is checked once a minute, an unclear answer such as a network error keeps the build.
+            if [ "$EVENT_NAME" = "merge_group" ] && [ "$STATE" != "finished" ] && [ $(((QUEUED_ELAPSED + RUNNING_ELAPSED) % 60)) -eq 0 ]; then
+              QUEUE_BRANCH_HTTP=$(curl -sS -o /dev/null -w '%{http_code}' \
+                -H "Authorization: Bearer $GITHUB_TOKEN" \
+                -H "Accept: application/vnd.github+json" \
+                "$GITHUB_API_URL/repos/$GITHUB_REPOSITORY/git/ref/heads/$BRANCH_NAME" || true)
+
+              if [ "$QUEUE_BRANCH_HTTP" = "404" ]; then
+                echo "The merge queue dropped $BRANCH_NAME, cancelling the TeamCity build"
+                echo "build_status=DROPPED" >> "$GITHUB_OUTPUT"
+                echo "build_url=$WEB_URL" >> "$GITHUB_OUTPUT"
+                teamcity_cancel_build "$BUILD_ID" "The merge queue dropped the group" || echo "cancel_failed=true" >> "$GITHUB_OUTPUT"
+                exit 1
+              fi
             fi
 
             if [ "$STATE" = "queued" ]; then
@@ -422,6 +444,11 @@ jobs:
             } else if (status === 'CANCELLED') {
               state = 'error';
               desc = 'The TeamCity build was cancelled';
+            } else if (status === 'DROPPED') {
+              state = 'error';
+              desc = process.env.CANCEL_FAILED === 'true'
+                ? 'The merge queue dropped this group, the TeamCity build could not be cancelled and may still run'
+                : 'The merge queue dropped this group, the TeamCity build was cancelled';
             } else if (status === 'QUEUE_TIMEOUT' || status === 'RUN_TIMEOUT') {
               const where = status === 'QUEUE_TIMEOUT' ? 'waited too long in the queue' : 'ran too long';
               state = 'error';

@@ -5,10 +5,10 @@ All repositories trigger TeamCity through one reusable workflow, `ImagingTools/A
 ## Overview
 
 The reusable workflow, for each platform (Windows and Linux by default) in parallel:
-1. Queues a TeamCity build for the pull request head or the pushed commit and sets a pending commit status `TeamCity CI (<platform>)`.
+1. Queues a TeamCity build for the pull request head, the merge queue commit or the pushed commit and sets a pending commit status `TeamCity CI (<platform>)`.
 2. Cancels the older TeamCity builds of the same pull request branch, so a newer push supersedes them.
 3. Waits for the build (60 minutes queued at most, 60 minutes running at most, 130 minutes for the job). A build over a limit is cancelled in TeamCity.
-4. Cancels the TeamCity build when the GitHub run is cancelled, and cancels the builds of a pull request when it is closed.
+4. Cancels the TeamCity build when the GitHub run is cancelled, cancels the builds of a pull request when it is closed, and cancels the build of a merge queue group that the queue dropped.
 5. Fetches the last 100 lines of the log, the build problems and the failed tests into the run log.
 6. Reports the result as the commit status, which blocks the merge when it fails.
 7. On a failed pull request build, posts an analysis comment and collapses the comments of earlier runs. After a successful run the old comments are collapsed too.
@@ -28,6 +28,8 @@ name: TeamCity CI
 on:
   pull_request:
     types: [opened, synchronize, reopened, closed]
+  merge_group:
+    types: [checks_requested]
   push:
     branches:
       - main
@@ -95,7 +97,7 @@ A build-type variable wins over `build-type-prefix`. A repository whose TeamCity
 
 - `branchName`: the Git branch name, used by TeamCity for the branch association.
 - `env.GIT_BRANCH`: the Git branch name.
-- `env.GIT_COMMIT`: the commit SHA. For a pull request this is the head SHA, not the merge commit, so TeamCity builds exactly what was pushed.
+- `env.GIT_COMMIT`: the commit SHA. For a pull request this is the head SHA, not the merge commit, so TeamCity builds exactly what was pushed. In the merge queue it is the head of the queue branch, which is what main becomes.
 
 ## Timeouts
 
@@ -116,6 +118,23 @@ A repository that builds one platform requires only that one.
 The names of the jobs depend on the calling workflow: a job of a reusable workflow is named `<caller job id> / <job name>`, for example `teamcity / Trigger TeamCity Build (linux)`. A required check with another name, such as the `Trigger TeamCity Build (linux)` of the earlier per-repository workflow, never reports and stays at "Expected - Waiting for status to be reported" although the build passed. The statuses have the same names in every repository, whatever the caller is called.
 
 Change the required checks in the branch protection or the ruleset when a repository switches to the reusable workflow.
+
+## Merge queue
+
+Without a merge queue, a ruleset that requires branches to be up to date makes every pull request that waits for auto-merge fall behind when another one merges. Each of them is then updated and built again. A merge queue replaces that requirement: GitHub builds each queued pull request on a `gh-readonly-queue/main/pr-<number>-<sha>` branch that holds main and the pull requests ahead of it, and moves main to that commit when the required checks pass. The pull requests are built in parallel and nobody updates a branch.
+
+The workflow builds the queue branch when the calling workflow has the `merge_group` trigger shown above:
+- It uses the pull request build configuration, `TEAMCITY_BUILD_TYPE_<PLATFORM>_PR`.
+- It writes the same `TeamCity CI (<platform>)` statuses, on the queue commit.
+- When a pull request ahead fails, the queue drops the groups behind it, deletes their branches and builds new ones. The workflow checks its branch once a minute and cancels the TeamCity build of a dropped group, so the agent builds the new group instead.
+- A failed build removes the pull request from the queue. Fix it, push, and turn auto-merge on again.
+
+Every workflow that writes a required check needs the `merge_group` trigger, otherwise the queue waits for that check until its timeout. The pull request build configurations must accept the `gh-readonly-queue/*` branches, which a branch specification of `+:refs/heads/*` does.
+
+Turn the queue on in this order:
+1. Release the workflow (move `v1`) and add the `merge_group` trigger to the calling workflow.
+2. In the ruleset of main, add **Require merge queue** and turn off **Require branches to be up to date before merging**, which the queue replaces.
+3. Queue settings: merge method **Merge commit**, build concurrency 5, group size 1 to 5, wait 5 minutes, all entries must pass, and a status check timeout of **150 minutes**, more than the 130 minutes the job may take. The default of 60 minutes fails long builds.
 
 ## Troubleshooting
 
